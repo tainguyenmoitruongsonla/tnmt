@@ -55,7 +55,7 @@ const VerticalNavHeader = (props: Props) => {
   const theme = useTheme()
 
   return (
-    <MenuHeaderWrapper className='nav-header' sx={{ pl: 6 }}>
+    <MenuHeaderWrapper className='nav-header' sx={{ pl: 6, borderBottom: '1px solid #4b545c' }}>
       {userVerticalNavMenuBranding ? (
         userVerticalNavMenuBranding(props)
       ) : (

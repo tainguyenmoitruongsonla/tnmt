@@ -31,7 +31,7 @@ const AppBarContent = (props: Props) => {
   return (
     <Box sx={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
       <Box className='actions-left' sx={{ mr: 2, display: 'flex', alignItems: 'center' }}>
-        <Typography sx={{color: `${theme.palette.text.light}`}} variant='subtitle1'> {pageTitle} </Typography>
+        <Typography sx={{color: `${theme.palette.text.light}`, textTransform: 'uppercase'}} variant='subtitle1'> {pageTitle} </Typography>
       </Box>
       <Box className='actions-right' sx={{ display: 'flex', alignItems: 'center' }}>
         <NotificationDropdown />

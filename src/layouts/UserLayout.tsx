@@ -14,7 +14,6 @@ import VerticalLayout from 'src/@core/layouts/VerticalLayout'
 import VerticalNavItems from 'src/navigation/vertical'
 
 // ** Component Import
-import UpgradeToProButton from './components/UpgradeToProButton'
 import VerticalAppBarContent from './components/vertical/AppBarContent'
 
 // ** Hook Import
@@ -40,7 +39,7 @@ const UserLayout = ({ children }: Props) => {
 
   const UpgradeToProImg = () => {
     return (
-      <Box sx={{ mx: 'auto', borderTop: '1px solid gray' }}>
+      <Box sx={{ mx: 'auto', borderTop: '1px solid #4b545c' }}>
         <span>
           <p className='design--team'>
             <span><i>Đơn vị phát triển</i> <br /> <span> Viện Thủy văn Môi trường và Biến đổi khí hậu</span></span>
@@ -69,7 +68,6 @@ const UserLayout = ({ children }: Props) => {
       )}
     >
       {children}
-      <UpgradeToProButton />
     </VerticalLayout>
   )
 }
