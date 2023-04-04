@@ -40,7 +40,7 @@ const UserLayout = ({ children }: Props) => {
 
   const UpgradeToProImg = () => {
     return (
-      <Box sx={{ mx: 'auto' }}>
+      <Box sx={{ mx: 'auto', borderTop: '1px solid gray' }}>
         <span>
           <p className='design--team'>
             <span><i>Đơn vị phát triển</i> <br /> <span> Viện Thủy văn Môi trường và Biến đổi khí hậu</span></span>

@@ -1,14 +1,19 @@
 // ** MUI Imports
 import Grid from '@mui/material/Grid'
-import Map from 'src/views/construction/Map'
+import { useEffect } from 'react'
+
 
 // ** Icons Imports
 
 
-// ** Demo Components Imports
-
+// ** Components Imports
+import Map from 'src/views/construction/Map'
 
 const Construction = () => {
+  useEffect(() => {
+    document.title = "Quản lý thông tin công trình";
+  }, []);
+
   return (
     <Grid container spacing={3}>
         <Map />
