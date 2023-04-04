@@ -8,7 +8,7 @@ import { useRouter } from 'next/router'
 // ** MUI Imports
 import Chip from '@mui/material/Chip'
 import ListItem from '@mui/material/ListItem'
-import { styled } from '@mui/material/styles'
+import { styled, useTheme } from '@mui/material/styles'
 import Typography from '@mui/material/Typography'
 import Box, { BoxProps } from '@mui/material/Box'
 import ListItemIcon from '@mui/material/ListItemIcon'
@@ -18,7 +18,7 @@ import ListItemButton, { ListItemButtonProps } from '@mui/material/ListItemButto
 import themeConfig from 'src/configs/themeConfig'
 
 // ** Types
-import { NavLink, NavGroup } from 'src/@core/layouts/types'
+import { NavLink } from 'src/@core/layouts/types'
 import { Settings } from 'src/@core/context/settingsContext'
 
 // ** Custom Components Imports
@@ -26,6 +26,7 @@ import UserIcon from 'src/layouts/components/UserIcon'
 
 // ** Utils
 import { handleURLQueries } from 'src/@core/layouts/utils'
+
 
 interface Props {
   item: NavLink
@@ -35,9 +36,7 @@ interface Props {
 }
 
 // ** Styled Components
-const MenuNavLink = styled(ListItemButton)<
-  ListItemButtonProps & { component?: ElementType; target?: '_blank' | undefined }
->(({ theme }) => ({
+const MenuNavLink = styled(ListItemButton)< ListItemButtonProps & { component?: ElementType; target?: '_blank' | undefined } >(({ theme }) => ({
   width: '100%',
   borderTopRightRadius: 100,
   borderBottomRightRadius: 100,
@@ -65,6 +64,8 @@ const MenuItemTextMetaWrapper = styled(Box)<BoxProps>({
 const VerticalNavLink = ({ item, navVisible, toggleNavVisibility }: Props) => {
   // ** Hooks
   const router = useRouter()
+
+  const theme = useTheme()
 
   const IconTag: ReactNode = item.icon
 
@@ -105,15 +106,15 @@ const VerticalNavLink = ({ item, navVisible, toggleNavVisibility }: Props) => {
           <ListItemIcon
             sx={{
               mr: 2.5,
-              color: 'rgba(231, 227, 252, 0.87)',
-              transition: 'margin .25s ease-in-out'
+              transition: 'margin .25s ease-in-out',
+              color: `${theme.palette.text.light}`
             }}
           >
             <UserIcon icon={IconTag} />
           </ListItemIcon>
 
           <MenuItemTextMetaWrapper>
-            <Typography sx={{color: 'rgba(231, 227, 252, 0.87)'}} {...(themeConfig.menuTextTruncate && { noWrap: true })}>{item.title}</Typography>
+            <Typography sx={{color: `${theme.palette.text.light}`}} {...(themeConfig.menuTextTruncate && { noWrap: true })}>{item.title}</Typography>
             {item.badgeContent ? (
               <Chip
                 label={item.badgeContent}

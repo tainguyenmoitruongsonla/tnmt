@@ -1,12 +1,12 @@
 // ** Icon imports
-import Table from 'mdi-material-ui/Table'
-import CubeOutline from 'mdi-material-ui/CubeOutline'
 import HomeOutline from 'mdi-material-ui/HomeOutline'
-import FormatLetterCase from 'mdi-material-ui/FormatLetterCase'
 import AccountCogOutline from 'mdi-material-ui/AccountCogOutline'
-import CreditCardOutline from 'mdi-material-ui/CreditCardOutline'
-import GoogleCirclesExtended from 'mdi-material-ui/GoogleCirclesExtended'
 import Factory from 'mdi-material-ui/Factory';
+import NoteText from 'mdi-material-ui/NoteText';
+import ChartSankey from 'mdi-material-ui/ChartSankey';
+import Information from 'mdi-material-ui/Information';
+import More from 'mdi-material-ui/More';
+import TagOutline from 'mdi-material-ui/TagOutline';
 
 // ** Type import
 import { VerticalNavItemsType } from 'src/@core/layouts/types'
@@ -19,46 +19,71 @@ const navigation = (): VerticalNavItemsType => {
       path: '/'
     },
     {
-      sectionTitle: 'Pages'
+      sectionTitle: 'Danh mục'
     },
     {
       title: 'Công trình',
       icon: Factory,
-      path: '/construction'
+      path: 'construction'
     },
     {
-      sectionTitle: 'User Interface'
+      title: 'Giấy phép',
+      icon: NoteText,
+      path: '#'
     },
     {
-      title: 'Typography',
-      icon: FormatLetterCase,
-      path: '/typography'
+      title: 'Giám sát',
+      icon: ChartSankey,
+      path: '#'
     },
     {
-      title: 'Icons',
-      path: '/icons',
-      icon: GoogleCirclesExtended
+      title: 'Thông tin - Báo cáo biểu mẫu',
+      icon: Information,
+      path: '#'
     },
     {
-      title: 'Cards',
-      icon: CreditCardOutline,
-      path: '/cards'
+      title: 'Nội dung khác',
+      icon: More,
+      path: '#'
     },
     {
-      title: 'Tables',
-      icon: Table,
-      path: '/tables'
+      title: 'Hướng dẫn sử dụng',
+      icon: TagOutline,
+      path: '#'
     },
-    {
-      icon: CubeOutline,
-      title: 'Form Layouts',
-      path: '/form-layouts'
-    },
+    // {
+    //   sectionTitle: 'User Interface'
+    // },
+    // {
+    //   title: 'Typography',
+    //   icon: FormatLetterCase,
+    //   path: '/typography'
+    // },
+    // {
+    //   title: 'Icons',
+    //   path: '/icons',
+    //   icon: GoogleCirclesExtended
+    // },
+    // {
+    //   title: 'Cards',
+    //   icon: CreditCardOutline,
+    //   path: '/cards'
+    // },
+    // {
+    //   title: 'Tables',
+    //   icon: Table,
+    //   path: '/tables'
+    // },
+    // {
+    //   icon: CubeOutline,
+    //   title: 'Form Layouts',
+    //   path: '/form-layouts'
+    // },
     {
       sectionTitle: 'Quản lý'
     },
     {
-      title: 'QUản lý tài khoản',
+      title: 'Quản lý tài khoản',
       icon: AccountCogOutline,
       path: '/account-settings'
     },

@@ -7,7 +7,6 @@ import Typography from '@mui/material/Typography';
 import { Settings } from 'src/@core/context/settingsContext'
 
 // ** Components
-import ModeToggler from 'src/@core/layouts/components/shared-components/ModeToggler'
 import UserDropdown from 'src/@core/layouts/components/shared-components/UserDropdown'
 import NotificationDropdown from 'src/@core/layouts/components/shared-components/NotificationDropdown'
 
@@ -20,7 +19,6 @@ interface Props {
 
 const AppBarContent = (props: Props) => {
   // ** Props
-  const { settings, saveSettings } = props
 
   // ** Hook
   const theme = useTheme()
@@ -31,7 +29,6 @@ const AppBarContent = (props: Props) => {
         <Typography sx={{color: `${theme.palette.text.light}`}} variant='subtitle1'> Content</Typography>
       </Box>
       <Box className='actions-right' sx={{ display: 'flex', alignItems: 'center' }}>
-        <ModeToggler settings={settings} saveSettings={saveSettings} />
         <NotificationDropdown />
         <UserDropdown />
       </Box>

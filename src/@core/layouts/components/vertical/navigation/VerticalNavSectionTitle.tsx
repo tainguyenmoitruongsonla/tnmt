@@ -63,7 +63,7 @@ const VerticalNavSectionTitle = (props: Props) => {
           '& .MuiDivider-wrapper': { px: 2.5, fontSize: '0.75rem', letterSpacing: '0.21px' }
         }}
       >
-        <TypographyHeaderText sx={{color: 'rgba(231, 227, 252, 0.87)'}} noWrap>{item.sectionTitle}</TypographyHeaderText>
+        <TypographyHeaderText sx={{color: `${theme.palette.text.light}`}} noWrap>{item.sectionTitle}</TypographyHeaderText>
       </Divider>
     </ListSubheader>
   )

@@ -70,7 +70,8 @@ const Drawer = (props: Props) => {
         width: navWidth,
         '& .MuiDrawer-paper': {
           borderRight: 0,
-          backgroundColor: '#013959'
+          backgroundColor: `${theme.palette.primary.dark}`,
+          boxShadow: '0 14px 28px rgba(0,0,0,.25),0 10px 10px rgba(0,0,0,.22)!important;'
         }
       }}
     >
