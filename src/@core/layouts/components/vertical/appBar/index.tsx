@@ -52,7 +52,7 @@ const LayoutAppBar = (props: Props) => {
   const { contentWidth } = settings
 
   return (
-    <AppBar elevation={0} color='default' className='layout-navbar' position='static'>
+    <AppBar elevation={0} color='default' className='layout-navbar' position='static' sx={{background: `${theme.palette.primary.dark}`, color: `${theme.palette.text.light}`}}>
       <Toolbar
         className='navbar-content-container'
         sx={{

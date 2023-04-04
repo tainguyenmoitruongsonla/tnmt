@@ -18,7 +18,7 @@ import ListItemButton, { ListItemButtonProps } from '@mui/material/ListItemButto
 import themeConfig from 'src/configs/themeConfig'
 
 // ** Types
-import { NavLink } from 'src/@core/layouts/types'
+import { NavLink, NavGroup } from 'src/@core/layouts/types'
 import { Settings } from 'src/@core/context/settingsContext'
 
 // ** Custom Components Imports
@@ -46,7 +46,7 @@ const MenuNavLink = styled(ListItemButton)<
   transition: 'opacity .25s ease-in-out',
   '&.active, &.active:hover': {
     boxShadow: theme.shadows[3],
-    backgroundImage: `linear-gradient(98deg, ${theme.palette.customColors.primaryGradient}, ${theme.palette.primary.main} 94%)`
+    backgroundImage: `linear-gradient(98deg, ${theme.palette.customColors.primaryGradient}, ${theme.palette.primary.dark} 94%)`
   },
   '&.active .MuiTypography-root, &.active .MuiSvgIcon-root': {
     color: `${theme.palette.common.white} !important`
@@ -105,7 +105,7 @@ const VerticalNavLink = ({ item, navVisible, toggleNavVisibility }: Props) => {
           <ListItemIcon
             sx={{
               mr: 2.5,
-              color: 'text.primary',
+              color: 'rgba(231, 227, 252, 0.87)',
               transition: 'margin .25s ease-in-out'
             }}
           >
@@ -113,7 +113,7 @@ const VerticalNavLink = ({ item, navVisible, toggleNavVisibility }: Props) => {
           </ListItemIcon>
 
           <MenuItemTextMetaWrapper>
-            <Typography {...(themeConfig.menuTextTruncate && { noWrap: true })}>{item.title}</Typography>
+            <Typography sx={{color: 'rgba(231, 227, 252, 0.87)'}} {...(themeConfig.menuTextTruncate && { noWrap: true })}>{item.title}</Typography>
             {item.badgeContent ? (
               <Chip
                 label={item.badgeContent}

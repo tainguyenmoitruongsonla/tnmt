@@ -13,7 +13,18 @@ export type NavLink = {
   disabled?: boolean
   badgeContent?: string
   externalLink?: boolean
+  children?: (NavGroup | NavLink)[]
   openInNewTab?: boolean
+  icon?: string | string[] | ReactNode
+  badgeColor?: 'default' | 'primary' | 'secondary' | 'success' | 'error' | 'warning' | 'info'
+}
+
+export type NavGroup = {
+  title: string
+  action?: string
+  subject?: string
+  badgeContent?: string
+  children?: (NavGroup | NavLink)[]
   icon?: string | string[] | ReactNode
   badgeColor?: 'default' | 'primary' | 'secondary' | 'success' | 'error' | 'warning' | 'info'
 }
@@ -24,7 +35,7 @@ export type NavSectionTitle = {
   subject?: string
 }
 
-export type VerticalNavItemsType = (NavLink | NavSectionTitle)[]
+export type VerticalNavItemsType = (NavLink | NavGroup | NavSectionTitle)[]
 
 export type LayoutProps = {
   hidden: boolean
