@@ -8,6 +8,7 @@ import { useEffect } from 'react'
 
 // ** Components Imports
 import ConstructionMap from 'src/views/construction'
+import TableList from 'src/views/construction/TableList';
 
 const SurfaceWater = () => {
   useEffect(() => {
@@ -16,7 +17,12 @@ const SurfaceWater = () => {
 
   return (
     <Grid container spacing={3}>
-        <ConstructionMap />
+       <Grid item xs={12} sm={12} md={12}>
+          <ConstructionMap />
+       </Grid>
+       <Grid item xs={12} sm={12} md={12}>
+          <TableList />
+       </Grid>
     </Grid>
   )
 }
