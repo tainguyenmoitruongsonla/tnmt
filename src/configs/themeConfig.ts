@@ -19,7 +19,7 @@ const themeConfig: ThemeConfig = {
   // ** Layout Configs
   templateName: 'Sở TNMT Quảng Ngãi' /* App Name */,
   mode: 'light' /* light | dark */,
-  contentWidth: 'boxed' /* full | boxed */,
+  contentWidth: 'full' /* full | boxed */,
 
   // ** Routing Configs
   routingLoader: true /* true | false */,

@@ -4,7 +4,7 @@ import Grid from '@mui/material/Grid'
 // ** Demo Components Imports
 import ShowCountLicense from 'src/views/dashboard/ConstructionStatus'
 import RealTime from 'src/views/dashboard/RealTime'
-import Map from 'src/views/construction/Map'
+import ConstructionMap from 'src/views/construction'
 
 const Dashboard = () => {
   return (
@@ -16,7 +16,7 @@ const Dashboard = () => {
           <ShowCountLicense />
         </Grid>
         <Grid item xs={12} md={8}>
-          <Map />
+          <ConstructionMap />
         </Grid>
       </Grid>
   )

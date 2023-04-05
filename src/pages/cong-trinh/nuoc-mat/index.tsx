@@ -7,7 +7,7 @@ import { useEffect } from 'react'
 
 
 // ** Components Imports
-import Map from 'src/views/construction/Map'
+import ConstructionMap from 'src/views/construction'
 
 const SurfaceWater = () => {
   useEffect(() => {
@@ -16,7 +16,7 @@ const SurfaceWater = () => {
 
   return (
     <Grid container spacing={3}>
-        <Map />
+        <ConstructionMap />
     </Grid>
   )
 }
