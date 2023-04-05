@@ -37,7 +37,7 @@ interface Props {
 }
 
 const StyledBoxForShadow = styled(Box)<BoxProps>({
-  top: 50,
+  top: 64,
   left: -8,
   zIndex: 2,
   height: 75,
@@ -107,10 +107,10 @@ const Navigation = (props: Props) => {
       <StyledBoxForShadow
         ref={shadowRef}
         sx={{
-          background: `linear-gradient(${theme.palette.background.default} 40%,${hexToRGBA(
-            theme.palette.background.default,
+          background: `linear-gradient(${theme.palette.primary.dark}eb ,${hexToRGBA(
+            theme.palette.primary.dark,
             0.1
-          )} 95%,${hexToRGBA(theme.palette.background.default, 0.05)})`
+          )} 95%,${hexToRGBA(theme.palette.primary.dark, 0.05)})`,
         }}
       />
       <Box sx={{ height: '100%', position: 'relative', overflow: 'hidden' }}>

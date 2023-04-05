@@ -24,6 +24,14 @@ code[class*='language-'] {
 }
 .text-center{text-align: center;}
 
+.is-not-opened-children{
+  transition: ease-in-out .3s !important;
+}
+.is-opened-children{
+  transform: rotate(90deg) !important;
+  transition: ease-in-out .3s !important;
+}
+
 .design--team{
   font-size: 11px;
   font-weight: bold;

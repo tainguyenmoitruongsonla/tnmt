@@ -9,9 +9,9 @@ import { useEffect } from 'react'
 // ** Components Imports
 import Map from 'src/views/construction/Map'
 
-const Construction = () => {
+const DischargeWater = () => {
   useEffect(() => {
-    document.title = "Quản lý thông tin công trình";
+    document.title = "Quản lý thông tin công trình xả nước thải";
   }, []);
 
   return (
@@ -21,4 +21,4 @@ const Construction = () => {
   )
 }
 
-export default Construction
+export default DischargeWater

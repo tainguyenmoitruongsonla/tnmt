@@ -20,11 +20,15 @@ export type NavLink = {
 }
 
 export type NavGroup = {
+  path?: string
   title: string
   action?: string
   subject?: string
+  disabled?: boolean
   badgeContent?: string
+  externalLink?: boolean
   children?: (NavGroup | NavLink)[]
+  openInNewTab?: boolean
   icon?: string | string[] | ReactNode
   badgeColor?: 'default' | 'primary' | 'secondary' | 'success' | 'error' | 'warning' | 'info'
 }
