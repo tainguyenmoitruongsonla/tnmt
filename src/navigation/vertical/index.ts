@@ -84,11 +84,6 @@ const navigation = (): VerticalNavItemsType => {
       icon: TagOutline,
       path: '#'
     },
-    // {
-    //   title: 'Icons',
-    //   path: '/icons',
-    //   icon: GoogleCirclesExtended
-    // },
     {
       sectionTitle: 'Quản lý'
     },
