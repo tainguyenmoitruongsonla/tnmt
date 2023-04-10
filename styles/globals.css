@@ -61,8 +61,54 @@ code[class*='language-'] {
 }
 .tableHead tr th{
   color: #fff !important;
+  border: 1px solid #fff;
+  white-space: nowrap;
+}
+.tableBody tr td{
+  border: 1px solid #fff;
+  white-space: nowrap;
+}
+.tableHead .start-col{
+  left: 0;
+}
+.tableHead .end-col{
+  right: 0;
 }
 
 .footer-content-container{
   padding: 5px !important;
+}
+
+/* css bao cao bieu mau */
+.formReport_box{
+  height: 120px;
+  border: 1px solid #dee2e6;
+  padding: 1rem;
+  display: flex;
+}
+.formReport_img{
+  width: 100%;
+  height: 100%;
+}
+.text-danger{
+  color: #dc3545 !important;
+}
+.text-success{
+  color: #28a745 !important;
+}
+.text-weight-bold{
+  font-weight: 700 !important;
+}
+
+.total_contruction{
+  display: flex;
+  justify-content:space-between 
+}
+
+.contruction_search{
+  display: flex;
+}
+.contruction_search button{
+  margin: 0 5px;
+  height: 100%;
 }

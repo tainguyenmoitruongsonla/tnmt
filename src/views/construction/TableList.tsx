@@ -11,70 +11,31 @@ import TableCell from '@mui/material/TableCell'
 import TableContainer from '@mui/material/TableContainer'
 import TablePagination from '@mui/material/TablePagination'
 
-interface Column {
-  id: 'name' | 'code' | 'population' | 'size' | 'density'
-  label: string
-  minWidth?: number
-  align?: 'right'
-  format?: (value: number) => string
-}
-
-const columns: readonly Column[] = [
-  { id: 'name', label: 'Name', minWidth: 170 },
-  { id: 'code', label: 'ISO\u00a0Code', minWidth: 100 },
-  {
-    id: 'population',
-    label: 'Population',
-    minWidth: 170,
-    align: 'right',
-    format: (value: number) => value.toLocaleString('en-US')
-  },
-  {
-    id: 'size',
-    label: 'Size\u00a0(km\u00b2)',
-    minWidth: 170,
-    align: 'right',
-    format: (value: number) => value.toLocaleString('en-US')
-  },
-  {
-    id: 'density',
-    label: 'Density',
-    minWidth: 170,
-    align: 'right',
-    format: (value: number) => value.toFixed(2)
-  }
-]
 
 interface Data {
+  stt: number,
   name: string
-  code: string
-  size: number
-  density: number
-  population: number
+  diadiem: string
+  x: number
+  y: number
+  nguonnuoc: string
+  phuongthuc:string
+  chedo:string
 }
 
-function createData(name: string, code: string, population: number, size: number): Data {
-  const density = population / size
+function createData(stt:number,name: string, diadiem: string, x: number, y: number,nguonnuoc:string,phuongthuc:string,chedo:string): Data {
 
-  return { name, code, population, size, density }
+  return { stt,name, diadiem, x, y, nguonnuoc,phuongthuc,chedo }
 }
 
 const rows = [
-  createData('India', 'IN', 1324171354, 3287263),
-  createData('China', 'CN', 1403500365, 9596961),
-  createData('Italy', 'IT', 60483973, 301340),
-  createData('United States', 'US', 327167434, 9833520),
-  createData('Canada', 'CA', 37602103, 9984670),
-  createData('Australia', 'AU', 25475400, 7692024),
-  createData('Germany', 'DE', 83019200, 357578),
-  createData('Ireland', 'IE', 4857000, 70273),
-  createData('Mexico', 'MX', 126577691, 1972550),
-  createData('Japan', 'JP', 126317000, 377973),
-  createData('France', 'FR', 67022000, 640679),
-  createData('United Kingdom', 'GB', 67545757, 242495),
-  createData('Russia', 'RU', 146793744, 17098246),
-  createData('Nigeria', 'NG', 200962417, 923768),
-  createData('Brazil', 'BR', 210147125, 8515767)
+  createData(1,'Thủy điện Suối Tân', 'xã Chiềng Khoa, huyện Mộc Châu, tỉnh Sơn La', 1324171354, 3287263,'Suối Tân','KTSD nước bằng CT với các thông số như trong HSTK đã được cấp có thẩm quyền PD','Điều tiết ngày đêm'),
+  createData(2,'Thủy điện Suối Tân', 'xã Chiềng Khoa, huyện Mộc Châu, tỉnh Sơn La', 1324171354, 3287263,'Suối Tân','KTSD nước bằng CT với các thông số như trong HSTK đã được cấp có thẩm quyền PD','Điều tiết ngày đêm'),
+  createData(3,'Thủy điện Suối Tân', 'xã Chiềng Khoa, huyện Mộc Châu, tỉnh Sơn La', 1324171354, 3287263,'Suối Tân','KTSD nước bằng CT với các thông số như trong HSTK đã được cấp có thẩm quyền PD','Điều tiết ngày đêm'),
+  createData(4,'Thủy điện Suối Tân', 'xã Chiềng Khoa, huyện Mộc Châu, tỉnh Sơn La', 1324171354, 3287263,'Suối Tân','KTSD nước bằng CT với các thông số như trong HSTK đã được cấp có thẩm quyền PD','Điều tiết ngày đêm'),
+  createData(5,'Thủy điện Suối Tân', 'xã Chiềng Khoa, huyện Mộc Châu, tỉnh Sơn La', 1324171354, 3287263,'Suối Tân','KTSD nước bằng CT với các thông số như trong HSTK đã được cấp có thẩm quyền PD','Điều tiết ngày đêm'),
+  createData(6,'Thủy điện Suối Tân', 'xã Chiềng Khoa, huyện Mộc Châu, tỉnh Sơn La', 1324171354, 3287263,'Suối Tân','KTSD nước bằng CT với các thông số như trong HSTK đã được cấp có thẩm quyền PD','Điều tiết ngày đêm'),
+  
 ]
 
 const TableList = () => {
@@ -97,26 +58,78 @@ const TableList = () => {
         <Table aria-label='sticky table'>
           <TableHead className='tableHead'>
             <TableRow>
-              {columns.map(column => (
-                <TableCell size='small' key={column.id} align={column.align} sx={{ minWidth: column.minWidth }}>
-                  {column.label}
-                </TableCell>
-              ))}
+              <TableCell size='small' align="center" rowSpan={2} className='start-col'>STT</TableCell>
+              <TableCell size='small' align="center" rowSpan={2} className='start-col'>Tên công trình</TableCell>
+              <TableCell size='small' align="center" rowSpan={2}>Địa điểm</TableCell>
+              <TableCell size='small' align="center" colSpan={2}>Tọa độ đập chính</TableCell>
+              <TableCell size='small' align="center" rowSpan={2}>Nguồn nước khai thác</TableCell>
+              <TableCell size='small' align="center" rowSpan={2}>Phương thưc khai thác</TableCell>
+              <TableCell size='small' align="center" rowSpan={2}>Chế độ KT</TableCell>
+              <TableCell size='small' align="center" rowSpan={2}>Mục đích KT</TableCell>
+              <TableCell size='small' align="center" rowSpan={2}>Tiểu vùng quy hoạch</TableCell>
+              <TableCell size='small' align="center" rowSpan={2}>Năm xây dựng</TableCell>
+              <TableCell size='small' align="center" rowSpan={2}>Năm vận hành</TableCell>
+              <TableCell size='small' align="center" colSpan={30}>Tọa độ đập chính</TableCell>
+              <TableCell size='small' align="center" colSpan={3}>Thông tin giấy phép</TableCell>
+              <TableCell size='small' align="center" colSpan={3}>Tiền cấp quyền</TableCell>
+              <TableCell size='small' align="center" rowSpan={2} className='end-col'>Thao tác</TableCell>
+            </TableRow>
+            <TableRow>
+              {/* lat,long */}
+              <TableCell size='small' align="center">X (m)</TableCell>
+              <TableCell size='small' align="center">Y (m)</TableCell>
+              {/* contruction specifications */}
+              <TableCell size='small' align="center">Cấp CT</TableCell> 
+              <TableCell size='small' align="center">F lưu vực <br />(km2) </TableCell>
+              <TableCell size='small' align="center">X <sub>TB năm</sub> <br />(m)</TableCell>
+              <TableCell size='small' align="center">Q <sub>TB năm</sub><br />(m3/s)</TableCell>
+              <TableCell size='small' align="center">CS lắp máy (MW)</TableCell>
+              <TableCell size='small' align="center">CS <br /> đảm bảo(MW)</TableCell>
+              <TableCell size='small' align="center">Chiều cao <br /> đập (m)</TableCell>
+              <TableCell size='small' align="center">YChiều dài <br />đập (m)</TableCell>
+              <TableCell size='small' align="center">Cao trình <br />đập (m)</TableCell>
+              <TableCell size='small' align="center">Q<sub>max</sub>(m<sup>3</sup>/s)</TableCell>
+              <TableCell size='small' align="center">Q<sub>TT</sub>(m<sup>3</sup>/s)</TableCell>
+              <TableCell size='small' align="center">Q<sub>đảm bảo</sub>(m<sup>3</sup>/s)</TableCell>
+              <TableCell size='small' align="center">H<sub>max</sub> (m) </TableCell>
+              <TableCell size='small' align="center">H<sub>min</sub> (m) </TableCell>
+              <TableCell size='small' align="center">H<sub>TT</sub></TableCell>
+              <TableCell size='small' align="center">MNC(m)</TableCell>
+              <TableCell size='small' align="center">MNDBT(m)</TableCell>
+              <TableCell size='small' align="center">MNLTK(m)</TableCell>
+              <TableCell size='small' align="center">MNLKT(m)</TableCell>
+              <TableCell size='small' align="center">W<sub>toàn bộ</sub>(triệu m<sup>3</sup>)</TableCell>
+              <TableCell size='small' align="center">W<sub> chết </sub>(triệu m<sup>3</sup>)</TableCell>
+              <TableCell size='small' align="center">W<sub>hữu ích</sub>(triệu m<sup>3</sup>)</TableCell>
+              <TableCell size='small' align="center">Số máy bơm</TableCell>
+              <TableCell size='small' align="center">Q<sub>TK</sub> (m<sup>3</sup>/h)</TableCell>
+              <TableCell size='small' align="center">Q<sub>TT</sub> (m<sup>3</sup>/h)</TableCell>
+              <TableCell size='small' align="center">F<sub>tưới TK</sub> (ha)</TableCell>
+              <TableCell size='small' align="center">F<sub>tưới TT</sub> (ha)</TableCell>
+              <TableCell size='small' align="center">T<sub>bơm TB</sub>(h)</TableCell>
+              <TableCell size='small' align="center">T<sub>bơm min</sub>(h)</TableCell>
+              <TableCell size='small' align="center">T<sub>bơm max</sub></TableCell>
+              {/* license */}
+              <TableCell size='small' align="center">Số GP</TableCell>
+              <TableCell size='small' align="center">Ngày cấp</TableCell>
+              <TableCell size='small' align="center">Thời hạn</TableCell>
+              {/* license fee */}
+              <TableCell size='small' align="center">Số QĐ</TableCell>
+              <TableCell size='small' align="center">Tổng tiền (đồng)</TableCell>
             </TableRow>
           </TableHead>
-          <TableBody>
+          <TableBody className='tableBody'>
             {rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map(row => {
               return (
-                <TableRow hover role='checkbox' tabIndex={-1} key={row.code}>
-                  {columns.map(column => {
-                    const value = row[column.id]
-
-                    return (
-                      <TableCell size='small' key={column.id} align={column.align}>
-                        {column.format && typeof value === 'number' ? column.format(value) : value}
-                      </TableCell>
-                    )
-                  })}
+                <TableRow hover role='checkbox' tabIndex={-1} key={row.name}>
+                    <TableCell align="center">{row.stt}</TableCell>
+                    <TableCell align="center">{row.name}</TableCell>
+                    <TableCell align="center">{row.diadiem}</TableCell>
+                    <TableCell align="center">{row.x}</TableCell>
+                    <TableCell align="left">{row.y}</TableCell>
+                    <TableCell align="left">{row.nguonnuoc}</TableCell>
+                    <TableCell align="center">{row.phuongthuc}</TableCell>
+                    <TableCell align="center">{row.chedo}</TableCell>
                 </TableRow>
               )
             })}

@@ -72,7 +72,7 @@ const navigation = (): VerticalNavItemsType => {
     {
       title: 'Thông tin - Báo cáo biểu mẫu',
       icon: Information,
-      path: '#'
+      path: '/bao-cao-bieu-mau'
     },
     {
       title: 'Nội dung khác',
