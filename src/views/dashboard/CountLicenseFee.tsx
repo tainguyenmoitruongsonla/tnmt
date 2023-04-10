@@ -1,7 +1,6 @@
 // ** MUI Imports
 import {Card, Typography, CardHeader, CardContent, Grid} from '@mui/material';
 
-// ** Chart
 import React, { useCallback, useState } from "react";
 
 const TotalLicenseFee = 3000000000000;
@@ -11,6 +10,21 @@ const UBND = 954000000000;
 const formattedTotal = getNumberWithCommas(TotalLicenseFee);
 const formattedBTNMT = getNumberWithCommas(BTNMT);
 const formattedUBND = getNumberWithCommas(UBND);
+
+function formatVndCost(cost: number): string {
+  const formattedCost = cost.toLocaleString('vi-VN', {
+    style: 'currency',
+    currency: 'VND',
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 0,
+  });
+
+  return formattedCost;
+}
+
+const costTotal = formatVndCost(TotalLicenseFee);
+const costBTNMT = formatVndCost(BTNMT);
+const costUBND = formatVndCost(UBND);
 
 function getNumberWithCommas(num: any) {
   if (num == null || num == 0)
@@ -55,11 +69,9 @@ const CountLicenseFee = () => {
       />
       <CardContent>
         <Grid container spacing={3}>
-          <Grid item xs={6} md={6}>
-            <Typography sx={{textAlign: 'center'}} variant='subtitle2'>BTNMT: {formattedBTNMT}</Typography>
-          </Grid>
-          <Grid item xs={6} md={6}>
-            <Typography sx={{textAlign: 'center'}} variant='subtitle2'>UBND: {formattedUBND}</Typography>
+          <Grid item xs={12} md={12}>
+            <Typography sx={{textAlign: 'left'}} variant='subtitle2'>BTNMT: {costBTNMT} ({formattedBTNMT})</Typography>
+            <Typography sx={{textAlign: 'left'}} variant='subtitle2'>UBND: {costUBND} ({formattedUBND})</Typography>
           </Grid>
         </Grid>
       </CardContent>

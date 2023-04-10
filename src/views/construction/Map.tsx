@@ -20,7 +20,7 @@ const Map = () => {
   };
 
   return (
-    <MapContainer center={[14.975, 108.5833]} zoom={10} scrollWheelZoom={true} style={{height: '100%', width: "100%"}}>
+    <MapContainer center={[14.975, 108.5833]} zoom={10} scrollWheelZoom={true} style={{height: '100%', width: "100%", position: 'relative'}}>
       <BasemapLayer name="ImageryLabels" />
 
       <TileLayer
