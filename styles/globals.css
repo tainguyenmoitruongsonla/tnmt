@@ -56,6 +56,10 @@ code[class*='language-'] {
   color: rgba(231, 227, 252, 0.87) !important;
 }
 
+.mainTable{
+  margin-top: 1.25rem;
+}
+
 .tableHead{
   background-color: rgb(21 83 143) !important;
 }
@@ -73,6 +77,31 @@ code[class*='language-'] {
 }
 .tableHead .end-col{
   right: 0;
+}
+
+.mainTable .tableActionBtn{
+  font-size: 20px;
+  color: #0077df !important;
+}
+
+.mainTable .deleteBtn{
+  color: red !important;
+}
+
+.btn{
+  border-radius: 0 !important;
+  margin: 0 10px 0 10px !important;
+}
+.btn:hover{
+  scale: 1.1;
+}
+.saveBtn{
+  background-color: green !important;
+  color: #fff !important;
+}
+.closeBtn{
+  background-color: red !important;
+  color: #fff !important;
 }
 
 .footer-content-container{
