@@ -86,14 +86,14 @@ export default function SetRole() {
     }
   }
 
-  const createData = (name: string) => {
-    return { name }
+  const createData = (name: string, isDefault: boolean) => {
+    return { name, isDefault }
   }
-
+  
   const roleData = [
-    createData('Supper User'),
-    createData('Admintrators'),
-    createData('Default')
+    createData('Supper User', false),
+    createData('Admintrators', false),
+    createData('Default', true),
   ]
 
   return (
@@ -117,14 +117,14 @@ export default function SetRole() {
             <Grid item xs={12} sm={12} sx={{mb: 2}}>
               <Typography variant='h6'>THÔNG TIN TÀI KHOẢN</Typography>
             </Grid>
-            <Grid item xs={12} sm={4}>
-              <TextField size='small' fullWidth disabled={true} label='Username' placeholder='johnDoe' defaultValue='johnDoe' />
+            <Grid item xs={12} md={4} sx={{my: 2}}>
+              <TextField size='small' disabled type='text' fullWidth label='Tên đăng nhập' placeholder='User Name' defaultValue='User Name' />
             </Grid>
-            <Grid item xs={12} sm={4}>
-              <TextField size='small' fullWidth disabled={true} label='Name' placeholder='John Doe' defaultValue='John Doe' />
+            <Grid item xs={12} md={4} sx={{my: 2}}>
+              <TextField size='small' disabled type='text' fullWidth label='Họ tên' placeholder='Full Name' defaultValue='Full Name' />
             </Grid>
-            <Grid item xs={12} sm={4}>
-              <TextField size='small' fullWidth disabled={true} type='email' label='Email' placeholder='johnDoe@example.com' defaultValue='johnDoe@example.com' />
+            <Grid item xs={12} md={4} sx={{my: 2}}>
+              <TextField size='small' disabled type='email'  fullWidth label='Email' placeholder='example@gmail.com' defaultValue='example@gmail.com' />
             </Grid>
             <Grid item xs={12} sm={12} sx={{mb: 2}}>
               <Typography variant='h6'>PHÂN QUYỀN TRUY CẬP</Typography>
@@ -144,7 +144,7 @@ export default function SetRole() {
                         {row.name}
                       </TableCell>
                       <TableCell size='small'>
-                        <Checkbox />
+                        <Checkbox checked={row.isDefault} />
                       </TableCell>
                     </TableRow>
                   ))}

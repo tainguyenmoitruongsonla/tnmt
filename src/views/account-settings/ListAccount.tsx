@@ -2,8 +2,8 @@
 import { useState, ChangeEvent } from 'react'
 
 // ** MUI Imports
-import { IconButton, Table, TableBody, TableCell, TableHead, TableRow,TableContainer, Paper,TablePagination } from '@mui/material';
-import { Delete } from '@mui/icons-material';
+import { IconButton, Typography, Table, TableBody, TableCell, TableHead, TableRow,TableContainer, Paper,TablePagination } from '@mui/material';
+import { Delete, PersonAddAlt } from '@mui/icons-material';
 import SetRole from './SetRole';
 import ChangePassword from './ChangePassword';
 import EditAccount from './EditAccount';
@@ -74,7 +74,13 @@ const ListAccount = () => {
                                 {column.label}
                             </TableCell>
                         ))}
-                    <TableCell size='small' align='center' sx={{minWidth: ACTION_COLUMN_WIDTH, width: ACTION_COLUMN_WIDTH}}>#</TableCell>
+                        <TableCell size='small' align='center' sx={{minWidth: ACTION_COLUMN_WIDTH, width: ACTION_COLUMN_WIDTH}}>
+                            #
+                            <IconButton className='addNewBtn' aria-label="add user">
+                                <PersonAddAlt sx={{mr: 2}} />
+                                <Typography>Thêm mới</Typography>
+                            </IconButton>
+                        </TableCell>
                     </TableRow>
                 </TableHead>
                 <TableBody>

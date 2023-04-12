@@ -2,8 +2,8 @@
 import { ChangeEvent, MouseEvent, useState } from 'react'
 
 // ** MUI Imports
-import {Grid, TextField, DialogActions, Button, Checkbox, FormGroup, FormControlLabel, Table, TableHead, TableBody, TableRow, TableCell, IconButton} from '@mui/material'
-import { Delete, EditNote } from '@mui/icons-material';
+import {Grid, Checkbox, Typography, Table, TableHead, TableBody, TableRow, TableCell, IconButton} from '@mui/material'
+import { Delete, PersonAddAlt } from '@mui/icons-material';
 import EditRoles from './EditRoles';
 
 const createData = (name: string, isDefault: boolean) => {
@@ -29,7 +29,13 @@ const Roles = () => {
               <TableRow>
                 <TableCell size='small'>TÊN</TableCell>
                 <TableCell size='small' align='center'>MẶC ĐỊNH</TableCell>
-                <TableCell size='small' align='center'>#</TableCell>
+                <TableCell size='small' align='center' sx={{minWidth: ACTION_COLUMN_WIDTH, width: ACTION_COLUMN_WIDTH}}>
+                    #
+                    <IconButton className='addNewBtn' aria-label="add user">
+                        <PersonAddAlt sx={{mr: 2}} />
+                        <Typography>Thêm mới</Typography>
+                    </IconButton>
+                </TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
