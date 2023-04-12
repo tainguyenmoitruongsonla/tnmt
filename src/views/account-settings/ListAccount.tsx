@@ -3,9 +3,10 @@ import { useState, ChangeEvent } from 'react'
 
 // ** MUI Imports
 import { IconButton, Table, TableBody, TableCell, TableHead, TableRow,TableContainer, Paper,TablePagination } from '@mui/material';
-import { Delete, EditNote } from '@mui/icons-material';
+import { Delete } from '@mui/icons-material';
 import SetRole from './SetRole';
 import ChangePassword from './ChangePassword';
+import EditAccount from './EditAccount';
 
 function createData(
     username: string,
@@ -36,14 +37,14 @@ const columns: readonly Column[] = [
 const data = [
     createData('admin', 'Admin','Admintrator', 'example@gmail.com', '0909999999'),
     createData('spuser', 'SupperUser','SupperUser', 'example@gmail.com', '0909999999'),
-    createData('eclair', 'Client','Eclair', 'example@gmail.com', '0909999999'),
-    createData('cupcake', 'Client','Cupcake', 'example@gmail.com', '0909999999'),
-    createData('gingerbread', 'adClientmin','Gingerbread', 'example@gmail.com', '0909999999'),
+    createData('eclair', 'Default','Eclair', 'example@gmail.com', '0909999999'),
+    createData('cupcake', 'Default','Cupcake', 'example@gmail.com', '0909999999'),
+    createData('gingerbread', 'Default','Gingerbread', 'example@gmail.com', '0909999999'),
     createData('admin1', 'Admin','Admintrator', 'example@gmail.com', '0909999999'),
     createData('spuser1', 'SupperUser','SupperUser', 'example@gmail.com', '0909999999'),
-    createData('eclair1', 'Client','Eclair', 'example@gmail.com', '0909999999'),
-    createData('cupcake1', 'Client','Cupcake', 'example@gmail.com', '0909999999'),
-    createData('gingerbread1', 'adClientmin','Gingerbread', 'example@gmail.com', '0909999999'),
+    createData('eclair1', 'Default','Eclair', 'example@gmail.com', '0909999999'),
+    createData('cupcake1', 'Default','Cupcake', 'example@gmail.com', '0909999999'),
+    createData('gingerbread1', 'Default','Gingerbread', 'example@gmail.com', '0909999999'),
 ];
 
 const ACTION_COLUMN_WIDTH = 180;
@@ -95,7 +96,7 @@ const ListAccount = () => {
                                 <ChangePassword />
                             </IconButton>
                             <IconButton aria-label="edit">
-                                <EditNote className='tableActionBtn' />
+                                <EditAccount />
                             </IconButton>
                             <IconButton aria-label="delete">
                                 <Delete className='tableActionBtn deleteBtn' />

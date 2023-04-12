@@ -1,8 +1,8 @@
 import * as React from 'react';
 import Button from '@mui/material/Button';
 import { styled } from '@mui/material/styles';
-import {Dialog, DialogTitle, DialogContent, DialogActions, Grid, TextField} from '@mui/material';
-import { LockOpen } from '@mui/icons-material';
+import {Dialog, DialogTitle, DialogContent, DialogActions, Grid, TextField, FormGroup, FormControlLabel, Checkbox} from '@mui/material';
+import { EditNote } from '@mui/icons-material';
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   '& .MuiDialogContent-root': {
@@ -29,7 +29,7 @@ function BootstrapDialogTitle(props: DialogTitleProps) {
   );
 }
 
-export default function ChangePassword() {
+const EditRoles = () => {
   const [open, setOpen] = React.useState(false);
 
   const handleClickOpen = () => {
@@ -41,35 +41,38 @@ export default function ChangePassword() {
 
   return (
     <div>
-      <LockOpen className='tableActionBtn' onClick={handleClickOpen} />
+      <EditNote className='tableActionBtn' onClick={handleClickOpen} />
       <BootstrapDialog
         onClose={handleClose}
         aria-labelledby="customized-dialog-title"
         open={open}
       >
         <BootstrapDialogTitle id="customized-dialog-title" onClose={handleClose}>
-          ĐỔI MẬT KHẨU
+          SỬA THÔNG TIN
         </BootstrapDialogTitle>
         <DialogContent dividers>
         <form action="">
-          <Grid container>
-            <Grid item xs={12} md={12} sx={{my: 2}}>
-                <TextField size='small' type='password' fullWidth label='Mật khẩu cũ' placeholder='' defaultValue='' />
+            <Grid container>
+              <Grid item xs={12} md={12} sx={{my: 2}}>
+                <TextField size='small' type='text' fullWidth label='Tên' placeholder='' defaultValue='' />
               </Grid>
               <Grid item xs={12} md={12} sx={{my: 2}}>
-                <TextField size='small' type='password' fullWidth label='Mật khẩu mói' placeholder='' defaultValue='' />
+                <TextField size='small' type='text' fullWidth label='Mô tả' placeholder='' defaultValue='' />
               </Grid>
               <Grid item xs={12} md={12} sx={{my: 2}}>
-                <TextField size='small' type='password'  fullWidth label='Xác nhận mật khẩu' placeholder='' defaultValue='' />
+              <FormGroup>
+                <FormControlLabel control={<Checkbox name='isDefault' />} label="Đặt là mặc định" />
+              </FormGroup>
               </Grid>
-          </Grid>
-          <DialogActions sx={{py: 2}}>
-            <Button className='btn closeBtn' onClick={handleClose}>HỦY</Button>
-            <Button className='btn saveBtn' onClick={handleClose}>LƯU THAY ĐỔI</Button>
-          </DialogActions>
-        </form>
+            </Grid>
+            <DialogActions>
+              <Button type='reset' className='btn closeBtn' onClick={handleClose}>HỦY</Button>
+              <Button className='btn saveBtn' onClick={handleClose}>LƯU THAY ĐỔI</Button>
+            </DialogActions>
+          </form>
         </DialogContent>
       </BootstrapDialog>
     </div>
   );
 }
+export default EditRoles;

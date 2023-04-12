@@ -2,7 +2,7 @@ import * as React from 'react';
 import Button from '@mui/material/Button';
 import { styled } from '@mui/material/styles';
 import {Dialog, DialogTitle, DialogContent, DialogActions, Grid, TextField} from '@mui/material';
-import { LockOpen } from '@mui/icons-material';
+import { EditNote } from '@mui/icons-material';
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   '& .MuiDialogContent-root': {
@@ -29,7 +29,7 @@ function BootstrapDialogTitle(props: DialogTitleProps) {
   );
 }
 
-export default function ChangePassword() {
+const EditAccount = () => {
   const [open, setOpen] = React.useState(false);
 
   const handleClickOpen = () => {
@@ -41,29 +41,32 @@ export default function ChangePassword() {
 
   return (
     <div>
-      <LockOpen className='tableActionBtn' onClick={handleClickOpen} />
+      <EditNote className='tableActionBtn' onClick={handleClickOpen} />
       <BootstrapDialog
         onClose={handleClose}
         aria-labelledby="customized-dialog-title"
         open={open}
       >
         <BootstrapDialogTitle id="customized-dialog-title" onClose={handleClose}>
-          ĐỔI MẬT KHẨU
+          SỬA THÔNG TIN TÀI KHOẢN
         </BootstrapDialogTitle>
         <DialogContent dividers>
         <form action="">
           <Grid container>
             <Grid item xs={12} md={12} sx={{my: 2}}>
-                <TextField size='small' type='password' fullWidth label='Mật khẩu cũ' placeholder='' defaultValue='' />
-              </Grid>
-              <Grid item xs={12} md={12} sx={{my: 2}}>
-                <TextField size='small' type='password' fullWidth label='Mật khẩu mói' placeholder='' defaultValue='' />
-              </Grid>
-              <Grid item xs={12} md={12} sx={{my: 2}}>
-                <TextField size='small' type='password'  fullWidth label='Xác nhận mật khẩu' placeholder='' defaultValue='' />
-              </Grid>
+              <TextField size='small' type='text' fullWidth label='Tên đăng nhập' placeholder='' defaultValue='' />
+            </Grid>
+            <Grid item xs={12} md={12} sx={{my: 2}}>
+              <TextField size='small' type='text' fullWidth label='Họ tên' placeholder='' defaultValue='' />
+            </Grid>
+            <Grid item xs={12} md={12} sx={{my: 2}}>
+              <TextField size='small' type='email'  fullWidth label='Email' placeholder='' defaultValue='' />
+            </Grid>
+            <Grid item xs={12} md={12} sx={{my: 2}}>
+              <TextField size='small' type='text'  fullWidth label='Số điện thoại' placeholder='' defaultValue='' />
+            </Grid>
           </Grid>
-          <DialogActions sx={{py: 2}}>
+          <DialogActions>
             <Button className='btn closeBtn' onClick={handleClose}>HỦY</Button>
             <Button className='btn saveBtn' onClick={handleClose}>LƯU THAY ĐỔI</Button>
           </DialogActions>
@@ -73,3 +76,4 @@ export default function ChangePassword() {
     </div>
   );
 }
+export default EditAccount;

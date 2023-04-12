@@ -88,7 +88,7 @@ const navigation = (): VerticalNavItemsType => {
       sectionTitle: 'Quản lý'
     },
     {
-      title: 'Quản lý tài khoản',
+      title: 'Tài khoản & Phân quyền',
       icon: AccountCogOutline,
       path: '/account-settings'
     },

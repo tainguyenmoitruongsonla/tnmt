@@ -16,9 +16,7 @@ import LockOpenOutline from 'mdi-material-ui/LockOpenOutline'
 import InformationOutline from 'mdi-material-ui/InformationOutline'
 
 // ** Demo Tabs Imports
-import TabInfo from 'src/views/account-settings/TabInfo'
-import TabAccount from 'src/views/account-settings/TabAccount'
-import TabSecurity from 'src/views/account-settings/TabSecurity'
+import Roles from 'src/views/account-settings/Roles'
 
 // ** Third Party Styles Imports
 import 'react-datepicker/dist/react-datepicker.css'
@@ -68,20 +66,11 @@ const AccountSettings = () => {
             }
           />
           <Tab
-            value='info'
-            label={
-              <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                <InformationOutline />
-                <TabName>Quyền truy cập</TabName>
-              </Box>
-            }
-          />
-          <Tab
-            value='security'
+            value='roles'
             label={
               <Box sx={{ display: 'flex', alignItems: 'center' }}>
                 <LockOpenOutline />
-                <TabName>Security</TabName>
+                <TabName>Quyền truy cập</TabName>
               </Box>
             }
           />
@@ -90,11 +79,8 @@ const AccountSettings = () => {
         <TabPanel sx={{ p: 0 }} value='account'>
           <ListAccount />
         </TabPanel>
-        <TabPanel sx={{ p: 0 }} value='security'>
-          <TabSecurity />
-        </TabPanel>
-        <TabPanel sx={{ p: 0 }} value='info'>
-          <TabInfo />
+        <TabPanel sx={{ p: 0 }} value='roles'>
+          <Roles />
         </TabPanel>
       </TabContext>
     </Card>
