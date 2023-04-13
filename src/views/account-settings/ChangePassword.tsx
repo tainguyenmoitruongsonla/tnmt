@@ -1,75 +1,61 @@
-import * as React from 'react';
-import Button from '@mui/material/Button';
-import { styled } from '@mui/material/styles';
-import {Dialog, DialogTitle, DialogContent, DialogActions, Grid, TextField} from '@mui/material';
-import { LockOpen } from '@mui/icons-material';
+import React, { useState } from 'react';
+import DialogsControl from '../DialogControl';
+import { LockOpen } from "@mui/icons-material";
+import { Grid, Button, TextField, DialogActions } from "@mui/material";
 
-const BootstrapDialog = styled(Dialog)(({ theme }) => ({
-  '& .MuiDialogContent-root': {
-    padding: theme.spacing(2),
-  },
-  '& .MuiDialogActions-root': {
-    padding: theme.spacing(4),
-  },
-}));
 
-export interface DialogTitleProps {
-  id: string;
-  children?: React.ReactNode;
-  onClose: () => void;
-}
 
-function BootstrapDialogTitle(props: DialogTitleProps) {
-  const { children, onClose, ...other } = props;
 
-  return (
-    <DialogTitle sx={{ m: 0, my: 2, p: 2, textAlign: 'center' }} {...other}>
-      {children}
-    </DialogTitle>
-  );
-}
+const Form = ({ onSubmit, closeDialogs }: any) => {
+  const [username, setUsername] = useState('');
+  const [fullname, setFullName] = useState('');
 
-export default function ChangePassword() {
-  const [open, setOpen] = React.useState(false);
-
-  const handleClickOpen = () => {
-    setOpen(true);
+  const handleSubmit = (event: any) => {
+    event.preventDefault();
+    onSubmit(username, fullname);
+    closeDialogs();
   };
+
   const handleClose = () => {
-    setOpen(false);
+    closeDialogs();
+  }
+
+  return (
+    <form onSubmit={handleSubmit}>
+      <Grid container>
+        <Grid item xs={12} md={12} sx={{my: 3}}>
+            <TextField size='small' type='password' fullWidth label='Mật khẩu cũ' placeholder='' defaultValue='' />
+          </Grid>
+          <Grid item xs={12} md={12} sx={{my: 3}}>
+            <TextField size='small' type='password' fullWidth label='Mật khẩu mói' placeholder='' defaultValue='' />
+          </Grid>
+          <Grid item xs={12} md={12} sx={{my: 3}}>
+            <TextField size='small' type='password'  fullWidth label='Xác nhận mật khẩu' placeholder='' defaultValue='' />
+          </Grid>
+      </Grid>
+      <DialogActions sx={{p:0}}>
+        <Button onClick={() => handleClose()} className='btn closeBtn'>Hủy</Button>
+        <Button type="submit" className='btn saveBtn'>Lưu</Button>
+      </DialogActions>
+    </form>
+  );
+};
+
+const EditAccount = () => {
+  const formTitle = 'Thay đổi mật khẩu';
+  const handleSubmit = (username:any, password:any) => {
+    // handle form submission logic here
   };
 
   return (
-    <div>
-      <LockOpen className='tableActionBtn' onClick={handleClickOpen} />
-      <BootstrapDialog
-        onClose={handleClose}
-        aria-labelledby="customized-dialog-title"
-        open={open}
-      >
-        <BootstrapDialogTitle id="customized-dialog-title" onClose={handleClose}>
-          ĐỔI MẬT KHẨU
-        </BootstrapDialogTitle>
-        <DialogContent dividers>
-        <form action="">
-          <Grid container>
-            <Grid item xs={12} md={12} sx={{my: 2}}>
-                <TextField size='small' type='password' fullWidth label='Mật khẩu cũ' placeholder='' defaultValue='' />
-              </Grid>
-              <Grid item xs={12} md={12} sx={{my: 2}}>
-                <TextField size='small' type='password' fullWidth label='Mật khẩu mói' placeholder='' defaultValue='' />
-              </Grid>
-              <Grid item xs={12} md={12} sx={{my: 2}}>
-                <TextField size='small' type='password'  fullWidth label='Xác nhận mật khẩu' placeholder='' defaultValue='' />
-              </Grid>
-          </Grid>
-          <DialogActions sx={{py: 2}}>
-            <Button className='btn closeBtn' onClick={handleClose}>HỦY</Button>
-            <Button className='btn saveBtn' onClick={handleClose}>LƯU THAY ĐỔI</Button>
-          </DialogActions>
-        </form>
-        </DialogContent>
-      </BootstrapDialog>
-    </div>
+    <DialogsControl>
+      {(openDialogs: (content: React.ReactNode, title: React.ReactNode) => void, closeDialogs: () => void) => (
+        <>
+          <LockOpen className='tableActionBtn' onClick={() => openDialogs(<Form onSubmit={handleSubmit} closeDialogs={closeDialogs} />, formTitle)} />
+        </>
+      )}
+    </DialogsControl>
   );
-}
+};
+
+export default EditAccount;

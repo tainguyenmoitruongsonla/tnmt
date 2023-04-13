@@ -90,10 +90,6 @@ code[class*='language-'] {
 
 .btn{
   border-radius: 0 !important;
-  margin: 0 10px 0 10px !important;
-}
-.btn:hover{
-  scale: 1.1;
 }
 
 .addNewBtn{
@@ -109,12 +105,27 @@ code[class*='language-'] {
 
 .saveBtn{
   background-color: green !important;
+  border: 1px solid green !important;
   color: #fff !important;
 }
 .closeBtn{
   background-color: red !important;
+  border: 1px solid red !important;
   color: #fff !important;
 }
+
+.closeBtn:hover{
+  background-color: #fff !important;
+  border: 1px solid red !important;
+  color: red !important;
+}
+
+.saveBtn:hover{
+  background-color: #fff !important;
+  border: 1px solid green !important;
+  color: green !important;
+}
+
 
 .footer-content-container{
   padding: 5px !important;
