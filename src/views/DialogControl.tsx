@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
-import { Dialog, DialogTitle, DialogContent, DialogActions, Button } from '@mui/material';
-import { Close } from "@mui/icons-material";
+import { Dialog, DialogTitle, DialogContent } from '@mui/material';
 
 interface DialogControlProps {
   children: (openDialogs: (content: React.ReactNode, title: React.ReactNode) => void, closeDialogs: () => void) => React.ReactNode;

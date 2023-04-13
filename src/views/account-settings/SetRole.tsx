@@ -1,33 +1,11 @@
 import * as React from 'react';
-import { useState, ElementType, ChangeEvent } from 'react'
-
-import {  useTheme } from "@mui/material/styles";
-import { styled } from '@mui/material/styles'
-import {
-  Grid,
-  Dialog,
-  DialogActions,
-  AppBar,
-  Toolbar,
-  Typography,
-  Slide,
-  Box,
-  TextField,
-  Paper,
-  TableContainer,
-  Table,
-  TableHead,
-  TableRow,
-  TableCell,
-  TableBody,
-  Checkbox,
-} from '@mui/material';
-import Button, { ButtonProps } from '@mui/material/Button'
+import { useState } from "react";
+import { Grid, DialogActions, Typography, Slide, TextField, Table, TableHead, TableRow, TableCell, TableBody, Checkbox, Button } from '@mui/material';
 import { TransitionProps } from '@mui/material/transitions';
 import { ShieldTwoTone } from '@mui/icons-material';
+import DialogsControlFullScreen from '../DialogControlFullScreen';
 
-
-const Transition = React.forwardRef(function Transition(
+const Transition = React.forwardRef(function Transition( 
   props: TransitionProps & {
     children: React.ReactElement;
   },
@@ -36,83 +14,33 @@ const Transition = React.forwardRef(function Transition(
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
-const ImgStyled = styled('img')(({ theme }) => ({
-  width: 120,
-  height: 120,
-  marginRight: theme.spacing(6.25),
-  borderRadius: theme.shape.borderRadius
-}))
+const createData = (name: string, isDefault: boolean) => {
+  return { name, isDefault }
+}
 
-const ButtonStyled = styled(Button)<ButtonProps & { component?: ElementType; htmlFor?: string }>(({ theme }) => ({
-  [theme.breakpoints.down('sm')]: {
-    width: '100%',
-    textAlign: 'center'
-  }
-}))
+const roleData = [
+  createData('Supper User', false),
+  createData('Admintrators', false),
+  createData('Default', true),
+]
 
-const ResetButtonStyled = styled(Button)<ButtonProps>(({ theme }) => ({
-  marginLeft: theme.spacing(4.5),
-  [theme.breakpoints.down('sm')]: {
-    width: '100%',
-    marginLeft: 0,
-    textAlign: 'center',
-    marginTop: theme.spacing(4)
-  }
-}))
+const Form = ({ onSubmit, closeDialogs }: any) => {
+  const [username, setUsername] = useState('');
+  const [fullname, setFullName] = useState('');
 
-export default function SetRole() {
-
-  const theme = useTheme();
-
-  const [open, setOpen] = React.useState(false);
-
-  const handleClickOpen = () => {
-    setOpen(true);
+  const handleSubmit = (event: any) => {
+    event.preventDefault();
+    onSubmit(username, fullname);
+    closeDialogs();
   };
 
   const handleClose = () => {
-    setOpen(false);
-  };
-
-  const [imgSrc, setImgSrc] = useState<string>('/images/avatars/1.png')
-
-  const onChange = (file: ChangeEvent) => {
-    const reader = new FileReader()
-    const { files } = file.target as HTMLInputElement
-    if (files && files.length !== 0) {
-      reader.onload = () => setImgSrc(reader.result as string)
-
-      reader.readAsDataURL(files[0])
-    }
+    closeDialogs();
   }
-
-  const createData = (name: string, isDefault: boolean) => {
-    return { name, isDefault }
-  }
-  
-  const roleData = [
-    createData('Supper User', false),
-    createData('Admintrators', false),
-    createData('Default', true),
-  ]
 
   return (
     <div>
-      <ShieldTwoTone className='tableActionBtn' onClick={handleClickOpen} />
-      <Dialog
-        fullScreen
-        open={open}
-        onClose={handleClose}
-        TransitionComponent={Transition}
-      >
-        <AppBar sx={{ position: 'relative' }}>
-          <Toolbar>
-            <Typography sx={{ ml: 2, flex: 1, color: `${theme.palette.text.light}` }} variant="h6" component="div">
-              SỬA THÔNG TIN TÀI KHOẢN
-            </Typography>
-          </Toolbar>
-        </AppBar>
-        <form>
+        <form onSubmit={handleSubmit}>
           <Grid container spacing={7} sx={{px: 10, pt: 10}}>
             <Grid item xs={12} sm={12} sx={{mb: 2}}>
               <Typography variant='h6'>THÔNG TIN TÀI KHOẢN</Typography>
@@ -152,12 +80,31 @@ export default function SetRole() {
               </Table>
             </Grid>
           </Grid>
-        </form>
-        <DialogActions>
+          <DialogActions>
           <Button className='btn closeBtn' onClick={handleClose}>HỦY</Button>
-          <Button className='btn saveBtn' onClick={handleClose}>LƯU THAY ĐỔI</Button>
+          <Button className='btn saveBtn' onClick={handleSubmit}>LƯU THAY ĐỔI</Button>
         </DialogActions>
-      </Dialog>
+        </form>
     </div>
   );
+};
+
+
+const SetRole = () => {
+
+  const formTitle = 'Thay đổi mật khẩu';
+  const handleSubmit = (username:any, password:any) => {
+    // handle form submission logic here
+  };
+
+  return (
+    <DialogsControlFullScreen>
+      {(openDialogs: (content: React.ReactNode, title: React.ReactNode) => void, closeDialogs: () => void) => (
+        <>
+          <ShieldTwoTone className='tableActionBtn' onClick={() => openDialogs(<Form onSubmit={handleSubmit} closeDialogs={closeDialogs} />, formTitle)} />
+        </>
+      )}
+    </DialogsControlFullScreen>
+  );
 }
+export default SetRole;
