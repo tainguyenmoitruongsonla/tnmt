@@ -9,13 +9,13 @@ function createData(
     src: string,
     name: string,
     description: string,
-    isPublic: boolean
+    PermitAccess: boolean
 ) {
-    return { src, name, description, isPublic };
+    return { src, name, description, PermitAccess };
 }
 
 interface Column {
-    id: 'src' | 'name' | 'description' | 'isPublic'
+    id: 'src' | 'name' | 'description' | 'PermitAccess'
     label: string
     minWidth?: number
     align?: 'right' | 'center' | 'left'
@@ -26,7 +26,7 @@ const columns: readonly Column[] = [
     { id: 'src', label: 'Đường dẫn', minWidth: 170 },
     { id: 'name', label: 'Tên', minWidth: 100 },
     { id: 'description', label: 'Mô tả', minWidth: 170 },
-    { id: 'isPublic', label: 'Đươc phép truy cập', minWidth: 100, align: 'center' }
+    { id: 'PermitAccess', label: 'Đươc phép truy cập', minWidth: 100, align: 'center' }
 ]
 
 const data = [
@@ -86,8 +86,8 @@ const ListPages = () => {
                             return (
                                 <TableCell size='small' key={column.id} align={column.align}>
                                     {column.format && typeof value === 'number' ? column.format(value) : 
-                                        column.id === 'isPublic' ? (
-                                            <Checkbox checked={row.isPublic} />
+                                        column.id === 'PermitAccess' ? (
+                                            <Checkbox checked={row.PermitAccess} />
                                         ) : (
                                             value
                                         )
@@ -97,7 +97,7 @@ const ListPages = () => {
                         })}
                         <TableCell size='small' align='center' sx={{minWidth: ACTION_COLUMN_WIDTH, width: ACTION_COLUMN_WIDTH}}>
                             <IconButton aria-label="edit">
-                                <EditNote />
+                                <EditNote className='tableActionBtn' />
                             </IconButton>
                             <IconButton aria-label="delete">
                                 <Delete className='tableActionBtn deleteBtn' />
