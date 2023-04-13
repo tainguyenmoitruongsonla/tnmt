@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import DialogsControl from '../DialogControl';
+import DialogsControl from '../../DialogControl';
 import { EditNote } from "@mui/icons-material";
-import { Grid, Button, TextField, DialogActions } from "@mui/material";
+import { Grid, Button, TextField, DialogActions, FormGroup, FormControlLabel, Checkbox } from "@mui/material";
 
 const Form = ({ onSubmit, closeDialogs }: any) => {
   const [username, setUsername] = useState('');
@@ -20,18 +20,17 @@ const Form = ({ onSubmit, closeDialogs }: any) => {
   return (
     <form onSubmit={handleSubmit}>
       <Grid container>
-        <Grid item xs={12} md={12} sx={{my: 3}}>
-            <TextField size='small' type='text' disabled fullWidth label='Tài khoản' placeholder='Username' defaultValue='Username' onChange={(e) => setUsername(e.target.value)} />
-          </Grid>
-          <Grid item xs={12} md={12} sx={{my: 3}}>
-            <TextField size='small' type='text' fullWidth label='Họ tên' placeholder='' defaultValue='' onChange={(e) => setFullName(e.target.value)} />
-          </Grid>
-          <Grid item xs={12} md={12} sx={{my: 3}}>
-            <TextField size='small' type='email'  fullWidth label='Email' placeholder='' defaultValue='' />
-          </Grid>
-          <Grid item xs={12} md={12} sx={{my: 3}}>
-            <TextField size='small' type='text'  fullWidth label='Số điện thoại' placeholder='' defaultValue='' />
-          </Grid>
+        <Grid item xs={12} md={12} sx={{my: 2}}>
+          <TextField size='small' type='text' fullWidth label='Tên' placeholder='' defaultValue='' />
+        </Grid>
+        <Grid item xs={12} md={12} sx={{my: 2}}>
+          <TextField size='small' type='text' fullWidth label='Mô tả' placeholder='' defaultValue='' />
+        </Grid>
+        <Grid item xs={12} md={12} sx={{my: 2}}>
+        <FormGroup>
+          <FormControlLabel control={<Checkbox name='isDefault' />} label="Đặt là mặc định" />
+        </FormGroup>
+        </Grid>
       </Grid>
       <DialogActions sx={{p:0}}>
         <Button onClick={() => handleClose()} className='btn closeBtn'>Hủy</Button>
@@ -42,7 +41,7 @@ const Form = ({ onSubmit, closeDialogs }: any) => {
 };
 
 const EditAccount = () => {
-  const formTitle = 'Thay đổi thông tin tài khoản';
+  const formTitle = 'Thay đổi thông tin roles';
   const handleSubmit = (username:any, password:any) => {
     // handle form submission logic here
   };

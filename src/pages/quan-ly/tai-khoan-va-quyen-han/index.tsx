@@ -13,14 +13,13 @@ import MuiTab, { TabProps } from '@mui/material/Tab'
 // ** Icons Imports
 import AccountOutline from 'mdi-material-ui/AccountOutline'
 import LockOpenOutline from 'mdi-material-ui/LockOpenOutline'
-import InformationOutline from 'mdi-material-ui/InformationOutline'
 
 // ** Demo Tabs Imports
-import Roles from 'src/views/account-settings/Roles'
+import Roles from 'src/views/Manage/account-settings/Roles'
 
 // ** Third Party Styles Imports
 import 'react-datepicker/dist/react-datepicker.css'
-import ListAccount from 'src/views/account-settings/ListAccount'
+import ListAccount from 'src/views/Manage/account-settings/ListAccount'
 
 const Tab = styled(MuiTab)<TabProps>(({ theme }) => ({
   [theme.breakpoints.down('md')]: {
@@ -70,7 +69,7 @@ const AccountSettings = () => {
             label={
               <Box sx={{ display: 'flex', alignItems: 'center' }}>
                 <LockOpenOutline />
-                <TabName>Quyền truy cập</TabName>
+                <TabName>Quyền hạn</TabName>
               </Box>
             }
           />

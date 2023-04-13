@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import DialogsControl from '../DialogControl';
+import DialogsControl from '../../DialogControl';
 import { LockOpen } from "@mui/icons-material";
 import { Grid, Button, TextField, DialogActions } from "@mui/material";
 

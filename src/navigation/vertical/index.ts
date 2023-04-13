@@ -90,7 +90,12 @@ const navigation = (): VerticalNavItemsType => {
     {
       title: 'Tài khoản & Phân quyền',
       icon: AccountCogOutline,
-      path: '/account-settings'
+      path: '/quan-ly/tai-khoan-va-quyen-han'
+    },
+    {
+      title: 'Trang truy cập',
+      icon: AccountCogOutline,
+      path: '/quan-ly/trang-truy-cap'
     },
   ]
 }
