@@ -9,7 +9,7 @@ const Transition = React.forwardRef(function Transition(
   },
   ref: React.Ref<unknown>,
 ) {
-  return <Slide direction="up" ref={ref} {...props} />;
+  return <Slide direction="left" ref={ref} {...props} />;
 });
 
 interface DialogControlProps {
@@ -38,7 +38,7 @@ const DialogsControlFullScreen = ({ children }: DialogControlProps) => {
   return (
     <>
       {children(openDialogs, closeDialogs)}
-      <Dialog open={isOpen} onClose={closeDialogs} fullScreen TransitionComponent={Transition}>
+      <Dialog open={isOpen} onClose={closeDialogs} fullScreen TransitionComponent={Transition} sx={{left: 260}}>
         {dialogContent && (
           <>
             <AppBar sx={{ position: 'relative' }}>
