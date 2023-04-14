@@ -4,6 +4,7 @@ import { useState, ChangeEvent } from 'react'
 // ** MUI Imports
 import { IconButton, Typography, Table, TableBody, TableCell, TableHead, TableRow,TableContainer, Paper,TablePagination, Checkbox } from '@mui/material';
 import { Delete, PersonAddAlt, EditNote } from '@mui/icons-material';
+import EditPages from './EditPages';
 
 function createData(
     src: string,
@@ -97,7 +98,7 @@ const ListPages = () => {
                         })}
                         <TableCell size='small' align='center' sx={{minWidth: ACTION_COLUMN_WIDTH, width: ACTION_COLUMN_WIDTH}}>
                             <IconButton aria-label="edit">
-                                <EditNote className='tableActionBtn' />
+                                <EditPages />
                             </IconButton>
                             <IconButton aria-label="delete">
                                 <Delete className='tableActionBtn deleteBtn' />

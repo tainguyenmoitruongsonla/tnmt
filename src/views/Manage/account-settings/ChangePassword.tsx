@@ -38,7 +38,7 @@ const Form = ({ onSubmit, closeDialogs }: any) => {
   );
 };
 
-const EditAccount = () => {
+const ChangePassword = () => {
   const formTitle = 'Thay đổi mật khẩu';
   const handleSubmit = (username:any, password:any) => {
     // handle form submission logic here
@@ -55,4 +55,4 @@ const EditAccount = () => {
   );
 };
 
-export default EditAccount;
+export default ChangePassword;

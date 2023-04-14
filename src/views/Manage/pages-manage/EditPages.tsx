@@ -24,11 +24,14 @@ const Form = ({ onSubmit, closeDialogs }: any) => {
           <TextField size='small' type='text' fullWidth label='Tên' placeholder='' defaultValue='' />
         </Grid>
         <Grid item xs={12} md={12} sx={{my: 2}}>
+          <TextField size='small' type='text' fullWidth label='Đường dẫn' placeholder='' defaultValue='' />
+        </Grid>
+        <Grid item xs={12} md={12} sx={{my: 2}}>
           <TextField size='small' type='text' fullWidth label='Mô tả' placeholder='' defaultValue='' />
         </Grid>
         <Grid item xs={12} md={12} sx={{my: 2}}>
         <FormGroup>
-          <FormControlLabel control={<Checkbox name='isDefault' />} label="Đặt là mặc định" />
+          <FormControlLabel control={<Checkbox name='isDefault' />} label="Cho phép truy cập?" />
         </FormGroup>
         </Grid>
       </Grid>
@@ -40,8 +43,8 @@ const Form = ({ onSubmit, closeDialogs }: any) => {
   );
 };
 
-const EditRoles = () => {
-  const formTitle = 'Thay đổi thông tin roles';
+const EditPages = () => {
+  const formTitle = 'Thay đổi thông tin trang truy cập';
   const handleSubmit = (username:any, password:any) => {
     // handle form submission logic here
   };
@@ -57,4 +60,4 @@ const EditRoles = () => {
   );
 };
 
-export default EditRoles;
+export default EditPages;

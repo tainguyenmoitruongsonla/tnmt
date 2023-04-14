@@ -8,6 +8,7 @@ import Information from 'mdi-material-ui/Information';
 import More from 'mdi-material-ui/More';
 import TagOutline from 'mdi-material-ui/TagOutline';
 import CircleOutline from 'mdi-material-ui/CircleOutline';
+import { Tv } from "@mui/icons-material";
 
 // ** Type import
 import { VerticalNavItemsType } from 'src/@core/layouts/types'
@@ -88,13 +89,13 @@ const navigation = (): VerticalNavItemsType => {
       sectionTitle: 'Quản lý'
     },
     {
-      title: 'Tài khoản & Phân quyền',
+      title: 'Tài khoản & Quyền hạn',
       icon: AccountCogOutline,
       path: '/quan-ly/tai-khoan-va-quyen-han'
     },
     {
       title: 'Trang truy cập',
-      icon: AccountCogOutline,
+      icon: Tv,
       path: '/quan-ly/trang-truy-cap'
     },
   ]
