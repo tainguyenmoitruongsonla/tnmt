@@ -151,16 +151,31 @@ code[class*='language-'] {
 .text-weight-bold{
   font-weight: 700 !important;
 }
-
-.total_contruction{
+._row{
   display: flex;
-  justify-content:space-between 
+  flex-wrap: wrap;
 }
-
-.contruction_search{
+._justifyContentBetween {
+  justify-content: space-between;
+}
+._count *{
+  font-size: 12px !important;
+}
+._search{
   display: flex;
+  flex-wrap: wrap;
 }
-.contruction_search button{
+._search .MuiAutocomplete-root{
+  width: 150px !important;
   margin: 0 5px;
+}
+._search .MuiAutocomplete-root input, ._search .MuiAutocomplete-root label{
+  font-size: 13px;
+}
+
+._search button{
+  margin: 0 5px;
+  white-space: nowrap;
   height: 100%;
+  font-size: 13px;
 }
