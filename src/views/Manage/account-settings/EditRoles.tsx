@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import DialogsControl from '../../DialogControl';
-import { EditNote } from "@mui/icons-material";
-import { Grid, Button, TextField, DialogActions, FormGroup, FormControlLabel, Checkbox } from "@mui/material";
+import { EditNote, PersonAddAlt } from "@mui/icons-material";
+import { Grid, Button, TextField, DialogActions, FormGroup, FormControlLabel, Checkbox, IconButton, Typography } from "@mui/material";
 
 const Form = ({ onSubmit, closeDialogs }: any) => {
   const [username, setUsername] = useState('');
@@ -40,8 +40,8 @@ const Form = ({ onSubmit, closeDialogs }: any) => {
   );
 };
 
-const EditRoles = () => {
-  const formTitle = 'Thay đổi thông tin roles';
+const EditRoles = ({ isEdit }: { isEdit: boolean }) => {
+  const formTitle = isEdit ? 'Thay đổi thông tin roles' : 'Thêm roles mới';
   const handleSubmit = (username:any, password:any) => {
     // handle form submission logic here
   };
@@ -50,7 +50,15 @@ const EditRoles = () => {
     <DialogsControl>
       {(openDialogs: (content: React.ReactNode, title: React.ReactNode) => void, closeDialogs: () => void) => (
         <>
+          {
+          isEdit?
           <EditNote className='tableActionBtn' onClick={() => openDialogs(<Form onSubmit={handleSubmit} closeDialogs={closeDialogs} />, formTitle)} />
+          :
+          <IconButton className='addNewBtn' aria-label="add user" onClick={() => openDialogs(<Form onSubmit={handleSubmit} closeDialogs={closeDialogs} />, formTitle)}>
+              <PersonAddAlt sx={{mr: 2}} />
+              <Typography>Thêm mới</Typography>
+          </IconButton>
+        }
         </>
       )}
     </DialogsControl>

@@ -1,15 +1,16 @@
 import React, { useState } from 'react';
 import DialogsControl from '../../DialogControl';
-import { EditNote } from "@mui/icons-material";
-import { Grid, Button, TextField, DialogActions, FormGroup, FormControlLabel, Checkbox } from "@mui/material";
+import { EditNote, PersonAddAlt } from "@mui/icons-material";
+import { Grid, Button, TextField, DialogActions, FormGroup, FormControlLabel, Checkbox, IconButton, Typography } from "@mui/material";
 
 const Form = ({ onSubmit, closeDialogs }: any) => {
-  const [username, setUsername] = useState('');
-  const [fullname, setFullName] = useState('');
+  const [name, setName] = useState('');
+  const [pagelink, setPagelink] = useState('');
+  const [description, setDescription] = useState('');
 
   const handleSubmit = (event: any) => {
     event.preventDefault();
-    onSubmit(username, fullname);
+    onSubmit(name, pagelink, description);
     closeDialogs();
   };
 
@@ -43,9 +44,9 @@ const Form = ({ onSubmit, closeDialogs }: any) => {
   );
 };
 
-const EditPages = () => {
-  const formTitle = 'Thay đổi thông tin trang truy cập';
-  const handleSubmit = (username:any, password:any) => {
+const EditPages = ({ isEdit }: { isEdit: boolean }) => {
+  const formTitle = isEdit ? 'Thay đổi thông tin trang truy cập' : 'Thêm trang truy cập';
+  const handleSubmit = (name: any, pagelink: any, description: any) => {
     // handle form submission logic here
   };
 
@@ -53,7 +54,16 @@ const EditPages = () => {
     <DialogsControl>
       {(openDialogs: (content: React.ReactNode, title: React.ReactNode) => void, closeDialogs: () => void) => (
         <>
+        {
+          isEdit ?
           <EditNote className='tableActionBtn' onClick={() => openDialogs(<Form onSubmit={handleSubmit} closeDialogs={closeDialogs} />, formTitle)} />
+          :
+          <IconButton className='addNewBtn' aria-label="add user" onClick={() => openDialogs(<Form onSubmit={handleSubmit} closeDialogs={closeDialogs} />, formTitle)}>
+              <PersonAddAlt sx={{mr: 2}} />
+              <Typography>Thêm mới</Typography>
+          </IconButton>
+          
+        }
         </>
       )}
     </DialogsControl>

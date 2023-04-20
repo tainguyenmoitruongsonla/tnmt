@@ -21,10 +21,10 @@ const Form = ({ onSubmit, closeDialogs }: any) => {
     <form onSubmit={handleSubmit}>
       <Grid container>
         <Grid item xs={12} md={12} sx={{my: 3}}>
-            <TextField size='small' type='password' fullWidth label='Mật khẩu cũ' placeholder='' defaultValue='' />
+            <TextField disabled size='small' type='password' fullWidth label='Mật khẩu cũ' placeholder='' defaultValue='' />
           </Grid>
           <Grid item xs={12} md={12} sx={{my: 3}}>
-            <TextField size='small' type='password' fullWidth label='Mật khẩu mói' placeholder='' defaultValue='' />
+            <TextField size='small' type='password' fullWidth label='Mật khẩu mới' placeholder='' defaultValue='' />
           </Grid>
           <Grid item xs={12} md={12} sx={{my: 3}}>
             <TextField size='small' type='password'  fullWidth label='Xác nhận mật khẩu' placeholder='' defaultValue='' />

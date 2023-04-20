@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import DialogsControl from '../../DialogControl';
-import { EditNote } from "@mui/icons-material";
-import { Grid, Button, TextField, DialogActions } from "@mui/material";
+import { EditNote, PersonAddAlt } from "@mui/icons-material";
+import { Grid, Button, TextField, DialogActions, IconButton, Typography } from "@mui/material";
 
 const Form = ({ onSubmit, closeDialogs }: any) => {
   const [username, setUsername] = useState('');
@@ -21,7 +21,7 @@ const Form = ({ onSubmit, closeDialogs }: any) => {
     <form onSubmit={handleSubmit}>
       <Grid container>
         <Grid item xs={12} md={12} sx={{my: 3}}>
-            <TextField size='small' type='text' disabled fullWidth label='Tài khoản' placeholder='Username' defaultValue='Username' onChange={(e) => setUsername(e.target.value)} />
+            <TextField size='small' type='text' fullWidth label='Tài khoản' placeholder='' defaultValue='' onChange={(e) => setUsername(e.target.value)} />
           </Grid>
           <Grid item xs={12} md={12} sx={{my: 3}}>
             <TextField size='small' type='text' fullWidth label='Họ tên' placeholder='' defaultValue='' onChange={(e) => setFullName(e.target.value)} />
@@ -41,8 +41,8 @@ const Form = ({ onSubmit, closeDialogs }: any) => {
   );
 };
 
-const EditAccount = () => {
-  const formTitle = 'Thay đổi thông tin tài khoản';
+const EditAccount =  ({ isEdit }: { isEdit: boolean }) => {
+  const formTitle = isEdit ? 'Thay đổi thông tin tài khoản' : 'Thêm tài khoản mới' ;
   const handleSubmit = (username:any, password:any) => {
     // handle form submission logic here
   };
@@ -51,7 +51,15 @@ const EditAccount = () => {
     <DialogsControl>
       {(openDialogs: (content: React.ReactNode, title: React.ReactNode) => void, closeDialogs: () => void) => (
         <>
+        {
+          isEdit?
           <EditNote className='tableActionBtn' onClick={() => openDialogs(<Form onSubmit={handleSubmit} closeDialogs={closeDialogs} />, formTitle)} />
+          :
+          <IconButton className='addNewBtn' aria-label="add user" onClick={() => openDialogs(<Form onSubmit={handleSubmit} closeDialogs={closeDialogs} />, formTitle)}>
+              <PersonAddAlt sx={{mr: 2}} />
+              <Typography>Thêm mới</Typography>
+          </IconButton>
+        }
         </>
       )}
     </DialogsControl>

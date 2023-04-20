@@ -72,10 +72,7 @@ const ListPages = () => {
                         ))}
                         <TableCell size='small' align='center' sx={{minWidth: ACTION_COLUMN_WIDTH, width: ACTION_COLUMN_WIDTH}}>
                             #
-                            <IconButton className='addNewBtn' aria-label="add user">
-                                <PersonAddAlt sx={{mr: 2}} />
-                                <Typography>Thêm mới</Typography>
-                            </IconButton>
+                            <EditPages isEdit={false} />
                         </TableCell>
                     </TableRow>
                 </TableHead>
@@ -98,7 +95,7 @@ const ListPages = () => {
                         })}
                         <TableCell size='small' align='center' sx={{minWidth: ACTION_COLUMN_WIDTH, width: ACTION_COLUMN_WIDTH}}>
                             <IconButton aria-label="edit">
-                                <EditPages />
+                                <EditPages isEdit={true} />
                             </IconButton>
                             <IconButton aria-label="delete">
                                 <Delete className='tableActionBtn deleteBtn' />

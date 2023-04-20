@@ -31,10 +31,7 @@ const Roles = () => {
                 <TableCell size='small' align='center'>MẶC ĐỊNH</TableCell>
                 <TableCell size='small' align='center' sx={{minWidth: ACTION_COLUMN_WIDTH, width: ACTION_COLUMN_WIDTH}}>
                     #
-                    <IconButton className='addNewBtn' aria-label="add user">
-                        <PersonAddAlt sx={{mr: 2}} />
-                        <Typography>Thêm mới</Typography>
-                    </IconButton>
+                    <EditRoles isEdit = {false} />
                 </TableCell>
               </TableRow>
             </TableHead>
@@ -49,7 +46,7 @@ const Roles = () => {
                   </TableCell>
                   <TableCell size='small' align='center' sx={{minWidth: ACTION_COLUMN_WIDTH, width: ACTION_COLUMN_WIDTH}}>
                     <IconButton aria-label="delete">
-                      <EditRoles />
+                      <EditRoles isEdit = {true} />
                   </IconButton>
                   <IconButton aria-label="delete">
                       <Delete className='tableActionBtn deleteBtn' />

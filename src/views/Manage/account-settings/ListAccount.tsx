@@ -76,10 +76,7 @@ const ListAccount = () => {
                         ))}
                         <TableCell size='small' align='center' sx={{minWidth: ACTION_COLUMN_WIDTH, width: ACTION_COLUMN_WIDTH}}>
                             #
-                            <IconButton className='addNewBtn' aria-label="add user">
-                                <PersonAddAlt sx={{mr: 2}} />
-                                <Typography>Thêm mới</Typography>
-                            </IconButton>
+                            <EditAccount isEdit={false} />
                         </TableCell>
                     </TableRow>
                 </TableHead>
@@ -102,7 +99,7 @@ const ListAccount = () => {
                                 <ChangePassword />
                             </IconButton>
                             <IconButton aria-label="edit">
-                                <EditAccount />
+                                <EditAccount isEdit={true} />
                             </IconButton>
                             <IconButton aria-label="delete">
                                 <Delete className='tableActionBtn deleteBtn' />
