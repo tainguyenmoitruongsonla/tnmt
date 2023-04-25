@@ -59,7 +59,11 @@ code[class*='language-'] {
 .mainTable{
   margin-top: 1.25rem;
 }
-
+.mainTable .sticky-col {
+  position: sticky !important;
+  background: rgb(21 83 143)!important;
+  z-index: 1 !important;
+}
 .tableHead{
   background-color: rgb(21 83 143) !important;
 }
@@ -73,10 +77,10 @@ code[class*='language-'] {
   white-space: nowrap;
 }
 .tableHead .start-col{
-  left: 0;
+  left: 0 !important;
 }
 .tableHead .end-col{
-  right: 0;
+  right: 0 !important;
 }
 
 .mainTable .tableActionBtn{
@@ -158,7 +162,7 @@ code[class*='language-'] {
 ._justifyContentBetween {
   justify-content: space-between;
 }
-._count *{
+._font12 {
   font-size: 12px !important;
 }
 ._search{
@@ -178,4 +182,12 @@ code[class*='language-'] {
   white-space: nowrap;
   height: 100%;
   font-size: 13px;
+}
+
+._space_between{
+  display: flex;
+  justify-content: space-between;
+}
+._text_center{
+  text-align: center;
 }

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useTheme } from "@mui/material/styles";
-import { Dialog, DialogContent, Slide, AppBar, Toolbar,Typography } from '@mui/material';
+import { Dialog, DialogContent, Slide, AppBar, Toolbar,Typography,} from '@mui/material';
 import { TransitionProps } from '@mui/material/transitions';
 
 const Transition = React.forwardRef(function Transition(
@@ -38,7 +38,7 @@ const DialogsControlFullScreen = ({ children }: DialogControlProps) => {
   return (
     <>
       {children(openDialogs, closeDialogs)}
-      <Dialog open={isOpen} onClose={closeDialogs} fullScreen TransitionComponent={Transition} sx={{left: 260}}>
+      <Dialog open={isOpen} onClose={closeDialogs} fullScreen TransitionComponent={Transition}  sx={{zIndex:1201}}>
         {dialogContent && (
           <>
             <AppBar sx={{ position: 'relative' }}>

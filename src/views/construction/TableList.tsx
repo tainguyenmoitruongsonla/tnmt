@@ -55,11 +55,11 @@ const TableList = () => {
   return (
     <Paper>
       <TableContainer>
-        <Table aria-label='sticky table'>
+        <Table aria-label='sticky table' className='mainTable'>
           <TableHead className='tableHead'>
             <TableRow>
-              <TableCell size='small' align="center" rowSpan={2} className='start-col'>STT</TableCell>
-              <TableCell size='small' align="center" rowSpan={2} className='start-col'>Tên công trình</TableCell>
+              <TableCell size='small' align="center" rowSpan={2} className='sticky-col start-col'>STT</TableCell>
+              <TableCell size='small' align="center" rowSpan={2} className=' sticky-col start-col'>Tên công trình</TableCell>
               <TableCell size='small' align="center" rowSpan={2}>Địa điểm</TableCell>
               <TableCell size='small' align="center" colSpan={2}>Tọa độ đập chính</TableCell>
               <TableCell size='small' align="center" rowSpan={2}>Nguồn nước khai thác</TableCell>
@@ -72,7 +72,7 @@ const TableList = () => {
               <TableCell size='small' align="center" colSpan={30}>Tọa độ đập chính</TableCell>
               <TableCell size='small' align="center" colSpan={3}>Thông tin giấy phép</TableCell>
               <TableCell size='small' align="center" colSpan={3}>Tiền cấp quyền</TableCell>
-              <TableCell size='small' align="center" rowSpan={2} className='end-col'>Thao tác</TableCell>
+              <TableCell size='small' align="center" rowSpan={2} className='sticky-col end-col'>Thao tác</TableCell>
             </TableRow>
             <TableRow>
               {/* lat,long */}
@@ -126,10 +126,35 @@ const TableList = () => {
                     <TableCell align="center">{row.name}</TableCell>
                     <TableCell align="center">{row.diadiem}</TableCell>
                     <TableCell align="center">{row.x}</TableCell>
-                    <TableCell align="left">{row.y}</TableCell>
-                    <TableCell align="left">{row.nguonnuoc}</TableCell>
+                    <TableCell align="center">{row.y}</TableCell>
+                    <TableCell align="center">{row.nguonnuoc}</TableCell>
                     <TableCell align="center">{row.phuongthuc}</TableCell>
                     <TableCell align="center">{row.chedo}</TableCell>
+                    <TableCell align="center">{row.chedo}</TableCell>
+                    <TableCell align="center">{row.chedo}</TableCell>
+                    <TableCell align="center">{row.chedo}</TableCell>
+                    <TableCell align="center">{row.chedo}</TableCell>
+                    <TableCell align="center">{row.chedo}</TableCell>
+                    <TableCell align="center">{row.chedo}</TableCell>
+                    <TableCell align="center">{row.chedo}</TableCell>
+                    <TableCell align="center">{row.chedo}</TableCell>
+                    <TableCell align="center">{row.chedo}</TableCell>
+                    <TableCell align="center">{row.chedo}</TableCell>
+                    <TableCell align="center">{row.chedo}</TableCell>
+                    <TableCell align="center">{row.chedo}</TableCell>
+                    <TableCell align="center">{row.chedo}</TableCell>
+                    <TableCell align="center">{row.chedo}</TableCell>
+                    <TableCell align="center">{row.chedo}</TableCell>
+                    <TableCell align="center">{row.chedo}</TableCell>
+                    <TableCell align="center">{row.chedo}</TableCell>
+                    <TableCell align="center">{row.chedo}</TableCell>
+                    <TableCell align="center">{row.chedo}</TableCell>
+                    <TableCell align="center">{row.chedo}</TableCell>
+                    <TableCell align="center">{row.chedo}</TableCell>
+                    <TableCell align="center">{row.chedo}</TableCell>
+                    <TableCell align="center">{row.chedo}</TableCell>
+                    <TableCell align="center">{row.chedo}</TableCell>
+                    
                 </TableRow>
               )
             })}

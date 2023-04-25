@@ -3,13 +3,15 @@ import { Grid, Box, Button, Typography, Autocomplete, TextField } from '@mui/mat
 import { useEffect } from 'react'
 
 // ** Icons Imports
-import AddIcon from '@mui/icons-material/Add';
-import FilterAltIcon from '@mui/icons-material/FilterAlt';
+
 import SearchIcon from '@mui/icons-material/Search';
 
 // ** Components Imports
 import ConstructionMap from 'src/views/construction'
 import TableList from 'src/views/construction/TableList';
+import CreateConstruction from 'src/views/construction/CreateConstruction';
+import SearchConstruction from 'src/views/construction/Search';
+
 
 const complete1 = [
   {title: "Khóa 1"},
@@ -22,6 +24,7 @@ const complete2 = [
   {title: "Đợt 3"},
 ];
 
+
 const SurfaceWater = () => {
   useEffect(() => {
     document.title = "Quản lý thông tin công trình nước mặt";
@@ -33,11 +36,11 @@ const SurfaceWater = () => {
           <ConstructionMap />
        </Grid>
        <Grid item xs={12} sm={12} md={12} className='_row _justifyContentBetween' >
-          <Box className='_count'>
-            <Typography>
+          <Box>
+            <Typography className='_font12'>
               Tổng số công trình KTSDN  mặt: 132
             </Typography>
-            <Typography>
+            <Typography className='_font12'>
               Số công trình đã cấp phép: 132
             </Typography>
           </Box>
@@ -65,19 +68,16 @@ const SurfaceWater = () => {
               />
             </Box>
             <Box>
-              <Button size='small' startIcon={<FilterAltIcon/>} variant="outlined">Bộ lọc</Button>
-            </Box>
-            <Box>
-              <Button size='small' startIcon={<SearchIcon/>} variant="outlined">Tìm kiếm</Button>
-            </Box>
+              <SearchConstruction/>
+            </Box>           
             <Box>
               <Button size='small' startIcon={<SearchIcon/>} variant="outlined">Xuất excel</Button>
             </Box>
             <Box>
-              <Button size='small' startIcon={<AddIcon/>} variant="outlined">Thêm mới</Button>
+              <CreateConstruction isEdit={false}/>
             </Box>
           </Box>
-       </Grid>
+        </Grid> 
        <Grid item xs={12} sm={12} md={12}>
           <TableList />
        </Grid>

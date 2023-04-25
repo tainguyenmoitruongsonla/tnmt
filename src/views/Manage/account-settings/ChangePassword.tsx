@@ -40,7 +40,7 @@ const Form = ({ onSubmit, closeDialogs }: any) => {
 
 const ChangePassword = () => {
   const formTitle = 'Thay đổi mật khẩu';
-  const handleSubmit = (username:any, password:any) => {
+  const handleSubmit = () => {
     // handle form submission logic here
   };
 
