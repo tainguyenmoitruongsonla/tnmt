@@ -1,36 +1,77 @@
-import { MapContainer, Marker, Popup, TileLayer,  GeoJSON, Polygon} from 'react-leaflet';
-import 'leaflet/dist/leaflet.css';
-import { BasemapLayer } from "react-esri-leaflet";
-import L from 'leaflet';
+import { useRef, useEffect } from "react";
+import { loadModules } from "esri-loader";
 
-const Map = () => {
+const MapPage = () => {
+  const mapRef = useRef(null);
 
-  const polygonCoords = [
-    [[14.53344, 108.2046], [14.53344, 109.1687], [15.41891, 109.1687], [15.41891, 108.2046], [14.53344, 108.2046]]
-  ];
+  useEffect(() => {
+    loadModules(["esri/Map", "esri/views/MapView", "esri/Basemap", "esri/layers/KMLLayer", "esri/layers/VectorTileLayer",
+    "esri/layers/TileLayer"], { css: true })
+      .then(([Map, MapView, Basemap, KMLLayer, VectorTileLayer, TileLayer]) => {
+        var layer = new KMLLayer({
+          url:
+            "https://kc08.top/public/files/huyen-quangngai.kmz"
+        });
 
-  const latLngCoords = polygonCoords[0].map(coord => L.latLng(coord[0], coord[1]));
+        // const map = new Map({
+        //   basemap: "gray-vector",
+        //   layers: [layer]
+        // });
 
-  const polygonStyle = {
-    fillColor: "#aac",
-    color: "#000",
-    weight: 2,
-    opacity: 1,
-    fillOpacity: 0.7
-  };
+        
 
-  return (
-    <MapContainer center={[14.975, 108.5833]} zoom={10} scrollWheelZoom={true} style={{height: '100%', width: "100%", position: 'relative'}}>
-      <BasemapLayer name="ImageryLabels" />
+        // var basemapToggle = new BasemapToggle({
+        //   view: view,
+        //   nextBasemap: "streets-vector"
+        // });
 
-      <TileLayer
-        attribution='Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community'
-        url="https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}"
-      />
+        // const featureLayer = new FeatureLayer({
+        //   url: 'https://basemaps.arcgis.com/arcgis/rest/services/World_Basemap_v2/VectorTileServer'
+        // });
 
-      <Polygon positions={[latLngCoords]} pathOptions={polygonStyle} />
-    </MapContainer>
-  );
-}
+        const vectorTileLayer = new VectorTileLayer({
+          portalItem: {
+            id: "72be31d1fa6a42fc895d9a3c0fd8aeef" // World Navigation Map
+          },
+          opacity: .75
+        });
 
-export default Map;
+        const basemap = new Basemap({
+          baseLayers: [
+            vectorTileLayer
+          ],
+        });
+
+        const map = new Map({
+          basemap: basemap,
+          layers: [layer]
+        });
+
+        const view = new MapView({
+          container: mapRef.current,
+          map,
+          center: [108.5833, 14.975],
+          zoom: 8
+        });
+
+        // Add the widget to the top-right corner of the view
+        view.ui.add(basemap, {
+          position: "top-right"
+        });
+
+        return () => {
+          if (view) {
+            // destroy the map view when the component is unmounted
+            view.destroy();
+          }
+        };
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  }, []);
+
+  return <div style={{ width: "100%", height: "calc(100vh - 135px)" }} ref={mapRef} />;
+};
+
+export default MapPage;
