@@ -14,33 +14,7 @@ import ModeIcon from '@mui/icons-material/Mode';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { Grid, IconButton, Tooltip } from '@mui/material'
 
-interface Data {
-  stt: number,
-  name: string
-  diadiem: string
-  x: number
-  y: number
-  nguonnuoc: string
-  phuongthuc:string
-  chedo:string
-}
-
-function createData(stt:number,name: string, diadiem: string, x: number, y: number,nguonnuoc:string,phuongthuc:string,chedo:string): Data {
-
-  return { stt,name, diadiem, x, y, nguonnuoc,phuongthuc,chedo }
-}
-
-const rows = [
-  createData(1,'Thủy điện Suối Tân', 'xã Chiềng Khoa, huyện Mộc Châu, tỉnh Sơn La', 1324171354, 3287263,'Suối Tân','KTSD nước bằng CT với các thông số như trong HSTK đã được cấp có thẩm quyền PD','Điều tiết ngày đêm'),
-  createData(2,'Thủy điện Suối Tân', 'xã Chiềng Khoa, huyện Mộc Châu, tỉnh Sơn La', 1324171354, 3287263,'Suối Tân','KTSD nước bằng CT với các thông số như trong HSTK đã được cấp có thẩm quyền PD','Điều tiết ngày đêm'),
-  createData(3,'Thủy điện Suối Tân', 'xã Chiềng Khoa, huyện Mộc Châu, tỉnh Sơn La', 1324171354, 3287263,'Suối Tân','KTSD nước bằng CT với các thông số như trong HSTK đã được cấp có thẩm quyền PD','Điều tiết ngày đêm'),
-  createData(4,'Thủy điện Suối Tân', 'xã Chiềng Khoa, huyện Mộc Châu, tỉnh Sơn La', 1324171354, 3287263,'Suối Tân','KTSD nước bằng CT với các thông số như trong HSTK đã được cấp có thẩm quyền PD','Điều tiết ngày đêm'),
-  createData(5,'Thủy điện Suối Tân', 'xã Chiềng Khoa, huyện Mộc Châu, tỉnh Sơn La', 1324171354, 3287263,'Suối Tân','KTSD nước bằng CT với các thông số như trong HSTK đã được cấp có thẩm quyền PD','Điều tiết ngày đêm'),
-  createData(8,'Thủy điện Suối Tân', 'xã Chiềng Khoa, huyện Mộc Châu, tỉnh Sơn La', 1324171354, 3287263,'Suối Tân','KTSD nước bằng CT với các thông số như trong HSTK đã được cấp có thẩm quyền PD','Điều tiết ngày đêm'),
-  
-]
-
-const TableList = () => {
+const TableList = ({ data }:any) => {
   // ** States
   const [page, setPage] = useState<number>(0)
   const [rowsPerPage, setRowsPerPage] = useState<number>(10)
@@ -122,56 +96,56 @@ const TableList = () => {
             </TableRow>
           </TableHead>
           <TableBody className='tableBody'>
-            {rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row,index) => {
+            {data.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((data:any,index:any) => {
               return (
-                <TableRow hover role='checkbox' tabIndex={-1} key={row.stt}>
+                <TableRow hover role='checkbox' tabIndex={-1} key={data.stt}>
                     <TableCell align="center" className='sticky-col start-col'>{index+1}</TableCell>
-                    <TableCell align="center" className='sticky-col start-col'>{row.name}</TableCell>
-                    <TableCell align="center">{row.diadiem}</TableCell>
-                    <TableCell align="center">{row.x}</TableCell>
-                    <TableCell align="center">{row.y}</TableCell>
-                    <TableCell align="center">{row.nguonnuoc}</TableCell>
-                    <TableCell align="center">{row.phuongthuc}</TableCell>
-                    <TableCell align="center">{row.chedo}</TableCell>
-                    <TableCell align="center">{row.chedo}</TableCell>
-                    <TableCell align="center">{row.chedo}</TableCell>
-                    <TableCell align="center">{row.chedo}</TableCell>
-                    <TableCell align="center">{row.chedo}</TableCell>
-                    <TableCell align="center">{row.chedo}</TableCell>
-                    <TableCell align="center">{row.chedo}</TableCell>
-                    <TableCell align="center">{row.chedo}</TableCell>
-                    <TableCell align="center">{row.chedo}</TableCell>
-                    <TableCell align="center">{row.chedo}</TableCell>
-                    <TableCell align="center">{row.chedo}</TableCell>
-                    <TableCell align="center">{row.chedo}</TableCell>
-                    <TableCell align="center">{row.chedo}</TableCell>
-                    <TableCell align="center">{row.chedo}</TableCell>
-                    <TableCell align="center">{row.chedo}</TableCell>
-                    <TableCell align="center">{row.chedo}</TableCell>
-                    <TableCell align="center">{row.chedo}</TableCell>
-                    <TableCell align="center">{row.chedo}</TableCell>
-                    <TableCell align="center">{row.chedo}</TableCell>
-                    <TableCell align="center">{row.chedo}</TableCell>
-                    <TableCell align="center">{row.chedo}</TableCell>
-                    <TableCell align="center">{row.chedo}</TableCell>
-                    <TableCell align="center">{row.chedo}</TableCell>
-                    <TableCell align="center">{row.chedo}</TableCell>
-                    <TableCell align="center">{row.chedo}</TableCell>
-                    <TableCell align="center">{row.chedo}</TableCell>
-                    <TableCell align="center">{row.chedo}</TableCell>
-                    <TableCell align="center">{row.chedo}</TableCell>
-                    <TableCell align="center">{row.chedo}</TableCell>
-                    <TableCell align="center">{row.chedo}</TableCell>
-                    <TableCell align="center">{row.chedo}</TableCell>
-                    <TableCell align="center">{row.chedo}</TableCell>
-                    <TableCell align="center">{row.chedo}</TableCell>
-                    <TableCell align="center">{row.chedo}</TableCell>
-                    <TableCell align="center">{row.chedo}</TableCell>
-                    <TableCell align="center">{row.chedo}</TableCell>
-                    <TableCell align="center">{row.chedo}</TableCell>
-                    <TableCell align="center">{row.chedo}</TableCell>
-                    <TableCell align="center">{row.chedo}</TableCell>
-                    <TableCell align="center">{row.chedo}</TableCell>                                    
+                    <TableCell align="center" className='sticky-col start-col'>{data.ConstructionName}</TableCell>
+                    <TableCell align="center">{data.ConstructionLocation}</TableCell>
+                    <TableCell align="center">{data.x}</TableCell>
+                    <TableCell align="center">{data.y}</TableCell>
+                    <TableCell align="center">{data.nguonnuoc}</TableCell>
+                    <TableCell align="center">{data.phuongthuc}</TableCell>
+                    <TableCell align="center">{data.chedo}</TableCell>
+                    <TableCell align="center">{data.chedo}</TableCell>
+                    <TableCell align="center">{data.chedo}</TableCell>
+                    <TableCell align="center">{data.chedo}</TableCell>
+                    <TableCell align="center">{data.chedo}</TableCell>
+                    <TableCell align="center">{data.chedo}</TableCell>
+                    <TableCell align="center">{data.chedo}</TableCell>
+                    <TableCell align="center">{data.chedo}</TableCell>
+                    <TableCell align="center">{data.chedo}</TableCell>
+                    <TableCell align="center">{data.chedo}</TableCell>
+                    <TableCell align="center">{data.chedo}</TableCell>
+                    <TableCell align="center">{data.chedo}</TableCell>
+                    <TableCell align="center">{data.chedo}</TableCell>
+                    <TableCell align="center">{data.chedo}</TableCell>
+                    <TableCell align="center">{data.chedo}</TableCell>
+                    <TableCell align="center">{data.chedo}</TableCell>
+                    <TableCell align="center">{data.chedo}</TableCell>
+                    <TableCell align="center">{data.chedo}</TableCell>
+                    <TableCell align="center">{data.chedo}</TableCell>
+                    <TableCell align="center">{data.chedo}</TableCell>
+                    <TableCell align="center">{data.chedo}</TableCell>
+                    <TableCell align="center">{data.chedo}</TableCell>
+                    <TableCell align="center">{data.chedo}</TableCell>
+                    <TableCell align="center">{data.chedo}</TableCell>
+                    <TableCell align="center">{data.chedo}</TableCell>
+                    <TableCell align="center">{data.chedo}</TableCell>
+                    <TableCell align="center">{data.chedo}</TableCell>
+                    <TableCell align="center">{data.chedo}</TableCell>
+                    <TableCell align="center">{data.chedo}</TableCell>
+                    <TableCell align="center">{data.chedo}</TableCell>
+                    <TableCell align="center">{data.chedo}</TableCell>
+                    <TableCell align="center">{data.chedo}</TableCell>
+                    <TableCell align="center">{data.chedo}</TableCell>
+                    <TableCell align="center">{data.chedo}</TableCell>
+                    <TableCell align="center">{data.chedo}</TableCell>
+                    <TableCell align="center">{data.chedo}</TableCell>
+                    <TableCell align="center">{data.chedo}</TableCell>
+                    <TableCell align="center">{data.chedo}</TableCell>
+                    <TableCell align="center">{data.chedo}</TableCell>
+                    <TableCell align="center">{data.chedo}</TableCell>                                    
                     <TableCell align="center" className='sticky-col end-col'>
                     <Grid container spacing={2}>
                       <Grid item xs={6}>
@@ -201,7 +175,7 @@ const TableList = () => {
       <TablePagination
         rowsPerPageOptions={[10, 25, 100]}
         component='div'
-        count={rows.length}
+        count={data.length}
         rowsPerPage={rowsPerPage}
         page={page}
         onPageChange={handleChangePage}

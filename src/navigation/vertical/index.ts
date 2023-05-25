@@ -53,17 +53,17 @@ const navigation = (): VerticalNavItemsType => {
         {
           icon: CircleOutline,
           title: 'Nước mặt',
-          path: '/cong-trinh/nuoc-mat'
+          path: '/quan-trac/nuoc-mat'
         },
         {
           icon: CircleOutline,
           title: 'Nước dưới đất',
-          path: '/cong-trinh/nuoc-duoi-dat'
+          path: '/quan-trac/nuoc-duoi-dat'
         },
         {
           icon: CircleOutline,
           title: 'Xả thải',
-          path: '/cong-trinh/xa-thai'
+          path: '/quan-trac/xa-thai'
         }
       ]
     },
@@ -91,7 +91,7 @@ const navigation = (): VerticalNavItemsType => {
     {
       title: 'Giám sát',
       icon: ChartSankey,
-      path: '#'
+      path: 'giam-sat'
     },
     {
       title: 'Thông tin - Báo cáo biểu mẫu',
@@ -101,17 +101,17 @@ const navigation = (): VerticalNavItemsType => {
     {
       title: 'Trữ lượng nước',
       icon: WaterIcon,
-      path: '/#'
+      path: '/tru-luong-nuoc'
     },
     {
       title: 'Nội dung khác',
       icon: More,
-      path: '#'
+      path: 'noi-dung-khac'
     },
     {
       title: 'Hướng dẫn sử dụng',
       icon: TagOutline,
-      path: '#'
+      path: 'huong-dan-su-dung'
     },
     {
       sectionTitle: 'Quản lý'

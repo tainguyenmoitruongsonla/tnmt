@@ -1,6 +1,6 @@
 // ** MUI Imports
 import { Grid, Box, Button, Typography, Autocomplete, TextField } from '@mui/material';
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 
 // ** Icons Imports
 
@@ -24,11 +24,42 @@ const complete2 = [
   {title: "Đợt 3"},
 ];
 
+interface Data {
+  stt: number,
+  name: string
+  diadiem: string
+  x: number
+  y: number
+  nguonnuoc: string
+  phuongthuc:string
+  chedo:string
+}
+
+function createData(stt:number,name: string, diadiem: string, x: number, y: number,nguonnuoc:string,phuongthuc:string,chedo:string): Data {
+  return { stt,name, diadiem, x, y, nguonnuoc,phuongthuc,chedo }
+}
 
 const SurfaceWater = () => {
   useEffect(() => {
     document.title = "Quản lý thông tin công trình nước mặt";
   }, []);
+
+  const [data, setData] = useState([]);
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  const fetchData = async () => {
+    try {
+      const response = await fetch('http://tnnsl.loc/api/Construction/list?BasinId=0&CommuneId=0&DistrictId=0&Keyword=&LicenseId=-1&LicensingAuthorities=-1&PageIndex=1&PageSize=0&ProvinceId=0&StartDate=-1&Status=true&TypeOfConstructionId=1'); // Thay đổi URL API tùy thuộc vào nguồn dữ liệu của bạn
+      const jsonData = await response.json();
+      console.log(jsonData.ListData)
+      setData(jsonData.ListData);
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    }
+  }; 
 
   return (
     <Grid container spacing={3}>
@@ -79,7 +110,7 @@ const SurfaceWater = () => {
           </Box>
         </Grid> 
        <Grid item xs={12} sm={12} md={12}>
-          <TableList />
+          <TableList data={data} />
        </Grid>
     </Grid>
   )
