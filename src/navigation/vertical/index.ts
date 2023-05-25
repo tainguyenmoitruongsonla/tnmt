@@ -8,6 +8,8 @@ import Information from 'mdi-material-ui/Information';
 import More from 'mdi-material-ui/More';
 import TagOutline from 'mdi-material-ui/TagOutline';
 import CircleOutline from 'mdi-material-ui/CircleOutline';
+import WaterIcon from '@mui/icons-material/Water';
+import DisplaySettingsIcon from '@mui/icons-material/DisplaySettings';
 import { Tv } from "@mui/icons-material";
 
 // ** Type import
@@ -26,6 +28,27 @@ const navigation = (): VerticalNavItemsType => {
     {
       title: 'Công trình',
       icon: Factory,
+      children: [
+        {
+          icon: CircleOutline,
+          title: 'Nước mặt',
+          path: '/cong-trinh/nuoc-mat'
+        },
+        {
+          icon: CircleOutline,
+          title: 'Nước dưới đất',
+          path: '/cong-trinh/nuoc-duoi-dat'
+        },
+        {
+          icon: CircleOutline,
+          title: 'Xả thải',
+          path: '/cong-trinh/xa-thai'
+        }
+      ]
+    },
+    {
+      title: 'Quan trắc',
+      icon: DisplaySettingsIcon,
       children: [
         {
           icon: CircleOutline,
@@ -74,6 +97,11 @@ const navigation = (): VerticalNavItemsType => {
       title: 'Thông tin - Báo cáo biểu mẫu',
       icon: Information,
       path: '/bao-cao-bieu-mau'
+    },
+    {
+      title: 'Trữ lượng nước',
+      icon: WaterIcon,
+      path: '/#'
     },
     {
       title: 'Nội dung khác',

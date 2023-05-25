@@ -32,7 +32,7 @@ const SurfaceWater = () => {
 
   return (
     <Grid container spacing={3}>
-       <Grid item xs={12} sm={12} md={12} sx={{height:'60vh'}}>
+       <Grid item xs={12} sm={12} md={12} sx={{height:'55vh', overflow:'hidden'}}>
           <ConstructionMap />
        </Grid>
        <Grid item xs={12} sm={12} md={12} className='_row _justifyContentBetween' >
