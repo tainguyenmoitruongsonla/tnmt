@@ -10,7 +10,9 @@ import TableBody from '@mui/material/TableBody'
 import TableCell from '@mui/material/TableCell'
 import TableContainer from '@mui/material/TableContainer'
 import TablePagination from '@mui/material/TablePagination'
-
+import ModeIcon from '@mui/icons-material/Mode';
+import DeleteIcon from '@mui/icons-material/Delete';
+import { Grid, IconButton, Tooltip } from '@mui/material'
 
 interface Data {
   stt: number,
@@ -34,7 +36,7 @@ const rows = [
   createData(3,'Thủy điện Suối Tân', 'xã Chiềng Khoa, huyện Mộc Châu, tỉnh Sơn La', 1324171354, 3287263,'Suối Tân','KTSD nước bằng CT với các thông số như trong HSTK đã được cấp có thẩm quyền PD','Điều tiết ngày đêm'),
   createData(4,'Thủy điện Suối Tân', 'xã Chiềng Khoa, huyện Mộc Châu, tỉnh Sơn La', 1324171354, 3287263,'Suối Tân','KTSD nước bằng CT với các thông số như trong HSTK đã được cấp có thẩm quyền PD','Điều tiết ngày đêm'),
   createData(5,'Thủy điện Suối Tân', 'xã Chiềng Khoa, huyện Mộc Châu, tỉnh Sơn La', 1324171354, 3287263,'Suối Tân','KTSD nước bằng CT với các thông số như trong HSTK đã được cấp có thẩm quyền PD','Điều tiết ngày đêm'),
-  createData(6,'Thủy điện Suối Tân', 'xã Chiềng Khoa, huyện Mộc Châu, tỉnh Sơn La', 1324171354, 3287263,'Suối Tân','KTSD nước bằng CT với các thông số như trong HSTK đã được cấp có thẩm quyền PD','Điều tiết ngày đêm'),
+  createData(8,'Thủy điện Suối Tân', 'xã Chiềng Khoa, huyện Mộc Châu, tỉnh Sơn La', 1324171354, 3287263,'Suối Tân','KTSD nước bằng CT với các thông số như trong HSTK đã được cấp có thẩm quyền PD','Điều tiết ngày đêm'),
   
 ]
 
@@ -71,7 +73,7 @@ const TableList = () => {
               <TableCell size='small' align="center" rowSpan={2}>Năm vận hành</TableCell>
               <TableCell size='small' align="center" colSpan={30}>Tọa độ đập chính</TableCell>
               <TableCell size='small' align="center" colSpan={3}>Thông tin giấy phép</TableCell>
-              <TableCell size='small' align="center" colSpan={3}>Tiền cấp quyền</TableCell>
+              <TableCell size='small' align="center" colSpan={2}>Tiền cấp quyền</TableCell>
               <TableCell size='small' align="center" rowSpan={2} className='sticky-col end-col'>Thao tác</TableCell>
             </TableRow>
             <TableRow>
@@ -116,14 +118,15 @@ const TableList = () => {
               {/* license fee */}
               <TableCell size='small' align="center">Số QĐ</TableCell>
               <TableCell size='small' align="center">Tổng tiền (đồng)</TableCell>
+            
             </TableRow>
           </TableHead>
           <TableBody className='tableBody'>
-            {rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map(row => {
+            {rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row,index) => {
               return (
-                <TableRow hover role='checkbox' tabIndex={-1} key={row.name}>
-                    <TableCell align="center">{row.stt}</TableCell>
-                    <TableCell align="center">{row.name}</TableCell>
+                <TableRow hover role='checkbox' tabIndex={-1} key={row.stt}>
+                    <TableCell align="center" className='sticky-col start-col'>{index+1}</TableCell>
+                    <TableCell align="center" className='sticky-col start-col'>{row.name}</TableCell>
                     <TableCell align="center">{row.diadiem}</TableCell>
                     <TableCell align="center">{row.x}</TableCell>
                     <TableCell align="center">{row.y}</TableCell>
@@ -154,7 +157,41 @@ const TableList = () => {
                     <TableCell align="center">{row.chedo}</TableCell>
                     <TableCell align="center">{row.chedo}</TableCell>
                     <TableCell align="center">{row.chedo}</TableCell>
-                    
+                    <TableCell align="center">{row.chedo}</TableCell>
+                    <TableCell align="center">{row.chedo}</TableCell>
+                    <TableCell align="center">{row.chedo}</TableCell>
+                    <TableCell align="center">{row.chedo}</TableCell>
+                    <TableCell align="center">{row.chedo}</TableCell>
+                    <TableCell align="center">{row.chedo}</TableCell>
+                    <TableCell align="center">{row.chedo}</TableCell>
+                    <TableCell align="center">{row.chedo}</TableCell>
+                    <TableCell align="center">{row.chedo}</TableCell>
+                    <TableCell align="center">{row.chedo}</TableCell>
+                    <TableCell align="center">{row.chedo}</TableCell>
+                    <TableCell align="center">{row.chedo}</TableCell>
+                    <TableCell align="center">{row.chedo}</TableCell>
+                    <TableCell align="center">{row.chedo}</TableCell>
+                    <TableCell align="center">{row.chedo}</TableCell>                                    
+                    <TableCell align="center" className='sticky-col end-col'>
+                    <Grid container spacing={2}>
+                      <Grid item xs={6}>
+                        <Tooltip title="Chỉnh sửa công trình">
+                          <IconButton>
+                            <ModeIcon/>
+                          </IconButton>
+                        </Tooltip>
+                      </Grid>
+                      <Grid item xs={6}>
+                        <Tooltip title="Xóa công trình">
+                          <IconButton>
+                            <DeleteIcon />
+                          </IconButton>
+                        </Tooltip>
+                      </Grid>
+                     
+                    </Grid>
+                    </TableCell>
+                   
                 </TableRow>
               )
             })}

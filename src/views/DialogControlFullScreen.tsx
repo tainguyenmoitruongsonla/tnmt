@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { useTheme } from "@mui/material/styles";
-import { Dialog, DialogContent, Slide, AppBar, Toolbar,Typography,} from '@mui/material';
+import { Dialog, DialogContent, Slide, AppBar, Toolbar,Typography, IconButton,} from '@mui/material';
 import { TransitionProps } from '@mui/material/transitions';
+import CloseIcon from '@mui/icons-material/Close';
 
 const Transition = React.forwardRef(function Transition(
   props: TransitionProps & {
@@ -19,6 +20,7 @@ interface DialogControlProps {
 const DialogsControlFullScreen = ({ children }: DialogControlProps) => {
   const [dialogContent, setDialogContent] = useState<React.ReactNode>(null);
   const [dialogTitle, setDialogTitle] = useState<React.ReactNode>(null);
+  const [dialogIcon, setDialogIcon] = useState<React.ReactNode>(null);
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
   const openDialogs = (content: React.ReactNode, title: React.ReactNode) => {
@@ -46,6 +48,7 @@ const DialogsControlFullScreen = ({ children }: DialogControlProps) => {
                 <Typography sx={{ ml: 2, flex: 1, color: `${theme.palette.text.light}` }} variant="h6" component="div">
                   {dialogTitle}
                 </Typography>
+                <CloseIcon onClick={closeDialogs} />
               </Toolbar>
             </AppBar>
             <DialogContent>
