@@ -10,8 +10,7 @@ import TableBody from '@mui/material/TableBody'
 import TableCell from '@mui/material/TableCell'
 import TableContainer from '@mui/material/TableContainer'
 import TablePagination from '@mui/material/TablePagination'
-import ModeIcon from '@mui/icons-material/Mode';
-import DeleteIcon from '@mui/icons-material/Delete';
+import { EditNote, Delete } from "@mui/icons-material";
 import { Grid, IconButton, Tooltip } from '@mui/material'
 
 const TableList = ({ data }:any) => {
@@ -100,72 +99,82 @@ const TableList = ({ data }:any) => {
               return (
                 <TableRow hover role='checkbox' tabIndex={-1} key={data.stt}>
                     <TableCell align="center" className='sticky-col start-col'>{index+1}</TableCell>
-                    <TableCell align="center" className='sticky-col start-col'>{data.ConstructionName}</TableCell>
-                    <TableCell align="center">{data.ConstructionLocation}</TableCell>
-                    <TableCell align="center">{data.x}</TableCell>
-                    <TableCell align="center">{data.y}</TableCell>
-                    <TableCell align="center">{data.nguonnuoc}</TableCell>
-                    <TableCell align="center">{data.phuongthuc}</TableCell>
-                    <TableCell align="center">{data.chedo}</TableCell>
-                    <TableCell align="center">{data.chedo}</TableCell>
-                    <TableCell align="center">{data.chedo}</TableCell>
-                    <TableCell align="center">{data.chedo}</TableCell>
-                    <TableCell align="center">{data.chedo}</TableCell>
-                    <TableCell align="center">{data.chedo}</TableCell>
-                    <TableCell align="center">{data.chedo}</TableCell>
-                    <TableCell align="center">{data.chedo}</TableCell>
-                    <TableCell align="center">{data.chedo}</TableCell>
-                    <TableCell align="center">{data.chedo}</TableCell>
-                    <TableCell align="center">{data.chedo}</TableCell>
-                    <TableCell align="center">{data.chedo}</TableCell>
-                    <TableCell align="center">{data.chedo}</TableCell>
-                    <TableCell align="center">{data.chedo}</TableCell>
-                    <TableCell align="center">{data.chedo}</TableCell>
-                    <TableCell align="center">{data.chedo}</TableCell>
-                    <TableCell align="center">{data.chedo}</TableCell>
-                    <TableCell align="center">{data.chedo}</TableCell>
-                    <TableCell align="center">{data.chedo}</TableCell>
-                    <TableCell align="center">{data.chedo}</TableCell>
-                    <TableCell align="center">{data.chedo}</TableCell>
-                    <TableCell align="center">{data.chedo}</TableCell>
-                    <TableCell align="center">{data.chedo}</TableCell>
-                    <TableCell align="center">{data.chedo}</TableCell>
-                    <TableCell align="center">{data.chedo}</TableCell>
-                    <TableCell align="center">{data.chedo}</TableCell>
-                    <TableCell align="center">{data.chedo}</TableCell>
-                    <TableCell align="center">{data.chedo}</TableCell>
-                    <TableCell align="center">{data.chedo}</TableCell>
-                    <TableCell align="center">{data.chedo}</TableCell>
-                    <TableCell align="center">{data.chedo}</TableCell>
-                    <TableCell align="center">{data.chedo}</TableCell>
-                    <TableCell align="center">{data.chedo}</TableCell>
-                    <TableCell align="center">{data.chedo}</TableCell>
-                    <TableCell align="center">{data.chedo}</TableCell>
-                    <TableCell align="center">{data.chedo}</TableCell>
-                    <TableCell align="center">{data.chedo}</TableCell>
-                    <TableCell align="center">{data.chedo}</TableCell>
-                    <TableCell align="center">{data.chedo}</TableCell>
-                    <TableCell align="center">{data.chedo}</TableCell>                                    
+                    <TableCell  className='sticky-col start-col'>{data.ConstructionName}</TableCell>
+                    <TableCell >{data.ConstructionLocation}</TableCell>
+                    <TableCell >{data.X}</TableCell>
+                    <TableCell >{data.Y}</TableCell>
+                    <TableCell >{data.ExploitedWS}</TableCell>
+                    <TableCell >{data.MiningMethod}</TableCell>
+                    <TableCell >{data.MiningMode}</TableCell>
+                    <TableCell >{data.MiningPurpose}</TableCell>
+                    <TableCell >{data.BasinName}</TableCell>
+                    <TableCell >{data.ConstructionTime}</TableCell>
+                    <TableCell >{data.StartDate}</TableCell>
+                    <TableCell >{data.ConstructionLevel}</TableCell>
+                    <TableCell >{data.BasinArea}</TableCell>
+                    <TableCell >{data.RainAvgForYears}</TableCell>
+                    <TableCell >{data.FlowAvgForYears}</TableCell>
+                    <TableCell >{data.Power}</TableCell>
+                    <TableCell >{data.GuaranteedPower}</TableCell>
+                    <TableCell >{data.DamHeight}</TableCell>
+                    <TableCell >{data.DamWidth}</TableCell>
+                    <TableCell >{data.DamElevation}</TableCell>
+                    <TableCell >{data.MaximumFlow}</TableCell>
+                    <TableCell >{data.MinimumFlow}</TableCell>
+                    <TableCell >{data.GuaranteedFlow}</TableCell>
+                    <TableCell >{data.Hmax}</TableCell>
+                    <TableCell >{data.Hmin}</TableCell>
+                    <TableCell >{data.Htt}</TableCell>
+                    <TableCell >{data.DeadWL}</TableCell>
+                    <TableCell >{data.RiseWL}</TableCell>
+                    <TableCell >{data.DesignFloodLevel}</TableCell>
+                    <TableCell >{data.CheckFloodWL}</TableCell>
+                    <TableCell >{data.TotalCapacity}</TableCell>
+                    <TableCell >{data.DeadCapacity}</TableCell>
+                    <TableCell >{data.UsefulCapacity}</TableCell>
+                    <TableCell >{data.PumpNumber}</TableCell>
+                    <TableCell >{data.FlowDesigned}</TableCell>
+                    <TableCell >{data.RealityFlow}</TableCell>
+                    <TableCell >{data.WateringAreaDesigned}</TableCell>
+                    <TableCell >{data.AverageDischargeFlow}</TableCell>
+                    <TableCell >{data.MinimumPumpTime}</TableCell>
+                    <TableCell >{data.MaximumPumpTime}</TableCell>
+                    <TableCell ></TableCell>
+                    <TableCell >{data.License.LicenseNumber}</TableCell>
+                    <TableCell >{data.License.IssueDate}</TableCell>
+                    <TableCell >{data.License.Duration}</TableCell>
+                    <TableCell >
+                      {
+                        data.LicenseFee.map((e:any,index:any) => {
+                          return (<span key={index}>{e.LicenseFeeNumber}</span>)
+                        })
+                      }
+                    </TableCell>
+                    <TableCell >
+                      {
+                        data.LicenseFee.map((e:any,index:any) => {
+                          return (<span key={index}>{e.TotalMoney}</span>)
+                        })
+                      }
+                    </TableCell>                                
                     <TableCell align="center" className='sticky-col end-col'>
                     <Grid container spacing={2}>
                       <Grid item xs={6}>
                         <Tooltip title="Chỉnh sửa công trình">
                           <IconButton>
-                            <ModeIcon/>
+                            <EditNote className='tableActionBtn' />
                           </IconButton>
                         </Tooltip>
                       </Grid>
                       <Grid item xs={6}>
                         <Tooltip title="Xóa công trình">
                           <IconButton>
-                            <DeleteIcon />
+                            <Delete className='tableActionBtn deleteBtn' />
                           </IconButton>
                         </Tooltip>
                       </Grid>
-                     
                     </Grid>
                     </TableCell>
-                   
                 </TableRow>
               )
             })}
