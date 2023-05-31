@@ -198,3 +198,32 @@ code[class*='language-'] {
 .btn-link:hover {
   color: cornflowerblue !important;
 }
+
+.license_status {
+  white-space: nowrap !important;
+  border-radius: 25px !important;
+  text-align: center !important;
+  font-size: 11px !important;
+  font-weight: bold !important;
+  height: 25px !important;
+  line-height: 25px !important;
+  padding: 0 10px !important;
+}
+
+.hsd-danger {
+  color: red;
+  background-color: #ff7875;
+  border: 1px solid red;
+}
+
+.hsd-warning {
+  color: #af6e08;
+  background-color: #ffc069;
+  border: 1px solid orange;
+}
+
+.hsd-success {
+  color: green;
+  background-color: #b7eb8f;
+  border: 1px solid green;
+}

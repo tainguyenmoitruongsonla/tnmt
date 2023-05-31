@@ -12,6 +12,8 @@ import TableContainer from '@mui/material/TableContainer'
 import TablePagination from '@mui/material/TablePagination'
 import { EditNote, Delete } from "@mui/icons-material";
 import { Grid, IconButton, Tooltip } from '@mui/material'
+import FormatDate from 'src/views//FormatDate'
+import CheckEffect from './CheckEffect'
 
 const TableList = ({ data }:any) => {
   // ** States
@@ -33,64 +35,37 @@ const TableList = ({ data }:any) => {
         <Table aria-label='sticky table' className='mainTable'>
           <TableHead className='tableHead'>
             <TableRow>
-              <TableCell size='small' align="center" rowSpan={2} className='sticky-col start-col'>STT</TableCell>
-              <TableCell size='small' align="center" rowSpan={2} className=' sticky-col start-col'>Tên công trình</TableCell>
-              <TableCell size='small' align="center" rowSpan={2}>Địa điểm</TableCell>
-              <TableCell size='small' align="center" colSpan={2}>Tọa độ đập chính</TableCell>
-              <TableCell size='small' align="center" rowSpan={2}>Nguồn nước khai thác</TableCell>
-              <TableCell size='small' align="center" rowSpan={2}>Phương thưc khai thác</TableCell>
-              <TableCell size='small' align="center" rowSpan={2}>Chế độ KT</TableCell>
-              <TableCell size='small' align="center" rowSpan={2}>Mục đích KT</TableCell>
-              <TableCell size='small' align="center" rowSpan={2}>Tiểu vùng quy hoạch</TableCell>
-              <TableCell size='small' align="center" rowSpan={2}>Năm xây dựng</TableCell>
-              <TableCell size='small' align="center" rowSpan={2}>Năm vận hành</TableCell>
-              <TableCell size='small' align="center" colSpan={30}>Tọa độ đập chính</TableCell>
-              <TableCell size='small' align="center" colSpan={3}>Thông tin giấy phép</TableCell>
-              <TableCell size='small' align="center" colSpan={2}>Tiền cấp quyền</TableCell>
+              <TableCell size='small' align="center" rowSpan={2} className='sticky-col start-col'>Số GP</TableCell>
+              <TableCell size='small' align="center" rowSpan={2} className=' sticky-col start-col'>Hiệu lực GP</TableCell>
+              <TableCell size='small' align="center" rowSpan={2}>Ngày ký</TableCell>
+              <TableCell size='small' align="center" rowSpan={2}>Thời hạn</TableCell>
+              <TableCell size='small' align="center" rowSpan={2}>Ngày có hiệu lực</TableCell>
+              <TableCell size='small' align="center" rowSpan={2}>Ngày hết hiệu lực</TableCell>
+              <TableCell size='small' align="center" rowSpan={2}>Loại hình</TableCell>
+              <TableCell size='small' align="center" rowSpan={2}>Tên chủ GP</TableCell>
+              <TableCell size='small' align="center" rowSpan={2}>Địa chỉ chủ GP</TableCell>
+              <TableCell size='small' align="center" colSpan={2}>Thông tin GP cũ</TableCell>
+              <TableCell size='small' align="center" colSpan={8}>Thông tin CT</TableCell>
+              <TableCell size='small' align="center" colSpan={3}>Tiền cấp quyền</TableCell>
               <TableCell size='small' align="center" rowSpan={2} className='sticky-col end-col'>Thao tác</TableCell>
             </TableRow>
             <TableRow>
               {/* lat,long */}
-              <TableCell size='small' align="center">X (m)</TableCell>
-              <TableCell size='small' align="center">Y (m)</TableCell>
+              <TableCell size='small' align="center">Số GP cũ</TableCell>
+              <TableCell size='small' align="center">Ngày ký</TableCell>
               {/* contruction specifications */}
-              <TableCell size='small' align="center">Cấp CT</TableCell> 
-              <TableCell size='small' align="center">F lưu vực <br />(km2) </TableCell>
-              <TableCell size='small' align="center">X <sub>TB năm</sub> <br />(m)</TableCell>
-              <TableCell size='small' align="center">Q <sub>TB năm</sub><br />(m3/s)</TableCell>
-              <TableCell size='small' align="center">CS lắp máy (MW)</TableCell>
-              <TableCell size='small' align="center">CS <br /> đảm bảo(MW)</TableCell>
-              <TableCell size='small' align="center">Chiều cao <br /> đập (m)</TableCell>
-              <TableCell size='small' align="center">YChiều dài <br />đập (m)</TableCell>
-              <TableCell size='small' align="center">Cao trình <br />đập (m)</TableCell>
-              <TableCell size='small' align="center">Q<sub>max</sub>(m<sup>3</sup>/s)</TableCell>
-              <TableCell size='small' align="center">Q<sub>TT</sub>(m<sup>3</sup>/s)</TableCell>
-              <TableCell size='small' align="center">Q<sub>đảm bảo</sub>(m<sup>3</sup>/s)</TableCell>
-              <TableCell size='small' align="center">H<sub>max</sub> (m) </TableCell>
-              <TableCell size='small' align="center">H<sub>min</sub> (m) </TableCell>
-              <TableCell size='small' align="center">H<sub>TT</sub></TableCell>
-              <TableCell size='small' align="center">MNC(m)</TableCell>
-              <TableCell size='small' align="center">MNDBT(m)</TableCell>
-              <TableCell size='small' align="center">MNLTK(m)</TableCell>
-              <TableCell size='small' align="center">MNLKT(m)</TableCell>
-              <TableCell size='small' align="center">W<sub>toàn bộ</sub>(triệu m<sup>3</sup>)</TableCell>
-              <TableCell size='small' align="center">W<sub> chết </sub>(triệu m<sup>3</sup>)</TableCell>
-              <TableCell size='small' align="center">W<sub>hữu ích</sub>(triệu m<sup>3</sup>)</TableCell>
-              <TableCell size='small' align="center">Số máy bơm</TableCell>
-              <TableCell size='small' align="center">Q<sub>TK</sub> (m<sup>3</sup>/h)</TableCell>
-              <TableCell size='small' align="center">Q<sub>TT</sub> (m<sup>3</sup>/h)</TableCell>
-              <TableCell size='small' align="center">F<sub>tưới TK</sub> (ha)</TableCell>
-              <TableCell size='small' align="center">F<sub>tưới TT</sub> (ha)</TableCell>
-              <TableCell size='small' align="center">T<sub>bơm TB</sub>(h)</TableCell>
-              <TableCell size='small' align="center">T<sub>bơm min</sub>(h)</TableCell>
-              <TableCell size='small' align="center">T<sub>bơm max</sub></TableCell>
-              {/* license */}
-              <TableCell size='small' align="center">Số GP</TableCell>
-              <TableCell size='small' align="center">Ngày cấp</TableCell>
-              <TableCell size='small' align="center">Thời hạn</TableCell>
+              <TableCell size='small' align="center">Tên Công trình</TableCell> 
+              <TableCell size='small' align="center">Địa điểm công trình </TableCell>
+              <TableCell size='small' align="center">Loại hình <br /> công trình</TableCell>
+              <TableCell size='small' align="center">Xã</TableCell>
+              <TableCell size='small' align="center">Huyện</TableCell>
+              <TableCell size='small' align="center">Nguồn nước khai thác</TableCell>
+              <TableCell size='small' align="center">Lưu vực</TableCell>
+              <TableCell size='small' align="center">Tiểu vùng quy hoạch</TableCell>
               {/* license fee */}
               <TableCell size='small' align="center">Số QĐ</TableCell>
-              <TableCell size='small' align="center">Tổng tiền (đồng)</TableCell>
+              <TableCell size='small' align="center">Ngày ký</TableCell>
+              <TableCell size='small' align="center">Tổng tiền (VNĐ)</TableCell>
             
             </TableRow>
           </TableHead>
@@ -107,54 +82,29 @@ const TableList = ({ data }:any) => {
               ) : (
                 data.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((data:any,index:any) => {
                   return (
-                    <TableRow hover role='checkbox' tabIndex={-1} key={data.stt}>
-                        <TableCell align="center" className='sticky-col start-col'>{index+1}</TableCell>
-                        <TableCell  className='sticky-col start-col'>{data.LicenseNumber}</TableCell>
-                        <TableCell ></TableCell>
-                        <TableCell ></TableCell>
-                        <TableCell ></TableCell>
-                        <TableCell ></TableCell>
-                        <TableCell ></TableCell>
-                        <TableCell ></TableCell>
-                        <TableCell ></TableCell>
-                        <TableCell ></TableCell>
-                        <TableCell ></TableCell>
-                        <TableCell ></TableCell>
-                        <TableCell ></TableCell>
-                        <TableCell ></TableCell>
-                        <TableCell ></TableCell>
-                        <TableCell ></TableCell>
-                        <TableCell ></TableCell>
-                        <TableCell ></TableCell>
-                        <TableCell ></TableCell>
-                        <TableCell ></TableCell>
-                        <TableCell ></TableCell>
-                        <TableCell ></TableCell>
-                        <TableCell ></TableCell>
-                        <TableCell ></TableCell>
-                        <TableCell ></TableCell>
-                        <TableCell ></TableCell>
-                        <TableCell ></TableCell>
-                        <TableCell ></TableCell>
-                        <TableCell ></TableCell>
-                        <TableCell ></TableCell>
-                        <TableCell ></TableCell>
-                        <TableCell ></TableCell>
-                        <TableCell ></TableCell>
-                        <TableCell ></TableCell>
-                        <TableCell ></TableCell>
-                        <TableCell ></TableCell>
-                        <TableCell ></TableCell>
-                        <TableCell ></TableCell>
-                        <TableCell ></TableCell>
-                        <TableCell ></TableCell>
-                        <TableCell ></TableCell>
-                        <TableCell ></TableCell>
-                        <TableCell ></TableCell>
-                        <TableCell ></TableCell>
-                        <TableCell ></TableCell>
-                        <TableCell ></TableCell>
-                        <TableCell ></TableCell>                                
+                    <TableRow hover role='checkbox' tabIndex={-1} key={index}>
+                        <TableCell align="center" className='sticky-col start-col'>{data.LicenseNumber}</TableCell>
+                        <TableCell><CheckEffect data={data} /></TableCell>
+                        <TableCell><FormatDate time={data.SignDate} /></TableCell>
+                        <TableCell>{data.Duration}</TableCell>
+                        <TableCell><FormatDate time={data.IssueDate} /></TableCell>
+                        <TableCell><FormatDate time={data.ExpireDate} /></TableCell>
+                        <TableCell>{data.ConstructionType}</TableCell>
+                        <TableCell>{data.LicenseHolderName}</TableCell>
+                        <TableCell>{data.LicenseHolderAddress}</TableCell>
+                        <TableCell></TableCell>
+                        <TableCell></TableCell>
+                        <TableCell></TableCell>
+                        <TableCell></TableCell>
+                        <TableCell></TableCell>
+                        <TableCell></TableCell>
+                        <TableCell></TableCell>
+                        <TableCell></TableCell>
+                        <TableCell></TableCell>
+                        <TableCell></TableCell>
+                        <TableCell></TableCell>
+                        <TableCell></TableCell>
+                        <TableCell></TableCell>                                
                         <TableCell align="center" className='sticky-col end-col'>
                         <Grid container spacing={2}>
                           <Grid item xs={6}>
