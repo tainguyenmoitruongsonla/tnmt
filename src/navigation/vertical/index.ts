@@ -73,12 +73,27 @@ const navigation = (): VerticalNavItemsType => {
       children: [
         {
           icon: CircleOutline,
+          title: 'Quản lý cấp phép',
+          path: '/giay-phep/quan-ly'
+        },
+        {
+          icon: CircleOutline,
           title: 'Nước mặt',
           path: '/giay-phep/nuoc-mat'
         },
         {
           icon: CircleOutline,
           title: 'KTSD NDĐ',
+          path: '/giay-phep/nuoc-duoi-dat'
+        },
+        {
+          icon: CircleOutline,
+          title: 'Thăm dò NDĐ',
+          path: '/giay-phep/nuoc-duoi-dat'
+        },
+        {
+          icon: CircleOutline,
+          title: 'Hành nghề khoan NDĐ',
           path: '/giay-phep/nuoc-duoi-dat'
         },
         {
@@ -91,7 +106,33 @@ const navigation = (): VerticalNavItemsType => {
     {
       title: 'Giám sát',
       icon: ChartSankey,
-      path: 'giam-sat'
+      children: [
+        {
+          icon: CircleOutline,
+          title: 'Nước mặt',
+          path: '/giam-sat/nuoc-mat'
+        },
+        {
+          icon: CircleOutline,
+          title: 'KTSD NDĐ',
+          path: '/giam-sat/khai-thac-ndd'
+        },
+        {
+          icon: CircleOutline,
+          title: 'Thăm dò NDĐ',
+          path: '/giam-sat/tham-do-ndd'
+        },
+        {
+          icon: CircleOutline,
+          title: 'Hành nghề khoan NDĐ',
+          path: '/giam-sat/hanh-nghe-khoan-ndd'
+        },
+        {
+          icon: CircleOutline,
+          title: 'Xả thải',
+          path: '/giam-sat/xa-thai'
+        }
+      ]
     },
     {
       title: 'Thông tin - Báo cáo biểu mẫu',
