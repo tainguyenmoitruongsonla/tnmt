@@ -14,6 +14,7 @@ import { EditNote, Delete } from "@mui/icons-material";
 import { Grid, IconButton, Tooltip } from '@mui/material'
 import FormatDate from 'src/views//FormatDate'
 import CheckEffect from './CheckEffect'
+import ShowFilePDF from '../ShowFilePDF'
 
 const TableList = ({ data }:any) => {
   // ** States
@@ -83,7 +84,9 @@ const TableList = ({ data }:any) => {
                 data.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((data:any,index:any) => {
                   return (
                     <TableRow hover role='checkbox' tabIndex={-1} key={index}>
-                        <TableCell align="center" className='sticky-col start-col'>{data.LicenseNumber}</TableCell>
+                        <TableCell className='sticky-col start-col'>
+                          <ShowFilePDF src={data.LicenseFile} name={data.LicenseNumber} />
+                        </TableCell>
                         <TableCell><CheckEffect data={data} /></TableCell>
                         <TableCell><FormatDate time={data.SignDate} /></TableCell>
                         <TableCell>{data.Duration}</TableCell>

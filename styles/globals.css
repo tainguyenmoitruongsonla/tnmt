@@ -94,6 +94,7 @@ code[class*='language-'] {
 
 .btn{
   border-radius: 0 !important;
+  cursor: pointer;
 }
 
 .addNewBtn{
@@ -195,6 +196,13 @@ code[class*='language-'] {
   cursor: pointer;
   color: #007bff !important;
 }
+
+.btnShowFilePdf{
+  color: #0077df !important;
+  cursor: pointer !important;
+  font-size: 14px !important;
+}
+
 .btn-link:hover {
   color: cornflowerblue !important;
 }
@@ -226,4 +234,10 @@ code[class*='language-'] {
   color: green;
   background-color: #b7eb8f;
   border: 1px solid green;
+}
+
+.DialogControlShowPDF .MuiDialog-container{
+  width: 55vw;
+  right: 0;
+  position: absolute;
 }

@@ -17,7 +17,7 @@ interface DialogControlProps {
   children: (openDialogs: (content: React.ReactNode, title: React.ReactNode) => void, closeDialogs: () => void) => React.ReactNode;
 }
 
-const DialogsControlFullScreen = ({ children }: DialogControlProps) => {
+const DialogControlShowPDF = ({ children }: DialogControlProps) => {
   const [dialogContent, setDialogContent] = useState<React.ReactNode>(null);
   const [dialogTitle, setDialogTitle] = useState<React.ReactNode>(null);
   const [dialogIcon, setDialogIcon] = useState<React.ReactNode>(null);
@@ -40,7 +40,7 @@ const DialogsControlFullScreen = ({ children }: DialogControlProps) => {
   return (
     <>
       {children(openDialogs, closeDialogs)}
-      <Dialog open={isOpen} onClose={closeDialogs} fullScreen TransitionComponent={Transition}  sx={{zIndex:1201}}>
+      <Dialog open={isOpen} onClose={closeDialogs} fullScreen TransitionComponent={Transition} className='DialogControlShowPDF'  sx={{zIndex:1201}}>
         {dialogContent && (
           <>
             <AppBar sx={{ position: 'relative' }}>
@@ -51,7 +51,7 @@ const DialogsControlFullScreen = ({ children }: DialogControlProps) => {
                 <CloseIcon className='btn' onClick={closeDialogs} />
               </Toolbar>
             </AppBar>
-            <DialogContent>
+            <DialogContent sx={{p:0}}>
                 {dialogContent}
             </DialogContent>
           </>
@@ -61,4 +61,4 @@ const DialogsControlFullScreen = ({ children }: DialogControlProps) => {
   );
 };
 
-export default DialogsControlFullScreen;
+export default DialogControlShowPDF;
