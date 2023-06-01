@@ -56,9 +56,6 @@ code[class*='language-'] {
   color: rgba(231, 227, 252, 0.87) !important;
 }
 
-.mainTable{
-  margin-top: 1.25rem;
-}
 .mainTable .sticky-col {
   position: sticky !important;
   background: #b0d3ff;
