@@ -1,4 +1,6 @@
+
 // ** MUI Imports
+
 import {Card, CardContent, Grid} from '@mui/material';
 
 // ** Chart
@@ -55,8 +57,9 @@ const LicenseBarChart = () => {
       <CardContent>
         <Grid container spacing={3}>
           <Grid item xs={12} md={12} height="100%">
-            
+
             {/* Chart */}
+
             <div style={{ width: '100%', height: '400px' }}>
                 <ResponsiveContainer width="100%" height="100%">
                     <BarChart data={data} width={500} height={350}>
