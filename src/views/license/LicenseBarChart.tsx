@@ -17,12 +17,9 @@ const data = [
 const COLORS = ['rgb(106, 179, 230)', 'rgb(0, 61, 126)', 'rgb(125, 95, 58)', 'rgb(0, 178, 151)', 'rgb(244, 153, 23)'];
 const CHARTS_LEGEND = ['KTSD nước mặt', 'KTSD nước dưới đất', 'Thăm dò nước dưới đất', 'Hành nghề khoan', 'Xả thải vào nguồn nước'];
 
-const prevStackIndex = -1;
-
 const renderCustomizedLabel = (props:any) => {
     const { x, y, width, height, value, index  } = props;
     const stackData = data[index];
-    const stackTotal = stackData['KTSD nước mặt'] + stackData['KTSD nước dưới đất'] + stackData['Thăm dò nước dưới đất'] + stackData['Hành nghề khoan'] + stackData['Xả thải vào nguồn nước']
 
     return (
       <g>
@@ -31,12 +28,20 @@ const renderCustomizedLabel = (props:any) => {
             {value}
         </text>
         : ''}
-        {
-            index !== prevStackIndex ? 
-            <text x={x + width / 2} y={y - 20} fill="#000" textAnchor="middle">
-                Tổng: {stackTotal}
-            </text> : ''
-        }
+      </g>
+    );
+  };
+
+  const renderTotalLabel = (props:any) => {
+    const { x, y, width, value, index  } = props;
+    const stackData = data[index];
+    const stackTotal = stackData['KTSD nước mặt'] + stackData['KTSD nước dưới đất'] + stackData['Thăm dò nước dưới đất'] + stackData['Hành nghề khoan'] + stackData['Xả thải vào nguồn nước']
+
+    return (
+      <g>
+        <text x={x + width / 2} y={y - 20} fill="#000" textAnchor="middle">
+          Tổng: {stackTotal}
+        </text>
       </g>
     );
   };
@@ -59,6 +64,8 @@ const LicenseBarChart = () => {
                             {CHARTS_LEGEND.map((label, index) => (
                                 <Bar key={label} dataKey={label} stackId="a" fill={COLORS[index]}>
                                     <LabelList dataKey={label} content={renderCustomizedLabel} />
+                                    
+                                    { index == 4 ? <LabelList dataKey={label} content={renderTotalLabel} /> : '' }
                                 </Bar>
                             ))}
                     </BarChart>
