@@ -1,10 +1,4 @@
-
-// ** MUI Imports
-
 import {Card, CardContent, Grid} from '@mui/material';
-
-// ** Chart
-
 import { ResponsiveContainer, LabelList, BarChart, Bar, Tooltip, Legend, YAxis, XAxis } from "recharts";
 
 const data = [
@@ -38,8 +32,6 @@ const renderCustomizedLabel = (props:any) => {
         </text>
         : ''}
         {
-            // Display the total value only for the first bar in the stack
-
             index !== prevStackIndex ? 
             <text x={x + width / 2} y={y - 20} fill="#000" textAnchor="middle">
                 Tổng: {stackTotal}
@@ -57,9 +49,6 @@ const LicenseBarChart = () => {
       <CardContent>
         <Grid container spacing={3}>
           <Grid item xs={12} md={12} height="100%">
-
-            {/* Chart */}
-
             <div style={{ width: '100%', height: '400px' }}>
                 <ResponsiveContainer width="100%" height="100%">
                     <BarChart data={data} width={500} height={350}>
