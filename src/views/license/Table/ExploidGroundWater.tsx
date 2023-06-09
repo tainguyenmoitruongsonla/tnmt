@@ -244,6 +244,7 @@ const TableExploidGroundWater = ({ data }:any) => {
       }
     </Paper>
   )
+  
 }
 
 export default TableExploidGroundWater

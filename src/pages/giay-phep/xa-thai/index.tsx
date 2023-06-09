@@ -1,6 +1,6 @@
 // ** MUI Imports
-import { Grid, Box, Button, Typography, Autocomplete, TextField, Card, CardContent } from '@mui/material';
-import { useEffect, useState } from 'react'
+import { Grid, Box, Button, Autocomplete, TextField, Card, CardContent } from '@mui/material';
+import { useEffect } from 'react'
 
 // ** Icons Imports
 
@@ -8,7 +8,6 @@ import SearchIcon from '@mui/icons-material/Search';
 
 // ** Components Imports
 import ConstructionMap from 'src/views/construction'
-import TableList from 'src/views/license/TableList';
 import CreateConstruction from 'src/views/construction/CreateConstruction';
 import SearchLicense from 'src/views/license/Search';
 import CountLicense from 'src/views/license/CountLicense';
@@ -738,7 +737,7 @@ const SurfaceWater = () => {
           </Box>
         </Grid> 
        <Grid item xs={12} sm={12} md={12}>
-          <TableList data={data} />
+          {/* table */}
        </Grid>
     </Grid>
   )

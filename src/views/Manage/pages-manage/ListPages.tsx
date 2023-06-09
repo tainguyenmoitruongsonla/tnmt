@@ -2,8 +2,8 @@
 import { useState, ChangeEvent } from 'react'
 
 // ** MUI Imports
-import { IconButton, Typography, Table, TableBody, TableCell, TableHead, TableRow,TableContainer, Paper,TablePagination, Checkbox } from '@mui/material';
-import { Delete, PersonAddAlt, EditNote } from '@mui/icons-material';
+import { IconButton, Table, TableBody, TableCell, TableHead, TableRow,TableContainer, Paper,TablePagination, Checkbox } from '@mui/material';
+import { Delete } from '@mui/icons-material';
 import EditPages from './EditPages';
 
 function createData(

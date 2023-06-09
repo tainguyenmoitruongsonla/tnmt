@@ -3,27 +3,31 @@ import { Typography } from '@mui/material'
 import DialogControlShowPDF from 'src/views/DialogControlShowPDF'
 
 function GetFolderLicense ( type:any, TypeOfConstructionId:any, LicensingAuthorities:any) {
+
+  const [link, setLink] = useState('');
+  const [srcLicense, setSrc] = useState('');
+  const [srcLicenseFee, setSrcLsFee] = useState('');
   if(type == 'license'){
-    var src:any = '/pdf/Licenses/';
+    setSrc('/pdf/Licenses/');
     if(LicensingAuthorities == 0) {
-      var link = 'BTNMT/';
+      setLink('BTNMT/')
     }else{
-    var link = 'UNBD/';
+      setLink('UNBD/')
     }
     switch (TypeOfConstructionId) {
-      case 1: return src+link+'/SurfaceWater/';
-      case 8: return src+link+'/GroundWater/';
-      case 9: return src+link+'/GroundWater/';
-      case 10: return src+link+'/GroundWater/';
-      case 3: return src+link+'/DischargeWater/';
+      case 1: return srcLicense+link+'/SurfaceWater/';
+      case 8: return srcLicense+link+'/GroundWater/';
+      case 9: return srcLicense+link+'/GroundWater/';
+      case 10: return srcLicense+link+'/GroundWater/';
+      case 3: return srcLicense+link+'/DischargeWater/';
       default: return '';
   }
   }else if(type == 'licenseFee'){
-    var src:any = '/pdf/LicenseFees/';
+    setSrcLsFee('/pdf/LicenseFees/')
     if(LicensingAuthorities == 0) {
-      return src+'BTNMT/';
+      return srcLicenseFee+'BTNMT/';
     }else{
-      return src+'UNBD/';
+      return srcLicenseFee+'UNBD/';
     }
   }
 }

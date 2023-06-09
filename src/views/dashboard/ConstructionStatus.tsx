@@ -1,5 +1,7 @@
 import { useState, useEffect } from "react";
+
 // ** MUI Imports
+
 import { styled } from '@mui/material/styles';
 import Box from "@mui/material/Box";
 import Card from '@mui/material/Card';
@@ -47,6 +49,7 @@ const ErrorConnectProgress = styled(LinearProgress)(({ theme }) => ({
 const ConstructionStatus = () => {
 
   //initialize state with counter variable and set it to 0
+
 const [counterConnected, setCounterConnected] = useState(0);
 const [counterLossConnect, setCounterLossConnect] = useState(0);
 const [counterErrorConnect, setCounterErrorConnect] = useState(0);
@@ -56,17 +59,21 @@ const ErrorConnect = 7;
 const LossConect = totalConst - Connected;
 
 //calculate percentage and update state with result
+
 useEffect(() => {
 
   //Counter Connected
+
   const percentConnected = (Connected / totalConst) * 100;
   setCounterConnected(percentConnected);
 
   //Counter LossConnect
+
   const percentLossConnect = (LossConect / totalConst) * 100;
   setCounterLossConnect(percentLossConnect)
 
   //Counter ErrorConnect
+
   const percentErrorConnect = (ErrorConnect / totalConst) * 100;
   setCounterErrorConnect(percentErrorConnect)
 

@@ -15,9 +15,7 @@ const UserIcon = (props: UserIconProps) => {
 
   const IconTag = icon
 
-  let styles
-
-  styles = {
+  const styles = {
     fontSize: '16px'
   }
 

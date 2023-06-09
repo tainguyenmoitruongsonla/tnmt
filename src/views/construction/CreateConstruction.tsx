@@ -27,13 +27,10 @@ import CreateHydroelectric from './CreateHydroelectric'
 const complete1 = [{ title: 'Khóa 1' }, { title: 'Khóa 2' }, { title: 'Khóa 3' }]
 
 const FormContruction = ({ onSubmit, closeDialogs }: any) => {
-  const [name, setName] = useState('')
-  const [pagelink, setPagelink] = useState('')
-  const [description, setDescription] = useState('')
 
   const handleSubmit = (event: any) => {
     event.preventDefault()
-    onSubmit(name, pagelink, description)
+    onSubmit()
     closeDialogs()
   }
 
@@ -218,20 +215,6 @@ const FormContruction = ({ onSubmit, closeDialogs }: any) => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {/* {rows.map((row) => (
-                <TableRow
-                  key={row.name}
-                  sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                >
-                  <TableCell component="th" scope="row">
-                    {row.name}
-                  </TableCell>
-                  <TableCell align="right"></TableCell>
-                  <TableCell align="right"></TableCell>
-                  <TableCell align="right"></TableCell>
-                  <TableCell align="right"></TableCell>
-                </TableRow>
-              ))} */}
             </TableBody>
           </Table>
         </TableContainer>
@@ -251,7 +234,7 @@ const FormContruction = ({ onSubmit, closeDialogs }: any) => {
 
 const CreateConstruction = ({ isEdit }: { isEdit: boolean }) => {
   const formTitle = isEdit ? 'Thay đổi thông tin trang truy cập' : 'THÔNG TIN CÔNG TRÌNH KHAI THÁC, SỬ DỤNG NƯỚC MẶT'
-  const handleSubmit = (name: any, pagelink: any, description: any) => {
+  const handleSubmit = () => {
     // handle form submission logic here
   }
 

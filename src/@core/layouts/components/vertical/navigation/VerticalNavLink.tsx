@@ -114,14 +114,14 @@ const VerticalNavLink = ({ item, navVisible, toggleNavVisibility }: Props) => {
                 sx={{
                   mr: 2.5,
                   transition: 'margin .25s ease-in-out',
-                  color: `${theme.palette.text.light}`
+                  color: `#fff`
                 }}
               >
                 <UserIcon icon={IconTag} />
               </ListItemIcon>
 
               <MenuItemTextMetaWrapper>
-                <Typography sx={{color: `${theme.palette.text.light}`}} {...(themeConfig.menuTextTruncate && { noWrap: true })}>{item.title}</Typography>
+                <Typography sx={{color: `#fff`}} {...(themeConfig.menuTextTruncate && { noWrap: true })}>{item.title}</Typography>
                 {item.badgeContent ? (
                   <Chip
                     label={item.badgeContent}
@@ -136,9 +136,9 @@ const VerticalNavLink = ({ item, navVisible, toggleNavVisibility }: Props) => {
                 ) : null}
               </MenuItemTextMetaWrapper>
               {open || item.children.some(child => isNavLinkActive(child.path)) ?  
-                item.children ? <ExpandIcon className='is-opened-children' sx={{ color: `${theme.palette.text.light}`}} />  : ''
+                item.children ? <ExpandIcon className='is-opened-children' sx={{ color: `#fff`}} />  : ''
                 : 
-                item.children ? <ExpandIcon className='is-not-opened-children' sx={{ color: `${theme.palette.text.light}`}} /> : ''
+                item.children ? <ExpandIcon className='is-not-opened-children' sx={{ color: `#fff`}} /> : ''
               }
             </MenuNavLink>
           </Link>
@@ -177,14 +177,14 @@ const VerticalNavLink = ({ item, navVisible, toggleNavVisibility }: Props) => {
                         sx={{
                           mr: 2.5,
                           transition: 'margin .25s ease-in-out',
-                          color: `${theme.palette.text.light}`
+                          color: `#fff`
                         }}
                       >
                         <UserIcon icon={item.icon}/>
                       </ListItemIcon>
         
                       <MenuItemTextMetaWrapper>
-                        <Typography sx={{color: `${theme.palette.text.light}`}} {...(themeConfig.menuTextTruncate && { noWrap: true })}>{item.title}</Typography>
+                        <Typography sx={{color: `#fff`}} {...(themeConfig.menuTextTruncate && { noWrap: true })}>{item.title}</Typography>
                         {item.badgeContent ? (
                           <Chip
                             label={item.badgeContent}
@@ -239,14 +239,14 @@ const VerticalNavLink = ({ item, navVisible, toggleNavVisibility }: Props) => {
             sx={{
               mr: 2.5,
               transition: 'margin .25s ease-in-out',
-              color: `${theme.palette.text.light}`
+              color: `#fff`
             }}
           >
             <UserIcon icon={IconTag} />
           </ListItemIcon>
 
           <MenuItemTextMetaWrapper>
-            <Typography sx={{color: `${theme.palette.text.light}`}} {...(themeConfig.menuTextTruncate && { noWrap: true })}>{item.title}</Typography>
+            <Typography sx={{color: `#fff`}} {...(themeConfig.menuTextTruncate && { noWrap: true })}>{item.title}</Typography>
             {item.badgeContent ? (
               <Chip
                 label={item.badgeContent}

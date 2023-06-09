@@ -2,8 +2,8 @@
 import { useState, ChangeEvent } from 'react'
 
 // ** MUI Imports
-import { IconButton, Typography, Table, TableBody, TableCell, TableHead, TableRow,TableContainer, Paper,TablePagination } from '@mui/material';
-import { Delete, PersonAddAlt } from '@mui/icons-material';
+import { IconButton, Table, TableBody, TableCell, TableHead, TableRow,TableContainer, Paper,TablePagination } from '@mui/material';
+import { Delete } from '@mui/icons-material';
 import SetRole from './SetRole';
 import ChangePassword from './ChangePassword';
 import EditAccount from './EditAccount';

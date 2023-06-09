@@ -1,8 +1,9 @@
 // ** MUI Imports
+
 import {Card, Typography, CardHeader, CardContent, Grid} from '@mui/material';
 
 // ** Chart
-import React, { useCallback, useState } from "react";
+
 import { PieChart, Pie, Tooltip, Cell } from "recharts";
 
 const TotalLicense = 320;
@@ -29,8 +30,7 @@ const renderCustomizedLabel = ({
   midAngle,
   innerRadius,
   outerRadius,
-  payload,
-  index
+  payload
 }: any) => {
   const radius = innerRadius + (outerRadius - innerRadius) * 0.5;
   const x = cx + radius * Math.cos(-midAngle * RADIAN);
@@ -41,8 +41,8 @@ const renderCustomizedLabel = ({
       y={y}
       fill="#fff"
       fontSize={13}
-      textAnchor="middle"   // center horizontally
-      dominantBaseline="middle"   // center vertically
+      textAnchor="middle"
+      dominantBaseline="middle"
     >
       {payload.name} : {payload.value}
     </text>
@@ -103,6 +103,7 @@ const CountLicense = () => {
       </CardContent>
     </Card>
   );
+  
 };
 
 export default CountLicense;

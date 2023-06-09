@@ -7,8 +7,8 @@ const MapPage = () => {
   useEffect(() => {
     loadModules(["esri/Map", "esri/views/MapView", "esri/Basemap", "esri/layers/KMLLayer", "esri/layers/VectorTileLayer",
     "esri/layers/TileLayer"], { css: true })
-      .then(([Map, MapView, Basemap, KMLLayer, VectorTileLayer, TileLayer]) => {
-        var layer = new KMLLayer({
+      .then(([Map, MapView, Basemap, KMLLayer, VectorTileLayer]) => {
+        const layer = new KMLLayer({
           url:
             "https://kc08.top/public/files/huyen-quangngai.kmz"
         });

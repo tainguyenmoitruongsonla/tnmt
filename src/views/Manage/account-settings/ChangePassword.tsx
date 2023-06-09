@@ -1,15 +1,12 @@
-import React, { useState } from 'react';
 import DialogsControl from '../../DialogControl';
 import { LockOpen } from "@mui/icons-material";
 import { Grid, Button, TextField, DialogActions } from "@mui/material";
 
 const Form = ({ onSubmit, closeDialogs }: any) => {
-  const [username, setUsername] = useState('');
-  const [fullname, setFullName] = useState('');
 
   const handleSubmit = (event: any) => {
     event.preventDefault();
-    onSubmit(username, fullname);
+    onSubmit();
     closeDialogs();
   };
 

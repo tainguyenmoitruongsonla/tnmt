@@ -5,8 +5,6 @@ import { ReactNode } from 'react'
 import { styled, useTheme } from '@mui/material/styles'
 import MuiAppBar, { AppBarProps } from '@mui/material/AppBar'
 import MuiToolbar, { ToolbarProps } from '@mui/material/Toolbar'
-// import IconButton from '@mui/material/IconButton';
-// import MenuIcon from '@mui/icons-material/Menu';
 
 // ** Type Import
 import { Settings } from 'src/@core/context/settingsContext'
@@ -54,7 +52,7 @@ const LayoutAppBar = (props: Props) => {
   const { contentWidth } = settings
 
   return (
-    <AppBar elevation={0} color='default' className='layout-navbar' position='static' sx={{background: `${theme.palette.primary.dark}`, color: `${theme.palette.text.light}`, position: 'sticky', top: 0, zIndex: 1200}}>
+    <AppBar elevation={0} color='default' className='layout-navbar' position='static' sx={{background: `${theme.palette.primary.dark}`, color: `#fff`, position: 'sticky', top: 0, zIndex: 1200}}>
       <Toolbar
         className='navbar-content-container'
         sx={{
@@ -63,15 +61,6 @@ const LayoutAppBar = (props: Props) => {
           })
         }}
       >
-        {/* <IconButton
-            size="large"
-            edge="start"
-            color="inherit"
-            aria-label="menu"
-            sx={{ mr: 2 }}
-          >
-            <MenuIcon />
-          </IconButton> */}
         {(userVerticalAppBarContent && userVerticalAppBarContent(props)) || null}
       </Toolbar>
     </AppBar>

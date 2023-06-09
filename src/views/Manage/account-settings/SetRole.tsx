@@ -15,12 +15,10 @@ const roleData = [
 ]
 
 const Form = ({ onSubmit, closeDialogs }: any) => {
-  const [username, setUsername] = useState('');
-  const [fullname, setFullName] = useState('');
 
   const handleSubmit = (event: any) => {
     event.preventDefault();
-    onSubmit(username, fullname);
+    onSubmit();
     closeDialogs();
   };
 
@@ -83,7 +81,7 @@ const Form = ({ onSubmit, closeDialogs }: any) => {
 const SetRole = () => {
 
   const formTitle = 'Thay đổi mật khẩu';
-  const handleSubmit = (username:any, password:any) => {
+  const handleSubmit = () => {
     // handle form submission logic here
   };
 

@@ -1,15 +1,12 @@
-import React, { useState } from 'react';
 import DialogsControl from '../../DialogControl';
 import { EditNote, PersonAddAlt } from "@mui/icons-material";
 import { Grid, Button, TextField, DialogActions, IconButton, Typography } from "@mui/material";
 
 const Form = ({ onSubmit, closeDialogs }: any) => {
-  const [username, setUsername] = useState('');
-  const [fullname, setFullName] = useState('');
 
   const handleSubmit = (event: any) => {
     event.preventDefault();
-    onSubmit(username, fullname);
+    onSubmit();
     closeDialogs();
   };
 
@@ -21,10 +18,10 @@ const Form = ({ onSubmit, closeDialogs }: any) => {
     <form onSubmit={handleSubmit}>
       <Grid container>
         <Grid item xs={12} md={12} sx={{my: 3}}>
-            <TextField size='small' type='text' fullWidth label='Tài khoản' placeholder='' defaultValue='' onChange={(e) => setUsername(e.target.value)} />
+            <TextField size='small' type='text' fullWidth label='Tài khoản' placeholder='' defaultValue='' />
           </Grid>
           <Grid item xs={12} md={12} sx={{my: 3}}>
-            <TextField size='small' type='text' fullWidth label='Họ tên' placeholder='' defaultValue='' onChange={(e) => setFullName(e.target.value)} />
+            <TextField size='small' type='text' fullWidth label='Họ tên' placeholder='' defaultValue='' />
           </Grid>
           <Grid item xs={12} md={12} sx={{my: 3}}>
             <TextField size='small' type='email'  fullWidth label='Email' placeholder='' defaultValue='' />
@@ -44,6 +41,8 @@ const Form = ({ onSubmit, closeDialogs }: any) => {
 const EditAccount =  ({ isEdit }: { isEdit: boolean }) => {
   const formTitle = isEdit ? 'Thay đổi thông tin tài khoản' : 'Thêm tài khoản mới' ;
   const handleSubmit = (username:any, password:any) => {
+    username = 'username';
+    password = 'password';
     // handle form submission logic here
   };
 

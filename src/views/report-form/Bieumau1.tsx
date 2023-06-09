@@ -1,14 +1,7 @@
-import React, { useState } from 'react'
 import Paper from '@mui/material/Paper'
 import {
   Grid,
-  Button,
   TextField,
-  DialogActions,
-  FormGroup,
-  FormControlLabel,
-  Checkbox,
-  Autocomplete,
   Typography,
   Link,
   Box,
@@ -16,25 +9,9 @@ import {
 } from '@mui/material'
 import DeleteIcon from '@mui/icons-material/Delete';
 import DialogControlFullScreen from 'src/views/DialogControlFullScreen'
-import { Gif } from '@mui/icons-material';
 import TableList from '../construction/TableList';
 
-const complete1 = [{ title: 'Khóa 1' }, { title: 'Khóa 2' }, { title: 'Khóa 3' }]
-
 const FormContruction = ({ onSubmit, closeDialogs }: any) => {
-  const [name, setName] = useState('')
-  const [pagelink, setPagelink] = useState('')
-  const [description, setDescription] = useState('')
-
-  const handleSubmit = (event: any) => {
-    event.preventDefault()
-    onSubmit(name, pagelink, description)
-    closeDialogs()
-  }
-
-  const handleClose = () => {
-    closeDialogs()
-  }
   return (
     <Paper sx={{p:2}}>
       {/* dautrang */}
@@ -95,11 +72,12 @@ const FormContruction = ({ onSubmit, closeDialogs }: any) => {
       </Grid>
     </Paper>
   )
+
 }
 
 const Bieumau1 = () => {
   const formTitle = 'BIỂU MẪU THÔNG TƯ 31/2018/TT-BTNMT/ BIỂU MẪU SỐ 1'
-  const handleSubmit = (name: any, pagelink: any, description: any) => {
+  const handleSubmit = () => {
     // handle form submission logic here
   }
 
@@ -124,6 +102,7 @@ const Bieumau1 = () => {
       )}
     </DialogControlFullScreen>
   )
+  
 }
 
 export default Bieumau1

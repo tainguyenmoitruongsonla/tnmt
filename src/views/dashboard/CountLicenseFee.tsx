@@ -1,7 +1,4 @@
-// ** MUI Imports
 import {Card, Typography, CardHeader, CardContent, Grid} from '@mui/material';
-
-import React, { useCallback, useState } from "react";
 
 const TotalLicenseFee = 3000000000000;
 const BTNMT = 2904600000000;
@@ -22,14 +19,15 @@ function formatVndCost(cost: number): string {
   return formattedCost;
 }
 
-const costTotal = formatVndCost(TotalLicenseFee);
+// const costTotal = formatVndCost(TotalLicenseFee);
+
 const costBTNMT = formatVndCost(BTNMT);
 const costUBND = formatVndCost(UBND);
 
 function getNumberWithCommas(num: any) {
   if (num == null || num == 0)
       return '0 ₫'
-  let len = num.toLocaleString('en-US').split(',').length
+  const len = num.toLocaleString('en-US').split(',').length
   if (len == 1)
       return  round(num) + " ₫";
   else if (len == 2)
@@ -77,6 +75,7 @@ const CountLicenseFee = () => {
       </CardContent>
     </Card>
   );
+
 };
 
 export default CountLicenseFee;

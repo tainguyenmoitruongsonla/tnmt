@@ -17,6 +17,7 @@ const RealTime = () => {
   return (
     <Typography variant='body2'>THỐNG KÊ DỮ LIỆU TÀI NGUYÊN NƯỚC ({formattedTime}) </Typography>
   );
+  
 };
 
 export default RealTime;

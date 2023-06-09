@@ -1,15 +1,12 @@
-import React, { useState } from 'react';
 import DialogsControl from '../../DialogControl';
 import { EditNote, PersonAddAlt } from "@mui/icons-material";
 import { Grid, Button, TextField, DialogActions, FormGroup, FormControlLabel, Checkbox, IconButton, Typography } from "@mui/material";
 
 const Form = ({ onSubmit, closeDialogs }: any) => {
-  const [username, setUsername] = useState('');
-  const [fullname, setFullName] = useState('');
 
   const handleSubmit = (event: any) => {
     event.preventDefault();
-    onSubmit(username, fullname);
+    onSubmit();
     closeDialogs();
   };
 
@@ -42,7 +39,7 @@ const Form = ({ onSubmit, closeDialogs }: any) => {
 
 const EditRoles = ({ isEdit }: { isEdit: boolean }) => {
   const formTitle = isEdit ? 'Thay đổi thông tin roles' : 'Thêm roles mới';
-  const handleSubmit = (username:any, password:any) => {
+  const handleSubmit = () => {
     // handle form submission logic here
   };
 

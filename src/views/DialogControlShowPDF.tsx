@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useTheme } from "@mui/material/styles";
-import { Dialog, DialogContent, Slide, AppBar, Toolbar,Typography, IconButton,} from '@mui/material';
+import { Dialog, DialogContent, Slide, AppBar, Toolbar,Typography} from '@mui/material';
 import { TransitionProps } from '@mui/material/transitions';
 import CloseIcon from '@mui/icons-material/Close';
 
@@ -20,7 +20,6 @@ interface DialogControlProps {
 const DialogControlShowPDF = ({ children }: DialogControlProps) => {
   const [dialogContent, setDialogContent] = useState<React.ReactNode>(null);
   const [dialogTitle, setDialogTitle] = useState<React.ReactNode>(null);
-  const [dialogIcon, setDialogIcon] = useState<React.ReactNode>(null);
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
   const openDialogs = (content: React.ReactNode, title: React.ReactNode) => {
@@ -45,7 +44,7 @@ const DialogControlShowPDF = ({ children }: DialogControlProps) => {
           <>
             <AppBar sx={{ position: 'relative' }}>
               <Toolbar>
-                <Typography sx={{ ml: 2, flex: 1, color: `${theme.palette.text.light}` }} variant="h6" component="div">
+                <Typography sx={{ ml: 2, flex: 1, color: `#fff` }} variant="h6" component="div">
                   {dialogTitle}
                 </Typography>
                 <CloseIcon className='btn' onClick={closeDialogs} />

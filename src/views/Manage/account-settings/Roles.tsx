@@ -1,9 +1,7 @@
 // ** React Imports
-import { ChangeEvent, MouseEvent, useState } from 'react'
-
 // ** MUI Imports
-import {Grid, Checkbox, Typography, Table, TableHead, TableBody, TableRow, TableCell, IconButton} from '@mui/material'
-import { Delete, PersonAddAlt } from '@mui/icons-material';
+import {Grid, Checkbox, Table, TableHead, TableBody, TableRow, TableCell, IconButton} from '@mui/material'
+import { Delete } from '@mui/icons-material';
 import EditRoles from './EditRoles';
 
 const createData = (name: string, isDefault: boolean) => {

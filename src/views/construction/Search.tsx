@@ -1,4 +1,3 @@
-import React, { useState } from 'react';
 import FilterAltIcon from '@mui/icons-material/FilterAlt';
 import { Grid, Button, TextField, DialogActions, Autocomplete } from "@mui/material";
 import DialogsControl from 'src/views/DialogControl'
@@ -6,13 +5,10 @@ import DialogsControl from 'src/views/DialogControl'
 const complete1 = [{ title: 'Khóa 1' }, { title: 'Khóa 2' }, { title: 'Khóa 3' }]
  
 const Form = ({ onSubmit, closeDialogs }: any) => {
-  const [name, setName] = useState('');
-  const [pagelink, setPagelink] = useState('');
-  const [description, setDescription] = useState('');
 
   const handleSubmit = (event: any) => {
     event.preventDefault();
-    onSubmit(name, pagelink, description);
+    onSubmit();
     closeDialogs();
   };
 
@@ -80,7 +76,7 @@ const Form = ({ onSubmit, closeDialogs }: any) => {
 
 const SearchConstruction = () => {
   const formTitle = 'Tìm kiếm nâng cao';
-  const handleSubmit = (name: any, pagelink: any, description: any) => {
+  const handleSubmit = () => {
     // handle form submission logic here
   };
 
