@@ -36,6 +36,7 @@ const TableExploidGroundWater = ({ data }:any) => {
     } else {
         const nf = new Intl.NumberFormat();
         const x = num;
+        
         return nf.format(x)
     }
   }
@@ -244,7 +245,7 @@ const TableExploidGroundWater = ({ data }:any) => {
       }
     </Paper>
   )
-  
+
 }
 
 export default TableExploidGroundWater

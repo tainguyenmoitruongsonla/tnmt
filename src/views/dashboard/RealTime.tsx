@@ -11,13 +11,15 @@ const RealTime = () => {
       setFormattedTime(formatted);
       setCurrentTime(new Date());
     }, 1000);
+
     return () => clearInterval(interval);
+    
   }, [currentTime]);
 
   return (
     <Typography variant='body2'>THỐNG KÊ DỮ LIỆU TÀI NGUYÊN NƯỚC ({formattedTime}) </Typography>
   );
-  
+
 };
 
 export default RealTime;
