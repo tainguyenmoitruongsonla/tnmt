@@ -12,7 +12,7 @@ function createData(
     description: string,
     PermitAccess: boolean
 ) {
-    
+
     return { src, name, description, PermitAccess };
 }
 
@@ -82,6 +82,7 @@ const ListPages = () => {
                     <TableRow key={row.src}>
                         {columns.map(column => {
                             const value = row[column.id]
+                            
                             return (
                                 <TableCell size='small' key={column.id} align={column.align}>
                                     {column.format && typeof value === 'number' ? column.format(value) : 

@@ -55,6 +55,7 @@ const LicenseBarChart = () => {
       <CardContent>
         <Grid container spacing={3}>
           <Grid item xs={12} md={12} height="100%">
+            
             {/* Chart */}
             <div style={{ width: '100%', height: '400px' }}>
                 <ResponsiveContainer width="100%" height="100%">
