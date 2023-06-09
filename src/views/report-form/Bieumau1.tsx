@@ -81,7 +81,7 @@ const Bieumau1 = () => {
 
   return (
     <DialogControlFullScreen>
-      {(openDialogs: (content: React.ReactNode, title: React.ReactNode) => void, closeDialogs: () => void) => (
+      {(openDialogs: (content: React.ReactNode, title: React.ReactNode) => void) => (
         <>
           <Link className='formReport_box' onClick={() =>
                 openDialogs(<FormContruction />, formTitle)

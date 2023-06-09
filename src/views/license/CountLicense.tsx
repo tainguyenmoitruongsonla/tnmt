@@ -76,6 +76,7 @@ const CountLicense = () => {
         </CardContent>
     </Card>
   )
+  
 }
 
 export default CountLicense

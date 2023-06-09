@@ -21,13 +21,13 @@ const data = [
 const COLORS = ['rgb(106, 179, 230)', 'rgb(0, 61, 126)', 'rgb(125, 95, 58)', 'rgb(0, 178, 151)', 'rgb(244, 153, 23)'];
 const CHARTS_LEGEND = ['KTSD nước mặt', 'KTSD nước dưới đất', 'Thăm dò nước dưới đất', 'Hành nghề khoan', 'Xả thải vào nguồn nước'];
 
-let prevStackIndex = -1;
+const prevStackIndex = -1;
 
 const renderCustomizedLabel = (props:any) => {
-    const { x, y, width, height, value, index, payload  } = props;
+    const { x, y, width, height, value, index  } = props;
     const stackData = data[index];
     const stackTotal = stackData['KTSD nước mặt'] + stackData['KTSD nước dưới đất'] + stackData['Thăm dò nước dưới đất'] + stackData['Hành nghề khoan'] + stackData['Xả thải vào nguồn nước']
-  console.log(payload)
+
     return (
       <g>
         {value > 0 ? 

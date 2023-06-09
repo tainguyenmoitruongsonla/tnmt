@@ -15,20 +15,34 @@ function GetFolderLicense ( type:any, TypeOfConstructionId:any, LicensingAuthori
       setLink('UNBD/')
     }
     switch (TypeOfConstructionId) {
-      case 1: return srcLicense+link+'/SurfaceWater/';
-      case 8: return srcLicense+link+'/GroundWater/';
-      case 9: return srcLicense+link+'/GroundWater/';
-      case 10: return srcLicense+link+'/GroundWater/';
-      case 3: return srcLicense+link+'/DischargeWater/';
-      default: return '';
+      case 1: 
+
+      return srcLicense+link+'/SurfaceWater/';
+      case 8: 
+
+      return srcLicense+link+'/GroundWater/';
+      case 9: 
+
+      return srcLicense+link+'/GroundWater/';
+      case 10: 
+
+      return srcLicense+link+'/GroundWater/';
+      case 3: 
+      
+      return srcLicense+link+'/DischargeWater/';
+      default: 
+      
+      return '';
 
   }
   }else if(type == 'licenseFee'){
     setSrcLsFee('/pdf/LicenseFees/')
     if(LicensingAuthorities == 0) {
+      
       return srcLicenseFee+'BTNMT/';
 
     }else{
+
       return srcLicenseFee+'UNBD/';
 
     }
@@ -37,6 +51,7 @@ function GetFolderLicense ( type:any, TypeOfConstructionId:any, LicensingAuthori
 
 const PDFFile = ({ type, src, TypeOfConsId, LicensingAuthorities }: any) => {
   const srcFolder:any = GetFolderLicense(type, TypeOfConsId, LicensingAuthorities)+src;
+  
   return (
     <>
       <iframe style={{width: '100%', height: '100%'}} src={srcFolder}></iframe>
