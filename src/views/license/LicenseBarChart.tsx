@@ -49,11 +49,8 @@ const ApexChartLicense: React.FC<ApexChartLicenseProps> = ({ data, year, color }
       width: '100%',
       stacked: true,
       events: {
-        click: function (event: any, chartContext: any, config: any) {
-          
-        },
-        mounted: function (chartContext: any, config: any) {
-          addStackedTotalsAnnotations(config);
+        mounted: function () {
+          addStackedTotalsAnnotations();
         },
       },
     },
@@ -78,7 +75,7 @@ const ApexChartLicense: React.FC<ApexChartLicenseProps> = ({ data, year, color }
     },
   };
 
-  const addStackedTotalsAnnotations = (config: any) => {
+  const addStackedTotalsAnnotations = () => {
     const seriesData = series.map((seriesItem: any) => seriesItem.data);
     const stackedTotals = Array.from({ length: seriesData[0].length }, () => 0);
 

@@ -2,7 +2,7 @@ import * as React from 'react';
 
 // ** MUI Imports
 import { Grid, Box, Button, Autocomplete, TextField, Card, CardContent } from '@mui/material';
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 
 // ** Icons Imports
 import SearchIcon from '@mui/icons-material/Search';
