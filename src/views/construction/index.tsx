@@ -7,7 +7,6 @@ function ConstructionMap() {
   )
   
   return <Map />
-
 }
 
 export default ConstructionMap

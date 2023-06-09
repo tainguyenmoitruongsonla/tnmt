@@ -1,6 +1,5 @@
 import { Grid, TextField, Typography } from "@mui/material"
 
-
 const CreateHydroelectric = () => {
 
   return (
@@ -15,7 +14,6 @@ const CreateHydroelectric = () => {
         </Grid>
       </fieldset>
   )
-  
 }
 
 export default CreateHydroelectric

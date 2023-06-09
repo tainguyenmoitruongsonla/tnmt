@@ -90,5 +90,4 @@ const SearchConstruction = () => {
     </DialogsControl>
   );
 };
-
 export default SearchConstruction;

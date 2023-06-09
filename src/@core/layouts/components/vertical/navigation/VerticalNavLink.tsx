@@ -30,8 +30,6 @@ import UserIcon from 'src/layouts/components/UserIcon'
 import { handleURLQueries } from 'src/@core/layouts/utils'
 import { List } from '@mui/material'
 
-
-
 interface Props {
   item: NavLink
   settings: Settings
@@ -48,6 +46,10 @@ const MenuNavLink = styled(ListItemButton)< ListItemButtonProps & { component?: 
   padding: theme.spacing(2.25, 3.5),
   transition: 'opacity .25s ease-in-out',
   '&.active, &.active:hover': {
+    boxShadow: theme.shadows[3],
+    backgroundImage: `linear-gradient(98deg, ${theme.palette.customColors.primaryGradient}, ${theme.palette.primary.dark} 94%)`
+  },
+  '&.menu__item: hover': {
     boxShadow: theme.shadows[3],
     backgroundImage: `linear-gradient(98deg, ${theme.palette.customColors.primaryGradient}, ${theme.palette.primary.dark} 94%)`
   },
@@ -92,7 +94,7 @@ const VerticalNavLink = ({ item, navVisible, toggleNavVisibility }: Props) => {
           <Link passHref href={item.path === undefined ? '#' : `${item.path}`}>
             <MenuNavLink
               component={'a'}
-              className={isNavLinkActive(item.path) ? 'active' : ''}
+              className={isNavLinkActive(item.path) ? 'active' : ''+ ' menu__item' }
               {...(item.openInNewTab ? { target: '_blank' } : null)}
               onClick={e => {
                 if (item.path === undefined) {
@@ -155,7 +157,7 @@ const VerticalNavLink = ({ item, navVisible, toggleNavVisibility }: Props) => {
                   <Link passHref href={item.path === undefined ? '/' : `${item.path}`}>
                     <MenuNavLink
                       component={'a'}
-                      className={isNavLinkActive(item.path) ? 'active' : ''}
+                      className={isNavLinkActive(item.path) ? 'active' : ''+ ' menu__item'}
                       {...(item.openInNewTab ? { target: '_blank' } : null)}
                       onClick={e => {
                         if (item.path === undefined) {
@@ -217,7 +219,7 @@ const VerticalNavLink = ({ item, navVisible, toggleNavVisibility }: Props) => {
       <Link passHref href={item.path === undefined ? '/' : `${item.path}`}>
         <MenuNavLink
           component={'a'}
-          className={isNavLinkActive(item.path) ? 'active' : ''}
+          className={isNavLinkActive(item.path) ? 'active' : ''+ ' menu__item'}
           {...(item.openInNewTab ? { target: '_blank' } : null)}
           onClick={e => {
             if (item.path === undefined) {

@@ -106,6 +106,7 @@ const TableList = ({ data }:any) => {
                 </TableRow>
               ) : (
                 data.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((data:any,index:any) => {
+
                   return (
                     <TableRow hover role='checkbox' tabIndex={-1} key={data.stt}>
                         <TableCell align="center" className='sticky-col start-col'>{index+1}</TableCell>
@@ -156,6 +157,7 @@ const TableList = ({ data }:any) => {
                         <TableCell >
                           {
                             data.LicenseFee.map((e:any,index:any) => {
+
                               return (<span key={index}>{e.LicenseFeeNumber}</span>)
                             })
                           }
@@ -163,6 +165,7 @@ const TableList = ({ data }:any) => {
                         <TableCell >
                           {
                             data.LicenseFee.map((e:any,index:any) => {
+
                               return (<span key={index}>{e.TotalMoney}</span>)
                             })
                           }
@@ -211,5 +214,4 @@ const TableList = ({ data }:any) => {
     </Paper>
   )
 }
-
 export default TableList

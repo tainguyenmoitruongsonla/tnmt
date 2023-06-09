@@ -37,6 +37,7 @@ const FormContruction = ({ onSubmit, closeDialogs }: any) => {
   const handleClose = () => {
     closeDialogs()
   }
+
   const [selectedValue, setSelectedValue] = useState('')
   const [showForm, setShowForm] = useState(false)
   const handleChange = (event: SelectChangeEvent) => {
@@ -231,7 +232,6 @@ const FormContruction = ({ onSubmit, closeDialogs }: any) => {
       </DialogActions>
     </form>
   )
-
 }
 
 const CreateConstruction = ({ isEdit }: { isEdit: boolean }) => {
@@ -266,7 +266,6 @@ const CreateConstruction = ({ isEdit }: { isEdit: boolean }) => {
       )}
     </DialogControlFullScreen>
   )
-
 }
 
 export default CreateConstruction
