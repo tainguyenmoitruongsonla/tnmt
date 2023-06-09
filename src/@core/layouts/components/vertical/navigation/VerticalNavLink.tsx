@@ -8,7 +8,7 @@ import { useRouter } from 'next/router'
 // ** MUI Imports
 import Chip from '@mui/material/Chip'
 import ListItem from '@mui/material/ListItem'
-import { styled, useTheme } from '@mui/material/styles'
+import { styled } from '@mui/material/styles'
 import Typography from '@mui/material/Typography'
 import Box, { BoxProps } from '@mui/material/Box'
 import Collapse from '@mui/material/Collapse'
@@ -69,8 +69,6 @@ const VerticalNavLink = ({ item, navVisible, toggleNavVisibility }: Props) => {
 
   // ** Hooks
   const router = useRouter()
-
-  const theme = useTheme()
 
   const IconTag: ReactNode = item.icon
 

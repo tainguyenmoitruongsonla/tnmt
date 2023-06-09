@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { useTheme } from "@mui/material/styles";
 import { Dialog, DialogContent, Slide, AppBar, Toolbar,Typography} from '@mui/material';
 import { TransitionProps } from '@mui/material/transitions';
 import CloseIcon from '@mui/icons-material/Close';
@@ -33,8 +32,6 @@ const DialogControlShowPDF = ({ children }: DialogControlProps) => {
     setDialogTitle(null);
     setIsOpen(false);
   };
-
-  const theme = useTheme();
 
   return (
     <>

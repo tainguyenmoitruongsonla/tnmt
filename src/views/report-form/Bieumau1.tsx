@@ -11,7 +11,8 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import DialogControlFullScreen from 'src/views/DialogControlFullScreen'
 import TableList from '../construction/TableList';
 
-const FormContruction = ({ onSubmit, closeDialogs }: any) => {
+const FormContruction = (  ) => {
+
   return (
     <Paper sx={{p:2}}>
       {/* dautrang */}
@@ -72,21 +73,18 @@ const FormContruction = ({ onSubmit, closeDialogs }: any) => {
       </Grid>
     </Paper>
   )
-
+  
 }
 
 const Bieumau1 = () => {
   const formTitle = 'BIỂU MẪU THÔNG TƯ 31/2018/TT-BTNMT/ BIỂU MẪU SỐ 1'
-  const handleSubmit = () => {
-    // handle form submission logic here
-  }
 
   return (
     <DialogControlFullScreen>
       {(openDialogs: (content: React.ReactNode, title: React.ReactNode) => void, closeDialogs: () => void) => (
         <>
           <Link className='formReport_box' onClick={() =>
-                openDialogs(<FormContruction onSubmit={handleSubmit} closeDialogs={closeDialogs} />, formTitle)
+                openDialogs(<FormContruction />, formTitle)
               }>
             <Grid item xs={8}>
               <Typography className='text-danger text-weight-bold'>Biểu mẫu 1</Typography>
@@ -102,7 +100,6 @@ const Bieumau1 = () => {
       )}
     </DialogControlFullScreen>
   )
-  
 }
 
 export default Bieumau1

@@ -7,6 +7,7 @@ const FormatDate = ({ time }:any) => {
       const month = date.getMonth() + 1 < 10 ? '0'+(date.getMonth() + 1) : date.getMonth() + 1;
       const year = date.getFullYear();
       return <>{day}/{month}/{year}`</>;
+      
     }
     return <></>;
   }
@@ -14,6 +15,7 @@ const FormatDate = ({ time }:any) => {
   return (
     <>{FormatDate(time)}</>
   );
+
 };
 
 export default FormatDate;

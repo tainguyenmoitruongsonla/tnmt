@@ -26,17 +26,28 @@ const costUBND = formatVndCost(UBND);
 
 function getNumberWithCommas(num: any) {
   if (num == null || num == 0)
+
       return '0 ₫'
+
   const len = num.toLocaleString('en-US').split(',').length
   if (len == 1)
+
       return  round(num) + " ₫";
+
   else if (len == 2)
+
       return  round(num / 1000) + " ngàn";
+
   else if (len == 3)
+
       return  round(num / 1000000) + " triệu đ";
+
   else if (len == 4)
+
       return  round(num / 1000000000) + " tỷ";
+
   else
+
       return  round(num / 1000000000000) + " nghìn tỷ";
 }
 
@@ -46,7 +57,6 @@ function round(num: any) {
 
   
 const CountLicenseFee = () => {
-
 
   return (
     <Card sx={{ position: 'relative' }}>

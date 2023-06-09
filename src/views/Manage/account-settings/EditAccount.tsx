@@ -40,10 +40,9 @@ const Form = ({ onSubmit, closeDialogs }: any) => {
 
 const EditAccount =  ({ isEdit }: { isEdit: boolean }) => {
   const formTitle = isEdit ? 'Thay đổi thông tin tài khoản' : 'Thêm tài khoản mới' ;
-  const handleSubmit = (username:any, password:any) => {
-    username = 'username';
-    password = 'password';
+  const handleSubmit = () => {
     // handle form submission logic here
+    
   };
 
   return (

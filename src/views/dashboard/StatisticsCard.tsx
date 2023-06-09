@@ -56,6 +56,7 @@ const salesData: DataType[] = [
 ]
 
 const renderStats = () => {
+
   return salesData.map((item: DataType, index: number) => (
     <Grid item xs={12} sm={3} key={index}>
       <Box key={index} sx={{ display: 'flex', alignItems: 'center' }}>
@@ -82,6 +83,7 @@ const renderStats = () => {
 }
 
 const StatisticsCard = () => {
+  
   return (
     <Card>
       <CardHeader

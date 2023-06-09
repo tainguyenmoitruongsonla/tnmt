@@ -21,22 +21,25 @@ function GetFolderLicense ( type:any, TypeOfConstructionId:any, LicensingAuthori
       case 10: return srcLicense+link+'/GroundWater/';
       case 3: return srcLicense+link+'/DischargeWater/';
       default: return '';
+
   }
   }else if(type == 'licenseFee'){
     setSrcLsFee('/pdf/LicenseFees/')
     if(LicensingAuthorities == 0) {
       return srcLicenseFee+'BTNMT/';
+
     }else{
       return srcLicenseFee+'UNBD/';
+
     }
   }
 }
 
 const PDFFile = ({ type, src, TypeOfConsId, LicensingAuthorities }: any) => {
-  var src:any = GetFolderLicense(type, TypeOfConsId, LicensingAuthorities)+src;
+  const srcFolder:any = GetFolderLicense(type, TypeOfConsId, LicensingAuthorities)+src;
   return (
     <>
-      <iframe style={{width: '100%', height: '100%'}} src={src}></iframe>
+      <iframe style={{width: '100%', height: '100%'}} src={srcFolder}></iframe>
     </>
   )
 }
@@ -46,7 +49,7 @@ const ShowFilePDF = ({ type, src, name, TypeOfConsId, LicensingAuthorities }:any
 
   return (
     <DialogControlShowPDF>
-      {(openDialogs: (content: React.ReactNode, title: React.ReactNode) => void, closeDialogs: () => void) => (
+      {(openDialogs: (content: React.ReactNode, title: React.ReactNode) => void) => (
         <>
           <Typography className='btnShowFilePdf' onClick={() =>
                 openDialogs(<PDFFile type={type} src={src} TypeOfConsId={TypeOfConsId} LicensingAuthorities={LicensingAuthorities} />, Title)
@@ -58,6 +61,7 @@ const ShowFilePDF = ({ type, src, name, TypeOfConsId, LicensingAuthorities }:any
       )}
     </DialogControlShowPDF>
   )
+
 }
 
 export default ShowFilePDF

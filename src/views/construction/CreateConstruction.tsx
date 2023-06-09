@@ -43,6 +43,7 @@ const FormContruction = ({ onSubmit, closeDialogs }: any) => {
     setSelectedValue(event.target.value as string)
     setShowForm(true)
   }
+  
   return (
     <form onSubmit={handleSubmit}>
       <fieldset>
@@ -230,6 +231,7 @@ const FormContruction = ({ onSubmit, closeDialogs }: any) => {
       </DialogActions>
     </form>
   )
+
 }
 
 const CreateConstruction = ({ isEdit }: { isEdit: boolean }) => {
@@ -264,6 +266,7 @@ const CreateConstruction = ({ isEdit }: { isEdit: boolean }) => {
       )}
     </DialogControlFullScreen>
   )
+
 }
 
 export default CreateConstruction
