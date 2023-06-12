@@ -25,11 +25,8 @@ const complete2 = [
   {title: "Đợt 3"},
 ];
 
-const data = [
-  { }
-]
-console.log(data)
-const SurfaceWater = () => {
+const data:any = []
+const DrillingPracticeGroundWater = () => {
   useEffect(() => {
     document.title = "Quản lý thông tin giấy phép nước mặt";
   }, []);
@@ -105,4 +102,4 @@ const SurfaceWater = () => {
   )
 }
 
-export default SurfaceWater
+export default DrillingPracticeGroundWater

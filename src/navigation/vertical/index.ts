@@ -84,17 +84,17 @@ const navigation = (): VerticalNavItemsType => {
         {
           icon: CircleOutline,
           title: 'KTSD NDĐ',
-          path: '/giay-phep/nuoc-duoi-dat'
+          path: '/giay-phep/nuoc-duoi-dat/khai-thac-su-dung'
         },
         {
           icon: CircleOutline,
           title: 'Thăm dò NDĐ',
-          path: '/giay-phep/nuoc-duoi-dat'
+          path: '/giay-phep/nuoc-duoi-dat/tham-do'
         },
         {
           icon: CircleOutline,
           title: 'Hành nghề khoan NDĐ',
-          path: '/giay-phep/nuoc-duoi-dat'
+          path: '/giay-phep/nuoc-duoi-dat/hanh-nghe-khoan'
         },
         {
           icon: CircleOutline,
