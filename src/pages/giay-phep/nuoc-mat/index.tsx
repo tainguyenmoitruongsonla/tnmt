@@ -25,9 +25,7 @@ const complete2 = [
   {title: "Đợt 3"},
 ];
 
-const data = [
-  {  }
-]
+const data:any = [ ]
 
 const SurfaceWater = () => {
   useEffect(() => {
