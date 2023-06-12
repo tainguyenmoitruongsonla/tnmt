@@ -62,6 +62,7 @@ const ProbeGroundWater = () => {
         </Card>
        </Grid>
        <Grid item xs={12} sm={12} md={12} className='_row _justifyContentBetween' >
+          <Box></Box>
           <Box className='_search'>
             <Box>
               <Autocomplete  size="small" options={complete1} getOptionLabel={(option) => option.title} renderInput={(params) => (

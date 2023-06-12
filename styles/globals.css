@@ -166,8 +166,6 @@ code[class*='language-'] {
 ._search{
   display: flex;
   flex-wrap: wrap;
-  width: 100%;
-  justify-content: flex-end;
 }
 ._search .MuiAutocomplete-root{
   width: 150px !important;
