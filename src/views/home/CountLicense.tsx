@@ -45,7 +45,7 @@ const CountLicense = () => {
       width: CHARTS_SIZE,
         type: 'pie',
         events: {
-          dataPointSelection: (config) => { 
+          dataPointSelection: (event, chartContext, config) => { 
             console.log(config.w.config.labels[config.dataPointIndex])
           }
         }
