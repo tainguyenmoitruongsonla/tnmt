@@ -167,7 +167,7 @@ code[class*='language-'] {
   display: flex;
   flex-wrap: wrap;
   width: 100%;
-  justify-content: end;
+  justify-content: flex-end;
 }
 ._search .MuiAutocomplete-root{
   width: 150px !important;

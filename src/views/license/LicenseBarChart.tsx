@@ -1,8 +1,6 @@
 import { ApexOptions } from 'apexcharts';
-import dynamic from 'next/dynamic';
 import { useState } from 'react';
-
-const ApexCharts = dynamic(() => import('react-apexcharts'), { ssr: false });
+import ReactApexcharts from 'src/@core/components/react-apexcharts';
 
 interface ApexChartLicenseProps {
   data: any;
@@ -100,7 +98,7 @@ const ApexChartLicense: React.FC<ApexChartLicenseProps> = ({ data, year, color }
   };
 
   return (
-    <ApexCharts
+    <ReactApexcharts
       options={options}
       series={series}
       type="bar"

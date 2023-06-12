@@ -2,11 +2,11 @@
 import Grid from '@mui/material/Grid'
 
 // ** Demo Components Imports
-import ConstructionStatus from 'src/views/dashboard/ConstructionStatus'
-import RealTime from 'src/views/dashboard/RealTime'
+import ConstructionStatus from 'src/views/home/ConstructionStatus'
+import RealTime from 'src/views/home/RealTime'
 import ConstructionMap from 'src/views/construction'
-import CountLicense from 'src/views/dashboard/CountLicense'
-import CountLicenseFee from 'src/views/dashboard/CountLicenseFee'
+import CountLicense from 'src/views/home/CountLicense'
+import CountLicenseFee from 'src/views/home/CountLicenseFee'
 
 const Dashboard = () => {
   return (
