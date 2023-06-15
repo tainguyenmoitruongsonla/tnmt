@@ -1,55 +1,75 @@
 import React from 'react';
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
+import { Table, TableHead, TableRow, TableCell, TableBody, TableContainer, Paper } from '@mui/material';
 
 interface TableColumn {
-    label: string;
-    showId?: number[];
-    colspan?: number;
-    rowspan?: number;
-    children?: TableColumn[];
-  }
-  
-interface TableData {
-  [key: string]: string;
+  id: string;
+  label?: string;
+  showId?: number[];
+  colspan?: number;
+  rowspan?: number;
+  children?: TableColumn[];
+}
+
+interface Data {
+  [key: string]: any;
 }
 
 interface TableProps {
-    columns: TableColumn[];
-    data: TableData[];
-    TypeOfConsId: number[];
+  columns: TableColumn[];
+  data: Data[];
+  TypeOfConsId: number[];
+}
+
+const TableLicenseComponent: React.FC<TableProps> = ({ columns, data, TypeOfConsId }: TableProps) => {
+  const tableColumns: TableColumn[] = columns.filter((column) => column.showId && column.showId.includes(Number(TypeOfConsId)));
+
+  function createData(data: any): Data {
+    const {
+      Id, LicenseId, LicenseParentId, BasinId, BusinessId, DistrictId, CommuneId, ConstructionId, LicenseFeeId, LicensingTypeId, TypeOfConstructionId, AquiferId,} = data.License_Fk;
+  
+    return { Id, LicenseId, LicenseParentId, BasinId, BusinessId, DistrictId, CommuneId, ConstructionId, LicenseFeeId, LicensingTypeId, TypeOfConstructionId, AquiferId};
   }
-
-const TableLicenseComponent: React.FC<TableProps> = ({columns, data, TypeOfConsId}:any) => {
-
-    const tableColumns: TableColumn[] = columns.filter((column:TableColumn) => column.showId && column.showId.includes(Number(TypeOfConsId)));
-
-    const tableData: TableData[] = data;
+  const tableData = data.map((item: any) => createData(item));
 
   return (
-    <TableContainer>
+    <TableContainer component={Paper}>
       <Table>
-      <TableHead className='tableHead'>
-        <TableRow>
+        <TableHead className='tableHead'>
+          <TableRow>
             {tableColumns.map((column, index) => (
-            <TableCell size='small' align='center' key={index} rowSpan={column.rowspan} colSpan={column.colspan}>{column.label}</TableCell>
+              <TableCell size='small' align='center' key={index} rowSpan={column.rowspan} colSpan={column.colspan}>
+                {column.label}
+              </TableCell>
             ))}
-        </TableRow>
-        <TableRow>
-            {tableColumns.map((column) => (
-            column.children && (
+          </TableRow>
+          <TableRow>
+            {tableColumns.map((column) =>
+              column.children ? (
                 column.children.map((childColumn, index) => (
-                <TableCell size='small' align='center' key={index}>{childColumn.label}</TableCell>
+                  <TableCell size='small' align='center' key={index}>
+                    {childColumn.label}
+                  </TableCell>
                 ))
-            )
-            ))}
-        </TableRow>
-            </TableHead>
+              ) : null
+            )}
+          </TableRow>
+        </TableHead>
         <TableBody>
           {tableData.map((row, index) => (
             <TableRow key={index}>
-              {tableColumns.map((column, index) => (
-                <TableCell size='small' align='center' key={index}>{row[column.label]}</TableCell>
-              ))}
+              {tableColumns.map((column, columnIndex) =>
+                column.children ? (
+                  column.children.map((childColumn, childIndex) => (
+                    <TableCell key={childIndex} size='small' align='center'>
+                      {row[childColumn.id]}
+                    </TableCell>
+                  ))
+                ) : (
+                  <TableCell key={columnIndex} size='small' align='center'>
+                    {row[column.id]}
+                  </TableCell>
+                )
+              )}
             </TableRow>
           ))}
         </TableBody>

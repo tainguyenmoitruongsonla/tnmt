@@ -25,16 +25,87 @@ const complete2 = [
   {title: "Đợt 3"},
 ];
 
-const data:any = [ ]
+const data:any = [
+  {
+    "License_Fk": {
+      "Id": 1,
+      "LicenseId": 64,
+      "LicenseParentId": 1,
+      "BasinId": 4,
+      "BusinessId": 24,
+      "DistrictId": 12,
+      "CommuneId": 196,
+      "ConstructionId": 1,
+      "LicenseFeeId": null,
+      "LicensingTypeId": 5,
+      "TypeOfConstructionId": 4,
+      "AquiferId": null,
+    }
+  },
+  {
+    "License_Fk": {
+      "Id": 2,
+      "LicenseId": 64,
+      "LicenseParentId": 1,
+      "BasinId": 4,
+      "BusinessId": 24,
+      "DistrictId": 12,
+      "CommuneId": 196,
+      "ConstructionId": 1,
+      "LicenseFeeId": null,
+      "LicensingTypeId": 5,
+      "TypeOfConstructionId": 4,
+      "AquiferId": null,
+    }
+  },
+  {
+    "License_Fk": {
+      "Id": 3,
+      "LicenseId": 64,
+      "LicenseParentId": 1,
+      "BasinId": 4,
+      "BusinessId": 24,
+      "DistrictId": 12,
+      "CommuneId": 196,
+      "ConstructionId": 1,
+      "LicenseFeeId": null,
+      "LicensingTypeId": 5,
+      "TypeOfConstructionId": 4,
+      "AquiferId": null,
+    }
+  },
+  {
+    "License_Fk": {
+      "Id": 4,
+      "LicenseId": 64,
+      "LicenseParentId": 1,
+      "BasinId": 4,
+      "BusinessId": 24,
+      "DistrictId": 12,
+      "CommuneId": 196,
+      "ConstructionId": 1,
+      "LicenseFeeId": null,
+      "LicensingTypeId": 5,
+      "TypeOfConstructionId": 4,
+      "AquiferId": null,
+    }
+  }
+]
 
 const columnsTable = [
-  { label: 'Column 1', showId:[1], rowspan: 2 },
-  { label: 'Column 2', showId:[1], colspan: 2, children: [
-    { label: 'Child Column 1',},
-    { label: 'Child Column 2',},
+  { id: 'Id', label: 'Id', showId:[1], rowspan: 2 },
+  { id: 'License', label: 'License', showId:[1], colspan:4, children: [
+    { id: 'LicenseParentId', label: 'LicenseParentId'},
+    { id: 'LicenseId', label: 'LicenseId'},
+    { id: 'LicenseFeeId', label: 'LicenseFeeId'},
+    { id: 'LicensingTypeId', label: 'LicensingTypeId'},
   ] },
-  { label: 'Column 3' , showId:[2], rowspan: 2 },
-  { label: 'Column 4', showId:[1,2], rowspan: 2 },
+  { id: 'BasinId', label: 'BasinId' , showId:[1,2], rowspan: 2 },
+  { id: 'BusinessId', label: 'BusinessId', showId:[1,2], rowspan: 2 },
+  { id: 'DistrictId', label: 'DistrictId', showId:[1,2], rowspan: 2 },
+  { id: 'CommuneId', label: 'CommuneId', showId:[1,2], rowspan: 2 },
+  { id: 'ConstructionId', label: 'ConstructionId', showId:[1,2], rowspan: 2 },
+  { id: 'TypeOfConstructionId', label: 'TypeOfConstructionId', showId:[1,2], rowspan: 2 },
 ];
 
 const SurfaceWater = () => {
