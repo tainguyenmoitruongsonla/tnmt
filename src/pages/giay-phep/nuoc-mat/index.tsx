@@ -1,10 +1,11 @@
 // ** MUI Imports
-import { Grid, Box, Button, Autocomplete, TextField, Card, CardContent } from '@mui/material';
+import { Grid, Box, Button, Autocomplete, TextField, Card, CardContent, IconButton, Tooltip } from '@mui/material';
 import { useState } from 'react'
 
 // ** Icons Imports
 
 import SearchIcon from '@mui/icons-material/Search';
+import { EditNote, Delete } from "@mui/icons-material";
 
 // ** Components Imports
 import ConstructionMap from 'src/views/construction'
@@ -209,7 +210,25 @@ const SurfaceWater = () => {
           </Box>
         </Grid> 
        <Grid item xs={12} sm={12} md={12}>
-          <TableLicenseComponent columns={columnsTable} data={data} TypeOfConsId={TypeOfConsId} />
+          <TableLicenseComponent columns={columnsTable} data={data} TypeOfConsId={TypeOfConsId} 
+            actions={
+              <Grid container spacing={2}>
+                <Grid item xs={6}>
+                  <Tooltip title="Chỉnh sửa giấy phép">
+                    <IconButton>
+                      <EditNote className='tableActionBtn' />
+                    </IconButton>
+                  </Tooltip>
+                </Grid>
+                <Grid item xs={6}>
+                  <Tooltip title="Xóa giấy phép">
+                    <IconButton>
+                      <Delete className='tableActionBtn deleteBtn' />
+                    </IconButton>
+                  </Tooltip>
+                </Grid>
+              </Grid>
+            } />
        </Grid>
     </Grid>
   )

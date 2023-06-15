@@ -18,10 +18,11 @@ interface Data {
 interface TableProps {
   columns: TableColumn[];
   data: Data[];
-  TypeOfConsId: number[];
+  TypeOfConsId?: number[];
+  actions?: React.ReactNode;
 }
 
-const TableLicenseComponent: FC<TableProps> = ({ columns, data, TypeOfConsId }: TableProps) => {
+const TableLicenseComponent: FC<TableProps> = ({ columns, data, TypeOfConsId, actions }: TableProps) => {
   const tableColumns: TableColumn[] = columns.filter((column) => column.showId && column.showId.includes(Number(TypeOfConsId)));
 
   function createData(data: any): Data {
@@ -63,7 +64,7 @@ const TableLicenseComponent: FC<TableProps> = ({ columns, data, TypeOfConsId }: 
   return (
     <Paper>
       <TableContainer>
-        <Table>
+        <Table className='mainTable'>
           <TableHead className='tableHead'>
             <TableRow>
               {tableColumns.map((column, index) => (
@@ -109,7 +110,7 @@ const TableLicenseComponent: FC<TableProps> = ({ columns, data, TypeOfConsId }: 
                   )
                 )}
                 <TableCell size='small' align='center'>
-                  ACTIONS
+                  {actions}
                 </TableCell>
               </TableRow>
             ))}
