@@ -27,91 +27,116 @@ const complete2 = [
 
 const data:any = [
   {
+    "LicenseNumber": "ABCX",
     "License_Fk": {
       "Id": 1,
-      "LicenseId": 64,
-      "LicenseParentId": 1,
+      "License":{
+        "LicenseId": 64,
+        "LicenseParentId": 1,
+        "LicenseFeeId": 123132,
+        "LicensingTypeId": 5,
+      },
       "BasinId": 4,
       "BusinessId": 24,
-      "DistrictId": 12,
-      "CommuneId": 196,
+      "Location": {
+        "DistrictId": 12,
+        "CommuneId": 196,
+      },
       "ConstructionId": 1,
-      "LicenseFeeId": null,
-      "LicensingTypeId": 5,
       "TypeOfConstructionId": 4,
-      "AquiferId": null,
+      "AquiferId": 123132,
     }
   },
   {
+    "LicenseNumber": "ASSZ",
     "License_Fk": {
-      "Id": 2,
-      "LicenseId": 64,
-      "LicenseParentId": 1,
+      "Id": 1,
+      "License":{
+        "LicenseId": 64,
+        "LicenseParentId": 1,
+        "LicenseFeeId": 123132,
+        "LicensingTypeId": 5,
+      },
       "BasinId": 4,
       "BusinessId": 24,
-      "DistrictId": 12,
-      "CommuneId": 196,
+      "Location": {
+        "DistrictId": 12,
+        "CommuneId": 196,
+      },
       "ConstructionId": 1,
-      "LicenseFeeId": null,
-      "LicensingTypeId": 5,
       "TypeOfConstructionId": 4,
-      "AquiferId": null,
+      "AquiferId": 123132,
     }
   },
   {
+    "LicenseNumber": "UBNDS",
     "License_Fk": {
-      "Id": 3,
-      "LicenseId": 64,
-      "LicenseParentId": 1,
+      "Id": 1,
+      "License":{
+        "LicenseId": 64,
+        "LicenseParentId": 1,
+        "LicenseFeeId": 123132,
+        "LicensingTypeId": 5,
+      },
       "BasinId": 4,
       "BusinessId": 24,
-      "DistrictId": 12,
-      "CommuneId": 196,
+      "Location": {
+        "DistrictId": 12,
+        "CommuneId": 196,
+      },
       "ConstructionId": 1,
-      "LicenseFeeId": null,
-      "LicensingTypeId": 5,
       "TypeOfConstructionId": 4,
-      "AquiferId": null,
+      "AquiferId": 123132,
     }
   },
   {
+    "LicenseNumber": "BTNMS",
     "License_Fk": {
-      "Id": 4,
-      "LicenseId": 64,
-      "LicenseParentId": 1,
+      "Id": 1,
+      "License":{
+        "LicenseId": 64,
+        "LicenseParentId": 1,
+        "LicenseFeeId": 123132,
+        "LicensingTypeId": 5,
+      },
       "BasinId": 4,
       "BusinessId": 24,
-      "DistrictId": 12,
-      "CommuneId": 196,
+      "Location": {
+        "DistrictId": 12,
+        "CommuneId": 196,
+      },
       "ConstructionId": 1,
-      "LicenseFeeId": null,
-      "LicensingTypeId": 5,
       "TypeOfConstructionId": 4,
-      "AquiferId": null,
+      "AquiferId": 123132,
     }
-  }
+  },
 ]
 
+// id of columnsTable is parameter to bind ex: get LicseFk.BasinId: id: 'License_Fk.BasinId'
 const columnsTable = [
-  { id: 'Id', label: 'Id', showId:[1], rowspan: 2 },
-  { id: 'License', label: 'License', showId:[1], colspan:4, children: [
+  { id: 'LicenseNumber', label: 'LicenseNumber', showId:[1], rowspan: 2 },
+  { id: 'License_Fk.Id', label: 'Id', showId:[1], rowspan: 2 },
+  { id: 'License_Fk.License', label: 'License', showId:[1], colspan:4, children: [
     { id: 'LicenseParentId', label: 'LicenseParentId'},
     { id: 'LicenseId', label: 'LicenseId'},
     { id: 'LicenseFeeId', label: 'LicenseFeeId'},
     { id: 'LicensingTypeId', label: 'LicensingTypeId'},
   ] },
-  { id: 'BasinId', label: 'BasinId' , showId:[1,2], rowspan: 2 },
-  { id: 'BusinessId', label: 'BusinessId', showId:[1,2], rowspan: 2 },
-  { id: 'DistrictId', label: 'DistrictId', showId:[1,2], rowspan: 2 },
-  { id: 'CommuneId', label: 'CommuneId', showId:[1,2], rowspan: 2 },
-  { id: 'ConstructionId', label: 'ConstructionId', showId:[1,2], rowspan: 2 },
-  { id: 'TypeOfConstructionId', label: 'TypeOfConstructionId', showId:[1,2], rowspan: 2 },
+  { id: 'License_Fk.BasinId', label: 'BasinId' , showId:[1,2], rowspan: 2 },
+  { id: 'License_Fk.BusinessId', label: 'BusinessId', showId:[1,2], rowspan: 2 },
+  { id: 'License_Fk.Location', label: 'Location', showId:[1], colspan:2, children: [
+    { id: 'DistrictId', label: 'DistrictId', showId:[1,2] },
+    { id: 'CommuneId', label: 'CommuneId', showId:[1,2] },
+  ] },
+  { id: 'License_Fk.ConstructionId', label: 'ConstructionId', showId:[1,2], rowspan: 2 },
+  { id: 'License_Fk.TypeOfConstructionId', label: 'TypeOfConstructionId', showId:[1,2], rowspan: 2 },
+  { id: 'License_Fk.AquiferId', label: 'AquiferId', showId:[1,2], rowspan: 2 },
 ];
 
 const SurfaceWater = () => {
   const [TypeOfConsId, setTypeOfConsId] = useState([1]);
   const handleChange = (e:any) => {
-    const val = (e == null ? 1 : e.value) 
+    const val = (e == 123132 ? 1 : e.value) 
     setTypeOfConsId(val)
   }
 

@@ -1,5 +1,6 @@
-import React from 'react';
-import { Table, TableHead, TableRow, TableCell, TableBody, TableContainer, Paper } from '@mui/material';
+import { FC, useState, ChangeEvent } from 'react'
+
+import { Table, TableHead, TableRow, TableCell, TableBody, TableContainer, Paper, TablePagination } from '@mui/material';
 
 interface TableColumn {
   id: string;
@@ -20,61 +21,113 @@ interface TableProps {
   TypeOfConsId: number[];
 }
 
-const TableLicenseComponent: React.FC<TableProps> = ({ columns, data, TypeOfConsId }: TableProps) => {
+const TableLicenseComponent: FC<TableProps> = ({ columns, data, TypeOfConsId }: TableProps) => {
   const tableColumns: TableColumn[] = columns.filter((column) => column.showId && column.showId.includes(Number(TypeOfConsId)));
 
   function createData(data: any): Data {
-    const {
-      Id, LicenseId, LicenseParentId, BasinId, BusinessId, DistrictId, CommuneId, ConstructionId, LicenseFeeId, LicensingTypeId, TypeOfConstructionId, AquiferId,} = data.License_Fk;
+    const rowData: Data = {};
   
-    return { Id, LicenseId, LicenseParentId, BasinId, BusinessId, DistrictId, CommuneId, ConstructionId, LicenseFeeId, LicensingTypeId, TypeOfConstructionId, AquiferId};
+    function traverse(obj: any, prefix: string = '') {
+      for (const key in obj) {
+        if (obj.hasOwnProperty(key)) {
+          const value = obj[key];
+  
+          if (typeof value === 'object' && value !== null) {
+            traverse(value, prefix + key + '.');
+          } else {
+            rowData[prefix + key] = value;
+          }
+        }
+      }
+    }
+  
+    traverse(data);
+  
+    return rowData;
   }
-  const tableData = data.map((item: any) => createData(item));
+  const rowsData = data.map((item: any) => createData(item));
+
+  // ** States
+  const [page, setPage] = useState<number>(0)
+  const [rowsPerPage, setRowsPerPage] = useState<number>(10)
+
+  const handleChangePage = (event: unknown, newPage: number) => {
+    setPage(newPage)
+  }
+
+  const handleChangeRowsPerPage = (event: ChangeEvent<HTMLInputElement>) => {
+    setRowsPerPage(+event.target.value)
+    setPage(0)
+  }
 
   return (
-    <TableContainer component={Paper}>
-      <Table>
-        <TableHead className='tableHead'>
-          <TableRow>
-            {tableColumns.map((column, index) => (
-              <TableCell size='small' align='center' key={index} rowSpan={column.rowspan} colSpan={column.colspan}>
-                {column.label}
-              </TableCell>
-            ))}
-          </TableRow>
-          <TableRow>
-            {tableColumns.map((column) =>
-              column.children ? (
-                column.children.map((childColumn, index) => (
-                  <TableCell size='small' align='center' key={index}>
-                    {childColumn.label}
-                  </TableCell>
-                ))
-              ) : null
-            )}
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {tableData.map((row, index) => (
-            <TableRow key={index}>
-              {tableColumns.map((column, columnIndex) =>
+    <Paper>
+      <TableContainer>
+        <Table>
+          <TableHead className='tableHead'>
+            <TableRow>
+              {tableColumns.map((column, index) => (
+                <TableCell size='small' align='center' key={index} rowSpan={column.rowspan} colSpan={column.colspan}>
+                  {column.label}
+                </TableCell>
+              ))}
+                <TableCell size='small' align='center' rowSpan={2}>
+                  ACTIONS
+                </TableCell>
+            </TableRow>
+            <TableRow>
+              {tableColumns.map((column) =>
                 column.children ? (
-                  column.children.map((childColumn, childIndex) => (
-                    <TableCell key={childIndex} size='small' align='center'>
-                      {row[childColumn.id]}
+                  column.children.map((childColumn, index) => (
+                    <TableCell size='small' align='center' key={index}>
+                      {childColumn.label}
                     </TableCell>
                   ))
-                ) : (
-                  <TableCell key={columnIndex} size='small' align='center'>
-                    {row[column.id]}
-                  </TableCell>
-                )
+                ) : null
               )}
             </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-    </TableContainer>
+          </TableHead>
+          <TableBody>
+            {rowsData?.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row, index) => (
+              <TableRow key={index}>
+                {tableColumns.map((column, columnIndex) =>
+                  column.children ? (
+                    column.children.map((childColumn, childIndex) => {
+                      const parentId = column.id;
+                      const key = `${parentId}.${childColumn.id}`; // Tạo chuỗi khóa
+
+                      return(
+                        <TableCell key={childIndex} size='small' align='center'>
+                          {row[key]}
+                        </TableCell>
+                      )
+                    })
+                  ) : (
+                    <TableCell key={columnIndex} size='small' align='center'>
+                      {row[column.id]}
+                    </TableCell>
+                  )
+                )}
+                <TableCell size='small' align='center'>
+                  ACTIONS
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
+      {
+        <TablePagination
+          rowsPerPageOptions={[10, 25, 100]}
+          component='div'
+          count={data?.length}
+          rowsPerPage={rowsPerPage}
+          page={page}
+          onPageChange={handleChangePage}
+          onRowsPerPageChange={handleChangeRowsPerPage}
+        />
+      }
+    </Paper>
   );
 };
 
