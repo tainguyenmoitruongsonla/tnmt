@@ -1,6 +1,6 @@
 // ** MUI Imports
 import { Grid, Box, Button, Autocomplete, TextField, Card, CardContent } from '@mui/material';
-import { useEffect } from 'react'
+import { useState } from 'react'
 
 // ** Icons Imports
 
@@ -11,13 +11,13 @@ import ConstructionMap from 'src/views/construction'
 import CreateConstruction from 'src/views/construction/CreateConstruction';
 import SearchLicense from 'src/views/license/Search';
 import CountLicense from 'src/views/license/CountLicense';
-import TableSurfaceWater from 'src/views/license/Table/SurfaceWater';
+import TableLicenseComponent from 'src/@core/components/table/table-license';
 
 
 const complete1 = [
-  {title: "Khóa 1"},
-  {title: "Khóa 2"},
-  {title: "Khóa 3"},
+  {title: "Khóa 1", value: 1},
+  {title: "Khóa 2", value: 2},
+  {title: "Khóa 3", value: 3},
 ];
 const complete2 = [
   {title: "Đợt 1"},
@@ -27,10 +27,22 @@ const complete2 = [
 
 const data:any = [ ]
 
+const columnsTable = [
+  { label: 'Column 1', showId:[1], rowspan: 2 },
+  { label: 'Column 2', showId:[1], colspan: 2, children: [
+    { label: 'Child Column 1',},
+    { label: 'Child Column 2',},
+  ] },
+  { label: 'Column 3' , showId:[2], rowspan: 2 },
+  { label: 'Column 4', showId:[1,2], rowspan: 2 },
+];
+
 const SurfaceWater = () => {
-  useEffect(() => {
-    document.title = "Quản lý thông tin giấy phép nước mặt";
-  }, []);
+  const [TypeOfConsId, setTypeOfConsId] = useState([1]);
+  const handleChange = (e:any) => {
+    const val = (e == null ? 1 : e.value) 
+    setTypeOfConsId(val)
+  }
 
   // const [data, setData] = useState([]);
 
@@ -48,6 +60,7 @@ const SurfaceWater = () => {
   //     console.error('Error fetching data:', error);
   //   }
   // }; 
+
   return (
     <Grid container spacing={3}>
       <Grid item xs={3} sm={3} md={3}>
@@ -64,7 +77,10 @@ const SurfaceWater = () => {
           <Box></Box>
           <Box className='_search'>
             <Box>
-              <Autocomplete  size="small" options={complete1} getOptionLabel={(option) => option.title} renderInput={(params) => (
+              <Autocomplete  size="small" 
+              onChange={(e,v) => handleChange(v)}
+              options={complete1} 
+              getOptionLabel={(option) => option.title} renderInput={(params) => (
                   <TextField
                     {...params}
                     variant="outlined"
@@ -97,7 +113,7 @@ const SurfaceWater = () => {
           </Box>
         </Grid> 
        <Grid item xs={12} sm={12} md={12}>
-          <TableSurfaceWater data={data} />
+          <TableLicenseComponent columns={columnsTable} data={data} TypeOfConsId={TypeOfConsId} />
        </Grid>
     </Grid>
   )

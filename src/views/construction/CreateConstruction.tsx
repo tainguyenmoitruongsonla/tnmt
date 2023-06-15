@@ -21,8 +21,8 @@ import {
   SelectChangeEvent,
   FormControl
 } from '@mui/material'
-import DialogControlFullScreen from 'src/views/DialogControlFullScreen'
 import CreateHydroelectric from './CreateHydroelectric'
+import DialogsControlFullScreen from 'src/@core/components/dialog-control-full-screen'
 
 const complete1 = [{ title: 'Khóa 1' }, { title: 'Khóa 2' }, { title: 'Khóa 3' }]
 
@@ -241,7 +241,7 @@ const CreateConstruction = ({ isEdit }: { isEdit: boolean }) => {
   }
 
   return (
-    <DialogControlFullScreen>
+    <DialogsControlFullScreen>
       {(openDialogs: (content: React.ReactNode, title: React.ReactNode) => void, closeDialogs: () => void) => (
         <>
           {isEdit ? (
@@ -264,7 +264,7 @@ const CreateConstruction = ({ isEdit }: { isEdit: boolean }) => {
           )}
         </>
       )}
-    </DialogControlFullScreen>
+    </DialogsControlFullScreen>
   )
 }
 

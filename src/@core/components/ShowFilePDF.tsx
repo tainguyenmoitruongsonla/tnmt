@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { Typography } from '@mui/material'
-import DialogControlShowPDF from 'src/views/DialogControlShowPDF'
+import DialogControlShowPDF from './dialog-control-show-pdf';
 
 function GetFolderLicense ( type:any, TypeOfConstructionId:any, LicensingAuthorities:any) {
 

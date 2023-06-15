@@ -1,6 +1,6 @@
 import FilterAltIcon from '@mui/icons-material/FilterAlt';
 import { Grid, Button, TextField, DialogActions, Autocomplete } from "@mui/material";
-import DialogsControl from 'src/views/DialogControl'
+import DialogsControl from 'src/@core/components/dialog-control'
 
 const complete1 = [{ title: 'Khóa 1' }, { title: 'Khóa 2' }, { title: 'Khóa 3' }]
  

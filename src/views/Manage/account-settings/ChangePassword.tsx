@@ -1,4 +1,4 @@
-import DialogsControl from '../../DialogControl';
+import DialogsControl from 'src/@core/components/dialog-control';
 import { LockOpen } from "@mui/icons-material";
 import { Grid, Button, TextField, DialogActions } from "@mui/material";
 

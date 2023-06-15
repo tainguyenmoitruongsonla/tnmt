@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Grid, DialogActions, Typography, TextField, Table, TableHead, TableRow, TableCell, TableBody, Checkbox, Button } from '@mui/material';
 import { ShieldTwoTone } from '@mui/icons-material';
-import DialogsControlFullScreen from '../../DialogControlFullScreen';
+import DialogsControlFullScreen from 'src/@core/components/dialog-control-full-screen';
 
 const createData = (name: string, isDefault: boolean) => {
   return { name, isDefault }

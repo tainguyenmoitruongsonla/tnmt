@@ -12,9 +12,9 @@ import TableContainer from '@mui/material/TableContainer'
 import TablePagination from '@mui/material/TablePagination'
 import { EditNote, Delete } from "@mui/icons-material";
 import { Grid, IconButton, Tooltip } from '@mui/material'
-import FormatDate from 'src/views/FormatDate'
-import CheckEffect from 'src/views/license/CheckEffect'
-import ShowFilePDF from 'src/views/ShowFilePDF'
+import FormatDate from 'src/@core/components/FormatDate'
+import ShowFilePDF from 'src/@core/components/ShowFilePDF'
+import CheckEffect from '../CheckEffect'
 
 const TableSurfaceWater = ({ data }:any) => {
   // ** States
@@ -44,10 +44,28 @@ const TableSurfaceWater = ({ data }:any) => {
     
   }
 
+  interface Column {
+    id: 'name' | 'code' | 'population' | 'size' | 'density';
+    label: string;
+    minWidth?: number;
+    align?: 'right';
+    children?: Column[];
+    format?: (value: number) => string;
+  }
+  
+  const columns: Column[] = [
+    { id: 'name', label: 'Name', minWidth: 170 },
+    { id: 'code', label: 'Name1', minWidth: 170, children: [
+      { id: 'population', label: 'Name1.1', minWidth: 170 },
+      { id: 'size', label: 'Name1.2', minWidth: 170 },
+    ] },
+    { id: 'density', label: 'Name2', minWidth: 170 },
+  ]
+
   return (
     <Paper>
       <TableContainer>
-        <Table aria-label='sticky table' className='mainTable'>
+        <Table aria-label='sticky table' className='mainTable sticky table'>
           <TableHead className='tableHead'>
             <TableRow>
               <TableCell size='small' align="center" rowSpan={2} className='sticky-col start-col'>Số GP</TableCell>
