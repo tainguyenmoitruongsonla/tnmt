@@ -4,8 +4,10 @@ const CheckEffect = ({ data }: any) => {
     const date2 = new Date(dateAcquired);
     if (dateAcquired != null || dateAcquired != undefined || dateAcquired != '') {
       const licenseStatus = Math.floor((date1.getTime() - date2.getTime()) / (1000 * 3600 * 24));
+
       return licenseStatus;
     }
+
     return null;
   };
 
@@ -42,6 +44,7 @@ const CheckEffect = ({ data }: any) => {
         }
       }
     }
+    
     return <>{licenseStatusComponent}</>;
   }
 

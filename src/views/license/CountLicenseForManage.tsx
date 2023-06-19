@@ -21,7 +21,7 @@ const CountLicenseForManage = () => {
                         <Grid item xs={12} sm={12} md={12} sx={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center' }}>
                             <Grid item xs={4} sx={{ p: 2 }}>
                                 <Typography variant='body2' pt={1} pb={3} fontWeight={'bold'} color={'#fff'}>Đã cấp: 123</Typography>
-                                <img src='/images/licenses/expire.png' width={65} height={65}></img>
+                                <img src='/images/licenses/expire.png' alt='license_img' width={65} height={65}></img>
                             </Grid>
                             <Grid item xs={8} sx={{ p: 2 }}>
                                 <Typography variant='body2' py={1} fontWeight={'bold'} color={'#fff'}>Còn hiệu lực: 111</Typography>
@@ -45,7 +45,7 @@ const CountLicenseForManage = () => {
                         <Grid item xs={12} sm={12} md={12} sx={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center' }}>
                             <Grid item xs={4} sx={{ p: 2 }}>
                                 <Typography variant='body2' pt={1} pb={3} fontWeight={'bold'} color={'#fff'}>Đã cấp: 123</Typography>
-                                <img src='/images/licenses/expire.png' width={65} height={65}></img>
+                                <img src='/images/licenses/expire.png' alt='license_img' width={65} height={65}></img>
                             </Grid>
                             <Grid item xs={8} sx={{ p: 2 }}>
                                 <Typography variant='body2' py={1} fontWeight={'bold'} color={'#fff'}>Còn hiệu lực: 111</Typography>
@@ -69,7 +69,7 @@ const CountLicenseForManage = () => {
                         <Grid item xs={12} sm={12} md={12} sx={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center' }}>
                             <Grid item xs={4} sx={{ p: 2 }}>
                                 <Typography variant='body2' pt={1} pb={3} fontWeight={'bold'} color={'#fff'}>Đã cấp: 123</Typography>
-                                <img src='/images/licenses/expire.png' width={65} height={65}></img>
+                                <img src='/images/licenses/expire.png' alt='license_img' width={65} height={65}></img>
                             </Grid>
                             <Grid item xs={8} sx={{ p: 2 }}>
                                 <Typography variant='body2' py={1} fontWeight={'bold'} color={'#fff'}>Còn hiệu lực: 111</Typography>
@@ -93,7 +93,7 @@ const CountLicenseForManage = () => {
                         <Grid item xs={12} sm={12} md={12} sx={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center' }}>
                             <Grid item xs={4} sx={{ p: 2 }}>
                                 <Typography variant='body2' pt={1} pb={3} fontWeight={'bold'} color={'#fff'}>Đã cấp: 123</Typography>
-                                <img src='/images/licenses/expire.png' width={65} height={65}></img>
+                                <img src='/images/licenses/expire.png' alt='license_img' width={65} height={65}></img>
                             </Grid>
                             <Grid item xs={8} sx={{ p: 2 }}>
                                 <Typography variant='body2' py={1} fontWeight={'bold'} color={'#fff'}>Còn hiệu lực: 111</Typography>
@@ -117,7 +117,7 @@ const CountLicenseForManage = () => {
                         <Grid item xs={12} sm={12} md={12} sx={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center' }}>
                             <Grid item xs={4} sx={{ p: 2 }}>
                                 <Typography variant='body2' pt={1} pb={3} fontWeight={'bold'} color={'#fff'}>Đã cấp: 123</Typography>
-                                <img src='/images/licenses/expire.png' width={65} height={65}></img>
+                                <img src='/images/licenses/expire.png' alt='license_img' width={65} height={65}></img>
                             </Grid>
                             <Grid item xs={8} sx={{ p: 2 }}>
                                 <Typography variant='body2' py={1} fontWeight={'bold'} color={'#fff'}>Còn hiệu lực: 111</Typography>

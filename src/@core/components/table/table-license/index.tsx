@@ -1,6 +1,6 @@
 import { FC, useState, ChangeEvent } from 'react'
 
-import { Table, TableHead, TableRow, TableCell, TableBody, TableContainer, Paper, TablePagination, Typography } from '@mui/material';
+import { Table, TableHead, TableRow, TableCell, TableBody, TableContainer, Paper, TablePagination } from '@mui/material';
 
 interface TableColumn {
   id: string;

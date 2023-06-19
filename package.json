@@ -69,8 +69,7 @@
     "react-esri-leaflet": "^2.0.1",
     "react-leaflet": "^4.2.1",
     "react-perfect-scrollbar": "^1.5.8",
-    "react-popper": "^2.2.5",
-    "recharts": "^2.5.0"
+    "react-popper": "^2.2.5"
   },
   "devDependencies": {
     "@types/esri-leaflet": "^2.1.9",
