@@ -9,6 +9,8 @@ interface TableColumn {
   colspan?: number;
   rowspan?: number;
   children?: TableColumn[];
+  format?: (value: any) => string;
+  elm?: React.ReactNode;
 }
 
 interface Data {
@@ -23,30 +25,10 @@ interface TableProps {
 }
 
 const TableComponent: FC<TableProps> = ({ columns, data, TypeOfConsId, actions }: TableProps) => {
+
   const tableColumns: TableColumn[] = columns.filter((column) => column.showId && column.showId.includes(Number(TypeOfConsId)));
 
-  function createData(data: any): Data {
-    const rowData: Data = {};
-
-    function traverse(obj: any, prefix = '') {
-      for (const key in obj) {
-        if (obj.hasOwnProperty(key)) {
-          const value = obj[key];
-
-          if (typeof value === 'object' && value !== null) {
-            traverse(value, prefix + key + '.');
-          } else {
-            rowData[prefix + key] = value;
-          }
-        }
-      }
-    }
-
-    traverse(data);
-
-    return rowData;
-  }
-  const rowsData = data.map((item: any) => createData(item));
+  const rowsData = data;
 
   // ** States
   const [page, setPage] = useState<number>(0)
@@ -72,9 +54,6 @@ const TableComponent: FC<TableProps> = ({ columns, data, TypeOfConsId, actions }
                   {column.label}
                 </TableCell>
               ))}
-              <TableCell size='small' align='center' rowSpan={2}>
-                ACTIONS
-              </TableCell>
             </TableRow>
             <TableRow>
               {tableColumns.map((column) =>
@@ -88,30 +67,44 @@ const TableComponent: FC<TableProps> = ({ columns, data, TypeOfConsId, actions }
               )}
             </TableRow>
           </TableHead>
-          <TableBody>
+          <TableBody className='tableBody'>
             {rowsData?.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row, index) => (
               <TableRow key={index}>
                 {tableColumns.map((column, columnIndex) =>
                   column.children ? (
                     column.children.map((childColumn, childIndex) => {
                       const parentId = column.id;
-                      const key = `${parentId}.${childColumn.id}`; // Tạo chuỗi khóa
+                      const rowValue = row[parentId];
 
                       return (
-                        <TableCell key={childIndex} size='small' align='center'>
-                          {row[key]}
+                        <TableCell key={childIndex} size='small'>
+                          {Array.isArray(rowValue)
+                            ? rowValue.map((e, k) => (
+                              <span key={k}>{e}</span>
+                            ))
+                            : typeof rowValue === 'object' && rowValue !== null && Object.keys(rowValue).length > 0
+                              ? (
+                                typeof childColumn.elm === 'function'
+                                  ? childColumn.elm(rowValue)
+                                  : childColumn.format
+                                    ? childColumn.format(rowValue[childColumn.id])
+                                    : rowValue[childColumn.id]
+                              )
+                              : <span>{rowValue}</span>
+                          }
                         </TableCell>
                       )
                     })
                   ) : (
-                    <TableCell key={columnIndex} size='small' align='center'>
-                      {row[column.id]}
+                    <TableCell key={columnIndex} size='small'>
+                      {column.id == "actions" ? actions
+                        :
+                        (
+                          typeof column.elm === 'function' ? column.elm(row) : (column.format ? column.format(row[column.id]) : row[column.id])
+                        )}
                     </TableCell>
                   )
                 )}
-                <TableCell size='small' align='center'>
-                  {actions}
-                </TableCell>
               </TableRow>
             ))}
           </TableBody>
