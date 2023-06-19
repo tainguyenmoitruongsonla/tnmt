@@ -76,8 +76,6 @@ const TableLicenseComponent: FC<TableProps> = ({ columns, data, TypeOfConsId, ac
                       const parentId = column.id;
                       const rowValue = row[parentId];
 
-                      console.log(row[parentId])
-
                       return (
                         <TableCell key={childIndex} size='small'>
                           {Array.isArray(rowValue)
