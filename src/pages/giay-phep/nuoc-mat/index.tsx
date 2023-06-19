@@ -114,6 +114,14 @@ const SurfaceWater = () => {
     // fetchData();
   }, []);
 
+  const EditLicense = (row:any) => {
+    console.log('Edit: '+row.LicenseNumber)
+  }
+
+  const DeleteLicense = (row:any) => {
+    console.log('Delete: '+row.LicenseNumber)
+  }
+
   return (
     <Grid container spacing={3}>
       <Grid item xs={3} sm={3} md={3}>
@@ -167,19 +175,21 @@ const SurfaceWater = () => {
       </Grid>
       <Grid item xs={12} sm={12} md={12}>
         <TableLicenseComponent columns={columns} data={data} TypeOfConsId={TypeOfConsId}
-          actions={
+          actions={(row: any) => (
             <Box>
               <Tooltip title="Chỉnh sửa giấy phép">
-                <IconButton>
+                <IconButton onClick={() => EditLicense(row)}>
                   <EditNote className='tableActionBtn' />
                 </IconButton>
               </Tooltip>
               <Tooltip title="Xóa giấy phép">
-                <IconButton>
+                <IconButton onClick={() => DeleteLicense(row)}>
                   <Delete className='tableActionBtn deleteBtn' />
                 </IconButton>
               </Tooltip>
             </Box>
+          )
+
           } />
       </Grid>
     </Grid>
