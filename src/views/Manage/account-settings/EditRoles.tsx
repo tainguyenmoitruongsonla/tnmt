@@ -17,19 +17,19 @@ const Form = ({ onSubmit, closeDialogs }: any) => {
   return (
     <form onSubmit={handleSubmit}>
       <Grid container>
-        <Grid item xs={12} md={12} sx={{my: 2}}>
+        <Grid item xs={12} md={12} sx={{ my: 2 }}>
           <TextField size='small' type='text' fullWidth label='Tên' placeholder='' defaultValue='' />
         </Grid>
-        <Grid item xs={12} md={12} sx={{my: 2}}>
+        <Grid item xs={12} md={12} sx={{ my: 2 }}>
           <TextField size='small' type='text' fullWidth label='Mô tả' placeholder='' defaultValue='' />
         </Grid>
-        <Grid item xs={12} md={12} sx={{my: 2}}>
-        <FormGroup>
-          <FormControlLabel control={<Checkbox name='isDefault' />} label="Đặt là mặc định" />
-        </FormGroup>
+        <Grid item xs={12} md={12} sx={{ my: 2 }}>
+          <FormGroup>
+            <FormControlLabel control={<Checkbox name='isDefault' />} label="Đặt là mặc định" />
+          </FormGroup>
         </Grid>
       </Grid>
-      <DialogActions sx={{p:0}}>
+      <DialogActions sx={{ p: 0 }}>
         <Button onClick={() => handleClose()} className='btn closeBtn'>Hủy</Button>
         <Button type="submit" className='btn saveBtn'>Lưu</Button>
       </DialogActions>
@@ -48,14 +48,14 @@ const EditRoles = ({ isEdit }: { isEdit: boolean }) => {
       {(openDialogs: (content: React.ReactNode, title: React.ReactNode) => void, closeDialogs: () => void) => (
         <>
           {
-          isEdit?
-          <EditNote className='tableActionBtn' onClick={() => openDialogs(<Form onSubmit={handleSubmit} closeDialogs={closeDialogs} />, formTitle)} />
-          :
-          <IconButton className='addNewBtn' aria-label="add user" onClick={() => openDialogs(<Form onSubmit={handleSubmit} closeDialogs={closeDialogs} />, formTitle)}>
-              <PersonAddAlt sx={{mr: 2}} />
-              <Typography>Thêm mới</Typography>
-          </IconButton>
-        }
+            isEdit ?
+              <EditNote className='tableActionBtn' onClick={() => openDialogs(<Form onSubmit={handleSubmit} closeDialogs={closeDialogs} />, formTitle)} />
+              :
+              <IconButton className='addNewBtn' aria-label="add user" onClick={() => openDialogs(<Form onSubmit={handleSubmit} closeDialogs={closeDialogs} />, formTitle)}>
+                <PersonAddAlt sx={{ mr: 2 }} />
+                <Typography>Thêm mới</Typography>
+              </IconButton>
+          }
         </>
       )}
     </DialogsControl>

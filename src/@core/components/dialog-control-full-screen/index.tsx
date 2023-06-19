@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Dialog, DialogContent, Slide, AppBar, Toolbar,Typography} from '@mui/material';
+import { Dialog, DialogContent, Slide, AppBar, Toolbar, Typography } from '@mui/material';
 import { TransitionProps } from '@mui/material/transitions';
 import CloseIcon from '@mui/icons-material/Close';
 
@@ -36,7 +36,7 @@ const DialogsControlFullScreen = ({ children }: DialogControlProps) => {
   return (
     <>
       {children(openDialogs, closeDialogs)}
-      <Dialog open={isOpen} onClose={closeDialogs} fullScreen TransitionComponent={Transition}  sx={{zIndex:1201}}>
+      <Dialog open={isOpen} onClose={closeDialogs} fullScreen TransitionComponent={Transition} sx={{ zIndex: 1201 }}>
         {dialogContent && (
           <>
             <AppBar sx={{ position: 'relative' }}>
@@ -48,7 +48,7 @@ const DialogsControlFullScreen = ({ children }: DialogControlProps) => {
               </Toolbar>
             </AppBar>
             <DialogContent>
-                {dialogContent}
+              {dialogContent}
             </DialogContent>
           </>
         )}

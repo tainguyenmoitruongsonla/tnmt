@@ -13,7 +13,7 @@ const RealTime = () => {
     }, 1000);
 
     return () => clearInterval(interval);
-    
+
   }, [currentTime]);
 
   return (

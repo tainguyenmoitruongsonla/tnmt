@@ -28,9 +28,9 @@ const DialogsControl = ({ children }: DialogControlProps) => {
       <Dialog open={isOpen} onClose={closeDialogs}>
         {dialogContent && (
           <>
-            <DialogTitle sx={{textAlign: 'center', textTransform: 'uppercase'}}>{dialogTitle}</DialogTitle>
+            <DialogTitle sx={{ textAlign: 'center', textTransform: 'uppercase' }}>{dialogTitle}</DialogTitle>
             <DialogContent>
-                {dialogContent}
+              {dialogContent}
             </DialogContent>
           </>
         )}

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Dialog, DialogContent, Slide, AppBar, Toolbar,Typography} from '@mui/material';
+import { Dialog, DialogContent, Slide, AppBar, Toolbar, Typography } from '@mui/material';
 import { TransitionProps } from '@mui/material/transitions';
 import CloseIcon from '@mui/icons-material/Close';
 
@@ -36,7 +36,7 @@ const DialogControlShowPDF = ({ children }: DialogControlProps) => {
   return (
     <>
       {children(openDialogs, closeDialogs)}
-      <Dialog open={isOpen} onClose={closeDialogs} fullScreen TransitionComponent={Transition} className='DialogControlShowPDF'  sx={{zIndex:1201}}>
+      <Dialog open={isOpen} onClose={closeDialogs} fullScreen TransitionComponent={Transition} className='DialogControlShowPDF' sx={{ zIndex: 1201 }}>
         {dialogContent && (
           <>
             <AppBar sx={{ position: 'relative' }}>
@@ -47,8 +47,8 @@ const DialogControlShowPDF = ({ children }: DialogControlProps) => {
                 <CloseIcon className='btn' onClick={closeDialogs} />
               </Toolbar>
             </AppBar>
-            <DialogContent sx={{p:0}}>
-                {dialogContent}
+            <DialogContent sx={{ p: 0 }}>
+              {dialogContent}
             </DialogContent>
           </>
         )}

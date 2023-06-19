@@ -83,7 +83,7 @@ const renderStats = () => {
 }
 
 const StatisticsCard = () => {
-  
+
   return (
     <Card>
       <CardHeader

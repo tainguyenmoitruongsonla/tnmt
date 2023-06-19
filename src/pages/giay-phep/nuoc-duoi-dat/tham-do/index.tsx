@@ -15,17 +15,17 @@ import TableExploidGroundWater from 'src/views/license/Table/ExploidGroundWater'
 
 
 const complete1 = [
-  {title: "Khóa 1"},
-  {title: "Khóa 2"},
-  {title: "Khóa 3"},
+  { title: "Khóa 1" },
+  { title: "Khóa 2" },
+  { title: "Khóa 3" },
 ];
 const complete2 = [
-  {title: "Đợt 1"},
-  {title: "Đợt 2"},
-  {title: "Đợt 3"},
+  { title: "Đợt 1" },
+  { title: "Đợt 2" },
+  { title: "Đợt 3" },
 ];
 
-const data:any = []
+const data: any = []
 
 const ProbeGroundWater = () => {
   useEffect(() => {
@@ -53,53 +53,53 @@ const ProbeGroundWater = () => {
     <Grid container spacing={3}>
       <Grid item xs={3} sm={3} md={3}>
         <CountLicense />
-       </Grid>
-       <Grid item xs={9} sm={9} md={9} sx={{height:'55vh', overflow:'hidden'}}>
-        <Card sx={{height: '100%'}}>
-          <CardContent sx={{p: 0, height: '100%'}}>
+      </Grid>
+      <Grid item xs={9} sm={9} md={9} sx={{ height: '55vh', overflow: 'hidden' }}>
+        <Card sx={{ height: '100%' }}>
+          <CardContent sx={{ p: 0, height: '100%' }}>
             <ConstructionMap />
           </CardContent>
         </Card>
-       </Grid>
-       <Grid item xs={12} sm={12} md={12} className='_row _justifyContentBetween' >
-          <Box></Box>
-          <Box className='_search'>
-            <Box>
-              <Autocomplete  size="small" options={complete1} getOptionLabel={(option) => option.title} renderInput={(params) => (
-                  <TextField
-                    {...params}
-                    variant="outlined"
-                    label="Chọn loại hình CP"
-                    placeholder=""
-                  />
-                )}
+      </Grid>
+      <Grid item xs={12} sm={12} md={12} className='_row _justifyContentBetween' >
+        <Box></Box>
+        <Box className='_search'>
+          <Box>
+            <Autocomplete size="small" options={complete1} getOptionLabel={(option) => option.title} renderInput={(params) => (
+              <TextField
+                {...params}
+                variant="outlined"
+                label="Chọn loại hình CP"
+                placeholder=""
               />
-            </Box>
-            <Box>
-              <Autocomplete size="small" options={complete2} getOptionLabel={(option) => option.title} renderInput={(params) => (
-                  <TextField
-                    {...params}
-                    variant="outlined"
-                    label="Chọn cơ quan CP"
-                    placeholder=""
-                  />
-                )}
-              />
-            </Box>
-            <Box>
-              <SearchLicense/>
-            </Box>           
-            <Box>
-              <Button size='small' startIcon={<SearchIcon/>} variant="outlined">Xuất excel</Button>
-            </Box>
-            <Box>
-              <CreateConstruction isEdit={false}/>
-            </Box>
+            )}
+            />
           </Box>
-        </Grid> 
-       <Grid item xs={12} sm={12} md={12}>
-          <TableExploidGroundWater data={data} />
-       </Grid>
+          <Box>
+            <Autocomplete size="small" options={complete2} getOptionLabel={(option) => option.title} renderInput={(params) => (
+              <TextField
+                {...params}
+                variant="outlined"
+                label="Chọn cơ quan CP"
+                placeholder=""
+              />
+            )}
+            />
+          </Box>
+          <Box>
+            <SearchLicense />
+          </Box>
+          <Box>
+            <Button size='small' startIcon={<SearchIcon />} variant="outlined">Xuất excel</Button>
+          </Box>
+          <Box>
+            <CreateConstruction isEdit={false} />
+          </Box>
+        </Box>
+      </Grid>
+      <Grid item xs={12} sm={12} md={12}>
+        <TableExploidGroundWater data={data} />
+      </Grid>
     </Grid>
   )
 }

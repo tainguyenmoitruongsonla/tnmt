@@ -12,7 +12,7 @@ function FormRow() {
     <React.Fragment>
       <Grid container spacing={4}>
         <Grid item xs={3}>
-          <Bieumau1/>
+          <Bieumau1 />
         </Grid>
         <Grid item xs={3}>
           <Link className='formReport_box' href='#'>

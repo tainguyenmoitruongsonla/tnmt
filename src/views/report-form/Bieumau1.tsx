@@ -11,10 +11,10 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import DialogControlFullScreen from 'src/@core/components/dialog-control-full-screen'
 import TableList from '../construction/TableList';
 
-const FormContruction = (  ) => {
+const FormContruction = () => {
 
   return (
-    <Paper sx={{p:2}}>
+    <Paper sx={{ p: 2 }}>
       {/* dautrang */}
       <Grid container>
         <Grid md={11}>
@@ -38,12 +38,12 @@ const FormContruction = (  ) => {
           </Typography>
           <Typography>
             Số:
-            <TextField size='small' sx={{width:'50px'}}></TextField>
-            /STNMT-TNN-KS&KTTV        
+            <TextField size='small' sx={{ width: '50px' }}></TextField>
+            /STNMT-TNN-KS&KTTV
           </Typography>
         </Grid>
 
-        <Grid  className='_text_center'>
+        <Grid className='_text_center'>
           <Typography>
             CỘNG HOÀ XÃ HỘI CHỦ NGHĨA VIỆT NAM
           </Typography>
@@ -51,29 +51,29 @@ const FormContruction = (  ) => {
             Độc lập - Tự do - Hạnh phúc
           </Typography>
           <Typography>
-            Sơn La, ngày 25 tháng 04 năm 2023        
+            Sơn La, ngày 25 tháng 04 năm 2023
           </Typography>
         </Grid>
       </Grid>
 
-      <Grid  className='_text_center'>
-          <Typography>
-            BÁO CÁO
-          </Typography>
-          <Typography>
-            Số lượng trạm quan trắc khí tượng, thuỷ văn, tài nguyên nước, nước dưới đất
-          </Typography>
-          <Typography>
-          (Kỳ báo cáo: <TextField size='small' sx={{width:'50px'}}></TextField>)       
-          </Typography>
+      <Grid className='_text_center'>
+        <Typography>
+          BÁO CÁO
+        </Typography>
+        <Typography>
+          Số lượng trạm quan trắc khí tượng, thuỷ văn, tài nguyên nước, nước dưới đất
+        </Typography>
+        <Typography>
+          (Kỳ báo cáo: <TextField size='small' sx={{ width: '50px' }}></TextField>)
+        </Typography>
       </Grid>
 
-      <Grid  className='_text_center'>
-          <TableList/>
+      <Grid className='_text_center'>
+        <TableList />
       </Grid>
     </Paper>
   )
-  
+
 }
 
 const Bieumau1 = () => {
@@ -84,8 +84,8 @@ const Bieumau1 = () => {
       {(openDialogs: (content: React.ReactNode, title: React.ReactNode) => void) => (
         <>
           <Link className='formReport_box' onClick={() =>
-                openDialogs(<FormContruction />, formTitle)
-              }>
+            openDialogs(<FormContruction />, formTitle)
+          }>
             <Grid item xs={8}>
               <Typography className='text-danger text-weight-bold'>Biểu mẫu 1</Typography>
               <Typography className='text-success text-weight-bold _font12'>

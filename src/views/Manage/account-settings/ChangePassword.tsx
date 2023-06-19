@@ -17,17 +17,17 @@ const Form = ({ onSubmit, closeDialogs }: any) => {
   return (
     <form onSubmit={handleSubmit}>
       <Grid container>
-        <Grid item xs={12} md={12} sx={{my: 3}}>
-            <TextField disabled size='small' type='password' fullWidth label='Mật khẩu cũ' placeholder='' defaultValue='' />
-          </Grid>
-          <Grid item xs={12} md={12} sx={{my: 3}}>
-            <TextField size='small' type='password' fullWidth label='Mật khẩu mới' placeholder='' defaultValue='' />
-          </Grid>
-          <Grid item xs={12} md={12} sx={{my: 3}}>
-            <TextField size='small' type='password'  fullWidth label='Xác nhận mật khẩu' placeholder='' defaultValue='' />
-          </Grid>
+        <Grid item xs={12} md={12} sx={{ my: 3 }}>
+          <TextField disabled size='small' type='password' fullWidth label='Mật khẩu cũ' placeholder='' defaultValue='' />
+        </Grid>
+        <Grid item xs={12} md={12} sx={{ my: 3 }}>
+          <TextField size='small' type='password' fullWidth label='Mật khẩu mới' placeholder='' defaultValue='' />
+        </Grid>
+        <Grid item xs={12} md={12} sx={{ my: 3 }}>
+          <TextField size='small' type='password' fullWidth label='Xác nhận mật khẩu' placeholder='' defaultValue='' />
+        </Grid>
       </Grid>
-      <DialogActions sx={{p:0}}>
+      <DialogActions sx={{ p: 0 }}>
         <Button onClick={() => handleClose()} className='btn closeBtn'>Hủy</Button>
         <Button type="submit" className='btn saveBtn'>Lưu</Button>
       </DialogActions>

@@ -66,7 +66,7 @@ const ApexChartLicense: React.FC<ApexChartLicenseProps> = ({ data, year, color }
     tooltip: {
       y: {
         formatter: function (val: any) {
-          
+
           return 'Đã cấp ' + val + ' giấy phép';
         },
       },

@@ -6,7 +6,7 @@ const MapPage = () => {
 
   useEffect(() => {
     loadModules(["esri/Map", "esri/views/MapView", "esri/Basemap", "esri/layers/KMLLayer", "esri/layers/VectorTileLayer",
-    "esri/layers/TileLayer"], { css: true })
+      "esri/layers/TileLayer"], { css: true })
       .then(([Map, MapView, Basemap, KMLLayer, VectorTileLayer]) => {
         const layer = new KMLLayer({
           url:
@@ -18,7 +18,7 @@ const MapPage = () => {
         //   layers: [layer]
         // });
 
-        
+
 
         // var basemapToggle = new BasemapToggle({
         //   view: view,

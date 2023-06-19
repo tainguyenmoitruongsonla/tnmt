@@ -1,6 +1,6 @@
 // ** React Imports
 // ** MUI Imports
-import {Grid, Checkbox, Table, TableHead, TableBody, TableRow, TableCell, IconButton} from '@mui/material'
+import { Grid, Checkbox, Table, TableHead, TableBody, TableRow, TableCell, IconButton } from '@mui/material'
 import { Delete } from '@mui/icons-material';
 import EditRoles from './EditRoles';
 
@@ -27,9 +27,9 @@ const Roles = () => {
               <TableRow>
                 <TableCell size='small'>TÊN</TableCell>
                 <TableCell size='small' align='center'>MẶC ĐỊNH</TableCell>
-                <TableCell size='small' align='center' sx={{minWidth: ACTION_COLUMN_WIDTH, width: ACTION_COLUMN_WIDTH}}>
-                    #
-                    <EditRoles isEdit = {false} />
+                <TableCell size='small' align='center' sx={{ minWidth: ACTION_COLUMN_WIDTH, width: ACTION_COLUMN_WIDTH }}>
+                  #
+                  <EditRoles isEdit={false} />
                 </TableCell>
               </TableRow>
             </TableHead>
@@ -39,18 +39,18 @@ const Roles = () => {
                   <TableCell size='small'>
                     {row.name}
                   </TableCell>
-                  <TableCell size='small' align='center' sx={{minWidth: ACTION_COLUMN_WIDTH, width: ACTION_COLUMN_WIDTH}}>
+                  <TableCell size='small' align='center' sx={{ minWidth: ACTION_COLUMN_WIDTH, width: ACTION_COLUMN_WIDTH }}>
                     <Checkbox checked={row.isDefault} />
                   </TableCell>
-                  <TableCell size='small' align='center' sx={{minWidth: ACTION_COLUMN_WIDTH, width: ACTION_COLUMN_WIDTH}}>
+                  <TableCell size='small' align='center' sx={{ minWidth: ACTION_COLUMN_WIDTH, width: ACTION_COLUMN_WIDTH }}>
                     <IconButton aria-label="delete">
-                      <EditRoles isEdit = {true} />
-                  </IconButton>
-                  <IconButton aria-label="delete">
+                      <EditRoles isEdit={true} />
+                    </IconButton>
+                    <IconButton aria-label="delete">
                       <Delete className='tableActionBtn deleteBtn' />
-                  </IconButton>
+                    </IconButton>
                   </TableCell>
-              </TableRow>
+                </TableRow>
               ))}
             </TableBody>
           </Table>

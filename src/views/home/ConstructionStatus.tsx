@@ -50,40 +50,40 @@ const ConstructionStatus = () => {
 
   //initialize state with counter variable and set it to 0
 
-const [counterConnected, setCounterConnected] = useState(0);
-const [counterLossConnect, setCounterLossConnect] = useState(0);
-const [counterErrorConnect, setCounterErrorConnect] = useState(0);
-const totalConst = 74;
-const Connected = 15;
-const ErrorConnect = 7;
-const LossConect = totalConst - Connected;
+  const [counterConnected, setCounterConnected] = useState(0);
+  const [counterLossConnect, setCounterLossConnect] = useState(0);
+  const [counterErrorConnect, setCounterErrorConnect] = useState(0);
+  const totalConst = 74;
+  const Connected = 15;
+  const ErrorConnect = 7;
+  const LossConect = totalConst - Connected;
 
-//calculate percentage and update state with result
+  //calculate percentage and update state with result
 
-useEffect(() => {
+  useEffect(() => {
 
-  //Counter Connected
+    //Counter Connected
 
-  const percentConnected = (Connected / totalConst) * 100;
-  setCounterConnected(percentConnected);
+    const percentConnected = (Connected / totalConst) * 100;
+    setCounterConnected(percentConnected);
 
-  //Counter LossConnect
+    //Counter LossConnect
 
-  const percentLossConnect = (LossConect / totalConst) * 100;
-  setCounterLossConnect(percentLossConnect)
+    const percentLossConnect = (LossConect / totalConst) * 100;
+    setCounterLossConnect(percentLossConnect)
 
-  //Counter ErrorConnect
+    //Counter ErrorConnect
 
-  const percentErrorConnect = (ErrorConnect / totalConst) * 100;
-  setCounterErrorConnect(percentErrorConnect)
+    const percentErrorConnect = (ErrorConnect / totalConst) * 100;
+    setCounterErrorConnect(percentErrorConnect)
 
-}, [ErrorConnect, LossConect, Connected, totalConst]);
+  }, [ErrorConnect, LossConect, Connected, totalConst]);
 
   return (
     <Card sx={{ position: 'relative' }}>
       <CardHeader
         title='TRẠNG THÁI CÔNG TRÌNH'
-        sx={{padding: 0}}
+        sx={{ padding: 0 }}
         titleTypographyProps={{
           sx: {
             mb: 2.5,
@@ -98,15 +98,15 @@ useEffect(() => {
       />
       <CardContent>
         <Typography>Tổng số: {totalConst} </Typography>
-        <Box sx={{paddingTop: 3}}>
+        <Box sx={{ paddingTop: 3 }}>
           <Typography>Trạm kết nối bình thường: {Connected} </Typography>
           <IsConnectedProgress variant="determinate" value={counterConnected} />
         </Box>
-        <Box sx={{paddingTop: 3}}>
+        <Box sx={{ paddingTop: 3 }}>
           <Typography>Trạm mất kết nối: {LossConect} </Typography>
           <LossConnectProgress variant="determinate" value={counterLossConnect} />
         </Box>
-        <Box sx={{paddingTop: 3}}>
+        <Box sx={{ paddingTop: 3 }}>
           <Typography>Trạm vận hành chưa đúng: {ErrorConnect} </Typography>
           <ErrorConnectProgress variant="determinate" value={counterErrorConnect} />
         </Box>

@@ -44,7 +44,7 @@ const FormContruction = ({ onSubmit, closeDialogs }: any) => {
     setSelectedValue(event.target.value as string)
     setShowForm(true)
   }
-  
+
   return (
     <form onSubmit={handleSubmit}>
       <fieldset>
@@ -177,7 +177,7 @@ const FormContruction = ({ onSubmit, closeDialogs }: any) => {
 
       {showForm && (
         <div>
-          {selectedValue === 'hydroelectric' && 
+          {selectedValue === 'hydroelectric' &&
             (<CreateHydroelectric />)}
           {selectedValue === 'option2' && (
             <form>

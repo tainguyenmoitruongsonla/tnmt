@@ -11,7 +11,7 @@ import { styled } from '@mui/material/styles'
 import MuiTab, { TabProps } from '@mui/material/Tab'
 
 // ** Icons Imports
-import {Tv} from '@mui/icons-material'
+import { Tv } from '@mui/icons-material'
 
 
 // ** Third Party Styles Imports

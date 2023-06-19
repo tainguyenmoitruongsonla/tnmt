@@ -31,31 +31,31 @@ const CountLicense = () => {
     dataLabels: {
       enabled: true,
       style: {
-          fontSize: '15px',
+        fontSize: '15px',
       },
       formatter: function (val, opt) {
-          val;
-          const name = opt.w.globals.labels[opt.seriesIndex];
-          const value = opt.w.globals.seriesTotals[opt.seriesIndex];
+        val;
+        const name = opt.w.globals.labels[opt.seriesIndex];
+        const value = opt.w.globals.seriesTotals[opt.seriesIndex];
 
-          return `${name}: ${value}`;
+        return `${name}: ${value}`;
       },
     },
     chart: {
       width: CHARTS_SIZE,
-        type: 'pie',
-        events: {
-          dataPointSelection: (event, chartContext, config) => { 
-            console.log(config.w.config.labels[config.dataPointIndex])
-          }
+      type: 'pie',
+      events: {
+        dataPointSelection: (event, chartContext, config) => {
+          console.log(config.w.config.labels[config.dataPointIndex])
         }
+      }
     },
     plotOptions: {
-        pie: {
-            dataLabels: {
-                offset: -20,
-            },
-        }
+      pie: {
+        dataLabels: {
+          offset: -20,
+        },
+      }
     },
     tooltip: {
       enabled: true,

@@ -1,9 +1,9 @@
+import { useState, useEffect } from 'react'
+
 // ** MUI Imports
 import { Grid, Box, Button, Autocomplete, TextField, Card, CardContent, IconButton, Tooltip } from '@mui/material';
-import { useState } from 'react'
 
 // ** Icons Imports
-
 import SearchIcon from '@mui/icons-material/Search';
 import { EditNote, Delete } from "@mui/icons-material";
 
@@ -13,139 +13,88 @@ import CreateConstruction from 'src/views/construction/CreateConstruction';
 import SearchLicense from 'src/views/license/Search';
 import CountLicense from 'src/views/license/CountLicense';
 import TableLicenseComponent from 'src/@core/components/table/table-license';
+import licenseData from 'src/views/license/data';
+import FormatDate from 'src/@core/components/FormatDate';
+import ShowFilePDF from 'src/@core/components/ShowFilePDF';
+import CheckEffect from 'src/@core/components/CheckEffect';
 
 
 const complete1 = [
-  {title: "Khóa 1", value: 1},
-  {title: "Khóa 2", value: 2},
-  {title: "Khóa 3", value: 3},
+  { title: "Khóa 1", value: 1 },
+  { title: "Khóa 2", value: 2 },
+  { title: "Khóa 3", value: 3 },
 ];
 const complete2 = [
-  {title: "Đợt 1"},
-  {title: "Đợt 2"},
-  {title: "Đợt 3"},
+  { title: "Đợt 1" },
+  { title: "Đợt 2" },
+  { title: "Đợt 3" },
 ];
 
-const data:any = [
-  {
-    "LicenseNumber": "ABCX",
-    "License_Fk": {
-      "Id": 1,
-      "License":{
-        "LicenseId": 64,
-        "LicenseParentId": 1,
-        "LicenseFeeId": 123132,
-        "LicensingTypeId": 5,
-      },
-      "BasinId": 4,
-      "BusinessId": 24,
-      "Location": {
-        "DistrictId": 12,
-        "CommuneId": 196,
-      },
-      "ConstructionId": 1,
-      "TypeOfConstructionId": 4,
-      "AquiferId": 123132,
+const formatNum = (num: any) => {
+  if (typeof Intl === "undefined" || !Intl.NumberFormat) {
+    return "NaN"
+  } else {
+    const nf = new Intl.NumberFormat();
+    const x = num;
+    if (num !== undefined) {
+      return nf.format(x)
     }
-  },
-  {
-    "LicenseNumber": "ASSZ",
-    "License_Fk": {
-      "Id": 1,
-      "License":{
-        "LicenseId": 64,
-        "LicenseParentId": 1,
-        "LicenseFeeId": 123132,
-        "LicensingTypeId": 5,
-      },
-      "BasinId": 4,
-      "BusinessId": 24,
-      "Location": {
-        "DistrictId": 12,
-        "CommuneId": 196,
-      },
-      "ConstructionId": 1,
-      "TypeOfConstructionId": 4,
-      "AquiferId": 123132,
-    }
-  },
-  {
-    "LicenseNumber": "UBNDS",
-    "License_Fk": {
-      "Id": 1,
-      "License":{
-        "LicenseId": 64,
-        "LicenseParentId": 1,
-        "LicenseFeeId": 123132,
-        "LicensingTypeId": 5,
-      },
-      "BasinId": 4,
-      "BusinessId": 24,
-      "Location": {
-        "DistrictId": 12,
-        "CommuneId": 196,
-      },
-      "ConstructionId": 1,
-      "TypeOfConstructionId": 4,
-      "AquiferId": 123132,
-    }
-  },
-  {
-    "LicenseNumber": "BTNMS",
-    "License_Fk": {
-      "Id": 1,
-      "License":{
-        "LicenseId": 64,
-        "LicenseParentId": 1,
-        "LicenseFeeId": 123132,
-        "LicensingTypeId": 5,
-      },
-      "BasinId": 4,
-      "BusinessId": 24,
-      "Location": {
-        "DistrictId": 12,
-        "CommuneId": 196,
-      },
-      "ConstructionId": 1,
-      "TypeOfConstructionId": 4,
-      "AquiferId": 123132,
-    }
-  },
-]
+  }
+}
 
 // id of columnsTable is parameter to bind ex: get LicseFk.BasinId: id: 'License_Fk.BasinId'
 const columnsTable = [
-  { id: 'LicenseNumber', label: 'LicenseNumber', showId:[1], rowspan: 2 },
-  { id: 'License_Fk.Id', label: 'Id', showId:[1], rowspan: 2 },
-  { id: 'License_Fk.License', label: 'License', showId:[1], colspan:4, children: [
-    { id: 'LicenseParentId', label: 'LicenseParentId'},
-    { id: 'LicenseId', label: 'LicenseId'},
-    { id: 'LicenseFeeId', label: 'LicenseFeeId'},
-    { id: 'LicensingTypeId', label: 'LicensingTypeId'},
-  ] },
-  { id: 'License_Fk.BasinId', label: 'BasinId' , showId:[1,2], rowspan: 2 },
-  { id: 'License_Fk.BusinessId', label: 'BusinessId', showId:[1,2], rowspan: 2 },
-  { id: 'License_Fk.Location', label: 'Location', showId:[1], colspan:2, children: [
-    { id: 'DistrictId', label: 'DistrictId', showId:[1,2] },
-    { id: 'CommuneId', label: 'CommuneId', showId:[1,2] },
-  ] },
-  { id: 'License_Fk.ConstructionId', label: 'ConstructionId', showId:[1,2], rowspan: 2 },
-  { id: 'License_Fk.TypeOfConstructionId', label: 'TypeOfConstructionId', showId:[1,2], rowspan: 2 },
-  { id: 'License_Fk.AquiferId', label: 'AquiferId', showId:[1,2], rowspan: 2 },
+  {
+    id: 'LicenseNumber', label: 'Số GP', showId: [1], rowspan: 2,
+    elm: (row: any) => (<ShowFilePDF name={row.LicenseNumber} src={`/pdf/Licenses/` + row.LicensingAuthorities + `/` + row.TypeSlug + `/` + row.LicenseFile} />)
+  },
+  { id: 'Effect', label: 'Hiệu lực GP', showId: [1], rowspan: 2, elm: (row: any) => (<CheckEffect data={row} />) },
+  { id: 'SignDate', label: 'Ngày ký', showId: [1], rowspan: 2, format: (value: any) => FormatDate(value) },
+  { id: 'IssueDate', label: 'Ngày có hiệu lực', showId: [1], rowspan: 2, format: (value: any) => FormatDate(value) },
+  { id: 'LicenseTypeName', label: 'Loại hình', showId: [1], rowspan: 2 },
+  {
+    id: 'Business', label: 'Cơ quan/cá nhân được CP', showId: [1], colspan: 2, children: [
+      { id: 'Name', label: 'Tên', },
+      { id: 'Address', label: 'Địa chỉ', },
+    ]
+  },
+  {
+    id: 'OldLicense', label: 'Thông tin GP cũ', showId: [1], colspan: 2, children: [
+      { id: 'LicenseNumber', label: 'Số GP' },
+      { id: 'SignDate', label: 'Ngày ký', format: (value: any) => FormatDate(value) },
+    ]
+  },
+  {
+    id: 'Construction', label: 'Thông tin CT', showId: [1], colspan: 8, children: [
+      { id: 'ConstructionName', label: 'Tên Công trình' },
+      { id: 'ConstructionLocation', label: 'Địa điểm' },
+      { id: 'ConstructionTypeName', label: 'Loại hình' },
+      { id: '', label: 'Xã' },
+      { id: '', label: 'Huyện' },
+      { id: 'ExploitedWS', label: 'Nguồn nước khai thác' },
+      { id: 'RiverName', label: 'Lưu vực' },
+      { id: 'BasinName', label: 'Tiểu vùng quy hoạch' },
+    ]
+  },
+  {
+    id: 'LicenseFee', label: 'Tiền cấp quyền', showId: [1], colspan: 3, children: [
+      { id: 'LicenseFeeNumber', label: 'Số QĐ', elm: (row: any) => (<ShowFilePDF name={row?.LicenseFeeNumber} src={`/pdf/LicenseFees/` + row?.LicensingAuthorities + `/` + row?.FilePDF} />) },
+      { id: 'SignDate', label: 'Ngày ký', format: (value: any) => FormatDate(value) },
+      { id: 'TotalMoney', label: 'Tổng tiền (VNĐ)', format: (value: any) => formatNum(value) },
+    ]
+  },
+  { id: 'actions', label: '#', showId: [1], rowspan: 2 },
 ];
 
 const SurfaceWater = () => {
   const [TypeOfConsId, setTypeOfConsId] = useState([1]);
-  const handleChange = (e:any) => {
-    const val = (e == 123132 ? 1 : e.value) 
+  const handleChange = (e: any) => {
+    const val = (e == undefined || e == null ? 1 : e.value)
     setTypeOfConsId(val)
   }
 
-  // const [data, setData] = useState([]);
-
-  // useEffect(() => {
-  //   fetchData();
-  // }, []);
+  const [data, setData] = useState<any[]>([]);
+  const [columns, setColumns] = useState<any[]>([]);
 
   // const fetchData = async () => {
   //   try {
@@ -158,78 +107,81 @@ const SurfaceWater = () => {
   //   }
   // }; 
 
+  useEffect(() => {
+    setData(licenseData);
+    setColumns(columnsTable);
+
+    // fetchData();
+  }, []);
+
   return (
     <Grid container spacing={3}>
       <Grid item xs={3} sm={3} md={3}>
         <CountLicense />
-       </Grid>
-       <Grid item xs={9} sm={9} md={9} sx={{height:'55vh', overflow:'hidden'}}>
-        <Card sx={{height: '100%'}}>
-          <CardContent sx={{p: 0, height: '100%'}}>
+      </Grid>
+      <Grid item xs={9} sm={9} md={9} sx={{ height: '55vh', overflow: 'hidden' }}>
+        <Card sx={{ height: '100%' }}>
+          <CardContent sx={{ p: 0, height: '100%' }}>
             <ConstructionMap />
           </CardContent>
         </Card>
-       </Grid>
-       <Grid item xs={12} sm={12} md={12} className='_row _justifyContentBetween' >
-          <Box></Box>
-          <Box className='_search'>
-            <Box>
-              <Autocomplete  size="small" 
-              onChange={(e,v) => handleChange(v)}
-              options={complete1} 
+      </Grid>
+      <Grid item xs={12} sm={12} md={12} className='_row _justifyContentBetween' >
+        <Box></Box>
+        <Box className='_search'>
+          <Box>
+            <Autocomplete size="small"
+              onChange={(e, v) => handleChange(v)}
+              options={complete1}
               getOptionLabel={(option) => option.title} renderInput={(params) => (
-                  <TextField
-                    {...params}
-                    variant="outlined"
-                    label="Chọn loại hình CP"
-                    placeholder=""
-                  />
-                )}
-              />
-            </Box>
-            <Box>
-              <Autocomplete size="small" options={complete2} getOptionLabel={(option) => option.title} renderInput={(params) => (
-                  <TextField
-                    {...params}
-                    variant="outlined"
-                    label="Chọn cơ quan CP"
-                    placeholder=""
-                  />
-                )}
-              />
-            </Box>
-            <Box>
-              <SearchLicense/>
-            </Box>           
-            <Box>
-              <Button size='small' startIcon={<SearchIcon/>} variant="outlined">Xuất excel</Button>
-            </Box>
-            <Box>
-              <CreateConstruction isEdit={false}/>
-            </Box>
+                <TextField
+                  {...params}
+                  variant="outlined"
+                  label="Chọn loại hình CP"
+                  placeholder=""
+                />
+              )}
+            />
           </Box>
-        </Grid> 
-       <Grid item xs={12} sm={12} md={12}>
-          <TableLicenseComponent columns={columnsTable} data={data} TypeOfConsId={TypeOfConsId} 
-            actions={
-              <Grid container spacing={2}>
-                <Grid item xs={6}>
-                  <Tooltip title="Chỉnh sửa giấy phép">
-                    <IconButton>
-                      <EditNote className='tableActionBtn' />
-                    </IconButton>
-                  </Tooltip>
-                </Grid>
-                <Grid item xs={6}>
-                  <Tooltip title="Xóa giấy phép">
-                    <IconButton>
-                      <Delete className='tableActionBtn deleteBtn' />
-                    </IconButton>
-                  </Tooltip>
-                </Grid>
-              </Grid>
-            } />
-       </Grid>
+          <Box>
+            <Autocomplete size="small" options={complete2} getOptionLabel={(option) => option.title} renderInput={(params) => (
+              <TextField
+                {...params}
+                variant="outlined"
+                label="Chọn cơ quan CP"
+                placeholder=""
+              />
+            )}
+            />
+          </Box>
+          <Box>
+            <SearchLicense />
+          </Box>
+          <Box>
+            <Button size='small' startIcon={<SearchIcon />} variant="outlined">Xuất excel</Button>
+          </Box>
+          <Box>
+            <CreateConstruction isEdit={false} />
+          </Box>
+        </Box>
+      </Grid>
+      <Grid item xs={12} sm={12} md={12}>
+        <TableLicenseComponent columns={columns} data={data} TypeOfConsId={TypeOfConsId}
+          actions={
+            <Box>
+              <Tooltip title="Chỉnh sửa giấy phép">
+                <IconButton>
+                  <EditNote className='tableActionBtn' />
+                </IconButton>
+              </Tooltip>
+              <Tooltip title="Xóa giấy phép">
+                <IconButton>
+                  <Delete className='tableActionBtn deleteBtn' />
+                </IconButton>
+              </Tooltip>
+            </Box>
+          } />
+      </Grid>
     </Grid>
   )
 }
