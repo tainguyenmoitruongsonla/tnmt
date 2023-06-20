@@ -12,9 +12,9 @@ import TableContainer from '@mui/material/TableContainer'
 import TablePagination from '@mui/material/TablePagination'
 import { EditNote, Delete } from "@mui/icons-material";
 import { Grid, IconButton, Tooltip } from '@mui/material'
-import FormatDate from 'src/@core/components/FormatDate'
-import ShowFilePDF from 'src/@core/components/ShowFilePDF'
-import CheckEffect from '../../../@core/components/CheckEffect'
+import FormatDate from 'src/@core/components/format-date'
+import ShowFilePDF from 'src/@core/components/show-file-pdf'
+import CheckEffect from '../../../@core/components/check-effect'
 
 const TableSurfaceWater = ({ data }:any) => {
   // ** States

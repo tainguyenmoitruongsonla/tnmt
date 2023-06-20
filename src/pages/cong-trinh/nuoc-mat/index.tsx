@@ -7,10 +7,10 @@ import { useEffect } from 'react'
 import SearchIcon from '@mui/icons-material/Search';
 
 // ** Components Imports
-import ConstructionMap from 'src/views/construction'
 import TableList from 'src/views/construction/TableList';
 import CreateConstruction from 'src/views/construction/CreateConstruction';
 import SearchConstruction from 'src/views/construction/Search';
+import MapComponent from 'src/@core/components/map';
 
 
 const complete1 = [
@@ -343,7 +343,7 @@ const SurfaceWater = () => {
   return (
     <Grid container spacing={3}>
       <Grid item xs={12} sm={12} md={12} sx={{ height: '55vh', overflow: 'hidden' }}>
-        <ConstructionMap />
+        <MapComponent />
       </Grid>
       <Grid item xs={12} sm={12} md={12} className='_row _justifyContentBetween' >
         <Box>

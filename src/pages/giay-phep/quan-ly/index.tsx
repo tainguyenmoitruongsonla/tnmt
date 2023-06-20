@@ -9,8 +9,8 @@ import SearchIcon from '@mui/icons-material/Search';
 
 // ** Components Imports
 import SearchLicense from 'src/views/license/Search';
-import ApexChartLicense from 'src/views/license/LicenseBarChart';
-import CountLicenseForManage from 'src/views/license/CountLicenseForManage'
+import ApexChartLicense from 'src/views/license/license-bar-chart';
+import CountLicenseForManage from 'src/views/license/count-license-for-manage'
 
 
 const complete1 = [

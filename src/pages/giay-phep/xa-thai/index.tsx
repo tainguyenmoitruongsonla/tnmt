@@ -7,10 +7,10 @@ import { useEffect } from 'react'
 import SearchIcon from '@mui/icons-material/Search';
 
 // ** Components Imports
-import ConstructionMap from 'src/views/construction'
 import CreateConstruction from 'src/views/construction/CreateConstruction';
 import SearchLicense from 'src/views/license/Search';
-import CountLicense from 'src/views/license/CountLicense';
+import CountLicense from 'src/views/license/count-license';
+import MapComponent from 'src/@core/components/map';
 
 
 const complete1 = [
@@ -54,7 +54,7 @@ const SurfaceWater = () => {
       <Grid item xs={9} sm={9} md={9} sx={{ height: '55vh', overflow: 'hidden' }}>
         <Card sx={{ height: '100%' }}>
           <CardContent sx={{ p: 0, height: '100%' }}>
-            <ConstructionMap />
+            <MapComponent />
           </CardContent>
         </Card>
       </Grid>

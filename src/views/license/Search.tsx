@@ -74,7 +74,7 @@ const Form = ({ onSubmit, closeDialogs }: any) => {
   );
 };
 
-const SearchConstruction = () => {
+const SearchLicense = () => {
   const formTitle = 'Tìm kiếm nâng cao';
   const handleSubmit = () => {
     // handle form submission logic here
@@ -91,4 +91,4 @@ const SearchConstruction = () => {
   );
 };
 
-export default SearchConstruction;
+export default SearchLicense;

@@ -21,7 +21,7 @@ interface TableProps {
   columns: TableColumn[];
   data: Data[];
   TypeOfConsId?: number[];
-  actions?: React.ReactNode;
+  actions?: ((row: Data) => React.ReactNode) | null;
 }
 
 const TableComponent: FC<TableProps> = ({ columns, data, TypeOfConsId, actions }: TableProps) => {
@@ -97,7 +97,7 @@ const TableComponent: FC<TableProps> = ({ columns, data, TypeOfConsId, actions }
                     })
                   ) : (
                     <TableCell key={columnIndex} size='small'>
-                      {column.id == "actions" ? actions
+                      {column.id == "actions" ? actions && actions(row)
                         :
                         (
                           typeof column.elm === 'function' ? column.elm(row) : (column.format ? column.format(row[column.id]) : row[column.id])

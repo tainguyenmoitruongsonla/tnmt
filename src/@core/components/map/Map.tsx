@@ -1,7 +1,7 @@
 import { useRef, useEffect } from "react";
 import { loadModules } from "esri-loader";
 
-const MapPage = () => {
+const Map = () => {
   const mapRef = useRef(null);
 
   useEffect(() => {
@@ -73,4 +73,4 @@ const MapPage = () => {
 
   return <div style={{ width: "100%", height: "100%" }} ref={mapRef} />;
 };
-export default MapPage;
+export default Map;

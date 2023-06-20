@@ -1,6 +1,6 @@
 import React from 'react'
 import { Typography } from '@mui/material'
-import DialogControlShowPDF from './dialog-control-show-pdf';
+import DialogControlShowPDF from '../dialog-control-show-pdf';
 
 
 const PDFFile = ({ src }: any) => {
