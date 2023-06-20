@@ -1,6 +1,6 @@
 import { FC, useState, ChangeEvent } from 'react'
 
-import { Table, TableHead, TableRow, TableCell, TableBody, TableContainer, Paper, TablePagination } from '@mui/material';
+import { Table, TableHead, TableRow, TableCell, TableBody, TableContainer, Paper, TablePagination, Typography } from '@mui/material';
 
 interface TableColumn {
   id: string;
@@ -70,41 +70,91 @@ const TableComponent: FC<TableProps> = ({ columns, data, TypeOfConsId, actions }
           <TableBody className='tableBody'>
             {rowsData?.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row, index) => (
               <TableRow key={index}>
-                {tableColumns.map((column, columnIndex) =>
-                  column.children ? (
-                    column.children.map((childColumn, childIndex) => {
+                {tableColumns.map((column, columnIndex) => {
+                  if (column.children) {
+                    return column.children.map((childColumn, childIndex) => {
                       const parentId = column.id;
                       const rowValue = row[parentId];
 
-                      return (
-                        <TableCell key={childIndex} size='small'>
-                          {Array.isArray(rowValue)
-                            ? rowValue.map((e, k) => (
-                              <span key={k}>{e}</span>
-                            ))
-                            : typeof rowValue === 'object' && rowValue !== null && Object.keys(rowValue).length > 0
-                              ? (
+                      if (parentId === "#") {
+                        return (
+                          <TableCell key={`${columnIndex}-${childIndex}`} size='small'>
+                            {childColumn.id === "actions" ? actions && actions(row)
+                              : (
+                                typeof childColumn.elm === 'function'
+                                  ? childColumn.elm(row)
+                                  : (childColumn.format
+                                    ? childColumn.format(row[childColumn.id])
+                                    : row[childColumn.id])
+                              )}
+                          </TableCell>
+                        )
+                      } else {
+                        return (
+                          <TableCell key={`${columnIndex}-${childIndex}`} size='small'>
+                            {Array.isArray(rowValue) ? (
+                              rowValue.map((e, k) => (
+                                <span key={k}>
+                                  {typeof rowValue === 'object' && rowValue !== null && Object.keys(rowValue).length > 0 ? (
+                                    rowValue.map((e, k) => (
+                                      <span key={k}>
+                                        {Object.keys(rowValue).length > 1 ? (
+                                          <p>
+                                            {typeof childColumn.elm === 'function'
+                                              ? childColumn.elm(row)
+                                              : (childColumn.format
+                                                ? childColumn.format(e[childColumn.id])
+                                                : e[childColumn.id])
+                                            }
+                                          </p>
+                                        ) : (
+                                          typeof childColumn.elm === 'function'
+                                            ? childColumn.elm(row)
+                                            : (childColumn.format
+                                              ? childColumn.format(e[childColumn.id])
+                                              : e[childColumn.id])
+                                        )}
+                                      </span>
+                                    ))
+                                  ) : (
+                                    typeof childColumn.elm === 'function'
+                                      ? childColumn.elm(row)
+                                      : (childColumn.format
+                                        ? childColumn.format(e[childColumn.id])
+                                        : e[childColumn.id])
+                                  )}
+                                </span>
+                              ))
+                            ) : (
+                              typeof rowValue === 'object' && rowValue !== null && Object.keys(rowValue).length > 0 ? (
                                 typeof childColumn.elm === 'function'
                                   ? childColumn.elm(rowValue)
                                   : childColumn.format
                                     ? childColumn.format(rowValue[childColumn.id])
                                     : rowValue[childColumn.id]
+                              ) : (
+                                rowValue
                               )
-                              : <span>{rowValue}</span>
-                          }
-                        </TableCell>
-                      )
-                    })
-                  ) : (
-                    <TableCell key={columnIndex} size='small'>
-                      {column.id == "actions" ? actions && actions(row)
-                        :
-                        (
-                          typeof column.elm === 'function' ? column.elm(row) : (column.format ? column.format(row[column.id]) : row[column.id])
-                        )}
-                    </TableCell>
-                  )
-                )}
+                            )}
+                          </TableCell>
+                        )
+                      }
+                    });
+                  } else {
+                    return (
+                      <TableCell key={`${columnIndex}`} size='small'>
+                        {column.id === "actions" ? actions && actions(row)
+                          : (
+                            typeof column.elm === 'function'
+                              ? column.elm(row)
+                              : (column.format
+                                ? column.format(row[column.id])
+                                : row[column.id])
+                          )}
+                      </TableCell>
+                    );
+                  }
+                })}
               </TableRow>
             ))}
           </TableBody>
