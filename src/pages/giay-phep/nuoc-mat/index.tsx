@@ -1,10 +1,5 @@
 import SurfaceWaterLicense from "src/views/license/surface-water"
 
-const SurfaceWater = () => {
-
-  return (
-    <SurfaceWaterLicense />
-  )
-}
+const SurfaceWater = () => <SurfaceWaterLicense />
 
 export default SurfaceWater
