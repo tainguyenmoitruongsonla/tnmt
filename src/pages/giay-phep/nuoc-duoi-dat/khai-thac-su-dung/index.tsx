@@ -9,7 +9,7 @@ import SearchIcon from '@mui/icons-material/Search';
 // ** Components Imports
 import CreateConstruction from 'src/views/construction/CreateConstruction';
 import SearchLicense from 'src/views/license/Search';
-import CountLicense from 'src/views/license/count-license';
+import CountLicense from 'src/@core/components/license-page/count-license';
 import TableExploidGroundWater from 'src/views/license/Table/ExploidGroundWater';
 import MapComponent from 'src/@core/components/map';
 
