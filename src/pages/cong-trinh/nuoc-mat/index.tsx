@@ -18,9 +18,16 @@ import FormatDate from 'src/@core/components/format-date';
 
 
 const complete1 = [
-  { title: "Khóa 1", value: 1 },
-  { title: "Khóa 2", value: 2 },
-  { title: "Khóa 3", value: 3 },
+  { title: "Chọn loại CT", value: 1 },
+  { title: "Thủy điện", value: 4 },
+  { title: "Hồ chứa", value: 5 },
+  { title: "Trạm bơm", value: 6 },
+  { title: "Đập/Hệ thống thủy lợi", value: 12 },
+  { title: "Cống", value: 13 },
+  { title: "Trạm cấp nước", value: 11 },
+  { title: "Nhà máy nước", value: 14 },
+  { title: "Công trình khác", value: 23 },
+
 ];
 const complete2 = [
   { title: "Đợt 1" },
@@ -41,61 +48,73 @@ const formatNum = (num: any) => {
 
 // id of columnsTable is parameter to bind ex: get LicseFk.BasinId: id: 'License_Fk.BasinId'
 const columnsTable = [
-  { id: '#', label: 'STT', showId: [1], rowspan: 2, },
-  { id: 'ConstructionName', label: 'Tên công trình', showId: [1], rowspan: 2 },
-  { id: 'ConstructionLocation', label: 'Địa điểm', showId: [1], rowspan: 2},
+  { id: '#', label: 'STT', rowspan: 2, },
+  { id: 'ConstructionName', label: 'Tên công trình',  rowspan: 2 },
+  { id: 'ConstructionLocation', label: 'Địa điểm', rowspan: 2},
   {
-    id: '#', label: 'Tọa độ đập chính', showId: [1], colspan: 2, children: [
+    id: '#', label: 'Tọa độ đập chính',  colspan: 2, children: [
       { id: 'X', label: 'X', },
       { id: 'Y', label: 'Y', },
     ]
   },
-  { id: 'ExploitedWS', label: 'Nguồn nước khai thác', showId: [1], rowspan: 2},
-  { id: 'MiningMethod', label: 'Phương thức khai thác', showId: [1], rowspan: 2},
-  { id: 'MiningMode', label: 'Chế độ KT', showId: [1], rowspan: 2},
-  { id: 'MiningPurpose', label: 'Mục đích KT', showId: [1], rowspan: 2},
-  { id: 'BasinName', label: 'Tiểu vùng quy hoạch', showId: [1], rowspan: 2},
+  { id: 'ExploitedWS', label: 'Nguồn nước khai thác',  rowspan: 2},
+  { id: 'MiningMethod', label: 'Phương thức khai thác',  rowspan: 2},
+  { id: 'MiningMode', label: 'Chế độ KT',  rowspan: 2},
+  { id: 'MiningPurpose', label: 'Mục đích KT',  rowspan: 2},
+  { id: 'BasinName', label: 'Tiểu vùng quy hoạch', showId: [1,4,5], rowspan: 2},
 
-  { id: 'ConstructionTime', label: 'Năm xây dựng', showId: [1], rowspan: 2 },
-  { id: 'StartDate', label: 'Năm vận hành', showId: [1], rowspan: 2 },
+  { id: 'ConstructionTime', label: 'Năm xây dựng',  rowspan: 2 },
+  { id: 'StartDate', label: 'Năm vận hành',  rowspan: 2 },
 
   {
-    id: '#', label: 'Thông số công trình', showId: [1], colspan: 19, children: [
-      { id: 'ConstructionName', label: 'Cấp CT' },
-      { id: 'ConstructionLocation', label: 'F lưu vực(km2)' },
-      { id: 'ConstructionTypeName', label: 'XTB năm(m)' },
-      { id: '', label: 'QTB năm(m)' },
-      { id: '', label: 'CS lắp máy(MW)' },
-      { id: 'ExploitedWS', label: 'CS đảm bảo(MW' },
-      { id: '', label: 'Chiều cao đập (m)' },
-      { id: '', label: 'Chiều dài đập (m)' },
-      { id: '', label: 'Cao trình đập (m)' },
-      { id: '', label: 'Qmax' },
-      { id: '', label: 'Qtt' },
-      { id: '', label: 'Q đảm bảo' },
-      { id: '', label: 'Hmax' },
-      { id: '', label: 'Hmin' },
-      { id: '', label: 'Htt' },
-      { id: '', label: 'MNC(m)' },
-      { id: '', label: 'MNDBT(m)' },
-      { id: '', label: 'MNLKT(m)' },
-      { id: '', label: 'MNLKT(m)' },
+    id: '#', label: 'Thông số công trình',  colspan: 30, children: [
+      { id: 'ConstructionLeve', label: 'Cấp CT',showId: [1,4,5] },
+      { id: 'BasinArea', label: (<span>F lưu vực <br />(km2)</span>),showId: [1,4,5] },
+      { id: 'RainAvgForYears', label: (<span>X <sub>TB năm</sub> <br />(m)</span>),showId: [1,4,5] },
+      { id: 'FlowAvgForYears', label:(<span>Q <sub>TB năm</sub><br />(m3/s)</span>),showId: [1,4,5] },
+      { id: 'Power', label: 'CS lắp máy(MW)',showId: [1,4,5,6,11] },
+      { id: 'GuaranteedPower', label: (<span>CS <br /> đảm bảo(MW)</span>),showId: [1,4,5] },
+      { id: 'DamHeight', label: 'Chiều cao đập (m)',showId: [1,5] },
+      { id: 'DamWidth', label: 'Chiều dài đập (m)',showId: [1,5] },
+      { id: 'DamElevation', label: 'Cao trình đập (m)',showId: [1,5] },
+      { id: 'MaximumFlow', label: (<span>Q<sub>max</sub>(m<sup>3</sup>/s)</span>),showId: [1,4,5] },
+      { id: 'MinimumFlow', label: (<span>Q<sub>TT</sub>(m<sup>3</sup>/s)</span>),showId: [1,4,5] },
+      { id: 'GuaranteedFlow', label: (<span>Q<sub>đảm bảo</sub>(m<sup>3</sup>/s)</span>),showId: [1,4,5] },
+      { id: 'Hmax' ,label: (<span>H<sub>max</sub> (m) </span>),showId: [1,4,5] },
+      { id: 'Hmin', label:  (<span>H<sub>min</sub> (m)</span>),showId: [1,4,5] },
+      { id: 'Htt', label:  (<span>H<sub>TT</sub></span>),showId: [1,4,5] },
+      { id: 'DeadWL', label: 'MNC(m)',showId: [1,4,5] },
+      { id: 'RiseWL', label: 'MNDBT(m)' ,showId: [1,4,5]},
+      { id: 'DesignFloodLevel', label: 'MNLTK(m)',showId: [1,4,5] },
+      { id: 'CheckFloodWL', label: 'MNLKT(m',showId: [1,4,5] },
+      { id: 'TotalCapacity', label: (<span>W<sub>toàn bộ</sub>(triệu m<sup>3</sup>)</span>),showId: [1,4,5] },
+      { id: 'DeadCapacity', label: (<span>W<sub> chết </sub>(triệu m<sup>3</sup>)</span>),showId: [1,4,5] },
+      { id: 'UsefulCapacity', label: (<span>W<sub>hữu ích</sub>(triệu m<sup>3</sup>)</span>),showId: [1,4,5] },
+      { id: 'PumpNumber', label: 'Số máy bơm',showId: [1,6] },
+      { id: 'FlowDesigned', label: (<span>Q<sub>TK</sub> (m<sup>3</sup>/h)</span>),showId: [1,11] },
+      { id: 'RealityFlow', label: (<span>Q<sub>TT</sub> (m<sup>3</sup>/h)</span>),showId: [1,11] },
+      { id: 'WateringAreaDesigned', label: (<span>F<sub>tưới TK</sub> (ha)</span>),showId: [1,6] },
+      { id: 'RealityWateringArea', label: (<span>F<sub>tưới TT</sub> (ha)</span>),showId: [1,6] },
+      { id: 'AveragePumpTime', label: (<span>T<sub>bơm TB</sub>(h)</span>),showId: [1,6] },
+      { id: 'MinimumPumpTime', label: (<span>T<sub>bơm min</sub>(h)</span>),showId: [1,6] },
+      { id: 'MaximumPumpTime', label: (<span>T<sub>bơm max</sub>(h)</span>),showId: [1,6] },
+
     ]
   },
   {
-    id: 'License', label: 'Thông tin giấy phép', showId: [1], colspan: 3, children: [
+    id: 'License', label: 'Thông tin giấy phép', colspan: 3, children: [
       { id: 'LicenseNumber', label: 'Số GP'},
       { id: 'SignDate', label: 'Ngày cấp', format: (value: any) => FormatDate(value) },
       { id: 'IssueDate', label: 'Thời hạn', format: (value: any) => FormatDate(value) },
     ]
   },
   {
-    id: 'LicenseFee', label: 'Tiền cấp quyền', showId: [1], colspan: 2, children: [
+    id: 'LicenseFee', label: 'Tiền cấp quyền',colspan: 2, children: [
       { id: 'LicenseFeeNumber', label: 'Số QĐ'},
       { id: 'TotalMoney', label: 'Tổng tiền (VNĐ)', format: (value: any) => formatNum(value) },
     ]
   },
-  { id: 'actions', label: 'Thao tác', showId: [1], rowspan: 2 },
+  { id: 'actions', label: 'Thao tác',  rowspan: 2 },
 ];
 
 

@@ -4,7 +4,7 @@ import { Table, TableHead, TableRow, TableCell, TableBody, TableContainer, Paper
 
 interface TableColumn {
   id: string;
-  label?: string;
+  label?: string | React.ReactNode;
   showId?: number[];
   colspan?: number;
   rowspan?: number;
@@ -26,7 +26,7 @@ interface TableProps {
 
 const TableComponent: FC<TableProps> = ({ columns, data, TypeOfConsId, actions }: TableProps) => {
 
-  const tableColumns: TableColumn[] = columns.filter((column) => column.showId && column.showId.includes(Number(TypeOfConsId)));
+  const tableColumns: TableColumn[] = columns.filter((column) => column.showId == undefined || column.showId && column.showId.includes(Number(TypeOfConsId)));
 
   const rowsData = data;
 

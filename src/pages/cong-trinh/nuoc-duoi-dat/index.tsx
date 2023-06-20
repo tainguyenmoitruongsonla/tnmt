@@ -8,7 +8,7 @@ import SearchIcon from '@mui/icons-material/Search';
 
 // ** Components Imports
 import TableList from 'src/views/construction/TableList';
-import CreateConstruction from 'src/views/construction/CreateConstruction';
+import CreateConstruction from 'src/views/construction/form/CreateConstruction';
 import SearchConstruction from 'src/views/construction/Search';
 import MapComponent from 'src/@core/components/map';
 
