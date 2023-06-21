@@ -48,11 +48,11 @@ const formatNum = (num: any) => {
 
 // id of columnsTable is parameter to bind ex: get LicseFk.BasinId: id: 'License_Fk.BasinId'
 const columnsTable = [
-  { id: '#', label: 'STT', rowspan: 2, },
+  { id: 'stt', label: 'STT', rowspan: 2, },
   { id: 'ConstructionName', label: 'Tên công trình',  rowspan: 2 },
   { id: 'ConstructionLocation', label: 'Địa điểm', rowspan: 2},
   {
-    id: '#', label: 'Tọa độ đập chính',  colspan: 2, children: [
+    id: '#', label: 'Tọa độ đập chính',  children: [
       { id: 'X', label: 'X', },
       { id: 'Y', label: 'Y', },
     ]
@@ -67,7 +67,7 @@ const columnsTable = [
   { id: 'StartDate', label: 'Năm vận hành',  rowspan: 2 },
 
   {
-    id: '#', label: 'Thông số công trình',  colspan: 30, children: [
+    id: '#', label: 'Thông số công trình', showId: [1,4,5, 6, 11], children: [
       { id: 'ConstructionLeve', label: 'Cấp CT',showId: [1,4,5] },
       { id: 'BasinArea', label: (<span>F lưu vực <br />(km2)</span>),showId: [1,4,5] },
       { id: 'RainAvgForYears', label: (<span>X <sub>TB năm</sub> <br />(m)</span>),showId: [1,4,5] },
@@ -102,14 +102,14 @@ const columnsTable = [
     ]
   },
   {
-    id: 'License', label: 'Thông tin giấy phép', colspan: 3, children: [
+    id: 'License', label: 'Thông tin giấy phép', children: [
       { id: 'LicenseNumber', label: 'Số GP'},
       { id: 'SignDate', label: 'Ngày cấp', format: (value: any) => FormatDate(value) },
       { id: 'IssueDate', label: 'Thời hạn', format: (value: any) => FormatDate(value) },
     ]
   },
   {
-    id: 'LicenseFee', label: 'Tiền cấp quyền',colspan: 2, children: [
+    id: 'LicenseFee', label: 'Tiền cấp quyền', children: [
       { id: 'LicenseFeeNumber', label: 'Số QĐ'},
       { id: 'TotalMoney', label: 'Tổng tiền (VNĐ)', format: (value: any) => formatNum(value) },
     ]
@@ -223,7 +223,7 @@ const SurfaceWater = () => {
       </Grid>
       <Grid item xs={12} sm={12} md={12}>
       <Grid item xs={12} sm={12} md={12}>
-        <TableComponent columns={columns} data={data} TypeOfConsId={TypeOfConsId}
+        <TableComponent columns={columns} data={data} show={TypeOfConsId}
          actions={(row: any) => (
           <Box>
             <Tooltip title="Chỉnh sửa giấy phép">

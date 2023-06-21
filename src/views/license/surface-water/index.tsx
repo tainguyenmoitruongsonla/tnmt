@@ -174,7 +174,7 @@ const SurfaceWaterLicense = () => {
         </Box>
       </Grid>
       <Grid item xs={12} sm={12} md={12}>
-        <TableComponent columns={columns} data={data} TypeOfConsId={TypeOfConsId}
+        <TableComponent columns={columns} data={data} show={TypeOfConsId}
           actions={(row: any) => (
             <Box>
               <Tooltip title="Chỉnh sửa giấy phép">

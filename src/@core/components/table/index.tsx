@@ -1,6 +1,6 @@
 import { FC, useState, ChangeEvent } from 'react'
 
-import { Table, TableHead, TableRow, TableCell, TableBody, TableContainer, Paper, TablePagination, Typography } from '@mui/material';
+import { Table, TableHead, TableRow, TableCell, TableBody, TableContainer, Paper, TablePagination } from '@mui/material';
 
 interface TableColumn {
   id: string;
@@ -20,13 +20,33 @@ interface Data {
 interface TableProps {
   columns: TableColumn[];
   data: Data[];
-  TypeOfConsId?: number[];
+  show?: number[];
   actions?: ((row: Data) => React.ReactNode) | null;
 }
 
-const TableComponent: FC<TableProps> = ({ columns, data, TypeOfConsId, actions }: TableProps) => {
+const TableComponent: FC<TableProps> = ({ columns, data, show, actions }: TableProps) => {
 
-  const tableColumns: TableColumn[] = columns.filter((column) => column.showId == undefined || column.showId && column.showId.includes(Number(TypeOfConsId)));
+  const tableColumns: TableColumn[] = [];
+  for (let i = 0; i < columns.length; i++) {
+    const column = columns[i];
+    if (column.showId === undefined || (column.showId && column.showId.includes(Number(show)))) {
+      const updatedColumn: TableColumn = { ...column };
+      if (column.children) {
+        const updatedChildrenColumns: TableColumn[] = [];
+        for (let j = 0; j < column.children.length; j++) {
+          const childColumn = column.children[j];
+          if (childColumn.showId === undefined || (childColumn.showId && childColumn.showId.includes(Number(show)))) {
+            updatedChildrenColumns.push({ ...childColumn });
+          }
+        }
+        updatedColumn.children = updatedChildrenColumns;
+        updatedColumn.colspan = updatedChildrenColumns.length; // Set colspan based on the number of children
+      } else {
+        updatedColumn.colspan = 1; // If no children, set colspan to 1
+      }
+      tableColumns.push(updatedColumn);
+    }
+  }
 
   const rowsData = data;
 
@@ -144,13 +164,15 @@ const TableComponent: FC<TableProps> = ({ columns, data, TypeOfConsId, actions }
                     return (
                       <TableCell key={`${columnIndex}`} size='small'>
                         {column.id === "actions" ? actions && actions(row)
-                          : (
-                            typeof column.elm === 'function'
-                              ? column.elm(row)
-                              : (column.format
-                                ? column.format(row[column.id])
-                                : row[column.id])
-                          )}
+                          : column.id === "stt"
+                            ? (index + 1)
+                            : (
+                              typeof column.elm === 'function'
+                                ? column.elm(row)
+                                : (column.format
+                                  ? column.format(row[column.id])
+                                  : row[column.id])
+                            )}
                       </TableCell>
                     );
                   }
