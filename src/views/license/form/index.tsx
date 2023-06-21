@@ -3,13 +3,11 @@ import { EditNote } from '@mui/icons-material'
 import AddIcon from '@mui/icons-material/Add'
 import { Grid, Button, TextField, DialogActions, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Autocomplete, Typography, InputLabel, Select, MenuItem, SelectChangeEvent, FormControl } from '@mui/material'
 
-import dayjs, { Dayjs } from 'dayjs';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { MobileDatePicker } from '@mui/x-date-pickers';
 
 import CreateHydroelectric from 'src/views/construction/CreateHydroelectric'
 import DialogsControlFullScreen from 'src/@core/components/dialog-control-full-screen'
+import BusinessFieldset from './business-fieldset';
+import LicenseFieldset from './license-fieldset';
 
 const complete1 = [{ title: 'Khóa 1' }, { title: 'Khóa 2' }, { title: 'Khóa 3' }]
 
@@ -32,39 +30,12 @@ const FormContruction = ({ onSubmit, closeDialogs }: any) => {
     setShowForm(true)
   }
 
-  const [value, setValue] = useState<Dayjs | null>(dayjs('2022-04-17'));
+  
 
   return (
     <form onSubmit={handleSubmit}>
-      <fieldset>
-        <legend>
-          <Typography variant={'h6'}>THÔNG TIN TỔ CHỨC/CÁ NHÂN</Typography>
-        </legend>
-
-      </fieldset>
-      <fieldset>
-        <legend>
-          <Typography variant={'h6'}>THÔNG TIN GIẤY PHÉP</Typography>
-        </legend>
-        <Grid container spacing={4} rowSpacing={1}>
-          <Grid item xs={12} md={6} sm={12} sx={{ my: 2 }}>
-            <TextField size='small' type='text' label='Số giấy phép' fullWidth placeholder='' defaultValue='' />
-          </Grid>
-          <Grid item xs={12} md={6} sm={12} sx={{ my: 2 }}>
-            <LocalizationProvider dateAdapter={AdapterDayjs}>
-              <MobileDatePicker
-                label="Ngày ký"
-                value={value}
-                slotProps={{ textField: { size: 'small', fullWidth: true } }}
-                onChange={(newValue) => setValue(newValue)}
-              />
-            </LocalizationProvider>
-          </Grid>
-          <Grid item xs={12} md={6} sm={12} sx={{ my: 2 }}>
-            <TextField size='small' type='text' label='Tên văn bản' fullWidth placeholder='' defaultValue='' />
-          </Grid>
-        </Grid>
-      </fieldset>
+      <BusinessFieldset />
+      <LicenseFieldset />
       <fieldset>
         <legend>
           <Typography variant={'h6'}>THÔNG TIN CÔNG TRÌNH</Typography>
