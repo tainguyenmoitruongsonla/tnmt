@@ -238,3 +238,9 @@ code[class*='language-'] {
   right: 0;
   position: absolute;
 }
+
+.legend__title{
+  color: #0077df !important;
+  font-weight: bold !important;
+  text-transform: uppercase !important;
+}
