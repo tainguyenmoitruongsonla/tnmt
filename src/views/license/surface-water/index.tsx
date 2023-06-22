@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 
 // ** MUI Imports
-import { Grid, Box, Button, Autocomplete, TextField, Card, CardContent, IconButton, Tooltip } from '@mui/material';
+import { Grid, Box, Button, Card, CardContent, IconButton, Tooltip } from '@mui/material';
 
 // ** Icons Imports
 import SearchIcon from '@mui/icons-material/Search';
@@ -17,18 +17,21 @@ import CheckEffect from 'src/@core/components/license-page/check-effect';
 import TableComponent from 'src/@core/components/table';
 import MapComponent from 'src/@core/components/map';
 import CreateLicense from '../form';
+import { TextField, AutoComplete } from 'src/@core/components/field';
 
+const licensingType = [
+  { title: "Cấp mới giấy phép", value: 1 },
+  { title: "Cấp lại giấy phép", value: 2 },
+  { title: "Gia hạn giấy phép", value: 3 },
+  { title: "Điều chỉnh giấy phép", value: 4 },
+  { title: "Thu hồi giấy phép", value: 5 },
+];
 
-const complete1 = [
-  { title: "Khóa 1", value: 1 },
-  { title: "Khóa 2", value: 2 },
-  { title: "Khóa 3", value: 3 },
+const licensingAuthorities = [
+  { title: "BTNMT", value: 0 },
+  { title: "UBND Tỉnh", value: 1 },
 ];
-const complete2 = [
-  { title: "Đợt 1" },
-  { title: "Đợt 2" },
-  { title: "Đợt 3" },
-];
+
 
 const formatNum = (num: any) => {
   if (typeof Intl === "undefined" || !Intl.NumberFormat) {
@@ -114,12 +117,12 @@ const SurfaceWaterLicense = () => {
     // fetchData();
   }, []);
 
-  const EditLicense = (row:any) => {
-    console.log('Edit: '+row.LicenseNumber)
+  const EditLicense = (row: any) => {
+    console.log('Edit: ' + row.LicenseNumber)
   }
 
-  const DeleteLicense = (row:any) => {
-    console.log('Delete: '+row.LicenseNumber)
+  const DeleteLicense = (row: any) => {
+    console.log('Delete: ' + row.LicenseNumber)
   }
 
   return (
@@ -136,42 +139,37 @@ const SurfaceWaterLicense = () => {
       </Grid>
       <Grid item xs={12} sm={12} md={12} className='_row _justifyContentBetween' >
         <Box></Box>
-        <Box className='_search'>
-          <Box>
-            <Autocomplete size="small"
-              onChange={(e, v) => handleChange(v)}
-              options={complete1}
-              getOptionLabel={(option) => option.title} renderInput={(params) => (
-                <TextField
-                  {...params}
-                  variant="outlined"
-                  label="Chọn loại hình CP"
-                  placeholder=""
-                />
-              )}
+        <Grid className='_search _row'>
+          <Grid>
+            <AutoComplete
+              onChange={(e: any, v: any) => handleChange(v)}
+              size="small"
+              options={licensingType}
+              getOptionLabel={(option: any) => option.title}
+              label="Chọn loại hình CP"
             />
-          </Box>
-          <Box>
-            <Autocomplete size="small" options={complete2} getOptionLabel={(option) => option.title} renderInput={(params) => (
-              <TextField
-                {...params}
-                variant="outlined"
-                label="Chọn cơ quan CP"
-                placeholder=""
-              />
-            )}
+          </Grid>
+          <Grid>
+            <AutoComplete
+              size="small"
+              options={licensingAuthorities}
+              getOptionLabel={(option: any) => option.title}
+              label="Chọn cơ quan CP"
             />
-          </Box>
-          <Box>
+          </Grid>
+          <Grid>
+            <TextField size='small' type='text' label='Số GP' fullWidth placeholder='' defaultValue='' />
+          </Grid>
+          <Grid>
             <SearchLicense />
-          </Box>
-          <Box>
+          </Grid>
+          <Grid>
             <Button size='small' startIcon={<SearchIcon />} variant="outlined">Xuất excel</Button>
-          </Box>
-          <Box>
+          </Grid>
+          <Grid>
             <CreateLicense isEdit={false} />
-          </Box>
-        </Box>
+          </Grid>
+        </Grid>
       </Grid>
       <Grid item xs={12} sm={12} md={12}>
         <TableComponent columns={columns} data={data} show={TypeOfConsId}

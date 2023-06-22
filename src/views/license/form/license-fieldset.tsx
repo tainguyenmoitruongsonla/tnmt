@@ -1,9 +1,9 @@
 import { useState } from 'react';
-import { Typography, Grid, TextField, Box, Autocomplete } from "@mui/material";
+import { Typography, Grid, Box } from "@mui/material";
 import dayjs, { Dayjs } from 'dayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { DateField } from '@mui/x-date-pickers/DateField';
+import { TextField, DatePicker, AutoComplete } from 'src/@core/components/field';
 
 export default function LicenseFieldset(params: any) {
 
@@ -41,38 +41,32 @@ export default function LicenseFieldset(params: any) {
                 </Grid>
                 <Grid item xs={12} md={6} sm={12} sx={{ my: 2 }}>
                     <LocalizationProvider dateAdapter={AdapterDayjs}>
-                        <DateField label="Ngày ký"
+                        <DatePicker
+                            label="Ngày ký"
                             value={SignDate}
-                            slotProps={{ textField: { size: 'small', fullWidth: true } }}
-                            onChange={(newSignDate) => setSignDate(newSignDate)}
+                            onChange={(newSignDate: any) => setSignDate(newSignDate)}
                             format="DD/MM/YYYY" />
                     </LocalizationProvider>
-
                 </Grid>
                 <Grid item xs={12} md={6} sm={12} sx={{ my: 2 }}>
                     <TextField size='small' type='text' label='Tên văn bản' fullWidth placeholder='' defaultValue='' />
                 </Grid>
                 <Grid item xs={12} md={6} sm={12} sx={{ my: 2 }}>
                     <LocalizationProvider dateAdapter={AdapterDayjs}>
-                        <DateField label="Ngày có hiệu lực"
+                        <DatePicker
+                            label="Ngày có hiệu lực"
                             value={IssueDate}
-                            slotProps={{ textField: { size: 'small', fullWidth: true } }}
-                            onChange={(newIssueDate) => setIssueDate(newIssueDate)}
+                            onChange={(newIssueDate: any) => setIssueDate(newIssueDate)}
                             format="DD/MM/YYYY" />
                     </LocalizationProvider>
                 </Grid>
                 <Grid item xs={12} md={6} sm={12} sx={{ my: 2 }}>
                     <Box>
-                        <Autocomplete size="small"
+                        <AutoComplete
+                            size="small"
                             options={licensingType}
-                            getOptionLabel={(option) => option.title} renderInput={(params) => (
-                                <TextField
-                                    {...params}
-                                    variant="outlined"
-                                    label="Chọn loại hình CP"
-                                    placeholder=""
-                                />
-                            )}
+                            getOptionLabel={(option: any) => option.title}
+                            label="Chọn loại hình CP"
                         />
                     </Box>
                 </Grid>
@@ -81,25 +75,19 @@ export default function LicenseFieldset(params: any) {
                 </Grid>
                 <Grid item xs={12} md={6} sm={12} sx={{ my: 2 }}>
                     <Box>
-                        <Autocomplete size="small"
+                        <AutoComplete
+                            size="small"
                             options={licensingAuthorities}
-                            getOptionLabel={(option) => option.title} renderInput={(params) => (
-                                <TextField
-                                    {...params}
-                                    variant="outlined"
-                                    label="Cơ quan CP"
-                                    placeholder=""
-                                />
-                            )}
+                            getOptionLabel={(option: any) => option.title}
+                            label="Chọn cơ quan CP"
                         />
                     </Box>
                 </Grid>
                 <Grid item xs={12} md={6} sm={12} sx={{ my: 2 }}>
                     <LocalizationProvider dateAdapter={AdapterDayjs}>
-                        <DateField label="Ngày hết hiệu lực"
+                        <DatePicker label="Ngày hết hiệu lực"
                             value={ExpriteDate}
-                            slotProps={{ textField: { size: 'small', fullWidth: true } }}
-                            onChange={(newExpriteDate) => setExpriteDate(newExpriteDate)}
+                            onChange={(newExpriteDate: any) => setExpriteDate(newExpriteDate)}
                             format="DD/MM/YYYY" />
                     </LocalizationProvider>
                 </Grid>
