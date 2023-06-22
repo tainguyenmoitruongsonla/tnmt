@@ -5,7 +5,7 @@ const CreateHydroelectric = () => {
   return (
     <fieldset>
       <legend>
-        <Typography variant={'h6'}>THÔNG Số CÔNG TRÌNH</Typography>
+        <Typography variant={'subtitle1'} className='legend__title'>THÔNG Số CÔNG TRÌNH</Typography>
       </legend>
       <Grid container spacing={4}>
         <Grid item xs={12} md={3} sm={12} sx={{ my: 2 }} >

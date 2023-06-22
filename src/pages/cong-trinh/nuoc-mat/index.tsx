@@ -10,9 +10,9 @@ import MapComponent from 'src/@core/components/map';
 import { EditNote } from '@mui/icons-material';
 import { Delete } from 'mdi-material-ui';
 import TableComponent from 'src/@core/components/table';
-import CreateConstruction from 'src/views/construction/CreateConstruction';
 import SearchConstruction from 'src/views/construction/Search';
 import FormatDate from 'src/@core/components/format-date';
+import CreateConstruction from 'src/views/construction/form/CreateConstruction';
 
 // ** Components Imports
 
@@ -238,7 +238,6 @@ const SurfaceWater = () => {
             </Tooltip>
           </Box>
         )
-
         } />
       </Grid>
       </Grid>

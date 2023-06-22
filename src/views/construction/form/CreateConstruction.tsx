@@ -43,8 +43,8 @@ const FormContruction = ({ onSubmit, closeDialogs }: any) => {
   return (
     <form onSubmit={handleSubmit}>
       <fieldset>
-        <legend>
-          <Typography variant={'h6'}>THÔNG TIN CÔNG TRÌNH</Typography>
+        <legend >
+          <Typography variant={'subtitle1'} className='legend__title'>THÔNG TIN CÔNG TRÌNH</Typography>
         </legend>
         <Grid container spacing={4}>
           <Grid item xs={12} md={4} sm={12} sx={{ my: 2 }}>

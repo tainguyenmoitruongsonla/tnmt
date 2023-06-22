@@ -29,7 +29,7 @@ const ConstructionLocation = () => {
   return (
     <fieldset>
     <legend>
-      <Typography variant={'h6'}>VỊ TRÍ CÁC HẠNG MỤC CHÍNH CỦA CÔNG TRÌNH KHAI THÁC SỬ DỤNG NƯỚC</Typography>
+      <Typography variant={'subtitle1'} className='legend__title'>VỊ TRÍ CÁC HẠNG MỤC CHÍNH CỦA CÔNG TRÌNH KHAI THÁC SỬ DỤNG NƯỚC</Typography>
     </legend>
     <TableContainer component={Paper}>
       <Table sx={{ minWidth: 650 }} aria-label='simple table'>
