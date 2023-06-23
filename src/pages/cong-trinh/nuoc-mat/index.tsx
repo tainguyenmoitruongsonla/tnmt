@@ -1,6 +1,7 @@
 // ** MUI Imports
-import { Grid, Box, Button, Autocomplete, TextField,IconButton, Tooltip, Typography } from '@mui/material';
+import { Grid, Box, Button, IconButton, Tooltip, Typography } from '@mui/material';
 import { useEffect, useState } from 'react'
+import { AutoComplete } from "src/@core/components/field";
 
 // ** Icons Imports
 
@@ -49,72 +50,72 @@ const formatNum = (num: any) => {
 // id of columnsTable is parameter to bind ex: get LicseFk.BasinId: id: 'License_Fk.BasinId'
 const columnsTable = [
   { id: 'stt', label: 'STT', rowspan: 2, },
-  { id: 'ConstructionName', label: 'Tên công trình',  rowspan: 2 },
-  { id: 'ConstructionLocation', label: 'Địa điểm', rowspan: 2},
+  { id: 'ConstructionName', label: 'Tên công trình', rowspan: 2 },
+  { id: 'ConstructionLocation', label: 'Địa điểm', rowspan: 2 },
   {
-    id: '#', label: 'Tọa độ đập chính',  children: [
+    id: '#', label: 'Tọa độ đập chính', children: [
       { id: 'X', label: 'X', },
       { id: 'Y', label: 'Y', },
     ]
   },
-  { id: 'ExploitedWS', label: 'Nguồn nước khai thác',  rowspan: 2},
-  { id: 'MiningMethod', label: 'Phương thức khai thác',  rowspan: 2},
-  { id: 'MiningMode', label: 'Chế độ KT',  rowspan: 2},
-  { id: 'MiningPurpose', label: 'Mục đích KT',  rowspan: 2},
-  { id: 'BasinName', label: 'Tiểu vùng quy hoạch', showId: [1,4,5], rowspan: 2},
+  { id: 'ExploitedWS', label: 'Nguồn nước khai thác', rowspan: 2 },
+  { id: 'MiningMethod', label: 'Phương thức khai thác', rowspan: 2 },
+  { id: 'MiningMode', label: 'Chế độ KT', rowspan: 2 },
+  { id: 'MiningPurpose', label: 'Mục đích KT', rowspan: 2 },
+  { id: 'BasinName', label: 'Tiểu vùng quy hoạch', showId: [1, 4, 5], rowspan: 2 },
 
-  { id: 'ConstructionTime', label: 'Năm xây dựng',  rowspan: 2 },
-  { id: 'StartDate', label: 'Năm vận hành',  rowspan: 2 },
+  { id: 'ConstructionTime', label: 'Năm xây dựng', rowspan: 2 },
+  { id: 'StartDate', label: 'Năm vận hành', rowspan: 2 },
 
   {
-    id: '#', label: 'Thông số công trình', showId: [1,4,5, 6, 11], children: [
-      { id: 'ConstructionLeve', label: 'Cấp CT',showId: [1,4,5] },
-      { id: 'BasinArea', label: (<span>F lưu vực <br />(km2)</span>),showId: [1,4,5] },
-      { id: 'RainAvgForYears', label: (<span>X <sub>TB năm</sub> <br />(m)</span>),showId: [1,4,5] },
-      { id: 'FlowAvgForYears', label:(<span>Q <sub>TB năm</sub><br />(m3/s)</span>),showId: [1,4,5] },
-      { id: 'Power', label: 'CS lắp máy(MW)',showId: [1,4,5,6,11] },
-      { id: 'GuaranteedPower', label: (<span>CS <br /> đảm bảo(MW)</span>),showId: [1,4,5] },
-      { id: 'DamHeight', label: 'Chiều cao đập (m)',showId: [1,5] },
-      { id: 'DamWidth', label: 'Chiều dài đập (m)',showId: [1,5] },
-      { id: 'DamElevation', label: 'Cao trình đập (m)',showId: [1,5] },
-      { id: 'MaximumFlow', label: (<span>Q<sub>max</sub>(m<sup>3</sup>/s)</span>),showId: [1,4,5] },
-      { id: 'MinimumFlow', label: (<span>Q<sub>TT</sub>(m<sup>3</sup>/s)</span>),showId: [1,4,5] },
-      { id: 'GuaranteedFlow', label: (<span>Q<sub>đảm bảo</sub>(m<sup>3</sup>/s)</span>),showId: [1,4,5] },
-      { id: 'Hmax' ,label: (<span>H<sub>max</sub> (m) </span>),showId: [1,4,5] },
-      { id: 'Hmin', label:  (<span>H<sub>min</sub> (m)</span>),showId: [1,4,5] },
-      { id: 'Htt', label:  (<span>H<sub>TT</sub></span>),showId: [1,4,5] },
-      { id: 'DeadWL', label: 'MNC(m)',showId: [1,4,5] },
-      { id: 'RiseWL', label: 'MNDBT(m)' ,showId: [1,4,5]},
-      { id: 'DesignFloodLevel', label: 'MNLTK(m)',showId: [1,4,5] },
-      { id: 'CheckFloodWL', label: 'MNLKT(m',showId: [1,4,5] },
-      { id: 'TotalCapacity', label: (<span>W<sub>toàn bộ</sub>(triệu m<sup>3</sup>)</span>),showId: [1,4,5] },
-      { id: 'DeadCapacity', label: (<span>W<sub> chết </sub>(triệu m<sup>3</sup>)</span>),showId: [1,4,5] },
-      { id: 'UsefulCapacity', label: (<span>W<sub>hữu ích</sub>(triệu m<sup>3</sup>)</span>),showId: [1,4,5] },
-      { id: 'PumpNumber', label: 'Số máy bơm',showId: [1,6] },
-      { id: 'FlowDesigned', label: (<span>Q<sub>TK</sub> (m<sup>3</sup>/h)</span>),showId: [1,11] },
-      { id: 'RealityFlow', label: (<span>Q<sub>TT</sub> (m<sup>3</sup>/h)</span>),showId: [1,11] },
-      { id: 'WateringAreaDesigned', label: (<span>F<sub>tưới TK</sub> (ha)</span>),showId: [1,6] },
-      { id: 'RealityWateringArea', label: (<span>F<sub>tưới TT</sub> (ha)</span>),showId: [1,6] },
-      { id: 'AveragePumpTime', label: (<span>T<sub>bơm TB</sub>(h)</span>),showId: [1,6] },
-      { id: 'MinimumPumpTime', label: (<span>T<sub>bơm min</sub>(h)</span>),showId: [1,6] },
-      { id: 'MaximumPumpTime', label: (<span>T<sub>bơm max</sub>(h)</span>),showId: [1,6] },
+    id: '#', label: 'Thông số công trình', showId: [1, 4, 5, 6, 11], children: [
+      { id: 'ConstructionLeve', label: 'Cấp CT', showId: [1, 4, 5] },
+      { id: 'BasinArea', label: (<span>F lưu vực <br />(km2)</span>), showId: [1, 4, 5] },
+      { id: 'RainAvgForYears', label: (<span>X <sub>TB năm</sub> <br />(m)</span>), showId: [1, 4, 5] },
+      { id: 'FlowAvgForYears', label: (<span>Q <sub>TB năm</sub><br />(m3/s)</span>), showId: [1, 4, 5] },
+      { id: 'Power', label: 'CS lắp máy(MW)', showId: [1, 4, 5, 6, 11] },
+      { id: 'GuaranteedPower', label: (<span>CS <br /> đảm bảo(MW)</span>), showId: [1, 4, 5] },
+      { id: 'DamHeight', label: 'Chiều cao đập (m)', showId: [1, 5] },
+      { id: 'DamWidth', label: 'Chiều dài đập (m)', showId: [1, 5] },
+      { id: 'DamElevation', label: 'Cao trình đập (m)', showId: [1, 5] },
+      { id: 'MaximumFlow', label: (<span>Q<sub>max</sub>(m<sup>3</sup>/s)</span>), showId: [1, 4, 5] },
+      { id: 'MinimumFlow', label: (<span>Q<sub>TT</sub>(m<sup>3</sup>/s)</span>), showId: [1, 4, 5] },
+      { id: 'GuaranteedFlow', label: (<span>Q<sub>đảm bảo</sub>(m<sup>3</sup>/s)</span>), showId: [1, 4, 5] },
+      { id: 'Hmax', label: (<span>H<sub>max</sub> (m) </span>), showId: [1, 4, 5] },
+      { id: 'Hmin', label: (<span>H<sub>min</sub> (m)</span>), showId: [1, 4, 5] },
+      { id: 'Htt', label: (<span>H<sub>TT</sub></span>), showId: [1, 4, 5] },
+      { id: 'DeadWL', label: 'MNC(m)', showId: [1, 4, 5] },
+      { id: 'RiseWL', label: 'MNDBT(m)', showId: [1, 4, 5] },
+      { id: 'DesignFloodLevel', label: 'MNLTK(m)', showId: [1, 4, 5] },
+      { id: 'CheckFloodWL', label: 'MNLKT(m', showId: [1, 4, 5] },
+      { id: 'TotalCapacity', label: (<span>W<sub>toàn bộ</sub>(triệu m<sup>3</sup>)</span>), showId: [1, 4, 5] },
+      { id: 'DeadCapacity', label: (<span>W<sub> chết </sub>(triệu m<sup>3</sup>)</span>), showId: [1, 4, 5] },
+      { id: 'UsefulCapacity', label: (<span>W<sub>hữu ích</sub>(triệu m<sup>3</sup>)</span>), showId: [1, 4, 5] },
+      { id: 'PumpNumber', label: 'Số máy bơm', showId: [1, 6] },
+      { id: 'FlowDesigned', label: (<span>Q<sub>TK</sub> (m<sup>3</sup>/h)</span>), showId: [1, 11] },
+      { id: 'RealityFlow', label: (<span>Q<sub>TT</sub> (m<sup>3</sup>/h)</span>), showId: [1, 11] },
+      { id: 'WateringAreaDesigned', label: (<span>F<sub>tưới TK</sub> (ha)</span>), showId: [1, 6] },
+      { id: 'RealityWateringArea', label: (<span>F<sub>tưới TT</sub> (ha)</span>), showId: [1, 6] },
+      { id: 'AveragePumpTime', label: (<span>T<sub>bơm TB</sub>(h)</span>), showId: [1, 6] },
+      { id: 'MinimumPumpTime', label: (<span>T<sub>bơm min</sub>(h)</span>), showId: [1, 6] },
+      { id: 'MaximumPumpTime', label: (<span>T<sub>bơm max</sub>(h)</span>), showId: [1, 6] },
 
     ]
   },
   {
     id: 'License', label: 'Thông tin giấy phép', children: [
-      { id: 'LicenseNumber', label: 'Số GP'},
+      { id: 'LicenseNumber', label: 'Số GP' },
       { id: 'SignDate', label: 'Ngày cấp', format: (value: any) => FormatDate(value) },
       { id: 'IssueDate', label: 'Thời hạn', format: (value: any) => FormatDate(value) },
     ]
   },
   {
     id: 'LicenseFee', label: 'Tiền cấp quyền', children: [
-      { id: 'LicenseFeeNumber', label: 'Số QĐ'},
+      { id: 'LicenseFeeNumber', label: 'Số QĐ' },
       { id: 'TotalMoney', label: 'Tổng tiền (VNĐ)', format: (value: any) => formatNum(value) },
     ]
   },
-  { id: 'actions', label: 'Thao tác',  rowspan: 2 },
+  { id: 'actions', label: 'Thao tác', rowspan: 2 },
 ];
 
 
@@ -146,12 +147,12 @@ const SurfaceWater = () => {
 
     // fetchData();
   }, []);
-  const EditLicense = (row:any) => {
-    console.log('Edit: '+row.LicenseNumber)
+  const EditLicense = (row: any) => {
+    console.log('Edit: ' + row.LicenseNumber)
   }
 
-  const DeleteLicense = (row:any) => {
-    console.log('Delete: '+row.LicenseNumber)
+  const DeleteLicense = (row: any) => {
+    console.log('Delete: ' + row.LicenseNumber)
   }
 
   // const [data, setData] = useState([]);
@@ -185,29 +186,23 @@ const SurfaceWater = () => {
             Số công trình đã cấp phép: 132
           </Typography>
         </Box>
-        <Box className='_search'>
+        <Box className='_search _row'>
           <Box>
-            <Autocomplete
-            onChange={(e, v) => handleChange(v)}
-            size="small" options={complete1} getOptionLabel={(option) => option.title} renderInput={(params) => (
-              <TextField
-                {...params}
-                variant="outlined"
-                label="Chọn loại hình CP"
-                placeholder=""
-              />
-            )}
+            <AutoComplete
+              onChange={(e: any, v: any) => handleChange(v)}
+              size="small"
+              options={complete1}
+              getOptionLabel={(option: any) => option.title}
+              label="Chọn loại hình CT"
             />
           </Box>
           <Box>
-            <Autocomplete size="small" options={complete2} getOptionLabel={(option) => option.title} renderInput={(params) => (
-              <TextField
-                {...params}
-                variant="outlined"
-                label="Chọn cơ quan CP"
-                placeholder=""
-              />
-            )}
+            <AutoComplete
+              onChange={(e: any, v: any) => handleChange(v)}
+              size="small"
+              options={complete2}
+              getOptionLabel={(option: any) => option.title}
+              label="Chọn loại hình CT"
             />
           </Box>
           <Box>
@@ -222,24 +217,24 @@ const SurfaceWater = () => {
         </Box>
       </Grid>
       <Grid item xs={12} sm={12} md={12}>
-      <Grid item xs={12} sm={12} md={12}>
-        <TableComponent columns={columns} data={data} show={TypeOfConsId}
-         actions={(row: any) => (
-          <Box>
-            <Tooltip title="Chỉnh sửa giấy phép">
-              <IconButton onClick={() => EditLicense(row)}>
-                <EditNote className='tableActionBtn' />
-              </IconButton>
-            </Tooltip>
-            <Tooltip title="Xóa giấy phép">
-              <IconButton onClick={() => DeleteLicense(row)}>
-                <Delete className='tableActionBtn deleteBtn' />
-              </IconButton>
-            </Tooltip>
-          </Box>
-        )
-        } />
-      </Grid>
+        <Grid item xs={12} sm={12} md={12}>
+          <TableComponent columns={columns} data={data} show={TypeOfConsId}
+            actions={(row: any) => (
+              <Box>
+                <Tooltip title="Chỉnh sửa giấy phép">
+                  <IconButton onClick={() => EditLicense(row)}>
+                    <EditNote className='tableActionBtn' />
+                  </IconButton>
+                </Tooltip>
+                <Tooltip title="Xóa giấy phép">
+                  <IconButton onClick={() => DeleteLicense(row)}>
+                    <Delete className='tableActionBtn deleteBtn' />
+                  </IconButton>
+                </Tooltip>
+              </Box>
+            )
+            } />
+        </Grid>
       </Grid>
     </Grid>
   )
