@@ -98,7 +98,7 @@ const TableComponent: FC<TableProps> = ({ columns, data, show, actions }: TableP
 
                       if (parentId === "#") {
                         return (
-                          <TableCell key={`${columnIndex}-${childIndex}`} size='small'>
+                          <TableCell sx={{py: 0}} key={`${columnIndex}-${childIndex}`} size='small'>
                             {childColumn.id === "actions" ? actions && actions(row)
                               : (
                                 typeof childColumn.elm === 'function'
@@ -111,7 +111,7 @@ const TableComponent: FC<TableProps> = ({ columns, data, show, actions }: TableP
                         )
                       } else {
                         return (
-                          <TableCell key={`${columnIndex}-${childIndex}`} size='small'>
+                          <TableCell sx={{py: 0}} key={`${columnIndex}-${childIndex}`} size='small'>
                             {Array.isArray(rowValue) ? (
                               rowValue.map((e, k) => (
                                 <span key={k}>
@@ -162,7 +162,7 @@ const TableComponent: FC<TableProps> = ({ columns, data, show, actions }: TableP
                     });
                   } else {
                     return (
-                      <TableCell key={`${columnIndex}`} size='small'>
+                      <TableCell sx={{py: 0}} key={`${columnIndex}`} size='small'>
                         {column.id === "actions" ? actions && actions(row)
                           : column.id === "stt"
                             ? (index + 1)
