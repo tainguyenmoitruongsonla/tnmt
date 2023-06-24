@@ -32,6 +32,7 @@ import themeConfig from 'src/configs/themeConfig'
 import BlankLayout from 'src/@core/layouts/BlankLayout'
 
 interface State {
+  username: string
   password: string
   showPassword: boolean
 }
@@ -57,6 +58,7 @@ const FormControlLabel = styled(MuiFormControlLabel)<FormControlLabelProps>(({ t
 const LoginPage = () => {
   // ** State
   const [values, setValues] = useState<State>({
+    username: '',
     password: '',
     showPassword: false
   })
@@ -75,6 +77,35 @@ const LoginPage = () => {
   const handleMouseDownPassword = (event: MouseEvent<HTMLButtonElement>) => {
     event.preventDefault()
   }
+
+  const handleSubmit = async (e:any) => {
+    const username = values.username;
+    const password = values.password;
+    e.preventDefault();
+    try {
+      const response = await fetch('http://api-tnmtqn.loc/api/Auth/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ username, password }),
+      });
+
+      if (response.ok) {
+        const token = await response.text();
+        localStorage.setItem('token', token);
+        // Redirect the user to the authenticated route
+        router.push('/');
+      } else {
+        // Handle non-200 status code
+        const errorData = await response.text();
+        throw new Error(errorData);
+      }
+    } catch (error) {
+      // Handle fetch or parsing errors
+      console.log(error);
+    }
+  };
 
   return (
     <Box className='content-center'>
@@ -104,8 +135,8 @@ const LoginPage = () => {
             HỆ THỐNG QUẢN LÝ CƠ SỞ DỮ LIỆU TÀI NGUYÊN NƯỚC
             </Typography>
           </Box>
-          <form noValidate autoComplete='off' onSubmit={e => e.preventDefault()}>
-            <TextField autoFocus fullWidth id='email' label='Tên đăng nhập' sx={{ marginBottom: 4 }} />
+          <form noValidate autoComplete='off' onSubmit={handleSubmit}>
+            <TextField autoFocus fullWidth id='username' label='Tên đăng nhập' sx={{ marginBottom: 4 }} value={values.username} onChange={handleChange('username')} />
             <FormControl fullWidth>
               <InputLabel htmlFor='auth-login-password'>Mật khẩu</InputLabel>
               <OutlinedInput
@@ -141,7 +172,7 @@ const LoginPage = () => {
               size='large'
               variant='contained'
               sx={{ marginBottom: 7 }}
-              onClick={() => router.push('/')}
+              type="submit"
             >
               Login
             </Button>
