@@ -47,7 +47,7 @@ const UserDropdown = () => {
 
   const handleLogout =() => {
     localStorage.clear()
-    router.push('/page/login')
+    router.push('/pages/login')
   }
 
   const styles = {
