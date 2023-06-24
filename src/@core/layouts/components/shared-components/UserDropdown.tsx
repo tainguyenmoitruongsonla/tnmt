@@ -1,5 +1,5 @@
 // ** React Imports
-import { useState, SyntheticEvent, Fragment } from 'react'
+import { useState, SyntheticEvent, Fragment, useEffect } from 'react'
 
 // ** Next Import
 import { useRouter } from 'next/router'
@@ -30,6 +30,7 @@ const BadgeContentSpan = styled('span')(({ theme }) => ({
 const UserDropdown = () => {
   // ** States
   const [anchorEl, setAnchorEl] = useState<Element | null>(null)
+  const [userName, setUserName] = useState('Guest');
 
   // ** Hooks
   const router = useRouter()
@@ -46,9 +47,21 @@ const UserDropdown = () => {
   }
 
   const handleLogout =() => {
-    localStorage.clear()
+    localStorage.removeItem('token')
     router.push('/pages/login')
   }
+
+  // useEffect(() => {
+  //   if (typeof window !== 'undefined') {
+  //     const token = localStorage.getItem('token')
+  //     if (!token) {
+  //       router.push('/pages/login')
+  //     }else{
+  //       const user = localStorage.getItem('user')
+  //       setUserName(user?.userName)
+  //     }
+  //   }
+  // }, [])
 
   const styles = {
     py: 2,
@@ -98,7 +111,7 @@ const UserDropdown = () => {
               <Avatar alt='John Doe' src='/images/avatars/1.png' sx={{ width: '2.5rem', height: '2.5rem' }} />
             </Badge>
             <Box sx={{ display: 'flex', marginLeft: 3, alignItems: 'flex-start', flexDirection: 'column' }}>
-              <Typography sx={{ fontWeight: 600 }}>John Doe</Typography>
+              <Typography sx={{ fontWeight: 600 }}>{userName}</Typography>
               <Typography variant='body2' sx={{ fontSize: '0.8rem', color: 'text.disabled' }}>
                 Admin
               </Typography>

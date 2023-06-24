@@ -1,5 +1,5 @@
 // ** React Imports
-import { ChangeEvent, MouseEvent, ReactNode, useState } from 'react'
+import { ChangeEvent, MouseEvent, ReactNode, useEffect, useState } from 'react'
 
 // ** Next Imports
 import Link from 'next/link'
@@ -30,11 +30,13 @@ import themeConfig from 'src/configs/themeConfig'
 
 // ** Layout Import
 import BlankLayout from 'src/@core/layouts/BlankLayout'
+import Alert from '@mui/material/Alert';
 
 interface State {
   username: string
   password: string
   showPassword: boolean
+  rememberMe: boolean
 }
 
 // ** Styled Components
@@ -60,8 +62,11 @@ const LoginPage = () => {
   const [values, setValues] = useState<State>({
     username: '',
     password: '',
-    showPassword: false
+    showPassword: false,
+    rememberMe: false
   })
+
+  const [isError, setIsErrors] = useState(false)
 
   // ** Hook
   const router = useRouter()
@@ -91,13 +96,17 @@ const LoginPage = () => {
         body: JSON.stringify({ username, password }),
       });
 
+      console.log(await response.json())
+
       if (response.ok) {
-        const token = await response.text();
-        localStorage.setItem('token', token);
+        const data = await response.json();
+        localStorage.setItem('token', data.token);
+        localStorage.setItem('user', data.user);
         // Redirect the user to the authenticated route
         router.push('/');
       } else {
         // Handle non-200 status code
+        setIsErrors(true)
         const errorData = await response.text();
         throw new Error(errorData);
       }
@@ -135,6 +144,7 @@ const LoginPage = () => {
             HỆ THỐNG QUẢN LÝ CƠ SỞ DỮ LIỆU TÀI NGUYÊN NƯỚC
             </Typography>
           </Box>
+          {isError ? ( <Box sx={{ mb: 3 }}> <Alert severity="error">Tài khoản hoặc mật khẩu không chính xác!</Alert> </Box>) : ""}
           <form noValidate autoComplete='off' onSubmit={handleSubmit}>
             <TextField autoFocus fullWidth id='username' label='Tên đăng nhập' sx={{ marginBottom: 4 }} value={values.username} onChange={handleChange('username')} />
             <FormControl fullWidth>
@@ -162,7 +172,7 @@ const LoginPage = () => {
             <Box
               sx={{ mb: 4, display: 'flex', alignItems: 'center', flexWrap: 'wrap', justifyContent: 'space-between' }}
             >
-              <FormControlLabel control={<Checkbox />} label='Lưu đăng nhập' />
+              <FormControlLabel control={<Checkbox value={values.rememberMe} onChange={handleChange('rememberMe')} />} label='Lưu đăng nhập' />
               <Link passHref href='/'>
                 <LinkStyled onClick={e => e.preventDefault()}>Quên mật khẩu?</LinkStyled>
               </Link>
