@@ -1,5 +1,5 @@
 // ** React Imports
-import { ChangeEvent, MouseEvent, ReactNode, useEffect, useState } from 'react'
+import { ChangeEvent, MouseEvent, ReactNode, useState } from 'react'
 
 // ** Next Imports
 import Link from 'next/link'
@@ -31,6 +31,7 @@ import themeConfig from 'src/configs/themeConfig'
 // ** Layout Import
 import BlankLayout from 'src/@core/layouts/BlankLayout'
 import Alert from '@mui/material/Alert';
+import apiUrl from 'src/api/config'
 
 interface State {
   username: string
@@ -83,12 +84,12 @@ const LoginPage = () => {
     event.preventDefault()
   }
 
-  const handleSubmit = async (e:any) => {
+  const handleSubmit = async (e: any) => {
     const username = values.username;
     const password = values.password;
     e.preventDefault();
     try {
-      const response = await fetch('http://api-tnmtqn.loc/api/Auth/login', {
+      const response = await fetch(`${apiUrl}/Auth/login`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -96,12 +97,10 @@ const LoginPage = () => {
         body: JSON.stringify({ username, password }),
       });
 
-      console.log(await response.json())
-
       if (response.ok) {
         const data = await response.json();
         localStorage.setItem('token', data.token);
-        localStorage.setItem('user', data.user);
+        localStorage.setItem('user', JSON.stringify(data.user));
         // Redirect the user to the authenticated route
         router.push('/');
       } else {
@@ -141,10 +140,10 @@ const LoginPage = () => {
           </Box>
           <Box sx={{ mb: 6 }}>
             <Typography variant='overline' align='center' sx={{ fontWeight: 600, marginBottom: 1.5 }}>
-            HỆ THỐNG QUẢN LÝ CƠ SỞ DỮ LIỆU TÀI NGUYÊN NƯỚC
+              HỆ THỐNG QUẢN LÝ CƠ SỞ DỮ LIỆU TÀI NGUYÊN NƯỚC
             </Typography>
           </Box>
-          {isError ? ( <Box sx={{ mb: 3 }}> <Alert severity="error">Tài khoản hoặc mật khẩu không chính xác!</Alert> </Box>) : ""}
+          {isError ? (<Box sx={{ mb: 3 }}> <Alert severity="error">Tài khoản hoặc mật khẩu không chính xác!</Alert> </Box>) : ""}
           <form noValidate autoComplete='off' onSubmit={handleSubmit}>
             <TextField autoFocus fullWidth id='username' label='Tên đăng nhập' sx={{ marginBottom: 4 }} value={values.username} onChange={handleChange('username')} />
             <FormControl fullWidth>

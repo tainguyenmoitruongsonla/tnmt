@@ -71,7 +71,7 @@ const TableComponent: FC<TableProps> = ({ columns, data, show, actions }: TableP
             <TableRow>
               {tableColumns.map((column, index) => (
                 <TableCell size='small' align='center' key={index} rowSpan={column.rowspan} colSpan={column.colspan}>
-                  {column.label}
+                  {typeof column.elm === 'function' ? column.elm() : column.label}
                 </TableCell>
               ))}
             </TableRow>

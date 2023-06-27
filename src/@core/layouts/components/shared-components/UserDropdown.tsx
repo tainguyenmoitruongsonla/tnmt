@@ -30,7 +30,7 @@ const BadgeContentSpan = styled('span')(({ theme }) => ({
 const UserDropdown = () => {
   // ** States
   const [anchorEl, setAnchorEl] = useState<Element | null>(null)
-  const [userName, setUserName] = useState('Guest');
+  const [userName, setUserName] = useState<string | null>(null);
 
   // ** Hooks
   const router = useRouter()
@@ -46,22 +46,20 @@ const UserDropdown = () => {
     setAnchorEl(null)
   }
 
-  const handleLogout =() => {
+  const handleLogout = () => {
     localStorage.removeItem('token')
     router.push('/pages/login')
   }
 
-  // useEffect(() => {
-  //   if (typeof window !== 'undefined') {
-  //     const token = localStorage.getItem('token')
-  //     if (!token) {
-  //       router.push('/pages/login')
-  //     }else{
-  //       const user = localStorage.getItem('user')
-  //       setUserName(user?.userName)
-  //     }
-  //   }
-  // }, [])
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const storedUser = localStorage.getItem('user');
+      if (storedUser) {
+        const userObject = JSON.parse(storedUser);
+        setUserName(userObject.fullName);
+      }
+    }
+  }, [])
 
   const styles = {
     py: 2,
