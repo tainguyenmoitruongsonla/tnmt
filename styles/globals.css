@@ -179,6 +179,11 @@ code[class*='language-'] {
   justify-content: space-between;
 }
 
+._justifyContentCenter {
+  justify-content: center !important;
+}
+
+
 ._font12 {
   font-size: 12px !important;
 }

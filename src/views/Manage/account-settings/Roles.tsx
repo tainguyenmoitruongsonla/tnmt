@@ -1,62 +1,58 @@
 // ** React Imports
+
 // ** MUI Imports
-import { Grid, Checkbox, Table, TableHead, TableBody, TableRow, TableCell, IconButton } from '@mui/material'
+import { IconButton, Box, Checkbox } from '@mui/material';
 import { Delete } from '@mui/icons-material';
+import TableComponent from 'src/@core/components/table';
+import { useEffect, useState } from 'react';
+import fetchApiData from 'src/api/fetchApiData';
 import EditRoles from './EditRoles';
 
-const createData = (name: string, isDefault: boolean) => {
-  return { name, isDefault }
-}
+const ListRoles = () => {
 
-const roleData = [
-  createData('Supper User', false),
-  createData('Admintrators', false),
-  createData('Default', true),
-]
+  const [postSuccess, setPostSuccess] = useState(false);
 
-const ACTION_COLUMN_WIDTH = 120;
+  const handlePostSuccess = () => {
+    setPostSuccess(prevState => !prevState);
+  };
 
-const Roles = () => {
+  const columnsTable = [
+    { id: 'name', label: 'Tên', },
+    { id: 'isDefault', label: 'Mặc định', elm: (row: any) => (<Checkbox name='isDefault' checked={row?.isDefault} />) },
+    { id: 'actions', label: '#', elm: (row: any) => (<># <EditRoles data={row} isEdit={false} setPostSuccess={handlePostSuccess} /> </>) }
+  ]
+
+  const [resData, setResData] = useState([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const data = await fetchApiData('Role/list');
+        setResData(data);
+      } catch (error) {
+        setResData([]);
+      }
+    };
+  
+    fetchData();
+  }, [postSuccess]);  
 
   return (
-    <>
-      <Grid container columnSpacing={8}>
-        <Grid item xs={12} md={12}>
-          <Table className='mainTable'>
-            <TableHead className='tableHead'>
-              <TableRow>
-                <TableCell size='small'>TÊN</TableCell>
-                <TableCell size='small' align='center'>MẶC ĐỊNH</TableCell>
-                <TableCell size='small' align='center' sx={{ minWidth: ACTION_COLUMN_WIDTH, width: ACTION_COLUMN_WIDTH }}>
-                  #
-                  <EditRoles isEdit={false} />
-                </TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {roleData.map(row => (
-                <TableRow key={row.name}>
-                  <TableCell size='small'>
-                    {row.name}
-                  </TableCell>
-                  <TableCell size='small' align='center' sx={{ minWidth: ACTION_COLUMN_WIDTH, width: ACTION_COLUMN_WIDTH }}>
-                    <Checkbox checked={row.isDefault} />
-                  </TableCell>
-                  <TableCell size='small' align='center' sx={{ minWidth: ACTION_COLUMN_WIDTH, width: ACTION_COLUMN_WIDTH }}>
-                    <IconButton aria-label="delete">
-                      <EditRoles isEdit={true} />
-                    </IconButton>
-                    <IconButton aria-label="delete">
-                      <Delete className='tableActionBtn deleteBtn' />
-                    </IconButton>
-                  </TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </Grid>
-      </Grid>
-    </>
-  )
+    <TableComponent columns={columnsTable} data={resData}
+      actions={(row: any) => (
+        <Box display="flex" justifyContent="center">
+          <IconButton aria-label="edit">
+            <EditRoles data={row} isEdit={true} setPostSuccess={handlePostSuccess} />
+          </IconButton>
+          <IconButton aria-label="delete">
+            <Delete className='tableActionBtn deleteBtn' />
+          </IconButton>
+        </Box>
+      )
+
+      } />
+  );
+
 }
-export default Roles
+
+export default ListRoles;

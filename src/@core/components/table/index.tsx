@@ -1,6 +1,7 @@
 import { FC, useState, ChangeEvent } from 'react'
 
 import { Table, TableHead, TableRow, TableCell, TableBody, TableContainer, Paper, TablePagination } from '@mui/material';
+import { Rowing } from 'mdi-material-ui';
 
 interface TableColumn {
   id: string;
@@ -71,7 +72,7 @@ const TableComponent: FC<TableProps> = ({ columns, data, show, actions }: TableP
             <TableRow>
               {tableColumns.map((column, index) => (
                 <TableCell size='small' align='center' key={index} rowSpan={column.rowspan} colSpan={column.colspan}>
-                  {typeof column.elm === 'function' ? column.elm() : column.label}
+                  {column.id === 'actions' ? typeof column.elm === 'function' ? column.elm() : column.label : column.label}
                 </TableCell>
               ))}
             </TableRow>
@@ -98,7 +99,7 @@ const TableComponent: FC<TableProps> = ({ columns, data, show, actions }: TableP
 
                       if (parentId === "#") {
                         return (
-                          <TableCell sx={{py: 0}} key={`${columnIndex}-${childIndex}`} size='small'>
+                          <TableCell sx={{ py: 0 }} key={`${columnIndex}-${childIndex}`} size='small'>
                             {childColumn.id === "actions" ? actions && actions(row)
                               : (
                                 typeof childColumn.elm === 'function'
@@ -111,7 +112,7 @@ const TableComponent: FC<TableProps> = ({ columns, data, show, actions }: TableP
                         )
                       } else {
                         return (
-                          <TableCell sx={{py: 0}} key={`${columnIndex}-${childIndex}`} size='small'>
+                          <TableCell sx={{ py: 0 }} key={`${columnIndex}-${childIndex}`} size='small'>
                             {Array.isArray(rowValue) ? (
                               rowValue.map((e, k) => (
                                 <span key={k}>
@@ -162,7 +163,7 @@ const TableComponent: FC<TableProps> = ({ columns, data, show, actions }: TableP
                     });
                   } else {
                     return (
-                      <TableCell sx={{py: 0}} key={`${columnIndex}`} size='small'>
+                      <TableCell sx={{ py: 0 }} {...(column.id === "actions" ? { width: 120 } : {})} key={`${columnIndex}`} size='small'>
                         {column.id === "actions" ? actions && actions(row)
                           : column.id === "stt"
                             ? (index + 1)

@@ -24,7 +24,7 @@ interface State {
   userType: string
 }
 
-const Form = ({ data, isEdit, closeDialogs }: any) => {
+const Form = ({ data, setPostSuccess, isEdit, closeDialogs }: any) => {
 
   const [values, setValues] = useState<State>({
     userName: data?.userName || '',
@@ -43,10 +43,9 @@ const Form = ({ data, isEdit, closeDialogs }: any) => {
     { title: "Doanh nghiệp", value: 1 },
   ];
 
-  const [success, setSuccess] = useState<any>()
-
   const handleChange = (prop: keyof State) => (event: ChangeEvent<HTMLInputElement>) => {
-    setValues({ ...values, [prop]: event.target.value })
+    const value = event.target.type === 'checkbox' ? event.target.checked : event.target.value;
+    setValues({ ...values, [prop]: value });
   }
 
   const handleClickShowPassword = () => {
@@ -61,37 +60,48 @@ const Form = ({ data, isEdit, closeDialogs }: any) => {
     e.preventDefault();
 
     const handleApiCall = async () => {
+      let res;
       if (isEdit) {
-        const res = await postApiData(`User/update/${data.userName}`, values);
-        setSuccess(res);
-        console.log('Data successfully updated!')
+        res = await postApiData(`User/update/${data.userName}`, values);
+        console.log('Data successfully updated!');
       } else {
-        const res = await postApiData('User/create', values);
-        setSuccess(res);
-        console.log('Data successfully cereated!')
+        res = await postApiData('User/create', values);
+        console.log('Data successfully created!');
+      }
+      if (res) {
+        // Reset form fields
+        setValues({
+          userName: '',
+          password: '',
+          confirmPassword: '',
+          fullName: '',
+          email: '',
+          phoneNumber: '',
+          userType: ''
+        });
+
+        typeof (setPostSuccess) === 'function' ? setPostSuccess(true) : '';
+
+        closeDialogs();
       }
     };
 
     // Call the function
     handleApiCall();
-
-    if (success) {   
-      // Reset form fields
-      setValues({
-        userName: '',
-        password: '',
-        confirmPassword: '',
-        fullName: '',
-        email: '',
-        phoneNumber: '',
-        userType: ''
-      });
-
-      closeDialogs();
-    }
   };
 
   const handleClose = () => {
+
+    setValues({
+      userName: '',
+      password: '',
+      confirmPassword: '',
+      fullName: '',
+      email: '',
+      phoneNumber: '',
+      userType: ''
+    });
+
     closeDialogs();
   }
 
@@ -177,7 +187,7 @@ const Form = ({ data, isEdit, closeDialogs }: any) => {
   );
 };
 
-const EditAccount = ({ data, isEdit }: any) => {
+const EditAccount = ({ data, setPostSuccess, isEdit }: any) => {
   const formTitle = isEdit ? 'Thay đổi thông tin tài khoản' : 'Thêm tài khoản mới';
 
   return (
@@ -186,9 +196,9 @@ const EditAccount = ({ data, isEdit }: any) => {
         <>
           {
             isEdit ?
-              <EditNote className='tableActionBtn' onClick={() => openDialogs(<Form data={data} isEdit={isEdit} closeDialogs={closeDialogs} />, formTitle)} />
+              <EditNote className='tableActionBtn' onClick={() => openDialogs(<Form data={data} setPostSuccess={setPostSuccess} isEdit={isEdit} closeDialogs={closeDialogs} />, formTitle)} />
               :
-              <IconButton className='addNewBtn' aria-label="add user" onClick={() => openDialogs(<Form closeDialogs={closeDialogs} />, formTitle)}>
+              <IconButton className='addNewBtn' aria-label="add user" onClick={() => openDialogs(<Form setPostSuccess={setPostSuccess} closeDialogs={closeDialogs} />, formTitle)}>
                 <PersonAddAlt sx={{ mr: 2 }} />
                 <Typography>Thêm mới</Typography>
               </IconButton>

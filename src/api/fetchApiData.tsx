@@ -11,15 +11,18 @@ const fetchApiData = async (url: string) => {
 
         if (response.ok) {
             const data = await response.json();
+
             return data;
         } else {
             // Handle non-200 status code
             const errorData = await response.text();
+
             throw new Error(errorData);
         }
     } catch (error) {
         // Handle fetch or parsing errorsz
         console.log(error);
+
         return [];
     }
 }

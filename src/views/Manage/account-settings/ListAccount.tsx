@@ -12,13 +12,19 @@ import fetchApiData from 'src/api/fetchApiData';
 
 const ListAccount = () => {
 
+    const [postSuccess, setPostSuccess] = useState(false);
+
+  const handlePostSuccess = () => {
+    setPostSuccess(prevState => !prevState);
+  };
+
     const columnsTable = [
         { id: 'userName', label: 'Tài khoản', },
         { id: 'roles', label: 'Vai trò', },
         { id: 'fullName', label: 'Họ tên', },
         { id: 'email', label: 'Email', },
         { id: 'phoneNumber', label: 'Số điện thoại', },
-        { id: 'actions', label: '#', elm: (row: any) => (<># <EditAccount data={row} isEdit={false} /></>) }
+        { id: 'actions', label: '#', elm: (row: any) => (<># <EditAccount data={row} setPostSuccess={handlePostSuccess} isEdit={false} /></>) }
     ]
 
     const [resData, setResData] = useState([]);
@@ -34,7 +40,7 @@ const ListAccount = () => {
         };
 
         fetchData();
-    }, []);
+    }, [postSuccess]);
 
     return (
         <TableComponent columns={columnsTable} data={resData}
@@ -47,7 +53,7 @@ const ListAccount = () => {
                         <ChangePassword />
                     </IconButton>
                     <IconButton aria-label="edit">
-                        <EditAccount data={row} isEdit={true} />
+                        <EditAccount data={row} setPostSuccess={handlePostSuccess} isEdit={true} />
                     </IconButton>
                     <IconButton aria-label="delete">
                         <Delete className='tableActionBtn deleteBtn' />

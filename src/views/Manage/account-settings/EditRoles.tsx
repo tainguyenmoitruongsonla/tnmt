@@ -1,32 +1,80 @@
-import DialogsControl from 'src/@core/components/dialog-control';
+// ** React Imports
+import { useState, ChangeEvent } from 'react';
+
+// ** MUI Imports
+
 import { EditNote, PersonAddAlt } from "@mui/icons-material";
-import { Grid, Button, TextField, DialogActions, FormGroup, FormControlLabel, Checkbox, IconButton, Typography } from "@mui/material";
+import { Grid, Button, DialogActions, FormGroup, FormControlLabel, Checkbox, IconButton, Typography } from "@mui/material";
 
-const Form = ({ onSubmit, closeDialogs }: any) => {
+// ** Component Imports
+import DialogsControl from 'src/@core/components/dialog-control';
+import { TextField } from 'src/@core/components/field';
+import postApiData from 'src/api/postApiData';
 
-  const handleSubmit = (event: any) => {
-    event.preventDefault();
-    onSubmit();
-    closeDialogs();
+interface State {
+  name?: string,
+  isDefault?: boolean,
+}
+
+const Form = ({ data, setPostSuccess, isEdit, closeDialogs }: any) => {
+
+  const [values, setValues] = useState<State>({
+    name: data?.name || '',
+    isDefault: data?.isDefault || false,
+  });
+
+  const handleChange = (prop: keyof State) => (event: ChangeEvent<HTMLInputElement>) => {
+    const value = event.target.type === 'checkbox' ? event.target.checked : event.target.value;
+    setValues({ ...values, [prop]: value });
+  };
+
+  const handleSubmit = async (e: any) => {
+    e.preventDefault();
+
+    const handleApiCall = async () => {
+      let res;
+      if (isEdit) {
+        res = await postApiData(`Role/update/${data.id}`, values);
+        console.log('Data successfully updated!');
+      } else {
+        res = await postApiData('Role/create', values);
+        console.log('Data successfully created!');
+      }
+      if (res) {
+        // Reset form fields
+        setValues({
+          name: '',
+          isDefault: false,
+        });
+
+        typeof (setPostSuccess) === 'function' ? setPostSuccess(true) : '';
+
+        closeDialogs();
+      }
+    };
+
+    // Call the function
+    handleApiCall();
   };
 
   const handleClose = () => {
+    setValues({
+      name: '',
+      isDefault: false,
+    });
+
     closeDialogs();
-  }
+  };
+
 
   return (
     <form onSubmit={handleSubmit}>
       <Grid container>
         <Grid item xs={12} md={12} sx={{ my: 2 }}>
-          <TextField size='small' type='text' fullWidth label='Tên' placeholder='' defaultValue='' />
+          <TextField size='small' type='text' fullWidth label='Tên' placeholder='' value={values?.name} onChange={handleChange('name')} />
         </Grid>
         <Grid item xs={12} md={12} sx={{ my: 2 }}>
-          <TextField size='small' type='text' fullWidth label='Mô tả' placeholder='' defaultValue='' />
-        </Grid>
-        <Grid item xs={12} md={12} sx={{ my: 2 }}>
-          <FormGroup>
-            <FormControlLabel control={<Checkbox name='isDefault' />} label="Đặt là mặc định" />
-          </FormGroup>
+          <FormControlLabel control={<Checkbox name='isDefault' checked={!!values?.isDefault} onChange={handleChange('isDefault')} />} label="Đặt là mặc định" />
         </Grid>
       </Grid>
       <DialogActions sx={{ p: 0 }}>
@@ -37,11 +85,8 @@ const Form = ({ onSubmit, closeDialogs }: any) => {
   );
 };
 
-const EditRoles = ({ isEdit }: { isEdit: boolean }) => {
+const EditRoles = ({ data, isEdit, setPostSuccess }: any) => {
   const formTitle = isEdit ? 'Thay đổi thông tin roles' : 'Thêm roles mới';
-  const handleSubmit = () => {
-    // handle form submission logic here
-  };
 
   return (
     <DialogsControl>
@@ -49,9 +94,9 @@ const EditRoles = ({ isEdit }: { isEdit: boolean }) => {
         <>
           {
             isEdit ?
-              <EditNote className='tableActionBtn' onClick={() => openDialogs(<Form onSubmit={handleSubmit} closeDialogs={closeDialogs} />, formTitle)} />
+              <EditNote className='tableActionBtn' onClick={() => openDialogs(<Form data={data} setPostSuccess={setPostSuccess} isEdit={isEdit} closeDialogs={closeDialogs} />, formTitle)} />
               :
-              <IconButton className='addNewBtn' aria-label="add user" onClick={() => openDialogs(<Form onSubmit={handleSubmit} closeDialogs={closeDialogs} />, formTitle)}>
+              <IconButton className='addNewBtn' aria-label="add user" onClick={() => openDialogs(<Form setPostSuccess={setPostSuccess} closeDialogs={closeDialogs} />, formTitle)}>
                 <PersonAddAlt sx={{ mr: 2 }} />
                 <Typography>Thêm mới</Typography>
               </IconButton>
