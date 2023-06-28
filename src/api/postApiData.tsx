@@ -12,16 +12,10 @@ const postApiData = async (url: string, postData: any) => {
             body: JSON.stringify(postData),
         });
 
-        console.log(postData)
-
         if (response.ok) {
-            // Post request succeeded
-            console.log('Data successfully posted!');
-
+            console.log(response)
             return true;
         } else {
-            // Post request failed
-            console.error('Failed to post data.');
 
             return false;
         }

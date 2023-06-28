@@ -18,7 +18,7 @@ const ListAccount = () => {
         { id: 'fullName', label: 'Họ tên', },
         { id: 'email', label: 'Email', },
         { id: 'phoneNumber', label: 'Số điện thoại', },
-        { id: 'actions', label: '#', elm: (row: any) => (<># <EditAccount isEdit={false} /></>) }
+        { id: 'actions', label: '#', elm: (row: any) => (<># <EditAccount data={row} isEdit={false} /></>) }
     ]
 
     const [resData, setResData] = useState([]);

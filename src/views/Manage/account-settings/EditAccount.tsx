@@ -1,5 +1,5 @@
 // ** React Imports
-import { useState, useEffect, ChangeEvent, MouseEvent } from 'react';
+import { useState, ChangeEvent, MouseEvent, useEffect } from 'react';
 
 // ** Icons Imports
 import EyeOutline from 'mdi-material-ui/EyeOutline'
@@ -7,25 +7,24 @@ import EyeOffOutline from 'mdi-material-ui/EyeOffOutline'
 import { EditNote, PersonAddAlt } from "@mui/icons-material";
 
 // ** MUI Imports
-import { Grid, Button, DialogActions, IconButton, Typography, FormControl, InputLabel, InputAdornment } from "@mui/material";
+import { Grid, Button, DialogActions, IconButton, Typography, FormControl, Box, InputAdornment } from "@mui/material";
 
 // ** Component Imports
 import DialogsControl from 'src/@core/components/dialog-control';
 import postApiData from 'src/api/postApiData';
 import { AutoComplete, TextField } from 'src/@core/components/field';
-import fetchApiData from 'src/api/fetchApiData';
 
 interface State {
-  userName: string,
-  password: string,
-  confirmPassword: string,
+  userName?: string,
+  password?: string,
+  confirmPassword?: string,
   fullName: string,
   email: string,
   phoneNumber: string,
   userType: string
 }
 
-const Form = ({ data, closeDialogs }: any) => {
+const Form = ({ data, isEdit, closeDialogs }: any) => {
 
   const [values, setValues] = useState<State>({
     userName: data?.userName || '',
@@ -43,7 +42,8 @@ const Form = ({ data, closeDialogs }: any) => {
     { title: "Cá nhân", value: 0 },
     { title: "Doanh nghiệp", value: 1 },
   ];
-  
+
+  const [success, setSuccess] = useState<any>()
 
   const handleChange = (prop: keyof State) => (event: ChangeEvent<HTMLInputElement>) => {
     setValues({ ...values, [prop]: event.target.value })
@@ -60,9 +60,22 @@ const Form = ({ data, closeDialogs }: any) => {
   const handleSubmit = async (e: any) => {
     e.preventDefault();
 
-    const success = await postApiData('User/create', values);
+    const handleApiCall = async () => {
+      if (isEdit) {
+        const res = await postApiData(`User/update/${data.userName}`, values);
+        setSuccess(res);
+        console.log('Data successfully updated!')
+      } else {
+        const res = await postApiData('User/create', values);
+        setSuccess(res);
+        console.log('Data successfully cereated!')
+      }
+    };
 
-    if (success) {
+    // Call the function
+    handleApiCall();
+
+    if (success) {   
       // Reset form fields
       setValues({
         userName: '',
@@ -73,6 +86,7 @@ const Form = ({ data, closeDialogs }: any) => {
         phoneNumber: '',
         userType: ''
       });
+
       closeDialogs();
     }
   };
@@ -86,66 +100,65 @@ const Form = ({ data, closeDialogs }: any) => {
       <Grid container>
         <Grid item xs={12} md={12} sx={{ my: 3 }}>
           <AutoComplete
-           onChange={(e: any, v: any) => handleChange('userType')}
-           size="small"
-           options={UserType}
-           getOptionLabel={(option: any) => option.title}
-           label="Chọn loại tài khoản"
+            onChange={(e: any, v: any) => handleChange('userType')}
+            size="small"
+            options={UserType}
+            getOptionLabel={(option: any) => option.title}
+            label="Chọn loại tài khoản"
           />
         </Grid>
-        <Grid item xs={12} md={12} sx={{ my: 3 }}>
-          <TextField size='small' type='text' fullWidth label='Tài khoản' placeholder='' value={values?.userName} onChange={handleChange('userName')} />
-        </Grid>
-        <Grid item xs={12} md={12} sx={{ my: 3 }}>
-        <FormControl fullWidth>
-          <TextField
-            label='Mật khẩu'
-            size='small'
-            value={values.password}
-            onChange={handleChange('password')}
-            type={showPassword ? 'text' : 'password'}
-            InputProps={{
-              endAdornment: (
-                <InputAdornment position='end'>
-                  <IconButton
-                    edge='end'
-                    onClick={handleClickShowPassword}
-                    onMouseDown={handleMouseDownPassword}
-                    aria-label='toggle password visibility'
-                  >
-                    {showPassword ? <EyeOutline /> : <EyeOffOutline />}
-                  </IconButton>
-                </InputAdornment>
-              )
-            }}
-          />
-        </FormControl>
-        </Grid>
-        <Grid item xs={12} md={12} sx={{ my: 3 }}>
-        <FormControl fullWidth>
-          <TextField
-            label='Nhập lại mật khẩu'
-            size='small'
-            value={values.confirmPassword}
-            onChange={handleChange('confirmPassword')}
-            type={showPassword ? 'text' : 'confirmPassword'}
-            InputProps={{
-              endAdornment: (
-                <InputAdornment position='end'>
-                  <IconButton
-                    edge='end'
-                    onClick={handleClickShowPassword}
-                    onMouseDown={handleMouseDownPassword}
-                    aria-label='toggle password visibility'
-                  >
-                    {showPassword ? <EyeOutline /> : <EyeOffOutline />}
-                  </IconButton>
-                </InputAdornment>
-              )
-            }}
-          />
-        </FormControl>
-        </Grid>
+        {isEdit ?
+          '' :
+          <Grid item xs={12} md={12}>
+            <TextField size='small' type='text' fullWidth sx={{ my: 3 }} label='Tài khoản' placeholder='' value={values?.userName} onChange={handleChange('userName')} />
+            <FormControl fullWidth sx={{ my: 3 }}>
+              <TextField
+                label='Mật khẩu'
+                size='small'
+                value={values.password}
+                onChange={handleChange('password')}
+                type={showPassword ? 'text' : 'password'}
+                InputProps={{
+                  endAdornment: (
+                    <InputAdornment position='end'>
+                      <IconButton
+                        edge='end'
+                        onClick={handleClickShowPassword}
+                        onMouseDown={handleMouseDownPassword}
+                        aria-label='toggle password visibility'
+                      >
+                        {showPassword ? <EyeOutline /> : <EyeOffOutline />}
+                      </IconButton>
+                    </InputAdornment>
+                  )
+                }}
+              />
+            </FormControl>
+            <FormControl fullWidth sx={{ my: 3 }}>
+              <TextField
+                label='Nhập lại mật khẩu'
+                size='small'
+                value={values.confirmPassword}
+                onChange={handleChange('confirmPassword')}
+                type={showPassword ? 'text' : 'confirmPassword'}
+                InputProps={{
+                  endAdornment: (
+                    <InputAdornment position='end'>
+                      <IconButton
+                        edge='end'
+                        onClick={handleClickShowPassword}
+                        onMouseDown={handleMouseDownPassword}
+                        aria-label='toggle password visibility'
+                      >
+                        {showPassword ? <EyeOutline /> : <EyeOffOutline />}
+                      </IconButton>
+                    </InputAdornment>
+                  )
+                }}
+              />
+            </FormControl>
+          </Grid>
+        }
         <Grid item xs={12} md={12} sx={{ my: 3 }}>
           <TextField size='small' type='text' fullWidth label='Họ tên' placeholder='' value={values?.fullName} onChange={handleChange('fullName')} />
         </Grid>
@@ -173,7 +186,7 @@ const EditAccount = ({ data, isEdit }: any) => {
         <>
           {
             isEdit ?
-              <EditNote className='tableActionBtn' onClick={() => openDialogs(<Form data={data} closeDialogs={closeDialogs} />, formTitle)} />
+              <EditNote className='tableActionBtn' onClick={() => openDialogs(<Form data={data} isEdit={isEdit} closeDialogs={closeDialogs} />, formTitle)} />
               :
               <IconButton className='addNewBtn' aria-label="add user" onClick={() => openDialogs(<Form closeDialogs={closeDialogs} />, formTitle)}>
                 <PersonAddAlt sx={{ mr: 2 }} />
