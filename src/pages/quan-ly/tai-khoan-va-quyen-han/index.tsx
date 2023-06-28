@@ -60,7 +60,7 @@ const AccountSettings = () => {
             label={
               <Box sx={{ display: 'flex', alignItems: 'center' }}>
                 <AccountOutline />
-                <TabName>Tài khoản</TabName>
+                <TabName>Tài khoản(Users)</TabName>
               </Box>
             }
           />
@@ -69,7 +69,7 @@ const AccountSettings = () => {
             label={
               <Box sx={{ display: 'flex', alignItems: 'center' }}>
                 <LockOpenOutline />
-                <TabName>Quyền hạn</TabName>
+                <TabName>Quyền hạn(Roles)</TabName>
               </Box>
             }
           />

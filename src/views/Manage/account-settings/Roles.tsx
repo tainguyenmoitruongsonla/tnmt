@@ -1,10 +1,12 @@
 // ** React Imports
+import { useEffect, useState } from 'react';
+
+// ** Icons Imports
+import { Delete } from '@mui/icons-material';
 
 // ** MUI Imports
 import { IconButton, Box, Checkbox } from '@mui/material';
-import { Delete } from '@mui/icons-material';
 import TableComponent from 'src/@core/components/table';
-import { useEffect, useState } from 'react';
 import fetchApiData from 'src/api/fetchApiData';
 import EditRoles from './EditRoles';
 
@@ -35,7 +37,7 @@ const ListRoles = () => {
     };
   
     fetchData();
-  }, [postSuccess]);  
+  }, [postSuccess]);
 
   return (
     <TableComponent columns={columnsTable} data={resData}

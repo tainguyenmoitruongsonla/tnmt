@@ -1,10 +1,11 @@
 // ** React Imports
 import { useState, ChangeEvent } from 'react';
 
-// ** MUI Imports
-
+// ** Icons Imports
 import { EditNote, PersonAddAlt } from "@mui/icons-material";
-import { Grid, Button, DialogActions, FormGroup, FormControlLabel, Checkbox, IconButton, Typography } from "@mui/material";
+
+// ** MUI Imports
+import { Grid, Button, DialogActions, FormControlLabel, Checkbox, IconButton, Typography } from "@mui/material";
 
 // ** Component Imports
 import DialogsControl from 'src/@core/components/dialog-control';

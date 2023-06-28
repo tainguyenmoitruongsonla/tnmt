@@ -1,7 +1,8 @@
+// ** React Imports
 import { FC, useState, ChangeEvent } from 'react'
 
+// ** MUI Imports
 import { Table, TableHead, TableRow, TableCell, TableBody, TableContainer, Paper, TablePagination } from '@mui/material';
-import { Rowing } from 'mdi-material-ui';
 
 interface TableColumn {
   id: string;
@@ -172,7 +173,9 @@ const TableComponent: FC<TableProps> = ({ columns, data, show, actions }: TableP
                                 ? column.elm(row)
                                 : (column.format
                                   ? column.format(row[column.id])
-                                  : row[column.id])
+                                  : (Array.isArray(row[column.id])
+                                    ? row[column.id].join(", ")
+                                    : row[column.id]))
                             )}
                       </TableCell>
                     );

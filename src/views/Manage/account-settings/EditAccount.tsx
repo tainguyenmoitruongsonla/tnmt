@@ -7,7 +7,7 @@ import EyeOffOutline from 'mdi-material-ui/EyeOffOutline'
 import { EditNote, PersonAddAlt } from "@mui/icons-material";
 
 // ** MUI Imports
-import { Grid, Button, DialogActions, IconButton, Typography, FormControl, Box, InputAdornment } from "@mui/material";
+import { Grid, Button, DialogActions, IconButton, Typography, FormControl, InputAdornment } from "@mui/material";
 
 // ** Component Imports
 import DialogsControl from 'src/@core/components/dialog-control';
