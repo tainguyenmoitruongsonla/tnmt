@@ -1,6 +1,6 @@
 import apiUrl from "./config";
 
-const fetchApiData = async (url: string) => {
+const fetchData = async (url: string) => {
     const token = localStorage.getItem('token');
     try {
         const response = await fetch(`${apiUrl}/${url}`, {
@@ -26,4 +26,4 @@ const fetchApiData = async (url: string) => {
         return [];
     }
 }
-export default fetchApiData;
+export default fetchData;

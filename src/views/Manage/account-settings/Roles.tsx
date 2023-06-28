@@ -7,7 +7,7 @@ import { Delete } from '@mui/icons-material';
 // ** MUI Imports
 import { IconButton, Box, Checkbox } from '@mui/material';
 import TableComponent from 'src/@core/components/table';
-import fetchApiData from 'src/api/fetchApiData';
+import fetchApiData from 'src/api/fetch';
 import EditRoles from './EditRoles';
 
 const ListRoles = () => {

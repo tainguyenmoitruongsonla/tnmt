@@ -10,7 +10,7 @@ import SetRole from './SetRole';
 import ChangePassword from './ChangePassword';
 import EditAccount from './EditAccount';
 import TableComponent from 'src/@core/components/table';
-import fetchApiData from 'src/api/fetchApiData';
+import fetchApiData from 'src/api/fetch';
 
 const ListAccount = () => {
 
@@ -43,8 +43,6 @@ const ListAccount = () => {
 
         fetchData();
     }, [postSuccess]);
-
-    console.log(resData)
 
     return (
         <TableComponent columns={columnsTable} data={resData}

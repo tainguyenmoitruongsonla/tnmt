@@ -31,7 +31,7 @@ const UserDropdown = () => {
   // ** States
   const [anchorEl, setAnchorEl] = useState<Element | null>(null)
   const [userName, setUserName] = useState<string | null>(null);
-
+  const [role, setRole] = useState<string | null>(null);
   // ** Hooks
   const router = useRouter()
 
@@ -47,16 +47,18 @@ const UserDropdown = () => {
   }
 
   const handleLogout = () => {
-    localStorage.removeItem('token')
+    localStorage.clear();
     router.push('/pages/login')
   }
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
       const storedUser = localStorage.getItem('user');
+      const storedRole = localStorage.getItem('role');
       if (storedUser) {
         const userObject = JSON.parse(storedUser);
         setUserName(userObject.fullName);
+        setRole(storedRole);
       }
     }
   }, [])
@@ -111,7 +113,7 @@ const UserDropdown = () => {
             <Box sx={{ display: 'flex', marginLeft: 3, alignItems: 'flex-start', flexDirection: 'column' }}>
               <Typography sx={{ fontWeight: 600 }}>{userName}</Typography>
               <Typography variant='body2' sx={{ fontSize: '0.8rem', color: 'text.disabled' }}>
-                Admin
+                {role}
               </Typography>
             </Box>
           </Box>

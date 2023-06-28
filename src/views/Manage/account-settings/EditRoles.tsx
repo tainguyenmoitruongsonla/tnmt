@@ -10,7 +10,7 @@ import { Grid, Button, DialogActions, FormControlLabel, Checkbox, IconButton, Ty
 // ** Component Imports
 import DialogsControl from 'src/@core/components/dialog-control';
 import { TextField } from 'src/@core/components/field';
-import postApiData from 'src/api/postApiData';
+import postApiData from 'src/api/post';
 
 interface State {
   name?: string,

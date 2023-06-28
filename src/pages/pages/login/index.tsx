@@ -31,7 +31,7 @@ import themeConfig from 'src/configs/themeConfig'
 // ** Layout Import
 import BlankLayout from 'src/@core/layouts/BlankLayout'
 import Alert from '@mui/material/Alert';
-import apiUrl from 'src/api/config'
+import loginApi from 'src/api/login'
 
 interface State {
   username: string
@@ -85,33 +85,22 @@ const LoginPage = () => {
   }
 
   const handleSubmit = async (e: any) => {
-    const username = values.username;
-    const password = values.password;
     e.preventDefault();
-    try {
-      const response = await fetch(`${apiUrl}/Auth/login`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ username, password }),
-      });
 
-      if (response.ok) {
-        const data = await response.json();
-        localStorage.setItem('token', data.token);
-        localStorage.setItem('user', JSON.stringify(data.user));
-        // Redirect the user to the authenticated route
+    try {
+      // Call the loginApi function with the entered username and password
+      const success = await loginApi(values.username, values.password);
+
+      if (success) {
+        // Redirect the user to the desired page or perform any other necessary actions
         router.push('/');
       } else {
-        // Handle non-200 status code
-        setIsErrors(true)
-        const errorData = await response.text();
-        throw new Error(errorData);
+        setIsErrors(true);
       }
+
     } catch (error) {
-      // Handle fetch or parsing errors
-      console.log(error);
+      // Handle login errors
+      setIsErrors(true);
     }
   };
 

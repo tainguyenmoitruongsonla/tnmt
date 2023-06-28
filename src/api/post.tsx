@@ -1,6 +1,6 @@
 import apiUrl from "./config";
 
-const postApiData = async (url: string, postData: any) => {
+const postData = async (url: string, postData: any) => {
     const token = localStorage.getItem('token');
     try {
         const response = await fetch(`${apiUrl}/${url}`, {
@@ -27,5 +27,5 @@ const postApiData = async (url: string, postData: any) => {
     }
 };
 
-export default postApiData;
+export default postData;
 
