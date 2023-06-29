@@ -5,7 +5,7 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { TextField, DatePicker, AutoComplete } from 'src/@core/components/field';
 
-export default function LicenseFieldset(params: any) {
+export default function LicenseFieldset() {
 
     const d = new Date();
     const day = d.getDate() < 10 ? '0' + d.getDate() : d.getDate();

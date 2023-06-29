@@ -36,7 +36,7 @@ const Form = ({ data, setPostSuccess, closeDialogs }: any) => {
     roleName: data?.roles[0]
   });
 
-  const handleChange = (role: any) => (event: ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (role: any) => () => {
     setValues({ userId: data.id, roleName: role.name })
   };
 

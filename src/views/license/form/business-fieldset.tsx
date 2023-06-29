@@ -1,7 +1,7 @@
 import { Typography, Grid } from "@mui/material";
 import { TextField } from "src/@core/components/field";
 
-export default function BusinessFieldset(params: any) {
+export default function BusinessFieldset() {
 
     return (
         <fieldset>

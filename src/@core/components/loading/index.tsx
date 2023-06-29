@@ -1,5 +1,5 @@
 import React from 'react';
-import { Backdrop, Typography } from '@mui/material';
+import { Backdrop } from '@mui/material';
 
 const Loading = ({ isLoading }: any) => {
 
