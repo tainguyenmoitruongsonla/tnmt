@@ -28,10 +28,12 @@ const BadgeContentSpan = styled('span')(({ theme }) => ({
 }))
 
 const UserDropdown = () => {
+
   // ** States
   const [anchorEl, setAnchorEl] = useState<Element | null>(null)
   const [userName, setUserName] = useState<string | null>(null);
   const [role, setRole] = useState<string | null>(null);
+  
   // ** Hooks
   const router = useRouter()
 

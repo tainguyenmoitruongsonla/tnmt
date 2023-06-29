@@ -12,7 +12,7 @@ import { Grid, Button, DialogActions, IconButton, Typography, FormControl, Input
 // ** Component Imports
 import DialogsControl from 'src/@core/components/dialog-control';
 import postApiData from 'src/api/post';
-import { AutoComplete, TextField } from 'src/@core/components/field';
+import { TextField } from 'src/@core/components/field';
 
 interface State {
   userName?: string,
@@ -21,7 +21,6 @@ interface State {
   fullName: string,
   email: string,
   phoneNumber: string,
-  userType: string
 }
 
 const Form = ({ data, setPostSuccess, isEdit, closeDialogs }: any) => {
@@ -33,15 +32,9 @@ const Form = ({ data, setPostSuccess, isEdit, closeDialogs }: any) => {
     fullName: data?.fullName || '',
     email: data?.email || '',
     phoneNumber: data?.phoneNumber || '',
-    userType: data?.userType || ''
   });
 
   const [showPassword, setShowPassword] = useState(false)
-
-  const UserType = [
-    { title: "Cá nhân", value: 0 },
-    { title: "Doanh nghiệp", value: 1 },
-  ];
 
   const handleChange = (prop: keyof State) => (event: ChangeEvent<HTMLInputElement>) => {
     const value = event.target.type === 'checkbox' ? event.target.checked : event.target.value;
@@ -77,7 +70,6 @@ const Form = ({ data, setPostSuccess, isEdit, closeDialogs }: any) => {
           fullName: '',
           email: '',
           phoneNumber: '',
-          userType: ''
         });
 
         typeof (setPostSuccess) === 'function' ? setPostSuccess(true) : '';
@@ -99,7 +91,6 @@ const Form = ({ data, setPostSuccess, isEdit, closeDialogs }: any) => {
       fullName: '',
       email: '',
       phoneNumber: '',
-      userType: ''
     });
 
     closeDialogs();
@@ -108,15 +99,6 @@ const Form = ({ data, setPostSuccess, isEdit, closeDialogs }: any) => {
   return (
     <form onSubmit={handleSubmit}>
       <Grid container>
-        <Grid item xs={12} md={12} sx={{ my: 3 }}>
-          <AutoComplete
-            onChange={(e: any, v: any) => handleChange('userType')}
-            size="small"
-            options={UserType}
-            getOptionLabel={(option: any) => option.title}
-            label="Chọn loại tài khoản"
-          />
-        </Grid>
         {isEdit ?
           '' :
           <Grid item xs={12} md={12}>

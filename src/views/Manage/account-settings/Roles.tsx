@@ -9,10 +9,12 @@ import { IconButton, Box, Checkbox } from '@mui/material';
 import TableComponent from 'src/@core/components/table';
 import fetchApiData from 'src/api/fetch';
 import EditRoles from './EditRoles';
+import Loading from 'src/@core/components/loading';
 
 const ListRoles = () => {
 
   const [postSuccess, setPostSuccess] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
   const handlePostSuccess = () => {
     setPostSuccess(prevState => !prevState);
@@ -34,25 +36,29 @@ const ListRoles = () => {
       } catch (error) {
         setResData([]);
       }
+      setIsLoading(false)
     };
-  
+
     fetchData();
   }, [postSuccess]);
 
   return (
-    <TableComponent columns={columnsTable} data={resData}
-      actions={(row: any) => (
-        <Box display="flex" justifyContent="center">
-          <IconButton aria-label="edit">
-            <EditRoles data={row} isEdit={true} setPostSuccess={handlePostSuccess} />
-          </IconButton>
-          <IconButton aria-label="delete">
-            <Delete className='tableActionBtn deleteBtn' />
-          </IconButton>
-        </Box>
-      )
+    <>
+      <Loading isLoading={isLoading} />
+      <TableComponent columns={columnsTable} data={resData}
+        actions={(row: any) => (
+          <Box display="flex" justifyContent="center">
+            <IconButton aria-label="edit">
+              <EditRoles data={row} isEdit={true} setPostSuccess={handlePostSuccess} />
+            </IconButton>
+            <IconButton aria-label="delete">
+              <Delete className='tableActionBtn deleteBtn' />
+            </IconButton>
+          </Box>
+        )
 
-      } />
+        } />
+    </>
   );
 
 }

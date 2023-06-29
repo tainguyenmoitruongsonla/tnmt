@@ -1,5 +1,5 @@
 import React from 'react';
-import { TextField, Typography, Autocomplete, AutocompleteProps, AutocompleteRenderInputParams, InputLabelProps } from '@mui/material';
+import { TextField, Autocomplete, AutocompleteProps, AutocompleteRenderInputParams, InputLabelProps } from '@mui/material';
 
 interface AutocompleteComponentProps extends Omit<AutocompleteProps<any, any, any, any>, 'renderInput'> {
     customInputLabelProps?: InputLabelProps;

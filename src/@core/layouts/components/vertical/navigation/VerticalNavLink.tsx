@@ -31,7 +31,7 @@ import UserIcon from 'src/layouts/components/UserIcon'
 import { handleURLQueries } from 'src/@core/layouts/utils'
 
 interface Props {
-  item: NavLink | NavGroup // Update the Props interface to accept NavGroup type as well
+  item: NavLink | NavGroup
   settings: Settings
   navVisible?: boolean
   toggleNavVisibility: () => void
@@ -68,6 +68,7 @@ const MenuItemTextMetaWrapper = styled(Box)<BoxProps>({
 })
 
 const VerticalNavLink = ({ item, settings, navVisible, toggleNavVisibility }: Props) => {
+
   // ** Hooks
   const router = useRouter()
 
@@ -88,6 +89,7 @@ const VerticalNavLink = ({ item, settings, navVisible, toggleNavVisibility }: Pr
   }
 
   if (item.children && item.children.length > 0) {
+
     // Level 1 Menu Item with children
     return (
       <>
@@ -149,6 +151,7 @@ const VerticalNavLink = ({ item, settings, navVisible, toggleNavVisibility }: Pr
         <Collapse in={open || item.children.some(child => isNavLinkActive(child.path))} timeout='auto' unmountOnExit>
           <List sx={{ paddingLeft: '10px' }}>
             {item.children.map((child: NavLink, index: number) => (
+
               // Level 2 Menu Items
               <VerticalNavLink
                 key={index}
@@ -163,7 +166,9 @@ const VerticalNavLink = ({ item, settings, navVisible, toggleNavVisibility }: Pr
       </>
     )
   } else {
+
     // Level 1 Menu Item without children
+    
     return (
       <ListItem disablePadding className='nav-link' disabled={item.disabled || false} sx={{ mt: 1.5, px: '0 !important' }}>
         <Link passHref href={item.path === undefined ? '/' : `${item.path}`}>

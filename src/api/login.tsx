@@ -15,12 +15,15 @@ const loginApi = async (username: string, password: string) => {
             localStorage.setItem('token', data.token);
             localStorage.setItem('role', data.role);
             localStorage.setItem('user', JSON.stringify(data.user));
+
             return true;
         } else {
+
             // Handle non-200 status code
             throw new Error('Login failed');
         }
     } catch (error) {
+        
         // Handle fetch or parsing errors
         console.log(error);
     }

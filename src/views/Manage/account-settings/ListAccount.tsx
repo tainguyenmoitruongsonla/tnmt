@@ -11,10 +11,13 @@ import ChangePassword from './ChangePassword';
 import EditAccount from './EditAccount';
 import TableComponent from 'src/@core/components/table';
 import fetchApiData from 'src/api/fetch';
+import Loading from 'src/@core/components/loading';
 
 const ListAccount = () => {
 
     const [postSuccess, setPostSuccess] = useState(false);
+
+    const [isLoading, setIsLoading] = useState(true);
 
     const handlePostSuccess = () => {
         setPostSuccess(prevState => !prevState);
@@ -39,31 +42,35 @@ const ListAccount = () => {
             } catch (error) {
                 setResData([]);
             }
+            setIsLoading(false)
         };
 
         fetchData();
     }, [postSuccess]);
 
     return (
-        <TableComponent columns={columnsTable} data={resData}
-            actions={(row: any) => (
-                <Box>
-                    <IconButton aria-label="setRole">
-                        <SetRole data={row} />
-                    </IconButton>
-                    <IconButton aria-label="changePasword">
-                        <ChangePassword />
-                    </IconButton>
-                    <IconButton aria-label="edit">
-                        <EditAccount data={row} setPostSuccess={handlePostSuccess} isEdit={true} />
-                    </IconButton>
-                    <IconButton aria-label="delete">
-                        <Delete className='tableActionBtn deleteBtn' />
-                    </IconButton>
-                </Box>
-            )
+        <div>
+            <Loading isLoading={isLoading} />
+            <TableComponent columns={columnsTable} data={resData}
+                actions={(row: any) => (
+                    <Box>
+                        <IconButton aria-label="setRole">
+                            <SetRole data={row} setPostSuccess={handlePostSuccess} />
+                        </IconButton>
+                        <IconButton aria-label="changePasword">
+                            <ChangePassword />
+                        </IconButton>
+                        <IconButton aria-label="edit">
+                            <EditAccount data={row} setPostSuccess={handlePostSuccess} isEdit={true} />
+                        </IconButton>
+                        <IconButton aria-label="delete">
+                            <Delete className='tableActionBtn deleteBtn' />
+                        </IconButton>
+                    </Box>
+                )
 
-            } />
+                } />
+        </div>
     );
 
 }
