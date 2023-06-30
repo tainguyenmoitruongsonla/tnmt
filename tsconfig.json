@@ -19,7 +19,7 @@
   },
   "include": [
     "src"
-  ],
+, "src/views/construction/form/cons-detail-fieldset.tsx"  ],
   "exclude": [
     "node_modules"
   ]

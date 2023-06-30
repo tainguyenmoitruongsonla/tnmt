@@ -13,7 +13,7 @@ import { Delete } from 'mdi-material-ui';
 import TableComponent from 'src/@core/components/table';
 import SearchConstruction from 'src/views/construction/Search';
 import FormatDate from 'src/@core/components/format-date';
-import CreateConstruction from 'src/views/construction/form/CreateConstruction';
+import CreateConstruction from 'src/views/construction/form';
 
 // ** Components Imports
 

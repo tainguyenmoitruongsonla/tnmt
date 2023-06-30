@@ -1,7 +1,7 @@
 import { Grid, Typography } from "@mui/material"
 import { TextField } from "src/@core/components/field"
 
-const CreateHydroelectric = () => {
+const CreateLake = () => {
 
   return (
 
@@ -59,32 +59,17 @@ const CreateHydroelectric = () => {
           <TextField size='small' type='text' label='Htt' fullWidth placeholder='' defaultValue='' />
         </Grid>
         <Grid item xs={12} md={3} sm={12} sx={{ my: 2 }}>
-          <TextField size='small' type='text' label='Mực nước chết' fullWidth placeholder='' defaultValue='' />
+          <TextField size='small' type='text' label='Dung tích toàn bộ' fullWidth placeholder='' defaultValue='' />
         </Grid>
         <Grid item xs={12} md={3} sm={12} sx={{ my: 2 }}>
-          <TextField size='small' type='text' label='Mực nước dâng bình thường' fullWidth placeholder='' defaultValue='' />
+          <TextField size='small' type='text' label='Dung tích chết' fullWidth placeholder='' defaultValue='' />
         </Grid>
         <Grid item xs={12} md={3} sm={12} sx={{ my: 2 }}>
-          <TextField size='small' type='text' label='Mực nước lũ thiết kế' fullWidth placeholder='' defaultValue='' />
+          <TextField size='small' type='text' label='Dung tích hữu ích' fullWidth placeholder='' defaultValue='' />
         </Grid>
       </Grid>
-        <Grid container spacing={4}>
-          <Grid item xs={12} md={3} sm={12} sx={{ my: 2 }}>
-            <TextField size='small' type='text' label='Mực nước lũ kiểm tra' fullWidth placeholder='' defaultValue='' />
-          </Grid>
-          <Grid item xs={12} md={3} sm={12} sx={{ my: 2 }}>
-            <TextField size='small' type='text' label='Dung tích toàn bộ' fullWidth placeholder='' defaultValue='' />
-          </Grid>
-          <Grid item xs={12} md={3} sm={12} sx={{ my: 2 }}>
-            <TextField size='small' type='text' label='Dung tích chết' fullWidth placeholder='' defaultValue='' />
-          </Grid>
-          <Grid item xs={12} md={3} sm={12} sx={{ my: 2 }}>
-            <TextField size='small' type='text' label='Dung tích hữu ích' fullWidth placeholder='' defaultValue='' />
-          </Grid>
-      </Grid>
-      
     </fieldset>
   )
 }
 
-export default CreateHydroelectric
+export default CreateLake

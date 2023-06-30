@@ -7,7 +7,7 @@ import { useEffect } from 'react'
 import SearchIcon from '@mui/icons-material/Search';
 
 // ** Components Imports
-import CreateConstruction from 'src/views/construction/form/CreateConstruction';
+import CreateConstruction from 'src/views/construction/form';
 import SearchLicense from 'src/views/license/Search';
 import CountLicense from 'src/@core/components/license-page/count-license';
 import MapComponent from 'src/@core/components/map';
