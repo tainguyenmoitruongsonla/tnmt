@@ -8,7 +8,6 @@ import { useRouter } from 'next/router'
 import Box from '@mui/material/Box'
 import Menu from '@mui/material/Menu'
 import Badge from '@mui/material/Badge'
-import Avatar from '@mui/material/Avatar'
 import Divider from '@mui/material/Divider'
 import MenuItem from '@mui/material/MenuItem'
 import { styled } from '@mui/material/styles'
@@ -33,7 +32,7 @@ const UserDropdown = () => {
   const [anchorEl, setAnchorEl] = useState<Element | null>(null)
   const [userName, setUserName] = useState<string | null>(null);
   const [role, setRole] = useState<string | null>(null);
-  
+
   // ** Hooks
   const router = useRouter()
 
@@ -79,6 +78,8 @@ const UserDropdown = () => {
     }
   }
 
+  const avatarImg = <AccountOutline sx={{ marginRight: 2, width: 40, height: 40 }} onClick={handleDropdownOpen} />
+
   return (
     <Fragment>
       <Badge
@@ -88,12 +89,7 @@ const UserDropdown = () => {
         badgeContent={<BadgeContentSpan />}
         anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
       >
-        <Avatar
-          alt='John Doe'
-          onClick={handleDropdownOpen}
-          sx={{ width: 40, height: 40 }}
-          src='/images/avatars/1.png'
-        />
+        {avatarImg}
       </Badge>
       <Menu
         anchorEl={anchorEl}
@@ -110,7 +106,7 @@ const UserDropdown = () => {
               badgeContent={<BadgeContentSpan />}
               anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
             >
-              <Avatar alt='John Doe' src='/images/avatars/1.png' sx={{ width: '2.5rem', height: '2.5rem' }} />
+              {avatarImg}
             </Badge>
             <Box sx={{ display: 'flex', marginLeft: 3, alignItems: 'flex-start', flexDirection: 'column' }}>
               <Typography sx={{ fontWeight: 600 }}>{userName}</Typography>
@@ -128,8 +124,8 @@ const UserDropdown = () => {
           </Box>
         </MenuItem>
         <Divider />
-        <MenuItem sx={{ py: 2 }} onClick={() => handleLogout()}>
-          <LogoutVariant sx={{ marginRight: 2, fontSize: '1.375rem', color: 'text.secondary' }} />
+        <MenuItem sx={{ py: 2, color: "red" }} onClick={() => handleLogout()}>
+          <LogoutVariant sx={{ marginRight: 2, fontSize: '1.375rem' }} />
           Đăng xuất
         </MenuItem>
       </Menu>

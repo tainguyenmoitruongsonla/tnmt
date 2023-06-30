@@ -104,9 +104,6 @@ const VerticalNavLink = ({ item, settings, navVisible, toggleNavVisibility }: Pr
                   e.preventDefault()
                   e.stopPropagation()
                 }
-                if (navVisible) {
-                  toggleNavVisibility()
-                }
               }}
               sx={{
                 pl: 5.5,

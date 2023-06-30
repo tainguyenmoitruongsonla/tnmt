@@ -5,6 +5,10 @@ import { ReactNode } from 'react'
 import { styled, useTheme } from '@mui/material/styles'
 import MuiAppBar, { AppBarProps } from '@mui/material/AppBar'
 import MuiToolbar, { ToolbarProps } from '@mui/material/Toolbar'
+import { IconButton } from '@mui/material'
+
+// ** Icons Imports
+import { Menu } from '@mui/icons-material'
 
 // ** Type Import
 import { Settings } from 'src/@core/context/settingsContext'
@@ -43,7 +47,7 @@ const Toolbar = styled(MuiToolbar)<ToolbarProps>(({ theme }) => ({
 
 const LayoutAppBar = (props: Props) => {
   // ** Props
-  const { settings, verticalAppBarContent: userVerticalAppBarContent } = props
+  const { settings, toggleNavVisibility, verticalAppBarContent: userVerticalAppBarContent } = props
 
   // ** Hooks
   const theme = useTheme()
@@ -61,6 +65,10 @@ const LayoutAppBar = (props: Props) => {
           })
         }}
       >
+        <IconButton onClick={() => (toggleNavVisibility())} size="large" edge="start" color="inherit" aria-label="menu" sx={{ mr: 2 }}
+        >
+          <Menu />
+        </IconButton>
         {(userVerticalAppBarContent && userVerticalAppBarContent(props)) || null}
       </Toolbar>
     </AppBar>

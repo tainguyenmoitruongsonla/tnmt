@@ -32,7 +32,6 @@ const AppBarContent = (props: Props) => {
         <Typography sx={{color: `#fff`, textTransform: 'uppercase'}} variant='subtitle1'> {pageTitle} </Typography>
       </Box>
       <Box className='actions-right' sx={{ display: 'flex', alignItems: 'center' }}>
-        <NotificationDropdown />
         <UserDropdown />
       </Box>
     </Box>
