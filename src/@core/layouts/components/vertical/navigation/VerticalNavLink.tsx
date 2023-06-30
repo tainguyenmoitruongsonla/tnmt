@@ -168,7 +168,7 @@ const VerticalNavLink = ({ item, settings, navVisible, toggleNavVisibility }: Pr
   } else {
 
     // Level 1 Menu Item without children
-    
+
     return (
       <ListItem disablePadding className='nav-link' disabled={item.disabled || false} sx={{ mt: 1.5, px: '0 !important' }}>
         <Link passHref href={item.path === undefined ? '/' : `${item.path}`}>
