@@ -25,7 +25,7 @@ const ListAccount = () => {
 
     const columnsTable = [
         { id: 'userName', label: 'Tài khoản(User name)', },
-        { id: 'roles', label: 'Quyền hạn(Roles)', },
+        { id: 'roles.name', label: 'Quyền hạn(Roles)', },
         { id: 'fullName', label: 'Họ tên(Full Name)', },
         { id: 'email', label: 'Email', },
         { id: 'phoneNumber', label: 'Số điện thoại(Phone Number)', },
