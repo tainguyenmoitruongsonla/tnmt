@@ -1,10 +1,11 @@
 import { Typography, Grid } from "@mui/material"
-import CreateHydroelectric from "./createhydroelectric"
+import CreateHydroelectric from "./create-hydroelectric"
 import { useState } from "react"
 import { AutoComplete, TextField } from "src/@core/components/field";
 import CreateLake from "./create-lake";
 import CreatePump from "./create-pump";
 import CreateDrain from "./create-drain";
+import ConstructionDetails from "./cons-detail-fieldset";
 
 const construcsionType = [
   { title: "Thủy điện", value: 4 },
@@ -155,6 +156,7 @@ const ConstructionField = () =>{
             (<CreateDrain />)}
         </div>
       )}
+      <ConstructionDetails/>
     </>
     )
 }

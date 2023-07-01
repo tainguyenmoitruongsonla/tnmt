@@ -82,7 +82,6 @@ const CreateHydroelectric = () => {
             <TextField size='small' type='text' label='Dung tích hữu ích' fullWidth placeholder='' defaultValue='' />
           </Grid>
       </Grid>
-      
     </fieldset>
   )
 }

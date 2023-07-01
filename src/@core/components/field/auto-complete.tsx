@@ -26,7 +26,7 @@ const AutocompleteComponent: React.FC<AutocompleteComponentProps> = ({
                 }}
                 InputLabelProps={{
                     ...InputLabelProps,
-                    style: { fontSize: 11, ...InputLabelProps?.style },
+                    style: { fontSize: 14, ...InputLabelProps?.style },
                     ...customInputLabelProps,
                 }}
                 label={label}

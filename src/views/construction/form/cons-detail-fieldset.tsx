@@ -7,7 +7,7 @@ interface ConstructionItem {
   x: string;
   y: string;
 }
-const ConstructionLocation = () => {
+const ConstructionDetails = () => {
   const [constructionItems, setConstructionItems] = useState<ConstructionItem[]>([]);
 
   const addConstructionItem = () => {
@@ -89,4 +89,4 @@ const ConstructionLocation = () => {
     </fieldset>)
 }
 
-export default ConstructionLocation
+export default ConstructionDetails

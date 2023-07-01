@@ -1,4 +1,4 @@
-import CreateHydroelectric from "src/views/construction/form/createhydroelectric"
+import CreateHydroelectric from "src/views/construction/form/create-hydroelectric"
 
 const ConsFieldset = () => <CreateHydroelectric />
 

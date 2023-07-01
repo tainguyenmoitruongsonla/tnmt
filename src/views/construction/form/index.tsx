@@ -26,12 +26,7 @@ const FormContruction = ({ onSubmit, closeDialogs }: any) => {
         <Grid item xs={12}>
           <ConstructionField/>
         </Grid>
-        <Grid item xs={12}>
-
-        </Grid>
-        <Grid item xs={12}>
-          <ConstructionLocation/>
-        </Grid>
+        
       </Grid>
 
       <DialogActions sx={{ p: 0, mt: 5 }}>
