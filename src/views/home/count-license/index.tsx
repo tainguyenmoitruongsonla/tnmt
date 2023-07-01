@@ -21,7 +21,7 @@ const data = [
 ];
 const COLORS = ['#0088FE', '#FFBB28'];
 
-const CHARTS_SIZE = 180;
+const CHARTS_SIZE = 200;
 
 const CountLicense = () => {
 
@@ -57,6 +57,14 @@ const CountLicense = () => {
         },
       }
     },
+    grid: {
+      padding: {
+        top: 0,
+        right: 0,
+        bottom: 0,
+        left: 0
+      },
+    },
     tooltip: {
       enabled: true,
     },
@@ -71,7 +79,7 @@ const CountLicense = () => {
     <Card sx={{ position: 'relative' }}>
       <CardHeader
         sx={{ padding: 0 }}
-        title={`GIẤY PHÉP:  ${TotalLicense}`}
+        title={`TRẠNG THÁI CẤP PHÉP`}
         titleTypographyProps={{
           sx: {
             mb: 2.5,
@@ -85,19 +93,24 @@ const CountLicense = () => {
         }}
       />
       <CardContent>
-        <Grid container spacing={3}>
-          <Grid item xs={5} md={5}>
-            <Typography variant="subtitle1">BTNMT: {BTNMT}</Typography>
-            <Typography variant="subtitle1">UBND: {UBND}</Typography>
+        <Grid container>
+          <Grid item xs={5} md={5} sx={{ display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap', alignItems: 'center' }}>
+            <Grid item xs={12} sx={{ textAlign: 'center' }} >
+              <Typography sx={{ fontWeight: 'bold' }} variant="h6">TỔNG SỐ</Typography>
+              <Typography sx={{ fontWeight: 'bold' }} variant="h6">{TotalLicense}</Typography>
+            </Grid>
+            <Grid item xs={12} >
+              <Typography variant="subtitle1">
+                <Typography sx={{ fontWeight: 'bold' }} variant="caption">BTNMT: {BTNMT}</Typography>
+              </Typography>
+              <Typography variant="subtitle1">
+                <Typography sx={{ fontWeight: 'bold' }} variant="caption">UBND: {UBND}</Typography>
+              </Typography>
+            </Grid>
           </Grid>
           <Grid item xs={7} md={7}>
             {/* Chart */}
-            <ReactApexcharts
-              options={options}
-              series={series}
-              type="pie"
-              width={CHARTS_SIZE}
-              height={CHARTS_SIZE}
+            <ReactApexcharts options={options} series={series} type="pie" width={CHARTS_SIZE} height={CHARTS_SIZE}
             />
           </Grid>
         </Grid>

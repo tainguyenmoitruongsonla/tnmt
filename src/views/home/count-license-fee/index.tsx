@@ -1,12 +1,12 @@
 import { Card, Typography, CardHeader, CardContent, Grid } from '@mui/material';
 
-const TotalLicenseFee = 3000000000000;
+// const TotalLicenseFee = 3000000000000;
 const BTNMT = 2904600000000;
 const UBND = 954000000000;
 
-const formattedTotal = getNumberWithCommas(TotalLicenseFee);
-const formattedBTNMT = getNumberWithCommas(BTNMT);
-const formattedUBND = getNumberWithCommas(UBND);
+// const formattedTotal = getNumberWithCommas(TotalLicenseFee);
+// const formattedBTNMT = getNumberWithCommas(BTNMT);
+// const formattedUBND = getNumberWithCommas(UBND);
 
 function formatVndCost(cost: number): string {
   const formattedCost = cost.toLocaleString('vi-VN', {
@@ -24,44 +24,43 @@ function formatVndCost(cost: number): string {
 const costBTNMT = formatVndCost(BTNMT);
 const costUBND = formatVndCost(UBND);
 
-function getNumberWithCommas(num: any) {
-  if (num == null || num == 0)
+// function getNumberWithCommas(num: any) {
+//   if (num == null || num == 0)
 
-    return '0 ₫'
+//     return '0 ₫'
 
-  const len = num.toLocaleString('en-US').split(',').length
-  if (len == 1)
+//   const len = num.toLocaleString('en-US').split(',').length
+//   if (len == 1)
 
-    return round(num) + " ₫";
+//     return round(num) + " ₫";
 
-  else if (len == 2)
+//   else if (len == 2)
 
-    return round(num / 1000) + " ngàn";
+//     return round(num / 1000) + " ngàn";
 
-  else if (len == 3)
+//   else if (len == 3)
 
-    return round(num / 1000000) + " triệu đ";
+//     return round(num / 1000000) + " triệu đ";
 
-  else if (len == 4)
+//   else if (len == 4)
 
-    return round(num / 1000000000) + " tỷ";
+//     return round(num / 1000000000) + " tỷ";
 
-  else
+//   else
 
-    return round(num / 1000000000000) + " nghìn tỷ";
-}
+//     return round(num / 1000000000000) + " nghìn tỷ";
+// }
 
-function round(num: any) {
-  return (Math.round(num * 100) / 100).toLocaleString('tr-TR');
-}
-
+// function round(num: any) {
+//   return (Math.round(num * 100) / 100).toLocaleString('tr-TR');
+// }
 
 const CountLicenseFee = () => {
 
   return (
     <Card sx={{ position: 'relative' }}>
       <CardHeader
-        title={`TIỀN CẤP QUYỀN: ${formattedTotal}`}
+        title={`TIỀN CẤP QUYỀN`}
         sx={{ padding: 0 }}
         titleTypographyProps={{
           sx: {
@@ -76,10 +75,14 @@ const CountLicenseFee = () => {
         }}
       />
       <CardContent>
-        <Grid container spacing={3}>
+        <Grid container>
           <Grid item xs={12} md={12}>
-            <Typography sx={{ textAlign: 'left' }} variant='subtitle2'>BTNMT: {costBTNMT} ({formattedBTNMT})</Typography>
-            <Typography sx={{ textAlign: 'left' }} variant='subtitle2'>UBND: {costUBND} ({formattedUBND})</Typography>
+            <Typography sx={{ textAlign: 'center' }}>
+              <Typography sx={{ fontWeight: 'bold' }}>TỔNG</Typography>
+              <Typography sx={{ fontWeight: 'bold' }}> {costBTNMT} </Typography>
+            </Typography>
+            <Typography sx={{ textAlign: 'left' }} variant='subtitle2'>BTNMT: {costBTNMT} </Typography>
+            <Typography sx={{ textAlign: 'left' }} variant='subtitle2'>UBND: {costUBND} </Typography>
           </Grid>
         </Grid>
       </CardContent>
