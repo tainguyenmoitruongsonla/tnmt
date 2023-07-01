@@ -7,7 +7,6 @@ import {
 } from '@mui/material'
 import DialogsControlFullScreen from 'src/@core/components/dialog-control-full-screen'
 import ConstructionField from './construction'
-import ConstructionLocation from './cons-detail-fieldset'
 
 
 const FormContruction = ({ onSubmit, closeDialogs }: any) => {
@@ -22,11 +21,11 @@ const FormContruction = ({ onSubmit, closeDialogs }: any) => {
 
   return (
     <form onSubmit={handleSubmit}>
-       <Grid container gap={3}>
+      <Grid container gap={3}>
         <Grid item xs={12}>
-          <ConstructionField/>
+          <ConstructionField />
         </Grid>
-        
+
       </Grid>
 
       <DialogActions sx={{ p: 0, mt: 5 }}>
