@@ -1,5 +1,5 @@
-import CreateHydroelectric from "src/views/construction/form/create-hydroelectric"
+import ConstructionField from "src/views/construction/form/construction"
 
-const ConsFieldset = () => <CreateHydroelectric />
+const ConsFieldset = () => <ConstructionField />
 
 export default ConsFieldset
