@@ -60,7 +60,7 @@ const CountLicenseFee = () => {
   return (
     <Card sx={{ position: 'relative' }}>
       <CardHeader
-        title={`TIỀN CẤP QUYỀN`}
+        title="TIỀN CẤP QUYỀN"
         sx={{ padding: 0 }}
         titleTypographyProps={{
           sx: {
@@ -75,16 +75,12 @@ const CountLicenseFee = () => {
         }}
       />
       <CardContent>
-        <Grid container>
-          <Grid item xs={12} md={12}>
-            <Typography sx={{ textAlign: 'center' }}>
-              <Typography sx={{ fontWeight: 'bold' }}>TỔNG</Typography>
-              <Typography sx={{ fontWeight: 'bold' }}> {costBTNMT} </Typography>
-            </Typography>
-            <Typography sx={{ textAlign: 'left' }} variant='subtitle2'>BTNMT: {costBTNMT} </Typography>
-            <Typography sx={{ textAlign: 'left' }} variant='subtitle2'>UBND: {costUBND} </Typography>
-          </Grid>
+        <Grid sx={{ textAlign: 'center' }}>
+          <Typography sx={{ fontWeight: 'bold' }}>TỔNG</Typography>
+          <Typography sx={{ fontWeight: 'bold' }}> {costBTNMT} </Typography>
         </Grid>
+        <Typography sx={{ textAlign: 'left' }} variant='subtitle2'>BTNMT: {costBTNMT} </Typography>
+        <Typography sx={{ textAlign: 'left' }} variant='subtitle2'>UBND: {costUBND} </Typography>
       </CardContent>
     </Card>
   );
