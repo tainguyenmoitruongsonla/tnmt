@@ -67,7 +67,7 @@ const App = (props: ExtendedAppProps) => {
         router.push('/pages/login')
       }
     }
-  })
+  }, [])
 
   // Variables
   const getLayout = Component.getLayout ?? (page => <UserLayout>{page}</UserLayout>)
