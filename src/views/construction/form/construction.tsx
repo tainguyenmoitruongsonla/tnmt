@@ -1,5 +1,4 @@
 import { Typography, Grid } from "@mui/material"
-// import { TextField } from 'src/@core/components/field'
 import CreateHydroelectric from "./createhydroelectric"
 import { useState } from "react"
 import { AutoComplete, TextField } from "src/@core/components/field";
@@ -26,8 +25,9 @@ const ConstructionField = () =>{
         setTypeOfConsId(val)
         setShowForm(true)
     }
-    return(
-        <>
+
+    return(  
+        <>       
          <fieldset>
         <legend >
           <Typography variant={'subtitle1'} className='legend__title'>THÔNG TIN CÔNG TRÌNH</Typography>

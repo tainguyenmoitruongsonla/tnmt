@@ -6,23 +6,19 @@ import {
   DialogActions,
 } from '@mui/material'
 import DialogsControlFullScreen from 'src/@core/components/dialog-control-full-screen'
-import ConstructionField from './construcsion'
+import ConstructionField from './construction'
 import ConstructionLocation from './cons-detail-fieldset'
 
 
 const FormContruction = ({ onSubmit, closeDialogs }: any) => {
-
   const handleSubmit = (event: any) => {
     event.preventDefault()
     onSubmit()
     closeDialogs()
   }
-
   const handleClose = () => {
     closeDialogs()
   }
-
-  
 
   return (
     <form onSubmit={handleSubmit}>

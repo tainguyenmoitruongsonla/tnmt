@@ -43,7 +43,7 @@ const GroundWater = () => {
             Số công trình đã cấp phép: 132
           </Typography>
         </Box>
-        <Box className='_search'>
+        <Box className='_search _row'>
           <Box>
             <Autocomplete size="small" options={complete1} getOptionLabel={(option) => option.title} renderInput={(params) => (
               <TextField

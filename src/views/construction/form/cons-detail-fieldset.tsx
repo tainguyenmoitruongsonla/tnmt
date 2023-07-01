@@ -28,7 +28,7 @@ const ConstructionLocation = () => {
     });
   };
 
-  return (
+  return (   
     <fieldset>
       <legend>
         <Typography variant={'subtitle1'} className='legend__title'>VỊ TRÍ CÁC HẠNG MỤC CHÍNH CỦA CÔNG TRÌNH KHAI THÁC SỬ DỤNG NƯỚC</Typography>
