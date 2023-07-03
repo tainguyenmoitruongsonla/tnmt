@@ -6,7 +6,7 @@ import {
   DialogActions,
 } from '@mui/material'
 import DialogsControlFullScreen from 'src/@core/components/dialog-control-full-screen'
-import ConstructionField from './construction'
+import ConstructionField from './cons-ground'
 
 
 const FormContruction = ({ onSubmit, closeDialogs }: any) => {
@@ -40,7 +40,7 @@ const FormContruction = ({ onSubmit, closeDialogs }: any) => {
   )
 }
 
-const CreateConstruction = ({ isEdit }: { isEdit: boolean }) => {
+const CreateConstructionGround = ({ isEdit }: { isEdit: boolean }) => {
   const formTitle = isEdit ? 'Thay đổi thông tin trang truy cập' : 'THÔNG TIN CÔNG TRÌNH KHAI THÁC, SỬ DỤNG NƯỚC MẶT'
   const handleSubmit = () => {
     // handle form submission logic here
@@ -58,6 +58,7 @@ const CreateConstruction = ({ isEdit }: { isEdit: boolean }) => {
             />
           ) : (
             <Button
+              fullWidth
               size='small'
               startIcon={<AddIcon />}
               variant='outlined'
@@ -74,4 +75,4 @@ const CreateConstruction = ({ isEdit }: { isEdit: boolean }) => {
   )
 }
 
-export default CreateConstruction
+export default CreateConstructionGround

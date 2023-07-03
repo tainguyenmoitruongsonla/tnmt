@@ -13,7 +13,8 @@ import { Delete } from 'mdi-material-ui';
 import TableComponent from 'src/@core/components/table';
 import SearchConstruction from 'src/views/construction/Search';
 import FormatDate from 'src/@core/components/format-date';
-import CreateConstruction from 'src/views/construction/form';
+import CreateConstruction from 'src/views/construction/form/sufacewater';
+
 
 // ** Components Imports
 
@@ -177,26 +178,29 @@ const SurfaceWater = () => {
       <Grid item xs={12} sm={12} md={12} sx={{ height: '55vh', overflow: 'hidden' }}>
         <MapComponent />
       </Grid>
-      <Grid item xs={12} sm={12} md={12} className='_row _justifyContentBetween' >
-        <Box>
+      <Grid item xs={12} sm={5} md={3}>
           <Typography className='_font12'>
             Tổng số công trình KTSDN  mặt: 132
           </Typography>
           <Typography className='_font12'>
             Số công trình đã cấp phép: 132
           </Typography>
-        </Box>
-        <Box className='_search _row'>
-          <Box>
+        </Grid>
+        <Grid container xs={12} sm={7} md={9} direction="row"
+        justifyContent="flex-end"
+        alignItems="center"
+        spacing={4}>
+          <Grid item xs={12} sm={7} md={3}>
             <AutoComplete
+            fullWidth
               onChange={(e: any, v: any) => handleChange(v)}
               size="small"
               options={complete1}
               getOptionLabel={(option: any) => option.title}
               label="Chọn loại hình CT"
             />
-          </Box>
-          <Box>
+          </Grid>
+          <Grid item xs={12} sm={7} md={3}>
             <AutoComplete
               onChange={(e: any, v: any) => handleChange(v)}
               size="small"
@@ -204,18 +208,17 @@ const SurfaceWater = () => {
               getOptionLabel={(option: any) => option.title}
               label="Chọn loại hình CT"
             />
-          </Box>
-          <Box>
+          </Grid>
+          <Grid item xs={12} sm={7} md={2}>
             <SearchConstruction />
-          </Box>
-          <Box>
-            <Button size='small' startIcon={<SearchIcon />} variant="outlined">Xuất excel</Button>
-          </Box>
-          <Box>
+          </Grid>
+          <Grid item xs={12} sm={7} md={2}>
+            <Button size='small' fullWidth startIcon={<SearchIcon />} variant="outlined">Xuất excel</Button>
+          </Grid>
+          <Grid item xs={12} sm={7} md={2}>
             <CreateConstruction isEdit={false} />
-          </Box>
-        </Box>
-      </Grid>
+          </Grid>
+        </Grid>
       <Grid item xs={12} sm={12} md={12}>
         <Grid item xs={12} sm={12} md={12}>
           <TableComponent columns={columns} data={data} show={TypeOfConsId}

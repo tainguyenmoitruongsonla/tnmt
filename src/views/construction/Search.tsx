@@ -84,7 +84,7 @@ const SearchConstruction = () => {
     <DialogsControl>
       {(openDialogs: (content: React.ReactNode, title: React.ReactNode) => void, closeDialogs: () => void) => (
         <>
-          <Button size='small' startIcon={<FilterAltIcon />} variant="outlined" onClick={() => openDialogs(<Form onSubmit={handleSubmit} closeDialogs={closeDialogs} />, formTitle)}>Bộ lọc</Button>
+          <Button size='small' fullWidth startIcon={<FilterAltIcon />} variant="outlined" onClick={() => openDialogs(<Form onSubmit={handleSubmit} closeDialogs={closeDialogs} />, formTitle)}>Bộ lọc</Button>
         </>
       )}
     </DialogsControl>

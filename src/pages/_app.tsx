@@ -58,16 +58,16 @@ const App = (props: ExtendedAppProps) => {
   const { Component, emotionCache = clientSideEmotionCache, pageProps } = props
 
   // ** Hooks
-  const router = useRouter()
+  // const router = useRouter()
 
-  useEffect(() => {
-    if (typeof window !== 'undefined') {
-      const token = localStorage.getItem('token')
-      if (!token) {
-        router.push('/pages/login')
-      }
-    }
-  }, [])
+  // useEffect(() => {
+  //   if (typeof window !== 'undefined') {
+  //     const token = localStorage.getItem('token')
+  //     if (!token) {
+  //       router.push('/pages/login')
+  //     }
+  //   }
+  // }, [])
 
   // Variables
   const getLayout = Component.getLayout ?? (page => <UserLayout>{page}</UserLayout>)
