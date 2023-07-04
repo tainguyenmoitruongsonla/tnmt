@@ -34,13 +34,8 @@ const Form = ({ data, setPostSuccess, isEdit, closeDialogs }: any) => {
 
     const handleApiCall = async () => {
       let res;
-      if (isEdit) {
-        res = await postApiData(`Role/update/${data.id}`, values);
-        console.log('Data successfully updated!');
-      } else {
-        res = await postApiData('Role/create', values);
-        console.log('Data successfully created!');
-      }
+      res = await postApiData('Role/save', values);
+      
       if (res) {
         // Reset form fields
         setValues({

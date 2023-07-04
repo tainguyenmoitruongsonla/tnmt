@@ -58,8 +58,6 @@ const Form = ({ data, setPostSuccess, isEdit, closeDialogs }: any) => {
       let res;
       res = await postApiData('User/save', values);
 
-      console.log(res)
-
       if (res) {
         // Reset form fields
         setValues({
