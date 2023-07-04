@@ -55,8 +55,7 @@ const Form = ({ data, setPostSuccess, isEdit, closeDialogs }: any) => {
     e.preventDefault();
 
     const handleApiCall = async () => {
-      let res;
-      res = await postApiData('User/save', values);
+      const res = await postApiData('User/save', values);
 
       if (res) {
         // Reset form fields

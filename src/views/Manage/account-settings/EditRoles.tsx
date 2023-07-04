@@ -13,13 +13,15 @@ import { TextField } from 'src/@core/components/field';
 import postApiData from 'src/api/post';
 
 interface State {
+  id?: string,
   name?: string,
   isDefault?: boolean,
 }
 
-const Form = ({ data, setPostSuccess, isEdit, closeDialogs }: any) => {
+const Form = ({ data, setPostSuccess, closeDialogs }: any) => {
 
   const [values, setValues] = useState<State>({
+    id: data?.id || '',
     name: data?.name || '',
     isDefault: data?.isDefault || false,
   });
@@ -33,12 +35,12 @@ const Form = ({ data, setPostSuccess, isEdit, closeDialogs }: any) => {
     e.preventDefault();
 
     const handleApiCall = async () => {
-      let res;
-      res = await postApiData('Role/save', values);
-      
+      const res = await postApiData('Role/save', values);
+
       if (res) {
         // Reset form fields
         setValues({
+          id: '',
           name: '',
           isDefault: false,
         });
@@ -55,6 +57,7 @@ const Form = ({ data, setPostSuccess, isEdit, closeDialogs }: any) => {
 
   const handleClose = () => {
     setValues({
+      id: '',
       name: '',
       isDefault: false,
     });
@@ -90,7 +93,7 @@ const EditRoles = ({ data, isEdit, setPostSuccess }: any) => {
         <>
           {
             isEdit ?
-              <EditNote className='tableActionBtn' onClick={() => openDialogs(<Form data={data} setPostSuccess={setPostSuccess} isEdit={isEdit} closeDialogs={closeDialogs} />, formTitle)} />
+              <EditNote className='tableActionBtn' onClick={() => openDialogs(<Form data={data} setPostSuccess={setPostSuccess} closeDialogs={closeDialogs} />, formTitle)} />
               :
               <IconButton className='addNewBtn' aria-label="add user" onClick={() => openDialogs(<Form setPostSuccess={setPostSuccess} closeDialogs={closeDialogs} />, formTitle)}>
                 <PersonAddAlt sx={{ mr: 2 }} />
