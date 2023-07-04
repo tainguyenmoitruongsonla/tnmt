@@ -1,3 +1,3 @@
-const apiUrl = 'http://api-tnmtqn.loc/api';
+const apiUrl = 'http://api.tainguyenmoitruongquangngai.vn/api';
 
 export default apiUrl;

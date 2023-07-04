@@ -15,6 +15,7 @@ import postApiData from 'src/api/post';
 import { TextField } from 'src/@core/components/field';
 
 interface State {
+  id?: string,
   userName?: string,
   password?: string,
   confirmPassword?: string,
@@ -26,6 +27,7 @@ interface State {
 const Form = ({ data, setPostSuccess, isEdit, closeDialogs }: any) => {
 
   const [values, setValues] = useState<State>({
+    id: data?.id || '',
     userName: data?.userName || '',
     password: data?.password || '',
     confirmPassword: data?.confirmPassword || '',
@@ -54,16 +56,14 @@ const Form = ({ data, setPostSuccess, isEdit, closeDialogs }: any) => {
 
     const handleApiCall = async () => {
       let res;
-      if (isEdit) {
-        res = await postApiData(`User/update/${data.userName}`, values);
-        console.log('Data successfully updated!');
-      } else {
-        res = await postApiData('User/create', values);
-        console.log('Data successfully created!');
-      }
+      res = await postApiData('User/save', values);
+
+      console.log(res)
+
       if (res) {
         // Reset form fields
         setValues({
+          id: '',
           userName: '',
           password: '',
           confirmPassword: '',
@@ -83,8 +83,8 @@ const Form = ({ data, setPostSuccess, isEdit, closeDialogs }: any) => {
   };
 
   const handleClose = () => {
-
     setValues({
+      id: '',
       userName: '',
       password: '',
       confirmPassword: '',

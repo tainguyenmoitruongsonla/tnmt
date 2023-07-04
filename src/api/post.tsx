@@ -16,7 +16,6 @@ const postData = async (url: string, postData: any) => {
 
             return true;
         } else {
-            console.log(response)
 
             return false;
         }
