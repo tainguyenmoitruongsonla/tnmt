@@ -9,7 +9,6 @@ import {
 } from '@mui/material'
 import DeleteIcon from '@mui/icons-material/Delete';
 import DialogControlFullScreen from 'src/@core/components/dialog-control-full-screen'
-import TableList from '../construction/TableList';
 
 const FormContruction = () => {
 
@@ -69,7 +68,6 @@ const FormContruction = () => {
       </Grid>
 
       <Grid className='_text_center'>
-        <TableList />
       </Grid>
     </Paper>
   )
