@@ -11,7 +11,7 @@ import { EditNote } from '@mui/icons-material';
 import { Delete } from 'mdi-material-ui';
 import TableComponent from 'src/@core/components/table';
 import SearchConstruction from 'src/views/construction/Search';
-import FormatDate from 'src/@core/components/format-date';;
+import FormatDate from 'src/@core/components/format-date';
 import CreateConstructionDisCharge from 'src/views/construction/form/dischargewater';
 import dischargeData from 'src/views/construction/form/dischargewater/data';
 
