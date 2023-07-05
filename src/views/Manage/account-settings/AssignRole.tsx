@@ -11,7 +11,7 @@ import { ShieldTwoTone } from '@mui/icons-material';
 import DialogsControlFullScreen from 'src/@core/components/dialog-control-full-screen';
 import fetchData from 'src/api/fetch';
 import postData from 'src/api/post';
-import Loading from 'src/@core/components/loading';
+import { useLoadingContext } from 'src/@core/theme/loading-provider';
 
 interface State {
   userId: string
@@ -21,22 +21,22 @@ interface State {
 const Form = ({ data, setPostSuccess, closeDialogs }: any) => {
 
   const [roleData, setRoleData] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
+  const { showLoading, hideLoading } = useLoadingContext();
   const [values, setValues] = useState<State>({
     userId: data?.id,
     roleName: data?.role,
   });
 
-
   useEffect(() => {
     const getData = async () => {
       try {
+        showLoading();
         const data = await fetchData('Role/list');
         setRoleData(data);
       } catch (error) {
         setRoleData([]);
       }
-      setIsLoading(false);
+      hideLoading();
     };
 
     getData();
@@ -55,7 +55,7 @@ const Form = ({ data, setPostSuccess, closeDialogs }: any) => {
     e.preventDefault();
 
     const handleApiCall = async () => {
-      console.log(values)
+      showLoading();
       const res = await postData('Auth/assign-role', values);
 
       if (res) {
@@ -68,9 +68,9 @@ const Form = ({ data, setPostSuccess, closeDialogs }: any) => {
         if (typeof setPostSuccess === 'function') {
           setPostSuccess(true);
         }
-
         closeDialogs();
       }
+      hideLoading();
     };
 
     // Call the function
@@ -88,7 +88,6 @@ const Form = ({ data, setPostSuccess, closeDialogs }: any) => {
 
   return (
     <div>
-      <Loading isLoading={isLoading} />
       <form onSubmit={handleSubmit}>
         <Grid container spacing={7} sx={{ px: 10, pt: 10 }}>
           <Grid item xs={12} sm={12} sx={{ mb: 2 }}>
@@ -145,7 +144,6 @@ const Form = ({ data, setPostSuccess, closeDialogs }: any) => {
     </div>
   );
 };
-
 
 const AssignRole = ({ data, setPostSuccess }: any) => {
 

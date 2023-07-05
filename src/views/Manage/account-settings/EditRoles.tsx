@@ -11,6 +11,7 @@ import { Grid, Button, DialogActions, FormControlLabel, Checkbox, IconButton, Ty
 import DialogsControl from 'src/@core/components/dialog-control';
 import { TextField } from 'src/@core/components/field';
 import postApiData from 'src/api/post';
+import { useLoadingContext } from 'src/@core/theme/loading-provider';
 
 interface State {
   id?: string,
@@ -31,10 +32,13 @@ const Form = ({ data, setPostSuccess, closeDialogs }: any) => {
     setValues({ ...values, [prop]: value });
   };
 
+  const { showLoading, hideLoading } = useLoadingContext();
+
   const handleSubmit = async (e: any) => {
     e.preventDefault();
 
     const handleApiCall = async () => {
+      showLoading();
       const res = await postApiData('Role/save', values);
 
       if (res) {
@@ -46,9 +50,9 @@ const Form = ({ data, setPostSuccess, closeDialogs }: any) => {
         });
 
         typeof (setPostSuccess) === 'function' ? setPostSuccess(true) : '';
-
-        closeDialogs();
+        hideLoading();
       }
+      closeDialogs();
     };
 
     // Call the function

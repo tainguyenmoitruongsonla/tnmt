@@ -1,5 +1,5 @@
 // ** React Imports
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 
 // ** Icons Imports
 import { Delete } from '@mui/icons-material';
@@ -7,14 +7,15 @@ import { Delete } from '@mui/icons-material';
 // ** MUI Imports
 import { IconButton, Box, Checkbox } from '@mui/material';
 import TableComponent from 'src/@core/components/table';
-import fetchApiData from 'src/api/fetch';
 import EditRoles from './EditRoles';
-import Loading from 'src/@core/components/loading';
+import fetchData from 'src/api/fetch';
+import { useLoadingContext } from 'src/@core/theme/loading-provider';
 
 const ListRoles = () => {
 
   const [postSuccess, setPostSuccess] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
+  const [resData, setResData] = useState([]);
+  const { showLoading, hideLoading } = useLoadingContext();
 
   const handlePostSuccess = () => {
     setPostSuccess(prevState => !prevState);
@@ -26,26 +27,23 @@ const ListRoles = () => {
     { id: 'actions', label: '#', elm: (row: any) => (<># <EditRoles data={row} isEdit={false} setPostSuccess={handlePostSuccess} /> </>) }
   ]
 
-  const [resData, setResData] = useState([]);
-
   useEffect(() => {
-    const fetchData = async () => {
-      setIsLoading(true);
+    const getData = async () => {
       try {
-        const data = await fetchApiData('Role/list');
+        showLoading();
+        const data = await fetchData('Role/list');
         setResData(data);
       } catch (error) {
         setResData([]);
       }
-      setIsLoading(false)
+      hideLoading();
     };
 
-    fetchData();
+    getData();
   }, [postSuccess]);
 
   return (
     <>
-      <Loading isLoading={isLoading} />
       <TableComponent columns={columnsTable} data={resData}
         actions={(row: any) => (
           <Box display="flex" justifyContent="center">
@@ -61,7 +59,6 @@ const ListRoles = () => {
         } />
     </>
   );
-
 }
 
 export default ListRoles;

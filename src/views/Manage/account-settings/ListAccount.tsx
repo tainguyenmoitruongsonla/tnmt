@@ -10,69 +10,66 @@ import SetRole from './AssignRole';
 import ChangePassword from './ChangePassword';
 import EditAccount from './EditAccount';
 import TableComponent from 'src/@core/components/table';
-import fetchApiData from 'src/api/fetch';
-import Loading from 'src/@core/components/loading';
+import fetchData from 'src/api/fetch';
+import { useLoadingContext } from 'src/@core/theme/loading-provider';
 
 const ListAccount = () => {
 
-    const [postSuccess, setPostSuccess] = useState(false);
+  const [postSuccess, setPostSuccess] = useState(false);
+  const { showLoading, hideLoading } = useLoadingContext();
+  const handlePostSuccess = () => {
+    setPostSuccess(prevState => !prevState);
+  };
 
-    const [isLoading, setIsLoading] = useState(true);
+  const columnsTable = [
+    { id: 'userName', label: 'Tài khoản(User name)', },
+    { id: 'roles', label: 'Quyền hạn(Roles)', elm: (row: any) => (row.role) },
+    { id: 'fullName', label: 'Họ tên(Full Name)', },
+    { id: 'email', label: 'Email', },
+    { id: 'phoneNumber', label: 'Số điện thoại(Phone Number)', },
+    { id: 'actions', label: '#', elm: (row: any) => (<># <EditAccount data={row} setPostSuccess={handlePostSuccess} isEdit={false} /></>) }
+  ]
 
-    const handlePostSuccess = () => {
-        setPostSuccess(prevState => !prevState);
+  const [resData, setResData] = useState([]);
+
+  useEffect(() => {
+    const getData = async () => {
+      try {
+        showLoading();
+        const data = await fetchData('User/list');
+        setResData(data);
+      } catch (error) {
+        setResData([]);
+      }
+      hideLoading();
     };
 
-    const columnsTable = [
-        { id: 'userName', label: 'Tài khoản(User name)', },
-        { id: 'roles', label: 'Quyền hạn(Roles)', elm: (row: any) => (row.role) },
-        { id: 'fullName', label: 'Họ tên(Full Name)', },
-        { id: 'email', label: 'Email', },
-        { id: 'phoneNumber', label: 'Số điện thoại(Phone Number)', },
-        { id: 'actions', label: '#', elm: (row: any) => (<># <EditAccount data={row} setPostSuccess={handlePostSuccess} isEdit={false} /></>) }
-    ]
+    getData();
+  }, [postSuccess]);
 
-    const [resData, setResData] = useState([]);
+  return (
+    <div>
+      <TableComponent columns={columnsTable} data={resData}
+        actions={(row: any) => (
+          <Box>
+            <IconButton aria-label="setRole">
+              <SetRole data={row} setPostSuccess={handlePostSuccess} />
+            </IconButton>
+            <IconButton aria-label="changePasword">
+              <ChangePassword />
+            </IconButton>
+            <IconButton aria-label="edit">
+              <EditAccount data={row} setPostSuccess={handlePostSuccess} isEdit={true} />
+            </IconButton>
+            <IconButton aria-label="delete">
+              <Delete className='tableActionBtn deleteBtn' />
+            </IconButton>
+          </Box>
+        )
 
-    useEffect(() => {
-        const fetchData = async () => {
-            setIsLoading(true);
-            try {
-                const data = await fetchApiData('User/list');
-                setResData(data);
-            } catch (error) {
-                setResData([]);
-            }
-            setIsLoading(false)
-        };
-
-        fetchData();
-    }, [postSuccess]);
-
-    return (
-        <div>
-            <Loading isLoading={isLoading} />
-            <TableComponent columns={columnsTable} data={resData}
-                actions={(row: any) => (
-                    <Box>
-                        <IconButton aria-label="setRole">
-                            <SetRole data={row} setPostSuccess={handlePostSuccess} />
-                        </IconButton>
-                        <IconButton aria-label="changePasword">
-                            <ChangePassword />
-                        </IconButton>
-                        <IconButton aria-label="edit">
-                            <EditAccount data={row} setPostSuccess={handlePostSuccess} isEdit={true} />
-                        </IconButton>
-                        <IconButton aria-label="delete">
-                            <Delete className='tableActionBtn deleteBtn' />
-                        </IconButton>
-                    </Box>
-                )
-
-                } />
-        </div>
-    );
+        } />
+    </div>
+  );
 
 }
 

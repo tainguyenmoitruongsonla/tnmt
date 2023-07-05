@@ -13,6 +13,7 @@ import { Grid, Button, DialogActions, IconButton, Typography, FormControl, Input
 import DialogsControl from 'src/@core/components/dialog-control';
 import postApiData from 'src/api/post';
 import { TextField } from 'src/@core/components/field';
+import { useLoadingContext } from 'src/@core/theme/loading-provider';
 
 interface State {
   id?: string,
@@ -37,6 +38,7 @@ const Form = ({ data, setPostSuccess, isEdit, closeDialogs }: any) => {
   });
 
   const [showPassword, setShowPassword] = useState(false)
+  const { showLoading, hideLoading } = useLoadingContext();
 
   const handleChange = (prop: keyof State) => (event: ChangeEvent<HTMLInputElement>) => {
     const value = event.target.type === 'checkbox' ? event.target.checked : event.target.value;
@@ -55,6 +57,7 @@ const Form = ({ data, setPostSuccess, isEdit, closeDialogs }: any) => {
     e.preventDefault();
 
     const handleApiCall = async () => {
+      showLoading();
       const res = await postApiData('User/save', values);
 
       if (res) {
@@ -70,9 +73,9 @@ const Form = ({ data, setPostSuccess, isEdit, closeDialogs }: any) => {
         });
 
         typeof (setPostSuccess) === 'function' ? setPostSuccess(true) : '';
-
         closeDialogs();
       }
+      hideLoading();
     };
 
     // Call the function
