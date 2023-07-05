@@ -23,10 +23,11 @@ interface TableProps {
   columns: TableColumn[];
   data: Data[];
   show?: number[];
+  pagination?: boolean;
   actions?: ((row: Data) => React.ReactNode) | null;
 }
 
-const TableComponent: FC<TableProps> = ({ columns, data, show, actions }: TableProps) => {
+const TableComponent: FC<TableProps> = ({ columns, data, show, pagination, actions }: TableProps) => {
 
   const tableColumns: TableColumn[] = [];
   for (let i = 0; i < columns.length; i++) {
@@ -186,9 +187,9 @@ const TableComponent: FC<TableProps> = ({ columns, data, show, actions }: TableP
           </TableBody>
         </Table>
       </TableContainer>
-      {
+      { pagination ?
         <TablePagination
-          rowsPerPageOptions={[10, 25, 100]}
+          rowsPerPageOptions={[10, 25, 50]}
           component='div'
           count={data?.length}
           rowsPerPage={rowsPerPage}
@@ -196,6 +197,7 @@ const TableComponent: FC<TableProps> = ({ columns, data, show, actions }: TableP
           onPageChange={handleChangePage}
           onRowsPerPageChange={handleChangeRowsPerPage}
         />
+        : ''
       }
     </Paper>
   );

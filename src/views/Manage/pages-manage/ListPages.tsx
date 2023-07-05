@@ -2,7 +2,7 @@
 import { useEffect, useState } from 'react'
 
 // ** MUI Imports
-import { IconButton, Box } from '@mui/material';
+import { IconButton, Box, Checkbox } from '@mui/material';
 import { Delete } from '@mui/icons-material';
 import EditPages from './EditPages';
 import TableComponent from 'src/@core/components/table';
@@ -21,6 +21,7 @@ const ListPages = () => {
     { id: 'name', label: 'Tên trang web', },
     { id: 'path', label: 'Đường dẫn', },
     { id: 'description', label: 'Mô tả', },
+    { id: 'permitAccess', label: 'Được phép truy cập', elm: (row: any) => (<Checkbox name='permitAccess' checked={row?.permitAccess} disabled />) },
     { id: 'actions', label: '#', elm: (row: any) => (<># <EditPages data={row} setPostSuccess={handlePostSuccess} isEdit={false} /></>) }
   ]
 

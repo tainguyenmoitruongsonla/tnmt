@@ -1,6 +1,6 @@
 import DialogsControl from 'src/@core/components/dialog-control';
 import { EditNote, PersonAddAlt } from "@mui/icons-material";
-import { Grid, Button, TextField, DialogActions, IconButton, Typography } from "@mui/material";
+import { Grid, Button, TextField, DialogActions, IconButton, Typography, FormControlLabel, Checkbox } from "@mui/material";
 import { ChangeEvent, useState } from 'react';
 import { useLoadingContext } from 'src/@core/theme/loading-provider';
 import postData from 'src/api/post';
@@ -10,6 +10,7 @@ interface State {
   name?: string,
   path?: string,
   description?: string,
+  permitAccess?: boolean,
 }
 
 
@@ -20,6 +21,7 @@ const Form = ({ data, setPostSuccess, closeDialogs }: any) => {
     name: data?.name || '',
     path: data?.path || '',
     description: data?.description || '',
+    permitAccess: data?.permitAccess || false,
   });
 
   const handleChange = (prop: keyof State) => (event: ChangeEvent<HTMLInputElement>) => {
@@ -43,6 +45,7 @@ const Form = ({ data, setPostSuccess, closeDialogs }: any) => {
           name: '',
           path: '',
           description: '',
+          permitAccess: false,
         });
 
         typeof (setPostSuccess) === 'function' ? setPostSuccess(true) : '';
@@ -61,6 +64,7 @@ const Form = ({ data, setPostSuccess, closeDialogs }: any) => {
       name: '',
       path: '',
       description: '',
+      permitAccess: false,
     });
 
     closeDialogs();
@@ -77,6 +81,9 @@ const Form = ({ data, setPostSuccess, closeDialogs }: any) => {
         </Grid>
         <Grid item xs={12} md={12} sx={{ my: 2 }}>
           <TextField size='small' type='text' fullWidth label='Mô tả' placeholder='' value={values?.description} onChange={handleChange('description')} />
+        </Grid>
+        <Grid item xs={12} md={12} sx={{ my: 2 }}>
+          <FormControlLabel control={<Checkbox name='permitAccess' checked={!!values?.permitAccess} onChange={handleChange('permitAccess')} />} label="Cho phép truy cập" />
         </Grid>
       </Grid>
       <DialogActions sx={{ p: 0 }}>

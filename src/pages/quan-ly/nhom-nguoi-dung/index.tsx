@@ -11,15 +11,11 @@ import { styled } from '@mui/material/styles'
 import MuiTab, { TabProps } from '@mui/material/Tab'
 
 // ** Icons Imports
-import AccountOutline from 'mdi-material-ui/AccountOutline'
 import LockOpenOutline from 'mdi-material-ui/LockOpenOutline'
-
-// ** Demo Tabs Imports
-import Roles from 'src/views/Manage/account-settings/Roles'
 
 // ** Third Party Styles Imports
 import 'react-datepicker/dist/react-datepicker.css'
-import ListAccount from 'src/views/Manage/account-settings/ListAccount'
+import Roles from 'src/views/Manage/account-settings/ListRoles'
 
 const Tab = styled(MuiTab)<TabProps>(({ theme }) => ({
   [theme.breakpoints.down('md')]: {
@@ -41,7 +37,7 @@ const TabName = styled('span')(({ theme }) => ({
 
 const AccountSettings = () => {
   // ** State
-  const [value, setValue] = useState<string>('account')
+  const [value, setValue] = useState<string>('roles')
 
   const handleChange = (event: SyntheticEvent, newValue: string) => {
     setValue(newValue)
@@ -56,28 +52,15 @@ const AccountSettings = () => {
           sx={{ borderBottom: theme => `1px solid ${theme.palette.divider}` }}
         >
           <Tab
-            value='account'
-            label={
-              <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                <AccountOutline />
-                <TabName>Tài khoản(Users)</TabName>
-              </Box>
-            }
-          />
-          <Tab
             value='roles'
             label={
               <Box sx={{ display: 'flex', alignItems: 'center' }}>
                 <LockOpenOutline />
-                <TabName>Quyền hạn(Roles)</TabName>
+                <TabName>Nhóm người dùng(Roles)</TabName>
               </Box>
             }
           />
         </TabList>
-
-        <TabPanel sx={{ p: 0 }} value='account'>
-          <ListAccount />
-        </TabPanel>
         <TabPanel sx={{ p: 0 }} value='roles'>
           <Roles />
         </TabPanel>

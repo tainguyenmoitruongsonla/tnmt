@@ -10,7 +10,7 @@ import TagOutline from 'mdi-material-ui/TagOutline';
 import CircleOutline from 'mdi-material-ui/CircleOutline';
 import WaterIcon from '@mui/icons-material/Water';
 import DisplaySettingsIcon from '@mui/icons-material/DisplaySettings';
-import { Tv } from "@mui/icons-material";
+import { AdminPanelSettings, DisplaySettingsOutlined, Tv } from "@mui/icons-material";
 
 // ** Type import
 import { VerticalNavItemsType } from 'src/@core/layouts/types'
@@ -158,14 +158,41 @@ const navigation = (): VerticalNavItemsType => {
       sectionTitle: 'Quản lý'
     },
     {
-      title: 'Tài khoản & Quyền hạn',
-      icon: AccountCogOutline,
-      path: '/quan-ly/tai-khoan-va-quyen-han'
+      title: 'Hệ thống',
+      icon: DisplaySettingsOutlined,
+      children: [
+        {
+          title: 'Người dùng',
+          icon: AccountCogOutline,
+          path: '/quan-ly/nguoi-dung'
+        },
+        {
+          title: 'Nhóm người dùng',
+          icon: AccountCogOutline,
+          path: '/quan-ly/nhom-nguoi-dung'
+        },
+        {
+          title: 'Trang truy cập',
+          icon: Tv,
+          path: '/quan-ly/trang-truy-cap'
+        },
+      ]
     },
     {
-      title: 'Trang truy cập',
-      icon: Tv,
-      path: '/quan-ly/trang-truy-cap'
+      title: 'Phân quyền',
+      icon: AdminPanelSettings,
+      children: [
+        {
+          title: 'Người dùng',
+          icon: AccountCogOutline,
+          path: '/quan-ly/phan-quyen/nguoi-dung'
+        },
+        {
+          title: 'Nhóm người dùng',
+          icon: Tv,
+          path: '/quan-ly/phan-quyen/nhom-nguoi-dung'
+        },
+      ]
     },
   ]
 }
