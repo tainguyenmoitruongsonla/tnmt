@@ -6,7 +6,7 @@ import { IconButton, Box } from '@mui/material';
 import { Delete } from '@mui/icons-material';
 
 // ** Component Imports
-import SetRole from './SetRole';
+import SetRole from './AssignRole';
 import ChangePassword from './ChangePassword';
 import EditAccount from './EditAccount';
 import TableComponent from 'src/@core/components/table';
@@ -25,7 +25,7 @@ const ListAccount = () => {
 
     const columnsTable = [
         { id: 'userName', label: 'Tài khoản(User name)', },
-        { id: 'roles', label: 'Quyền hạn(Roles)', elm: (row: any) => (row.roles[0].name) },
+        { id: 'roles', label: 'Quyền hạn(Roles)', elm: (row: any) => (row.role) },
         { id: 'fullName', label: 'Họ tên(Full Name)', },
         { id: 'email', label: 'Email', },
         { id: 'phoneNumber', label: 'Số điện thoại(Phone Number)', },
@@ -36,6 +36,7 @@ const ListAccount = () => {
 
     useEffect(() => {
         const fetchData = async () => {
+            setIsLoading(true);
             try {
                 const data = await fetchApiData('User/list');
                 setResData(data);

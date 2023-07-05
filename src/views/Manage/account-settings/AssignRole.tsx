@@ -1,6 +1,13 @@
-import React, { useState, useEffect } from 'react';
+//  **  Imports React
+import React, { useState, useEffect, ChangeEvent } from 'react';
+
+// ** Imports MUI
 import { Grid, DialogActions, Typography, TextField, Table, TableHead, TableRow, TableCell, TableBody, Checkbox, Button } from '@mui/material';
+
+// ** Imports Icons
 import { ShieldTwoTone } from '@mui/icons-material';
+
+// ** Imports Component
 import DialogsControlFullScreen from 'src/@core/components/dialog-control-full-screen';
 import fetchData from 'src/api/fetch';
 import postData from 'src/api/post';
@@ -14,8 +21,12 @@ interface State {
 const Form = ({ data, setPostSuccess, closeDialogs }: any) => {
 
   const [roleData, setRoleData] = useState([]);
-
   const [isLoading, setIsLoading] = useState(true);
+  const [values, setValues] = useState<State>({
+    userId: data?.id,
+    roleName: data?.role,
+  });
+
 
   useEffect(() => {
     const getData = async () => {
@@ -25,42 +36,51 @@ const Form = ({ data, setPostSuccess, closeDialogs }: any) => {
       } catch (error) {
         setRoleData([]);
       }
-      setIsLoading(false)
+      setIsLoading(false);
     };
 
     getData();
-  }, [])
+  }, []);
 
-  const [values, setValues] = useState<State>({
-    userId: data?.id,
-    roleName: data?.roles[0]
-  });
-
-  const handleChange = (role: any) => () => {
-    setValues({ userId: data.id, roleName: role.name })
+  const handleChange = (prop: keyof State, roleName: string) => (event: ChangeEvent<HTMLInputElement>) => {
+    const { checked } = event.target;
+    const newValue = checked ? roleName : '';
+    setValues((prevValues) => ({
+      ...prevValues,
+      [prop]: newValue,
+    }));
   };
 
-  const handleSubmit = async (e: any) => {
+  const handleSubmit = (e: any) => {
     e.preventDefault();
 
-    const res = await postData(`User/set-role`, values);
-    if (res) {
-      // Reset form fields
-      setValues({
-        userId: '',
-        roleName: ''
-      });
+    const handleApiCall = async () => {
+      console.log(values)
+      const res = await postData('Auth/assign-role', values);
 
-      typeof (setPostSuccess) === 'function' ? setPostSuccess(true) : '';
+      if (res) {
+        // Reset form fields
+        setValues({
+          userId: '',
+          roleName: '',
+        });
 
-      closeDialogs();
-    }
+        if (typeof setPostSuccess === 'function') {
+          setPostSuccess(true);
+        }
+
+        closeDialogs();
+      }
+    };
+
+    // Call the function
+    handleApiCall();
   };
 
   const handleClose = () => {
     setValues({
       userId: '',
-      roleName: ''
+      roleName: '',
     });
 
     closeDialogs();
@@ -104,7 +124,12 @@ const Form = ({ data, setPostSuccess, closeDialogs }: any) => {
                       {row?.name}
                     </TableCell>
                     <TableCell size='small'>
-                      <Checkbox name="setRole" onChange={handleChange(row)} checked={values.roleName == row.name} />
+                      <Checkbox
+                        name='isDefault'
+                        checked={values.roleName === row.name}
+                        onChange={handleChange('roleName', row.name)}
+                      />
+
                     </TableCell>
                   </TableRow>
                 ))}
@@ -122,7 +147,7 @@ const Form = ({ data, setPostSuccess, closeDialogs }: any) => {
 };
 
 
-const SetRole = ({ data, setPostSuccess }: any) => {
+const AssignRole = ({ data, setPostSuccess }: any) => {
 
   const formTitle = 'Phân quyền truy cập';
 
@@ -138,4 +163,4 @@ const SetRole = ({ data, setPostSuccess }: any) => {
     </>
   );
 }
-export default SetRole;
+export default AssignRole;

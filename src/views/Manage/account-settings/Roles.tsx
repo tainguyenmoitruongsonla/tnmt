@@ -30,6 +30,7 @@ const ListRoles = () => {
 
   useEffect(() => {
     const fetchData = async () => {
+      setIsLoading(true);
       try {
         const data = await fetchApiData('Role/list');
         setResData(data);
