@@ -1,5 +1,5 @@
 // ** React Imports
-import { useContext, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 // ** Icons Imports
 import { Delete } from '@mui/icons-material';
@@ -35,8 +35,9 @@ const ListRoles = () => {
         setResData(data);
       } catch (error) {
         setResData([]);
+      } finally {
+        hideLoading();
       }
-      hideLoading();
     };
 
     getData();

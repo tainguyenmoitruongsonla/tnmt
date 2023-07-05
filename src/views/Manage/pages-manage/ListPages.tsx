@@ -34,8 +34,9 @@ const ListPages = () => {
         setResData(data);
       } catch (error) {
         setResData([]);
+      } finally {
+        hideLoading();
       }
-      hideLoading();
     };
     getData();
   }, [postSuccess]);

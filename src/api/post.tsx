@@ -14,11 +14,13 @@ const postData = async (url: string, postData: any) => {
         });
 
         if (response.ok) {
+            
             // Show success snackbar notification
             enqueueSnackbar('Lưu dữ liệu thành công!', { variant: 'success' });
 
             return true;
         } else {
+
             // Show error snackbar notification
             enqueueSnackbar('Lưu dữ liệu thất bại.', { variant: 'error' });
 
@@ -26,6 +28,7 @@ const postData = async (url: string, postData: any) => {
         }
     } catch (error) {
         console.error('Error:', error);
+        
         // Show error snackbar notification
         enqueueSnackbar('Lưu dữ liệu thất bại.', { variant: 'error' });
 
