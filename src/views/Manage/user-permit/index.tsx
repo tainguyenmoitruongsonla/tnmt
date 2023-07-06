@@ -18,7 +18,7 @@ const UserPermit = () => {
     { id: 'fullName', label: 'Họ tên(Full Name)', },
     { id: 'userName', label: 'Tài khoản(User name)', },
     { id: 'email', label: 'Email', },
-    { id: 'actions', label: '#', elm: (row: any) => (<>#</>) }
+    { id: 'actions', label: '#', }
   ]
 
   const [resData, setResData] = useState([]);
