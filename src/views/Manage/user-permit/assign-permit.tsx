@@ -28,8 +28,6 @@ const Form = ({ data }: any) => {
     permitAccess: data?.permitAccess,
   });
 
-  console.log(values)
-
   const [resData, setResData] = useState([]);
   const { showLoading, hideLoading } = useLoadingContext();
 

@@ -12,17 +12,17 @@ const postData = async (url: string, postData: any) => {
             },
             body: JSON.stringify(postData),
         });
-
+        const resData = await response.json();
         if (response.ok) {
             
             // Show success snackbar notification
-            enqueueSnackbar('Lưu dữ liệu thành công!', { variant: 'success' });
+            enqueueSnackbar(resData.message, { variant: 'success' });
 
             return true;
         } else {
 
             // Show error snackbar notification
-            enqueueSnackbar('Lưu dữ liệu thất bại.', { variant: 'error' });
+            enqueueSnackbar(resData.message , { variant: 'error' });
 
             return false;
         }
@@ -30,7 +30,7 @@ const postData = async (url: string, postData: any) => {
         console.error('Error:', error);
         
         // Show error snackbar notification
-        enqueueSnackbar('Lưu dữ liệu thất bại.', { variant: 'error' });
+        enqueueSnackbar(error, { variant: 'error' });
 
         return false;
     }

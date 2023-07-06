@@ -13,11 +13,9 @@ import MuiTab, { TabProps } from '@mui/material/Tab'
 // ** Icons Imports
 import LockOpenOutline from 'mdi-material-ui/LockOpenOutline'
 
-// ** Demo Tabs Imports
-import Roles from 'src/views/Manage/account-settings/ListRoles'
-
 // ** Third Party Styles Imports
 import 'react-datepicker/dist/react-datepicker.css'
+import RolePermit from 'src/views/Manage/role-permit'
 
 const Tab = styled(MuiTab)<TabProps>(({ theme }) => ({
   [theme.breakpoints.down('md')]: {
@@ -37,9 +35,9 @@ const TabName = styled('span')(({ theme }) => ({
   }
 }))
 
-const AccountSettings = () => {
+const RoleSettings = () => {
   // ** State
-  const [value, setValue] = useState<string>('account')
+  const [value, setValue] = useState<string>('roles')
 
   const handleChange = (event: SyntheticEvent, newValue: string) => {
     setValue(newValue)
@@ -50,7 +48,7 @@ const AccountSettings = () => {
       <TabContext value={value}>
         <TabList
           onChange={handleChange}
-          aria-label='account-settings tabs'
+          aria-label='roles-settings tabs'
           sx={{ borderBottom: theme => `1px solid ${theme.palette.divider}` }}
         >
           <Tab
@@ -64,11 +62,11 @@ const AccountSettings = () => {
           />
         </TabList>
         <TabPanel sx={{ p: 0 }} value='roles'>
-          <Roles />
+          <RolePermit />
         </TabPanel>
       </TabContext>
     </Card>
   )
 }
 
-export default AccountSettings
+export default RoleSettings
