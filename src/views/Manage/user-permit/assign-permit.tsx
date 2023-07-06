@@ -15,7 +15,7 @@ interface State {
   permitAccess?: boolean,
 }
 
-const Form = ({ data, closeDialogs }: any) => {
+const Form = ({ data }: any) => {
   const userData = [
     data
   ]
