@@ -16,21 +16,18 @@ const postData = async (url: string, postData: any) => {
         if (response.ok) {
             
             // Show success snackbar notification
-            enqueueSnackbar(resData.message, { variant: 'success' });
+            enqueueSnackbar(resData?.message, { variant: 'success' });
 
             return true;
         } else {
 
             // Show error snackbar notification
-            enqueueSnackbar(resData.message , { variant: 'error' });
+            enqueueSnackbar(resData?.message , { variant: 'error' });
 
             return false;
         }
     } catch (error) {
         console.error('Error:', error);
-        
-        // Show error snackbar notification
-        enqueueSnackbar(error, { variant: 'error' });
 
         return false;
     }
