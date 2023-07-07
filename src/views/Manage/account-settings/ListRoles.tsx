@@ -16,6 +16,12 @@ const ListRoles = () => {
   const [postSuccess, setPostSuccess] = useState(false);
   const [resData, setResData] = useState([]);
   const { showLoading, hideLoading } = useLoadingContext();
+  const [loading, setLoading] = useState(false)
+  if (loading == true) {
+    showLoading();
+  } else {
+    hideLoading();
+  }
 
   const handlePostSuccess = () => {
     setPostSuccess(prevState => !prevState);
@@ -30,13 +36,13 @@ const ListRoles = () => {
   useEffect(() => {
     const getData = async () => {
       try {
-        showLoading();
+        setLoading(true)
         const data = await fetchData('Role/list');
         setResData(data);
       } catch (error) {
         setResData([]);
       } finally {
-        hideLoading();
+        setLoading(false)
       }
     };
 

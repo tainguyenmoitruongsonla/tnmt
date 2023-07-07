@@ -1,6 +1,6 @@
 import { Tv } from '@mui/icons-material'
 import { Checkbox, Grid } from '@mui/material'
-import { ChangeEvent, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 
 import DialogsControlFullScreen from 'src/@core/components/dialog-control-full-screen'
 import TableComponent from 'src/@core/components/table'
@@ -13,27 +13,34 @@ const Form = ({ data }: any) => {
   const roleData = [data]; // Use the updated `values` state here
   const [resData, setResData] = useState([]);
   const [postSuccess, setPostSuccess] = useState(false);
-  const { showLoading, hideLoading } = useLoadingContext();
   const handlePostSuccess = () => {
     setPostSuccess(prevState => !prevState);
   };
 
+  const { showLoading, hideLoading } = useLoadingContext();
+  const [loading, setLoading] = useState(false)
+  if (loading == true) {
+    showLoading();
+  } else {
+    hideLoading();
+  }
+
   useEffect(() => {
     const getData = async () => {
       try {
-        showLoading();
+        setLoading(true);
         const resData = await fetchData(`Dashboard/listbyrole/${data.name}`);
         setResData(resData);
       } catch (error) {
         setResData([]);
       }
-      hideLoading();
+      setLoading(false);
     };
 
     getData();
-  }, [postSuccess]);
+  }, [data.name, postSuccess]);
 
-  const handleCheckPermit = (row: any, roleData: any) => async (event: ChangeEvent<HTMLInputElement>) => {
+  const handleCheckPermit = (row: any, roleData: any) => async () => {
     const permitAccess = row.permitAccess;
 
     const item = {
@@ -44,18 +51,14 @@ const Form = ({ data }: any) => {
       fileControl: row.fileControl,
       permitAccess: row.permitAccess == true ? false : true,
     };
-    console.log(row)
-    showLoading();
+    setLoading(true);
     if (permitAccess === true) {
-      console.log("delete",item)
       await postData('RoleDashboard/delete', item);
-      setPostSuccess(true);
     } else {
-      console.log("save",item)
       await postData('RoleDashboard/save', item);
-      setPostSuccess(true);
     }
-    hideLoading();
+    setPostSuccess(true);
+    setLoading(false);
     handlePostSuccess();
   };
 

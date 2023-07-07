@@ -17,6 +17,12 @@ const ListAccount = () => {
 
   const [postSuccess, setPostSuccess] = useState(false);
   const { showLoading, hideLoading } = useLoadingContext();
+  const [loading, setLoading] = useState(false)
+  if (loading == true) {
+    showLoading();
+  } else {
+    hideLoading();
+  }
   const handlePostSuccess = () => {
     setPostSuccess(prevState => !prevState);
   };
@@ -35,13 +41,13 @@ const ListAccount = () => {
   useEffect(() => {
     const getData = async () => {
       try {
-        showLoading();
+        setLoading(true)
         const data = await fetchData('User/list');
         setResData(data);
       } catch (error) {
         setResData([]);
       }
-      hideLoading();
+      setLoading(false)
     };
 
     getData();

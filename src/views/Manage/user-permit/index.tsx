@@ -9,15 +9,21 @@ import TableComponent from 'src/@core/components/table';
 import fetchData from 'src/api/fetch';
 import { useLoadingContext } from 'src/@core/theme/loading-provider';
 import AssignPermit from './assign-permit';
+import AssignFunction from './assign-function';
 
 const UserPermit = () => {
 
   const { showLoading, hideLoading } = useLoadingContext();
+  const [loading, setLoading] = useState(false)
+  if (loading == true) {
+    showLoading();
+  } else {
+    hideLoading();
+  }
 
   const columnsTable = [
-    { id: 'fullName', label: 'Họ tên(Full Name)', },
-    { id: 'userName', label: 'Tài khoản(User name)', },
-    { id: 'email', label: 'Email', },
+    { id: 'name', label: 'Tên nhóm người dùng',elm:(row:any) => (<AssignFunction data={row} />) },
+    { id: 'description', label: 'Mô tả', },
     { id: 'actions', label: '#', }
   ]
 
@@ -26,13 +32,13 @@ const UserPermit = () => {
   useEffect(() => {
     const getData = async () => {
       try {
-        showLoading();
-        const data = await fetchData('User/list');
+        setLoading(true)
+        const data = await fetchData('Role/list');
         setResData(data);
       } catch (error) {
         setResData([]);
       }
-      hideLoading();
+      setLoading(false)
     };
 
     getData();

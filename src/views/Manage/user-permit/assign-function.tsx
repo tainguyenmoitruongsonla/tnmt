@@ -8,7 +8,7 @@ import postData from 'src/api/post'
 
 const Form = ({ data }: any) => {
 
-  const roleData = data;
+  const userData = data;
   const [dashData, setDashData] = useState([]);
   const [postSuccess, setPostSuccess] = useState(false);
   const handlePostSuccess = () => {
@@ -23,9 +23,9 @@ const Form = ({ data }: any) => {
     hideLoading();
   }
 
-  const roleInfoColumn = [
-    { id: 'name', label: 'Tên' },
-    { id: 'description', label: 'Mô tả' },
+  const userInfoColumn = [
+    { id: 'userName', label: 'Tên' },
+    { id: 'fullName', label: 'Mô tả' },
   ];
 
   const permitColumn = [
@@ -55,7 +55,7 @@ const Form = ({ data }: any) => {
     const getData = async () => {
       try {
         setLoading(true);
-        const rdash = await fetchData(`Role/${data.id}`);
+        const rdash = await fetchData(`User/${data.id}`);
         setDashData(rdash.dashboards);
       } catch (error) {
         setDashData([]);
@@ -69,8 +69,8 @@ const Form = ({ data }: any) => {
   const handleCheckFunction = (f: any, dash: any) => async () => {
     setLoading(true);
     const item = {
-      roleId: roleData.id,
-      roleName: roleData.name,
+      userId: userData.id,
+      userName: userData.name,
       dashboardId: dash.id,
       functionId: f.id,
       functionName: f.permitName,
@@ -92,7 +92,7 @@ const Form = ({ data }: any) => {
     <>
       <Grid container>
         <Grid item xs={12} pb={10}>
-          <TableComponent columns={roleInfoColumn} data={[roleData]} />
+          <TableComponent columns={userInfoColumn} data={[userData]} />
         </Grid>
       </Grid>
       <TableComponent columns={permitColumn} data={dashData} pagination />

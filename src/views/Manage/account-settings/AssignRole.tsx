@@ -20,8 +20,14 @@ interface State {
 
 const Form = ({ data, setPostSuccess, closeDialogs }: any) => {
 
-  const [roleData, setRoleData] = useState([]);
+  const [roleData, setRoleData] = useState([]);  
   const { showLoading, hideLoading } = useLoadingContext();
+  const [loading, setLoading] = useState(false)
+  if (loading == true) {
+    showLoading();
+  } else {
+    hideLoading();
+  }
   const [values, setValues] = useState<State>({
     userId: data?.id,
     roleName: data?.role,
@@ -30,13 +36,13 @@ const Form = ({ data, setPostSuccess, closeDialogs }: any) => {
   useEffect(() => {
     const getData = async () => {
       try {
-        showLoading();
+        setLoading(true)
         const data = await fetchData('Role/list');
         setRoleData(data);
       } catch (error) {
         setRoleData([]);
       }
-      hideLoading();
+      setLoading(false)
     };
 
     getData();
@@ -55,7 +61,7 @@ const Form = ({ data, setPostSuccess, closeDialogs }: any) => {
     e.preventDefault();
 
     const handleApiCall = async () => {
-      showLoading();
+      setLoading(true)
       const res = await postData('Auth/assign-role', values);
 
       if (res) {
@@ -70,7 +76,7 @@ const Form = ({ data, setPostSuccess, closeDialogs }: any) => {
         }
         closeDialogs();
       }
-      hideLoading();
+      setLoading(false)
     };
 
     // Call the function

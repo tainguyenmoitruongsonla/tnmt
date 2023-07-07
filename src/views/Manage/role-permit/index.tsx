@@ -14,6 +14,12 @@ import AssignFunction from './assign-function';
 const RolePermit = () => {
 
   const { showLoading, hideLoading } = useLoadingContext();
+  const [loading, setLoading] = useState(false)
+  if (loading == true) {
+    showLoading();
+  } else {
+    hideLoading();
+  }
 
   const columnsTable = [
     { id: 'name', label: 'Tên nhóm người dùng',elm:(row:any) => (<AssignFunction data={row} />) },
@@ -26,13 +32,13 @@ const RolePermit = () => {
   useEffect(() => {
     const getData = async () => {
       try {
-        showLoading();
+        setLoading(true)
         const data = await fetchData('Role/list');
         setResData(data);
       } catch (error) {
         setResData([]);
       }
-      hideLoading();
+      setLoading(false)
     };
 
     getData();

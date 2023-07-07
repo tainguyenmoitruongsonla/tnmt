@@ -13,6 +13,12 @@ const ListPages = () => {
 
   const [postSuccess, setPostSuccess] = useState(false);
   const { showLoading, hideLoading } = useLoadingContext();
+  const [loading, setLoading] = useState(false)
+  if (loading == true) {
+    showLoading();
+  } else {
+    hideLoading();
+  }
   const handlePostSuccess = () => {
     setPostSuccess(prevState => !prevState);
   };
@@ -29,14 +35,14 @@ const ListPages = () => {
 
   useEffect(() => {
     const getData = async () => {
-      showLoading();
+      setLoading(true);
       try {
         const data = await fetchData('Dashboard/list');
         setResData(data);
       } catch (error) {
         setResData([]);
       } finally {
-        hideLoading();
+        setLoading(false);
       }
     };
     getData();

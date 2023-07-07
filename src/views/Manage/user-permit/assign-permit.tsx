@@ -1,66 +1,87 @@
 import { Tv } from '@mui/icons-material'
 import { Checkbox, Grid } from '@mui/material'
-import { ChangeEvent, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 
 import DialogsControlFullScreen from 'src/@core/components/dialog-control-full-screen'
 import TableComponent from 'src/@core/components/table'
 import { useLoadingContext } from 'src/@core/theme/loading-provider'
 import fetchData from 'src/api/fetch'
-
-interface State {
-  id?: number,
-  name?: string,
-  path?: string,
-  description?: string,
-  permitAccess?: boolean,
-}
+import postData from 'src/api/post'
 
 const Form = ({ data }: any) => {
-  const userData = [
-    data
-  ]
 
-  const [values, setValues] = useState<State>({
-    id: data?.id || 0,
-    name: data?.name || '',
-    path: data?.path || '',
-    description: data?.description || '',
-    permitAccess: data?.permitAccess,
-  });
-
+  const userData = [data]; // Use the updated `values` state here
   const [resData, setResData] = useState([]);
-  const { showLoading, hideLoading } = useLoadingContext();
+  const [postSuccess, setPostSuccess] = useState(false);
+  const handlePostSuccess = () => {
+    setPostSuccess(prevState => !prevState);
+  };
 
-  const handleChange = (prop: keyof State) => (event: ChangeEvent<HTMLInputElement>) => {
-    const value = event.target.type === 'checkbox' ? event.target.checked : event.target.value;
-    setValues({ ...values, [prop]: value });
-  };  
+  const { showLoading, hideLoading } = useLoadingContext();
+  const [loading, setLoading] = useState(false)
+  if (loading == true) {
+    showLoading();
+  } else {
+    hideLoading();
+  }
 
   useEffect(() => {
     const getData = async () => {
       try {
-        showLoading();
-        const data = await fetchData('Dashboard/list');
-        setResData(data);
+        setLoading(true);
+        const resData = await fetchData(`Dashboard/listbyuser/${data.name}`);
+        setResData(resData);
       } catch (error) {
         setResData([]);
       }
-      hideLoading();
+      setLoading(false);
     };
 
     getData();
-  }, []);
+  }, [data.name, postSuccess]);
 
+  const handleCheckPermit = (row: any, userData: any) => async () => {
+    const permitAccess = row.permitAccess;
+
+    const item = {
+      id: row.id ? row.id : 0,
+      userId: userData.id,
+      userName: userData.name,
+      dashboardId: row.dashboardId,
+      fileControl: row.fileControl,
+      permitAccess: row.permitAccess == true ? false : true,
+    };
+    setLoading(true);
+    if (permitAccess === true) {
+      await postData('UserDashboard/delete', item);
+    } else {
+      await postData('UserDashboard/save', item);
+    }
+    setPostSuccess(true);
+    setLoading(false);
+    handlePostSuccess();
+  };
+ 
   const userInfoColumn = [
-    { id: 'fullName', label: 'Tên', },
-    { id: 'email', label: 'Email', },
-  ]
+    { id: 'userName', label: 'Tên' },
+    { id: 'fullName', label: 'Mô tả' },
+  ];
 
   const permitColumn = [
-    { id: 'name', label: 'Màn hình chức năng', },
-    { id: 'path', label: 'URL', },
-    { id: 'permitAccess', label: 'Được phép truy cập', elm: (row: any) => (<Checkbox name={row.path} checked={!!values?.permitAccess} onChange={handleChange('permitAccess')} />) },
-  ]
+    { id: 'dashboardName', label: 'Màn hình chức năng', },
+    { id: 'fileControl', label: 'URL' },
+    {
+      id: 'permitAccess',
+      label: 'Được phép truy cập',
+      elm: (row: any) => (
+        <Checkbox
+          name={row.path}
+          checked={!!row?.permitAccess}
+          onChange={handleCheckPermit(row, data)}
+        />
+      ),
+    },
+  ];
 
   return (
     <>
@@ -72,16 +93,19 @@ const Form = ({ data }: any) => {
 
       <TableComponent columns={permitColumn} data={resData} pagination />
     </>
-  )
+  );
 }
 
-const AssignPermit = ( {data}:any ) => {
-  const formTitle =  'Cấp phép người dùng'
+const AssignPermit = ({ data }: any) => {
+  const formTitle = 'Cấp phép người dùng'
 
   return (
     <DialogsControlFullScreen>
       {(openDialogs: (content: React.ReactNode, title: React.ReactNode) => void, closeDialogs: () => void) => (
-        <Tv className='tableActionBtn' onClick={() => openDialogs(<Form data={data} closeDialogs={closeDialogs} />, formTitle)} />
+        <Tv
+          className='tableActionBtn'
+          onClick={() => openDialogs(<Form data={data} closeDialogs={closeDialogs} />, formTitle)}
+        />
       )}
     </DialogsControlFullScreen>
   )
