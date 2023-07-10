@@ -22,7 +22,7 @@ const UserPermit = () => {
   }
 
   const columnsTable = [
-    { id: 'name', label: 'Tên nhóm người dùng',elm:(row:any) => (<AssignFunction data={row} />) },
+    { id: 'name', label: 'Tên nhóm người dùng', elm: (row: any) => (<AssignFunction data={row} />) },
     { id: 'description', label: 'Mô tả', },
     { id: 'actions', label: '#', }
   ]

@@ -98,7 +98,7 @@ const Form = ({ data }: any) => {
 }
 
 const AssignPermit = ({ data }: any) => {
-  const formTitle = 'Cấp phép người dùng'
+  const formTitle = 'Cấp phép nhóm người dùng'
 
   return (
     <DialogsControlFullScreen>

@@ -101,7 +101,7 @@ const Form = ({ data }: any) => {
 }
 
 const AssignFunction = ({ data }: any) => {
-  const formTitle = 'Cấp phép người dùng'
+  const formTitle = 'Thêm chức năng nhóm người dùng'
 
   return (
     <DialogsControlFullScreen>
