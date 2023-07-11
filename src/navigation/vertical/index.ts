@@ -164,17 +164,17 @@ const navigation = (): VerticalNavItemsType => {
         {
           title: 'Người dùng',
           icon: AccountCogOutline,
-          path: '/quan-ly/nguoi-dung'
+          path: '/he-thong/nguoi-dung'
         },
         {
           title: 'Nhóm người dùng',
           icon: AccountCogOutline,
-          path: '/quan-ly/nhom-nguoi-dung'
+          path: '/he-thong/nhom-nguoi-dung'
         },
         {
           title: 'Trang truy cập',
           icon: Tv,
-          path: '/quan-ly/trang-truy-cap'
+          path: '/he-thong/trang-truy-cap'
         },
       ]
     },
@@ -185,12 +185,12 @@ const navigation = (): VerticalNavItemsType => {
         {
           title: 'Người dùng',
           icon: AccountCogOutline,
-          path: '/quan-ly/phan-quyen/nguoi-dung'
+          path: '/phan-quyen/nguoi-dung'
         },
         {
           title: 'Nhóm người dùng',
           icon: Tv,
-          path: '/quan-ly/phan-quyen/nhom-nguoi-dung'
+          path: '/phan-quyen/nhom-nguoi-dung'
         },
       ]
     },
