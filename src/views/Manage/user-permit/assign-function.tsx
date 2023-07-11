@@ -24,7 +24,7 @@ const Form = ({ data }: any) => {
   }
 
   const userInfoColumn = [
-    { id: 'userName', label: 'Tên' },
+    { id: 'userName', label: 'Tên', elm: (row:any) => (<Typography py={2}>{row.userName}</Typography>)},
     { id: 'fullName', label: 'Mô tả' },
   ];
 
@@ -55,7 +55,7 @@ const Form = ({ data }: any) => {
     const getData = async () => {
       try {
         setLoading(true);
-        const rdash = await fetchData(`User/${data.id}`);
+        const rdash = await fetchData(`User/getuserinfo/${data.id}`);
         setDashData(rdash.dashboards);
       } catch (error) {
         setDashData([]);
@@ -70,7 +70,7 @@ const Form = ({ data }: any) => {
     setLoading(true);
     const item = {
       userId: userData.id,
-      userName: userData.name,
+      userName: userData.userName,
       dashboardId: dash.id,
       functionId: f.id,
       functionName: f.permitName,
@@ -110,7 +110,7 @@ const AssignFunction = ({ data }: any) => {
           className='btnShowFilePdf'
           onClick={() => openDialogs(<Form data={data} closeDialogs={closeDialogs} />, formTitle)}
         >
-          {data.name}
+          {data.userName}
         </Typography>
       )}
     </DialogsControlFullScreen>

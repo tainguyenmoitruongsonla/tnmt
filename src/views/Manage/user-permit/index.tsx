@@ -1,10 +1,5 @@
-// ** React Imports
-import { useEffect, useState } from 'react';
-
-// ** MUI Imports
+import React, { useEffect, useState } from 'react';
 import { IconButton, Box } from '@mui/material';
-
-// ** Component Imports
 import TableComponent from 'src/@core/components/table';
 import fetchData from 'src/api/fetch';
 import { useLoadingContext } from 'src/@core/theme/loading-provider';
@@ -12,53 +7,48 @@ import AssignPermit from './assign-permit';
 import AssignFunction from './assign-function';
 
 const UserPermit = () => {
-
   const { showLoading, hideLoading } = useLoadingContext();
-  const [loading, setLoading] = useState(false)
-  if (loading == true) {
-    showLoading();
-  } else {
-    hideLoading();
-  }
-
-  const columnsTable = [
-    { id: 'name', label: 'Tên nhóm người dùng', elm: (row: any) => (<AssignFunction data={row} />) },
-    { id: 'description', label: 'Mô tả', },
-    { id: 'actions', label: '#', }
-  ]
-
+  const [loading, setLoading] = useState(false);
+  loading ? showLoading() : hideLoading();
   const [resData, setResData] = useState([]);
 
   useEffect(() => {
     const getData = async () => {
       try {
-        setLoading(true)
-        const data = await fetchData('Role/list');
+        setLoading(true);
+        const data = await fetchData('User/list');
         setResData(data);
       } catch (error) {
         setResData([]);
+      } finally {
+        setLoading(false);
       }
-      setLoading(false)
     };
 
     getData();
   }, []);
 
+  const columnsTable = [
+    { id: 'userName', label: 'Tên người dùng', elm: (row: any) => (<AssignFunction data={row} />) },
+    { id: 'fullName', label: 'Mô tả' },
+    { id: 'actions', label: '#' }
+  ];
+
   return (
     <div>
-      <TableComponent columns={columnsTable} data={resData}
+      <TableComponent
+        columns={columnsTable}
+        data={resData}
         actions={(row: any) => (
           <Box>
             <IconButton>
               <AssignPermit data={row} />
             </IconButton>
           </Box>
-        )
-
-        } />
+        )}
+      />
     </div>
   );
-
-}
+};
 
 export default UserPermit;

@@ -1,5 +1,5 @@
 import { Tv } from '@mui/icons-material'
-import { Checkbox, Grid } from '@mui/material'
+import { Checkbox, Grid, Typography } from '@mui/material'
 import { useEffect, useState } from 'react'
 
 import DialogsControlFullScreen from 'src/@core/components/dialog-control-full-screen'
@@ -29,7 +29,7 @@ const Form = ({ data }: any) => {
     const getData = async () => {
       try {
         setLoading(true);
-        const resData = await fetchData(`Dashboard/listbyuser/${data.name}`);
+        const resData = await fetchData(`Dashboard/listbyuser/${data.userName}`);
         setResData(resData);
       } catch (error) {
         setResData([]);
@@ -38,7 +38,7 @@ const Form = ({ data }: any) => {
     };
 
     getData();
-  }, [data.name, postSuccess]);
+  }, [data.userName, postSuccess]);
 
   const handleCheckPermit = (row: any, userData: any) => async () => {
     const permitAccess = row.permitAccess;
@@ -46,7 +46,7 @@ const Form = ({ data }: any) => {
     const item = {
       id: row.id ? row.id : 0,
       userId: userData.id,
-      userName: userData.name,
+      userName: userData.userName,
       dashboardId: row.dashboardId,
       fileControl: row.fileControl,
       permitAccess: row.permitAccess == true ? false : true,
@@ -63,7 +63,7 @@ const Form = ({ data }: any) => {
   };
  
   const userInfoColumn = [
-    { id: 'userName', label: 'Tên' },
+    { id: 'userName', label: 'Tên', elm: (row:any) => (<Typography py={2}>{row.userName}</Typography>)},
     { id: 'fullName', label: 'Mô tả' },
   ];
 

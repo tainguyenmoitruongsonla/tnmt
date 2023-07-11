@@ -24,7 +24,7 @@ const Form = ({ data }: any) => {
   }
 
   const roleInfoColumn = [
-    { id: 'name', label: 'Tên' },
+    { id: 'name', label: 'Tên', elm: (row:any) => (<Typography py={2}>{row.name}</Typography>)},
     { id: 'description', label: 'Mô tả' },
   ];
 
