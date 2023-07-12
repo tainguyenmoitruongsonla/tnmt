@@ -1,7 +1,7 @@
 import * as React from 'react';
 
 // ** MUI Imports
-import { Grid, Box, Button, Autocomplete, TextField, Card, CardContent } from '@mui/material';
+import { Grid,  Button, Card, CardContent } from '@mui/material';
 import { useEffect } from 'react'
 
 // ** Icons Imports
@@ -11,6 +11,7 @@ import SearchIcon from '@mui/icons-material/Search';
 import SearchLicense from 'src/views/license/Search';
 import CountLicenseForManage from 'src/@core/components/license-page/count-license-for-manage';
 import ApexChartLicense from 'src/@core/components/license-page/license-bar-chart';
+import AutoComplete from 'src/@core/components/field/auto-complete';
 
 
 const complete1 = [
@@ -83,37 +84,55 @@ const ManageLicense = () => {
       <CountLicenseForManage />
       <Grid item xs={12} sm={12} md={12} sx={{ height: '55vh', overflow: 'hidden' }}>
         <Card sx={{ height: '100%' }}>
-          <CardContent sx={{ p: 0, height: '100%' }}>
-            <Box sx={{ p: 5 }} className='_search'>
-              <Box>
-                <Autocomplete size="small" options={complete1} getOptionLabel={(option) => option.title} renderInput={(params) => (
-                  <TextField
-                    {...params}
-                    variant="outlined"
-                    label="Chọn loại hình CP"
-                    placeholder=""
-                  />
-                )}
+          <CardContent sx={{ p: 4, height: '100%' }}>
+            <Grid container xs={12} sm={7} md={9} direction="row"
+              justifyContent="flex-end"
+              alignItems="center"
+              spacing={4}>
+              <Grid item xs={12} sm={7} md={3}>
+                <AutoComplete
+                  size="small"
+                  options={complete1}
+                  getOptionLabel={(option: any) => option.title}
+                  label="Chọn loại hình CT"
                 />
-              </Box>
-              <Box>
-                <Autocomplete size="small" options={complete2} getOptionLabel={(option) => option.title} renderInput={(params) => (
-                  <TextField
-                    {...params}
-                    variant="outlined"
-                    label="Chọn cơ quan CP"
-                    placeholder=""
-                  />
-                )}
+              </Grid>
+              <Grid item xs={12} sm={7} md={3}>
+                <AutoComplete
+                  size="small"
+                  options={complete2}
+                  getOptionLabel={(option: any) => option.title}
+                  label="Chọn loại hình GP"
                 />
-              </Box>
-              <Box>
+              </Grid>
+              <Grid item xs={12} sm={7} md={3}>
+                <AutoComplete
+                  size="small"
+                  options={complete2}
+                  getOptionLabel={(option: any) => option.title}
+                  label="Chọn hiệu lực GP"
+                />
+              </Grid>
+              <Grid item xs={12} sm={7} md={3}>
+                <AutoComplete
+                  size="small"
+                  options={complete2}
+                  getOptionLabel={(option: any) => option.title}
+                  label="Chọn cơ quan CP"
+                />
+              </Grid>
+            </Grid>
+            <Grid container xs={12} sm={12} md={4} direction="row" justifyContent="flex-end" alignItems="center" spacing={4} sx={{pt:3}}>
+              <Grid item xs={12} sm={12} md={4}>
                 <SearchLicense />
-              </Box>
-              <Box>
-                <Button size='small' startIcon={<SearchIcon />} variant="outlined">Xuất excel</Button>
-              </Box>
-            </Box>
+              </Grid>
+              <Grid item xs={12} sm={12} md={4}>
+                <Button size='small' fullWidth startIcon={<SearchIcon />} variant="outlined">Tìm kiếm</Button>
+              </Grid>
+              <Grid item xs={12} sm={12} md={4}>
+                <Button size='small' fullWidth startIcon={<SearchIcon />} variant="outlined">Xuất excel</Button>
+              </Grid>
+            </Grid>
             <ApexChartLicense data={data} year={year} color={color} />
           </CardContent>
         </Card>
