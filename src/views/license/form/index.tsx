@@ -66,7 +66,7 @@ const CreateLicense = ({ isEdit }: { isEdit: boolean }) => {
           ) : (
             <Button
               size='small'
-              sx={{ fontSize: 11 }}
+              fullWidth
               startIcon={<AddIcon />}
               variant='outlined'
               onClick={() =>

@@ -51,6 +51,7 @@ const TableComponent: FC<TableProps> = ({ columns, data, show, pagination, actio
     }
   }
 
+
   const rowsData = data;
 
   // ** States
@@ -71,24 +72,24 @@ const TableComponent: FC<TableProps> = ({ columns, data, show, pagination, actio
       <TableContainer>
         <Table className='mainTable'>
           <TableHead className='tableHead'>
-            <TableRow>
-              {tableColumns.map((column, index) => (
-                <TableCell size='small' align='center' key={index} rowSpan={column.rowspan} colSpan={column.colspan}>
-                  {column.id === 'actions' ? typeof column.elm === 'function' ? column.elm() : column.label : column.label}
-                </TableCell>
-              ))}
-            </TableRow>
-            <TableRow>
-              {tableColumns.map((column) =>
-                column.children ? (
-                  column.children.map((childColumn, index) => (
-                    <TableCell size='small' align='center' key={index}>
-                      {childColumn.label}
-                    </TableCell>
-                  ))
-                ) : null
-              )}
-            </TableRow>
+          <TableRow>
+            {tableColumns.map((column, index) => (
+              <TableCell size='small' align='center' key={index} rowSpan={column.rowspan} colSpan={column.colspan}>
+                {column.id === 'actions' ? (typeof column.elm === 'function' ? column.elm() : column.label) : column.label}
+              </TableCell>
+            ))}
+          </TableRow>
+          <TableRow>
+            {tableColumns.map((column) =>
+              column.children ? (
+                column.children.map((childColumn, index) => (
+                  <TableCell size='small' align='center' key={index}>
+                    {childColumn.label}
+                  </TableCell>
+                ))
+              ) : null
+            )}
+          </TableRow>
           </TableHead>
           <TableBody className='tableBody'>
             {rowsData?.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row, index) => (

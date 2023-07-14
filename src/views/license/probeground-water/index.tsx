@@ -18,7 +18,7 @@ import TableComponent from 'src/@core/components/table';
 import MapComponent from 'src/@core/components/map';
 import CreateLicense from '../form';
 import { TextField, AutoComplete } from 'src/@core/components/field';
-import licenseSFData from 'src/api/license/nuocmat';
+import licenseprobeData from 'src/api/license/thamdo';
 
 const licensingType = [
   { title: "Cấp mới giấy phép", value: 1 },
@@ -34,63 +34,49 @@ const licensingAuthorities = [
 ];
 
 
-const formatNum = (num: any) => {
-  if (typeof Intl === "undefined" || !Intl.NumberFormat) {
-    return "NaN"
-  } else {
-    const nf = new Intl.NumberFormat();
-    const x = num;
-    if (num !== undefined) {
-      return nf.format(x)
-    }
-  }
-}
-
 // id of columnsTable is parameter to bind ex: get LicseFk.BasinId: id: 'License_Fk.BasinId'
 const columnsTable = [
   {
     id: 'LicenseNumber', label: 'Số GP', showId: [1], rowspan: 2,
     elm: (row: any) => (<ShowFilePDF name={row.LicenseNumber} src={`/pdf/Licenses/` + row.LicensingAuthorities + `/` + row.TypeSlug + `/` + row.LicenseFile} />)
   },
-  { id: 'Effect', label: 'Hiệu lực GP', showId: [1], rowspan: 2, elm: (row: any) => (<CheckEffect data={row} />) },
-  { id: 'SignDate', label: 'Ngày ký', showId: [1], rowspan: 2, format: (value: any) => FormatDate(value) },
-  { id: 'IssueDate', label: 'Ngày có hiệu lực', showId: [1], rowspan: 2, format: (value: any) => FormatDate(value) },
-  { id: 'LicenseTypeName', label: 'Loại hình', showId: [1], rowspan: 2 },
   {
-    id: 'Business', label: 'Cơ quan/cá nhân được CP', showId: [1], colspan: 2, children: [
-      { id: 'Name', label: 'Tên', },
-      { id: 'Address', label: 'Địa chỉ', },
-    ]
-  },
-  {
-    id: 'OldLicense', label: 'Thông tin GP cũ', showId: [1], colspan: 2, children: [
-      { id: 'LicenseNumber', label: 'Số GP' },
+    id: '#', label: 'Thông tin giấy phép', showId: [1], children: [
+      { id: 'Effect', label: 'Hiệu lực GP', elm: (row: any) => (<CheckEffect data={row} />) },
       { id: 'SignDate', label: 'Ngày ký', format: (value: any) => FormatDate(value) },
+      { id: 'Duration', label: (<span>Thời hạn <br /> giấy phép</span>) },
+      { id: 'IssueDate', label: (<span>Ngày bắt đầu <br /> hiệu lực</span>), format: (value: any) => FormatDate(value)},
+      { id: 'ExpireDate', label: (<span>Ngày kết thúc <br /> hiệu lực</span>), format: (value: any) => FormatDate(value) },
+      { id: 'LicenseHolderName', label: 'Tên chủ giấy phép' },
+      { id: 'LicenseHolderAddress', label: 'Địa chỉ chủ giấy phép' },
+      { id: 'LicenseTypeName', label: (<span>Loại hình <br /> cấp phép</span>),rowspan:2 },
     ]
   },
   {
-    id: 'Construction', label: 'Thông tin CT', showId: [1], colspan: 8, children: [
+    id: 'OldLicense', label: 'Thông tin GP cũ', showId: [1], children: [
+      { id: 'LicenseNumber', label: 'Số GP cũ' },
+      { id: 'SignDate', label:  (<span>Ngày ký<br /> giấy phép cũ</span>), format: (value: any) => FormatDate(value) },
+    ]
+  },
+  {
+    id: 'Construction', label: 'Thông tin CT', showId: [1], children: [
       { id: 'ConstructionName', label: 'Tên Công trình' },
-      { id: 'ConstructionLocation', label: 'Địa điểm' },
-      { id: 'ConstructionTypeName', label: 'Loại hình' },
-      { id: '', label: 'Xã' },
-      { id: '', label: 'Huyện' },
-      { id: 'ExploitedWS', label: 'Nguồn nước khai thác' },
-      { id: 'RiverName', label: 'Lưu vực' },
-      { id: 'BasinName', label: 'Tiểu vùng quy hoạch' },
+      { id: 'ConstructionLocation', label: 'Địa điểm công trình' },
+      { id: 'CommuneName', label: 'Xã' },
+      { id: 'DistrictName', label: 'Huyện' },
+      { id: 'X', label: 'X' },
+      { id: 'Y', label: 'Y' },
+      { id: 'ExplorationPurposes', label: 'Mục đích thăm dò' },
+      { id: 'DrillingScale', label: 'Quy mô thăm dò' },
+      { id: 'WaterSupplyFlow', label: <span>Q<sub>KT</sub> <br /> (m<sup>2</sup>/<sub>ngày đêm</sub>)</span> },
+      { id: 'AquiferName', label: 'Tầng chứa nước' },
+      { id: 'ConstructionItems.length', label: 'Số điểm tọa độ(x,y)' },
     ]
   },
-  {
-    id: 'LicenseFee', label: 'Tiền cấp quyền', showId: [1], colspan: 3, children: [
-      { id: 'LicenseFeeNumber', label: 'Số QĐ', elm: (row: any) => (<ShowFilePDF name={row?.LicenseFeeNumber} src={`/pdf/LicenseFees/` + row?.LicensingAuthorities + `/` + row?.FilePDF} />) },
-      { id: 'SignDate', label: 'Ngày ký', format: (value: any) => FormatDate(value) },
-      { id: 'TotalMoney', label: 'Tổng tiền (VNĐ)', format: (value: any) => formatNum(value) },
-    ]
-  },
-  { id: 'actions', label: '#', showId: [1], rowspan: 2 },
+  { id: 'actions', label: 'Thao tác', showId: [1], rowspan: 2,},
 ];
 
-const SurfaceWaterLicense = () => {
+const ProbeGroundWaterLicense = () => {
   const [TypeOfConsId, setTypeOfConsId] = useState([1]);
   const handleChange = (e: any) => {
     const val = (e == undefined || e == null ? 1 : e.value)
@@ -112,7 +98,7 @@ const SurfaceWaterLicense = () => {
   // }; 
 
   useEffect(() => {
-    setData(licenseSFData);
+    setData(licenseprobeData);
     setColumns(columnsTable);
 
     // fetchData();
@@ -194,4 +180,4 @@ const SurfaceWaterLicense = () => {
   )
 }
 
-export default SurfaceWaterLicense
+export default ProbeGroundWaterLicense

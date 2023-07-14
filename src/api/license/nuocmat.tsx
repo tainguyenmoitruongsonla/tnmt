@@ -1,4 +1,4 @@
-const licenseData = [
+const licenseSFData = [
     {
         "Construction": {
             "ProvinceName": null,
@@ -3309,4 +3309,4 @@ const licenseData = [
         "IsDeleted": false,
     }
 ]
-export default licenseData
+export default licenseSFData
