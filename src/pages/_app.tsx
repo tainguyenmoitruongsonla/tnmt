@@ -65,7 +65,7 @@ const App = (props: ExtendedAppProps) => {
     if (typeof window !== 'undefined') {
       const token = localStorage.getItem('token')
       if (!token) {
-        router.push('/pages/login')
+        // router.push('/pages/login')
       }
     }
   }, [])
