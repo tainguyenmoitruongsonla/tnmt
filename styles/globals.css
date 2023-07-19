@@ -175,10 +175,10 @@ code[class*='language-'] {
   flex-wrap: wrap;
 }
 
-._justifyContentBetween {
-  justify-content: space-between;
+._flexEnd{
+  display: flex;
+  justify-content: flex-end;
 }
-
 ._justifyContentCenter {
   justify-content: center !important;
 }

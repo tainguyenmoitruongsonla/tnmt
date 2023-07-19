@@ -21,9 +21,9 @@ import { TextField, AutoComplete } from 'src/@core/components/field';
 import licenseSFData from 'src/api/license/nuocmat';
 
 const licensingType = [
-  { title: "Cấp mới giấy phép", value: 1 },
-  { title: "Cấp lại giấy phép", value: 2 },
-  { title: "Gia hạn giấy phép", value: 3 },
+  { title: "Chọn loại CT", value: 1 },
+  { title: "Thủy điện", value: 2 },
+  { title: "Hồ chứa", value: 3 },
   { title: "Điều chỉnh giấy phép", value: 4 },
   { title: "Thu hồi giấy phép", value: 5 },
 ];

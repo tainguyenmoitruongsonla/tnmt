@@ -109,23 +109,23 @@ const navigation = (): VerticalNavItemsType => {
       children: [
         {
           icon: CircleOutline,
-          title: 'Nước mặt',
+          title: 'Yêu cầu kết nối',
+          path: '/giam-sat/yeu-cau-ket-noi'
+        },
+        {
+          icon: CircleOutline,
+          title: 'Quản lý yêu cầu kết nối',
+          path: '/giam-sat/quan-ly-yeu-cau-ket-noi'
+        },
+        {
+          icon: CircleOutline,
+          title: 'Khai thác,sử dụng nước mặt',
           path: '/giam-sat/nuoc-mat'
         },
         {
           icon: CircleOutline,
-          title: 'KTSD NDĐ',
-          path: '/giam-sat/khai-thac-ndd'
-        },
-        {
-          icon: CircleOutline,
-          title: 'Thăm dò NDĐ',
-          path: '/giam-sat/tham-do-ndd'
-        },
-        {
-          icon: CircleOutline,
-          title: 'Hành nghề khoan NDĐ',
-          path: '/giam-sat/hanh-nghe-khoan-ndd'
+          title: 'Khai thác,sử dụng NDD',
+          path: '/giam-sat/nuoc-duoi-dat'
         },
         {
           icon: CircleOutline,
