@@ -29,7 +29,6 @@ const complete1 = [
   { title: "Trạm cấp nước", value: 11 },
   { title: "Nhà máy nước", value: 14 },
   { title: "Công trình khác", value: 23 },
-
 ];
 const complete2 = [
   { title: "Đợt 1" },

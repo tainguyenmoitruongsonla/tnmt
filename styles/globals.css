@@ -175,10 +175,11 @@ code[class*='language-'] {
   flex-wrap: wrap;
 }
 
-._flexEnd{
+._flexEnd {
   display: flex;
   justify-content: flex-end;
 }
+
 ._justifyContentCenter {
   justify-content: center !important;
 }
@@ -256,6 +257,12 @@ code[class*='language-'] {
   color: green;
   background-color: #b7eb8f;
   border: 1px solid green;
+}
+
+.hsd-revoked {
+  color: #707070;
+  background-color: #d3d3d3;
+  border: 1px solid #6a6a6a;
 }
 
 .DialogControlShowPDF .MuiDialog-container {

@@ -84,7 +84,7 @@ const SearchLicense = () => {
     <DialogsControl>
       {(openDialogs: (content: React.ReactNode, title: React.ReactNode) => void, closeDialogs: () => void) => (
         <>
-          <Button fullWidth size='small' startIcon={<FilterAltIcon />} variant="outlined" onClick={() => openDialogs(<Form onSubmit={handleSubmit} closeDialogs={closeDialogs} />, formTitle)}>Bộ lọc</Button>
+          <Button size='small' startIcon={<FilterAltIcon />} onClick={() => openDialogs(<Form onSubmit={handleSubmit} closeDialogs={closeDialogs} />, formTitle)}>Bộ lọc</Button>
         </>
       )}
     </DialogsControl>
