@@ -4,7 +4,7 @@ import { DataGrid, GridToolbarExport } from "@mui/x-data-grid";
 import ClearIcon from "@mui/icons-material/Clear";
 import SearchIcon from "@mui/icons-material/Search";
 import { AutoComplete, TextField } from "../field";
-import { Grid } from "@mui/material";
+import Grid from '@mui/material/Unstable_Grid2';
 
 function escapeRegExp(value: string): string {
   return value.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
@@ -42,7 +42,7 @@ function SearchToolbar(props: SearchToolbarProps) {
 
   return (
     <Grid container p={2} gap={4} justifyContent={'end'} >
-      <Grid md={2}>
+      <Grid md={2} xs={6}>
         <AutoComplete
           id="TypeOfConstructionId"
           size="small"
@@ -53,7 +53,7 @@ function SearchToolbar(props: SearchToolbarProps) {
           isOptionEqualToValue={(option: any, value: any) => option.value === value.value}
         />
       </Grid>
-      <Grid md={2}>
+      <Grid md={2} xs={6}>
         <AutoComplete
           id="LicensingTypeId"
           size="small"
@@ -68,7 +68,7 @@ function SearchToolbar(props: SearchToolbarProps) {
         variant="standard"
         value={props.input.value}
         onChange={props.input.onChange}
-        placeholder="Tìm kiếm…"
+        placeholder="Tìm kiếm nhanh…"
         InputProps={{
           startAdornment: <SearchIcon fontSize="small" />,
           endAdornment: (
@@ -135,12 +135,10 @@ const DataGridComponent = (data: any) => {
 
   return (
     <DataGrid
+      className="mainTable"
       rows={rows}
       columns={dataGrid.columns}
-      disableColumnFilter
       disableColumnMenu
-      disableColumnSelector
-      disableDensitySelector
       showCellVerticalBorder
       showColumnVerticalBorder
       density="compact"

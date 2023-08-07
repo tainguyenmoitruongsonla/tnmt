@@ -5,7 +5,7 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { TextField, DatePicker, AutoComplete } from 'src/@core/components/field';
 
-export default function LicenseFieldset() {
+export default function LicenseFieldset(data: any) {
 
     const d = new Date();
     const day = d.getDate() < 10 ? '0' + d.getDate() : d.getDate();
@@ -37,7 +37,7 @@ export default function LicenseFieldset() {
             </legend>
             <Grid container spacing={4} rowSpacing={1}>
                 <Grid item xs={12} md={6} sm={12} sx={{ my: 2 }}>
-                    <TextField size='small' type='text' label='Số giấy phép' fullWidth placeholder='' defaultValue='' />
+                    <TextField size='small' type='text' label='Số giấy phép' fullWidth placeholder='' defaultValue={data.LicenseNumber} />
                 </Grid>
                 <Grid item xs={12} md={6} sm={12} sx={{ my: 2 }}>
                     <LocalizationProvider dateAdapter={AdapterDayjs}>

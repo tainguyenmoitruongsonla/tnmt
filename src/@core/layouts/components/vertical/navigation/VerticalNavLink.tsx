@@ -87,7 +87,7 @@ const VerticalNavLink = ({ item, settings, navVisible, toggleNavVisibility }: Pr
       return false
     }
   }
-
+  
   if (item.children && item.children.length > 0) {
 
     // Level 1 Menu Item with children
@@ -97,7 +97,7 @@ const VerticalNavLink = ({ item, settings, navVisible, toggleNavVisibility }: Pr
           <Link passHref href={item.path === undefined ? '#' : `${item.path}`}>
             <MenuNavLink
               component={'a'}
-              className={`${isNavLinkActive(item.path) ? 'active' : ''} menu__item`}
+              className={`${item.children.some(child => isNavLinkActive(child.path)) ? 'active' : ''} menu__item`}
               {...(item.openInNewTab ? { target: '_blank' } : null)}
               onClick={(e) => {
                 if (item.path === undefined) {
@@ -110,7 +110,7 @@ const VerticalNavLink = ({ item, settings, navVisible, toggleNavVisibility }: Pr
                 ...(item.disabled ? { pointerEvents: 'none' } : { cursor: 'pointer' })
               }}
             >
-              <ListItemIcon
+              {item.icon ? <ListItemIcon
                 sx={{
                   mr: 2.5,
                   transition: 'margin .25s ease-in-out',
@@ -118,8 +118,7 @@ const VerticalNavLink = ({ item, settings, navVisible, toggleNavVisibility }: Pr
                 }}
               >
                 <UserIcon icon={IconTag} />
-              </ListItemIcon>
-
+              </ListItemIcon> : ''}
               <MenuItemTextMetaWrapper>
                 <Typography sx={{ color: `#fff` }} {...(themeConfig.menuTextTruncate && { noWrap: true })}>
                   {item.title}
@@ -187,7 +186,7 @@ const VerticalNavLink = ({ item, settings, navVisible, toggleNavVisibility }: Pr
               ...(item.disabled ? { pointerEvents: 'none' } : { cursor: 'pointer' })
             }}
           >
-            <ListItemIcon
+            {item.icon ? <ListItemIcon
               sx={{
                 mr: 2.5,
                 transition: 'margin .25s ease-in-out',
@@ -195,7 +194,7 @@ const VerticalNavLink = ({ item, settings, navVisible, toggleNavVisibility }: Pr
               }}
             >
               <UserIcon icon={IconTag} />
-            </ListItemIcon>
+            </ListItemIcon> : ''}
 
             <MenuItemTextMetaWrapper>
               <Typography sx={{ color: `#fff` }} {...(themeConfig.menuTextTruncate && { noWrap: true })}>

@@ -1,7 +1,6 @@
 import React from 'react'
-import { EditNote } from '@mui/icons-material'
-import AddIcon from '@mui/icons-material/Add'
-import { Button, DialogActions, Grid } from '@mui/material'
+import { Add, EditNote } from '@mui/icons-material'
+import { Button, DialogActions, Grid, IconButton } from '@mui/material'
 
 
 import DialogsControlFullScreen from 'src/@core/components/dialog-control-full-screen'
@@ -9,11 +8,10 @@ import BusinessFieldset from './business-fieldset';
 import LicenseFieldset from './license-fieldset';
 import ConsFieldset from './cons-fieldset'
 
-const FormContruction = ({ onSubmit, closeDialogs }: any) => {
+const FormLicense = ({ data, closeDialogs }: any) => {
 
   const handleSubmit = (event: any) => {
     event.preventDefault()
-    onSubmit()
     closeDialogs()
   }
 
@@ -28,7 +26,7 @@ const FormContruction = ({ onSubmit, closeDialogs }: any) => {
           <BusinessFieldset />
         </Grid>
         <Grid item xs={12}>
-          <LicenseFieldset />
+          <LicenseFieldset data={data} />
         </Grid>
         <Grid item xs={12}>
           <ConsFieldset />
@@ -47,11 +45,13 @@ const FormContruction = ({ onSubmit, closeDialogs }: any) => {
   )
 }
 
-const CreateLicense = ({ isEdit }: { isEdit: boolean }) => {
+interface CreateLicenseProps {
+  isEdit: boolean;
+  data?: any;
+}
+
+const CreateLicense = ({ isEdit, data }: CreateLicenseProps) => {
   const formTitle = isEdit ? 'Sửa giấy phép' : 'Thêm mới giấy phép'
-  const handleSubmit = () => {
-    // handle form submission logic here
-  }
 
   return (
     <DialogsControlFullScreen>
@@ -59,22 +59,20 @@ const CreateLicense = ({ isEdit }: { isEdit: boolean }) => {
         <>
           {isEdit ? (
             <EditNote
+              className='tableActionBtn'
               onClick={() =>
-                openDialogs(<FormContruction onSubmit={handleSubmit} closeDialogs={closeDialogs} />, formTitle)
+                openDialogs(<FormLicense data={data} closeDialogs={closeDialogs} />, formTitle)
               }
             />
           ) : (
-            <Button
-              size='small'
-              fullWidth
-              startIcon={<AddIcon />}
-              variant='outlined'
-              onClick={() =>
-                openDialogs(<FormContruction onSubmit={handleSubmit} closeDialogs={closeDialogs} />, formTitle)
-              }
-            >
-              Thêm mới
-            </Button>
+            <IconButton className='tableActionBtn addNewBtn'>
+              <Add
+                onClick={() =>
+                  openDialogs(<FormLicense data={data} closeDialogs={closeDialogs} />, formTitle)
+                }
+              />
+              <span>Thêm mới</span>
+            </IconButton>
           )}
         </>
       )}
