@@ -9,13 +9,10 @@ import { EditNote, Delete } from "@mui/icons-material";
 
 // ** Components Imports
 import TableComponent from 'src/@core/components/table';
+import MapComponent from 'src/@core/components/map';
 import { TextField, AutoComplete } from 'src/@core/components/field';
 import DisplayOperatingStatus from 'src/@core/components/monitoring-page/check-status';
 import GroundmonitoringData from 'src/api/monitoringsystem/nuocduoidat';
-
-import dynamic from 'next/dynamic';
-
-const Map = dynamic(() => import("src/@core/components/map"), { ssr: false });
 
 const groundType = [
     { title: 'Chọn loại CT', value: 1 },
@@ -37,40 +34,31 @@ const columnsTable = [
   { id: 'stt', label: 'STT', rowspan: 2, },
   { id: 'ConstructionName', label: 'Tên công trình', rowspan: 2, },
   {
-    id: '#', label: 'Lưu lượng nước thải sau xử lý',  children: [
-      { id: 'MaximumFlow', label: 'Yêu cầu', },
-      { id: 'MaximumFlowPre', label: 'Thực tế ', },
-      { id: '', label: 'Chênh lệch (+/-)', },
-    ]
+    id: '#', label: 'Lưu lượng khai thác của từng giếng khoan',  rowspan: 2,
   },
   {
-    id: '#', label: 'Chất lượng nước sau xử lý',  children: [
-        { id: 'Nhietdo', label: 'Nhiệt độ (°C)', },
-        { id: 'pH', label: 'pH ', },
-        { id: 'BOD5', label: 'BOD5', },
-        { id: 'COD', label: 'COD', },
-        { id: 'DO', label: 'DO', },
-        { id: 'TSS', label: 'TSS', },
-        { id: 'NH4', label: 'NH4+', },
-    ]
+    id: '#', label: 'Mực nước trong giếng khai thác ', rowspan: 2,
   },
   {
-    id: '#', label: 'Lưu lượng nước thải tại nguồn tiếp nhận',  children: [
-      { id: 'MaximumFlow', label: 'Yêu cầu', },
-      { id: 'MaximumFlowPre', label: 'Thực tế ', },
-      { id: '', label: 'Chênh lệch (+/-)', },
+    id: '#', label: 'Mực nước trong giếng quan trắc', rowspan: 2,
+  },
+  {
+    id: '#', label: 'Chất lượng nước trong quá trình khai thác', children: [
+      { id: 'Nhietdo', label: 'Nhiệt độ (°C)', },
+      { id: 'pH', label: 'pH ', },
+      { id: 'BOD5', label: 'BOD5', },
+      { id: 'COD', label: 'COD', },
+      { id: 'DO', label: 'DO', },
+      { id: 'TSS', label: 'TSS', },
+      { id: 'NH4', label: 'NH4+', },
     ]
   },
- 
   { id: '#', label: 'Trạng thái vận hành',rowspan: 2,elm: (row: any) => (<DisplayOperatingStatus data={row} />)  },
  
   { id: 'actions', label: 'Thao tác', rowspan: 2 },
 ];
 
-const DischargewaterMonitoring = () => {
-  const [mapCenter] = useState([ 15.012172, 108.676488 ]);
-  const [mapZoom] = useState(9);
-
+const GroundwaterMeasuresing= () => {
   const [TypeOfConsId, setTypeOfConsId] = useState([1]);
   const handleChange = (e: any) => {
     const val = (e == undefined || e == null ? 1 : e.value)
@@ -111,7 +99,7 @@ const DischargewaterMonitoring = () => {
       <Grid item xs={12} sm={12} md={12} sx={{ height: '55vh', overflow: 'hidden' }}>
         <Card sx={{ height: '100%' }}>
           <CardContent sx={{ p: 0, height: '100%' }}>
-            <Map center={mapCenter} zoom={mapZoom} mapData={null} />
+            <MapComponent />
           </CardContent>
         </Card>
       </Grid>
@@ -119,7 +107,7 @@ const DischargewaterMonitoring = () => {
        <Typography>Tổng số bản ghi đã tìm thấy:132</Typography>
       </Grid>
       <Grid item xs={12} sm={12} md={7}>
-        <Box className='_search _row'>
+        <Grid className='_search _row'>
           <Grid item xs={12} sm={12} md={2}>
             <AutoComplete
               onChange={(e: any, v: any) => handleChange(v)}
@@ -152,7 +140,7 @@ const DischargewaterMonitoring = () => {
           <Grid item xs={12} sm={12} md={2}>
             <Button size='small' startIcon={<SearchIcon />} variant="outlined">Tìm kiếm</Button>
           </Grid>
-        </Box>
+        </Grid>
       </Grid>
       <Grid item xs={12} sm={12} md={12}>
         <TableComponent columns={columns} data={data} show={TypeOfConsId}
@@ -177,4 +165,4 @@ const DischargewaterMonitoring = () => {
   )
 }
 
-export default DischargewaterMonitoring
+export default GroundwaterMeasuresing

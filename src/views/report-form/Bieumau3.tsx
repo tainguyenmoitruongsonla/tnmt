@@ -70,7 +70,7 @@ const FormContruction = () => {
       <Grid container>
         <Grid md={11}>
           <Typography variant='h5'>
-            Biểu mẫu số 1. Số lượng trạm quan trắc khí tượng, thủy văn, tài nguyên nước, nước dưới đất
+            Biểu mẫu số 3. Lượng mưa tháng năm trong kỳ báo cáo
           </Typography>
         </Grid>
         <Grid md={1}>
@@ -149,7 +149,7 @@ const FormContruction = () => {
 
 }
 
-const Bieumau1 = () => {
+const Bieumau3 = () => {
   const formTitle = 'BIỂU MẪU THÔNG TƯ 31/2018/TT-BTNMT/ BIỂU MẪU SỐ 1'
 
   return (
@@ -160,9 +160,9 @@ const Bieumau1 = () => {
             openDialogs(<FormContruction />, formTitle)
           }>
             <Grid item xs={8}>
-              <Typography className='text-danger text-weight-bold'>Biểu mẫu 1</Typography>
+              <Typography className='text-danger text-weight-bold'>Biểu mẫu 3</Typography>
               <Typography className='text-success text-weight-bold _font12'>
-                Số lượng trạm quan trắc khí tượng thủy văn,tài nguyên nước,nước dưới đất
+               Lượng mưa tháng,năm trong kỳ báo cáo
               </Typography>
             </Grid>
             <Grid item xs={4}>
@@ -175,4 +175,4 @@ const Bieumau1 = () => {
   )
 }
 
-export default Bieumau1
+export default Bieumau3

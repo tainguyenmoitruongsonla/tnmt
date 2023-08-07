@@ -67,8 +67,9 @@ code[class*='language-'] {
   z-index: 1 !important;
 }
 
-.tableHead th {
+.tableHead th, .tableHead {
   background-color: rgb(21 83 143) !important;
+  color: #fff !important;
 }
 
 .tableHead tr th {
@@ -107,7 +108,6 @@ code[class*='language-'] {
 .addNewBtn {
   border: 1px solid #fff !important;
   border-radius: 0 !important;
-  margin-left: 1.5em !important;
   padding: .2em !important;
 }
 
@@ -341,3 +341,6 @@ code[class*='language-'] {
 
 
 /* End Loading */
+.font-weight-bold {
+  font-weight: 700!important;
+}
