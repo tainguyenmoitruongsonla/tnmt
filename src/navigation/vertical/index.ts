@@ -58,11 +58,26 @@ const navigation = (): VerticalNavItemsType => {
       ]
     },
     {
+      title: 'KN tiếp nhận nước thải',
+      children: [
+        {
+          icon: CircleOutline,
+          title: 'Nguồn nước sông',
+          path: '/kha-nang-tiep-nhan-nuoc-thai/nguon-nuoc-song'
+        },
+        {
+          icon: CircleOutline,
+          title: 'Nguồn nước hồ',
+          path: '/kha-nang-tiep-nhan-nuoc-thai/nguon-nuoc-ho'
+        }
+      ]
+    },
+    {
       title: 'Giấy phép',
       children: [
         {
           icon: CircleOutline,
-          title: 'Quản lý cấp phép',
+          title: 'QL cấp phép',
           path: '/giay-phep/quan-ly'
         },
         {
@@ -93,6 +108,26 @@ const navigation = (): VerticalNavItemsType => {
       ]
     },
     {
+      title: 'Tiền cấp quyền',
+      children: [
+        {
+          icon: CircleOutline,
+          title: 'Tổng quan',
+          path: '/tien-cap-quyen/tong-quan'
+        },
+        {
+          icon: CircleOutline,
+          title: 'Giấy phép Bộ cấp',
+          path: '/tien-cap-quyen/bo-cap'
+        },
+        {
+          icon: CircleOutline,
+          title: 'Giấy phép Tỉnh cấp',
+          path: '/tien-cap-quyen/tinh-cap'
+        }
+      ]
+    },
+    {
       title: 'Giám sát',
       children: [
         {
@@ -102,17 +137,17 @@ const navigation = (): VerticalNavItemsType => {
         },
         {
           icon: CircleOutline,
-          title: 'Quản lý yêu cầu kết nối',
+          title: 'QL yêu cầu kết nối',
           path: '/giam-sat/quan-ly-yeu-cau-ket-noi'
         },
         {
           icon: CircleOutline,
-          title: 'Khai thác,sử dụng nước mặt',
+          title: 'KT,SD nước mặt',
           path: '/giam-sat/nuoc-mat'
         },
         {
           icon: CircleOutline,
-          title: 'Khai thác,sử dụng NDD',
+          title: 'KT,SD nước dưới đất',
           path: '/giam-sat/nuoc-duoi-dat'
         },
         {
@@ -123,12 +158,28 @@ const navigation = (): VerticalNavItemsType => {
       ]
     },
     {
-      title: 'Thông tin - Báo cáo biểu mẫu',
-      path: '/bao-cao-bieu-mau'
+      title: 'Trữ lượng nước',
+      children: [
+        {
+          icon: CircleOutline,
+          title: 'Nước mưa',
+          path: '/tru-luong-nuoc/nuoc-mua'
+        },
+        {
+          icon: CircleOutline,
+          title: 'Nước mặt',
+          path: '/tru-luong-nuoc/nuoc-mat'
+        },
+        {
+          icon: CircleOutline,
+          title: 'Nước dưới đất',
+          path: '/tru-luong-nuoc/nuoc-duoi-dat'
+        }
+      ]
     },
     {
-      title: 'Trữ lượng nước',
-      path: '/tru-luong-nuoc'
+      title: 'Thông tin - Báo cáo biểu mẫu',
+      path: '/bao-cao-bieu-mau'
     },
     {
       title: 'Nội dung khác',
