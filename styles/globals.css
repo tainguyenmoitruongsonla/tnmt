@@ -67,8 +67,9 @@ code[class*='language-'] {
   z-index: 1 !important;
 }
 
-.tableHead th {
+.tableHead th, .tableHead {
   background-color: rgb(21 83 143) !important;
+  color: #fff !important;
 }
 
 .tableHead tr th {

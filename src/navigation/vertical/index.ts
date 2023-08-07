@@ -1,19 +1,11 @@
 // ** Icon imports
 import HomeOutline from 'mdi-material-ui/HomeOutline'
 import AccountCogOutline from 'mdi-material-ui/AccountCogOutline'
-import Factory from 'mdi-material-ui/Factory';
-import NoteText from 'mdi-material-ui/NoteText';
-import ChartSankey from 'mdi-material-ui/ChartSankey';
-import Information from 'mdi-material-ui/Information';
-import More from 'mdi-material-ui/More';
-import TagOutline from 'mdi-material-ui/TagOutline';
 import CircleOutline from 'mdi-material-ui/CircleOutline';
-import WaterIcon from '@mui/icons-material/Water';
-import DisplaySettingsIcon from '@mui/icons-material/DisplaySettings';
-import { AdminPanelSettings, DisplaySettingsOutlined, Tv } from "@mui/icons-material";
 
 // ** Type import
 import { VerticalNavItemsType } from 'src/@core/layouts/types'
+import { Tv } from '@mui/icons-material';
 
 const navigation = (): VerticalNavItemsType => {
   return [
@@ -27,7 +19,6 @@ const navigation = (): VerticalNavItemsType => {
     },
     {
       title: 'Công trình',
-      icon: Factory,
       children: [
         {
           icon: CircleOutline,
@@ -48,7 +39,6 @@ const navigation = (): VerticalNavItemsType => {
     },
     {
       title: 'Quan trắc',
-      icon: DisplaySettingsIcon,
       children: [
         {
           icon: CircleOutline,
@@ -69,7 +59,6 @@ const navigation = (): VerticalNavItemsType => {
     },
     {
       title: 'Giấy phép',
-      icon: NoteText,
       children: [
         {
           icon: CircleOutline,
@@ -105,7 +94,6 @@ const navigation = (): VerticalNavItemsType => {
     },
     {
       title: 'Giám sát',
-      icon: ChartSankey,
       children: [
         {
           icon: CircleOutline,
@@ -136,22 +124,18 @@ const navigation = (): VerticalNavItemsType => {
     },
     {
       title: 'Thông tin - Báo cáo biểu mẫu',
-      icon: Information,
       path: '/bao-cao-bieu-mau'
     },
     {
       title: 'Trữ lượng nước',
-      icon: WaterIcon,
       path: '/tru-luong-nuoc'
     },
     {
       title: 'Nội dung khác',
-      icon: More,
       path: 'noi-dung-khac'
     },
     {
       title: 'Hướng dẫn sử dụng',
-      icon: TagOutline,
       path: 'huong-dan-su-dung'
     },
     {
@@ -159,7 +143,6 @@ const navigation = (): VerticalNavItemsType => {
     },
     {
       title: 'Hệ thống',
-      icon: DisplaySettingsOutlined,
       children: [
         {
           title: 'Người dùng',
@@ -180,7 +163,6 @@ const navigation = (): VerticalNavItemsType => {
     },
     {
       title: 'Phân quyền',
-      icon: AdminPanelSettings,
       children: [
         {
           title: 'Người dùng',
