@@ -59,6 +59,7 @@ const LicenseProvince = () => {
     const val = e == undefined || e == null ? 1 : e.value
     setTypeOfConsId(val)
   }
+  
   // const fetchData = async () => {
   //   try {
   //     const response = await fetch('http://tnnsl.loc/api/Construction/list?BasinId=0&CommuneId=0&DistrictId=0&Keyword=&LicenseId=-1&LicensingAuthorities=-1&PageIndex=1&PageSize=0&ProvinceId=0&StartDate=-1&Status=true&TypeOfConstructionId=1'); // Thay đổi URL API tùy thuộc vào nguồn dữ liệu của bạn
