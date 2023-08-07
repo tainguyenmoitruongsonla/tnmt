@@ -1,7 +1,12 @@
 import { Card, CardContent, CardHeader } from "@mui/material"
-import Map from "src/@core/components/map/Map"
+import { useState } from 'react'
+import dynamic from 'next/dynamic';
+
+const Map = dynamic(() => import("src/@core/components/map"), { ssr: false });
 
 const HomeMap = () => {
+    const [mapCenter] = useState([ 15.012172, 108.676488 ]);
+    const [mapZoom] = useState(9);
 
     return (
         <Card sx={{ position: 'relative' }}>
@@ -21,7 +26,7 @@ const HomeMap = () => {
                 }}
             />
             <CardContent sx={{ height: 'calc(100vh - 200px)' }}>
-                <Map />
+                <Map center={mapCenter} zoom={mapZoom} mapData={null} />
             </CardContent>
         </Card>
     )

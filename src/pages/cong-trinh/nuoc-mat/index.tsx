@@ -7,7 +7,6 @@ import { AutoComplete } from "src/@core/components/field";
 
 import SearchIcon from '@mui/icons-material/Search';
 import consData from 'src/api/construction';
-import MapComponent from 'src/@core/components/map';
 import { EditNote } from '@mui/icons-material';
 import { Delete } from 'mdi-material-ui';
 import TableComponent from 'src/@core/components/table';
@@ -15,6 +14,9 @@ import SearchConstruction from 'src/views/construction/Search';
 import FormatDate from 'src/@core/components/format-date';
 import CreateConstruction from 'src/views/construction/form/sufacewater';
 
+import dynamic from 'next/dynamic';
+
+const Map = dynamic(() => import("src/@core/components/map"), { ssr: false });
 
 // ** Components Imports
 
@@ -121,7 +123,11 @@ const columnsTable = [
 
 
 const SurfaceWater = () => {
+  const [mapCenter] = useState([ 15.012172, 108.676488 ]);
+  const [mapZoom] = useState(9);
+
   const [TypeOfConsId, setTypeOfConsId] = useState([1]);
+
   const handleChange = (e: any) => {
     const val = (e == undefined || e == null ? 1 : e.value)
     setTypeOfConsId(val)
@@ -174,8 +180,8 @@ const SurfaceWater = () => {
 
   return (
     <Grid container spacing={3}>
-      <Grid item xs={12} sm={12} md={12} sx={{ height: '55vh', overflow: 'hidden' }}>
-        <MapComponent />
+      <Grid item xs={12} sm={12} md={12} sx={{ height: '55vh', width: '100%', overflow: 'hidden' }}>
+        <Map center={mapCenter} zoom={mapZoom} mapData={null} />
       </Grid>
       <Grid item xs={12} sm={5} md={3}>
           <Typography className='_font12'>

@@ -1,4 +1,4 @@
-import SurfaceWaterMonitoring from "src/views/monitoring system/suface-water"
+import SurfaceWaterMonitoring from "src/views/monitoring system/surface-water"
 
 const ManageSuface = () => <SurfaceWaterMonitoring />
 

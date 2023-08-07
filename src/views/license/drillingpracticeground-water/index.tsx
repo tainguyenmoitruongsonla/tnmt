@@ -15,10 +15,13 @@ import FormatDate from 'src/@core/components/format-date';
 import ShowFilePDF from 'src/@core/components/show-file-pdf';
 import CheckEffect from 'src/@core/components/license-page/check-effect';
 import TableComponent from 'src/@core/components/table';
-import MapComponent from 'src/@core/components/map';
 import CreateLicense from '../form';
 import { TextField, AutoComplete } from 'src/@core/components/field';
 import licensedrillingData from 'src/api/license/hanhnghekhoan';
+
+import dynamic from 'next/dynamic';
+
+const Map = dynamic(() => import("src/@core/components/map"), { ssr: false });
 
 const licensingType = [
   { title: "Cấp mới giấy phép", value: 1 },
@@ -72,6 +75,9 @@ const columnsTable = [
 ];
 
 const DrillingeGroundWaterLicense = () => {
+  const [mapCenter] = useState([ 15.012172, 108.676488 ]);
+  const [mapZoom] = useState(9);
+
   const [TypeOfConsId, setTypeOfConsId] = useState([1]);
   const handleChange = (e: any) => {
     const val = (e == undefined || e == null ? 1 : e.value)
@@ -115,7 +121,7 @@ const DrillingeGroundWaterLicense = () => {
       <Grid item xs={9} sm={9} md={9} sx={{ height: '55vh', overflow: 'hidden' }}>
         <Card sx={{ height: '100%' }}>
           <CardContent sx={{ p: 0, height: '100%' }}>
-            <MapComponent />
+            <Map center={mapCenter} zoom={mapZoom} mapData={null} />
           </CardContent>
         </Card>
       </Grid>

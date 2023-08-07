@@ -9,10 +9,13 @@ import { EditNote, Delete } from "@mui/icons-material";
 
 // ** Components Imports
 import TableComponent from 'src/@core/components/table';
-import MapComponent from 'src/@core/components/map';
 import { TextField, AutoComplete } from 'src/@core/components/field';
 import DisplayOperatingStatus from 'src/@core/components/monitoring-page/check-status';
 import GroundmonitoringData from 'src/api/monitoringsystem/nuocduoidat';
+
+import dynamic from 'next/dynamic';
+
+const Map = dynamic(() => import("src/@core/components/map"), { ssr: false });
 
 const groundType = [
     { title: 'Chọn loại CT', value: 1 },
@@ -71,6 +74,9 @@ const columnsTable = [
 ];
 
 const GroundwaterMonitoring = () => {
+  const [mapCenter] = useState([ 15.012172, 108.676488 ]);
+  const [mapZoom] = useState(9);
+
   const [TypeOfConsId, setTypeOfConsId] = useState([1]);
   const handleChange = (e: any) => {
     const val = (e == undefined || e == null ? 1 : e.value)
@@ -111,7 +117,7 @@ const GroundwaterMonitoring = () => {
       <Grid item xs={12} sm={12} md={12} sx={{ height: '55vh', overflow: 'hidden' }}>
         <Card sx={{ height: '100%' }}>
           <CardContent sx={{ p: 0, height: '100%' }}>
-            <MapComponent />
+            <Map center={mapCenter} zoom={mapZoom} mapData={null} />
           </CardContent>
         </Card>
       </Grid>

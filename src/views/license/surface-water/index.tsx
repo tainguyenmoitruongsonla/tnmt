@@ -15,6 +15,10 @@ import CountLicense from 'src/@core/components/license-page/count-license';
 import ShowFilePDF from 'src/@core/components/show-file-pdf';
 import DataGridComponent from 'src/@core/components/data-grid';
 
+import dynamic from 'next/dynamic';
+
+const Map = dynamic(() => import("src/@core/components/map"), { ssr: false });
+
 const formatNum = (num: any) => {
   if (typeof Intl === 'undefined' || !Intl.NumberFormat) {
     return 'NaN';
@@ -135,6 +139,8 @@ const columnGroup: GridColumnGroupingModel = [
 ];
 
 const SurfaceWaterLicense = () => {
+  const [mapCenter] = useState([ 15.012172, 108.676488 ]);
+  const [mapZoom] = useState(9);
 
   const [data, setData] = useState<any[]>([]);
   const [columns, setColumns] = useState<any[]>([]);
@@ -153,7 +159,7 @@ const SurfaceWaterLicense = () => {
       <Grid item xs={9} sm={9} md={9} sx={{ height: '55vh', overflow: 'hidden' }}>
         <Card sx={{ height: '100%' }}>
           <CardContent sx={{ p: 0, height: '100%' }}>
-            {/* <MapComponent /> */}
+            <Map center={mapCenter} zoom={mapZoom} mapData={null} />
           </CardContent>
         </Card>
       </Grid>
