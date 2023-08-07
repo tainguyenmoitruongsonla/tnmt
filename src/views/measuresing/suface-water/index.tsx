@@ -116,10 +116,10 @@ const SurfaceWaterMeasuresing = () => {
           </CardContent>
         </Card>
       </Grid>
-      <Grid item xs={12} sm={12} md={5}>
+      <Grid item xs={12} sm={3} md={3}>
        <Typography>Tổng số bản ghi đã tìm thấy:132</Typography>
       </Grid>
-      <Grid item xs={12} sm={12} md={7}>
+      <Grid item xs={12} sm={9} md={9}>
         <Grid className='_search _row'>
           <Grid item xs={12} sm={12} md={2}>
             <AutoComplete

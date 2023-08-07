@@ -115,12 +115,12 @@ const DischargewaterMonitoring = () => {
           </CardContent>
         </Card>
       </Grid>
-      <Grid item xs={12} sm={12} md={5}>
+      <Grid item xs={12} sm={5} md={3}>
        <Typography>Tổng số bản ghi đã tìm thấy:132</Typography>
       </Grid>
-      <Grid item xs={12} sm={12} md={7}>
+      <Grid item xs={12} sm={7} md={9}>
         <Box className='_search _row'>
-          <Grid item xs={12} sm={12} md={2}>
+          <Grid item xs={12} sm={2} md={2}>
             <AutoComplete
               onChange={(e: any, v: any) => handleChange(v)}
               size="small"
@@ -129,7 +129,7 @@ const DischargewaterMonitoring = () => {
               label="Chọn loại hình CP"
             />
           </Grid>
-          <Grid item xs={12} sm={12} md={2}>
+          <Grid item xs={12} sm={2} md={2}>
             <AutoComplete
               onChange={(e: any, v: any) => handleChange(v)}
               size="small"
@@ -138,7 +138,7 @@ const DischargewaterMonitoring = () => {
               label="Chọn trạng thái kết nối"
             />
           </Grid>
-          <Grid item xs={12} sm={12} md={2}>
+          <Grid item xs={12} sm={2} md={2}>
             <AutoComplete
               size="small"
               options={licensingAuthorities}
@@ -146,10 +146,10 @@ const DischargewaterMonitoring = () => {
               label="Chọn cơ quan CP"
             />
           </Grid>
-          <Grid item xs={12} sm={12} md={4}>
+          <Grid item xs={12} sm={4} md={4}>
             <TextField size='small' type='text' label='Nhập tên CT' fullWidth placeholder='' defaultValue='' />
           </Grid>
-          <Grid item xs={12} sm={12} md={2}>
+          <Grid item xs={12} sm={2} md={2}>
             <Button size='small' startIcon={<SearchIcon />} variant="outlined">Tìm kiếm</Button>
           </Grid>
         </Box>

@@ -181,6 +181,7 @@ code[class*='language-'] {
 }
 
 ._justifyContentCenter {
+  display: flex;
   justify-content: center !important;
 }
 
