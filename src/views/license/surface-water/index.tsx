@@ -155,7 +155,7 @@ const columnGroup: GridColumnGroupingModel = [
     groupId: '#',
     renderHeaderGroup: () => (
       <Tooltip title="Thêm mới giấy phép">
-        <IconButton>
+        <IconButton onClick={() => console.log('Create license')}>
           <CreateLicense isEdit={false} />
         </IconButton>
       </Tooltip>

@@ -65,12 +65,13 @@ const CreateLicense = ({ isEdit, data }: CreateLicenseProps) => {
               }
             />
           ) : (
-            <IconButton className='tableActionBtn addNewBtn'>
-              <Add
-                onClick={() =>
-                  openDialogs(<FormLicense data={data} closeDialogs={closeDialogs} />, formTitle)
-                }
-              />
+            <IconButton
+              className='tableActionBtn addNewBtn'
+              onClick={() =>
+                openDialogs(<FormLicense data={data} closeDialogs={closeDialogs} />, formTitle)
+              }
+            >
+              <Add />
               <span>Thêm mới</span>
             </IconButton>
           )}
