@@ -15,17 +15,16 @@ import TableComponent from 'src/@core/components/table';
 
 const columnsTable = [
   { id: 'stt', label: 'STT', rowspan: 2, },
-  { id: 'LuuVucSong', label: 'Tên trạm', rowspan: 2, },
-  { id: '#', label: 'Thời kỳ quan trắc', rowspan: 2, },
+  { id: 'LuuVucSong', label: 'Lưu vực', rowspan: 2, },
   {
-    id: '#', label: 'Tổng lượng mưa theo năm(mm)',  children: [
+    id: '#', label: 'Tổng số trạm quan trắc(trạm)',  children: [
       { id: 'TongTramKyTruoc', label: 'Kỳ trước', },
       { id: 'TongTramBaoCao', label: 'Kỳ báo cáo', },
       { id: 'TongTramThayDoi', label: 'Kỳ thay đổi', },
     ]
   },
   {
-    id: '#', label: 'Tổng lượng mưa theo mùa mưa(mm)',  children: [
+    id: '#', label: 'Trạm khí tượng',  children: [
       { id: 'TramKTKyTruoc', label: 'Kỳ trước', },
       { id: 'TramKTBaoCao', label: 'Kỳ báo cáo', },
       { id: 'TramKTThayDoi', label: 'Kỳ thay đổi', },
@@ -33,13 +32,26 @@ const columnsTable = [
   },
  
   {
-    id: '#', label: 'Tổng lượng mưa theo mùa khô(mm)',  children: [
+    id: '#', label: 'Thủy văn, thủy văn kết hợp tài nguyên nước',  children: [
       { id: 'TramTVKyTruoc', label: 'Kỳ trước', },
       { id: 'TramTVBaoCao', label: 'Kỳ báo cáo', },
       { id: 'TramTVThayDoi', label: 'Kỳ thay đổi', },
     ]
   },
-  
+  {
+    id: '#', label: 'Tài nguyên nước độc lập',  children: [
+      { id: 'TramTNNKyTruoc', label: 'Kỳ trước', },
+      { id: 'TramTNNBaoCao', label: 'Kỳ báo cáo', },
+      { id: 'TramTNNThayDoi', label: 'Kỳ thay đổi', },
+    ]
+  },
+  {
+    id: '#', label: 'Quan trắc nước dưới đất',  children: [
+      { id: 'TramNDDKyTruoc', label: 'Kỳ trước', },
+      { id: 'TramNDDBaoCao', label: 'Kỳ báo cáo ', },
+      { id: 'TramNDDThayDoi', label: 'Kỳ thay đổi', },
+    ]
+  },
 ];
 
 const FormContruction = () => {
@@ -51,14 +63,14 @@ const FormContruction = () => {
 
     // fetchData();
   }, []);
-
+  
   return (
     <Paper sx={{ p: 8 }}>
       {/* dautrang */}
       <Grid container>
         <Grid md={11}>
           <Typography variant='h5'>
-            Biểu mẫu số 2. Tổng lượng mưa, phân phối lượng mưa trong năm
+          Biểu mẫu số 4. Tổng lượng nước mặt trên các lưu vực sông
           </Typography>
         </Grid>
         <Grid md={1}>
@@ -100,7 +112,7 @@ const FormContruction = () => {
           BÁO CÁO
         </Typography>
         <Typography className='font-weight-bold ' variant="h6">
-         Tổng lượng mưa, phân phối lượng mưa trong năm
+          Số lượng trạm quan trắc khí tượng, thuỷ văn, tài nguyên nước, nước dưới đất
         </Typography>
         <Typography className='font-weight-bold ' variant="h6">
           (Kỳ báo cáo: <TextField size='small' sx={{ width: '50px' }}></TextField>)
@@ -137,8 +149,8 @@ const FormContruction = () => {
 
 }
 
-const Bieumau2 = () => {
-  const formTitle = 'BIỂU MẪU THÔNG TƯ 31/2018/TT-BTNMT/ BIỂU MẪU SỐ 2'
+const Bieumau8= () => {
+  const formTitle = 'BIỂU MẪU THÔNG TƯ 31/2018/TT-BTNMT/ BIỂU MẪU SỐ 8'
 
   return (
     <DialogControlFullScreen>
@@ -148,13 +160,13 @@ const Bieumau2 = () => {
             openDialogs(<FormContruction />, formTitle)
           }>
             <Grid item xs={8}>
-              <Typography className='text-danger text-weight-bold'>Biểu mẫu 2</Typography>
+              <Typography className='text-danger text-weight-bold'>Biểu mẫu 8</Typography>
               <Typography className='text-success text-weight-bold _font12'>
-                Tổng lượng mưa,phân phối lượng mưa trong năm
+                Tổng hợp các đặc trưng mực nước dưới đất
               </Typography>
             </Grid>
             <Grid item xs={4}>
-              <Box component='img' src='/images/report-form/ANHBIEUMAU2.png' className='formReport_img' alt='' />
+              <Box component='img' src='/images/report-form/ANHBIEUMAU8.png' className='formReport_img' alt='' />
             </Grid>
           </Link>
         </>
@@ -163,4 +175,4 @@ const Bieumau2 = () => {
   )
 }
 
-export default Bieumau2
+export default Bieumau8

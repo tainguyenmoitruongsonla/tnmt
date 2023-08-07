@@ -63,7 +63,7 @@ const FormContruction = () => {
 
     // fetchData();
   }, []);
-  
+
   return (
     <Paper sx={{ p: 8 }}>
       {/* dautrang */}
@@ -166,7 +166,7 @@ const Bieumau4= () => {
               </Typography>
             </Grid>
             <Grid item xs={4}>
-              <Box component='img' src='/images/ANHBIEUMAU1.png' className='formReport_img' alt='' />
+              <Box component='img' src='/images/report-form/ANHBIEUMAU4.png' className='formReport_img' alt='' />
             </Grid>
           </Link>
         </>
