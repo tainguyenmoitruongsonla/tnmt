@@ -15,7 +15,8 @@ import licenseSFData from 'src/api/license/nuocmat';
 import CountLicense from 'src/@core/components/license-page/count-license';
 import ShowFilePDF from 'src/@core/components/show-file-pdf';
 import DataGridComponent from 'src/@core/components/data-grid';
-import { Delete, EditNote } from '@mui/icons-material';
+import { Delete } from '@mui/icons-material';
+import CreateLicense from '../form';
 
 const formatNum = (num: any) => {
   if (typeof Intl === 'undefined' || !Intl.NumberFormat) {
@@ -34,7 +35,7 @@ const EditLicense = (data: any) => {
 }
 
 const DeleteLicense = (data: any) => {
-  console.log('Delete: ' + data.row?.LicenseNumber)
+  confirm(`Bạn muốn xóa:  ${data.row?.LicenseNumber} chứ?`)
 }
 
 //Init columnTable
@@ -71,19 +72,21 @@ const columnsTable: GridColDef[] = [
 
   //Action
   {
-    field: 'actions', headerClassName: 'tableHead', headerAlign: 'center', headerName: '', minWidth: 100,
-    renderCell: (data) => (<Box>
-      <Tooltip title="Chỉnh sửa giấy phép">
-        <IconButton onClick={() => EditLicense(data)}>
-          <EditNote className='tableActionBtn' />
-        </IconButton>
-      </Tooltip>
-      <Tooltip title="Xóa giấy phép">
-        <IconButton onClick={() => DeleteLicense(data)}>
-          <Delete className='tableActionBtn deleteBtn' />
-        </IconButton>
-      </Tooltip>
-    </Box>)
+    field: 'actions', headerClassName: 'tableHead', headerAlign: 'center', headerName: '#', minWidth: 120, sortable: false,
+    renderCell: (data) => (
+      <Box>
+        <Tooltip title="Chỉnh sửa giấy phép">
+          <IconButton onClick={() => EditLicense(data)}>
+            <CreateLicense isEdit={true} data={data.row} />
+          </IconButton>
+        </Tooltip>
+        <Tooltip title="Xóa giấy phép">
+          <IconButton onClick={() => DeleteLicense(data)}>
+            <Delete className='tableActionBtn deleteBtn' />
+          </IconButton>
+        </Tooltip>
+      </Box>
+    )
   },
 ];
 
@@ -146,6 +149,13 @@ const columnGroup: GridColumnGroupingModel = [
   },
   {
     groupId: '#',
+    renderHeaderGroup: () => (
+      <Tooltip title="Thêm mới giấy phép">
+        <IconButton>
+          <CreateLicense isEdit={false} />
+        </IconButton>
+      </Tooltip>
+    ),
     headerClassName: 'tableHead',
     headerAlign: 'center',
     children: [
