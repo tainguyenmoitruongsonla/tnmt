@@ -11,16 +11,16 @@ import { EditNote, Delete } from "@mui/icons-material";
 import TableComponent from 'src/@core/components/table';
 import MapComponent from 'src/@core/components/map';
 import { TextField, AutoComplete } from 'src/@core/components/field';
+import sufacemonitoringData from 'src/api/monitoringsystem/nuocmat';
 import DisplayOperatingStatus from 'src/@core/components/monitoring-page/check-status';
-import GroundmonitoringData from 'src/api/monitoringsystem/nuocduoidat';
 
-const groundType = [
-    { title: 'Chọn loại CT', value: 1 },
-    { title: 'Khai thác', value: 8 },
-    { title: 'Thăm dò', value: 9 },
-    { title: 'Hành nghề khoan', value: 10 },
-    { title: 'Công trình khác', value: 23 },
-    { title: 'Trám lấp giếng', value: 24 }
+const constructionType = [
+  { title: "Chọn loại CT", value: 1 },
+  { title: "Thủy điện", value: 4 },
+  { title: "Hồ chứa", value: 5 },
+  { title: "Trạm bơm", value: 6 },
+  { title: "Cống", value: 13 },
+  { title: "Trạm cấp nước", value: 11 },
 ];
 
 const licensingAuthorities = [
@@ -33,38 +33,39 @@ const licensingAuthorities = [
 const columnsTable = [
   { id: 'stt', label: 'STT', rowspan: 2, },
   { id: 'ConstructionName', label: 'Tên công trình', rowspan: 2, },
-  {
-    id: '#', label: 'Lưu lượng nước thải sau xử lý',  children: [
-      { id: 'MaximumFlow', label: 'Yêu cầu', },
-      { id: 'MaximumFlowPre', label: 'Thực tế ', },
-      { id: '', label: 'Chênh lệch (+/-)', },
-    ]
-  },
-  {
-    id: '#', label: 'Chất lượng nước sau xử lý',  children: [
-        { id: 'Nhietdo', label: 'Nhiệt độ (°C)', },
-        { id: 'pH', label: 'pH ', },
-        { id: 'BOD5', label: 'BOD5', },
-        { id: 'COD', label: 'COD', },
-        { id: 'DO', label: 'DO', },
-        { id: 'TSS', label: 'TSS', },
-        { id: 'NH4', label: 'NH4+', },
-    ]
-  },
-  {
-    id: '#', label: 'Lưu lượng nước thải tại nguồn tiếp nhận',  children: [
-      { id: 'MaximumFlow', label: 'Yêu cầu', },
-      { id: 'MaximumFlowPre', label: 'Thực tế ', },
-      { id: '', label: 'Chênh lệch (+/-)', },
-    ]
-  },
- 
   { id: '#', label: 'Trạng thái vận hành',rowspan: 2,elm: (row: any) => (<DisplayOperatingStatus data={row} />)  },
- 
+  { id: 'DownstreamWLPre', label: (<span>Mực nước <br /> hạ lưu (m)</span>),  rowspan: 2, },
+  { id: 'CapacityPre', label: (<span>Dung tích hồ  <br /> (triệu m<sup>3</sup>)</span>),  rowspan: 2, },
+  {
+    id: '#', label: 'Mưc nước thượng lưu hồ (m)',  rowspan: 2,
+  },
+  {
+    id: '#', label: 'Lưu lượng xả qua tràn  (m3/s)', rowspan: 2,
+  },
+  {
+    id: '#', label: 'Lưu lượng lớn nhất (m3/s)',  rowspan: 2,
+  },
+  {
+    id: '#', label: 'Lưu lượng xả duy trì DCTT (m3/s) ',  rowspan: 2,
+  },
+  {
+    id: '#', label: 'Lưu lượng về hạ du (m3/s) ',  rowspan: 2,
+  },
+  {
+    id: '#', label: 'Chất lượng nước trong quá trình khai thác',colspan: 8, children: [
+      { id: 'Nhietdo', label: 'Nhiệt độ (°C)', },
+      { id: 'pH', label: 'pH ', },
+      { id: 'BOD5', label: 'BOD5', },
+      { id: 'COD', label: 'COD', },
+      { id: 'DO', label: 'DO', },
+      { id: 'TSS', label: 'TSS', },
+      { id: 'NH4', label: 'NH4+', },
+    ]
+  },
   { id: 'actions', label: 'Thao tác', rowspan: 2 },
 ];
 
-const DischargewaterMonitoring = () => {
+const SurfaceWaterMeasuresing = () => {
   const [TypeOfConsId, setTypeOfConsId] = useState([1]);
   const handleChange = (e: any) => {
     const val = (e == undefined || e == null ? 1 : e.value)
@@ -86,7 +87,7 @@ const DischargewaterMonitoring = () => {
   // }; 
 
   useEffect(() => {
-    setData(GroundmonitoringData);
+    setData(sufacemonitoringData);
     setColumns(columnsTable);
 
     // fetchData();
@@ -113,12 +114,12 @@ const DischargewaterMonitoring = () => {
        <Typography>Tổng số bản ghi đã tìm thấy:132</Typography>
       </Grid>
       <Grid item xs={12} sm={12} md={7}>
-        <Box className='_search _row'>
+        <Grid className='_search _row'>
           <Grid item xs={12} sm={12} md={2}>
             <AutoComplete
               onChange={(e: any, v: any) => handleChange(v)}
               size="small"
-              options={groundType}
+              options={constructionType}
               getOptionLabel={(option: any) => option.title}
               label="Chọn loại hình CP"
             />
@@ -127,7 +128,7 @@ const DischargewaterMonitoring = () => {
             <AutoComplete
               onChange={(e: any, v: any) => handleChange(v)}
               size="small"
-              options={groundType}
+              options={constructionType}
               getOptionLabel={(option: any) => option.title}
               label="Chọn trạng thái kết nối"
             />
@@ -146,7 +147,7 @@ const DischargewaterMonitoring = () => {
           <Grid item xs={12} sm={12} md={2}>
             <Button size='small' startIcon={<SearchIcon />} variant="outlined">Tìm kiếm</Button>
           </Grid>
-        </Box>
+        </Grid>
       </Grid>
       <Grid item xs={12} sm={12} md={12}>
         <TableComponent columns={columns} data={data} show={TypeOfConsId}
@@ -171,4 +172,4 @@ const DischargewaterMonitoring = () => {
   )
 }
 
-export default DischargewaterMonitoring
+export default SurfaceWaterMeasuresing

@@ -34,29 +34,13 @@ const columnsTable = [
   { id: 'stt', label: 'STT', rowspan: 2, },
   { id: 'ConstructionName', label: 'Tên công trình', rowspan: 2, },
   {
-    id: '#', label: 'Lưu lượng nước thải sau xử lý',  children: [
-      { id: 'MaximumFlow', label: 'Yêu cầu', },
-      { id: 'MaximumFlowPre', label: 'Thực tế ', },
-      { id: '', label: 'Chênh lệch (+/-)', },
-    ]
+    id: '#', label: 'Lưu lượng nước thải sau xử lý',  rowspan: 2,
   },
   {
-    id: '#', label: 'Chất lượng nước sau xử lý',  children: [
-        { id: 'Nhietdo', label: 'Nhiệt độ (°C)', },
-        { id: 'pH', label: 'pH ', },
-        { id: 'BOD5', label: 'BOD5', },
-        { id: 'COD', label: 'COD', },
-        { id: 'DO', label: 'DO', },
-        { id: 'TSS', label: 'TSS', },
-        { id: 'NH4', label: 'NH4+', },
-    ]
+    id: '#', label: 'Chất lượng nước sau xử lý',  rowspan: 2,
   },
   {
-    id: '#', label: 'Lưu lượng nước thải tại nguồn tiếp nhận',  children: [
-      { id: 'MaximumFlow', label: 'Yêu cầu', },
-      { id: 'MaximumFlowPre', label: 'Thực tế ', },
-      { id: '', label: 'Chênh lệch (+/-)', },
-    ]
+    id: '#', label: 'Lưu lượng nước thải tại nguồn tiếp nhận',  rowspan: 2,
   },
  
   { id: '#', label: 'Trạng thái vận hành',rowspan: 2,elm: (row: any) => (<DisplayOperatingStatus data={row} />)  },
@@ -64,7 +48,7 @@ const columnsTable = [
   { id: 'actions', label: 'Thao tác', rowspan: 2 },
 ];
 
-const DischargewaterMonitoring = () => {
+const DischargewaterMeasuresing = () => {
   const [TypeOfConsId, setTypeOfConsId] = useState([1]);
   const handleChange = (e: any) => {
     const val = (e == undefined || e == null ? 1 : e.value)
@@ -171,4 +155,4 @@ const DischargewaterMonitoring = () => {
   )
 }
 
-export default DischargewaterMonitoring
+export default DischargewaterMeasuresing

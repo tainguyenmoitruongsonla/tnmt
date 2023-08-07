@@ -9,7 +9,6 @@ interface ConstructionItem {
 }
 const ConstructionDetails = () => {
   const [constructionItems, setConstructionItems] = useState<ConstructionItem[]>([]);
-
   const addConstructionItem = () => {
     const newItem: ConstructionItem = {
       name: '',

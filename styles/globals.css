@@ -341,3 +341,6 @@ code[class*='language-'] {
 
 
 /* End Loading */
+.font-weight-bold {
+  font-weight: 700!important;
+}
