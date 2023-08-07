@@ -140,6 +140,7 @@ const LicenseMinister = () => {
           <TableComponent
             columns={columns}
             data={data}
+            show={TypeOfConsId}
             actions={(row: any) => (
               <Box>
                 <Tooltip title='Chỉnh sửa giấy phép'>
