@@ -85,7 +85,10 @@ function SearchToolbar(props: SearchToolbarProps) {
         }}
         sx={{ width: 165 }}
       />
-      <GridToolbarExport />
+      <GridToolbarExport csvOptions={{
+        fileName: 'customerDataBase',
+        utf8WithBom: true,
+      }} />
     </Grid>
   );
 }

@@ -78,18 +78,19 @@ const UserDropdown = () => {
     }
   }
 
-  const avatarImg = <AccountOutline sx={{ marginRight: 2, width: 30, height: 30 }} onClick={handleDropdownOpen} />
+  const avatarImg = <AccountOutline sx={{ marginRight: 2, width: 30, height: 30 }} onClick={handleDropdownOpen} /> 
 
   return (
     <Fragment>
       <Badge
         overlap='circular'
+        
+        // badgeContent={<BadgeContentSpan />}
         onClick={handleDropdownOpen}
         sx={{ ml: 2, cursor: 'pointer' }}
-        badgeContent={<BadgeContentSpan />}
         anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
       >
-        {avatarImg}
+        {avatarImg} <Typography sx={{ color: '#fff', fontSize: 12, display: 'flex', alignItems: 'center'}}> Xin chào {userName} !</Typography>
       </Badge>
       <Menu
         anchorEl={anchorEl}
