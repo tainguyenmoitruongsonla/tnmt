@@ -5,7 +5,7 @@ import CircleOutline from 'mdi-material-ui/CircleOutline';
 
 // ** Type import
 import { VerticalNavItemsType } from 'src/@core/layouts/types'
-import { Tv } from '@mui/icons-material';
+import { PeopleAltOutlined, Tv } from '@mui/icons-material';
 
 const navigation = (): VerticalNavItemsType => {
   return [
@@ -63,12 +63,12 @@ const navigation = (): VerticalNavItemsType => {
         {
           icon: CircleOutline,
           title: 'Nguồn nước sông',
-          path: '/kha-nang-tiep-nhan-nuoc-thai/nguon-nuoc-song'
+          path: '#'
         },
         {
           icon: CircleOutline,
           title: 'Nguồn nước hồ',
-          path: '/kha-nang-tiep-nhan-nuoc-thai/nguon-nuoc-ho'
+          path: '#'
         }
       ]
     },
@@ -183,11 +183,11 @@ const navigation = (): VerticalNavItemsType => {
     },
     {
       title: 'Nội dung khác',
-      path: 'noi-dung-khac'
+      path: '#'
     },
     {
       title: 'Hướng dẫn sử dụng',
-      path: 'huong-dan-su-dung'
+      path: '#'
     },
     {
       sectionTitle: 'Quản lý'
@@ -196,14 +196,14 @@ const navigation = (): VerticalNavItemsType => {
       title: 'Hệ thống',
       children: [
         {
+          title: 'Nhóm người dùng',
+          icon: PeopleAltOutlined,
+          path: '/he-thong/nhom-nguoi-dung'
+        },
+        {
           title: 'Người dùng',
           icon: AccountCogOutline,
           path: '/he-thong/nguoi-dung'
-        },
-        {
-          title: 'Nhóm người dùng',
-          icon: AccountCogOutline,
-          path: '/he-thong/nhom-nguoi-dung'
         },
         {
           title: 'Trang truy cập',
@@ -216,15 +216,15 @@ const navigation = (): VerticalNavItemsType => {
       title: 'Phân quyền',
       children: [
         {
+          title: 'Nhóm người dùng',
+          icon: PeopleAltOutlined,
+          path: '/phan-quyen/nhom-nguoi-dung'
+        },
+        {
           title: 'Người dùng',
           icon: AccountCogOutline,
           path: '/phan-quyen/nguoi-dung'
-        },
-        {
-          title: 'Nhóm người dùng',
-          icon: Tv,
-          path: '/phan-quyen/nhom-nguoi-dung'
-        },
+        }
       ]
     },
   ]

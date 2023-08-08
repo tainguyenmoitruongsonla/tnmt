@@ -50,7 +50,7 @@ const VerticalNavSectionTitle = (props: Props) => {
         '& .MuiDivider-root:before, & .MuiDivider-root:after, & hr': {
           borderColor: `rgba(${theme.palette.customColors.main}, 0.12)`
         },
-        borderBottom: '1px solid rgb(189 189 189 / 68%)'
+        borderBottom: '2px double rgb(189 189 189 / 68%)'
       }}
     >
       <Divider
@@ -64,7 +64,7 @@ const VerticalNavSectionTitle = (props: Props) => {
           '& .MuiDivider-wrapper': { px: 2.5, fontSize: '0.75rem', letterSpacing: '0.21px' }
         }}
       >
-        <TypographyHeaderText sx={{ color: `#fff` }} noWrap>{item.sectionTitle}</TypographyHeaderText>
+        <TypographyHeaderText sx={{ color: `#fff`, fontWeight: 'bold', letterSpacing: 3, fontSize: '.9rem' }} noWrap>{item.sectionTitle}</TypographyHeaderText>
       </Divider>
     </ListSubheader>
   )
