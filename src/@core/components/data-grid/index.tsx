@@ -85,7 +85,7 @@ const DataGridComponent = (props: any) => {
 
 
     return (
-      <Grid container justifyContent={'end'} py={3} >
+      <Grid container justifyContent={'end'} alignItems={'center'} py={3} >
         <Button size="small" startIcon={<FilterList />} onClick={toggleSlide}>
           Bộ lọc
         </Button>
@@ -143,11 +143,13 @@ const DataGridComponent = (props: any) => {
                   ) : null}
                 </Grid>
               ))}
-              <Grid md={2} xs={6} px={2}>
-                {formFilter}
-              </Grid>
+              {formFilter ?
+                <Grid md={2} xs={6} px={2}>
+                  {formFilter}
+                </Grid>
+                : ''}
               <Grid xs={12} justifyContent={'end'} display={'flex'} pt={4}>
-                <Button size="small" startIcon={<Search />} onClick={applyFilters}>
+                <Button size="small" variant="outlined" startIcon={<Search />} onClick={applyFilters}>
                   Tìm  kiếm
                 </Button>
               </Grid>
