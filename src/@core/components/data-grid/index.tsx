@@ -77,10 +77,7 @@ const DataGridComponent = (props: any) => {
 
         return isMatch; // Trả về true nếu tất cả các điều kiện khớp
       });
-
       setRowDatas(filteredData);
-
-      setIsSlideVisible(true);
     };
 
 

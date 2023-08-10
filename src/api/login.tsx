@@ -1,4 +1,12 @@
 import apiUrl from "./config";
+import jwt_decode from 'jwt-decode';
+
+interface DecodedToken {
+
+    // Define the properties you need here
+    [key: string]: any;
+  }
+  
 
 const loginApi = async (username: string, password: string) => {
     try {
@@ -12,9 +20,16 @@ const loginApi = async (username: string, password: string) => {
 
         if (response.ok) {
             const data = await response.json();
-            localStorage.setItem('token', data.token);
-            localStorage.setItem('role', data.role);
-            localStorage.setItem('user', JSON.stringify(data.user));
+            const decodedToken = jwt_decode(data) as DecodedToken;
+
+            const userInfo = {
+                fullName: decodedToken['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier'],
+                userName: decodedToken['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name'],
+                userRole: decodedToken['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'],
+                userEmail: decodedToken['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress'],
+                userPhone: decodedToken['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/mobilephone'],
+            }
+            localStorage.setItem('userInfo', JSON.stringify(userInfo));
 
             return true;
         } else {
@@ -23,7 +38,7 @@ const loginApi = async (username: string, password: string) => {
             throw new Error('Login failed');
         }
     } catch (error) {
-        
+
         // Handle fetch or parsing errors
         console.log(error);
     }

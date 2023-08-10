@@ -54,12 +54,11 @@ const UserDropdown = () => {
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
-      const storedUser = localStorage.getItem('user');
-      const storedRole = localStorage.getItem('role');
-      if (storedUser) {
-        const userObject = JSON.parse(storedUser);
+      const storedUserInfor = localStorage.getItem('userInfo');
+      if (storedUserInfor) {
+        const userObject = JSON.parse(storedUserInfor);
         setUserName(userObject.fullName);
-        setRole(storedRole);
+        setRole(userObject.userRole);
       }
     }
   }, [])

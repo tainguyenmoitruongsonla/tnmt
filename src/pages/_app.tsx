@@ -1,6 +1,6 @@
 // ** Next Imports
 import Head from 'next/head'
-import { Router } from 'next/router'
+import { Router, useRouter } from 'next/router'
 import type { NextPage } from 'next'
 import type { AppProps } from 'next/app'
 
@@ -59,13 +59,13 @@ const App = (props: ExtendedAppProps) => {
   const { Component, emotionCache = clientSideEmotionCache, pageProps } = props
 
   // ** Hooks
-  // const router = useRouter()
+  const router = useRouter()
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
-      const token = localStorage.getItem('token')
-      if (!token) {
-        // router.push('/pages/login')
+      const loggedin = localStorage.getItem('userInfo')
+      if (!loggedin) {
+        router.push('/pages/login')
       }
     }
   }, [])
