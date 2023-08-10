@@ -194,6 +194,55 @@ const columnFillter: columnFillters[] = [
       { label: 'Đã bị thu hồi', value: 4 },
     ],
   },
+  {
+    label: 'Chủ  giấy phép',
+    value: 'BusinessId',
+    type: 'select',
+    options: [
+      { label: 'Công ty A', value: 1 },
+      { label: 'Công ty B', value: 2 },
+      { label: 'Công ty C', value: 3 },
+      { label: '...', value: 4 },
+    ],
+  },
+  {
+    label: 'Công trình',
+    value: 'ConstructionId',
+    type: 'text',
+  },
+  {
+    label: 'Huyện',
+    value: 'DistrictId',
+    type: 'select',
+    options: [
+      { label: 'Huyện 1', value: 1 },
+      { label: 'Huyện 2', value: 2 },
+      { label: 'Huyện 3', value: 3 },
+      { label: '...', value: 4 },
+    ],
+  },
+  {
+    label: 'Xã',
+    value: 'CommuneId',
+    type: 'select',
+    options: [
+      { label: 'Xã 1', value: 1 },
+      { label: 'Xã 2', value: 2 },
+      { label: 'Xã 3', value: 3 },
+      { label: '...', value: 4 },
+    ],
+  },
+  {
+    label: 'Tiểu vùng quy hoạch',
+    value: 'BasinId',
+    type: 'select',
+    options: [
+      { label: 'Tiểu vùng quy hoạch 1', value: 1 },
+      { label: 'Tiểu vùng quy hoạch 2', value: 2 },
+      { label: 'Tiểu vùng quy hoạch 3', value: 3 },
+      { label: '...', value: 4 },
+    ],
+  },
 ];
 
 const SurfaceWaterLicense = () => {

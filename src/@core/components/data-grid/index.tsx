@@ -59,8 +59,8 @@ const DataGridComponent = (props: any) => {
         let isMatch = true; // Sử dụng biến để kiểm tra tất cả các điều kiện
 
         for (const column of columns) {
-          const columnValue = filters[column.value] as any;
-          const itemValue = item[column.value];
+          const columnValue = filters[column.value]?.toString().toLowerCase() as any;
+          const itemValue = item[column.value]?.toString().toLowerCase();
 
           if (column.type === 'select') {
             if (columnValue && itemValue !== columnValue.value) {
@@ -98,14 +98,14 @@ const DataGridComponent = (props: any) => {
             utf8WithBom: true,
           }}
         />
-        <Slide direction="down" in={isSlideVisible} mountOnEnter unmountOnExit>
+        <Slide direction="left" in={isSlideVisible} mountOnEnter unmountOnExit>
           <fieldset style={{ width: '100%' }}>
             <legend>
               <Typography variant={'button'}>Bộ lọc</Typography>
             </legend>
             <Grid container >
               {columns.map((column: any) => (
-                <Grid md={2} xs={6} px={2} key={column.value}>
+                <Grid md={2} xs={6} p={2} key={column.value}>
                   {column.type === 'text' ? (
                     <TextField
                       size='small'
