@@ -59,8 +59,8 @@ const DataGridComponent = (props: any) => {
         let isMatch = true; // Sử dụng biến để kiểm tra tất cả các điều kiện
 
         for (const column of columns) {
-          const columnValue = filters[column.value]?.toString().toLowerCase() as any;
-          const itemValue = item[column.value]?.toString().toLowerCase();
+          const columnValue = filters[column.value] as any;
+          const itemValue = item[column.value];
 
           if (column.type === 'select') {
             if (columnValue && itemValue !== columnValue.value) {
@@ -69,7 +69,7 @@ const DataGridComponent = (props: any) => {
           }
 
           if (column.type === 'text') {
-            if (columnValue && !itemValue.includes(columnValue)) {
+            if (columnValue?.toString().toLowerCase() && !itemValue?.toString().toLowerCase().includes(columnValue?.toString().toLowerCase())) {
               isMatch = false; // Nếu một điều kiện không khớp, đặt biến isMatch là false
             }
           }
@@ -149,7 +149,7 @@ const DataGridComponent = (props: any) => {
                 </Grid>
                 : ''}
               <Grid xs={12} justifyContent={'end'} display={'flex'} pt={4}>
-                <Button size="small" variant="outlined" startIcon={<Search />} onClick={applyFilters}>
+                <Button size="small" className="btn" variant="outlined" startIcon={<Search />} onClick={applyFilters}>
                   Tìm  kiếm
                 </Button>
               </Grid>
