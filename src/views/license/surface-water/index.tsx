@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 
 //MUI Imports
-import { Card, CardContent, Box, Tooltip, IconButton } from '@mui/material';
+import { Card, CardContent, Box, Tooltip, IconButton, Autocomplete, TextField } from '@mui/material';
 import Grid from '@mui/material/Unstable_Grid2';
 import { GridColDef, GridColumnGroupingModel } from '@mui/x-data-grid';
 
@@ -168,17 +168,54 @@ const columnGroup: GridColumnGroupingModel = [
   }
 ];
 
+const columnFillter = [
+  {
+    label: 'Số GP',
+    value: 'LicenseNumber', // Tên cột trong data
+    type: 'text', // Loại trường (text hoặc autocomplete)
+  },
+  {
+    label: 'Cơ quan cấp phép',
+    value: 'LicensingAuthorities',
+    type: 'select',
+    options: [
+      { label: 'BTNMT', value: 0 },
+      { label: 'UBND Tỉnh', value: 1 },
+    ],
+  },
+  {
+    label: 'Loại hình cấp phép',
+    value: 'LicensingTypeId',
+    type: 'select',
+    options: [
+      { label: 'Cấp mới', value: 1 },
+      { label: 'Cấp lại', value: 2 },
+      { label: 'Gia hạn', value: 3 },
+      { label: 'Điểu chỉnh', value: 4 },
+      { label: 'Thu hồi', value: 5 },
+    ],
+  },
+];
+
 const SurfaceWaterLicense = () => {
-  const [mapCenter] = useState([ 15.012172, 108.676488 ]);
+  const [mapCenter] = useState([15.012172, 108.676488]);
   const [mapZoom] = useState(9);
 
   const [data, setData] = useState<any[]>([]);
   const [columns, setColumns] = useState<any[]>([]);
+  const [columnFillters, setcolumnFillters] = useState<any[]>([]);
 
+  const licensingEfect = [
+    { label: 'Còn hiệu lực', value: 1 },
+    { label: 'Hết hiệu lực', value: 2 },
+    { label: 'Sáp hết hiệu lực', value: 3 },
+    { label: 'Đã bị thu hồi', value: 4 },
+  ]
 
   useEffect(() => {
     setData(licenseSFData);
     setColumns(columnsTable);
+    setcolumnFillters(columnFillter)
   }, []);
 
   return (
@@ -197,7 +234,32 @@ const SurfaceWaterLicense = () => {
         <Card sx={{ height: '100%' }}>
           <CardContent sx={{ p: 0, height: '100%' }}>
             <DataGridComponent
-              data={{ rows: data, columns: columns, columnGroupingModel: columnGroup }}
+              rows={data}
+              columns={columns}
+              columnGroupingModel={columnGroup}
+              columnFillter={columnFillters}
+              formFilter={
+                <Autocomplete
+                  size='small'
+                  fullWidth
+                  options={licensingEfect}
+                  getOptionLabel={(option) => option.label}
+                  isOptionEqualToValue={(option: any, value: any) => option.value === value.value}
+                  renderInput={(params) => (
+                    <TextField
+                      {...params}
+                      variant='standard'
+                      fullWidth
+                      label={'Hiệu lực giấy phép'}
+                      inputProps={{
+                        style: { fontSize: 11 },
+                        ...params.inputProps,
+                      }}
+                      InputLabelProps={{ style: { fontSize: 14 } }}
+                    />
+                  )}
+                />
+              }
             />
           </CardContent>
         </Card>

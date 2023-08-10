@@ -1,6 +1,6 @@
 import React from 'react'
 import { Add, EditNote } from '@mui/icons-material'
-import { Button, DialogActions, Grid, IconButton } from '@mui/material'
+import { Button, DialogActions, Grid } from '@mui/material'
 
 
 import DialogsControlFullScreen from 'src/@core/components/dialog-control-full-screen'
@@ -65,7 +65,7 @@ const CreateLicense = ({ isEdit, data }: CreateLicenseProps) => {
               }
             />
           ) : (
-            <IconButton
+            <span
               className='tableActionBtn addNewBtn'
               onClick={() =>
                 openDialogs(<FormLicense data={data} closeDialogs={closeDialogs} />, formTitle)
@@ -73,7 +73,7 @@ const CreateLicense = ({ isEdit, data }: CreateLicenseProps) => {
             >
               <Add />
               <span>Thêm mới</span>
-            </IconButton>
+            </span>
           )}
         </>
       )}
