@@ -59,7 +59,7 @@ const columnsTable: GridColDef[] = [
 
   //LicenseFee
   { field: 'LicenseFee.LicenseFeeNumber', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'Số QĐ', minWidth: 150, renderCell: (data) => (<ShowFilePDF name={data.row.LicenseFee?.LicenseFeeNumber} src={`/pdf/LicenseFees/` + data.row.LicenseFee?.LicensingAuthorities + `/` + data.row.LicenseFee?.FilePDF} />) },
-  { field: 'LicenseFee.SignDate', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'Ngày ký', minWidth: 150, type: 'date', valueGetter: (data) => (data.row.LicenseFee?.SignDate || '') },
+  { field: 'LicenseFee.SignDate', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'Ngày ký', minWidth: 150, renderCell: (data) => (FormatDate(data.row.LicenseFee?.SignDate)) },
   { field: 'LicenseFee.TotalMoney', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'Tổng tiền cấp quyền (VNĐ)', minWidth: 150, type: 'number', valueGetter: (data) => (data.row.LicenseFee?.TotalMoney || '') },
 
   //Action
