@@ -4,6 +4,20 @@ import { Cached, FilterList, Search } from '@mui/icons-material';
 import { Autocomplete, Button, Slide, TextField, Typography } from '@mui/material';
 import Grid from '@mui/material/Unstable_Grid2';
 
+interface columnFillter {
+  label: string,
+  value: string, // Tên cột trong data
+  type: 'text' | 'select',
+  options?: columnFillterOptions[]
+}
+
+interface columnFillterOptions {
+  label: string,
+  value: string | number
+}
+
+export type columnFillters = columnFillter;
+
 const DataGridComponent = (props: any) => {
 
   const { rows, columns, columnGroupingModel, columnFillter, formFilter } = props;

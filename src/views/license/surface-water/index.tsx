@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 
 //MUI Imports
-import { Card, CardContent, Box, Tooltip, IconButton, Autocomplete, TextField } from '@mui/material';
+import { Card, CardContent, Box, Tooltip, IconButton } from '@mui/material';
 import Grid from '@mui/material/Unstable_Grid2';
 import { GridColDef, GridColumnGroupingModel } from '@mui/x-data-grid';
 
@@ -14,25 +14,13 @@ import licenseSFData from 'src/api/license/nuocmat';
 // import MapComponent from 'src/@core/components/map';
 import CountLicense from 'src/@core/components/license-page/count-license';
 import ShowFilePDF from 'src/@core/components/show-file-pdf';
-import DataGridComponent from 'src/@core/components/data-grid';
+import DataGridComponent, { columnFillters } from 'src/@core/components/data-grid';
 import { Delete } from '@mui/icons-material';
 import CreateLicense from '../form';
 
 import dynamic from 'next/dynamic';
 
 const Map = dynamic(() => import("src/@core/components/map"), { ssr: false });
-
-const formatNum = (num: any) => {
-  if (typeof Intl === 'undefined' || !Intl.NumberFormat) {
-    return 'NaN';
-  } else {
-    const nf = new Intl.NumberFormat();
-    const x = num;
-    if (num !== undefined) {
-      return nf.format(x);
-    }
-  }
-};
 
 const EditLicense = (data: any) => {
   console.log('Edit: ' + data.row?.LicenseNumber)
@@ -71,8 +59,8 @@ const columnsTable: GridColDef[] = [
 
   //LicenseFee
   { field: 'LicenseFee.LicenseFeeNumber', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'Số QĐ', minWidth: 150, renderCell: (data) => (<ShowFilePDF name={data.row.LicenseFee?.LicenseFeeNumber} src={`/pdf/LicenseFees/` + data.row.LicenseFee?.LicensingAuthorities + `/` + data.row.LicenseFee?.FilePDF} />) },
-  { field: 'LicenseFee.SignDate', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'Ngày ký', minWidth: 150, renderCell: (data) => (FormatDate(data.row.LicenseFee?.SignDate)) },
-  { field: 'LicenseFee.TotalMoney', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'Tổng tiền cấp quyền (VNĐ)', minWidth: 150, valueGetter: (data) => (`${formatNum(data.row.LicenseFee?.TotalMoney) || ''}`) },
+  { field: 'LicenseFee.SignDate', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'Ngày ký', minWidth: 150, type: 'date', valueGetter: (data) => (data.row.LicenseFee?.SignDate || '') },
+  { field: 'LicenseFee.TotalMoney', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'Tổng tiền cấp quyền (VNĐ)', minWidth: 150, type: 'number', valueGetter: (data) => (data.row.LicenseFee?.TotalMoney || '') },
 
   //Action
   {
@@ -168,11 +156,11 @@ const columnGroup: GridColumnGroupingModel = [
   }
 ];
 
-const columnFillter = [
+const columnFillter: columnFillters[] = [
   {
     label: 'Số GP',
-    value: 'LicenseNumber', // Tên cột trong data
-    type: 'text', // Loại trường (text hoặc autocomplete)
+    value: 'LicenseNumber',
+    type: 'text',
   },
   {
     label: 'Cơ quan cấp phép',
@@ -195,6 +183,17 @@ const columnFillter = [
       { label: 'Thu hồi', value: 5 },
     ],
   },
+  {
+    label: 'Hiệu lực giấy phép',
+    value: 'LicensingEffect',
+    type: 'select',
+    options: [
+      { label: 'Còn hiệu lực', value: 1 },
+      { label: 'Hết hiệu lực', value: 2 },
+      { label: 'Sáp hết hiệu lực', value: 3 },
+      { label: 'Đã bị thu hồi', value: 4 },
+    ],
+  },
 ];
 
 const SurfaceWaterLicense = () => {
@@ -204,13 +203,6 @@ const SurfaceWaterLicense = () => {
   const [data, setData] = useState<any[]>([]);
   const [columns, setColumns] = useState<any[]>([]);
   const [columnFillters, setcolumnFillters] = useState<any[]>([]);
-
-  const licensingEfect = [
-    { label: 'Còn hiệu lực', value: 1 },
-    { label: 'Hết hiệu lực', value: 2 },
-    { label: 'Sáp hết hiệu lực', value: 3 },
-    { label: 'Đã bị thu hồi', value: 4 },
-  ]
 
   useEffect(() => {
     setData(licenseSFData);
@@ -238,28 +230,6 @@ const SurfaceWaterLicense = () => {
               columns={columns}
               columnGroupingModel={columnGroup}
               columnFillter={columnFillters}
-              formFilter={
-                <Autocomplete
-                  size='small'
-                  fullWidth
-                  options={licensingEfect}
-                  getOptionLabel={(option) => option.label}
-                  isOptionEqualToValue={(option: any, value: any) => option.value === value.value}
-                  renderInput={(params) => (
-                    <TextField
-                      {...params}
-                      variant='standard'
-                      fullWidth
-                      label={'Hiệu lực giấy phép'}
-                      inputProps={{
-                        style: { fontSize: 11 },
-                        ...params.inputProps,
-                      }}
-                      InputLabelProps={{ style: { fontSize: 14 } }}
-                    />
-                  )}
-                />
-              }
             />
           </CardContent>
         </Card>
