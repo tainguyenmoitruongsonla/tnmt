@@ -1,5 +1,5 @@
 import { Tv } from '@mui/icons-material'
-import { Checkbox, Grid, Typography } from '@mui/material'
+import { Switch, Grid, Typography } from '@mui/material'
 import { useEffect, useState } from 'react'
 
 import DialogsControlFullScreen from 'src/@core/components/dialog-control-full-screen'
@@ -74,7 +74,7 @@ const Form = ({ data }: any) => {
       id: 'permitAccess',
       label: 'Được phép truy cập',
       elm: (row: any) => (
-        <Checkbox
+        <Switch
           name={row.path}
           checked={!!row?.permitAccess}
           onChange={handleCheckPermit(row, data)}

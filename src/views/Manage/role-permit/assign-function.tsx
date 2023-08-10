@@ -1,4 +1,4 @@
-import { Checkbox, FormControlLabel, Grid, Typography } from '@mui/material'
+import { Switch, FormControlLabel, Grid, Typography } from '@mui/material'
 import { useEffect, useState } from 'react'
 import DialogsControlFullScreen from 'src/@core/components/dialog-control-full-screen'
 import TableComponent from 'src/@core/components/table'
@@ -41,7 +41,7 @@ const Form = ({ data }: any) => {
             return (
               <FormControlLabel
                 key={f.id}
-                control={<FormControlLabel control={<Checkbox name={f.permitCode} checked={f.status} onChange={handleCheckFunction(f, dash)} />} label={f.permitName} />}
+                control={<FormControlLabel control={<Switch name={f.permitCode} checked={f.status} onChange={handleCheckFunction(f, dash)} />} label={f.permitName} />}
                 label={f.name}
               />
             )
