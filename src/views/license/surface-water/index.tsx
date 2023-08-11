@@ -203,17 +203,17 @@ const columnFillter: columnFillters[] = [
   },
   {
     label: 'Công trình',
-    value: 'constructionNa',
+    value: 'constructionName',
     type: 'text',
   },
   {
     label: 'Loại công trình',
-    value: 'ConstructionTypeSlug',
+    value: 'constructionTypeSlug',
     type: 'select',
     options: [
-      { label: 'Thủy điện', value: 'thuy-dien' },
-      { label: 'Hồ chứa', value: 'ho-chua' },
-      { label: 'Trạm bơm', value: 'tram-bom' },
+      { label: 'Thủy điện', value: 'thuydien' },
+      { label: 'Hồ chứa', value: 'hochua' },
+      { label: 'Trạm bơm', value: 'trambom' },
       { label: '...', value: '...' },
     ],
   },

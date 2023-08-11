@@ -47,6 +47,7 @@ const DataGridComponent = (props: DataGridComponentProps) => {
   function SearchToolbar(props: SearchToolbarProps) {
     const { data, columns, formFilter } = props;
     const [filters, setFilters] = React.useState<any>({});
+    const [quickSearchValue, setQuickSearchValue] = React.useState<string>('');
     const [isSlideVisible, setIsSlideVisible] = React.useState(false);
 
     const toggleSlide = () => {
@@ -90,6 +91,27 @@ const DataGridComponent = (props: DataGridComponentProps) => {
       setRowDatas(filteredData);
     };
 
+    //Quick fillter
+    const handleQuickSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+      const value = event.target.value;
+      setQuickSearchValue(value);
+    };
+
+    const applyQuickSearch = (searchValue: string) => {
+      const filteredData = data.filter((item: { [key: string]: any }) => {
+        const lowerSearchValue = searchValue.toLowerCase();
+        for (const column of columns) {
+          const itemValue = item[column.value];
+          if (itemValue?.toString().toLowerCase().includes(lowerSearchValue)) {
+            return true;
+          }
+        }
+
+        return false;
+      });
+      setRowDatas(filteredData);
+    };
+
     // ** Hooks
     const router = useRouter()
 
@@ -100,8 +122,28 @@ const DataGridComponent = (props: DataGridComponentProps) => {
 
     return (
       <Grid container justifyContent={'end'} alignItems={'center'} py={3} >
+        <Grid md={2} xs={6}>
+          <TextField
+            sx={{ p: 0 }}
+            size="small"
+            fullWidth
+            variant="outlined"
+            inputProps={{ style: { fontSize: 14 } }}
+            InputLabelProps={{ style: { fontSize: 14 } }}
+            placeholder="Tìm kiếm nhanh..."
+            value={quickSearchValue}
+            onChange={handleQuickSearchChange}
+            InputProps={{
+              endAdornment: (
+                <Button sx={{ border: 0, marginRight: '-14px', backgroundColor: 'rgba(0, 70, 110, 0.04)' }} onClick={() => applyQuickSearch(quickSearchValue)}>
+                  <Search />
+                </Button>
+              ),
+            }}
+          />
+        </Grid>
         <Button size="small" startIcon={<FilterList />} onClick={toggleSlide}>
-          Tìm kiếm
+          Bộ lọc
         </Button>
         <Divider orientation="vertical" variant="middle" sx={{ borderColor: 'gray' }} flexItem />
         <Button size="small" startIcon={<Cached />} onClick={toggleReload}>
@@ -119,7 +161,7 @@ const DataGridComponent = (props: DataGridComponentProps) => {
         <Slide direction="left" in={isSlideVisible} mountOnEnter unmountOnExit>
           <fieldset style={{ width: '100%' }}>
             <legend>
-              <Typography variant={'button'}>Tìm kiếm</Typography>
+              <Typography variant={'button'}>Bộ lọc</Typography>
             </legend>
             <Grid container >
               {columns.map((column: any) => (
