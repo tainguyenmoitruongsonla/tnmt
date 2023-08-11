@@ -15,8 +15,6 @@ import AutoComplete from 'src/@core/components/field/auto-complete'
 import postData from 'src/api/post'
 import FormLicenseFee from 'src/views/license-fee/form'
 
-
-// id of columnsTable is parameter to bind ex: get LicseFk.BasinId: id: 'License_Fk.BasinId'
 const complete2 = [{ title: 'Đợt 1' }, { title: 'Đợt 2' }, { title: 'Đợt 3' }]
 
 const LicenseMinister = () => {
