@@ -3,6 +3,7 @@ import { DataGrid, GridToolbarExport } from "@mui/x-data-grid";
 import { Cached, FilterList, Search } from '@mui/icons-material';
 import { Autocomplete, Button, Divider, Slide, TextField, Typography } from '@mui/material';
 import Grid from '@mui/material/Unstable_Grid2';
+import { useRouter } from "next/router";
 
 interface columnFillter {
   label: string,
@@ -80,24 +81,31 @@ const DataGridComponent = (props: any) => {
       setRowDatas(filteredData);
     };
 
+    // ** Hooks
+    const router = useRouter()
+
+    //set fle name export follow url
+    const path = router.pathname.split('/');
+    const fileNameExport = `${path[1]}-${path[2]}`;
+
 
     return (
       <Grid container justifyContent={'end'} alignItems={'center'} py={3} >
         <Button size="small" startIcon={<FilterList />} onClick={toggleSlide}>
           Bộ lọc
         </Button>
-        <Divider orientation="vertical" variant="middle" sx={{borderColor: 'gray'}} flexItem />
+        <Divider orientation="vertical" variant="middle" sx={{ borderColor: 'gray' }} flexItem />
         <Button size="small" startIcon={<Cached />} onClick={toggleReload}>
           Tải lại
         </Button>
-        <Divider orientation="vertical" variant="middle" sx={{borderColor: 'gray'}} flexItem />
+        <Divider orientation="vertical" variant="middle" sx={{ borderColor: 'gray' }} flexItem />
         <GridToolbarExport
           csvOptions={{
-            fileName: 'customerDataBase',
+            fileName: fileNameExport,
             utf8WithBom: true,
           }}
         />
-        <Divider orientation="vertical" variant="middle" sx={{borderColor: 'gray'}} flexItem />
+        <Divider orientation="vertical" variant="middle" sx={{ borderColor: 'gray' }} flexItem />
         {createBtn ? createBtn : ''}
         <Slide direction="left" in={isSlideVisible} mountOnEnter unmountOnExit>
           <fieldset style={{ width: '100%' }}>
