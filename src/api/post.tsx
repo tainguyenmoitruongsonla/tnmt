@@ -2,6 +2,8 @@ import { enqueueSnackbar } from "notistack";
 import apiUrl from "./config";
 
 const postData = async (url: string, postData: any) => {
+
+    console.log(postData)
     const token = localStorage.getItem('token');
     try {
         const response = await fetch(`${apiUrl}/${url}`, {

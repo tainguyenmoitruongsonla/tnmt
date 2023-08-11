@@ -8,82 +8,101 @@ import { EditNote, Delete } from '@mui/icons-material'
 
 import TableComponent from 'src/@core/components/table'
 import { TextField } from 'src/@core/components/field'
-import licenseFeeMinister from 'src/api/licensefee/bocapquyen'
+import fetchData from 'src/api/fetch';
+import { useLoadingContext } from 'src/@core/theme/loading-provider';
 import FormatDate from 'src/@core/components/format-date';
 import AutoComplete from 'src/@core/components/field/auto-complete'
+import FormLincenseFee from './form'
+import postData from 'src/api/post'
 
 
 // id of columnsTable is parameter to bind ex: get LicseFk.BasinId: id: 'License_Fk.BasinId'
 const complete2 = [{ title: 'Đợt 1' }, { title: 'Đợt 2' }, { title: 'Đợt 3' }]
-const columnsTable = [
-  {
-    id: 'stt',
-    label: 'STT'
-  },
-  {
-    id: 'LicenseFeeNumber',
-    label: 'Quyết định cấp quyền'
-  },
-  {
-    id: 'SignDate',
-    label: 'Ngày ký', format: (value: any) => FormatDate(value)
-  },
-  {
-    id: '#',
-    label: 'Quyết định bổ sung'
-  },
-  {
-    id: 'TotalMoney',
-    label: 'Tổng số tiền cấp quyền(VNĐ)'
-  },
-  {
-    id: '#',
-    label: 'Ghi chú'
-  },
-  {
-    id: 'LicenseNumber',
-    label: 'Giấy phép'
-  },
-  {
-    id: 'ConstructionName',
-    label: 'Công trình'
-  },
-  { id: 'actions', label: 'Thao tác' }
-]
 
 const LicenseMinister = () => {
-  const [data, setData] = useState<any[]>([])
-  const [columns, setColumns] = useState<any[]>([])
+
   const [TypeOfConsId, setTypeOfConsId] = useState([1])
   const handleChange = (e: any) => {
     const val = e == undefined || e == null ? 1 : e.value
     setTypeOfConsId(val)
   }
+  const [columns, setColumns] = useState<any[]>([])
+  const [postSuccess, setPostSuccess] = useState(false);
+  const { showLoading, hideLoading } = useLoadingContext();
+  const [loading, setLoading] = useState(false)
+  if (loading == true) {
+    showLoading();
+  } else {
+    hideLoading();
+  }
+  const handlePostSuccess = () => {
+    setPostSuccess(prevState => !prevState);
+  };
   
-  // const fetchData = async () => {
-  //   try {
-  //     const response = await fetch('http://tnnsl.loc/api/Construction/list?BasinId=0&CommuneId=0&DistrictId=0&Keyword=&LicenseId=-1&LicensingAuthorities=-1&PageIndex=1&PageSize=0&ProvinceId=0&StartDate=-1&Status=true&TypeOfConstructionId=1'); // Thay đổi URL API tùy thuộc vào nguồn dữ liệu của bạn
-  //     const jsonData = await response.json();
-  //     console.log(jsonData.ListData)
-  //     setData(jsonData.ListData);
-  //   } catch (error) {
-  //     console.error('Error fetching data:', error);
-  //   }
-  // };
+  const [resData, setResData] = useState([]);
+
+  const columnsTable = [
+    {
+      id: 'stt',
+      label: 'STT'
+    },
+    {
+      id: 'licenseFeeNumber',
+      label: 'Quyết định cấp quyền'
+    },
+    {
+      id: 'signDate',
+      label: 'Ngày ký', format: (value: any) => FormatDate(value)
+    },
+    {
+      id: '#',
+      label: 'Quyết định bổ sung'
+    },
+    {
+      id: 'totalMoney',
+      label: 'Tổng số tiền cấp quyền(VNĐ)'
+    },
+    {
+      id: 'description',
+      label: 'Ghi chú'
+    },
+    {
+      id: 'LicenseNumber',
+      label: 'Giấy phép'
+    },
+    {
+      id: 'ConstructionName',
+      label: 'Công trình'
+    },
+    { id: 'actions', label: 'Thao tác', }
+  ]
 
   useEffect(() => {
-    setData(licenseFeeMinister)
+    const getData = async () => {
+      try {
+        setLoading(true)
+        const data = await fetchData('LicenseFee/list');
+        setResData(data);
+      } catch (error) {
+        setResData([]);
+      }
+      setLoading(false)
+    };
+
+    getData();
     setColumns(columnsTable)
+  }, [postSuccess]);
 
-    // fetchData();
-  }, [])
 
-  const EditLicense = (row: any) => {
-    console.log('Edit: ' + row.LicenseNumber)
-  }
-
-  const DeleteLicense = (row: any) => {
-    console.log('Delete: ' + row.LicenseNumber)
+  const DeleteLicense = async (row: any) => {
+    console.log(row)
+    try {
+      await postData('LicenseFee/delete', row)
+    } catch (error) {
+      console.error(error)
+    }
+    setPostSuccess(true);
+    handlePostSuccess();
   }
 
   return (
@@ -131,24 +150,18 @@ const LicenseMinister = () => {
               </Button>
           </Grid>
           <Grid item xs={12} sm={2} md={2}>
-          <Button size='small' fullWidth  variant='outlined'>
-              Thêm mới
-            </Button>
+            <FormLincenseFee setPostSuccess={handlePostSuccess} isEdit={false} />
           </Grid>
         </Grid>       
       </Grid>
       <Grid item xs={12} sm={12} md={12}>
           <TableComponent
             columns={columns}
-            data={data}
+            data={resData}
             show={TypeOfConsId}
             actions={(row: any) => (
               <Box>
-                <Tooltip title='Chỉnh sửa giấy phép'>
-                  <IconButton onClick={() => EditLicense(row)}>
-                    <EditNote className='tableActionBtn' />
-                  </IconButton>
-                </Tooltip>
+                <FormLincenseFee data={row} isEdit={true} setPostSuccess={handlePostSuccess}/>
                 <Tooltip title='Xóa giấy phép'>
                   <IconButton onClick={() => DeleteLicense(row)}>
                     <Delete className='tableActionBtn deleteBtn' />

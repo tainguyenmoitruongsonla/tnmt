@@ -32,7 +32,7 @@ const ConstructionField = () =>{
         <Grid container spacing={4}>
           <Grid item xs={12} md={4} sm={12} sx={{ my: 2 }}>
           <AutoComplete
-            onChange={(e:any, v:any) => handleChange(v)}
+             onChange={(e:any, v:any) => handleChange(v)}
              size="small" 
              options={construcsionType}
              getOptionLabel={(option: any) => option.title}
