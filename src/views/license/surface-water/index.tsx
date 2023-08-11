@@ -37,6 +37,7 @@ const columnsTable: GridColDef[] = [
   { field: 'Effect', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'Hiệu lực GP', minWidth: 150, renderCell: (data) => (<CheckEffect data={data.row} />) },
   { field: 'SignDate', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'Ngày ký', minWidth: 150, renderCell: (data) => (FormatDate(data.row.SignDate)) },
   { field: 'IssueDate', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'Ngày có hiệu lực', minWidth: 150, renderCell: (data) => (FormatDate(data.row.IssueDate)) },
+  { field: 'ExpireDate', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'Ngày hểt hiệu lực', minWidth: 150, renderCell: (data) => (FormatDate(data.row.ExpireDate)) },
   { field: 'LicenseTypeName', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'Loại hình', minWidth: 120 },
 
   //Business
@@ -93,6 +94,7 @@ const columnGroup: GridColumnGroupingModel = [
       { field: 'Effect' },
       { field: 'SignDate' },
       { field: 'IssueDate' },
+      { field: 'ExpireDate' },
       { field: 'LicenseTypeName' },
     ],
   },
@@ -255,7 +257,7 @@ const SurfaceWaterLicense = () => {
   return (
     <Grid container spacing={2}>
       <Grid xs={12} md={3}>
-        <CountLicense />
+        <CountLicense data={data} />
       </Grid>
       <Grid xs={12} md={9} sx={{ height: '55vh', overflow: 'hidden' }}>
         <Card sx={{ height: '100%' }}>

@@ -26,7 +26,7 @@ const CheckEffect = ({ data }: any) => {
       const licenseStatus = getLicenseStatus(endDate);
       if (licenseStatus != null) {
         if (data.IsRevoked === false) {
-          if (data.License_Fk?.LicensingTypeId === 5) {
+          if (data?.LicensingTypeId === 5) {
             licenseStatusComponent = <div className="license_status hsd-success">Còn hiệu lực</div>;
           } else {
             if (licenseStatus > 0) {
