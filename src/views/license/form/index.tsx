@@ -48,9 +48,10 @@ const FormLicense = ({ data, closeDialogs }: any) => {
 interface CreateLicenseProps {
   isEdit: boolean;
   data?: any;
+  setPostSuccess? :any;
 }
 
-const CreateLicense = ({ isEdit, data }: CreateLicenseProps) => {
+const CreateLicense = ({ isEdit, data, setPostSuccess }: CreateLicenseProps) => {
   const formTitle = isEdit ? 'Sửa giấy phép' : 'Thêm mới giấy phép'
 
   return (
@@ -61,14 +62,14 @@ const CreateLicense = ({ isEdit, data }: CreateLicenseProps) => {
             <EditNote
               className='tableActionBtn'
               onClick={() =>
-                openDialogs(<FormLicense data={data} closeDialogs={closeDialogs} />, formTitle)
+                openDialogs(<FormLicense data={data} closeDialogs={closeDialogs} setPostSuccess={setPostSuccess} />, formTitle)
               }
             />
           ) : (
             <Button
               size="small" startIcon={<Add />}
               onClick={() =>
-                openDialogs(<FormLicense data={data} closeDialogs={closeDialogs} />, formTitle)
+                openDialogs(<FormLicense data={data} closeDialogs={closeDialogs} setPostSuccess={setPostSuccess} />, formTitle)
               }
             >Thêm mới
             </Button>

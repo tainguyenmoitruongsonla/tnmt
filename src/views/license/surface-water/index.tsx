@@ -9,7 +9,6 @@ import { GridColDef, GridColumnGroupingModel } from '@mui/x-data-grid';
 //Other Imports
 import FormatDate from 'src/@core/components/format-date';
 import CheckEffect from 'src/@core/components/license-page/check-effect';
-import licenseSFData from 'src/api/license/nuocmat';
 
 // import MapComponent from 'src/@core/components/map';
 import CountLicense from 'src/@core/components/license-page/count-license';
@@ -19,49 +18,51 @@ import { Delete } from '@mui/icons-material';
 import CreateLicense from '../form';
 
 import dynamic from 'next/dynamic';
+import fetchData from 'src/api/fetch';
+import { useLoadingContext } from 'src/@core/theme/loading-provider';
 
 const Map = dynamic(() => import("src/@core/components/map"), { ssr: false });
 
 const EditLicense = (data: any) => {
-  console.log('Edit: ' + data.row?.LicenseNumber)
+  console.log('Edit: ' + data.row?.licenseNumber)
 }
 
 const DeleteLicense = (data: any) => {
-  confirm(`Bạn muốn xóa:  ${data.row?.LicenseNumber} chứ?`)
+  confirm(`Bạn muốn xóa:  ${data.row?.licenseNumber} chứ?`)
 }
 
 //Init columnTable
 const columnsTable: GridColDef[] = [
   { field: 'id', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'ID', minWidth: 90 },
-  { field: 'LicenseNumber', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'Số GP', minWidth: 150, renderCell: (data) => (<ShowFilePDF name={data.row.LicenseNumber} src={`/pdf/Licenses/` + data.row.LicensingAuthorities + `/` + data.row.TypeSlug + `/` + data.row.LicenseFile} />) },
-  { field: 'Effect', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'Hiệu lực GP', minWidth: 150, renderCell: (data) => (<CheckEffect data={data.row} />) },
-  { field: 'SignDate', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'Ngày ký', minWidth: 150, renderCell: (data) => (FormatDate(data.row.SignDate)) },
-  { field: 'IssueDate', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'Ngày có hiệu lực', minWidth: 150, renderCell: (data) => (FormatDate(data.row.IssueDate)) },
-  { field: 'ExpireDate', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'Ngày hểt hiệu lực', minWidth: 150, renderCell: (data) => (FormatDate(data.row.ExpireDate)) },
-  { field: 'LicenseTypeName', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'Loại hình', minWidth: 120 },
+  { field: 'licenseNumber', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'Số GP', minWidth: 150, renderCell: (data) => (<ShowFilePDF name={data.row.licenseNumber} src={`/pdf/Licenses/` + data.row.licensingAuthorities + `/` + data.row.typeSlug + `/` + data.row.licenseFile} />) },
+  { field: 'effect', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'Hiệu lực GP', minWidth: 150, renderCell: (data) => (<CheckEffect data={data.row} />) },
+  { field: 'signDate', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'Ngày ký', minWidth: 150, renderCell: (data) => (FormatDate(data.row.signDate)) },
+  { field: 'issueDate', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'Ngày có hiệu lực', minWidth: 150, renderCell: (data) => (FormatDate(data.row.issueDate)) },
+  { field: 'expireDate', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'Ngày hểt hiệu lực', minWidth: 150, renderCell: (data) => (FormatDate(data.row.expireDate)) },
+  { field: 'licenseTypeName', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'Loại hình', minWidth: 120 },
 
-  //Business
-  { field: 'Business.Name', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'Tên', minWidth: 400, valueGetter: (data) => (`${data.row.Business?.Name || ''}`) },
-  { field: 'Business.Address', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'Địa chỉ', minWidth: 400, valueGetter: (data) => (`${data.row.Business?.Address || ''}`) },
+  //business
+  { field: 'business.name', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'Tên', minWidth: 400, valueGetter: (data) => (`${data.row.business?.name || ''}`) },
+  { field: 'business.address', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'Địa chỉ', minWidth: 400, valueGetter: (data) => (`${data.row.business?.address || ''}`) },
 
   //oldLicense
-  { field: 'OldLicense.LicenseNumber', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'Số GP', minWidth: 150, renderCell: (data) => (<ShowFilePDF name={data.row.OldLicense?.LicenseNumber} src={`/pdf/Licenses/` + data.row.OldLicense?.LicensingAuthorities + `/` + data.row.OldLicense?.TypeSlug + `/` + data.row.OldLicense?.LicenseFile} />) },
-  { field: 'OldLicense.SignDate', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'Ngày ký', minWidth: 150, valueGetter: (data) => (`${data.row.OldLicense?.SignDate || ''}`) },
+  { field: 'oldLicense.licenseNumber', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'Số GP', minWidth: 150, renderCell: (data) => (<ShowFilePDF name={data.row.oldLicense?.licenseNumber} src={`/pdf/Licenses/` + data.row.oldLicense?.licensingAuthorities + `/` + data.row.oldLicense?.typeSlug + `/` + data.row.oldLicense?.LicenseFile} />) },
+  { field: 'oldLicense.signDate', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'Ngày ký', minWidth: 150, valueGetter: (data) => (`${data.row.oldLicense?.signDate || ''}`) },
 
   //Construction
-  { field: 'Construction.ConstructionName', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'Tên Công trình', minWidth: 200, valueGetter: (data) => (`${data.row.Construction?.ConstructionName || ''}`) },
-  { field: 'Construction.ConstructionLocation', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'Địa điểm Công trình', minWidth: 400, valueGetter: (data) => (`${data.row.Construction?.ConstructionLocation || ''}`) },
-  { field: 'Construction.ConstructionTypeName', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'Loại hình Công trình', minWidth: 150, valueGetter: (data) => (`${data.row.Construction?.ConstructionTypeName || ''}`) },
-  { field: 'Construction.CommuneName', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'Xã', minWidth: 150, valueGetter: (data) => (`${data.row.Construction?.CommuneName || ''}`) },
-  { field: 'Construction.DistrictName', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'Huyện', minWidth: 150, valueGetter: (data) => (`${data.row.Construction?.DistrictName || ''}`) },
-  { field: 'Construction.ExploitedWS', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'Nguồn nước khai thác', minWidth: 150, valueGetter: (data) => (`${data.row.Construction?.ExploitedWS || ''}`) },
-  { field: 'Construction.RiverName', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'Lưu vực', minWidth: 150, valueGetter: (data) => (`${data.row.Construction?.RiverName || ''}`) },
-  { field: 'Construction.BasinName', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'Tiểu vùng quy hoạch', minWidth: 250, valueGetter: (data) => (`${data.row.Construction?.BasinName || ''}`) },
+  { field: 'construction.constructionName', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'Tên Công trình', minWidth: 200, valueGetter: (data) => (`${data.row.construction?.constructionName || ''}`) },
+  { field: 'construction.constructionLocation', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'Địa điểm Công trình', minWidth: 400, valueGetter: (data) => (`${data.row.construction?.constructionLocation || ''}`) },
+  { field: 'construction.constructionTypeName', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'Loại hình Công trình', minWidth: 150, valueGetter: (data) => (`${data.row.construction?.constructionTypeName || ''}`) },
+  { field: 'construction.CommuneName', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'Xã', minWidth: 150, valueGetter: (data) => (`${data.row.construction?.CommuneName || ''}`) },
+  { field: 'construction.districtName', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'Huyện', minWidth: 150, valueGetter: (data) => (`${data.row.construction?.districtName || ''}`) },
+  { field: 'construction.exploitedWS', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'Nguồn nước khai thác', minWidth: 150, valueGetter: (data) => (`${data.row.construction?.exploitedWS || ''}`) },
+  { field: 'construction.riverName', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'Lưu vực', minWidth: 150, valueGetter: (data) => (`${data.row.construction?.riverName || ''}`) },
+  { field: 'construction.basinName', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'Tiểu vùng quy hoạch', minWidth: 250, valueGetter: (data) => (`${data.row.construction?.basinName || ''}`) },
 
-  //LicenseFee
-  { field: 'LicenseFee.LicenseFeeNumber', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'Số QĐ', minWidth: 150, renderCell: (data) => (<ShowFilePDF name={data.row.LicenseFee?.LicenseFeeNumber} src={`/pdf/LicenseFees/` + data.row.LicenseFee?.LicensingAuthorities + `/` + data.row.LicenseFee?.FilePDF} />) },
-  { field: 'LicenseFee.SignDate', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'Ngày ký', minWidth: 150, renderCell: (data) => (FormatDate(data.row.LicenseFee?.SignDate)) },
-  { field: 'LicenseFee.TotalMoney', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'Tổng tiền cấp quyền (VNĐ)', minWidth: 150, type: 'number', valueGetter: (data) => (data.row.LicenseFee?.TotalMoney || '') },
+  //licenseFee
+  { field: 'licenseFee.licenseFeeNumber', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'Số QĐ', minWidth: 150, renderCell: (data) => (<ShowFilePDF name={data.row.licenseFee?.licenseFeeNumber} src={`/pdf/licenseFees/` + data.row.licenseFee?.licensingAuthorities + `/` + data.row.licenseFee?.filePDF} />) },
+  { field: 'licenseFee.signDate', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'Ngày ký', minWidth: 150, renderCell: (data) => (FormatDate(data.row.licenseFee?.signDate)) },
+  { field: 'licenseFee.TotalMoney', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'Tổng tiền cấp quyền (VNĐ)', minWidth: 150, type: 'number', valueGetter: (data) => (data.row.licenseFee?.totalMoney || '') },
 
   //Action
   {
@@ -90,12 +91,12 @@ const columnGroup: GridColumnGroupingModel = [
     headerClassName: 'tableHead',
     headerAlign: 'center',
     children: [
-      { field: 'LicenseNumber' },
-      { field: 'Effect' },
-      { field: 'SignDate' },
-      { field: 'IssueDate' },
-      { field: 'ExpireDate' },
-      { field: 'LicenseTypeName' },
+      { field: 'licenseNumber' },
+      { field: 'effect' },
+      { field: 'signDate' },
+      { field: 'issueDate' },
+      { field: 'expireDate' },
+      { field: 'licenseTypeName' },
     ],
   },
   {
@@ -103,8 +104,8 @@ const columnGroup: GridColumnGroupingModel = [
     headerClassName: 'tableHead',
     headerAlign: 'center',
     children: [
-      { field: 'Business.Name' },
-      { field: 'Business.Address' }
+      { field: 'business.name' },
+      { field: 'business.address' }
     ],
   },
   {
@@ -112,8 +113,8 @@ const columnGroup: GridColumnGroupingModel = [
     headerClassName: 'tableHead',
     headerAlign: 'center',
     children: [
-      { field: 'OldLicense.LicenseNumber' },
-      { field: 'OldLicense.SignDate' }
+      { field: 'oldLicense.licenseNumber' },
+      { field: 'oldLicense.signDate' }
     ]
   },
   {
@@ -121,14 +122,14 @@ const columnGroup: GridColumnGroupingModel = [
     headerClassName: 'tableHead',
     headerAlign: 'center',
     children: [
-      { field: 'Construction.ConstructionName' },
-      { field: 'Construction.ConstructionLocation' },
-      { field: 'Construction.ConstructionTypeName' },
-      { field: 'Construction.CommuneName' },
-      { field: 'Construction.DistrictName' },
-      { field: 'Construction.ExploitedWS' },
-      { field: 'Construction.RiverName' },
-      { field: 'Construction.BasinName' },
+      { field: 'construction.constructionName' },
+      { field: 'construction.constructionLocation' },
+      { field: 'construction.constructionTypeName' },
+      { field: 'construction.CommuneName' },
+      { field: 'construction.districtName' },
+      { field: 'construction.exploitedWS' },
+      { field: 'construction.riverName' },
+      { field: 'construction.basinName' },
     ],
   },
   {
@@ -136,9 +137,9 @@ const columnGroup: GridColumnGroupingModel = [
     headerClassName: 'tableHead',
     headerAlign: 'center',
     children: [
-      { field: 'LicenseFee.LicenseFeeNumber' },
-      { field: 'LicenseFee.SignDate' },
-      { field: 'LicenseFee.TotalMoney' }
+      { field: 'licenseFee.licenseFeeNumber' },
+      { field: 'licenseFee.signDate' },
+      { field: 'licenseFee.TotalMoney' }
     ],
   },
   {
@@ -154,12 +155,12 @@ const columnGroup: GridColumnGroupingModel = [
 const columnFillter: columnFillters[] = [
   {
     label: 'Số GP',
-    value: 'LicenseNumber',
+    value: 'licenseNumber',
     type: 'text',
   },
   {
     label: 'Cơ quan cấp phép',
-    value: 'LicensingAuthorities',
+    value: 'licensingAuthorities',
     type: 'select',
     options: [
       { label: 'BTNMT', value: 0 },
@@ -168,30 +169,30 @@ const columnFillter: columnFillters[] = [
   },
   {
     label: 'Loại hình cấp phép',
-    value: 'LicensingTypeId',
+    value: 'licenseTypeSlug',
     type: 'select',
     options: [
-      { label: 'Cấp mới', value: 1 },
-      { label: 'Cấp lại', value: 2 },
-      { label: 'Gia hạn', value: 3 },
-      { label: 'Điểu chỉnh', value: 4 },
-      { label: 'Thu hồi', value: 5 },
+      { label: 'Cấp mới', value: 'cap-moi' },
+      { label: 'Cấp lại', value: 'cap-lai' },
+      { label: 'Gia hạn', value: 'gia-han' },
+      { label: 'Điểu chỉnh', value: 'dieu-chinh' },
+      { label: 'Thu hồi', value: 'thu-hoi' },
     ],
   },
   {
     label: 'Hiệu lực giấy phép',
-    value: 'LicensingEffect',
+    value: 'licenseValidity',
     type: 'select',
     options: [
-      { label: 'Còn hiệu lực', value: 1 },
-      { label: 'Hết hiệu lực', value: 2 },
-      { label: 'Sáp hết hiệu lực', value: 3 },
-      { label: 'Đã bị thu hồi', value: 4 },
+      { label: 'Còn hiệu lực', value: 'con-hieu-luc' },
+      { label: 'Hết hiệu lực', value: 'het-hieu-luc' },
+      { label: 'Sáp hết hiệu lực', value: 'sap-het-hieu-luc' },
+      { label: 'Đã bị thu hồi', value: 'da-bi-thu-hoi' },
     ],
   },
   {
     label: 'Chủ  giấy phép',
-    value: 'BusinessId',
+    value: 'businessId',
     type: 'select',
     options: [
       { label: 'Công ty A', value: 1 },
@@ -202,12 +203,23 @@ const columnFillter: columnFillters[] = [
   },
   {
     label: 'Công trình',
-    value: 'ConstructionId',
+    value: 'constructionNa',
     type: 'text',
   },
   {
+    label: 'Loại công trình',
+    value: 'ConstructionTypeSlug',
+    type: 'select',
+    options: [
+      { label: 'Thủy điện', value: 'thuy-dien' },
+      { label: 'Hồ chứa', value: 'ho-chua' },
+      { label: 'Trạm bơm', value: 'tram-bom' },
+      { label: '...', value: '...' },
+    ],
+  },
+  {
     label: 'Huyện',
-    value: 'DistrictId',
+    value: 'districtId',
     type: 'select',
     options: [
       { label: 'Huyện 1', value: 1 },
@@ -218,7 +230,7 @@ const columnFillter: columnFillters[] = [
   },
   {
     label: 'Xã',
-    value: 'CommuneId',
+    value: 'communeId',
     type: 'select',
     options: [
       { label: 'Xã 1', value: 1 },
@@ -229,7 +241,7 @@ const columnFillter: columnFillters[] = [
   },
   {
     label: 'Tiểu vùng quy hoạch',
-    value: 'BasinId',
+    value: 'basinId',
     type: 'select',
     options: [
       { label: 'Tiểu vùng quy hoạch 1', value: 1 },
@@ -244,12 +256,35 @@ const SurfaceWaterLicense = () => {
   const [mapCenter] = useState([15.012172, 108.676488]);
   const [mapZoom] = useState(9);
 
-  const [data, setData] = useState<any[]>([]);
   const [columns, setColumns] = useState<any[]>([]);
   const [columnFillters, setcolumnFillters] = useState<any[]>([]);
 
+  const [postSuccess, setPostSuccess] = useState(false);
+  const { showLoading, hideLoading } = useLoadingContext();
+  const [loading, setLoading] = useState(false)
+  loading == true ? showLoading() : hideLoading();
+
+  const handlePostSuccess = () => {
+    setPostSuccess(prevState => !prevState);
+  };
+  const [resData, setResData] = useState([]);
+
   useEffect(() => {
-    setData(licenseSFData);
+    const getData = async () => {
+      setLoading(true);
+      try {
+        const data = await fetchData('License/list');
+        setResData(data);
+      } catch (error) {
+        setResData([]);
+      } finally {
+        setLoading(false);
+      }
+    };
+    getData();
+  }, [postSuccess]);
+
+  useEffect(() => {
     setColumns(columnsTable);
     setcolumnFillters(columnFillter)
   }, []);
@@ -257,7 +292,7 @@ const SurfaceWaterLicense = () => {
   return (
     <Grid container spacing={2}>
       <Grid xs={12} md={3}>
-        <CountLicense data={data} />
+        <CountLicense data={resData} />
       </Grid>
       <Grid xs={12} md={9} sx={{ height: '55vh', overflow: 'hidden' }}>
         <Card sx={{ height: '100%' }}>
@@ -270,12 +305,12 @@ const SurfaceWaterLicense = () => {
         <Card sx={{ height: '100%' }}>
           <CardContent sx={{ p: 0, height: '100%' }}>
             <DataGridComponent
-              rows={data}
+              rows={resData}
               columns={columns}
               columnGroupingModel={columnGroup}
               columnFillter={columnFillters}
               createBtn={
-                <CreateLicense isEdit={false} />
+                <CreateLicense isEdit={false} setPostSuccess={handlePostSuccess} />
               }
             />
           </CardContent>

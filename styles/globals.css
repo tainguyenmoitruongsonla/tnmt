@@ -240,6 +240,7 @@ code[class*='language-'] {
   height: 25px !important;
   line-height: 25px !important;
   padding: 0 10px !important;
+  width: 120px !important;
 }
 
 .hsd-danger {

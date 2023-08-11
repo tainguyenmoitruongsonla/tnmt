@@ -19,7 +19,16 @@ interface columnFillterOptions {
 
 export type columnFillters = columnFillter;
 
-const DataGridComponent = (props: any) => {
+interface DataGridComponentProps {
+  rows: any
+  columns: any
+  columnGroupingModel?: any
+  columnFillter?: any
+  formFilter?: any
+  createBtn?: any
+}
+
+const DataGridComponent = (props: DataGridComponentProps) => {
 
   const { rows, columns, columnGroupingModel, columnFillter, formFilter, createBtn } = props;
 
@@ -92,7 +101,7 @@ const DataGridComponent = (props: any) => {
     return (
       <Grid container justifyContent={'end'} alignItems={'center'} py={3} >
         <Button size="small" startIcon={<FilterList />} onClick={toggleSlide}>
-          Bộ lọc
+          Tìm kiếm
         </Button>
         <Divider orientation="vertical" variant="middle" sx={{ borderColor: 'gray' }} flexItem />
         <Button size="small" startIcon={<Cached />} onClick={toggleReload}>
@@ -110,7 +119,7 @@ const DataGridComponent = (props: any) => {
         <Slide direction="left" in={isSlideVisible} mountOnEnter unmountOnExit>
           <fieldset style={{ width: '100%' }}>
             <legend>
-              <Typography variant={'button'}>Bộ lọc</Typography>
+              <Typography variant={'button'}>Tìm kiếm</Typography>
             </legend>
             <Grid container >
               {columns.map((column: any) => (
