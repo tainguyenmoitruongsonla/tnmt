@@ -11,9 +11,11 @@ interface TableColumn {
   colspan?: number;
   rowspan?: number;
   children?: TableColumn[];
-  format?: (value: any) => string;
+  format?: (value: any) => string | React.ReactNode;
   elm?: React.ReactNode;
 }
+
+export type TableColumns = TableColumn;
 
 interface Data {
   [key: string]: any;

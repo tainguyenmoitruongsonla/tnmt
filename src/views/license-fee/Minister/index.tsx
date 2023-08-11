@@ -4,16 +4,16 @@ import { useState, useEffect } from 'react'
 import { Grid, Box, IconButton, Tooltip, Button, Typography } from '@mui/material'
 
 // ** Icons Imports
-import { EditNote, Delete } from '@mui/icons-material'
+import { Delete } from '@mui/icons-material'
 
-import TableComponent from 'src/@core/components/table'
+import TableComponent, { TableColumns } from 'src/@core/components/table'
 import { TextField } from 'src/@core/components/field'
 import fetchData from 'src/api/fetch';
 import { useLoadingContext } from 'src/@core/theme/loading-provider';
 import FormatDate from 'src/@core/components/format-date';
 import AutoComplete from 'src/@core/components/field/auto-complete'
-import FormLincenseFee from './form'
 import postData from 'src/api/post'
+import FormLicenseFee from 'src/views/license-fee/form'
 
 
 // id of columnsTable is parameter to bind ex: get LicseFk.BasinId: id: 'License_Fk.BasinId'
@@ -26,7 +26,7 @@ const LicenseMinister = () => {
     const val = e == undefined || e == null ? 1 : e.value
     setTypeOfConsId(val)
   }
-  const [columns, setColumns] = useState<any[]>([])
+
   const [postSuccess, setPostSuccess] = useState(false);
   const { showLoading, hideLoading } = useLoadingContext();
   const [loading, setLoading] = useState(false)
@@ -38,59 +38,34 @@ const LicenseMinister = () => {
   const handlePostSuccess = () => {
     setPostSuccess(prevState => !prevState);
   };
-  
+
   const [resData, setResData] = useState([]);
 
-  const columnsTable = [
-    {
-      id: 'stt',
-      label: 'STT'
-    },
-    {
-      id: 'licenseFeeNumber',
-      label: 'Quyết định cấp quyền'
-    },
-    {
-      id: 'signDate',
-      label: 'Ngày ký', format: (value: any) => FormatDate(value)
-    },
-    {
-      id: '#',
-      label: 'Quyết định bổ sung'
-    },
-    {
-      id: 'totalMoney',
-      label: 'Tổng số tiền cấp quyền(VNĐ)'
-    },
-    {
-      id: 'description',
-      label: 'Ghi chú'
-    },
-    {
-      id: 'LicenseNumber',
-      label: 'Giấy phép'
-    },
-    {
-      id: 'ConstructionName',
-      label: 'Công trình'
-    },
+  const columnsTable: TableColumns[] = [
+    { id: 'stt', label: 'STT' },
+    { id: 'licenseFeeNumber', label: 'Quyết định cấp quyền' },
+    { id: 'signDate', label: 'Ngày ký', format: (value: any) => FormatDate(value)},
+    { id: '#', label: 'Quyết định bổ sung' },
+    { id: 'totalMoney', label: 'Tổng số tiền cấp quyền(VNĐ)' },
+    { id: 'description', label: 'Ghi chú' },
+    { id: 'LicenseNumber', label: 'Giấy phép' },
+    { id: 'ConstructionName', label: 'Công trình' },
     { id: 'actions', label: 'Thao tác', }
   ]
 
   useEffect(() => {
     const getData = async () => {
+      setLoading(true);
       try {
-        setLoading(true)
         const data = await fetchData('LicenseFee/list');
         setResData(data);
       } catch (error) {
         setResData([]);
+      } finally {
+        setLoading(false);
       }
-      setLoading(false)
     };
-
     getData();
-    setColumns(columnsTable)
   }, [postSuccess]);
 
 
@@ -123,9 +98,9 @@ const LicenseMinister = () => {
           <Grid item xs={12} sm={4} md={4}>
             <TextField label='Nhập số quyết định' size='small' fullWidth></TextField>
           </Grid>
-         
+
           <Grid item xs={12} sm={2} md={2}>
-          <AutoComplete
+            <AutoComplete
               fullWidth
               onChange={(e: any, v: any) => handleChange(v)}
               size='small'
@@ -135,7 +110,7 @@ const LicenseMinister = () => {
             />
           </Grid>
           <Grid item xs={12} sm={2} md={2}>
-          <AutoComplete
+            <AutoComplete
               fullWidth
               onChange={(e: any, v: any) => handleChange(v)}
               size='small'
@@ -145,32 +120,32 @@ const LicenseMinister = () => {
             />
           </Grid>
           <Grid item xs={12} sm={2} md={2}>
-            <Button size='small' fullWidth  variant='outlined'>
-                Tìm kiếm
-              </Button>
+            <Button size='small' fullWidth variant='outlined'>
+              Tìm kiếm
+            </Button>
           </Grid>
           <Grid item xs={12} sm={2} md={2}>
-            <FormLincenseFee setPostSuccess={handlePostSuccess} isEdit={false} />
+            <FormLicenseFee setPostSuccess={handlePostSuccess} isEdit={false} />
           </Grid>
-        </Grid>       
+        </Grid>
       </Grid>
       <Grid item xs={12} sm={12} md={12}>
-          <TableComponent
-            columns={columns}
-            data={resData}
-            show={TypeOfConsId}
-            actions={(row: any) => (
-              <Box>
-                <FormLincenseFee data={row} isEdit={true} setPostSuccess={handlePostSuccess}/>
-                <Tooltip title='Xóa giấy phép'>
-                  <IconButton onClick={() => DeleteLicense(row)}>
-                    <Delete className='tableActionBtn deleteBtn' />
-                  </IconButton>
-                </Tooltip>
-              </Box>
-            )}
-          />
-        </Grid>
+        <TableComponent
+          columns={columnsTable}
+          data={resData}
+          show={TypeOfConsId}
+          actions={(row: any) => (
+            <Box>
+              <FormLicenseFee data={row} setPostSuccess={handlePostSuccess} isEdit={true} />
+              <Tooltip title='Xóa giấy phép'>
+                <IconButton onClick={() => DeleteLicense(row)}>
+                  <Delete className='tableActionBtn deleteBtn' />
+                </IconButton>
+              </Tooltip>
+            </Box>
+          )}
+        />
+      </Grid>
     </Grid>
   )
 }
