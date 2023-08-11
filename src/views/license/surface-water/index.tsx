@@ -140,14 +140,7 @@ const columnGroup: GridColumnGroupingModel = [
     ],
   },
   {
-    groupId: '#',
-    renderHeaderGroup: () => (
-      <Tooltip title="Thêm mới giấy phép">
-        <IconButton onClick={() => console.log('Create license')}>
-          <CreateLicense isEdit={false} />
-        </IconButton>
-      </Tooltip>
-    ),
+    groupId: ' ',
     headerClassName: 'tableHead',
     headerAlign: 'center',
     children: [
@@ -279,6 +272,9 @@ const SurfaceWaterLicense = () => {
               columns={columns}
               columnGroupingModel={columnGroup}
               columnFillter={columnFillters}
+              createBtn={
+                <CreateLicense isEdit={false} />
+              }
             />
           </CardContent>
         </Card>

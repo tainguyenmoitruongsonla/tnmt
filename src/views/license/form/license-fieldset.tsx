@@ -37,7 +37,7 @@ export default function LicenseFieldset(data: any) {
             </legend>
             <Grid container spacing={4} rowSpacing={1}>
                 <Grid item xs={12} md={6} sm={12} sx={{ my: 2 }}>
-                    <TextField size='small' type='text' label='Số giấy phép' fullWidth placeholder='' defaultValue={data.LicenseNumber} />
+                    <TextField required size='small' type='text' label='Số giấy phép' fullWidth placeholder='' defaultValue={data.LicenseNumber} />
                 </Grid>
                 <Grid item xs={12} md={6} sm={12} sx={{ my: 2 }}>
                     <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -71,7 +71,7 @@ export default function LicenseFieldset(data: any) {
                     </Box>
                 </Grid>
                 <Grid item xs={12} md={6} sm={12} sx={{ my: 2 }}>
-                    <TextField size='small' type='text' label='Thời hạn giấy phép' fullWidth placeholder='' defaultValue='' />
+                    <TextField required size='small' type='text' label='Thời hạn giấy phép' fullWidth placeholder='' defaultValue='' />
                 </Grid>
                 <Grid item xs={12} md={6} sm={12} sx={{ my: 2 }}>
                     <Box>

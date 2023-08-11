@@ -1,7 +1,7 @@
 import * as React from "react";
 import { DataGrid, GridToolbarExport } from "@mui/x-data-grid";
 import { Cached, FilterList, Search } from '@mui/icons-material';
-import { Autocomplete, Button, Slide, TextField, Typography } from '@mui/material';
+import { Autocomplete, Button, Divider, Slide, TextField, Typography } from '@mui/material';
 import Grid from '@mui/material/Unstable_Grid2';
 
 interface columnFillter {
@@ -20,7 +20,7 @@ export type columnFillters = columnFillter;
 
 const DataGridComponent = (props: any) => {
 
-  const { rows, columns, columnGroupingModel, columnFillter, formFilter } = props;
+  const { rows, columns, columnGroupingModel, columnFillter, formFilter, createBtn } = props;
 
   const [rowDatas, setRowDatas] = React.useState<any>(rows);
 
@@ -86,15 +86,19 @@ const DataGridComponent = (props: any) => {
         <Button size="small" startIcon={<FilterList />} onClick={toggleSlide}>
           Bộ lọc
         </Button>
+        <Divider orientation="vertical" variant="middle" sx={{borderColor: 'gray'}} flexItem />
         <Button size="small" startIcon={<Cached />} onClick={toggleReload}>
           Tải lại
         </Button>
+        <Divider orientation="vertical" variant="middle" sx={{borderColor: 'gray'}} flexItem />
         <GridToolbarExport
           csvOptions={{
             fileName: 'customerDataBase',
             utf8WithBom: true,
           }}
         />
+        <Divider orientation="vertical" variant="middle" sx={{borderColor: 'gray'}} flexItem />
+        {createBtn ? createBtn : ''}
         <Slide direction="left" in={isSlideVisible} mountOnEnter unmountOnExit>
           <fieldset style={{ width: '100%' }}>
             <legend>
