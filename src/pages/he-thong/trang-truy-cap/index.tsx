@@ -16,7 +16,7 @@ import { Tv } from '@mui/icons-material'
 
 // ** Third Party Styles Imports
 import 'react-datepicker/dist/react-datepicker.css'
-import ListPages from 'src/views/manage/pages-manage/ListPages'
+import ListPages from 'src/views/Manage/pages-manage/ListPages'
 
 const Tab = styled(MuiTab)<TabProps>(({ theme }) => ({
   [theme.breakpoints.down('md')]: {
