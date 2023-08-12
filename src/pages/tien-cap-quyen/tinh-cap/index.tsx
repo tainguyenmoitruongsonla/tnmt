@@ -1,4 +1,4 @@
-import LicenseProvince from "src/views/license-fee/province"
+import LicenseProvince from "src/views/license-fee/Province"
 
 const LicenseFeeProvince = () => <LicenseProvince />
 
