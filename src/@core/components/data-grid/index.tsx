@@ -31,7 +31,6 @@ interface DataGridComponentProps {
 const DataGridComponent = (props: DataGridComponentProps) => {
 
   const { rows, columns, columnGroupingModel, columnFillter, formFilter, createBtn } = props;
-
   const [rowDatas, setRowDatas] = React.useState<any>(rows);
 
   React.useEffect(() => {
