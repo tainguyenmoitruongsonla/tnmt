@@ -1,4 +1,4 @@
-import ManageRequestDetails from "src/views/monitoring-system/Manage-request"
+import ManageRequestDetails from "src/views/monitoring-system/manage-request"
 
 
 const ManageRequest = () => <ManageRequestDetails />
