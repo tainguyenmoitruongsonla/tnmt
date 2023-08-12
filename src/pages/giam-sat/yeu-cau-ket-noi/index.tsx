@@ -1,4 +1,4 @@
-import RequestCon from "src/views/monitoring system/request-con"
+import RequestCon from "src/views/monitoring-system/request-con"
 
 const RequestConection = () => <RequestCon />
 
