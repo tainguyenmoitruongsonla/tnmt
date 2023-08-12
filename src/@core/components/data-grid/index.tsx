@@ -25,12 +25,12 @@ interface DataGridComponentProps {
   columnGroupingModel?: any
   columnFillter?: any
   formFilter?: any
-  createBtn?: any
+  actions?: any
 }
 
 const DataGridComponent = (props: DataGridComponentProps) => {
 
-  const { rows, columns, columnGroupingModel, columnFillter, formFilter, createBtn } = props;
+  const { rows, columns, columnGroupingModel, columnFillter, formFilter, actions } = props;
   const [rowDatas, setRowDatas] = React.useState<any>(rows);
 
   React.useEffect(() => {
@@ -156,7 +156,7 @@ const DataGridComponent = (props: DataGridComponentProps) => {
           }}
         />
         <Divider orientation="vertical" variant="middle" sx={{ borderColor: 'gray' }} flexItem />
-        {createBtn ? createBtn : ''}
+        {actions ? actions : ''}
         <Slide direction="left" in={isSlideVisible} mountOnEnter unmountOnExit>
           <fieldset style={{ width: '100%' }}>
             <legend>

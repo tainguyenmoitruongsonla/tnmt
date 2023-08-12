@@ -309,7 +309,7 @@ const SurfaceWaterLicense = () => {
               columns={columns}
               columnGroupingModel={columnGroup}
               columnFillter={columnFillters}
-              createBtn={
+              actions={
                 <CreateLicense isEdit={false} setPostSuccess={handlePostSuccess} />
               }
             />
