@@ -1,5 +1,5 @@
 // ** MUI Imports
-import { Card, Typography, CardHeader, CardContent, Grid } from '@mui/material';
+import { Typography, Grid, Paper } from '@mui/material';
 import { ApexOptions } from "apexcharts";
 
 // ** ApexCharts
@@ -76,46 +76,32 @@ const CountLicense = () => {
   const series = data.map((entry) => entry.value);
 
   return (
-    <Card sx={{ position: 'relative' }}>
-      <CardHeader
-        sx={{ padding: 0 }}
-        title={`TRẠNG THÁI CẤP PHÉP`}
-        titleTypographyProps={{
-          sx: {
-            mb: 2.5,
-            textAlign: 'center',
-            fontSize: '18px !important',
-            fontWeight: 600,
-            lineHeight: '2rem !important',
-            letterSpacing: '0.15px !important',
-            borderBottom: '1px solid gray',
-          },
-        }}
-      />
-      <CardContent>
-        <Grid container>
-          <Grid item xs={5} md={5} sx={{ display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap', alignItems: 'center' }}>
-            <Grid item xs={12} sx={{ textAlign: 'center' }} >
-              <Typography sx={{ fontWeight: 'bold' }} variant="h6">TỔNG SỐ</Typography>
-              <Typography sx={{ fontWeight: 'bold' }} variant="h6">{TotalLicense}</Typography>
-            </Grid>
-            <Grid item xs={12} >
-              <Typography variant="subtitle1">
-                <Typography sx={{ fontWeight: 'bold' }} variant="caption">BTNMT: {BTNMT}</Typography>
-              </Typography>
-              <Typography variant="subtitle1">
-                <Typography sx={{ fontWeight: 'bold' }} variant="caption">UBND: {UBND}</Typography>
-              </Typography>
-            </Grid>
+    <Paper>
+      <Paper elevation={3} sx={{ py: 0.5, mb: 2, BorderRadius: 0, textAlign: 'center' }}>
+        <Typography variant='overline' sx={{ fontWeight: 'bold' }}>TRẠNG THÁI CÔNG TRÌNH</Typography>
+      </Paper>
+      <Grid container>
+        <Grid item xs={5} md={5} sx={{ display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap', alignItems: 'center' }}>
+          <Grid item xs={12} sx={{ textAlign: 'center' }} >
+            <Typography sx={{ fontWeight: 'bold' }} variant="h6">TỔNG SỐ</Typography>
+            <Typography sx={{ fontWeight: 'bold' }} variant="h6">{TotalLicense}</Typography>
           </Grid>
-          <Grid item xs={7} md={7}>
-            {/* Chart */}
-            <ReactApexcharts options={options} series={series} type="pie" width={CHARTS_SIZE} height={CHARTS_SIZE}
-            />
+          <Grid item xs={12} px={4} >
+            <Typography variant="subtitle1">
+              <Typography sx={{ fontWeight: 'bold' }} variant="caption">BTNMT: {BTNMT}</Typography>
+            </Typography>
+            <Typography variant="subtitle1">
+              <Typography sx={{ fontWeight: 'bold' }} variant="caption">UBND: {UBND}</Typography>
+            </Typography>
           </Grid>
         </Grid>
-      </CardContent>
-    </Card>
+        <Grid item xs={7} md={7}>
+          {/* Chart */}
+          <ReactApexcharts options={options} series={series} type="pie" width={CHARTS_SIZE} height={CHARTS_SIZE}
+          />
+        </Grid>
+      </Grid>
+    </Paper>
   );
 };
 

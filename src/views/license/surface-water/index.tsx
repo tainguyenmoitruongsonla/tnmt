@@ -2,16 +2,16 @@
 import React, { useState, useEffect } from 'react';
 
 //MUI Imports
-import { Card, CardContent, Box, Tooltip, IconButton } from '@mui/material';
+import { Box, Tooltip, IconButton, Typography, Paper } from '@mui/material';
 import Grid from '@mui/material/Unstable_Grid2';
 import { GridColDef, GridColumnGroupingModel } from '@mui/x-data-grid';
 
 //Other Imports
 import FormatDate from 'src/@core/components/format-date';
-import CheckEffect from 'src/@core/components/license-page/check-effect';
+import CheckEffect from 'src/views/license/check-effect';
 
 // import MapComponent from 'src/@core/components/map';
-import CountLicense from 'src/@core/components/license-page/count-license';
+import CountLicense from 'src/views/license/count-license';
 import ShowFilePDF from 'src/@core/components/show-file-pdf';
 import DataGridComponent, { columnFillters } from 'src/@core/components/data-grid';
 import { Delete } from '@mui/icons-material';
@@ -291,30 +291,31 @@ const SurfaceWaterLicense = () => {
 
   return (
     <Grid container spacing={2}>
+      <Grid xs={12} md={12}>
+        <Paper elevation={3} sx={{ py: 1, px: 3 }}>
+          <Typography variant='overline'>Giấy phép/nước mặt</Typography>
+        </Paper>
+      </Grid>
       <Grid xs={12} md={3}>
         <CountLicense data={resData} />
       </Grid>
       <Grid xs={12} md={9} sx={{ height: '55vh', overflow: 'hidden' }}>
-        <Card sx={{ height: '100%' }}>
-          <CardContent sx={{ p: 0, height: '100%' }}>
-            <Map center={mapCenter} zoom={mapZoom} mapData={null} />
-          </CardContent>
-        </Card>
+        <Paper elevation={3} sx={{ height: '100%' }}>
+          <Map center={mapCenter} zoom={mapZoom} mapData={null} />
+        </Paper>
       </Grid>
       <Grid xs={12} md={12}>
-        <Card sx={{ height: '100%' }}>
-          <CardContent sx={{ p: 0, height: '100%' }}>
-            <DataGridComponent
-              rows={resData}
-              columns={columns}
-              columnGroupingModel={columnGroup}
-              columnFillter={columnFillters}
-              actions={
-                <CreateLicense isEdit={false} setPostSuccess={handlePostSuccess} />
-              }
-            />
-          </CardContent>
-        </Card>
+        <Paper elevation={3} sx={{ p: 0, height: '100%' }}>
+          <DataGridComponent
+            rows={resData}
+            columns={columns}
+            columnGroupingModel={columnGroup}
+            columnFillter={columnFillters}
+            actions={
+              <CreateLicense isEdit={false} setPostSuccess={handlePostSuccess} />
+            }
+          />
+        </Paper>
       </Grid>
     </Grid>
   );

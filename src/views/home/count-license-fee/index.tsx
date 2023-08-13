@@ -1,4 +1,4 @@
-import { Card, Typography, CardHeader, CardContent, Grid } from '@mui/material';
+import { Typography, Paper, Box } from '@mui/material';
 
 // const TotalLicenseFee = 3000000000000;
 const BTNMT = 2904600000000;
@@ -58,31 +58,19 @@ const costUBND = formatVndCost(UBND);
 const CountLicenseFee = () => {
 
   return (
-    <Card sx={{ position: 'relative' }}>
-      <CardHeader
-        title="TIỀN CẤP QUYỀN"
-        sx={{ padding: 0 }}
-        titleTypographyProps={{
-          sx: {
-            mb: 2.5,
-            textAlign: 'center',
-            fontSize: '18px !important',
-            fontWeight: 600,
-            lineHeight: '2rem !important',
-            letterSpacing: '0.15px !important',
-            borderBottom: '1px solid gray',
-          }
-        }}
-      />
-      <CardContent>
-        <Grid sx={{ textAlign: 'center' }}>
+    <Paper elevation={3}>
+      <Paper elevation={3} sx={{ py: 0.5, mb: 2, BorderRadius: 0, textAlign: 'center' }}>
+        <Typography variant='overline' sx={{ fontWeight: 'bold' }}>Tiền cấp quyền</Typography>
+      </Paper>
+      <Box px={4} pb={4}>
+        <Box sx={{ textAlign: 'center' }}>
           <Typography sx={{ fontWeight: 'bold' }}>TỔNG</Typography>
           <Typography sx={{ fontWeight: 'bold' }}> {costBTNMT} </Typography>
-        </Grid>
+        </Box>
         <Typography sx={{ textAlign: 'left' }} variant='subtitle2'>BTNMT: {costBTNMT} </Typography>
         <Typography sx={{ textAlign: 'left' }} variant='subtitle2'>UBND: {costUBND} </Typography>
-      </CardContent>
-    </Card>
+      </Box>
+    </Paper >
   );
 
 };

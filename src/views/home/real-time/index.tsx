@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import Typography from '@mui/material/Typography';
+import { Paper } from '@mui/material';
 
 const RealTime = () => {
   const [currentTime, setCurrentTime] = useState(new Date());
@@ -17,7 +18,9 @@ const RealTime = () => {
   }, [currentTime]);
 
   return (
-    <Typography variant='body2'>THỐNG KÊ DỮ LIỆU TÀI NGUYÊN NƯỚC ({formattedTime}) </Typography>
+    <Paper elevation={3} sx={{ py: 1, px: 3 }}>
+      <Typography variant='body2'>THỐNG KÊ DỮ LIỆU TÀI NGUYÊN NƯỚC ({formattedTime}) </Typography>
+    </Paper>
   );
 
 };

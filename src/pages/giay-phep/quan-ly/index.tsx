@@ -9,8 +9,8 @@ import SearchIcon from '@mui/icons-material/Search';
 
 // ** Components Imports
 import SearchLicense from 'src/views/license/Search';
-import CountLicenseForManage from 'src/@core/components/license-page/count-license-for-manage';
-import ApexChartLicense from 'src/@core/components/license-page/license-bar-chart';
+import CountLicenseForManage from 'src/views/license/count-license-for-manage';
+import ApexChartLicense from 'src/views/license/license-bar-chart';
 import AutoComplete from 'src/@core/components/field/auto-complete';
 
 

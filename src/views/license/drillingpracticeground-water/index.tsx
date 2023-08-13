@@ -9,11 +9,11 @@ import { EditNote, Delete } from "@mui/icons-material";
 
 // ** Components Imports
 import SearchLicense from 'src/views/license/Search';
-import CountLicense from 'src/@core/components/license-page/count-license';
+import CountLicense from 'src/views/license/count-license';
 
 import FormatDate from 'src/@core/components/format-date';
 import ShowFilePDF from 'src/@core/components/show-file-pdf';
-import CheckEffect from 'src/@core/components/license-page/check-effect';
+import CheckEffect from 'src/views/license/check-effect';
 import TableComponent from 'src/@core/components/table';
 import CreateLicense from '../form';
 import { TextField, AutoComplete } from 'src/@core/components/field';

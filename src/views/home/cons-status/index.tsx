@@ -4,11 +4,9 @@ import { useState, useEffect } from "react";
 
 import { styled } from '@mui/material/styles';
 import Box from "@mui/material/Box";
-import Card from '@mui/material/Card';
 import Typography from '@mui/material/Typography';
-import CardHeader from '@mui/material/CardHeader'
-import CardContent from '@mui/material/CardContent';
 import LinearProgress, { linearProgressClasses } from '@mui/material/LinearProgress';
+import { Paper } from "@mui/material";
 
 const IsConnectedProgress = styled(LinearProgress)(({ theme }) => ({
   height: 10,
@@ -80,23 +78,11 @@ const ConstructionStatus = () => {
   }, [ErrorConnect, LossConect, Connected, totalConst]);
 
   return (
-    <Card sx={{ position: 'relative' }}>
-      <CardHeader
-        title='TRẠNG THÁI CÔNG TRÌNH'
-        sx={{ padding: 0 }}
-        titleTypographyProps={{
-          sx: {
-            mb: 2.5,
-            textAlign: 'center',
-            fontSize: '18px !important',
-            fontWeight: 600,
-            lineHeight: '2rem !important',
-            letterSpacing: '0.15px !important',
-            borderBottom: '1px solid gray',
-          }
-        }}
-      />
-      <CardContent>
+    <Paper elevation={3}>
+      <Paper elevation={3} sx={{ py: 0.5, mb: 2, BorderRadius: 0, textAlign: 'center' }}>
+        <Typography variant='overline' sx={{ fontWeight: 'bold' }}>TRẠNG THÁI CÔNG TRÌNH</Typography>
+      </Paper>
+      <Box px={5} pb={5}>
         <Typography>Tổng số: {totalConst} </Typography>
         <Box sx={{ paddingTop: 3 }}>
           <Typography>Trạm kết nối bình thường: {Connected} </Typography>
@@ -110,8 +96,8 @@ const ConstructionStatus = () => {
           <Typography>Trạm vận hành chưa đúng: {ErrorConnect} </Typography>
           <ErrorConnectProgress variant="determinate" value={counterErrorConnect} />
         </Box>
-      </CardContent>
-    </Card>
+      </Box>
+    </Paper>
   );
 };
 

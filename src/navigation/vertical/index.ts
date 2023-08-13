@@ -5,7 +5,7 @@ import CircleOutline from 'mdi-material-ui/CircleOutline';
 
 // ** Type import
 import { VerticalNavItemsType } from 'src/@core/layouts/types'
-import { PeopleAltOutlined, Tv } from '@mui/icons-material';
+import { Functions, PeopleAltOutlined, Tv } from '@mui/icons-material';
 
 const navigation = (): VerticalNavItemsType => {
   return [
@@ -193,6 +193,46 @@ const navigation = (): VerticalNavItemsType => {
       sectionTitle: 'Quản lý'
     },
     {
+      title: 'Dữ liệu',
+      children: [
+        {
+          title: 'Loại công trình',
+          icon: CircleOutline,
+          path: '#'
+        },
+        {
+          title: 'Loại giấy phép',
+          icon: CircleOutline,
+          path: '#'
+        },
+        {
+          title: 'Doanh nghiệp',
+          icon: CircleOutline,
+          path: '#'
+        },
+        {
+          title: 'Sông',
+          icon: CircleOutline,
+          path: '#'
+        },
+        {
+          title: 'Lưu vực',
+          icon: CircleOutline,
+          path: '#'
+        },
+        {
+          title: 'Tầng chứa nước',
+          icon: CircleOutline,
+          path: '#'
+        },
+        {
+          title: 'File hướng dẫn sử dụng',
+          icon: CircleOutline,
+          path: '#'
+        },
+      ]
+    },
+    {
       title: 'Hệ thống',
       children: [
         {
@@ -209,6 +249,11 @@ const navigation = (): VerticalNavItemsType => {
           title: 'Trang truy cập',
           icon: Tv,
           path: '/he-thong/trang-truy-cap'
+        },
+        {
+          title: 'Các chức năng',
+          icon: Functions,
+          path: '#'
         },
       ]
     },

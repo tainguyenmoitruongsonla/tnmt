@@ -13,7 +13,7 @@ import TablePagination from '@mui/material/TablePagination'
 import { EditNote, Delete } from "@mui/icons-material";
 import { Grid, IconButton, Tooltip, Typography } from '@mui/material'
 import FormatDate from 'src/@core/components/format-date'
-import CheckEffect from 'src/@core/components/license-page/check-effect'
+import CheckEffect from 'src/views/license/check-effect'
 import ShowFilePDF from 'src/@core/components/show-file-pdf'
 
 const TableExploidGroundWater = ({ data }:any) => {
