@@ -121,7 +121,7 @@ const DataGridComponent = (props: DataGridComponentProps) => {
 
     return (
       <Grid container justifyContent={'end'} alignItems={'center'} py={3} >
-        <Grid md={2} xs={6}>
+        <Grid md={2} xs={12} px={2}>
           <TextField
             sx={{ p: 0 }}
             size="small"
