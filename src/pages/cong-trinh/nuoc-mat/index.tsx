@@ -10,6 +10,7 @@ import { EditNote } from '@mui/icons-material';
 import { Delete } from 'mdi-material-ui';
 import TableComponent from 'src/@core/components/table';
 import SearchConstruction from 'src/views/construction/Search';
+import MapLegend from 'src/views/construction/MapLegend';
 import FormatDate from 'src/@core/components/format-date';
 import CreateConstruction from 'src/views/construction/form/sufacewater';
 
@@ -180,6 +181,7 @@ const SurfaceWater = () => {
   return (
     <Grid container spacing={3}>
       <Grid item xs={12} sm={12} md={12} sx={{ height: '55vh', width: '100%', overflow: 'hidden' }}>
+        <MapLegend />
         <Map center={mapCenter} zoom={mapZoom} mapData={null} />
       </Grid>
       <Grid item xs={12} sm={5} md={3}>
