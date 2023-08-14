@@ -46,7 +46,7 @@ const licensedrillingData =  [
             "OperatingStatus": 1,
             "AquiferName": null,
             "Business": {
-                "Id": 86,
+                "id": 86,
                 "Name": "DNTN sản xuất vật liệu và xây dựng An Mai",
                 "Address": "Số 40- tiểu khu 10- thị trấn Hát Lót- huyện Mai Sơn- tỉnh Sơn La",
                 "IdentifierCode": null,
@@ -64,7 +64,7 @@ const licensedrillingData =  [
                 "Status": true,
                 "IsDeleted": false
             },
-            "Id": 306,
+            "id": 306,
             "TypeOfConstructionId": 10,
             "ProvinceId": 1,
             "DistrictId": 7,
@@ -205,7 +205,7 @@ const licensedrillingData =  [
                 "License_Fk": null,
                 "Location": null,
                 "MiningPurposes": null,
-                "Id": 190,
+                "id": 190,
                 "LicenseName": "Giấy phép hành nghề khoan nước dưới đất",
                 "LicenseNumber": "1145/GP-UBND",
                 "SignDate": "2017-05-09T00:00:00",
@@ -233,7 +233,7 @@ const licensedrillingData =  [
                 "QuanTracMuaMua": null,
                 "QuanTracMuaKho": null
             },
-            "Id": 86,
+            "id": 86,
             "Name": "DNTN sản xuất vật liệu và xây dựng An Mai",
             "Address": "Số 40- tiểu khu 10- thị trấn Hát Lót- huyện Mai Sơn- tỉnh Sơn La",
             "IdentifierCode": null,
@@ -263,7 +263,7 @@ const licensedrillingData =  [
         "LicenseTypeName": "Cấp mới",
         "OldLicense": null,
         "License_Fk": {
-            "Id": 190,
+            "id": 190,
             "LicenseId": 190,
             "LicenseParentId": 0,
             "BasinId": 3,
@@ -283,7 +283,7 @@ const licensedrillingData =  [
             "IsDeleted": false
         },
         "Location": {
-            "Id": 142,
+            "id": 142,
             "CityName": "Tỉnh Sơn La",
             "CityId": "14",
             "DistrictName": "Huyện Mai Sơn",
@@ -300,7 +300,7 @@ const licensedrillingData =  [
             "IsDeleted": false
         },
         "MiningPurposes": [],
-        "Id": 190,
+        "id": 190,
         "LicenseName": "Giấy phép hành nghề khoan nước dưới đất",
         "LicenseNumber": "1145/GP-UBND",
         "SignDate": "2017-05-09T00:00:00",
@@ -375,7 +375,7 @@ const licensedrillingData =  [
             "OperatingStatus": 1,
             "AquiferName": null,
             "Business": {
-                "Id": 110,
+                "id": 110,
                 "Name": "Công ty Cổ phần năng lượng và thương mại Đông Á",
                 "Address": "số 585, đường Hoàng Liên, phường Kim Tân, thành phố Lào Cai, tỉnh Lào Cai",
                 "IdentifierCode": null,
@@ -393,7 +393,7 @@ const licensedrillingData =  [
                 "Status": true,
                 "IsDeleted": false
             },
-            "Id": 307,
+            "id": 307,
             "TypeOfConstructionId": 10,
             "ProvinceId": 1,
             "DistrictId": 7,
@@ -534,7 +534,7 @@ const licensedrillingData =  [
                 "License_Fk": null,
                 "Location": null,
                 "MiningPurposes": null,
-                "Id": 191,
+                "id": 191,
                 "LicenseName": "Giấy phép hành nghề khoan nước dưới đất",
                 "LicenseNumber": "1394/GP-UBND",
                 "SignDate": "2017-05-29T00:00:00",
@@ -562,7 +562,7 @@ const licensedrillingData =  [
                 "QuanTracMuaMua": null,
                 "QuanTracMuaKho": null
             },
-            "Id": 110,
+            "id": 110,
             "Name": "Công ty Cổ phần năng lượng và thương mại Đông Á",
             "Address": "số 585, đường Hoàng Liên, phường Kim Tân, thành phố Lào Cai, tỉnh Lào Cai",
             "IdentifierCode": null,
@@ -592,7 +592,7 @@ const licensedrillingData =  [
         "LicenseTypeName": "Cấp mới",
         "OldLicense": null,
         "License_Fk": {
-            "Id": 191,
+            "id": 191,
             "LicenseId": 191,
             "LicenseParentId": 0,
             "BasinId": 4,
@@ -612,7 +612,7 @@ const licensedrillingData =  [
             "IsDeleted": false
         },
         "Location": {
-            "Id": 154,
+            "id": 154,
             "CityName": "Tỉnh Sơn La",
             "CityId": "14",
             "DistrictName": "Huyện Mai Sơn",
@@ -629,7 +629,7 @@ const licensedrillingData =  [
             "IsDeleted": false
         },
         "MiningPurposes": [],
-        "Id": 191,
+        "id": 191,
         "LicenseName": "Giấy phép hành nghề khoan nước dưới đất",
         "LicenseNumber": "1394/GP-UBND",
         "SignDate": "2017-05-29T00:00:00",
@@ -704,7 +704,7 @@ const licensedrillingData =  [
             "OperatingStatus": 1,
             "AquiferName": null,
             "Business": {
-                "Id": 111,
+                "id": 111,
                 "Name": "Công ty TNHH Quang Đạt",
                 "Address": "tổ 4, thị trấn Mù Cang Chải, huyện Mù Cang Chải, tỉnh Yên Bái",
                 "IdentifierCode": null,
@@ -722,7 +722,7 @@ const licensedrillingData =  [
                 "Status": false,
                 "IsDeleted": true
             },
-            "Id": 308,
+            "id": 308,
             "TypeOfConstructionId": 10,
             "ProvinceId": 1,
             "DistrictId": 7,
@@ -863,7 +863,7 @@ const licensedrillingData =  [
                 "License_Fk": null,
                 "Location": null,
                 "MiningPurposes": null,
-                "Id": 192,
+                "id": 192,
                 "LicenseName": "Giấy phép hành nghề khoan nước dưới đất",
                 "LicenseNumber": "1513/GP-UBND",
                 "SignDate": "2017-06-07T00:00:00",
@@ -891,7 +891,7 @@ const licensedrillingData =  [
                 "QuanTracMuaMua": null,
                 "QuanTracMuaKho": null
             },
-            "Id": 111,
+            "id": 111,
             "Name": "Công ty TNHH Quang Đạt",
             "Address": "tổ 4, thị trấn Mù Cang Chải, huyện Mù Cang Chải, tỉnh Yên Bái",
             "IdentifierCode": null,
@@ -921,7 +921,7 @@ const licensedrillingData =  [
         "LicenseTypeName": "Cấp mới",
         "OldLicense": null,
         "License_Fk": {
-            "Id": 192,
+            "id": 192,
             "LicenseId": 192,
             "LicenseParentId": 0,
             "BasinId": 4,
@@ -941,7 +941,7 @@ const licensedrillingData =  [
             "IsDeleted": false
         },
         "Location": {
-            "Id": 154,
+            "id": 154,
             "CityName": "Tỉnh Sơn La",
             "CityId": "14",
             "DistrictName": "Huyện Mai Sơn",
@@ -958,7 +958,7 @@ const licensedrillingData =  [
             "IsDeleted": false
         },
         "MiningPurposes": [],
-        "Id": 192,
+        "id": 192,
         "LicenseName": "Giấy phép hành nghề khoan nước dưới đất",
         "LicenseNumber": "1513/GP-UBND",
         "SignDate": "2017-06-07T00:00:00",
@@ -1033,7 +1033,7 @@ const licensedrillingData =  [
             "OperatingStatus": 1,
             "AquiferName": null,
             "Business": {
-                "Id": 86,
+                "id": 86,
                 "Name": "DNTN sản xuất vật liệu và xây dựng An Mai",
                 "Address": "Số 40- tiểu khu 10- thị trấn Hát Lót- huyện Mai Sơn- tỉnh Sơn La",
                 "IdentifierCode": null,
@@ -1051,7 +1051,7 @@ const licensedrillingData =  [
                 "Status": true,
                 "IsDeleted": false
             },
-            "Id": 306,
+            "id": 306,
             "TypeOfConstructionId": 10,
             "ProvinceId": 1,
             "DistrictId": 7,
@@ -1192,7 +1192,7 @@ const licensedrillingData =  [
                 "License_Fk": null,
                 "Location": null,
                 "MiningPurposes": null,
-                "Id": 193,
+                "id": 193,
                 "LicenseName": "Giấy phép hành nghề khoan nước dưới đất (Cấp lại lần 1)",
                 "LicenseNumber": "1324/GP-UBND",
                 "SignDate": "2018-06-08T00:00:00",
@@ -1220,7 +1220,7 @@ const licensedrillingData =  [
                 "QuanTracMuaMua": null,
                 "QuanTracMuaKho": null
             },
-            "Id": 112,
+            "id": 112,
             "Name": "Ban Quản lý dự án đầu tư xây dựng huyện Bắc Yên",
             "Address": "Tiểu khu 3, thị trấn Bắc Yên, huyện Bắc Yên, tỉnh Sơn La",
             "IdentifierCode": null,
@@ -1263,7 +1263,7 @@ const licensedrillingData =  [
             "LicenseTypeName": "Cấp mới",
             "OldLicense": null,
             "License_Fk": {
-                "Id": 190,
+                "id": 190,
                 "LicenseId": 190,
                 "LicenseParentId": 0,
                 "BasinId": 3,
@@ -1284,7 +1284,7 @@ const licensedrillingData =  [
             },
             "Location": null,
             "MiningPurposes": null,
-            "Id": 190,
+            "id": 190,
             "LicenseName": "Giấy phép hành nghề khoan nước dưới đất",
             "LicenseNumber": "1145/GP-UBND",
             "SignDate": "2017-05-09T00:00:00",
@@ -1313,7 +1313,7 @@ const licensedrillingData =  [
             "QuanTracMuaKho": null
         },
         "License_Fk": {
-            "Id": 193,
+            "id": 193,
             "LicenseId": 193,
             "LicenseParentId": 190,
             "BasinId": 3,
@@ -1333,7 +1333,7 @@ const licensedrillingData =  [
             "IsDeleted": false
         },
         "Location": {
-            "Id": 142,
+            "id": 142,
             "CityName": "Tỉnh Sơn La",
             "CityId": "14",
             "DistrictName": "Huyện Mai Sơn",
@@ -1350,7 +1350,7 @@ const licensedrillingData =  [
             "IsDeleted": false
         },
         "MiningPurposes": [],
-        "Id": 193,
+        "id": 193,
         "LicenseName": "Giấy phép hành nghề khoan nước dưới đất (Cấp lại lần 1)",
         "LicenseNumber": "1324/GP-UBND",
         "SignDate": "2018-06-08T00:00:00",
@@ -1425,7 +1425,7 @@ const licensedrillingData =  [
             "OperatingStatus": 1,
             "AquiferName": null,
             "Business": {
-                "Id": 113,
+                "id": 113,
                 "Name": "Công ty Cổ phần Thuỷ điện Sông Mã",
                 "Address": "bản Pá Công, xã Huổi Một, huyện Sông Mã, tỉnh Sơn La;",
                 "IdentifierCode": "5500532308",
@@ -1443,7 +1443,7 @@ const licensedrillingData =  [
                 "Status": true,
                 "IsDeleted": false
             },
-            "Id": 309,
+            "id": 309,
             "TypeOfConstructionId": 10,
             "ProvinceId": 1,
             "DistrictId": 7,
@@ -1584,7 +1584,7 @@ const licensedrillingData =  [
                 "License_Fk": null,
                 "Location": null,
                 "MiningPurposes": null,
-                "Id": 194,
+                "id": 194,
                 "LicenseName": "Giấy phép hành nghề khoan nước dưới đất",
                 "LicenseNumber": "2564 /GP-UBND",
                 "SignDate": "2020-11-24T00:00:00",
@@ -1612,7 +1612,7 @@ const licensedrillingData =  [
                 "QuanTracMuaMua": null,
                 "QuanTracMuaKho": null
             },
-            "Id": 113,
+            "id": 113,
             "Name": "Công ty Cổ phần Thuỷ điện Sông Mã",
             "Address": "bản Pá Công, xã Huổi Một, huyện Sông Mã, tỉnh Sơn La;",
             "IdentifierCode": "5500532308",
@@ -1642,7 +1642,7 @@ const licensedrillingData =  [
         "LicenseTypeName": "Cấp mới",
         "OldLicense": null,
         "License_Fk": {
-            "Id": 194,
+            "id": 194,
             "LicenseId": 194,
             "LicenseParentId": 0,
             "BasinId": 2,
@@ -1662,7 +1662,7 @@ const licensedrillingData =  [
             "IsDeleted": false
         },
         "Location": {
-            "Id": 144,
+            "id": 144,
             "CityName": "Tỉnh Sơn La",
             "CityId": "14",
             "DistrictName": "Huyện Mai Sơn",
@@ -1679,7 +1679,7 @@ const licensedrillingData =  [
             "IsDeleted": false
         },
         "MiningPurposes": [],
-        "Id": 194,
+        "id": 194,
         "LicenseName": "Giấy phép hành nghề khoan nước dưới đất",
         "LicenseNumber": "2564 /GP-UBND",
         "SignDate": "2020-11-24T00:00:00",
@@ -1754,7 +1754,7 @@ const licensedrillingData =  [
             "OperatingStatus": 1,
             "AquiferName": null,
             "Business": {
-                "Id": 124,
+                "id": 124,
                 "Name": "Công ty cổ phần tư vấn, đầu tư và xây dựng Mai Lâm",
                 "Address": "Số nhà 08, tổ 8 phường Quyết Thắng, thành phố Sơn La, tỉnh Sơn La",
                 "IdentifierCode": null,
@@ -1772,7 +1772,7 @@ const licensedrillingData =  [
                 "Status": true,
                 "IsDeleted": false
             },
-            "Id": 276,
+            "id": 276,
             "TypeOfConstructionId": 10,
             "ProvinceId": 1,
             "DistrictId": 1,
@@ -1913,7 +1913,7 @@ const licensedrillingData =  [
                 "License_Fk": null,
                 "Location": null,
                 "MiningPurposes": null,
-                "Id": 271,
+                "id": 271,
                 "LicenseName": "Giấy phép hành nghề khoan nước dưới đất",
                 "LicenseNumber": "259/GP-UBND",
                 "SignDate": "2021-02-05T00:00:00",
@@ -1941,7 +1941,7 @@ const licensedrillingData =  [
                 "QuanTracMuaMua": null,
                 "QuanTracMuaKho": null
             },
-            "Id": 124,
+            "id": 124,
             "Name": "Công ty cổ phần tư vấn, đầu tư và xây dựng Mai Lâm",
             "Address": "Số nhà 08, tổ 8 phường Quyết Thắng, thành phố Sơn La, tỉnh Sơn La",
             "IdentifierCode": null,
@@ -1971,7 +1971,7 @@ const licensedrillingData =  [
         "LicenseTypeName": "Cấp mới",
         "OldLicense": null,
         "License_Fk": {
-            "Id": 271,
+            "id": 271,
             "LicenseId": 271,
             "LicenseParentId": 0,
             "BasinId": null,
@@ -1991,7 +1991,7 @@ const licensedrillingData =  [
             "IsDeleted": false
         },
         "Location": {
-            "Id": 3,
+            "id": 3,
             "CityName": "Tỉnh Sơn La",
             "CityId": "14",
             "DistrictName": "Thành phố Sơn La",
@@ -2008,7 +2008,7 @@ const licensedrillingData =  [
             "IsDeleted": false
         },
         "MiningPurposes": [],
-        "Id": 271,
+        "id": 271,
         "LicenseName": "Giấy phép hành nghề khoan nước dưới đất",
         "LicenseNumber": "259/GP-UBND",
         "SignDate": "2021-02-05T00:00:00",
@@ -2083,7 +2083,7 @@ const licensedrillingData =  [
             "OperatingStatus": 1,
             "AquiferName": null,
             "Business": {
-                "Id": 125,
+                "id": 125,
                 "Name": "Hộ kinh doan cá thể Phạm Văn Tình",
                 "Address": "Bản Mường Kham, xã Mường Chùm, huyện Mường La",
                 "IdentifierCode": null,
@@ -2101,7 +2101,7 @@ const licensedrillingData =  [
                 "Status": true,
                 "IsDeleted": false
             },
-            "Id": 277,
+            "id": 277,
             "TypeOfConstructionId": 10,
             "ProvinceId": 1,
             "DistrictId": 3,
@@ -2242,7 +2242,7 @@ const licensedrillingData =  [
                 "License_Fk": null,
                 "Location": null,
                 "MiningPurposes": null,
-                "Id": 272,
+                "id": 272,
                 "LicenseName": "Giấy phép hành nghề khoan nước dưới đất",
                 "LicenseNumber": "374/GP- UBND",
                 "SignDate": "2021-03-04T00:00:00",
@@ -2270,7 +2270,7 @@ const licensedrillingData =  [
                 "QuanTracMuaMua": null,
                 "QuanTracMuaKho": null
             },
-            "Id": 125,
+            "id": 125,
             "Name": "Hộ kinh doan cá thể Phạm Văn Tình",
             "Address": "Bản Mường Kham, xã Mường Chùm, huyện Mường La",
             "IdentifierCode": null,
@@ -2300,7 +2300,7 @@ const licensedrillingData =  [
         "LicenseTypeName": "Cấp mới",
         "OldLicense": null,
         "License_Fk": {
-            "Id": 272,
+            "id": 272,
             "LicenseId": 272,
             "LicenseParentId": 0,
             "BasinId": null,
@@ -2320,7 +2320,7 @@ const licensedrillingData =  [
             "IsDeleted": false
         },
         "Location": {
-            "Id": 68,
+            "id": 68,
             "CityName": "Tỉnh Sơn La",
             "CityId": "14",
             "DistrictName": "Huyện Mường La",
@@ -2337,7 +2337,7 @@ const licensedrillingData =  [
             "IsDeleted": false
         },
         "MiningPurposes": [],
-        "Id": 272,
+        "id": 272,
         "LicenseName": "Giấy phép hành nghề khoan nước dưới đất",
         "LicenseNumber": "374/GP- UBND",
         "SignDate": "2021-03-04T00:00:00",
@@ -2412,7 +2412,7 @@ const licensedrillingData =  [
             "OperatingStatus": 1,
             "AquiferName": null,
             "Business": {
-                "Id": 128,
+                "id": 128,
                 "Name": "Hộ kinh doanh Trần Thế Ngọc",
                 "Address": "Bản Tây Hồ, xã Nà Nghịu, huyện Sông Mã, tỉnh Sơn La",
                 "IdentifierCode": null,
@@ -2430,7 +2430,7 @@ const licensedrillingData =  [
                 "Status": true,
                 "IsDeleted": false
             },
-            "Id": 285,
+            "id": 285,
             "TypeOfConstructionId": 10,
             "ProvinceId": 1,
             "DistrictId": 9,
@@ -2571,7 +2571,7 @@ const licensedrillingData =  [
                 "License_Fk": null,
                 "Location": null,
                 "MiningPurposes": null,
-                "Id": 280,
+                "id": 280,
                 "LicenseName": "Giấy phép hành nghề khoan nước dưới đất",
                 "LicenseNumber": "312/GP-UBND",
                 "SignDate": "2022-02-25T00:00:00",
@@ -2599,7 +2599,7 @@ const licensedrillingData =  [
                 "QuanTracMuaMua": null,
                 "QuanTracMuaKho": null
             },
-            "Id": 128,
+            "id": 128,
             "Name": "Hộ kinh doanh Trần Thế Ngọc",
             "Address": "Bản Tây Hồ, xã Nà Nghịu, huyện Sông Mã, tỉnh Sơn La",
             "IdentifierCode": null,
@@ -2629,7 +2629,7 @@ const licensedrillingData =  [
         "LicenseTypeName": "Cấp mới",
         "OldLicense": null,
         "License_Fk": {
-            "Id": 280,
+            "id": 280,
             "LicenseId": 280,
             "LicenseParentId": 0,
             "BasinId": null,
@@ -2649,7 +2649,7 @@ const licensedrillingData =  [
             "IsDeleted": false
         },
         "Location": {
-            "Id": 174,
+            "id": 174,
             "CityName": "Tỉnh Sơn La",
             "CityId": "14",
             "DistrictName": "Huyện Sông Mã",
@@ -2666,7 +2666,7 @@ const licensedrillingData =  [
             "IsDeleted": false
         },
         "MiningPurposes": [],
-        "Id": 280,
+        "id": 280,
         "LicenseName": "Giấy phép hành nghề khoan nước dưới đất",
         "LicenseNumber": "312/GP-UBND",
         "SignDate": "2022-02-25T00:00:00",

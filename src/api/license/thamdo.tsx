@@ -46,7 +46,7 @@ const licenseprobeData = [
             "OperatingStatus": 1,
             "AquiferName": "Tầng chứa nước khe nứt hệ tầng Đồng Giao",
             "Business": {
-                "Id": 129,
+                "id": 129,
                 "Name": "Bệnh viện đa khoa tỉnh Sơn La",
                 "Address": "Tổ 4, phường Chiềng Lề, TP Sơn La, tỉnh Sơn La",
                 "IdentifierCode": null,
@@ -64,7 +64,7 @@ const licenseprobeData = [
                 "Status": false,
                 "IsDeleted": true
             },
-            "Id": 199,
+            "id": 199,
             "TypeOfConstructionId": 9,
             "ProvinceId": 1,
             "DistrictId": 1,
@@ -205,7 +205,7 @@ const licenseprobeData = [
                 "License_Fk": null,
                 "Location": null,
                 "MiningPurposes": null,
-                "Id": 187,
+                "id": 187,
                 "LicenseName": "Giấy phép thăm dò nước dưới đất",
                 "LicenseNumber": "3001/GP-UBND",
                 "SignDate": "2016-12-15T00:00:00",
@@ -233,7 +233,7 @@ const licenseprobeData = [
                 "QuanTracMuaMua": null,
                 "QuanTracMuaKho": null
             },
-            "Id": 129,
+            "id": 129,
             "Name": "Bệnh viện đa khoa tỉnh Sơn La",
             "Address": "Tổ 4, phường Chiềng Lề, TP Sơn La, tỉnh Sơn La",
             "IdentifierCode": null,
@@ -263,7 +263,7 @@ const licenseprobeData = [
         "LicenseTypeName": "Cấp mới",
         "OldLicense": null,
         "License_Fk": {
-            "Id": 187,
+            "id": 187,
             "LicenseId": 187,
             "LicenseParentId": 0,
             "BasinId": 3,
@@ -283,7 +283,7 @@ const licenseprobeData = [
             "IsDeleted": false
         },
         "Location": {
-            "Id": 1,
+            "id": 1,
             "CityName": "Tỉnh Sơn La",
             "CityId": "14",
             "DistrictName": "Thành phố Sơn La",
@@ -300,7 +300,7 @@ const licenseprobeData = [
             "IsDeleted": false
         },
         "MiningPurposes": [],
-        "Id": 187,
+        "id": 187,
         "LicenseName": "Giấy phép thăm dò nước dưới đất",
         "LicenseNumber": "3001/GP-UBND",
         "SignDate": "2016-12-15T00:00:00",
@@ -375,7 +375,7 @@ const licenseprobeData = [
             "OperatingStatus": 1,
             "AquiferName": "Tầng chứa nước khe nứt - khe nứt vỉa các trầm tích lục nguyên, hệ Trias dưới, hệ tầng Cò Nòi T1cn1",
             "Business": {
-                "Id": 91,
+                "id": 91,
                 "Name": "Công ty TNHH thực phẩm SI Vân Hồ",
                 "Address": "Bản Bó Nhàng 2,  xã Vân Hồ,  huyện Vân Hồ,  tỉnh Sơn La",
                 "IdentifierCode": null,
@@ -393,7 +393,7 @@ const licenseprobeData = [
                 "Status": true,
                 "IsDeleted": false
             },
-            "Id": 196,
+            "id": 196,
             "TypeOfConstructionId": 9,
             "ProvinceId": 1,
             "DistrictId": 12,
@@ -534,7 +534,7 @@ const licenseprobeData = [
                 "License_Fk": null,
                 "Location": null,
                 "MiningPurposes": null,
-                "Id": 184,
+                "id": 184,
                 "LicenseName": "Giấy phép thăm dò nước dưới đất",
                 "LicenseNumber": "104/GP-UBND",
                 "SignDate": "2018-01-18T00:00:00",
@@ -562,7 +562,7 @@ const licenseprobeData = [
                 "QuanTracMuaMua": null,
                 "QuanTracMuaKho": null
             },
-            "Id": 91,
+            "id": 91,
             "Name": "Công ty TNHH thực phẩm SI Vân Hồ",
             "Address": "Bản Bó Nhàng 2,  xã Vân Hồ,  huyện Vân Hồ,  tỉnh Sơn La",
             "IdentifierCode": null,
@@ -592,7 +592,7 @@ const licenseprobeData = [
         "LicenseTypeName": "Cấp mới",
         "OldLicense": null,
         "License_Fk": {
-            "Id": 184,
+            "id": 184,
             "LicenseId": 184,
             "LicenseParentId": 0,
             "BasinId": 4,
@@ -612,7 +612,7 @@ const licenseprobeData = [
             "IsDeleted": false
         },
         "Location": {
-            "Id": 199,
+            "id": 199,
             "CityName": "Tỉnh Sơn La",
             "CityId": "14",
             "DistrictName": "Huyện Vân Hồ",
@@ -629,7 +629,7 @@ const licenseprobeData = [
             "IsDeleted": false
         },
         "MiningPurposes": [],
-        "Id": 184,
+        "id": 184,
         "LicenseName": "Giấy phép thăm dò nước dưới đất",
         "LicenseNumber": "104/GP-UBND",
         "SignDate": "2018-01-18T00:00:00",
@@ -664,7 +664,7 @@ const licenseprobeData = [
             "CommuneName": null,
             "ConstructionItems": [
                 {
-                    "Id": 399,
+                    "id": 399,
                     "ConstructionId": 197,
                     "AquiferId": null,
                     "Name": "Đ1",
@@ -700,7 +700,7 @@ const licenseprobeData = [
                     "LowWL": null
                 },
                 {
-                    "Id": 400,
+                    "id": 400,
                     "ConstructionId": 197,
                     "AquiferId": null,
                     "Name": "Đ2",
@@ -736,7 +736,7 @@ const licenseprobeData = [
                     "LowWL": null
                 },
                 {
-                    "Id": 401,
+                    "id": 401,
                     "ConstructionId": 197,
                     "AquiferId": null,
                     "Name": "Đ3",
@@ -772,7 +772,7 @@ const licenseprobeData = [
                     "LowWL": null
                 },
                 {
-                    "Id": 402,
+                    "id": 402,
                     "ConstructionId": 197,
                     "AquiferId": null,
                     "Name": "Đ4",
@@ -849,7 +849,7 @@ const licenseprobeData = [
             "OperatingStatus": 1,
             "AquiferName": "Tầng chứa nước khe nứt- karst trong các trầm tích cacbonat, hệ Trias giữa, hệ tầng Đồng Giao",
             "Business": {
-                "Id": 90,
+                "id": 90,
                 "Name": "Công ty cổ phần chế biến thực phẩm công nghệ cao",
                 "Address": "Xóm Tân Lâm,  xã Nghĩa Lâm,  huyện nghĩa Đàn,  tỉnh Nghệ An",
                 "IdentifierCode": null,
@@ -867,7 +867,7 @@ const licenseprobeData = [
                 "Status": true,
                 "IsDeleted": false
             },
-            "Id": 197,
+            "id": 197,
             "TypeOfConstructionId": 9,
             "ProvinceId": 1,
             "DistrictId": 12,
@@ -1008,7 +1008,7 @@ const licenseprobeData = [
                 "License_Fk": null,
                 "Location": null,
                 "MiningPurposes": null,
-                "Id": 185,
+                "id": 185,
                 "LicenseName": "Giấy phép thăm dò nước dưới đất",
                 "LicenseNumber": "105/GP-UBND",
                 "SignDate": "2018-01-18T00:00:00",
@@ -1036,7 +1036,7 @@ const licenseprobeData = [
                 "QuanTracMuaMua": null,
                 "QuanTracMuaKho": null
             },
-            "Id": 90,
+            "id": 90,
             "Name": "Công ty cổ phần chế biến thực phẩm công nghệ cao",
             "Address": "Xóm Tân Lâm,  xã Nghĩa Lâm,  huyện nghĩa Đàn,  tỉnh Nghệ An",
             "IdentifierCode": null,
@@ -1066,7 +1066,7 @@ const licenseprobeData = [
         "LicenseTypeName": "Cấp mới",
         "OldLicense": null,
         "License_Fk": {
-            "Id": 185,
+            "id": 185,
             "LicenseId": 185,
             "LicenseParentId": 0,
             "BasinId": 4,
@@ -1086,7 +1086,7 @@ const licenseprobeData = [
             "IsDeleted": false
         },
         "Location": {
-            "Id": 200,
+            "id": 200,
             "CityName": "Tỉnh Sơn La",
             "CityId": "14",
             "DistrictName": "Huyện Vân Hồ",
@@ -1103,7 +1103,7 @@ const licenseprobeData = [
             "IsDeleted": false
         },
         "MiningPurposes": [],
-        "Id": 185,
+        "id": 185,
         "LicenseName": "Giấy phép thăm dò nước dưới đất",
         "LicenseNumber": "105/GP-UBND",
         "SignDate": "2018-01-18T00:00:00",
@@ -1178,7 +1178,7 @@ const licenseprobeData = [
             "OperatingStatus": 1,
             "AquiferName": "Tầng chứa nước khe nứt- karst trong các trầm tích cacbonat, hệ Trias giữa, hệ tầng Đồng Giao",
             "Business": {
-                "Id": 88,
+                "id": 88,
                 "Name": "Công ty cổ phần cà phê Phúc Sinh Sơn La",
                 "Address": "Bản Mạt,  xã Chiềng Mung,  huyện Mai Sơn,  tỉnh Sơn La",
                 "IdentifierCode": null,
@@ -1196,7 +1196,7 @@ const licenseprobeData = [
                 "Status": true,
                 "IsDeleted": false
             },
-            "Id": 198,
+            "id": 198,
             "TypeOfConstructionId": 9,
             "ProvinceId": 1,
             "DistrictId": 7,
@@ -1337,7 +1337,7 @@ const licenseprobeData = [
                 "License_Fk": null,
                 "Location": null,
                 "MiningPurposes": null,
-                "Id": 186,
+                "id": 186,
                 "LicenseName": "Giấy phép thăm dò nước dưới đất",
                 "LicenseNumber": "268/GP-UBND",
                 "SignDate": "2018-02-02T00:00:00",
@@ -1365,7 +1365,7 @@ const licenseprobeData = [
                 "QuanTracMuaMua": null,
                 "QuanTracMuaKho": null
             },
-            "Id": 88,
+            "id": 88,
             "Name": "Công ty cổ phần cà phê Phúc Sinh Sơn La",
             "Address": "Bản Mạt,  xã Chiềng Mung,  huyện Mai Sơn,  tỉnh Sơn La",
             "IdentifierCode": null,
@@ -1395,7 +1395,7 @@ const licenseprobeData = [
         "LicenseTypeName": "Cấp mới",
         "OldLicense": null,
         "License_Fk": {
-            "Id": 186,
+            "id": 186,
             "LicenseId": 186,
             "LicenseParentId": 0,
             "BasinId": 2,
@@ -1415,7 +1415,7 @@ const licenseprobeData = [
             "IsDeleted": false
         },
         "Location": {
-            "Id": 147,
+            "id": 147,
             "CityName": "Tỉnh Sơn La",
             "CityId": "14",
             "DistrictName": "Huyện Mai Sơn",
@@ -1432,7 +1432,7 @@ const licenseprobeData = [
             "IsDeleted": false
         },
         "MiningPurposes": [],
-        "Id": 186,
+        "id": 186,
         "LicenseName": "Giấy phép thăm dò nước dưới đất",
         "LicenseNumber": "268/GP-UBND",
         "SignDate": "2018-02-02T00:00:00",
@@ -1507,7 +1507,7 @@ const licenseprobeData = [
             "OperatingStatus": 1,
             "AquiferName": "Tầng chứa nước khe nứt- kasrt trong các trầm tích cacbonat hệ tầng Đồng Giao",
             "Business": {
-                "Id": 71,
+                "id": 71,
                 "Name": "Công ty cổ phần MD268",
                 "Address": "Số 111,  tổ 3 đường Lò Văn Giá,  phường Chiềng Lề,  thành phố Sơn La",
                 "IdentifierCode": null,
@@ -1525,7 +1525,7 @@ const licenseprobeData = [
                 "Status": true,
                 "IsDeleted": false
             },
-            "Id": 195,
+            "id": 195,
             "TypeOfConstructionId": 9,
             "ProvinceId": 1,
             "DistrictId": 1,
@@ -1666,7 +1666,7 @@ const licenseprobeData = [
                 "License_Fk": null,
                 "Location": null,
                 "MiningPurposes": null,
-                "Id": 150,
+                "id": 150,
                 "LicenseName": "Giấy phép khai thác - sử dụng nước dưới đất",
                 "LicenseNumber": "2180/GP-UBND",
                 "SignDate": "2018-09-06T00:00:00",
@@ -1694,7 +1694,7 @@ const licenseprobeData = [
                 "QuanTracMuaMua": null,
                 "QuanTracMuaKho": null
             },
-            "Id": 71,
+            "id": 71,
             "Name": "Công ty cổ phần MD268",
             "Address": "Số 111,  tổ 3 đường Lò Văn Giá,  phường Chiềng Lề,  thành phố Sơn La",
             "IdentifierCode": null,
@@ -1724,7 +1724,7 @@ const licenseprobeData = [
         "LicenseTypeName": "Cấp mới",
         "OldLicense": null,
         "License_Fk": {
-            "Id": 183,
+            "id": 183,
             "LicenseId": 183,
             "LicenseParentId": 0,
             "BasinId": 3,
@@ -1744,7 +1744,7 @@ const licenseprobeData = [
             "IsDeleted": false
         },
         "Location": {
-            "Id": 9,
+            "id": 9,
             "CityName": "Tỉnh Sơn La",
             "CityId": "14",
             "DistrictName": "Thành phố Sơn La",
@@ -1761,7 +1761,7 @@ const licenseprobeData = [
             "IsDeleted": false
         },
         "MiningPurposes": [],
-        "Id": 183,
+        "id": 183,
         "LicenseName": "Giấy phép thăm dò nước dưới đất",
         "LicenseNumber": "1535/GP-UBND",
         "SignDate": "2018-06-26T00:00:00",
@@ -1836,7 +1836,7 @@ const licenseprobeData = [
             "OperatingStatus": 1,
             "AquiferName": "Tầng chứa nước khe nứt- kasrt trong các trầm tích cacbonat hệ tầng Đồng Giao",
             "Business": {
-                "Id": 89,
+                "id": 89,
                 "Name": "Công ty cổ phần chăn nuôi Minh Thuý Chiềng Chung",
                 "Address": "Bản Mé- xã Chiềng Chung- huyện Mai Sơn- tỉnh Sơn La",
                 "IdentifierCode": null,
@@ -1854,7 +1854,7 @@ const licenseprobeData = [
                 "Status": true,
                 "IsDeleted": false
             },
-            "Id": 200,
+            "id": 200,
             "TypeOfConstructionId": 9,
             "ProvinceId": 1,
             "DistrictId": 12,
@@ -1995,7 +1995,7 @@ const licenseprobeData = [
                 "License_Fk": null,
                 "Location": null,
                 "MiningPurposes": null,
-                "Id": 188,
+                "id": 188,
                 "LicenseName": "Giấy phép thăm dò nước dưới đất",
                 "LicenseNumber": "2054/GP-UBND",
                 "SignDate": "2019-08-22T00:00:00",
@@ -2023,7 +2023,7 @@ const licenseprobeData = [
                 "QuanTracMuaMua": null,
                 "QuanTracMuaKho": null
             },
-            "Id": 89,
+            "id": 89,
             "Name": "Công ty cổ phần chăn nuôi Minh Thuý Chiềng Chung",
             "Address": "Bản Mé- xã Chiềng Chung- huyện Mai Sơn- tỉnh Sơn La",
             "IdentifierCode": null,
@@ -2053,7 +2053,7 @@ const licenseprobeData = [
         "LicenseTypeName": "Cấp mới",
         "OldLicense": null,
         "License_Fk": {
-            "Id": 188,
+            "id": 188,
             "LicenseId": 188,
             "LicenseParentId": 0,
             "BasinId": 4,
@@ -2073,7 +2073,7 @@ const licenseprobeData = [
             "IsDeleted": false
         },
         "Location": {
-            "Id": 203,
+            "id": 203,
             "CityName": "Tỉnh Sơn La",
             "CityId": "14",
             "DistrictName": "Huyện Vân Hồ",
@@ -2090,7 +2090,7 @@ const licenseprobeData = [
             "IsDeleted": false
         },
         "MiningPurposes": [],
-        "Id": 188,
+        "id": 188,
         "LicenseName": "Giấy phép thăm dò nước dưới đất",
         "LicenseNumber": "2054/GP-UBND",
         "SignDate": "2019-08-22T00:00:00",
@@ -2125,7 +2125,7 @@ const licenseprobeData = [
             "CommuneName": null,
             "ConstructionItems": [
                 {
-                    "Id": 431,
+                    "id": 431,
                     "ConstructionId": 201,
                     "AquiferId": null,
                     "Name": "LK1",
@@ -2161,7 +2161,7 @@ const licenseprobeData = [
                     "LowWL": null
                 },
                 {
-                    "Id": 432,
+                    "id": 432,
                     "ConstructionId": 201,
                     "AquiferId": null,
                     "Name": "LK2",
@@ -2238,7 +2238,7 @@ const licenseprobeData = [
             "OperatingStatus": 1,
             "AquiferName": null,
             "Business": {
-                "Id": 60,
+                "id": 60,
                 "Name": "Bộ chỉ huy bộ đội Biên phòng tỉnh Sơn La",
                 "Address": "Số 62 đường Phan Chu Thịnh, TP Sơn La, tỉnh Sơn La",
                 "IdentifierCode": null,
@@ -2256,7 +2256,7 @@ const licenseprobeData = [
                 "Status": true,
                 "IsDeleted": false
             },
-            "Id": 201,
+            "id": 201,
             "TypeOfConstructionId": 9,
             "ProvinceId": 1,
             "DistrictId": 1,
@@ -2397,7 +2397,7 @@ const licenseprobeData = [
                 "License_Fk": null,
                 "Location": null,
                 "MiningPurposes": null,
-                "Id": 179,
+                "id": 179,
                 "LicenseName": "Giấy phép khai thác - sử dụng nước dưới đất",
                 "LicenseNumber": "2283/GP-UBND",
                 "SignDate": "2020-10-21T00:00:00",
@@ -2425,7 +2425,7 @@ const licenseprobeData = [
                 "QuanTracMuaMua": null,
                 "QuanTracMuaKho": null
             },
-            "Id": 60,
+            "id": 60,
             "Name": "Bộ chỉ huy bộ đội Biên phòng tỉnh Sơn La",
             "Address": "Số 62 đường Phan Chu Thịnh, TP Sơn La, tỉnh Sơn La",
             "IdentifierCode": null,
@@ -2455,7 +2455,7 @@ const licenseprobeData = [
         "LicenseTypeName": "Cấp mới",
         "OldLicense": null,
         "License_Fk": {
-            "Id": 189,
+            "id": 189,
             "LicenseId": 189,
             "LicenseParentId": 0,
             "BasinId": 3,
@@ -2475,7 +2475,7 @@ const licenseprobeData = [
             "IsDeleted": false
         },
         "Location": {
-            "Id": 1,
+            "id": 1,
             "CityName": "Tỉnh Sơn La",
             "CityId": "14",
             "DistrictName": "Thành phố Sơn La",
@@ -2492,7 +2492,7 @@ const licenseprobeData = [
             "IsDeleted": false
         },
         "MiningPurposes": [],
-        "Id": 189,
+        "id": 189,
         "LicenseName": "Giấy phép thăm dò nước dưới đất",
         "LicenseNumber": "2055/GP-UBND",
         "SignDate": "2019-08-22T00:00:00",
@@ -2527,7 +2527,7 @@ const licenseprobeData = [
             "CommuneName": null,
             "ConstructionItems": [
                 {
-                    "Id": 539,
+                    "id": 539,
                     "ConstructionId": 295,
                     "AquiferId": null,
                     "Name": "GK1",
@@ -2563,7 +2563,7 @@ const licenseprobeData = [
                     "LowWL": null
                 },
                 {
-                    "Id": 554,
+                    "id": 554,
                     "ConstructionId": 295,
                     "AquiferId": null,
                     "Name": "GK2",
@@ -2599,7 +2599,7 @@ const licenseprobeData = [
                     "LowWL": null
                 },
                 {
-                    "Id": 555,
+                    "id": 555,
                     "ConstructionId": 295,
                     "AquiferId": null,
                     "Name": "GK3",
@@ -2635,7 +2635,7 @@ const licenseprobeData = [
                     "LowWL": null
                 },
                 {
-                    "Id": 567,
+                    "id": 567,
                     "ConstructionId": 295,
                     "AquiferId": null,
                     "Name": "GK5",
@@ -2671,7 +2671,7 @@ const licenseprobeData = [
                     "LowWL": null
                 },
                 {
-                    "Id": 568,
+                    "id": 568,
                     "ConstructionId": 295,
                     "AquiferId": null,
                     "Name": "GK4",
@@ -2707,7 +2707,7 @@ const licenseprobeData = [
                     "LowWL": null
                 },
                 {
-                    "Id": 569,
+                    "id": 569,
                     "ConstructionId": 295,
                     "AquiferId": null,
                     "Name": "GK6",
@@ -2784,7 +2784,7 @@ const licenseprobeData = [
             "OperatingStatus": 1,
             "AquiferName": "Tầng chứa nước khe nứt trong đá trầm tích lục nguyên Trias giữa",
             "Business": {
-                "Id": 68,
+                "id": 68,
                 "Name": "Công ty cổ phần giống bò sữa Mộc Châu",
                 "Address": "Tiểu khu Cơ Quan,  thị trấn Nông trường Mộc Châu,  huyện Mộc Châu,  tỉnh Sơn La",
                 "IdentifierCode": null,
@@ -2802,7 +2802,7 @@ const licenseprobeData = [
                 "Status": true,
                 "IsDeleted": false
             },
-            "Id": 295,
+            "id": 295,
             "TypeOfConstructionId": 9,
             "ProvinceId": 1,
             "DistrictId": 10,
@@ -2943,7 +2943,7 @@ const licenseprobeData = [
                 "License_Fk": null,
                 "Location": null,
                 "MiningPurposes": null,
-                "Id": 101,
+                "id": 101,
                 "LicenseName": "Giấy phép khai thác - sử dụng nước dưới đất",
                 "LicenseNumber": "1733/GP-UBND",
                 "SignDate": "2012-08-13T00:00:00",
@@ -2971,7 +2971,7 @@ const licenseprobeData = [
                 "QuanTracMuaMua": null,
                 "QuanTracMuaKho": null
             },
-            "Id": 68,
+            "id": 68,
             "Name": "Công ty cổ phần giống bò sữa Mộc Châu",
             "Address": "Tiểu khu Cơ Quan,  thị trấn Nông trường Mộc Châu,  huyện Mộc Châu,  tỉnh Sơn La",
             "IdentifierCode": null,
@@ -3001,7 +3001,7 @@ const licenseprobeData = [
         "LicenseTypeName": "Cấp mới",
         "OldLicense": null,
         "License_Fk": {
-            "Id": 298,
+            "id": 298,
             "LicenseId": 298,
             "LicenseParentId": 0,
             "BasinId": null,
@@ -3021,7 +3021,7 @@ const licenseprobeData = [
             "IsDeleted": false
         },
         "Location": {
-            "Id": 113,
+            "id": 113,
             "CityName": "Tỉnh Sơn La",
             "CityId": "14",
             "DistrictName": "Huyện Mộc Châu",
@@ -3038,7 +3038,7 @@ const licenseprobeData = [
             "IsDeleted": false
         },
         "MiningPurposes": [],
-        "Id": 298,
+        "id": 298,
         "LicenseName": "Giấy phép thăm dò nước dưới đất (Khu Trang trại 4000)",
         "LicenseNumber": "686/GP-UBND",
         "SignDate": "2022-04-21T00:00:00",
@@ -3073,7 +3073,7 @@ const licenseprobeData = [
             "CommuneName": null,
             "ConstructionItems": [
                 {
-                    "Id": 557,
+                    "id": 557,
                     "ConstructionId": 298,
                     "AquiferId": null,
                     "Name": "GK1",
@@ -3109,7 +3109,7 @@ const licenseprobeData = [
                     "LowWL": null
                 },
                 {
-                    "Id": 558,
+                    "id": 558,
                     "ConstructionId": 298,
                     "AquiferId": null,
                     "Name": "GK2",
@@ -3145,7 +3145,7 @@ const licenseprobeData = [
                     "LowWL": null
                 },
                 {
-                    "Id": 559,
+                    "id": 559,
                     "ConstructionId": 298,
                     "AquiferId": null,
                     "Name": "GK3",
@@ -3222,7 +3222,7 @@ const licenseprobeData = [
             "OperatingStatus": 1,
             "AquiferName": "Tầng chứa nước khe nứt trong đá trầm tích lục nguyên Trias giữa",
             "Business": {
-                "Id": 68,
+                "id": 68,
                 "Name": "Công ty cổ phần giống bò sữa Mộc Châu",
                 "Address": "Tiểu khu Cơ Quan,  thị trấn Nông trường Mộc Châu,  huyện Mộc Châu,  tỉnh Sơn La",
                 "IdentifierCode": null,
@@ -3240,7 +3240,7 @@ const licenseprobeData = [
                 "Status": true,
                 "IsDeleted": false
             },
-            "Id": 298,
+            "id": 298,
             "TypeOfConstructionId": 9,
             "ProvinceId": 1,
             "DistrictId": 10,
@@ -3381,7 +3381,7 @@ const licenseprobeData = [
                 "License_Fk": null,
                 "Location": null,
                 "MiningPurposes": null,
-                "Id": 101,
+                "id": 101,
                 "LicenseName": "Giấy phép khai thác - sử dụng nước dưới đất",
                 "LicenseNumber": "1733/GP-UBND",
                 "SignDate": "2012-08-13T00:00:00",
@@ -3409,7 +3409,7 @@ const licenseprobeData = [
                 "QuanTracMuaMua": null,
                 "QuanTracMuaKho": null
             },
-            "Id": 68,
+            "id": 68,
             "Name": "Công ty cổ phần giống bò sữa Mộc Châu",
             "Address": "Tiểu khu Cơ Quan,  thị trấn Nông trường Mộc Châu,  huyện Mộc Châu,  tỉnh Sơn La",
             "IdentifierCode": null,
@@ -3439,7 +3439,7 @@ const licenseprobeData = [
         "LicenseTypeName": "Cấp mới",
         "OldLicense": null,
         "License_Fk": {
-            "Id": 299,
+            "id": 299,
             "LicenseId": 299,
             "LicenseParentId": 0,
             "BasinId": null,
@@ -3459,7 +3459,7 @@ const licenseprobeData = [
             "IsDeleted": false
         },
         "Location": {
-            "Id": 113,
+            "id": 113,
             "CityName": "Tỉnh Sơn La",
             "CityId": "14",
             "DistrictName": "Huyện Mộc Châu",
@@ -3476,7 +3476,7 @@ const licenseprobeData = [
             "IsDeleted": false
         },
         "MiningPurposes": [],
-        "Id": 299,
+        "id": 299,
         "LicenseName": "Giấy phép thăm dò nước dưới đất (Khu Trang trại 2000)",
         "LicenseNumber": "687/GP-UBND",
         "SignDate": "2022-04-21T00:00:00",

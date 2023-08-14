@@ -287,7 +287,7 @@ const SurfaceWaterLicense = () => {
   useEffect(() => {
     setColumns(columnsTable);
     setcolumnFillters(columnFillter)
-  }, []);
+  }, [postSuccess])
 
   return (
     <Grid container spacing={2}>

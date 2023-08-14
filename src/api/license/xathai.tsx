@@ -6,7 +6,7 @@ const licensedischargeData= [
             "CommuneName": null,
             "ConstructionItems": [
                 {
-                    "Id": 433,
+                    "id": 433,
                     "ConstructionId": 202,
                     "AquiferId": null,
                     "Name": "Cửa xả số 1",
@@ -42,7 +42,7 @@ const licensedischargeData= [
                     "LowWL": null
                 },
                 {
-                    "Id": 434,
+                    "id": 434,
                     "ConstructionId": 202,
                     "AquiferId": null,
                     "Name": "Cửa xả số 2",
@@ -78,7 +78,7 @@ const licensedischargeData= [
                     "LowWL": null
                 },
                 {
-                    "Id": 435,
+                    "id": 435,
                     "ConstructionId": 202,
                     "AquiferId": null,
                     "Name": "Cửa xả số 3",
@@ -155,7 +155,7 @@ const licensedischargeData= [
             "OperatingStatus": 1,
             "AquiferName": null,
             "Business": {
-                "Id": 93,
+                "id": 93,
                 "Name": "Công ty TNHH mỏ NiKel Bản Phúc",
                 "Address": "Xã Mường Khoa, huyện Bắc Yên, tỉnh Sơn La",
                 "IdentifierCode": null,
@@ -173,7 +173,7 @@ const licensedischargeData= [
                 "Status": true,
                 "IsDeleted": false
             },
-            "Id": 202,
+            "id": 202,
             "TypeOfConstructionId": 17,
             "ProvinceId": 1,
             "DistrictId": 5,
@@ -314,7 +314,7 @@ const licensedischargeData= [
                 "License_Fk": null,
                 "Location": null,
                 "MiningPurposes": null,
-                "Id": 195,
+                "id": 195,
                 "LicenseName": "Giấy phép xả thải vào nguồn nước",
                 "LicenseNumber": "1739/GP-BTNMT",
                 "SignDate": "2013-09-20T00:00:00",
@@ -342,7 +342,7 @@ const licensedischargeData= [
                 "QuanTracMuaMua": null,
                 "QuanTracMuaKho": null
             },
-            "Id": 93,
+            "id": 93,
             "Name": "Công ty TNHH mỏ NiKel Bản Phúc",
             "Address": "Xã Mường Khoa, huyện Bắc Yên, tỉnh Sơn La",
             "IdentifierCode": null,
@@ -372,7 +372,7 @@ const licensedischargeData= [
         "LicenseTypeName": "Cấp mới",
         "OldLicense": null,
         "License_Fk": {
-            "Id": 195,
+            "id": 195,
             "LicenseId": 195,
             "LicenseParentId": 0,
             "BasinId": 4,
@@ -392,7 +392,7 @@ const licensedischargeData= [
             "IsDeleted": false
         },
         "Location": {
-            "Id": 78,
+            "id": 78,
             "CityName": "Tỉnh Sơn La",
             "CityId": "14",
             "DistrictName": "Huyện Bắc Yên",
@@ -409,7 +409,7 @@ const licensedischargeData= [
             "IsDeleted": false
         },
         "MiningPurposes": [],
-        "Id": 195,
+        "id": 195,
         "LicenseName": "Giấy phép xả thải vào nguồn nước",
         "LicenseNumber": "1739/GP-BTNMT",
         "SignDate": "2013-09-20T00:00:00",
@@ -444,7 +444,7 @@ const licensedischargeData= [
             "CommuneName": null,
             "ConstructionItems": [
                 {
-                    "Id": 436,
+                    "id": 436,
                     "ConstructionId": 203,
                     "AquiferId": null,
                     "Name": "Vị trí 1 (Trạm xử lý)",
@@ -480,7 +480,7 @@ const licensedischargeData= [
                     "LowWL": null
                 },
                 {
-                    "Id": 437,
+                    "id": 437,
                     "ConstructionId": 203,
                     "AquiferId": null,
                     "Name": "Vị trí 2 (Trạm xử lý)",
@@ -516,7 +516,7 @@ const licensedischargeData= [
                     "LowWL": null
                 },
                 {
-                    "Id": 438,
+                    "id": 438,
                     "ConstructionId": 203,
                     "AquiferId": null,
                     "Name": "Vị trí 3 (sau hồ sinh thái)",
@@ -593,7 +593,7 @@ const licensedischargeData= [
             "OperatingStatus": 1,
             "AquiferName": null,
             "Business": {
-                "Id": 68,
+                "id": 68,
                 "Name": "Công ty cổ phần giống bò sữa Mộc Châu",
                 "Address": "Tiểu khu Cơ Quan,  thị trấn Nông trường Mộc Châu,  huyện Mộc Châu,  tỉnh Sơn La",
                 "IdentifierCode": null,
@@ -611,7 +611,7 @@ const licensedischargeData= [
                 "Status": true,
                 "IsDeleted": false
             },
-            "Id": 203,
+            "id": 203,
             "TypeOfConstructionId": 17,
             "ProvinceId": 1,
             "DistrictId": 10,
@@ -752,7 +752,7 @@ const licensedischargeData= [
                 "License_Fk": null,
                 "Location": null,
                 "MiningPurposes": null,
-                "Id": 101,
+                "id": 101,
                 "LicenseName": "Giấy phép khai thác - sử dụng nước dưới đất",
                 "LicenseNumber": "1733/GP-UBND",
                 "SignDate": "2012-08-13T00:00:00",
@@ -780,7 +780,7 @@ const licensedischargeData= [
                 "QuanTracMuaMua": null,
                 "QuanTracMuaKho": null
             },
-            "Id": 68,
+            "id": 68,
             "Name": "Công ty cổ phần giống bò sữa Mộc Châu",
             "Address": "Tiểu khu Cơ Quan,  thị trấn Nông trường Mộc Châu,  huyện Mộc Châu,  tỉnh Sơn La",
             "IdentifierCode": null,
@@ -810,7 +810,7 @@ const licensedischargeData= [
         "LicenseTypeName": "Cấp mới",
         "OldLicense": null,
         "License_Fk": {
-            "Id": 196,
+            "id": 196,
             "LicenseId": 196,
             "LicenseParentId": 0,
             "BasinId": 4,
@@ -830,7 +830,7 @@ const licensedischargeData= [
             "IsDeleted": false
         },
         "Location": {
-            "Id": 113,
+            "id": 113,
             "CityName": "Tỉnh Sơn La",
             "CityId": "14",
             "DistrictName": "Huyện Mộc Châu",
@@ -847,7 +847,7 @@ const licensedischargeData= [
             "IsDeleted": false
         },
         "MiningPurposes": [],
-        "Id": 196,
+        "id": 196,
         "LicenseName": "Giấy phép xả nước thải vào nguồn nước",
         "LicenseNumber": "3060/GP-UBND",
         "SignDate": "2013-12-17T00:00:00",
@@ -882,7 +882,7 @@ const licensedischargeData= [
             "CommuneName": null,
             "ConstructionItems": [
                 {
-                    "Id": 439,
+                    "id": 439,
                     "ConstructionId": 204,
                     "AquiferId": null,
                     "Name": "Sau bể lắng của Xí nghiệp cấp nước Mai Sơn",
@@ -959,7 +959,7 @@ const licensedischargeData= [
             "OperatingStatus": 1,
             "AquiferName": null,
             "Business": {
-                "Id": 43,
+                "id": 43,
                 "Name": "Công ty cổ phần cấp nước Sơn La",
                 "Address": "Số 55, đường Tô Hiệu, tổ 5, phường Tô Hiệu, thành phố Sơn La, tỉnh Sơn La",
                 "IdentifierCode": null,
@@ -977,7 +977,7 @@ const licensedischargeData= [
                 "Status": true,
                 "IsDeleted": false
             },
-            "Id": 204,
+            "id": 204,
             "TypeOfConstructionId": 17,
             "ProvinceId": 1,
             "DistrictId": 7,
@@ -1118,7 +1118,7 @@ const licensedischargeData= [
                 "License_Fk": null,
                 "Location": null,
                 "MiningPurposes": null,
-                "Id": 76,
+                "id": 76,
                 "LicenseName": "Giấy phép khai thác - sử dụng nước mặt",
                 "LicenseNumber": "521/GP-UBND",
                 "SignDate": "2014-03-18T00:00:00",
@@ -1146,7 +1146,7 @@ const licensedischargeData= [
                 "QuanTracMuaMua": null,
                 "QuanTracMuaKho": null
             },
-            "Id": 43,
+            "id": 43,
             "Name": "Công ty cổ phần cấp nước Sơn La",
             "Address": "Số 55, đường Tô Hiệu, tổ 5, phường Tô Hiệu, thành phố Sơn La, tỉnh Sơn La",
             "IdentifierCode": null,
@@ -1176,7 +1176,7 @@ const licensedischargeData= [
         "LicenseTypeName": "Cấp mới",
         "OldLicense": null,
         "License_Fk": {
-            "Id": 197,
+            "id": 197,
             "LicenseId": 197,
             "LicenseParentId": 0,
             "BasinId": 2,
@@ -1196,7 +1196,7 @@ const licensedischargeData= [
             "IsDeleted": false
         },
         "Location": {
-            "Id": 142,
+            "id": 142,
             "CityName": "Tỉnh Sơn La",
             "CityId": "14",
             "DistrictName": "Huyện Mai Sơn",
@@ -1213,7 +1213,7 @@ const licensedischargeData= [
             "IsDeleted": false
         },
         "MiningPurposes": [],
-        "Id": 197,
+        "id": 197,
         "LicenseName": "Giấy phép xả nước thải vào nguồn nước",
         "LicenseNumber": "522/GP-UBND",
         "SignDate": "2014-03-18T00:00:00",
@@ -1248,7 +1248,7 @@ const licensedischargeData= [
             "CommuneName": null,
             "ConstructionItems": [
                 {
-                    "Id": 440,
+                    "id": 440,
                     "ConstructionId": 205,
                     "AquiferId": null,
                     "Name": "Trạm cấp nước KM10",
@@ -1325,7 +1325,7 @@ const licensedischargeData= [
             "OperatingStatus": 1,
             "AquiferName": null,
             "Business": {
-                "Id": 43,
+                "id": 43,
                 "Name": "Công ty cổ phần cấp nước Sơn La",
                 "Address": "Số 55, đường Tô Hiệu, tổ 5, phường Tô Hiệu, thành phố Sơn La, tỉnh Sơn La",
                 "IdentifierCode": null,
@@ -1343,7 +1343,7 @@ const licensedischargeData= [
                 "Status": true,
                 "IsDeleted": false
             },
-            "Id": 205,
+            "id": 205,
             "TypeOfConstructionId": 17,
             "ProvinceId": 1,
             "DistrictId": 1,
@@ -1484,7 +1484,7 @@ const licensedischargeData= [
                 "License_Fk": null,
                 "Location": null,
                 "MiningPurposes": null,
-                "Id": 76,
+                "id": 76,
                 "LicenseName": "Giấy phép khai thác - sử dụng nước mặt",
                 "LicenseNumber": "521/GP-UBND",
                 "SignDate": "2014-03-18T00:00:00",
@@ -1512,7 +1512,7 @@ const licensedischargeData= [
                 "QuanTracMuaMua": null,
                 "QuanTracMuaKho": null
             },
-            "Id": 43,
+            "id": 43,
             "Name": "Công ty cổ phần cấp nước Sơn La",
             "Address": "Số 55, đường Tô Hiệu, tổ 5, phường Tô Hiệu, thành phố Sơn La, tỉnh Sơn La",
             "IdentifierCode": null,
@@ -1542,7 +1542,7 @@ const licensedischargeData= [
         "LicenseTypeName": "Cấp mới",
         "OldLicense": null,
         "License_Fk": {
-            "Id": 198,
+            "id": 198,
             "LicenseId": 198,
             "LicenseParentId": 0,
             "BasinId": 3,
@@ -1562,7 +1562,7 @@ const licensedischargeData= [
             "IsDeleted": false
         },
         "Location": {
-            "Id": 12,
+            "id": 12,
             "CityName": "Tỉnh Sơn La",
             "CityId": "14",
             "DistrictName": "Thành phố Sơn La",
@@ -1579,7 +1579,7 @@ const licensedischargeData= [
             "IsDeleted": false
         },
         "MiningPurposes": [],
-        "Id": 198,
+        "id": 198,
         "LicenseName": "Giấy phép xả nước thải vào nguồn nước",
         "LicenseNumber": "523/GP-UBND",
         "SignDate": "2014-03-18T00:00:00",
@@ -1614,7 +1614,7 @@ const licensedischargeData= [
             "CommuneName": null,
             "ConstructionItems": [
                 {
-                    "Id": 441,
+                    "id": 441,
                     "ConstructionId": 206,
                     "AquiferId": null,
                     "Name": "Sau bể lắng của Trạm cấp nước Bưu điện ",
@@ -1691,7 +1691,7 @@ const licensedischargeData= [
             "OperatingStatus": 1,
             "AquiferName": null,
             "Business": {
-                "Id": 43,
+                "id": 43,
                 "Name": "Công ty cổ phần cấp nước Sơn La",
                 "Address": "Số 55, đường Tô Hiệu, tổ 5, phường Tô Hiệu, thành phố Sơn La, tỉnh Sơn La",
                 "IdentifierCode": null,
@@ -1709,7 +1709,7 @@ const licensedischargeData= [
                 "Status": true,
                 "IsDeleted": false
             },
-            "Id": 206,
+            "id": 206,
             "TypeOfConstructionId": 17,
             "ProvinceId": 1,
             "DistrictId": 10,
@@ -1850,7 +1850,7 @@ const licensedischargeData= [
                 "License_Fk": null,
                 "Location": null,
                 "MiningPurposes": null,
-                "Id": 76,
+                "id": 76,
                 "LicenseName": "Giấy phép khai thác - sử dụng nước mặt",
                 "LicenseNumber": "521/GP-UBND",
                 "SignDate": "2014-03-18T00:00:00",
@@ -1878,7 +1878,7 @@ const licensedischargeData= [
                 "QuanTracMuaMua": null,
                 "QuanTracMuaKho": null
             },
-            "Id": 43,
+            "id": 43,
             "Name": "Công ty cổ phần cấp nước Sơn La",
             "Address": "Số 55, đường Tô Hiệu, tổ 5, phường Tô Hiệu, thành phố Sơn La, tỉnh Sơn La",
             "IdentifierCode": null,
@@ -1908,7 +1908,7 @@ const licensedischargeData= [
         "LicenseTypeName": "Cấp mới",
         "OldLicense": null,
         "License_Fk": {
-            "Id": 199,
+            "id": 199,
             "LicenseId": 199,
             "LicenseParentId": 0,
             "BasinId": 4,
@@ -1928,7 +1928,7 @@ const licensedischargeData= [
             "IsDeleted": false
         },
         "Location": {
-            "Id": 112,
+            "id": 112,
             "CityName": "Tỉnh Sơn La",
             "CityId": "14",
             "DistrictName": "Huyện Mộc Châu",
@@ -1945,7 +1945,7 @@ const licensedischargeData= [
             "IsDeleted": false
         },
         "MiningPurposes": [],
-        "Id": 199,
+        "id": 199,
         "LicenseName": "Giấy phép xả nước thải vào nguồn nước",
         "LicenseNumber": "524/GP-UBND",
         "SignDate": "2014-03-18T00:00:00",
@@ -1980,7 +1980,7 @@ const licensedischargeData= [
             "CommuneName": null,
             "ConstructionItems": [
                 {
-                    "Id": 442,
+                    "id": 442,
                     "ConstructionId": 207,
                     "AquiferId": null,
                     "Name": "Sau bể lắng của Trạm cấp nước Cò Nòi",
@@ -2057,7 +2057,7 @@ const licensedischargeData= [
             "OperatingStatus": 1,
             "AquiferName": null,
             "Business": {
-                "Id": 43,
+                "id": 43,
                 "Name": "Công ty cổ phần cấp nước Sơn La",
                 "Address": "Số 55, đường Tô Hiệu, tổ 5, phường Tô Hiệu, thành phố Sơn La, tỉnh Sơn La",
                 "IdentifierCode": null,
@@ -2075,7 +2075,7 @@ const licensedischargeData= [
                 "Status": true,
                 "IsDeleted": false
             },
-            "Id": 207,
+            "id": 207,
             "TypeOfConstructionId": 17,
             "ProvinceId": 1,
             "DistrictId": 7,
@@ -2216,7 +2216,7 @@ const licensedischargeData= [
                 "License_Fk": null,
                 "Location": null,
                 "MiningPurposes": null,
-                "Id": 76,
+                "id": 76,
                 "LicenseName": "Giấy phép khai thác - sử dụng nước mặt",
                 "LicenseNumber": "521/GP-UBND",
                 "SignDate": "2014-03-18T00:00:00",
@@ -2244,7 +2244,7 @@ const licensedischargeData= [
                 "QuanTracMuaMua": null,
                 "QuanTracMuaKho": null
             },
-            "Id": 43,
+            "id": 43,
             "Name": "Công ty cổ phần cấp nước Sơn La",
             "Address": "Số 55, đường Tô Hiệu, tổ 5, phường Tô Hiệu, thành phố Sơn La, tỉnh Sơn La",
             "IdentifierCode": null,
@@ -2274,7 +2274,7 @@ const licensedischargeData= [
         "LicenseTypeName": "Cấp mới",
         "OldLicense": null,
         "License_Fk": {
-            "Id": 200,
+            "id": 200,
             "LicenseId": 200,
             "LicenseParentId": 0,
             "BasinId": 2,
@@ -2294,7 +2294,7 @@ const licensedischargeData= [
             "IsDeleted": false
         },
         "Location": {
-            "Id": 154,
+            "id": 154,
             "CityName": "Tỉnh Sơn La",
             "CityId": "14",
             "DistrictName": "Huyện Mai Sơn",
@@ -2311,7 +2311,7 @@ const licensedischargeData= [
             "IsDeleted": false
         },
         "MiningPurposes": [],
-        "Id": 200,
+        "id": 200,
         "LicenseName": "Giấy phép xả nước thải vào nguồn nước",
         "LicenseNumber": "2710/GP-UBND",
         "SignDate": "2014-10-13T00:00:00",
@@ -2346,7 +2346,7 @@ const licensedischargeData= [
             "CommuneName": null,
             "ConstructionItems": [
                 {
-                    "Id": 443,
+                    "id": 443,
                     "ConstructionId": 208,
                     "AquiferId": null,
                     "Name": "Sau bể lắng của Trạm cấp nước Bắt Đông",
@@ -2423,7 +2423,7 @@ const licensedischargeData= [
             "OperatingStatus": 1,
             "AquiferName": null,
             "Business": {
-                "Id": 43,
+                "id": 43,
                 "Name": "Công ty cổ phần cấp nước Sơn La",
                 "Address": "Số 55, đường Tô Hiệu, tổ 5, phường Tô Hiệu, thành phố Sơn La, tỉnh Sơn La",
                 "IdentifierCode": null,
@@ -2441,7 +2441,7 @@ const licensedischargeData= [
                 "Status": true,
                 "IsDeleted": false
             },
-            "Id": 208,
+            "id": 208,
             "TypeOfConstructionId": 17,
             "ProvinceId": 1,
             "DistrictId": 8,
@@ -2582,7 +2582,7 @@ const licensedischargeData= [
                 "License_Fk": null,
                 "Location": null,
                 "MiningPurposes": null,
-                "Id": 76,
+                "id": 76,
                 "LicenseName": "Giấy phép khai thác - sử dụng nước mặt",
                 "LicenseNumber": "521/GP-UBND",
                 "SignDate": "2014-03-18T00:00:00",
@@ -2610,7 +2610,7 @@ const licensedischargeData= [
                 "QuanTracMuaMua": null,
                 "QuanTracMuaKho": null
             },
-            "Id": 43,
+            "id": 43,
             "Name": "Công ty cổ phần cấp nước Sơn La",
             "Address": "Số 55, đường Tô Hiệu, tổ 5, phường Tô Hiệu, thành phố Sơn La, tỉnh Sơn La",
             "IdentifierCode": null,
@@ -2640,7 +2640,7 @@ const licensedischargeData= [
         "LicenseTypeName": "Cấp mới",
         "OldLicense": null,
         "License_Fk": {
-            "Id": 201,
+            "id": 201,
             "LicenseId": 201,
             "LicenseParentId": 0,
             "BasinId": 4,
@@ -2660,7 +2660,7 @@ const licensedischargeData= [
             "IsDeleted": false
         },
         "Location": {
-            "Id": 129,
+            "id": 129,
             "CityName": "Tỉnh Sơn La",
             "CityId": "14",
             "DistrictName": "Huyện Yên Châu",
@@ -2677,7 +2677,7 @@ const licensedischargeData= [
             "IsDeleted": false
         },
         "MiningPurposes": [],
-        "Id": 201,
+        "id": 201,
         "LicenseName": "Giấy phép xả nước thải vào nguồn nước",
         "LicenseNumber": "2712/GP-UBND",
         "SignDate": "2014-10-13T00:00:00",
@@ -2712,7 +2712,7 @@ const licensedischargeData= [
             "CommuneName": null,
             "ConstructionItems": [
                 {
-                    "Id": 444,
+                    "id": 444,
                     "ConstructionId": 209,
                     "AquiferId": null,
                     "Name": "Sau bể lắng của Trạm cấp nước Suối Sập",
@@ -2789,7 +2789,7 @@ const licensedischargeData= [
             "OperatingStatus": 1,
             "AquiferName": null,
             "Business": {
-                "Id": 43,
+                "id": 43,
                 "Name": "Công ty cổ phần cấp nước Sơn La",
                 "Address": "Số 55, đường Tô Hiệu, tổ 5, phường Tô Hiệu, thành phố Sơn La, tỉnh Sơn La",
                 "IdentifierCode": null,
@@ -2807,7 +2807,7 @@ const licensedischargeData= [
                 "Status": true,
                 "IsDeleted": false
             },
-            "Id": 209,
+            "id": 209,
             "TypeOfConstructionId": 17,
             "ProvinceId": 1,
             "DistrictId": 8,
@@ -2948,7 +2948,7 @@ const licensedischargeData= [
                 "License_Fk": null,
                 "Location": null,
                 "MiningPurposes": null,
-                "Id": 76,
+                "id": 76,
                 "LicenseName": "Giấy phép khai thác - sử dụng nước mặt",
                 "LicenseNumber": "521/GP-UBND",
                 "SignDate": "2014-03-18T00:00:00",
@@ -2976,7 +2976,7 @@ const licensedischargeData= [
                 "QuanTracMuaMua": null,
                 "QuanTracMuaKho": null
             },
-            "Id": 43,
+            "id": 43,
             "Name": "Công ty cổ phần cấp nước Sơn La",
             "Address": "Số 55, đường Tô Hiệu, tổ 5, phường Tô Hiệu, thành phố Sơn La, tỉnh Sơn La",
             "IdentifierCode": null,
@@ -3006,7 +3006,7 @@ const licensedischargeData= [
         "LicenseTypeName": "Cấp mới",
         "OldLicense": null,
         "License_Fk": {
-            "Id": 202,
+            "id": 202,
             "LicenseId": 202,
             "LicenseParentId": 0,
             "BasinId": 4,
@@ -3026,7 +3026,7 @@ const licensedischargeData= [
             "IsDeleted": false
         },
         "Location": {
-            "Id": 129,
+            "id": 129,
             "CityName": "Tỉnh Sơn La",
             "CityId": "14",
             "DistrictName": "Huyện Yên Châu",
@@ -3043,7 +3043,7 @@ const licensedischargeData= [
             "IsDeleted": false
         },
         "MiningPurposes": [],
-        "Id": 202,
+        "id": 202,
         "LicenseName": "Giấy phép xả nước thải vào nguồn nước",
         "LicenseNumber": "2717/GP-UBND",
         "SignDate": "2014-10-13T00:00:00",
@@ -3078,7 +3078,7 @@ const licensedischargeData= [
             "CommuneName": null,
             "ConstructionItems": [
                 {
-                    "Id": 467,
+                    "id": 467,
                     "ConstructionId": 232,
                     "AquiferId": null,
                     "Name": "Sau hồ sinh học số 3 của Chi nhánh Công ty cổ phần tinh bột sắn FOCOCEV - Nhà máy tinh bột sắn Sơn La",
@@ -3155,7 +3155,7 @@ const licensedischargeData= [
             "OperatingStatus": 1,
             "AquiferName": null,
             "Business": {
-                "Id": 45,
+                "id": 45,
                 "Name": "Chi nhánh Công ty cổ phần tinh bột sắn FOCOCEV - Nhà máy tinh bột sắn Sơn La",
                 "Address": "Bản Co Pe, xã Mường Bon, huyện Mai Sơn, tỉnh Sơn La",
                 "IdentifierCode": null,
@@ -3173,7 +3173,7 @@ const licensedischargeData= [
                 "Status": true,
                 "IsDeleted": false
             },
-            "Id": 232,
+            "id": 232,
             "TypeOfConstructionId": 18,
             "ProvinceId": 1,
             "DistrictId": 7,
@@ -3314,7 +3314,7 @@ const licensedischargeData= [
                 "License_Fk": null,
                 "Location": null,
                 "MiningPurposes": null,
-                "Id": 78,
+                "id": 78,
                 "LicenseName": "Giấy phép khai thác- sử dụng nước mặt",
                 "LicenseNumber": "3344/GP-UBND",
                 "SignDate": "2014-12-08T00:00:00",
@@ -3342,7 +3342,7 @@ const licensedischargeData= [
                 "QuanTracMuaMua": null,
                 "QuanTracMuaKho": null
             },
-            "Id": 45,
+            "id": 45,
             "Name": "Chi nhánh Công ty cổ phần tinh bột sắn FOCOCEV - Nhà máy tinh bột sắn Sơn La",
             "Address": "Bản Co Pe, xã Mường Bon, huyện Mai Sơn, tỉnh Sơn La",
             "IdentifierCode": null,
@@ -3372,7 +3372,7 @@ const licensedischargeData= [
         "LicenseTypeName": "Cấp mới",
         "OldLicense": null,
         "License_Fk": {
-            "Id": 232,
+            "id": 232,
             "LicenseId": 232,
             "LicenseParentId": 0,
             "BasinId": 2,
@@ -3392,7 +3392,7 @@ const licensedischargeData= [
             "IsDeleted": false
         },
         "Location": {
-            "Id": 149,
+            "id": 149,
             "CityName": "Tỉnh Sơn La",
             "CityId": "14",
             "DistrictName": "Huyện Mai Sơn",
@@ -3409,7 +3409,7 @@ const licensedischargeData= [
             "IsDeleted": false
         },
         "MiningPurposes": [],
-        "Id": 232,
+        "id": 232,
         "LicenseName": "Giấy phép xả nước thải vào nguồn nước",
         "LicenseNumber": "3346/GP-UBND",
         "SignDate": "2014-12-08T00:00:00",
@@ -3444,7 +3444,7 @@ const licensedischargeData= [
             "CommuneName": null,
             "ConstructionItems": [
                 {
-                    "Id": 468,
+                    "id": 468,
                     "ConstructionId": 233,
                     "AquiferId": null,
                     "Name": "Sau hệ thống xử lý nước thải của Nhà máy chế biến kim loại màu Sơn La",
@@ -3521,7 +3521,7 @@ const licensedischargeData= [
             "OperatingStatus": 1,
             "AquiferName": null,
             "Business": {
-                "Id": 44,
+                "id": 44,
                 "Name": "Công ty cổ phần khoáng sản Tây Bắc",
                 "Address": "Số 144- đường Trường Chinh- Tổ 4- phường Quyết Thắng- thành phố Sơn La- tỉnh Sơn La",
                 "IdentifierCode": null,
@@ -3539,7 +3539,7 @@ const licensedischargeData= [
                 "Status": true,
                 "IsDeleted": false
             },
-            "Id": 233,
+            "id": 233,
             "TypeOfConstructionId": 18,
             "ProvinceId": 1,
             "DistrictId": 1,
@@ -3680,7 +3680,7 @@ const licensedischargeData= [
                 "License_Fk": null,
                 "Location": null,
                 "MiningPurposes": null,
-                "Id": 46,
+                "id": 46,
                 "LicenseName": "Giấy phép khai thác - sử dụng nước mặt",
                 "LicenseNumber": "3150/GP-BTNMT",
                 "SignDate": "2018-10-16T00:00:00",
@@ -3708,7 +3708,7 @@ const licensedischargeData= [
                 "QuanTracMuaMua": null,
                 "QuanTracMuaKho": null
             },
-            "Id": 44,
+            "id": 44,
             "Name": "Công ty cổ phần khoáng sản Tây Bắc",
             "Address": "Số 144- đường Trường Chinh- Tổ 4- phường Quyết Thắng- thành phố Sơn La- tỉnh Sơn La",
             "IdentifierCode": null,
@@ -3738,7 +3738,7 @@ const licensedischargeData= [
         "LicenseTypeName": "Cấp mới",
         "OldLicense": null,
         "License_Fk": {
-            "Id": 233,
+            "id": 233,
             "LicenseId": 233,
             "LicenseParentId": 0,
             "BasinId": 2,
@@ -3758,7 +3758,7 @@ const licensedischargeData= [
             "IsDeleted": false
         },
         "Location": {
-            "Id": 3,
+            "id": 3,
             "CityName": "Tỉnh Sơn La",
             "CityId": "14",
             "DistrictName": "Thành phố Sơn La",
@@ -3775,7 +3775,7 @@ const licensedischargeData= [
             "IsDeleted": false
         },
         "MiningPurposes": [],
-        "Id": 233,
+        "id": 233,
         "LicenseName": "Giấy phép xả nước thải vào nguồn nước",
         "LicenseNumber": "1141/GP-UBND",
         "SignDate": "2015-06-05T00:00:00",
