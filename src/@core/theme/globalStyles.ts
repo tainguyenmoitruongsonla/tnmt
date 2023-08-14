@@ -30,13 +30,8 @@ const GlobalStyles = (theme: Theme) => {
     },
 
     '&.MuiDataGrid-cell': {
-      fontSize: '12px',
+      color: '#2f2f2f'
     },
-
-    '&.MuiDataGrid-columnHeaderTitleContainer': {
-      fontSize: '12px',
-    },
-
 
     '#nprogress': {
       pointerEvents: 'none',

@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { MapContainer, TileLayer, LayersControl, useMap, Marker } from 'react-leaflet';
+import { MapContainer, TileLayer, LayersControl, useMap, Marker, Popup } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import { BingLayer } from 'src/@core/components/bingmap';
 import { GeoJSON } from 'react-leaflet';
@@ -36,35 +36,40 @@ const createIcon = (url:any) => {
 	return new L.Icon({
 	  iconUrl: url,
 	  iconSize: [20, 20],
-	  popupAnchor: [-3, -76]
+	  popupAnchor: [0, -10]
 	});
 }
 
 // Set icon for cons type
 const getIcon = (type:any) => {
-	switch (type) {
-		case 4 :
-			return createIcon('/images/icon/thuydien.png');
-			break;
-		case 5 :
-			return createIcon('/images/icon/hochua.png');
-			break;
-		case 6 :
-			return createIcon('/images/icon/trambom.png');
-			break;
-		case 11 :
-			return createIcon('/images/icon/tramcapnuoc.png');
-			break;
-		case 13 :
-			return createIcon('/images/icon/cong.png');
-			break;
-		case 14 :
-			return createIcon('/images/icon/nhamaynuoc.png');
-			break;
+	if(type || type !== null){
+		switch (type) {
+			case 4 :
+				return createIcon('/images/icon/thuydien.png');
+				break;
+			case 5 :
+				return createIcon('/images/icon/hochua.png');
+				break;
+			case 6 :
+				return createIcon('/images/icon/trambom.png');
+				break;
+			case 11 :
+				return createIcon('/images/icon/tramcapnuoc.png');
+				break;
+			case 13 :
+				return createIcon('/images/icon/cong.png');
+				break;
+			case 14 :
+				return createIcon('/images/icon/nhamaynuoc.png');
+				break;
+			default :
+				return createIcon('/images/icon/thuydien.png');
+				break;
+		}
 	}
 }
 
-export default function Map({ center, zoom, mapLineData, mapMarkerData }: any) {
+export default function Map({ center, zoom, mapLineData, mapMarkerData }: any) {console.log(mapMarkerData)
 	const bing_key = "AuhiCJHlGzhg93IqUH_oCpl_-ZUrIE6SPftlyGYUvr9Amx5nzA-WqGcPquyFZl4L"
 	const [kml, setKml] = useState<any>(null);
 
@@ -119,13 +124,13 @@ export default function Map({ center, zoom, mapLineData, mapMarkerData }: any) {
 					});
 				}} />
 				{mapMarkerData && mapMarkerData.map((data:any) => {
-					if(data.Lat !== null || data.Lng !== null){
+					if(data.lat !== null || data.lng !== null){
 						return (
-							<Marker
-								icon={getIcon(data.TypeOfConstructionId)}
-								key={data.id}
-								position={[data.Lat, data.Lng]}
-							/>
+							<Marker icon={getIcon(data.constructionTypeId)} key={data.id} position={[data.lat, data.lng]}>
+								<Popup>
+									A pretty CSS3 popup. <br /> Easily customizable.
+								</Popup>
+							</Marker>
 							)
 					} else return null;
 				})}
