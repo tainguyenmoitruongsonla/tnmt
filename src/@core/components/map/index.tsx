@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { MapContainer, TileLayer, LayersControl, useMap } from 'react-leaflet';
+import { MapContainer, TileLayer, LayersControl, useMap, Marker } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import { BingLayer } from 'src/@core/components/bingmap';
 import { GeoJSON } from 'react-leaflet';
@@ -19,6 +19,7 @@ const SetViewOnClick = ({ coords, zoom }: any) => {
 	return null;
 }
 
+// Create style for map line
 const lineStyle = (feature: any) => {
 	return {
 		fillColor: "transparent",
@@ -30,8 +31,40 @@ const lineStyle = (feature: any) => {
 	};
 }
 
-export default function Map({ center, zoom, mapData }: any) {
+// Create icon for map marker
+const createIcon = (url:any) => {
+	return new L.Icon({
+	  iconUrl: url,
+	  iconSize: [20, 20],
+	  popupAnchor: [-3, -76]
+	});
+}
 
+// Set icon for cons type
+const getIcon = (type:any) => {
+	switch (type) {
+		case 4 :
+			return createIcon('/images/icon/thuydien.png');
+			break;
+		case 5 :
+			return createIcon('/images/icon/hochua.png');
+			break;
+		case 6 :
+			return createIcon('/images/icon/trambom.png');
+			break;
+		case 11 :
+			return createIcon('/images/icon/tramcapnuoc.png');
+			break;
+		case 13 :
+			return createIcon('/images/icon/cong.png');
+			break;
+		case 14 :
+			return createIcon('/images/icon/nhamaynuoc.png');
+			break;
+	}
+}
+
+export default function Map({ center, zoom, mapLineData, mapMarkerData }: any) {
 	const bing_key = "AuhiCJHlGzhg93IqUH_oCpl_-ZUrIE6SPftlyGYUvr9Amx5nzA-WqGcPquyFZl4L"
 	const [kml, setKml] = useState<any>(null);
 
@@ -42,7 +75,7 @@ export default function Map({ center, zoom, mapData }: any) {
           .then((res) => res.text())
           .then((kmlText) => {
             const parser = new DOMParser();
-            const kml = parser.parseFromString(kmlText, "text/xml");console.log(kml);
+            const kml = parser.parseFromString(kmlText, "text/xml");
             setKml(kml);
           });
     }, []);
@@ -50,7 +83,7 @@ export default function Map({ center, zoom, mapData }: any) {
 	return (
 		<>
 			<MapContainer attributionControl={false} center={center} zoom={zoom} style={{ height: '100%' }}>
-				<LayersControl position='topright'>
+				<LayersControl position='bottomright'>
 					<BaseLayer name='Bản đồ hành chính'>
 						<TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
 					</BaseLayer>
@@ -64,7 +97,7 @@ export default function Map({ center, zoom, mapData }: any) {
 						<BingLayer bingkey={bing_key} type="AerialWithLabels" />
 					</BaseLayer>
 				</LayersControl>
-				<GeoJSON data={mapData} style={lineStyle} onEachFeature={(feature, layer) => {
+				<GeoJSON data={mapLineData} style={lineStyle} onEachFeature={(feature, layer) => {
 					layer.on({
 						click: () => {
 							layer.bindPopup(feature.properties.detailContent, { closeOnClick: true, autoClose: true }).openPopup()
@@ -85,6 +118,26 @@ export default function Map({ center, zoom, mapData }: any) {
 						}
 					});
 				}} />
+				{mapMarkerData && mapMarkerData.map((data:any) => {
+					if(data.Lat !== null || data.Lng !== null){
+						return (
+							<Marker
+								icon={getIcon(data.TypeOfConstructionId)}
+								key={data.id}
+								position={[data.Lat, data.Lng]}
+							/>
+							// {/* <NewPopup
+		
+							//   autoClose={false}
+							//   closeOnEscapeKey={false}
+							//   closeButton={false}
+							//   closeOnClick={false}>
+							//   <Price>{station.fuelPrices[fuelValue].price + ' €'}</Price>
+							//   <Link to={`/${station.id}`}>Mehr</Link>
+							// </NewPopup> */}
+							)
+					} else return null;
+				})}
 				<SetViewOnClick coords={center} zoom={zoom} />
 				{kml && <ReactLeafletKml kml={kml} />}
 			</MapContainer>

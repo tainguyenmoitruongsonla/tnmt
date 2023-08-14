@@ -181,8 +181,10 @@ const SurfaceWater = () => {
   return (
     <Grid container spacing={3}>
       <Grid item xs={12} sm={12} md={12} sx={{ height: '55vh', width: '100%', overflow: 'hidden' }}>
-        <MapLegend />
-        <Map center={mapCenter} zoom={mapZoom} mapData={null} />
+        <Box className="map-legend" sx={{ width: '100%', maxWidth: 180, bgcolor: 'background.paper' }}>
+          <MapLegend />
+        </Box>
+        <Map center={mapCenter} zoom={mapZoom} mapLineData={null} mapMarkerData={data} />
       </Grid>
       <Grid item xs={12} sm={5} md={3}>
           <Typography className='_font12'>

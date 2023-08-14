@@ -346,3 +346,10 @@ code[class*='language-'] {
 .font-weight-bold {
   font-weight: 700!important;
 }
+
+.map-legend {
+  position: absolute;
+  z-index: 999;
+  right: 15px;
+  top: 80px;
+}
