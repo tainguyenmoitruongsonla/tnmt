@@ -126,15 +126,6 @@ export default function Map({ center, zoom, mapLineData, mapMarkerData }: any) {
 								key={data.id}
 								position={[data.Lat, data.Lng]}
 							/>
-							// {/* <NewPopup
-		
-							//   autoClose={false}
-							//   closeOnEscapeKey={false}
-							//   closeButton={false}
-							//   closeOnClick={false}>
-							//   <Price>{station.fuelPrices[fuelValue].price + ' €'}</Price>
-							//   <Link to={`/${station.id}`}>Mehr</Link>
-							// </NewPopup> */}
 							)
 					} else return null;
 				})}
