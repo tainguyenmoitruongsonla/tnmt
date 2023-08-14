@@ -71,8 +71,6 @@ const DataGridComponent = (props: DataGridComponentProps) => {
       const filteredData = data.filter((item: { [key: string]: any }) => {
         let isMatch = true; // Sử dụng biến để kiểm tra tất cả các điều kiện
 
-        console.log(filters)
-
         for (const column of columns) {
           const columnValue = filters?.[column.value] as any;
           const itemValue = item[column.value];

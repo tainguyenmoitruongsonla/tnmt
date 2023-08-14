@@ -4,6 +4,8 @@ import 'leaflet/dist/leaflet.css';
 import { BingLayer } from 'src/@core/components/bingmap';
 import { GeoJSON } from 'react-leaflet';
 import ReactLeafletKml from "react-leaflet-kml";
+import MapPopup from './pop-up';
+import { Typography } from '@mui/material';
 
 const { BaseLayer } = LayersControl;
 
@@ -123,12 +125,13 @@ export default function Map({ center, zoom, mapLineData, mapMarkerData }: any) {
 						}
 					});
 				}} />
-				{mapMarkerData && mapMarkerData.map((data:any) => {
+				{mapMarkerData && mapMarkerData.map((data:any) => {console.log(data)
 					if(data.lat !== null || data.lng !== null){
 						return (
 							<Marker icon={getIcon(data.constructionTypeId)} key={data.id} position={[data.lat, data.lng]}>
-								<Popup>
-									A pretty CSS3 popup. <br /> Easily customizable.
+								<Popup >
+									<Typography sx={{color: '#035291', textAlign: 'center', fontWeight: 'bold', margin: '10px 0 !important'}}>{data.constructionName}</Typography>
+									<MapPopup popupData={data} />
 								</Popup>
 							</Marker>
 							)

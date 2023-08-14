@@ -11,10 +11,8 @@ const consType = [
     { id: 14, label: "Nhà máy nước" },
 ];
 
-const initialValue = Array;
-
 const MapLegend = () => {
-    const [checkedCons, setCheckedCons] = useState(initialValue);
+    const [checkedCons, setCheckedCons] = useState(Array);
 
     const handleChange1 = (isChecked:any) => {
         if (isChecked)
@@ -84,6 +82,8 @@ const MapLegend = () => {
             } label={<Typography sx={{ display: "flex", fontSize: 13}}><img src="/images/icon/nhamaynuoc.png" alt="nhamaynuoc" width={20} /><span>&nbsp;Nhà máy nước</span></Typography> }/>
         </Box>
     </Fragment>
+
+
     );
 };
 

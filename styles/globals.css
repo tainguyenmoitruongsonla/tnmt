@@ -353,3 +353,5 @@ code[class*='language-'] {
   right: 15px;
   top: 15px;
 }
+
+.leaflet-popup-content { margin: 15px 10px !important; width: 360px; height: 250px; }
