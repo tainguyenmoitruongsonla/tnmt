@@ -29,6 +29,15 @@ const GlobalStyles = (theme: Theme) => {
       }
     },
 
+    '&.MuiDataGrid-cell': {
+      fontSize: '12px',
+    },
+
+    '&.MuiDataGrid-columnHeaderTitleContainer': {
+      fontSize: '12px',
+    },
+
+
     '#nprogress': {
       pointerEvents: 'none',
       '& .bar': {

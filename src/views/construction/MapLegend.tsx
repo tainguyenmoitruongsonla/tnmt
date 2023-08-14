@@ -35,7 +35,7 @@ const MapLegend = () => {
         if (!isChecked && index > -1)
         return setCheckedCons((state) => {
             state.splice(index, 1);
-            return JSON.parse(JSON.stringify(state)); // Here's the trick => React does not update the f* state array changes even with the spread operator, the reference is still the same.
+            return JSON.parse(JSON.stringify(state));
         });
     };
 
