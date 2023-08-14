@@ -35,6 +35,7 @@ const MapLegend = () => {
         if (!isChecked && index > -1)
         return setCheckedCons((state) => {
             state.splice(index, 1);
+            
             return JSON.parse(JSON.stringify(state));
         });
     };

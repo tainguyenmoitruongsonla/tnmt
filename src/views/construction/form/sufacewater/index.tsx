@@ -47,9 +47,6 @@ interface CreateConstructionProps {
 
 const CreateConstruction = ({ isEdit, data, setPostSuccess }: CreateConstructionProps) => {
   const formTitle = isEdit ? 'Thay đổi thông tin trang truy cập' : 'THÔNG TIN CÔNG TRÌNH KHAI THÁC, SỬ DỤNG NƯỚC MẶT'
-  const handleSubmit = () => {
-    // handle form submission logic here
-  }
 
   return (
     <DialogsControlFullScreen>
