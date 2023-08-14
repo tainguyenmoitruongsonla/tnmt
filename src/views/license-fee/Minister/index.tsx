@@ -1,29 +1,19 @@
 import { useState, useEffect } from 'react'
 
 // ** MUI Imports
-import { Grid, Box, IconButton, Tooltip, Button, Typography } from '@mui/material'
+import { Grid, Typography, Paper, Box, Tooltip, IconButton } from '@mui/material'
 
 // ** Icons Imports
-import { Delete } from '@mui/icons-material'
-
-import TableComponent, { TableColumns } from 'src/@core/components/table'
-import { TextField } from 'src/@core/components/field'
 import fetchData from 'src/api/fetch';
 import { useLoadingContext } from 'src/@core/theme/loading-provider';
 import FormatDate from 'src/@core/components/format-date';
-import AutoComplete from 'src/@core/components/field/auto-complete'
 import postData from 'src/api/post'
 import FormLicenseFee from 'src/views/license-fee/form'
-
-const complete2 = [{ title: 'Đợt 1' }, { title: 'Đợt 2' }, { title: 'Đợt 3' }]
+import DataGridComponent, { columnFillters } from 'src/@core/components/data-grid'
+import { GridColDef } from '@mui/x-data-grid'
+import { Delete } from 'mdi-material-ui';
 
 const LicenseMinister = () => {
-
-  const [TypeOfConsId, setTypeOfConsId] = useState([1])
-  const handleChange = (e: any) => {
-    const val = e == undefined || e == null ? 1 : e.value
-    setTypeOfConsId(val)
-  }
 
   const [postSuccess, setPostSuccess] = useState(false);
   const { showLoading, hideLoading } = useLoadingContext();
@@ -39,16 +29,63 @@ const LicenseMinister = () => {
 
   const [resData, setResData] = useState([]);
 
-  const columnsTable: TableColumns[] = [
-    { id: 'stt', label: 'STT' },
-    { id: 'licenseFeeNumber', label: 'Quyết định cấp quyền' },
-    { id: 'signDate', label: 'Ngày ký', format: (value: any) => FormatDate(value)},
-    { id: '#', label: 'Quyết định bổ sung' },
-    { id: 'totalMoney', label: 'Tổng số tiền cấp quyền(VNĐ)' },
-    { id: 'description', label: 'Ghi chú' },
-    { id: 'LicenseNumber', label: 'Giấy phép' },
-    { id: 'ConstructionName', label: 'Công trình' },
-    { id: 'actions', label: 'Thao tác', }
+  const columns: GridColDef[] = [
+    { field: 'id', headerClassName: 'tableHead', headerAlign: 'center', flex: 1, headerName: 'ID', minWidth: 90 },
+    { field: 'licenseFeeNumber', headerClassName: 'tableHead', headerAlign: 'center', flex: 1, headerName: 'Quyết định cấp quyền' },
+    { field: 'signDate', headerClassName: 'tableHead', headerAlign: 'center', flex: 1, headerName: 'Ngày ký', renderCell: (data: any) => FormatDate(data.row.signDate) },
+    { field: 'supplementLicenseFee', headerClassName: 'tableHead', headerAlign: 'center', flex: 1, headerName: 'Quyết định bổ sung', renderCell: (data: any) => (<Box> {data.row.supplementLicenseFee?.licenseFeeNumber} </Box>) },
+    { field: 'totalMoney', headerClassName: 'tableHead', headerAlign: 'center', flex: 1, headerName: 'Tổng số tiền cấp quyền(VNĐ)' },
+    { field: 'description', headerClassName: 'tableHead', headerAlign: 'center', flex: 1, headerName: 'Ghi chú' },
+    { field: 'LicenseNumber', headerClassName: 'tableHead', headerAlign: 'center', flex: 1, headerName: 'Giấy phép' },
+    { field: 'ConstructionName', headerClassName: 'tableHead', headerAlign: 'center', flex: 1, headerName: 'Công trình' },
+
+    //Action
+    {
+      field: 'actions', headerClassName: 'tableHead', headerAlign: 'center', headerName: '#', minWidth: 120, sortable: false,
+      renderCell: (data) => (
+        <Box>
+          <Tooltip title="Chỉnh sửa tiền cấp quyền">
+            <IconButton onClick={() => console.log('edit')}>
+              <FormLicenseFee isEdit={true} data={data.row} />
+            </IconButton>
+          </Tooltip>
+          <Tooltip title="Xóa tiền cấp quyền">
+            <IconButton onClick={() => DeleteLicense(data)}>
+              <Delete className='tableActionBtn deleteBtn' />
+            </IconButton>
+          </Tooltip>
+        </Box>
+      )
+    },
+  ]
+
+  const columnFillter: columnFillters[] = [
+    {
+      label: 'Số QĐ',
+      value: 'licenseFeeNumber',
+      type: 'text',
+    },
+    {
+      label: 'Từ năm',
+      value: 'fromYear',
+      type: 'select',
+      options: [
+        { label: '2021', value: 2021 },
+        { label: '2022', value: 2022 },
+        { label: '2023', value: 2023 },
+      ],
+    },
+    {
+      label: 'Đến năm',
+      value: 'toYear',
+      type: 'select',
+      options: [
+        { label: '2021', value: 2021 },
+        { label: '2021', value: 2021 },
+        { label: '2022', value: 2022 },
+        { label: '2023', value: 2023 },
+      ],
+    },
   ]
 
   useEffect(() => {
@@ -88,61 +125,20 @@ const LicenseMinister = () => {
           KẾT QUẢ THU TIỀN CẤP QUYỀN KHAI THÁC SỬ DỤNG CỦA BỘ
         </Typography>
       </Grid>
-      <Grid item xs={12} sm={5} md={5}>
-        <Typography >Tổng số công trình KTSDN mặt: 426.293.061.000₫</Typography>
-      </Grid>
-      <Grid item xs={12} sm={7} md={7}>
-        <Grid container direction='row' justifyContent='flex-end' alignItems='center' spacing={3}>
-          <Grid item xs={12} sm={4} md={4}>
-            <TextField label='Nhập số quyết định' size='small' fullWidth></TextField>
-          </Grid>
-
-          <Grid item xs={12} sm={2} md={2}>
-            <AutoComplete
-              fullWidth
-              onChange={(e: any, v: any) => handleChange(v)}
-              size='small'
-              options={complete2}
-              getOptionLabel={(option: any) => option.title}
-              label='Từ:1998'
-            />
-          </Grid>
-          <Grid item xs={12} sm={2} md={2}>
-            <AutoComplete
-              fullWidth
-              onChange={(e: any, v: any) => handleChange(v)}
-              size='small'
-              options={complete2}
-              getOptionLabel={(option: any) => option.title}
-              label='Đến:2023'
-            />
-          </Grid>
-          <Grid item xs={12} sm={2} md={2}>
-            <Button size='small' fullWidth variant='outlined'>
-              Tìm kiếm
-            </Button>
-          </Grid>
-          <Grid item xs={12} sm={2} md={2}>
-            <FormLicenseFee setPostSuccess={handlePostSuccess} isEdit={false} />
-          </Grid>
-        </Grid>
+      <Grid item xs={12} sm={12} md={12}>
+        <Typography >Tổng số tiền cấp quyền: 426.293.061.000₫</Typography>
       </Grid>
       <Grid item xs={12} sm={12} md={12}>
-        <TableComponent
-          columns={columnsTable}
-          data={resData}
-          show={TypeOfConsId}
-          actions={(row: any) => (
-            <Box>
-              <FormLicenseFee data={row} setPostSuccess={handlePostSuccess} isEdit={true} />
-              <Tooltip title='Xóa giấy phép'>
-                <IconButton onClick={() => DeleteLicense(row)}>
-                  <Delete className='tableActionBtn deleteBtn' />
-                </IconButton>
-              </Tooltip>
-            </Box>
-          )}
-        />
+        <Paper elevation={3} sx={{ p: 0, height: '100%' }}>
+          <DataGridComponent
+            rows={resData}
+            columns={columns}
+            columnFillter={columnFillter}
+            actions={
+              <FormLicenseFee setPostSuccess={handlePostSuccess} isEdit={false} />
+            }
+          />
+        </Paper>
       </Grid>
     </Grid>
   )
