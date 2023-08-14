@@ -1,14 +1,14 @@
 import * as React from "react";
 import { DataGrid, GridToolbarExport } from "@mui/x-data-grid";
 import { Cached, FilterList, Search } from '@mui/icons-material';
-import { Autocomplete, Button, Divider, Slide, TextField, Typography } from '@mui/material';
+import { Autocomplete, Box, Button, Divider, Slide, TextField, Typography } from '@mui/material';
 import Grid from '@mui/material/Unstable_Grid2';
 import { useRouter } from "next/router";
 
 interface columnFillter {
   label: string,
-  value: string, // Tên cột trong data
-  type: 'text' | 'select',
+  value: string,
+  type: 'text' | 'select' | 'dateRange',
   options?: columnFillterOptions[]
 }
 
@@ -58,6 +58,9 @@ const DataGridComponent = (props: DataGridComponentProps) => {
     }
 
     const handleFilterChange = (column: any, value: any) => {
+
+      console.log(column, value)
+
       setFilters((prevFilters: any) => ({
         ...prevFilters,
         [column]: value,
@@ -68,8 +71,10 @@ const DataGridComponent = (props: DataGridComponentProps) => {
       const filteredData = data.filter((item: { [key: string]: any }) => {
         let isMatch = true; // Sử dụng biến để kiểm tra tất cả các điều kiện
 
+        console.log(filters)
+
         for (const column of columns) {
-          const columnValue = filters[column.value] as any;
+          const columnValue = filters?.[column.value] as any;
           const itemValue = item[column.value];
 
           if (column.type === 'select') {
@@ -81,6 +86,18 @@ const DataGridComponent = (props: DataGridComponentProps) => {
           if (column.type === 'text') {
             if (columnValue?.toString().toLowerCase() && !itemValue?.toString().toLowerCase().includes(columnValue?.toString().toLowerCase())) {
               isMatch = false; // Nếu một điều kiện không khớp, đặt biến isMatch là false
+            }
+          }
+
+          if (column.type === 'dateRange') {
+            if (columnValue) {
+              const itemValueYear = new Date(itemValue).getFullYear();
+              if (columnValue.from && itemValueYear < columnValue.from) {
+                isMatch = false;
+              }
+              if (columnValue.to && itemValueYear > columnValue.to) {
+                isMatch = false;
+              }
             }
           }
         }
@@ -164,7 +181,7 @@ const DataGridComponent = (props: DataGridComponentProps) => {
             </legend>
             <Grid container >
               {columns.map((column: any) => (
-                <Grid md={2} xs={6} p={2} key={column.value}>
+                <Grid md={column.type === 'dateRange' ? 4 : 2} xs={12} py={2} px={column.type === 'dateRange' ? 0 : 2} key={column.value}>
                   {column.type === 'text' ? (
                     <TextField
                       size='small'
@@ -173,7 +190,7 @@ const DataGridComponent = (props: DataGridComponentProps) => {
                       inputProps={{ style: { fontSize: 11 } }}
                       InputLabelProps={{ style: { fontSize: 14 } }}
                       label={column.label}
-                      value={filters[column.value] || ''}
+                      value={filters?.[column.value] || ''}
                       onChange={(event) => handleFilterChange(column.value, event.target.value)}
                     />
                   ) : column.type === 'select' ? (
@@ -182,7 +199,7 @@ const DataGridComponent = (props: DataGridComponentProps) => {
                       fullWidth
                       options={column.options}
                       getOptionLabel={(option) => option.label}
-                      value={filters[column.value] || null}
+                      value={filters?.[column.value] || null}
                       onChange={(_, value) => handleFilterChange(column.value, value)}
                       renderInput={(params) => (
                         <TextField
@@ -199,6 +216,67 @@ const DataGridComponent = (props: DataGridComponentProps) => {
                       )}
                     />
 
+                  ) : column.type === 'dateRange' ? (
+
+                    <Grid container>
+                      <Box width={'50%'} px={2}>
+                        <Autocomplete
+                          size="small"
+                          fullWidth
+                          options={column.options || []}
+                          getOptionLabel={(option) => option.label}
+                          value={filters?.[column.value] && filters?.[column.value].from}
+                          onChange={(_, value) =>
+                            handleFilterChange(column.value, {
+                              ...filters?.[column.value],
+                              from: value?.value,
+                            })
+                          }
+                          renderInput={(params) => (
+                            <TextField
+                              {...params}
+                              variant='standard'
+                              fullWidth
+                              inputProps={{
+                                style: { fontSize: 11 },
+                                ...params.inputProps,
+                              }}
+                              InputLabelProps={{ style: { fontSize: 14 } }}
+                              label={`Từ ${column.label}`}
+                            />
+                          )}
+                        />
+                      </Box>
+                      <Box width={'50%'} px={2}>
+                        <Autocomplete
+                          size="small"
+                          fullWidth
+                          options={column.options || []}
+                          getOptionLabel={(option) => option.label}
+                          value={filters?.[column.value] && filters?.[column.value].to}
+                          onChange={(_, value) =>
+                            handleFilterChange(column.value, {
+                              ...filters?.[column.value],
+                              to: value?.value,
+                            })
+                          }
+                          renderInput={(params) => (
+                            <TextField
+                              {...params}
+                              variant='standard'
+                              fullWidth
+                              inputProps={{
+                                style: { fontSize: 11 },
+                                ...params.inputProps,
+                              }}
+                              InputLabelProps={{ style: { fontSize: 14 } }}
+                              label={`Đến ${column.label}`}
+                            />
+                          )}
+                        />
+                      </Box>
+
+                    </Grid>
                   ) : null}
                 </Grid>
               ))}

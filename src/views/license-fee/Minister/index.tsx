@@ -12,6 +12,7 @@ import FormLicenseFee from 'src/views/license-fee/form'
 import DataGridComponent, { columnFillters } from 'src/@core/components/data-grid'
 import { GridColDef } from '@mui/x-data-grid'
 import { Delete } from 'mdi-material-ui';
+import ShowFilePDF from 'src/@core/components/show-file-pdf';
 
 const LicenseMinister = () => {
 
@@ -31,9 +32,9 @@ const LicenseMinister = () => {
 
   const columns: GridColDef[] = [
     { field: 'id', headerClassName: 'tableHead', headerAlign: 'center', flex: 1, headerName: 'ID', minWidth: 90 },
-    { field: 'licenseFeeNumber', headerClassName: 'tableHead', headerAlign: 'center', flex: 1, headerName: 'Quyết định cấp quyền' },
+    { field: 'licenseFeeNumber', headerClassName: 'tableHead', headerAlign: 'center', flex: 1, headerName: 'Quyết định cấp quyền', renderCell: (data: any) => (<ShowFilePDF name={data.row.licenseFeeNumber} src={`/pdf/licenseFees/` + data.row.licensingAuthorities + `/` + data.row.filePDF} />) },
     { field: 'signDate', headerClassName: 'tableHead', headerAlign: 'center', flex: 1, headerName: 'Ngày ký', renderCell: (data: any) => FormatDate(data.row.signDate) },
-    { field: 'supplementLicenseFee', headerClassName: 'tableHead', headerAlign: 'center', flex: 1, headerName: 'Quyết định bổ sung', renderCell: (data: any) => (<Box> {data.row.supplementLicenseFee?.licenseFeeNumber} </Box>) },
+    { field: 'supplementLicenseFee', headerClassName: 'tableHead', headerAlign: 'center', flex: 1, headerName: 'Quyết định bổ sung', renderCell: (data: any) => (<ShowFilePDF name={data.row.supplementLicenseFee?.licenseFeeNumber} src={`/pdf/licenseFees/` + data.row.supplementLicenseFee?.licensingAuthorities + `/` + data.row.supplementLicenseFee?.filePDF} />) },
     { field: 'totalMoney', headerClassName: 'tableHead', headerAlign: 'center', flex: 1, headerName: 'Tổng số tiền cấp quyền(VNĐ)' },
     { field: 'description', headerClassName: 'tableHead', headerAlign: 'center', flex: 1, headerName: 'Ghi chú' },
     { field: 'LicenseNumber', headerClassName: 'tableHead', headerAlign: 'center', flex: 1, headerName: 'Giấy phép' },
@@ -45,7 +46,7 @@ const LicenseMinister = () => {
       renderCell: (data) => (
         <Box>
           <Tooltip title="Chỉnh sửa tiền cấp quyền">
-            <IconButton onClick={() => console.log('edit')}>
+            <IconButton>
               <FormLicenseFee isEdit={true} data={data.row} />
             </IconButton>
           </Tooltip>
@@ -66,26 +67,15 @@ const LicenseMinister = () => {
       type: 'text',
     },
     {
-      label: 'Từ năm',
-      value: 'fromYear',
-      type: 'select',
+      label: 'Năm',
+      value: 'signDate',
+      type: 'dateRange',
       options: [
         { label: '2021', value: 2021 },
         { label: '2022', value: 2022 },
         { label: '2023', value: 2023 },
       ],
-    },
-    {
-      label: 'Đến năm',
-      value: 'toYear',
-      type: 'select',
-      options: [
-        { label: '2021', value: 2021 },
-        { label: '2021', value: 2021 },
-        { label: '2022', value: 2022 },
-        { label: '2023', value: 2023 },
-      ],
-    },
+    }
   ]
 
   useEffect(() => {
