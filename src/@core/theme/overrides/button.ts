@@ -13,6 +13,7 @@ const Button = (theme: Theme) => {
           borderRadius: 5,
           lineHeight: 1.71,
           letterSpacing: '0.3px',
+          fontSize: '12px',
           padding: `${theme.spacing(1.875, 3)}`
         },
         contained: {
