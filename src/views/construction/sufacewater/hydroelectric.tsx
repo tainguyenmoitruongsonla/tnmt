@@ -158,7 +158,6 @@ const Hydroelectric = () => {
         { field: 'totalCapacity' },
         { field: 'deadCapacity' },
         { field: 'usefulCapacity' },
-
         { field: 'pumpNumber' },
         { field: 'flowDesigned' },
         { field: 'realityFlow' },
@@ -339,7 +338,7 @@ const Hydroelectric = () => {
       try {
         const data = await fetchData('Construction/list');
         const filteredData = data.filter((item: { [key: string]: any }) =>
-          ['thuydien', 'hochua', 'trambom'].some(keyword =>
+          ['thuydien'].some(keyword =>
             item['constructionTypeSlug']?.toString().toLowerCase().includes(keyword.toLowerCase())
           )
         );
