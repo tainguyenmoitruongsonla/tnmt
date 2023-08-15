@@ -1,40 +1,75 @@
-import React from 'react'
-import { Add, EditNote } from '@mui/icons-material'
-import { Button, DialogActions, Grid } from '@mui/material'
+import React, { useState } from 'react';
+import { Add, Edit } from '@mui/icons-material';
+import { Button, DialogActions, Grid } from '@mui/material';
 
+import DialogsControlFullScreen from 'src/@core/components/dialog-control-full-screen';
+import BusinessFieldset from 'src/views/business/form/business-fieldset';
+import LicenseFieldset from 'src/views/license/form/license-fieldset';
+import ConstructionField from 'src/views/construction/form/sufacewater/cons-suface';
 
-import DialogsControlFullScreen from 'src/@core/components/dialog-control-full-screen'
-import BusinessFieldset from './business-fieldset';
-import LicenseFieldset from './license-fieldset';
-import ConsFieldset from './cons-fieldset'
+interface FormLicenseProps {
+  data: any;
+  closeDialogs: () => void;
+  setPostSuccess?: (value: boolean) => void;
+}
 
-const FormLicense = ({ data, closeDialogs }: any) => {
+const FormLicense: React.FC<FormLicenseProps> = ({ data, closeDialogs, setPostSuccess }) => {
 
-  const handleSubmit = (event: any) => {
-    event.preventDefault()
-    closeDialogs()
-  }
+  //Business
+  const [businessData, setBusinessData] = useState<any>({});
+
+  const handleBusinessChange = (data: any) => {
+    setBusinessData(data);
+  };
+
+  //License
+  const [licenseData, setLicenseData] = useState<any>({});
+
+  const handleLicenseChange = (data: any) => {
+    setLicenseData(data);
+  };
+
+  const handleSubmit = (event: React.FormEvent) => {
+    event.preventDefault();
+
+    //format data type = date(Dayjs) to new Date() 
+    licenseData.signDate = licenseData.signDate?.toDate();
+    licenseData.issueDate = licenseData.issueDate?.toDate();
+    licenseData.expriteDate = licenseData.expriteDate?.toDate();
+
+    const newVal = {
+      license: licenseData,
+      business: businessData
+    }
+
+    //Set postSuccess before hideLoading
+    typeof (setPostSuccess) === 'function' ? setPostSuccess(false) : '';
+
+    console.log(newVal)
+
+    closeDialogs();
+  };
 
   const handleClose = () => {
-    closeDialogs()
-  }
+    closeDialogs();
+  };
 
   return (
     <form onSubmit={handleSubmit}>
       <Grid container gap={3}>
         <Grid item xs={12}>
-          <BusinessFieldset />
+          <BusinessFieldset data={data?.business} onChange={handleBusinessChange} />
         </Grid>
         <Grid item xs={12}>
-          <LicenseFieldset data={data} />
+          <LicenseFieldset data={data?.license} onChange={handleLicenseChange} />
         </Grid>
         <Grid item xs={12}>
-          <ConsFieldset />
+          <ConstructionField />
         </Grid>
       </Grid>
 
       <DialogActions sx={{ p: 0, mt: 5 }}>
-        <Button size='small' onClick={() => handleClose()} className='btn closeBtn'>
+        <Button size='small' onClick={handleClose} className='btn closeBtn'>
           Hủy
         </Button>
         <Button size='small' type='submit' className='btn saveBtn'>
@@ -42,24 +77,24 @@ const FormLicense = ({ data, closeDialogs }: any) => {
         </Button>
       </DialogActions>
     </form>
-  )
-}
+  );
+};
 
 interface CreateLicenseProps {
   isEdit: boolean;
   data?: any;
-  setPostSuccess? :any;
+  setPostSuccess?: (value: boolean) => void;
 }
 
-const CreateLicense = ({ isEdit, data, setPostSuccess }: CreateLicenseProps) => {
-  const formTitle = isEdit ? 'Sửa giấy phép' : 'Thêm mới giấy phép'
+const CreateLicense: React.FC<CreateLicenseProps> = ({ isEdit, data, setPostSuccess }) => {
+  const formTitle = isEdit ? 'Sửa giấy phép' : 'Thêm mới giấy phép';
 
   return (
     <DialogsControlFullScreen>
       {(openDialogs: (content: React.ReactNode, title: React.ReactNode) => void, closeDialogs: () => void) => (
         <>
           {isEdit ? (
-            <EditNote
+            <Edit
               className='tableActionBtn'
               onClick={() =>
                 openDialogs(<FormLicense data={data} closeDialogs={closeDialogs} setPostSuccess={setPostSuccess} />, formTitle)
@@ -67,17 +102,19 @@ const CreateLicense = ({ isEdit, data, setPostSuccess }: CreateLicenseProps) => 
             />
           ) : (
             <Button
-              size="small" startIcon={<Add />}
+              size="small"
+              startIcon={<Add />}
               onClick={() =>
                 openDialogs(<FormLicense data={data} closeDialogs={closeDialogs} setPostSuccess={setPostSuccess} />, formTitle)
               }
-            >Thêm mới
+            >
+              Thêm mới
             </Button>
           )}
         </>
       )}
     </DialogsControlFullScreen>
-  )
-}
+  );
+};
 
-export default CreateLicense
+export default CreateLicense;

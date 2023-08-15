@@ -1,51 +1,107 @@
-import { useState } from 'react';
-import { Typography, Grid, Box } from "@mui/material";
+import { useState, ChangeEvent, FC, useEffect } from 'react';
+import { Typography, Grid, Box } from '@mui/material';
 import dayjs, { Dayjs } from 'dayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { TextField, DatePicker, AutoComplete } from 'src/@core/components/field';
 
-export default function LicenseFieldset(data: any) {
+interface LicenseFieldsetProps {
+    data?: LicenseState; // Thêm prop data để truyền dữ liệu từ ngoài vào
+    onChange: (data: LicenseState) => void;
+}
 
+interface LicenseState {
+    id: number;
+    parentId: number;
+    licensingTypeId: number;
+    businessId: number;
+    licenseName: string;
+    licenseNumber: string;
+    signDate: Dayjs | null;
+    issueDate: Dayjs | null;
+    expriteDate: Dayjs | null;
+    duration: string;
+    licensingAuthorities: number;
+    relatedDocumentFile: string;
+    licenseRequestFile: string;
+}
+
+const LicenseFieldset: FC<LicenseFieldsetProps> = ({ data, onChange }) => {
     const d = new Date();
     const day = d.getDate() < 10 ? '0' + d.getDate() : d.getDate();
     const m = d.getMonth() + 1 < 10 ? '0' + (d.getMonth() + 1) : d.getMonth() + 1;
     const y = d.getFullYear();
-    const today = `${y}-${m}-${day}`
+    const today = `${y}-${m}-${day}`;
 
-    const [SignDate, setSignDate] = useState<Dayjs | null>(dayjs(today));
-    const [IssueDate, setIssueDate] = useState<Dayjs | null>(dayjs(today));
-    const [ExpriteDate, setExpriteDate] = useState<Dayjs | null>(dayjs(today));
+    const [licenseData, setLicenseData] = useState<LicenseState>({
+        id: 0,
+        parentId: 0,
+        licensingTypeId: 0,
+        businessId: 0,
+        licenseName: '',
+        licenseNumber: '',
+        signDate: dayjs(today),
+        issueDate: dayjs(today),
+        expriteDate: dayjs(today),
+        duration: '',
+        licensingAuthorities: 0,
+        relatedDocumentFile: '',
+        licenseRequestFile: '',
+    });
 
     const licensingType = [
-        { title: "Cấp mới giấy phép", value: 1 },
-        { title: "Cấp lại giấy phép", value: 2 },
-        { title: "Gia hạn giấy phép", value: 3 },
-        { title: "Điều chỉnh giấy phép", value: 4 },
-        { title: "Thu hồi giấy phép", value: 5 },
+        { title: 'Cấp mới giấy phép', value: 1 },
+        { title: 'Cấp lại giấy phép', value: 2 },
+        { title: 'Gia hạn giấy phép', value: 3 },
+        { title: 'Điều chỉnh giấy phép', value: 4 },
+        { title: 'Thu hồi giấy phép', value: 5 },
     ];
 
     const licensingAuthorities = [
-        { title: "BTNMT", value: 0 },
-        { title: "UBND Tỉnh", value: 1 },
+        { title: 'BTNMT', value: 0 },
+        { title: 'UBND Tỉnh', value: 1 },
     ];
+
+    useEffect(() => {
+        if (data) {
+            setLicenseData(data);
+        }
+    }, [data]);
+
+    const handleChange = (prop: keyof LicenseState) => (event: ChangeEvent<HTMLInputElement>) => {
+        const value = event.target.type === 'checkbox' ? event.target.checked : event.target.value;
+        setLicenseData({ ...licenseData, [prop]: value });
+        onChange({ ...licenseData, [prop]: value });
+    };
 
     return (
         <fieldset>
             <legend>
-                <Typography variant={'subtitle1'} className='legend__title'>THÔNG TIN GIẤY PHÉP</Typography>
+                <Typography variant={'subtitle1'} className='legend__title'>
+                    THÔNG TIN GIẤY PHÉP
+                </Typography>
             </legend>
             <Grid container spacing={4} rowSpacing={1}>
                 <Grid item xs={12} md={6} sm={12} sx={{ my: 2 }}>
-                    <TextField required size='small' type='text' label='Số giấy phép' fullWidth placeholder='' defaultValue={data.LicenseNumber} />
+                    <TextField
+                        required
+                        size='small'
+                        type='text'
+                        label='Số giấy phép'
+                        fullWidth
+                        placeholder=''
+                        defaultValue={licenseData.licenseNumber}
+                        onChange={handleChange('licenseNumber')}
+                    />
                 </Grid>
                 <Grid item xs={12} md={6} sm={12} sx={{ my: 2 }}>
                     <LocalizationProvider dateAdapter={AdapterDayjs}>
                         <DatePicker
-                            label="Ngày ký"
-                            value={SignDate}
-                            onChange={(newSignDate: any) => setSignDate(newSignDate)}
-                            format="DD/MM/YYYY" />
+                            label='Ngày ký'
+                            value={licenseData.signDate}
+                            onChange={handleChange('licenseNumber')}
+                            format='DD/MM/YYYY'
+                        />
                     </LocalizationProvider>
                 </Grid>
                 <Grid item xs={12} md={6} sm={12} sx={{ my: 2 }}>
@@ -55,8 +111,8 @@ export default function LicenseFieldset(data: any) {
                     <LocalizationProvider dateAdapter={AdapterDayjs}>
                         <DatePicker
                             label="Ngày có hiệu lực"
-                            value={IssueDate}
-                            onChange={(newIssueDate: any) => setIssueDate(newIssueDate)}
+                            value={licenseData.issueDate}
+                            onChange={handleChange('issueDate')}
                             format="DD/MM/YYYY" />
                     </LocalizationProvider>
                 </Grid>
@@ -86,8 +142,8 @@ export default function LicenseFieldset(data: any) {
                 <Grid item xs={12} md={6} sm={12} sx={{ my: 2 }}>
                     <LocalizationProvider dateAdapter={AdapterDayjs}>
                         <DatePicker label="Ngày hết hiệu lực"
-                            value={ExpriteDate}
-                            onChange={(newExpriteDate: any) => setExpriteDate(newExpriteDate)}
+                            value={licenseData.expriteDate}
+                            onChange={handleChange('expriteDate')}
                             format="DD/MM/YYYY" />
                     </LocalizationProvider>
                 </Grid>
@@ -117,5 +173,7 @@ export default function LicenseFieldset(data: any) {
                 </Grid>
             </Grid>
         </fieldset>
-    )
-}
+    );
+};
+
+export default LicenseFieldset;
