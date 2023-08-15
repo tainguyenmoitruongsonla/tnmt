@@ -36,11 +36,11 @@ const ConstructionDetails = () => {
         <Table sx={{ minWidth: 650 }} aria-label='simple table'>
           <TableHead>
             <TableRow>
-              <TableCell align='center'>TT</TableCell>
-              <TableCell align='center'>Hạng mục</TableCell>
-              <TableCell align='center'>Tọa độ X</TableCell>
-              <TableCell align='center'>Tọa độ Y</TableCell>
-              <TableCell align='center'>
+              <TableCell size='small' align='center'>TT</TableCell>
+              <TableCell  size='small' align='center'>Hạng mục</TableCell>
+              <TableCell  size='small' align='center'>Tọa độ X</TableCell>
+              <TableCell  size='small' align='center'>Tọa độ Y</TableCell>
+              <TableCell  size='small' align='center'>
                 <Button className='btn-link' onClick={addConstructionItem}>Thêm</Button>
               </TableCell>
             </TableRow>
@@ -48,12 +48,13 @@ const ConstructionDetails = () => {
           <TableBody>
             {constructionItems.map((item, index) => (
               <TableRow key={index}>
-                <TableCell className="text-center align-middle font-13">{index + 1}</TableCell>
+                <TableCell className="text-center  size='small' align-middle font-13">{index + 1}</TableCell>
                 <TableCell>
                   <TextField
                     type="text"
                     name="tenhangmuc"
                     fullWidth
+                    size='small'
                   />
                 </TableCell>
                 <TableCell>
@@ -61,6 +62,7 @@ const ConstructionDetails = () => {
                     type="text"
                     name="x"
                     fullWidth
+                    size='small'
                   />
                 </TableCell>
                 <TableCell>
@@ -68,9 +70,10 @@ const ConstructionDetails = () => {
                     type="text"
                     name="y"
                     fullWidth
+                    size='small'
                   />
                 </TableCell>
-                <TableCell align='center'>
+                <TableCell  size='small' align='center'>
                   <Button
                     variant="text"
                     size="small"

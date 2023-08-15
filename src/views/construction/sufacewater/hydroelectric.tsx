@@ -158,7 +158,6 @@ const Hydroelectric = () => {
         { field: 'totalCapacity' },
         { field: 'deadCapacity' },
         { field: 'usefulCapacity' },
-
         { field: 'pumpNumber' },
         { field: 'flowDesigned' },
         { field: 'realityFlow' },
@@ -324,7 +323,7 @@ const Hydroelectric = () => {
     setColumns(columnsTable);
     setcolumnFillters(columnFillter)
 
-    const columnVisibilityForHidroElectricCons = {
+    const columnVisibilityForHydroElectricCons = {
       ...initColumnVisibility,
       pumpNumber: false,
       flowDesigned: false,
@@ -336,14 +335,14 @@ const Hydroelectric = () => {
       maximumPumpTime: false,
     }
 
-    setColumnVisibility(columnVisibilityForHidroElectricCons)
+    setColumnVisibility(columnVisibilityForHydroElectricCons)
 
     const getData = async () => {
       setLoading(true);
       try {
         const data = await fetchData('Construction/list');
         const filteredData = data.filter((item: { [key: string]: any }) =>
-          ['thuydien', 'hochua', 'trambom'].some(keyword =>
+          ['thuydien'].some(keyword =>
             item['constructionTypeSlug']?.toString().toLowerCase().includes(keyword.toLowerCase())
           )
         );
