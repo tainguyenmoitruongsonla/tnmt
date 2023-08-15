@@ -1,5 +1,5 @@
 import * as React from "react";
-import { DataGrid, GridToolbarExport } from "@mui/x-data-grid";
+import { DataGrid, GridColDef, GridToolbarExport } from "@mui/x-data-grid";
 import { Cached, FilterList, Search } from '@mui/icons-material';
 import { Autocomplete, Box, Button, Divider, Slide, TextField, Typography } from '@mui/material';
 import Grid from '@mui/material/Unstable_Grid2';
@@ -33,10 +33,13 @@ const DataGridComponent = (props: DataGridComponentProps) => {
 
   const { rows, columns, columnGroupingModel, columnVisibility, columnFillter, formFilter, actions } = props;
   const [rowDatas, setRowDatas] = React.useState<any>(rows);
+  const columnUpdated = columns;
+  const [displayedColumns, setDisplayedColumns] = React.useState<any>(columnUpdated);
 
   React.useEffect(() => {
     setRowDatas(rows);
-  }, [rows]);
+    setDisplayedColumns(columns)
+  }, [rows, columns]);
 
   interface SearchToolbarProps {
     data: any
@@ -56,6 +59,7 @@ const DataGridComponent = (props: DataGridComponentProps) => {
 
     const toggleReload = () => {
       setRowDatas(data);
+      setDisplayedColumns(columnUpdated);
     }
 
     const handleFilterChange = (column: any, value: any) => {
@@ -77,6 +81,18 @@ const DataGridComponent = (props: DataGridComponentProps) => {
           if (column.type === 'select') {
             if (columnValue && itemValue !== columnValue.value) {
               isMatch = false; // Nếu một điều kiện không khớp, đặt biến isMatch là false
+            }
+
+            if (column.value == 'constructionTypeSlug') {
+              const newDisplayedColumns: GridColDef[] = [];
+
+              columnUpdated.forEach((column: any) => {
+                if (!columnVisibility[columnValue?.value]?.includes(column.field)) {
+                  newDisplayedColumns.push(column);
+                }
+              });
+
+              setDisplayedColumns(newDisplayedColumns);
             }
           }
 
@@ -298,7 +314,7 @@ const DataGridComponent = (props: DataGridComponentProps) => {
     <DataGrid
       className="mainTable"
       rows={rowDatas}
-      columns={columns}
+      columns={displayedColumns}
       disableColumnMenu
       showCellVerticalBorder
       showColumnVerticalBorder
@@ -307,7 +323,9 @@ const DataGridComponent = (props: DataGridComponentProps) => {
       columnGroupingModel={columnGroupingModel}
       initialState={{
         columns: {
-          columnVisibilityModel: columnVisibility
+          columnVisibilityModel: {
+            id: false,
+          }
         },
         pagination: { paginationModel: { pageSize: 10 } },
       }}

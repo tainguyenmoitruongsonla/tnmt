@@ -71,7 +71,7 @@ const getIcon = (type:any) => {
 	}
 }
 
-export default function Map({ center, zoom, mapLineData, mapMarkerData }: any) {console.log(mapMarkerData)
+export default function Map({ center, zoom, mapLineData, mapMarkerData }: any) {
 	const bing_key = "AuhiCJHlGzhg93IqUH_oCpl_-ZUrIE6SPftlyGYUvr9Amx5nzA-WqGcPquyFZl4L"
 	const [kml, setKml] = useState<any>(null);
 
@@ -125,7 +125,7 @@ export default function Map({ center, zoom, mapLineData, mapMarkerData }: any) {
 						}
 					});
 				}} />
-				{mapMarkerData && mapMarkerData.map((data:any) => {console.log(data)
+				{mapMarkerData && mapMarkerData.map((data:any) => {
 					if(data.lat !== null || data.lng !== null){
 						return (
 							<Marker icon={getIcon(data.constructionTypeId)} key={data.id} position={[data.lat, data.lng]}>

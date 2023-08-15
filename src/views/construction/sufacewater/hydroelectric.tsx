@@ -298,17 +298,27 @@ const Hydroelectric = () => {
     },
   ];
 
-  const initColumnVisibility = {
-    id: false,
-  }
-
   const [mapCenter, setMapCenter] = useState([15.012172, 108.676488]);
   const [mapZoom, setMapZoom] = useState(9);
 
   const [columns, setColumns] = useState<any[]>([]);
   const [columnFillters, setcolumnFillters] = useState<any[]>([]);
 
-  const [columnVisibility, setColumnVisibility] = useState<any>(initColumnVisibility)
+  const columnVisibility = {
+    'thuydien': [
+      'pumpNumber',
+      'flowDesigned',
+      'realityFlow',
+      'wateringAreaDesigned',
+      'realityWateringArea',
+      'averagePumpTime',
+      'minimumPumpTime',
+      'maximumPumpTime',
+    ],
+    'trambom': [
+      'constructionName',
+    ]
+  }
 
   const [postSuccess, setPostSuccess] = useState(false);
   const { showLoading, hideLoading } = useLoadingContext();
@@ -323,20 +333,6 @@ const Hydroelectric = () => {
   useEffect(() => {
     setColumns(columnsTable);
     setcolumnFillters(columnFillter)
-
-    const columnVisibilityForHidroElectricCons = {
-      ...initColumnVisibility,
-      pumpNumber: false,
-      flowDesigned: false,
-      realityFlow: false,
-      wateringAreaDesigned: false,
-      realityWateringArea: false,
-      averagePumpTime: false,
-      minimumPumpTime: false,
-      maximumPumpTime: false,
-    }
-
-    setColumnVisibility(columnVisibilityForHidroElectricCons)
 
     const getData = async () => {
       setLoading(true);
@@ -354,9 +350,9 @@ const Hydroelectric = () => {
         setLoading(false);
       }
     };
-    
+
     getData();
-    
+
   }, [postSuccess]);
 
   const zoomConstruction = (coords: any) => {
