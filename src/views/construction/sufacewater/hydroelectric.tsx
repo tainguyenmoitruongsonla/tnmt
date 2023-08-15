@@ -30,7 +30,7 @@ const DeleteLicense = (data: any) => {
   confirm(`Bạn muốn xóa:  ${data.row?.licenseNumber} chứ?`)
 }
 
-const SF = () => {
+const Hydroelectric = () => {
 
   //Init columnTable
   const columnsTable: GridColDef[] = [
@@ -50,28 +50,28 @@ const SF = () => {
     { field: 'startDate', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'Năm vận hành', minWidth: 100, },
 
     //constructionDetails
-    // { field: 'constructionLevel', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'Cấp CT', minWidth: 150, },
-    // { field: 'basinArea', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'F lưu vực (km2)', minWidth: 150, },
-    // { field: 'rainAvgForYears', headerClassName: 'tableHead', headerAlign: 'center', renderHeader: () => (<span>X <sub>TB năm</sub> (m)</span>), minWidth: 150, },
-    // { field: 'flowAvgForYears', headerClassName: 'tableHead', headerAlign: 'center', renderHeader: () => (<span>Q <sub>TB năm</sub>(m3/s)</span>), minWidth: 150, },
-    // { field: 'power', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'CS lắp máy(MW)', minWidth: 150, },
-    // { field: 'guaranteedPower', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'CS đảm bảo (MW)', minWidth: 150, },
-    // { field: 'damHeight', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'Chiều cao đập (m)', minWidth: 150, },
-    // { field: 'damWidth', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'Chiều dài đập (m)', minWidth: 150, },
-    // { field: 'damElevation', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'Cao trình đập (m)', minWidth: 150, },
-    // { field: 'maximumFlow', headerClassName: 'tableHead', headerAlign: 'center', renderHeader: () => (<span>Q<sub>max</sub>(m<sup>3</sup>/s)</span>), minWidth: 150, },
-    // { field: 'minimumFlow', headerClassName: 'tableHead', headerAlign: 'center', renderHeader: () => (<span>Q<sub>TT</sub>(m<sup>3</sup>/s)</span>), minWidth: 150, },
-    // { field: 'guaranteedFlow', headerClassName: 'tableHead', headerAlign: 'center', renderHeader: () => (<span>Q<sub>đảm bảo</sub>(m<sup>3</sup>/s)</span>), minWidth: 150, },
-    // { field: 'hmax', headerClassName: 'tableHead', headerAlign: 'center', renderHeader: () => (<span>H<sub>max</sub> (m) </span>), minWidth: 150, },
-    // { field: 'hmin', headerClassName: 'tableHead', headerAlign: 'center', renderHeader: () => (<span>H<sub>min</sub> (m)</span>), minWidth: 150, },
-    // { field: 'htt', headerClassName: 'tableHead', headerAlign: 'center', renderHeader: () => (<span>H<sub>TT</sub></span>), minWidth: 150, },
-    // { field: 'deadWL', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'MNC(m)', minWidth: 150, },
-    // { field: 'riseWL', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'MNDBT(m)', minWidth: 150, },
-    // { field: 'designFloodLevel', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'MNLTK(m)', minWidth: 150, },
-    // { field: 'checkFloodWL', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'MNLKT(m)', minWidth: 150, },
-    // { field: 'totalCapacity', headerClassName: 'tableHead', headerAlign: 'center', renderHeader: () => (<span>W<sub>toàn bộ</sub>(triệu m<sup>3</sup>)</span>), minWidth: 150, },
-    // { field: 'deadCapacity', headerClassName: 'tableHead', headerAlign: 'center', renderHeader: () => (<span>W<sub> chết </sub>(triệu m<sup>3</sup>)</span>), minWidth: 150, },
-    // { field: 'usefulCapacity', headerClassName: 'tableHead', headerAlign: 'center', renderHeader: () => (<span>W<sub>hữu ích</sub>(triệu m<sup>3</sup>)</span>), minWidth: 150, },
+    { field: 'constructionLevel', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'Cấp CT', minWidth: 150, },
+    { field: 'basinArea', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'F lưu vực (km2)', minWidth: 150, },
+    { field: 'rainAvgForYears', headerClassName: 'tableHead', headerAlign: 'center', renderHeader: () => (<span>X <sub>TB năm</sub> (m)</span>), minWidth: 150, },
+    { field: 'flowAvgForYears', headerClassName: 'tableHead', headerAlign: 'center', renderHeader: () => (<span>Q <sub>TB năm</sub>(m3/s)</span>), minWidth: 150, },
+    { field: 'power', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'CS lắp máy(MW)', minWidth: 150, },
+    { field: 'guaranteedPower', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'CS đảm bảo (MW)', minWidth: 150, },
+    { field: 'damHeight', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'Chiều cao đập (m)', minWidth: 150, },
+    { field: 'damWidth', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'Chiều dài đập (m)', minWidth: 150, },
+    { field: 'damElevation', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'Cao trình đập (m)', minWidth: 150, },
+    { field: 'maximumFlow', headerClassName: 'tableHead', headerAlign: 'center', renderHeader: () => (<span>Q<sub>max</sub>(m<sup>3</sup>/s)</span>), minWidth: 150, },
+    { field: 'minimumFlow', headerClassName: 'tableHead', headerAlign: 'center', renderHeader: () => (<span>Q<sub>TT</sub>(m<sup>3</sup>/s)</span>), minWidth: 150, },
+    { field: 'guaranteedFlow', headerClassName: 'tableHead', headerAlign: 'center', renderHeader: () => (<span>Q<sub>đảm bảo</sub>(m<sup>3</sup>/s)</span>), minWidth: 150, },
+    { field: 'hmax', headerClassName: 'tableHead', headerAlign: 'center', renderHeader: () => (<span>H<sub>max</sub> (m) </span>), minWidth: 150, },
+    { field: 'hmin', headerClassName: 'tableHead', headerAlign: 'center', renderHeader: () => (<span>H<sub>min</sub> (m)</span>), minWidth: 150, },
+    { field: 'htt', headerClassName: 'tableHead', headerAlign: 'center', renderHeader: () => (<span>H<sub>TT</sub></span>), minWidth: 150, },
+    { field: 'deadWL', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'MNC(m)', minWidth: 150, },
+    { field: 'riseWL', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'MNDBT(m)', minWidth: 150, },
+    { field: 'designFloodLevel', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'MNLTK(m)', minWidth: 150, },
+    { field: 'checkFloodWL', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'MNLKT(m)', minWidth: 150, },
+    { field: 'totalCapacity', headerClassName: 'tableHead', headerAlign: 'center', renderHeader: () => (<span>W<sub>toàn bộ</sub>(triệu m<sup>3</sup>)</span>), minWidth: 150, },
+    { field: 'deadCapacity', headerClassName: 'tableHead', headerAlign: 'center', renderHeader: () => (<span>W<sub> chết </sub>(triệu m<sup>3</sup>)</span>), minWidth: 150, },
+    { field: 'usefulCapacity', headerClassName: 'tableHead', headerAlign: 'center', renderHeader: () => (<span>W<sub>hữu ích</sub>(triệu m<sup>3</sup>)</span>), minWidth: 150, },
     
     // { field: 'pumpNumber', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'Số máy bơm', minWidth: 150, },
     // { field: 'flowDesigned', headerClassName: 'tableHead', headerAlign: 'center', renderHeader: () => (<span>Q<sub>TK</sub> (m<sup>3</sup>/h)</span>), minWidth: 150, },
@@ -131,44 +131,44 @@ const SF = () => {
       ],
     },
 
-    // {
-    //   groupId: 'Thông số của công trình',
-    //   headerClassName: 'tableHead',
-    //   headerAlign: 'center',
-    //   children: [
-    //     { field: 'constructionLevel' },
-    //     { field: 'basinArea' },
-    //     { field: 'rainAvgForYears' },
-    //     { field: 'flowAvgForYears' },
-    //     { field: 'power' },
-    //     { field: 'guaranteedPower' },
-    //     { field: 'damHeight' },
-    //     { field: 'damWidth' },
-    //     { field: 'damElevation' },
-    //     { field: 'maximumFlow' },
-    //     { field: 'minimumFlow' },
-    //     { field: 'guaranteedFlow' },
-    //     { field: 'hmax' },
-    //     { field: 'hmin' },
-    //     { field: 'htt' },
-    //     { field: 'deadWL' },
-    //     { field: 'riseWL' },
-    //     { field: 'designFloodLevel' },
-    //     { field: 'checkFloodWL' },
-    //     { field: 'totalCapacity' },
-    //     { field: 'deadCapacity' },
-    //     { field: 'usefulCapacity' },
+    {
+      groupId: 'Thông số của công trình',
+      headerClassName: 'tableHead',
+      headerAlign: 'center',
+      children: [
+        { field: 'constructionLevel' },
+        { field: 'basinArea' },
+        { field: 'rainAvgForYears' },
+        { field: 'flowAvgForYears' },
+        { field: 'power' },
+        { field: 'guaranteedPower' },
+        { field: 'damHeight' },
+        { field: 'damWidth' },
+        { field: 'damElevation' },
+        { field: 'maximumFlow' },
+        { field: 'minimumFlow' },
+        { field: 'guaranteedFlow' },
+        { field: 'hmax' },
+        { field: 'hmin' },
+        { field: 'htt' },
+        { field: 'deadWL' },
+        { field: 'riseWL' },
+        { field: 'designFloodLevel' },
+        { field: 'checkFloodWL' },
+        { field: 'totalCapacity' },
+        { field: 'deadCapacity' },
+        { field: 'usefulCapacity' },
 
-    //     // { field: 'pumpNumber' },
-    //     // { field: 'flowDesigned' },
-    //     // { field: 'realityFlow' },
-    //     // { field: 'wateringAreaDesigned' },
-    //     // { field: 'realityWateringArea' },
-    //     // { field: 'averagePumpTime' },
-    //     // { field: 'minimumPumpTime' },
-    //     // { field: 'maximumPumpTime' },
-    //   ]
-    // },
+        // { field: 'pumpNumber' },
+        // { field: 'flowDesigned' },
+        // { field: 'realityFlow' },
+        // { field: 'wateringAreaDesigned' },
+        // { field: 'realityWateringArea' },
+        // { field: 'averagePumpTime' },
+        // { field: 'minimumPumpTime' },
+        // { field: 'maximumPumpTime' },
+      ]
+    },
     {
       groupId: 'Thông tin giấy phép',
       headerClassName: 'tableHead',
@@ -366,4 +366,4 @@ const SF = () => {
   );
 };
 
-export default SF;
+export default Hydroelectric;

@@ -7,6 +7,7 @@ import CircleOutline from 'mdi-material-ui/CircleOutline';
 import { VerticalNavItemsType } from 'src/@core/layouts/types'
 import { Functions, PeopleAltOutlined, Tv } from '@mui/icons-material';
 
+
 const navigation = (): VerticalNavItemsType => {
   return [
     {
@@ -17,24 +18,54 @@ const navigation = (): VerticalNavItemsType => {
     {
       sectionTitle: 'Danh mục'
     },
+
     {
       title: 'Công trình',
       children: [
         {
-          icon: CircleOutline,
           title: 'Nước mặt',
-          path: '/cong-trinh/nuoc-mat'
+          children: [
+            {
+              icon: CircleOutline,
+              title: 'Thủy điện',
+
+              path: '/cong-trinh-nuoc-mat/thuy-dien'
+            },
+            {
+              icon: CircleOutline,
+              title: 'Hồ chứa',
+
+              path: '/cong-trinh-nuoc-mat/ho-chua'
+            },
+            {
+              icon: CircleOutline,
+              title: 'Trạm bơm',
+
+              path: '/cong-trinh-nuoc-mat/tram-bom'
+            },
+            {
+              icon: CircleOutline,
+              title: 'Đập/Hệ thống thủy lợi',
+              path: '/cong-trinh-nuoc-mat/dap-he-thong-thuy-loi'
+            },
+            {
+              icon: CircleOutline,
+              title: 'Cống',
+              path: '/cong-trinh-nuoc-mat/cong'
+            },
+            {
+              icon: CircleOutline,
+              title: 'Trạm cấp nước',
+              path: '/cong-trinh-nuoc-mat/tram-cap-nuoc'
+            },
+            {
+              icon: CircleOutline,
+              title: 'Nhà máy nước',
+              path: '/cong-trinh-nuoc-mat/nha-may-nuoc'
+            },
+          ]
         },
-        {
-          icon: CircleOutline,
-          title: 'Nước dưới đất',
-          path: '/cong-trinh/nuoc-duoi-dat'
-        },
-        {
-          icon: CircleOutline,
-          title: 'Xả thải',
-          path: '/cong-trinh/xa-thai'
-        }
+        
       ]
     },
     {
