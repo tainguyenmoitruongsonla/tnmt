@@ -72,15 +72,15 @@ const Hydroelectric = () => {
     { field: 'totalCapacity', headerClassName: 'tableHead', headerAlign: 'center', renderHeader: () => (<span>W<sub>toàn bộ</sub>(triệu m<sup>3</sup>)</span>), minWidth: 150, },
     { field: 'deadCapacity', headerClassName: 'tableHead', headerAlign: 'center', renderHeader: () => (<span>W<sub> chết </sub>(triệu m<sup>3</sup>)</span>), minWidth: 150, },
     { field: 'usefulCapacity', headerClassName: 'tableHead', headerAlign: 'center', renderHeader: () => (<span>W<sub>hữu ích</sub>(triệu m<sup>3</sup>)</span>), minWidth: 150, },
-    
-    // { field: 'pumpNumber', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'Số máy bơm', minWidth: 150, },
-    // { field: 'flowDesigned', headerClassName: 'tableHead', headerAlign: 'center', renderHeader: () => (<span>Q<sub>TK</sub> (m<sup>3</sup>/h)</span>), minWidth: 150, },
-    // { field: 'realityFlow', headerClassName: 'tableHead', headerAlign: 'center', renderHeader: () => (<span>Q<sub>TT</sub> (m<sup>3</sup>/h)</span>), minWidth: 150, },
-    // { field: 'wateringAreaDesigned', headerClassName: 'tableHead', headerAlign: 'center', renderHeader: () => (<span>F<sub>tưới TK</sub> (ha)</span>), minWidth: 150, },
-    // { field: 'realityWateringArea', headerClassName: 'tableHead', headerAlign: 'center', renderHeader: () => (<span>F<sub>tưới TT</sub> (ha)</span>), minWidth: 150, },
-    // { field: 'averagePumpTime', headerClassName: 'tableHead', headerAlign: 'center', renderHeader: () => (<span>T<sub>bơm TB</sub>(h)</span>), minWidth: 150, },
-    // { field: 'minimumPumpTime', headerClassName: 'tableHead', headerAlign: 'center', renderHeader: () => (<span>T<sub>bơm min</sub>(h)</span>), minWidth: 150, },
-    // { field: 'maximumPumpTime', headerClassName: 'tableHead', headerAlign: 'center', renderHeader: () => (<span>T<sub>bơm max</sub>(h)</span>), minWidth: 150, },
+
+    { field: 'pumpNumber', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'Số máy bơm', minWidth: 150, },
+    { field: 'flowDesigned', headerClassName: 'tableHead', headerAlign: 'center', renderHeader: () => (<span>Q<sub>TK</sub> (m<sup>3</sup>/h)</span>), minWidth: 150, },
+    { field: 'realityFlow', headerClassName: 'tableHead', headerAlign: 'center', renderHeader: () => (<span>Q<sub>TT</sub> (m<sup>3</sup>/h)</span>), minWidth: 150, },
+    { field: 'wateringAreaDesigned', headerClassName: 'tableHead', headerAlign: 'center', renderHeader: () => (<span>F<sub>tưới TK</sub> (ha)</span>), minWidth: 150, },
+    { field: 'realityWateringArea', headerClassName: 'tableHead', headerAlign: 'center', renderHeader: () => (<span>F<sub>tưới TT</sub> (ha)</span>), minWidth: 150, },
+    { field: 'averagePumpTime', headerClassName: 'tableHead', headerAlign: 'center', renderHeader: () => (<span>T<sub>bơm TB</sub>(h)</span>), minWidth: 150, },
+    { field: 'minimumPumpTime', headerClassName: 'tableHead', headerAlign: 'center', renderHeader: () => (<span>T<sub>bơm min</sub>(h)</span>), minWidth: 150, },
+    { field: 'maximumPumpTime', headerClassName: 'tableHead', headerAlign: 'center', renderHeader: () => (<span>T<sub>bơm max</sub>(h)</span>), minWidth: 150, },
 
     //license
     { field: 'licenseNumber', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'Số GP', minWidth: 150, renderCell: (data) => (<ShowFilePDF name={data.row.licenseNumber} src={`/pdf/Licenses/` + data.row.licensingAuthorities + `/` + data.row.typeSlug + `/` + data.row.licenseFile} />) },
@@ -159,14 +159,14 @@ const Hydroelectric = () => {
         { field: 'deadCapacity' },
         { field: 'usefulCapacity' },
 
-        // { field: 'pumpNumber' },
-        // { field: 'flowDesigned' },
-        // { field: 'realityFlow' },
-        // { field: 'wateringAreaDesigned' },
-        // { field: 'realityWateringArea' },
-        // { field: 'averagePumpTime' },
-        // { field: 'minimumPumpTime' },
-        // { field: 'maximumPumpTime' },
+        { field: 'pumpNumber' },
+        { field: 'flowDesigned' },
+        { field: 'realityFlow' },
+        { field: 'wateringAreaDesigned' },
+        { field: 'realityWateringArea' },
+        { field: 'averagePumpTime' },
+        { field: 'minimumPumpTime' },
+        { field: 'maximumPumpTime' },
       ]
     },
     {
@@ -298,11 +298,17 @@ const Hydroelectric = () => {
     },
   ];
 
+  const initColumnVisibility = {
+    id: false,
+  }
+
   const [mapCenter, setMapCenter] = useState([15.012172, 108.676488]);
   const [mapZoom, setMapZoom] = useState(9);
 
   const [columns, setColumns] = useState<any[]>([]);
   const [columnFillters, setcolumnFillters] = useState<any[]>([]);
+
+  const [columnVisibility, setColumnVisibility] = useState<any>(initColumnVisibility)
 
   const [postSuccess, setPostSuccess] = useState(false);
   const { showLoading, hideLoading } = useLoadingContext();
@@ -315,24 +321,43 @@ const Hydroelectric = () => {
   const [resData, setResData] = useState([]);
 
   useEffect(() => {
+    setColumns(columnsTable);
+    setcolumnFillters(columnFillter)
+
+    const columnVisibilityForHidroElectricCons = {
+      ...initColumnVisibility,
+      pumpNumber: false,
+      flowDesigned: false,
+      realityFlow: false,
+      wateringAreaDesigned: false,
+      realityWateringArea: false,
+      averagePumpTime: false,
+      minimumPumpTime: false,
+      maximumPumpTime: false,
+    }
+
+    setColumnVisibility(columnVisibilityForHidroElectricCons)
+
     const getData = async () => {
       setLoading(true);
       try {
         const data = await fetchData('Construction/list');
-        setResData(data);
+        const filteredData = data.filter((item: { [key: string]: any }) =>
+          ['thuydien', 'hochua', 'trambom'].some(keyword =>
+            item['constructionTypeSlug']?.toString().toLowerCase().includes(keyword.toLowerCase())
+          )
+        );
+        setResData(filteredData);
       } catch (error) {
         setResData([]);
       } finally {
         setLoading(false);
       }
     };
+    
     getData();
+    
   }, [postSuccess]);
-
-  useEffect(() => {
-    setColumns(columnsTable);
-    setcolumnFillters(columnFillter)
-  }, [postSuccess])
 
   const zoomConstruction = (coords: any) => {
     setMapCenter(coords);
@@ -355,6 +380,7 @@ const Hydroelectric = () => {
             rows={resData}
             columns={columns}
             columnGroupingModel={columnGroup}
+            columnVisibility={columnVisibility}
             columnFillter={columnFillters}
             actions={
               <CreateConstruction isEdit={false} setPostSuccess={handlePostSuccess} />

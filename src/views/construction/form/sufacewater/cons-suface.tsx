@@ -16,67 +16,67 @@ const construcsionType = [
   { title: "Trạm cấp nước", value: 11 },
   { title: "Nhà máy nước", value: 14 },
   { title: "Công trình khác", value: 23 },
-  ];
+];
 
-const ConstructionField = () =>{
-    const [showForm, setShowForm] = useState(false)
-    const [TypeOfConsId, setTypeOfConsId] = useState(1);
-    const handleChange = (e: any) => {
-        const val = (e == undefined || e == null ? 1 : e.value)
-        setTypeOfConsId(val)
-        setShowForm(true)
-    }
+const ConstructionField = () => {
+  const [showForm, setShowForm] = useState(false)
+  const [TypeOfConsId, setTypeOfConsId] = useState(1);
+  const handleChange = (e: any) => {
+    const val = (e == undefined || e == null ? 1 : e.value)
+    setTypeOfConsId(val)
+    setShowForm(true)
+  }
 
-    return(  
-        <>       
-         <fieldset>
+  return (
+    <>
+      <fieldset>
         <legend >
           <Typography variant={'subtitle1'} className='legend__title'>THÔNG TIN CÔNG TRÌNH</Typography>
         </legend>
         <Grid container spacing={4}>
           <Grid item xs={12} md={4} sm={12} sx={{ my: 2 }}>
-          <AutoComplete
-            onChange={(e:any, v:any) => handleChange(v)}
-             size="small" 
-             options={construcsionType}
-             getOptionLabel={(option: any) => option.title}
-             label="Chọn loại hình CP"
-          />
+            <AutoComplete
+              onChange={(e: any, v: any) => handleChange(v)}
+              size="small"
+              options={construcsionType}
+              getOptionLabel={(option: any) => option.title}
+              label="Chọn loại hình CP"
+            />
           </Grid>
           <Grid item xs={12} md={4} sm={12} sx={{ my: 2 }}>
             <TextField size='small' type='text' label='Tên công trình' fullWidth placeholder='' defaultValue='' />
           </Grid>
           <Grid item xs={12} md={4} sm={12} sx={{ my: 2 }}>
-            
+
             <AutoComplete
-             size="small" 
-             options={construcsionType}
-             getOptionLabel={(option: any) => option.title}
-             label="Giấy phép"
-          />
+              size="small"
+              options={construcsionType}
+              getOptionLabel={(option: any) => option.title}
+              label="Giấy phép"
+            />
           </Grid>
         </Grid>
 
         <Grid container spacing={4}>
           <Grid item xs={12} md={4} sm={12} sx={{ my: 2 }}>
             <AutoComplete
-             size="small" 
-             options={construcsionType}
-             getOptionLabel={(option: any) => option.title}
-             label="Chọn Tỉnh/TP"
-          />
+              size="small"
+              options={construcsionType}
+              getOptionLabel={(option: any) => option.title}
+              label="Chọn Tỉnh/TP"
+            />
           </Grid>
           <Grid item xs={12} md={4} sm={12} sx={{ my: 2 }}>
             <AutoComplete
-             size="small" 
-             options={construcsionType}
-             getOptionLabel={(option: any) => option.title}
-             label="Chọn Quận/Huyện"
-          />
+              size="small"
+              options={construcsionType}
+              getOptionLabel={(option: any) => option.title}
+              label="Chọn Quận/Huyện"
+            />
           </Grid>
           <Grid item xs={12} md={4} sm={12} sx={{ my: 2 }}>
             <AutoComplete
-              size="small" 
+              size="small"
               options={construcsionType}
               getOptionLabel={(option: any) => option.title}
               label="Chọn Xã/phường"
@@ -111,7 +111,7 @@ const ConstructionField = () =>{
         <Grid container spacing={4}>
           <Grid item xs={12} md={6} sm={12} sx={{ my: 2 }}>
             <AutoComplete
-              size="small" 
+              size="small"
               options={construcsionType}
               getOptionLabel={(option: any) => option.title}
               label="Chọn lưu vực sông"
@@ -146,17 +146,17 @@ const ConstructionField = () =>{
           {TypeOfConsId === 4 &&
             (<CreateHydroelectric />)}
           {TypeOfConsId === 5 && (
-            <CreateLake/>
+            <CreateLake />
           )}
-          {TypeOfConsId=== 6 && (
-           <CreatePump/>
+          {TypeOfConsId === 6 && (
+            <CreatePump />
           )}
-           {TypeOfConsId === 13 &&
+          {TypeOfConsId === 13 &&
             (<CreateDrain />)}
         </div>
       )}
-      <ConstructionDetails/>
+      <ConstructionDetails />
     </>
-    )
+  )
 }
 export default ConstructionField

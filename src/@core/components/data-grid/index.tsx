@@ -23,6 +23,7 @@ interface DataGridComponentProps {
   rows: any
   columns: any
   columnGroupingModel?: any
+  columnVisibility?: any
   columnFillter?: any
   formFilter?: any
   actions?: any
@@ -30,7 +31,7 @@ interface DataGridComponentProps {
 
 const DataGridComponent = (props: DataGridComponentProps) => {
 
-  const { rows, columns, columnGroupingModel, columnFillter, formFilter, actions } = props;
+  const { rows, columns, columnGroupingModel, columnVisibility, columnFillter, formFilter, actions } = props;
   const [rowDatas, setRowDatas] = React.useState<any>(rows);
 
   React.useEffect(() => {
@@ -58,8 +59,6 @@ const DataGridComponent = (props: DataGridComponentProps) => {
     }
 
     const handleFilterChange = (column: any, value: any) => {
-
-      console.log(column, value)
 
       setFilters((prevFilters: any) => ({
         ...prevFilters,
@@ -308,10 +307,7 @@ const DataGridComponent = (props: DataGridComponentProps) => {
       columnGroupingModel={columnGroupingModel}
       initialState={{
         columns: {
-          columnVisibilityModel: {
-            // Hide columns status and traderName, the other columns will remain visible
-            id: false,
-          },
+          columnVisibilityModel: columnVisibility
         },
         pagination: { paginationModel: { pageSize: 10 } },
       }}
