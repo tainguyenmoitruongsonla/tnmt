@@ -22,10 +22,10 @@ interface Annotation {
 // Define the addStackedTotalsAnnotations function outside the component
 const addStackedTotalsAnnotations = (series: any, year: any, setAnnotations: (annotations: Annotation[]) => void) => {
   const seriesData = series.map((seriesItem: any) => seriesItem.data);
-  const stackedTotals = Array.from({ length: seriesData[0].length }, () => 0);
+  const stackedTotals = Array.from({ length: seriesData[0]?.length }, () => 0);
 
   for (let i = 0; i < seriesData.length; i++) {
-    for (let j = 0; j < seriesData[i].length; j++) {
+    for (let j = 0; j < seriesData[i]?.length; j++) {
       stackedTotals[j] += seriesData[i][j];
     }
   }
