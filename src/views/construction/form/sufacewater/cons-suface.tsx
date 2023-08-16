@@ -1,11 +1,17 @@
 import { Typography, Grid } from "@mui/material"
-import CreateHydroelectric from "./create-hydroelectric"
-import { useState } from "react"
+import { useEffect,ChangeEvent, FC, useState } from "react"
 import { AutoComplete, TextField } from "src/@core/components/field";
-import CreateLake from "./create-lake";
-import CreatePump from "./create-pump";
-import CreateDrain from "./create-drain";
 import ConstructionDetails from "./cons-detail-fieldset";
+
+interface ConsTypeFieldsetProps {
+  data?: ConsState; // Thêm prop data để truyền dữ liệu từ ngoài vào
+  onChange: (data: ConsState) => void;
+}
+
+interface ConsState{
+  id: number;
+  parentId: number;
+}
 
 const construcsionType = [
   { title: "Thủy điện", value: 4 },
@@ -18,14 +24,24 @@ const construcsionType = [
   { title: "Công trình khác", value: 23 },
 ];
 
-const ConstructionField = () => {
-  const [showForm, setShowForm] = useState(false)
-  const [TypeOfConsId, setTypeOfConsId] = useState(1);
-  const handleChange = (e: any) => {
-    const val = (e == undefined || e == null ? 1 : e.value)
-    setTypeOfConsId(val)
-    setShowForm(true)
-  }
+const ConstructionField: FC<ConsTypeFieldsetProps> = ({ data, onChange }) => {
+  const [licenseData, setLicenseData] = useState<ConsState>({
+    id: 0,
+    parentId: 0,
+    });
+
+    useEffect(() => {
+      if (data) {
+          setLicenseData(data);
+      }
+  }, [data]);
+
+  const handleChange = (prop: keyof ConsState) => (event: ChangeEvent<HTMLInputElement>) => {
+    const value = event.target.type === 'checkbox' ? event.target.checked : event.target.value;
+    setLicenseData({ ...licenseData, [prop]: value });
+    onChange({ ...licenseData, [prop]: value });
+};
+
 
   return (
     <>
@@ -141,20 +157,6 @@ const ConstructionField = () => {
         </Grid>
       </fieldset>
 
-      {showForm && (
-        <div>
-          {TypeOfConsId === 4 &&
-            (<CreateHydroelectric />)}
-          {TypeOfConsId === 5 && (
-            <CreateLake />
-          )}
-          {TypeOfConsId === 6 && (
-            <CreatePump />
-          )}
-          {TypeOfConsId === 13 &&
-            (<CreateDrain />)}
-        </div>
-      )}
       <ConstructionDetails />
     </>
   )
