@@ -29,7 +29,7 @@ const FormContruction = ({ onSubmit, closeDialogs }: any) => {
       </Grid>
 
       <DialogActions sx={{ p: 0, mt: 5 }}>
-        <Button onClick={() => handleClose()} className='btn closeBtn'>
+        <Button onClick={() => handleClose()} className='btn cancleBtn'>
           Hủy
         </Button>
         <Button type='submit' className='btn saveBtn'>

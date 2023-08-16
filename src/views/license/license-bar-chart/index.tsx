@@ -1,5 +1,5 @@
 import { ApexOptions } from 'apexcharts';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import ReactApexcharts from 'src/@core/components/react-apexcharts';
 
 interface ApexChartLicenseProps {
@@ -19,10 +19,41 @@ interface Annotation {
   };
 }
 
+// Define the addStackedTotalsAnnotations function outside the component
+const addStackedTotalsAnnotations = (series: any, year: any, setAnnotations: (annotations: Annotation[]) => void) => {
+  const seriesData = series.map((seriesItem: any) => seriesItem.data);
+  const stackedTotals = Array.from({ length: seriesData[0].length }, () => 0);
+
+  for (let i = 0; i < seriesData.length; i++) {
+    for (let j = 0; j < seriesData[i].length; j++) {
+      stackedTotals[j] += seriesData[i][j];
+    }
+  }
+
+  const newAnnotations: Annotation[] = stackedTotals.map((total, index) => ({
+    x: year[index],
+    y: total,
+    label: {
+      text: `Tổng: ${total}`,
+      style: {
+        color: '#777',
+      },
+    },
+  }));
+
+  setAnnotations(newAnnotations);
+};
+
 const ApexChartLicense: React.FC<ApexChartLicenseProps> = ({ data, year, color }) => {
   const [annotations, setAnnotations] = useState<Annotation[]>([]);
 
   const series = data;
+
+  useEffect(() => {
+    // Call the annotation function here after the series data is fetched and set
+    addStackedTotalsAnnotations(series, year, setAnnotations);
+  }, [series, year]);
+
   const options: ApexOptions = {
     annotations: {
       points: annotations,
@@ -48,7 +79,7 @@ const ApexChartLicense: React.FC<ApexChartLicenseProps> = ({ data, year, color }
       stacked: true,
       events: {
         mounted: function () {
-          addStackedTotalsAnnotations();
+          addStackedTotalsAnnotations(series, year, setAnnotations);
         },
       },
     },
@@ -66,35 +97,10 @@ const ApexChartLicense: React.FC<ApexChartLicenseProps> = ({ data, year, color }
     tooltip: {
       y: {
         formatter: function (val: any) {
-
           return 'Đã cấp ' + val + ' giấy phép';
         },
       },
     },
-  };
-
-  const addStackedTotalsAnnotations = () => {
-    const seriesData = series.map((seriesItem: any) => seriesItem.data);
-    const stackedTotals = Array.from({ length: seriesData[0].length }, () => 0);
-
-    for (let i = 0; i < seriesData.length; i++) {
-      for (let j = 0; j < seriesData[i].length; j++) {
-        stackedTotals[j] += seriesData[i][j];
-      }
-    }
-
-    const newAnnotations: Annotation[] = stackedTotals.map((total, index) => ({
-      x: year[index],
-      y: total,
-      label: {
-        text: `Tổng: ${total}`,
-        style: {
-          color: '#777',
-        },
-      },
-    }));
-
-    setAnnotations(newAnnotations);
   };
 
   return (

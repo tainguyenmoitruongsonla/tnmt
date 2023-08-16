@@ -1,10 +1,17 @@
 import { Grid, Accordion, AccordionSummary, AccordionDetails, Typography } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import { Recycling } from '@mui/icons-material';
 
 const COLORS = ['rgb(106, 179, 230)', 'rgb(0, 61, 126)', 'rgb(125, 95, 58)', 'rgb(0, 178, 151)', 'rgb(244, 153, 23)'];
 const CHARTS_LEGEND = ['KTSD nước mặt', 'KTSD nước dưới đất', 'Thăm dò nước dưới đất', 'Hành nghề khoan', 'Xả thải vào nguồn nước'];
 
-const CountLicenseForManage = () => {
+interface CountLicenseForManageProps {
+    data?: any
+}
+
+const CountLicenseForManage = (props: CountLicenseForManageProps) => {
+
+    const { data } = props;
 
     return (
         <Grid item xs={12} sm={12} md={12} sx={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center' }}>
@@ -15,18 +22,18 @@ const CountLicenseForManage = () => {
                         aria-controls="panel1a-content"
                         id="panel1a-header"
                     >
-                        <Typography fontWeight={'bold'} color={'#fff'}>{CHARTS_LEGEND[0]} : 123</Typography>
+                        <Typography fontWeight={'bold'} color={'#fff'}>{CHARTS_LEGEND[0]} : {data.surfaceWaterCount.totalCount}</Typography>
                     </AccordionSummary>
                     <AccordionDetails>
                         <Grid item xs={12} sm={12} md={12} sx={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center' }}>
                             <Grid item xs={4} sx={{ p: 2 }}>
-                                <Typography variant='body2' pt={1} pb={3} fontWeight={'bold'} color={'#fff'}>Đã cấp: 123</Typography>
-                                <img src='/images/licenses/expire.png' alt='license_img' width={65} height={65}></img>
+                                <Typography variant='body2' pt={1} pb={3} fontWeight={'bold'} color={'#fff'}>Đã cấp: {data.surfaceWaterCount.totalCount}</Typography>
+                                <img src='/images/constructionTypes/surfaceWater.png' alt='license_img' width={65} height={65}></img>
                             </Grid>
                             <Grid item xs={8} sx={{ p: 2 }}>
-                                <Typography variant='body2' py={1} fontWeight={'bold'} color={'#fff'}>Còn hiệu lực: 111</Typography>
-                                <Typography variant='body2' py={1} fontWeight={'bold'} color={'#fff'}>BTNMT cấp: 69</Typography>
-                                <Typography variant='body2' py={1} fontWeight={'bold'} color={'#fff'}>UBND Tỉnh cấp: 42</Typography>
+                                <Typography variant='body2' py={1} fontWeight={'bold'} color={'#fff'}>Còn hiệu lực: {data.surfaceWaterCount.licenseValidity}</Typography>
+                                <Typography variant='body2' py={1} fontWeight={'bold'} color={'#fff'}>BTNMT cấp: {data.surfaceWaterCount.licensingAuthorities.minister}</Typography>
+                                <Typography variant='body2' py={1} fontWeight={'bold'} color={'#fff'}>UBND Tỉnh cấp: {data.surfaceWaterCount.licensingAuthorities.province}</Typography>
                             </Grid>
                         </Grid>
                     </AccordionDetails>
@@ -39,18 +46,18 @@ const CountLicenseForManage = () => {
                         aria-controls="panel2a-content"
                         id="panel2a-header"
                     >
-                        <Typography fontWeight={'bold'} color={'#fff'}>{CHARTS_LEGEND[1]} : 123</Typography>
+                        <Typography fontWeight={'bold'} color={'#fff'}>{CHARTS_LEGEND[1]} : {data.exploitGroundWaterCount.totalCount}</Typography>
                     </AccordionSummary>
                     <AccordionDetails>
                         <Grid item xs={12} sm={12} md={12} sx={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center' }}>
                             <Grid item xs={4} sx={{ p: 2 }}>
-                                <Typography variant='body2' pt={1} pb={3} fontWeight={'bold'} color={'#fff'}>Đã cấp: 123</Typography>
-                                <img src='/images/licenses/expire.png' alt='license_img' width={65} height={65}></img>
+                                <Typography variant='body2' pt={1} pb={3} fontWeight={'bold'} color={'#fff'}>Đã cấp: {data.exploitGroundWaterCount.totalCount}</Typography>
+                                <img src='/images/constructionTypes/probed.png' alt='license_img' width={65} height={65}></img>
                             </Grid>
                             <Grid item xs={8} sx={{ p: 2 }}>
-                                <Typography variant='body2' py={1} fontWeight={'bold'} color={'#fff'}>Còn hiệu lực: 111</Typography>
-                                <Typography variant='body2' py={1} fontWeight={'bold'} color={'#fff'}>BTNMT cấp: 69</Typography>
-                                <Typography variant='body2' py={1} fontWeight={'bold'} color={'#fff'}>UBND Tỉnh cấp: 42</Typography>
+                                <Typography variant='body2' py={1} fontWeight={'bold'} color={'#fff'}>Còn hiệu lực: {data.exploitGroundWaterCount.licenseValidity}</Typography>
+                                <Typography variant='body2' py={1} fontWeight={'bold'} color={'#fff'}>BTNMT cấp: {data.exploitGroundWaterCount.licensingAuthorities.minister}</Typography>
+                                <Typography variant='body2' py={1} fontWeight={'bold'} color={'#fff'}>UBND Tỉnh cấp: {data.exploitGroundWaterCount.licensingAuthorities.province}</Typography>
                             </Grid>
                         </Grid>
                     </AccordionDetails>
@@ -63,18 +70,18 @@ const CountLicenseForManage = () => {
                         aria-controls="panel2a-content"
                         id="panel2a-header"
                     >
-                        <Typography fontWeight={'bold'} color={'#fff'}>{CHARTS_LEGEND[2]} : 123</Typography>
+                        <Typography fontWeight={'bold'} color={'#fff'}>{CHARTS_LEGEND[2]} : {data.probedGroundWaterCount.totalCount}</Typography>
                     </AccordionSummary>
                     <AccordionDetails>
                         <Grid item xs={12} sm={12} md={12} sx={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center' }}>
                             <Grid item xs={4} sx={{ p: 2 }}>
-                                <Typography variant='body2' pt={1} pb={3} fontWeight={'bold'} color={'#fff'}>Đã cấp: 123</Typography>
-                                <img src='/images/licenses/expire.png' alt='license_img' width={65} height={65}></img>
+                                <Typography variant='body2' pt={1} pb={3} fontWeight={'bold'} color={'#fff'}>Đã cấp: {data.probedGroundWaterCount.totalCount}</Typography>
+                                <img src='/images/constructionTypes/probed.png' alt='license_img' width={65} height={65}></img>
                             </Grid>
                             <Grid item xs={8} sx={{ p: 2 }}>
-                                <Typography variant='body2' py={1} fontWeight={'bold'} color={'#fff'}>Còn hiệu lực: 111</Typography>
-                                <Typography variant='body2' py={1} fontWeight={'bold'} color={'#fff'}>BTNMT cấp: 69</Typography>
-                                <Typography variant='body2' py={1} fontWeight={'bold'} color={'#fff'}>UBND Tỉnh cấp: 42</Typography>
+                                <Typography variant='body2' py={1} fontWeight={'bold'} color={'#fff'}>Còn hiệu lực: {data.probedGroundWaterCount.licenseValidity}</Typography>
+                                <Typography variant='body2' py={1} fontWeight={'bold'} color={'#fff'}>BTNMT cấp: {data.probedGroundWaterCount.licensingAuthorities.minister}</Typography>
+                                <Typography variant='body2' py={1} fontWeight={'bold'} color={'#fff'}>UBND Tỉnh cấp: {data.probedGroundWaterCount.licensingAuthorities.province}</Typography>
                             </Grid>
                         </Grid>
                     </AccordionDetails>
@@ -87,18 +94,18 @@ const CountLicenseForManage = () => {
                         aria-controls="panel2a-content"
                         id="panel2a-header"
                     >
-                        <Typography fontWeight={'bold'} color={'#fff'}>{CHARTS_LEGEND[3]} : 123</Typography>
+                        <Typography fontWeight={'bold'} color={'#fff'}>{CHARTS_LEGEND[3]} : {data.drillingPracticeCount.totalCount}</Typography>
                     </AccordionSummary>
                     <AccordionDetails>
                         <Grid item xs={12} sm={12} md={12} sx={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center' }}>
                             <Grid item xs={4} sx={{ p: 2 }}>
-                                <Typography variant='body2' pt={1} pb={3} fontWeight={'bold'} color={'#fff'}>Đã cấp: 123</Typography>
-                                <img src='/images/licenses/expire.png' alt='license_img' width={65} height={65}></img>
+                                <Typography variant='body2' pt={1} pb={3} fontWeight={'bold'} color={'#fff'}>Đã cấp: {data.drillingPracticeCount.totalCount}</Typography>
+                                <img src='/images/constructionTypes/drilling-practice.png' alt='license_img' width={65} height={65}></img>
                             </Grid>
                             <Grid item xs={8} sx={{ p: 2 }}>
-                                <Typography variant='body2' py={1} fontWeight={'bold'} color={'#fff'}>Còn hiệu lực: 111</Typography>
-                                <Typography variant='body2' py={1} fontWeight={'bold'} color={'#fff'}>BTNMT cấp: 69</Typography>
-                                <Typography variant='body2' py={1} fontWeight={'bold'} color={'#fff'}>UBND Tỉnh cấp: 42</Typography>
+                                <Typography variant='body2' py={1} fontWeight={'bold'} color={'#fff'}>Còn hiệu lực: {data.drillingPracticeCount.licenseValidity}</Typography>
+                                <Typography variant='body2' py={1} fontWeight={'bold'} color={'#fff'}>BTNMT cấp: {data.drillingPracticeCount.licensingAuthorities.minister}</Typography>
+                                <Typography variant='body2' py={1} fontWeight={'bold'} color={'#fff'}>UBND Tỉnh cấp: {data.drillingPracticeCount.licensingAuthorities.province}</Typography>
                             </Grid>
                         </Grid>
                     </AccordionDetails>
@@ -111,18 +118,18 @@ const CountLicenseForManage = () => {
                         aria-controls="panel2a-content"
                         id="panel2a-header"
                     >
-                        <Typography fontWeight={'bold'} color={'#fff'}>{CHARTS_LEGEND[4]} : 123</Typography>
+                        <Typography fontWeight={'bold'} color={'#fff'}>{CHARTS_LEGEND[4]} : {data.dischargeWaterCount.totalCount}</Typography>
                     </AccordionSummary>
                     <AccordionDetails>
                         <Grid item xs={12} sm={12} md={12} sx={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center' }}>
                             <Grid item xs={4} sx={{ p: 2 }}>
-                                <Typography variant='body2' pt={1} pb={3} fontWeight={'bold'} color={'#fff'}>Đã cấp: 123</Typography>
-                                <img src='/images/licenses/expire.png' alt='license_img' width={65} height={65}></img>
+                                <Typography variant='body2' pt={1} pb={3} fontWeight={'bold'} color={'#fff'}>Đã cấp: {data.dischargeWaterCount.totalCount}</Typography>
+                                <Recycling sx={{ width: 65, height: 65, color: '#fff' }} />
                             </Grid>
                             <Grid item xs={8} sx={{ p: 2 }}>
-                                <Typography variant='body2' py={1} fontWeight={'bold'} color={'#fff'}>Còn hiệu lực: 111</Typography>
-                                <Typography variant='body2' py={1} fontWeight={'bold'} color={'#fff'}>BTNMT cấp: 69</Typography>
-                                <Typography variant='body2' py={1} fontWeight={'bold'} color={'#fff'}>UBND Tỉnh cấp: 42</Typography>
+                                <Typography variant='body2' py={1} fontWeight={'bold'} color={'#fff'}>Còn hiệu lực: {data.dischargeWaterCount.licenseValidity}</Typography>
+                                <Typography variant='body2' py={1} fontWeight={'bold'} color={'#fff'}>BTNMT cấp: {data.dischargeWaterCount.licensingAuthorities.minister}</Typography>
+                                <Typography variant='body2' py={1} fontWeight={'bold'} color={'#fff'}>UBND Tỉnh cấp: {data.dischargeWaterCount.licensingAuthorities.province}</Typography>
                             </Grid>
                         </Grid>
                     </AccordionDetails>

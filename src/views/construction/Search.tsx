@@ -67,7 +67,7 @@ const Form = ({ onSubmit, closeDialogs }: any) => {
         </Grid>
       </Grid>
       <DialogActions sx={{ p: 0, mt: 2, justifyContent: 'center' }}>
-        <Button onClick={() => handleClose()} className='btn closeBtn'>Hủy</Button>
+        <Button onClick={() => handleClose()} className='btn cancleBtn'>Hủy</Button>
         <Button type="submit" className='btn saveBtn'>Tìm kiếm</Button>
       </DialogActions>
     </form>

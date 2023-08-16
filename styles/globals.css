@@ -116,28 +116,37 @@ code[class*='language-'] {
   color: #fff !important;
 }
 
+.closeBtn {
+  color: #fff !important;
+}
+
+.closeBtn:hover {
+  background-color: red !important;
+  color: #fff !important;
+}
+
 .saveBtn {
   background-color: green !important;
   border: 1px solid green !important;
   color: #fff !important;
 }
 
-.closeBtn {
+.saveBtn:hover {
+  background-color: #fff !important;
+  border: 1px solid green !important;
+  color: green !important;
+}
+
+.cancleBtn {
   background-color: red !important;
   border: 1px solid red !important;
   color: #fff !important;
 }
 
-.closeBtn:hover {
+.cancleBtn:hover {
   background-color: #fff !important;
   border: 1px solid red !important;
   color: red !important;
-}
-
-.saveBtn:hover {
-  background-color: #fff !important;
-  border: 1px solid green !important;
-  color: green !important;
 }
 
 

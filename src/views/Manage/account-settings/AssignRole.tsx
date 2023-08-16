@@ -143,7 +143,7 @@ const Form = ({ data, setPostSuccess, closeDialogs }: any) => {
           </Grid>
         </Grid>
         <DialogActions>
-          <Button className='btn closeBtn' onClick={handleClose}>HỦY</Button>
+          <Button className='btn cancleBtn' onClick={handleClose}>HỦY</Button>
           <Button type='submit' className='btn saveBtn'>LƯU THAY ĐỔI</Button>
         </DialogActions>
       </form>

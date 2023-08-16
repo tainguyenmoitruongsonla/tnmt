@@ -69,7 +69,7 @@ const FormLicense: React.FC<FormLicenseProps> = ({ data, closeDialogs, setPostSu
       </Grid>
 
       <DialogActions sx={{ p: 0, mt: 5 }}>
-        <Button size='small' onClick={handleClose} className='btn closeBtn'>
+        <Button size='small' onClick={handleClose} className='btn cancleBtn'>
           Hủy
         </Button>
         <Button size='small' type='submit' className='btn saveBtn'>
