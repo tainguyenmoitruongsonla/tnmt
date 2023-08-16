@@ -260,11 +260,11 @@ const SurfaceConstruction = () => {
         { label: 'Thủy điện', value: 'thuydien' },
         { label: 'Hồ chứa', value: 'hochua' },
         { label: 'Trạm bơm', value: 'trambom' },
-        { label: 'Đập/Hệ thống thủy lợi', value: 'dap' },
+        { label: 'Đập/Hệ thống thủy lợi', value: 'dapthuyloi' },
         { label: 'Cống', value: 'cong' },
         { label: 'Trạm cấp nước', value: 'tramcapnuoc' },
         { label: 'Nhà máy nước', value: 'nhamaynuoc' },
-        { label: 'Công trình khác', value: 'CTkhac' },
+        { label: 'Công trình khác', value: 'congtrinh_nuocmatkhac' },
 
 
 
@@ -430,7 +430,7 @@ const SurfaceConstruction = () => {
       try {
         const data = await fetchData('Construction/list');
         const filteredData = data.filter((item: { [key: string]: any }) =>
-          ['thuydien','hochua','trambom','tramcapnuoc','dap','cong','nhamaynuoc','CTkhac'].some(keyword =>
+          ['thuydien','hochua','trambom','tramcapnuoc','dapthuyloi','cong','nhamaynuoc','congtrinh_nuocmatkhac'].some(keyword =>
             item['constructionTypeSlug']?.toString().toLowerCase().includes(keyword.toLowerCase())
           )
         );
