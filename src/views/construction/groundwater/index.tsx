@@ -48,25 +48,25 @@ const GroundConstruction = () => {
     { field: 'amountWaterExploited', headerClassName: 'tableHead', headerAlign: 'center', renderHeader: () => (<span>Q<sub>KT</sub> (m<sup>3</sup>/ngày đêm)</span>), minWidth: 150, },
     { field: 'wellNumber', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'Số hiệu', minWidth: 150, },
     { field: 'drillingDuration', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'Thời gian hành nghề khoan', minWidth: 150, },
-   
+
     //coordinates
-    { field: 'x', headerClassName: 'tableHead', headerAlign: 'center',headerName: 'X', minWidth: 150, },
+    { field: 'x', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'X', minWidth: 150, },
     { field: 'y', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'Y', minWidth: 150, },
 
     //
-    { field: 'waterDepthFrom', headerClassName: 'tableHead', headerAlign: 'center',headerName: 'Từ ', minWidth: 150, },
+    { field: 'waterDepthFrom', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'Từ ', minWidth: 150, },
     { field: 'waterDepthTo', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'Đến', minWidth: 150, },
-    
+
     //constructionDetails
     { field: 'waterSupplyFlow', headerClassName: 'tableHead', headerAlign: 'center', renderHeader: () => (<span>Q<sub>khai thác</sub> (m<sup>3</sup>/ng.đêm)</span>), minWidth: 150, },
     { field: 'wellWL', headerClassName: 'tableHead', headerAlign: 'center', renderHeader: () => (<span> H<sub>giếng khai thác</sub></span>), minWidth: 150, },
     { field: 'monitoringWellWL', headerClassName: 'tableHead', headerAlign: 'center', renderHeader: () => (<span> H<sub>giếng quan trắc</sub></span>), minWidth: 150, },
     { field: 'miningMethod', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'Chế độ KT (giờ/ng.đêm)', minWidth: 150, },
     { field: 'staticWL', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'Chiều sâu MN tĩnh(m)', minWidth: 150, },
-    { field: 'dynamicWL', headerClassName: 'tableHead', headerAlign: 'center',headerName: 'Chiều sâu MN động max(m)', minWidth: 150, },
+    { field: 'dynamicWL', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'Chiều sâu MN động max(m)', minWidth: 150, },
     { field: 'miningAquifer', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'Tầng chứa nước KT', minWidth: 150, },
     { field: 'lowWL', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'Mực nước hạ thấp', minWidth: 150, },
-    
+
     //license
     { field: 'licenseNumber', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'Số GP', minWidth: 150, renderCell: (data) => (<ShowFilePDF name={data.row.licenseNumber} src={`/pdf/Licenses/` + data.row.licensingAuthorities + `/` + data.row.typeSlug + `/` + data.row.licenseFile} />) },
     { field: 'signDate', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'Hiệu lực GP', minWidth: 150, renderCell: (data) => (FormatDate(data.row.signDate)) },
@@ -115,23 +115,23 @@ const GroundConstruction = () => {
       ],
     },
     {
-        groupId: 'Tọa độ',
-        headerClassName: 'tableHead',
-        headerAlign: 'center',
-        children: [
-          { field: 'x' },
-          { field: 'y' },
-        ]
-      },
+      groupId: 'Tọa độ',
+      headerClassName: 'tableHead',
+      headerAlign: 'center',
+      children: [
+        { field: 'x' },
+        { field: 'y' },
+      ]
+    },
     {
-        groupId: 'Chiều sâu đoạn thu nước(m)',
-        headerClassName: 'tableHead',
-        headerAlign: 'center',
-        children: [
-          { field: 'waterDepthFrom' },
-          { field: 'waterDepthTo' },
-        ]
-      },
+      groupId: 'Chiều sâu đoạn thu nước(m)',
+      headerClassName: 'tableHead',
+      headerAlign: 'center',
+      children: [
+        { field: 'waterDepthFrom' },
+        { field: 'waterDepthTo' },
+      ]
+    },
     {
       groupId: 'Thông số của công trình',
       headerClassName: 'tableHead',
@@ -178,6 +178,23 @@ const GroundConstruction = () => {
 
   const columnFillter: columnFillters[] = [
     {
+      label: 'Tên công trình',
+      value: 'constructionName',
+      type: 'text',
+    },
+    {
+      label: 'Loại công trình',
+      value: 'constructionTypeSlug',
+      type: 'select',
+      options: [
+        { label: 'Khai thác', value: 'khaithac' },
+        { label: 'Thăm dò', value: 'thamdo' },
+        { label: 'Hành nghề khoan', value: 'hanhnghekhoan' },
+        { label: 'Trám lấp giếng', value: 'tramlapgieng' },
+        { label: 'Công trình khác', value: 'congtrinh_nuocduoidatkhac' },
+      ],
+    },
+    {
       label: 'Số GP',
       value: 'licenseNumber',
       type: 'text',
@@ -192,30 +209,7 @@ const GroundConstruction = () => {
       ],
     },
     {
-      label: 'Loại hình cấp phép',
-      value: 'licenseTypeSlug',
-      type: 'select',
-      options: [
-        { label: 'Cấp mới', value: 'cap-moi' },
-        { label: 'Cấp lại', value: 'cap-lai' },
-        { label: 'Gia hạn', value: 'gia-han' },
-        { label: 'Điểu chỉnh', value: 'dieu-chinh' },
-        { label: 'Thu hồi', value: 'thu-hoi' },
-      ],
-    },
-    {
-      label: 'Hiệu lực giấy phép',
-      value: 'licenseValidity',
-      type: 'select',
-      options: [
-        { label: 'Còn hiệu lực', value: 'con-hieu-luc' },
-        { label: 'Hết hiệu lực', value: 'het-hieu-luc' },
-        { label: 'Sáp hết hiệu lực', value: 'sap-het-hieu-luc' },
-        { label: 'Đã bị thu hồi', value: 'da-bi-thu-hoi' },
-      ],
-    },
-    {
-      label: 'Chủ  giấy phép',
+      label: 'Chủ công trình',
       value: 'businessId',
       type: 'select',
       options: [
@@ -223,23 +217,6 @@ const GroundConstruction = () => {
         { label: 'Công ty B', value: 2 },
         { label: 'Công ty C', value: 3 },
         { label: '...', value: 4 },
-      ],
-    },
-    {
-      label: 'Công trình',
-      value: 'constructionName',
-      type: 'text',
-    },
-    {
-      label: 'Loại công trình',
-      value: 'constructionTypeSlug',
-      type: 'select',
-      options: [
-        { label: 'Khai thác', value: 'khaithac' },
-        { label: 'Thăm dò', value: 'thamdo' },
-        { label: 'Hành nghề khoan', value: 'hanhnghekhoan' },
-        { label: 'Trám lấp giếng', value: 'tramlapgieng' },
-        { label: 'Công trình khác', value: 'congtrinh_nuocduoidatkhac' },
       ],
     },
     {
@@ -281,7 +258,7 @@ const GroundConstruction = () => {
   const [mapZoom, setMapZoom] = useState(9);
 
   const [columns, setColumns] = useState<any[]>([]);
-  const [columnFillters, setcolumnFillters] = useState<any[]>([]);
+  const [columnFillters, setcolumnFillters] = useState<columnFillters[]>([]);
 
   const [postSuccess, setPostSuccess] = useState(false);
   const { showLoading, hideLoading } = useLoadingContext();
@@ -302,7 +279,7 @@ const GroundConstruction = () => {
       try {
         const data = await fetchData('Construction/list');
         const filteredData = data.filter((item: { [key: string]: any }) =>
-          ['khaithac','thamdo','hanhnghekhoan','tramlapgieng','congtrinh_nuocduoidatkhac'].some(keyword =>
+          ['khaithac', 'thamdo', 'hanhnghekhoan', 'tramlapgieng', 'congtrinh_nuocduoidatkhac'].some(keyword =>
             item['constructionTypeSlug']?.toString().toLowerCase().includes(keyword.toLowerCase())
           )
         );

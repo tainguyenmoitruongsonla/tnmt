@@ -4,6 +4,7 @@ import { Cached, FilterList, Search } from '@mui/icons-material';
 import { Autocomplete, Box, Button, Divider, Slide, TextField, Typography } from '@mui/material';
 import Grid from '@mui/material/Unstable_Grid2';
 import { useRouter } from "next/router";
+import { dataGridProps } from "./data-grid-props";
 
 interface columnFillter {
   label: string,
@@ -24,7 +25,7 @@ interface DataGridComponentProps {
   columns: any
   columnGroupingModel?: any
   columnVisibility?: any
-  columnFillter?: any
+  columnFillter?: columnFillter[]
   formFilter?: any
   actions?: any
 }
@@ -72,7 +73,7 @@ const DataGridComponent = (props: DataGridComponentProps) => {
 
     const applyFilters = () => {
       const filteredData = data.filter((item: { [key: string]: any }) => {
-        let isMatch = true; // Sử dụng biến để kiểm tra tất cả các điều kiện
+        let isMatch = true; // Use variable to check all conditions
 
         for (const column of columns) {
           const columnValue = filters?.[column.value] as any;
@@ -80,10 +81,11 @@ const DataGridComponent = (props: DataGridComponentProps) => {
 
           if (column.type === 'select') {
             if (columnValue && itemValue !== columnValue.value) {
-              isMatch = false; // Nếu một điều kiện không khớp, đặt biến isMatch là false
+              isMatch = false;
             }
 
-            if (column.value == 'constructionTypeSlug') {
+            //Filter columns follow columnVisibility
+            if (column.value == 'constructionTypeSlug' && columnVisibility) {
               const newDisplayedColumns: GridColDef[] = [];
 
               columnUpdated.forEach((column: any) => {
@@ -98,7 +100,7 @@ const DataGridComponent = (props: DataGridComponentProps) => {
 
           if (column.type === 'text') {
             if (columnValue?.toString().toLowerCase() && !itemValue?.toString().toLowerCase().includes(columnValue?.toString().toLowerCase())) {
-              isMatch = false; // Nếu một điều kiện không khớp, đặt biến isMatch là false
+              isMatch = false; // If a condition does not match, set the isMatch variable to false
             }
           }
 
@@ -106,16 +108,16 @@ const DataGridComponent = (props: DataGridComponentProps) => {
             if (columnValue) {
               const itemValueYear = new Date(itemValue).getFullYear();
               if (columnValue.from && itemValueYear < columnValue.from) {
-                isMatch = false;
+                isMatch = false; // If a condition does not match, set the isMatch variable to false
               }
               if (columnValue.to && itemValueYear > columnValue.to) {
-                isMatch = false;
+                isMatch = false; // If a condition does not match, set the isMatch variable to false
               }
             }
           }
         }
 
-        return isMatch; // Trả về true nếu tất cả các điều kiện khớp
+        return isMatch; // Return true if all conditions match
       });
       setRowDatas(filteredData);
     };
@@ -297,24 +299,9 @@ const DataGridComponent = (props: DataGridComponentProps) => {
 
   return (
     <DataGrid
-      className="mainTable"
       rows={rowDatas}
       columns={displayedColumns}
-      disableColumnMenu
-      showCellVerticalBorder
-      showColumnVerticalBorder
-      density="compact"
-      experimentalFeatures={{ columnGrouping: true }}
       columnGroupingModel={columnGroupingModel}
-      initialState={{
-        columns: {
-          columnVisibilityModel: {
-            id: false,
-          }
-        },
-        pagination: { paginationModel: { pageSize: 10 } },
-      }}
-      pageSizeOptions={[10, 25, 50]}
       slots={{ toolbar: Toolbar }}
       slotProps={{
         toolbar: {
@@ -323,6 +310,7 @@ const DataGridComponent = (props: DataGridComponentProps) => {
           formFilter: formFilter
         }
       }}
+      {...dataGridProps}
     />
   );
 }
