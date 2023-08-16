@@ -1,5 +1,4 @@
-import { Typography, Grid } from "@mui/material"
-import { AutoComplete, TextField } from "src/@core/components/field";
+import { Typography, Grid, TextField, Autocomplete } from "@mui/material"
 import ConstructionDetails from "./cons-detail-fieldset";
 
 const construcsionType = [
@@ -10,63 +9,98 @@ const construcsionType = [
   { title: "Khu dân cư/Làng nghề", value: 13 },
   { title: "Chăn nuôi/NTTS", value: 11 },
   { title: "Công trình khác", value: 23 },
-  ];
+];
 
-const ConstructionField = () =>{
+const ConstructionField = () => {
 
-    return(  
-        <>       
-         <fieldset>
+  return (
+    <>
+      <fieldset>
         <legend >
           <Typography variant={'subtitle1'} className='legend__title'>THÔNG TIN CÔNG TRÌNH</Typography>
         </legend>
         <Grid container spacing={4}>
           <Grid item xs={12} md={4} sm={12} sx={{ my: 2 }}>
-          <AutoComplete
-             size="small" 
-             options={construcsionType}
-             getOptionLabel={(option: any) => option.title}
-             label="Chọn loại công trình"
-          />
+            <Autocomplete
+              size="small"
+              options={construcsionType}
+              getOptionLabel={(option: any) => option.title}
+              renderInput={(params) => (
+                <TextField
+                  {...params}
+                  variant='standard'
+                  fullWidth
+                  label={'Chọn loại công trình'}
+                />
+              )}
+            />
           </Grid>
           <Grid item xs={12} md={4} sm={12} sx={{ my: 2 }}>
             <TextField size='small' type='text' label='Tên công trình' fullWidth placeholder='' defaultValue='' />
           </Grid>
           <Grid item xs={12} md={4} sm={12} sx={{ my: 2 }}>
-            
-            <AutoComplete
-             size="small" 
-             options={construcsionType}
-             getOptionLabel={(option: any) => option.title}
-             label="Giấy phép"
-          />
+
+            <Autocomplete
+              size="small"
+              options={construcsionType}
+              getOptionLabel={(option: any) => option.title}
+              renderInput={(params) => (
+                <TextField
+                  {...params}
+                  variant='standard'
+                  fullWidth
+                  label={'Giấy phép'}
+                />
+              )}
+            />
           </Grid>
         </Grid>
 
         <Grid container spacing={4}>
           <Grid item xs={12} md={4} sm={12} sx={{ my: 2 }}>
-           
-            <AutoComplete
-             size="small" 
-             options={construcsionType}
-             getOptionLabel={(option: any) => option.title}
-             label="Chọn Tỉnh/TP"
-          />
-          </Grid>
-          <Grid item xs={12} md={4} sm={12} sx={{ my: 2 }}>
-            <AutoComplete
-             size="small" 
-             options={construcsionType}
-             getOptionLabel={(option: any) => option.title}
-             label="Chọn Quận/Huyện"
-          />
-          </Grid>
-          <Grid item xs={12} md={4} sm={12} sx={{ my: 2 }}>
-            <AutoComplete
-              size="small" 
+
+            <Autocomplete
+              size="small"
               options={construcsionType}
               getOptionLabel={(option: any) => option.title}
-              label="Chọn Xã/phường"
+              renderInput={(params) => (
+                <TextField
+                  {...params}
+                  variant='standard'
+                  fullWidth
+                  label={'Chọn Tỉnh/TP'}
+                />
+              )}
+            />
+          </Grid>
+          <Grid item xs={12} md={4} sm={12} sx={{ my: 2 }}>
+            <Autocomplete
+              size="small"
+              options={construcsionType}
+              getOptionLabel={(option: any) => option.title}
+              renderInput={(params) => (
+                <TextField
+                  {...params}
+                  variant='standard'
+                  fullWidth
+                  label={'Chọn Quận/Huyện'}
+                />
+              )}
+            />
+          </Grid>
+          <Grid item xs={12} md={4} sm={12} sx={{ my: 2 }}>
+            <Autocomplete
+              size="small"
+              options={construcsionType}
+              getOptionLabel={(option: any) => option.title}
+              renderInput={(params) => (
+                <TextField
+                  {...params}
+                  variant='standard'
+                  fullWidth
+                  label={'Chọn Xã/phường'}
+                />
+              )}
             />
           </Grid>
         </Grid>
@@ -109,7 +143,7 @@ const ConstructionField = () =>{
             <TextField size='small' type='text' fullWidth placeholder='' defaultValue='' label='Lưu lượng xả trung bình(m3/ngày đêm)' />
           </Grid>
         </Grid>
-        
+
         <Grid container spacing={4}>
           <Grid item xs={12} md={6} sm={12} sx={{ my: 2 }}>
             <TextField size='small' variant='outlined' fullWidth label='Lưu lương xả lớn nhất(m3/ngày đêm)' placeholder='' />
@@ -121,8 +155,8 @@ const ConstructionField = () =>{
 
       </fieldset>
 
-      <ConstructionDetails/>
+      <ConstructionDetails />
     </>
-    )
+  )
 }
 export default ConstructionField

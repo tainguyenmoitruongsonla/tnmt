@@ -1,9 +1,9 @@
 import { useState, ChangeEvent, FC, useEffect } from 'react';
-import { Typography, Grid, Box } from '@mui/material';
+import { Typography, Grid, Box, TextField, Autocomplete } from '@mui/material';
 import dayjs, { Dayjs } from 'dayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { TextField, DatePicker, AutoComplete } from 'src/@core/components/field';
+import { DatePicker } from '@mui/x-date-pickers';
 
 interface LicenseFieldsetProps {
     data?: LicenseState; // Thêm prop data để truyền dữ liệu từ ngoài vào
@@ -99,7 +99,8 @@ const LicenseFieldset: FC<LicenseFieldsetProps> = ({ data, onChange }) => {
                         <DatePicker
                             label='Ngày ký'
                             value={licenseData.signDate}
-                            onChange={handleChange('licenseNumber')}
+                            onChange={(newSignDate: any) => setLicenseData({ ...licenseData, signDate: newSignDate })}
+                            slotProps={{ textField: { size: 'small', fullWidth: true } }}
                             format='DD/MM/YYYY'
                         />
                     </LocalizationProvider>
@@ -112,17 +113,25 @@ const LicenseFieldset: FC<LicenseFieldsetProps> = ({ data, onChange }) => {
                         <DatePicker
                             label="Ngày có hiệu lực"
                             value={licenseData.issueDate}
-                            onChange={handleChange('issueDate')}
+                            onChange={(newIssueDate: any) => setLicenseData({ ...licenseData, issueDate: newIssueDate })}
+                            slotProps={{ textField: { size: 'small', fullWidth: true } }}
                             format="DD/MM/YYYY" />
                     </LocalizationProvider>
                 </Grid>
                 <Grid item xs={12} md={6} sm={12} sx={{ my: 2 }}>
                     <Box>
-                        <AutoComplete
+                        <Autocomplete
                             size="small"
                             options={licensingType}
                             getOptionLabel={(option: any) => option.title}
-                            label="Chọn loại hình CP"
+                            renderInput={(params) => (
+                                <TextField
+                                    {...params}
+                                    variant='standard'
+                                    fullWidth
+                                    label="Chọn loại hình CP"
+                                />
+                            )}
                         />
                     </Box>
                 </Grid>
@@ -131,11 +140,18 @@ const LicenseFieldset: FC<LicenseFieldsetProps> = ({ data, onChange }) => {
                 </Grid>
                 <Grid item xs={12} md={6} sm={12} sx={{ my: 2 }}>
                     <Box>
-                        <AutoComplete
+                        <Autocomplete
                             size="small"
                             options={licensingAuthorities}
                             getOptionLabel={(option: any) => option.title}
-                            label="Chọn cơ quan CP"
+                            renderInput={(params) => (
+                                <TextField
+                                    {...params}
+                                    variant='standard'
+                                    fullWidth
+                                    label="Chọn cơ quan CP"
+                                />
+                            )}
                         />
                     </Box>
                 </Grid>
@@ -143,7 +159,8 @@ const LicenseFieldset: FC<LicenseFieldsetProps> = ({ data, onChange }) => {
                     <LocalizationProvider dateAdapter={AdapterDayjs}>
                         <DatePicker label="Ngày hết hiệu lực"
                             value={licenseData.expriteDate}
-                            onChange={handleChange('expriteDate')}
+                            onChange={(newExpriteDate: any) => setLicenseData({ ...licenseData, expriteDate: newExpriteDate })}
+                            slotProps={{ textField: { size: 'small', fullWidth: true } }}
                             format="DD/MM/YYYY" />
                     </LocalizationProvider>
                 </Grid>

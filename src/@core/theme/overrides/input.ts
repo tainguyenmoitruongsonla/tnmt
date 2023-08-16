@@ -6,7 +6,8 @@ const input = (theme: Theme) => {
     MuiInputLabel: {
       styleOverrides: {
         root: {
-          color: theme.palette.text.secondary
+          color: theme.palette.text.secondary,
+          fontSize: '14px',
         }
       }
     },
@@ -21,7 +22,8 @@ const input = (theme: Theme) => {
           },
           '&.Mui-disabled:before': {
             borderBottom: `1px solid ${theme.palette.text.disabled}`
-          }
+          },
+          fontSize: '11px',
         }
       }
     },

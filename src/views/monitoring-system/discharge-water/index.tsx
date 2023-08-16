@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 
 // ** MUI Imports
-import { Grid, Box, Button, Card, CardContent, IconButton, Tooltip, Typography } from '@mui/material';
+import { Grid, Box, Button, Card, CardContent, IconButton, Tooltip, Typography, Autocomplete, TextField } from '@mui/material';
 
 // ** Icons Imports
 import SearchIcon from '@mui/icons-material/Search';
@@ -9,7 +9,6 @@ import { EditNote, Delete } from "@mui/icons-material";
 
 // ** Components Imports
 import TableComponent from 'src/@core/components/table';
-import { TextField, AutoComplete } from 'src/@core/components/field';
 import DisplayOperatingStatus from 'src/@core/components/monitoring-page/check-status';
 import GroundmonitoringData from 'src/api/monitoringsystem/nuocduoidat';
 
@@ -18,12 +17,12 @@ import dynamic from 'next/dynamic';
 const Map = dynamic(() => import("src/@core/components/map"), { ssr: false });
 
 const groundType = [
-    { title: 'Chọn loại CT', value: 1 },
-    { title: 'Khai thác', value: 8 },
-    { title: 'Thăm dò', value: 9 },
-    { title: 'Hành nghề khoan', value: 10 },
-    { title: 'Công trình khác', value: 23 },
-    { title: 'Trám lấp giếng', value: 24 }
+  { title: 'Chọn loại CT', value: 1 },
+  { title: 'Khai thác', value: 8 },
+  { title: 'Thăm dò', value: 9 },
+  { title: 'Hành nghề khoan', value: 10 },
+  { title: 'Công trình khác', value: 23 },
+  { title: 'Trám lấp giếng', value: 24 }
 ];
 
 const licensingAuthorities = [
@@ -37,38 +36,38 @@ const columnsTable = [
   { id: 'stt', label: 'STT', rowspan: 2, },
   { id: 'ConstructionName', label: 'Tên công trình', rowspan: 2, },
   {
-    id: '#', label: 'Lưu lượng nước thải sau xử lý',  children: [
+    id: '#', label: 'Lưu lượng nước thải sau xử lý', children: [
       { id: 'MaximumFlow', label: 'Yêu cầu', },
       { id: 'MaximumFlowPre', label: 'Thực tế ', },
       { id: '', label: 'Chênh lệch (+/-)', },
     ]
   },
   {
-    id: '#', label: 'Chất lượng nước sau xử lý',  children: [
-        { id: 'Nhietdo', label: 'Nhiệt độ (°C)', },
-        { id: 'pH', label: 'pH ', },
-        { id: 'BOD5', label: 'BOD5', },
-        { id: 'COD', label: 'COD', },
-        { id: 'DO', label: 'DO', },
-        { id: 'TSS', label: 'TSS', },
-        { id: 'NH4', label: 'NH4+', },
+    id: '#', label: 'Chất lượng nước sau xử lý', children: [
+      { id: 'Nhietdo', label: 'Nhiệt độ (°C)', },
+      { id: 'pH', label: 'pH ', },
+      { id: 'BOD5', label: 'BOD5', },
+      { id: 'COD', label: 'COD', },
+      { id: 'DO', label: 'DO', },
+      { id: 'TSS', label: 'TSS', },
+      { id: 'NH4', label: 'NH4+', },
     ]
   },
   {
-    id: '#', label: 'Lưu lượng nước thải tại nguồn tiếp nhận',  children: [
+    id: '#', label: 'Lưu lượng nước thải tại nguồn tiếp nhận', children: [
       { id: 'MaximumFlow', label: 'Yêu cầu', },
       { id: 'MaximumFlowPre', label: 'Thực tế ', },
       { id: '', label: 'Chênh lệch (+/-)', },
     ]
   },
- 
-  { id: '#', label: 'Trạng thái vận hành',rowspan: 2,elm: (row: any) => (<DisplayOperatingStatus data={row} />)  },
- 
+
+  { id: '#', label: 'Trạng thái vận hành', rowspan: 2, elm: (row: any) => (<DisplayOperatingStatus data={row} />) },
+
   { id: 'actions', label: 'Thao tác', rowspan: 2 },
 ];
 
 const DischargewaterMonitoring = () => {
-  const [mapCenter] = useState([ 15.012172, 108.676488 ]);
+  const [mapCenter] = useState([15.012172, 108.676488]);
   const [mapZoom] = useState(9);
 
   const [TypeOfConsId, setTypeOfConsId] = useState([1]);
@@ -116,34 +115,55 @@ const DischargewaterMonitoring = () => {
         </Card>
       </Grid>
       <Grid item xs={12} sm={5} md={3}>
-       <Typography>Tổng số bản ghi đã tìm thấy:132</Typography>
+        <Typography>Tổng số bản ghi đã tìm thấy:132</Typography>
       </Grid>
       <Grid item xs={12} sm={7} md={9}>
         <Box className='_search _row'>
           <Grid item xs={12} sm={2} md={2}>
-            <AutoComplete
+            <Autocomplete
               onChange={(e: any, v: any) => handleChange(v)}
               size="small"
               options={groundType}
               getOptionLabel={(option: any) => option.title}
-              label="Chọn loại hình CP"
+              renderInput={(params) => (
+                <TextField
+                  {...params}
+                  variant='standard'
+                  fullWidth
+                  label="Chọn loại hình CP"
+                />
+              )}
             />
           </Grid>
           <Grid item xs={12} sm={2} md={2}>
-            <AutoComplete
+            <Autocomplete
               onChange={(e: any, v: any) => handleChange(v)}
               size="small"
               options={groundType}
               getOptionLabel={(option: any) => option.title}
-              label="Chọn trạng thái kết nối"
+              renderInput={(params) => (
+                <TextField
+                  {...params}
+                  variant='standard'
+                  fullWidth
+                  label="Chọn trạng thái kết nối"
+                />
+              )}
             />
           </Grid>
           <Grid item xs={12} sm={2} md={2}>
-            <AutoComplete
+            <Autocomplete
               size="small"
               options={licensingAuthorities}
               getOptionLabel={(option: any) => option.title}
-              label="Chọn cơ quan CP"
+              renderInput={(params) => (
+                <TextField
+                  {...params}
+                  variant='standard'
+                  fullWidth
+                  label="Chọn cơ quan CP"
+                />
+              )}
             />
           </Grid>
           <Grid item xs={12} sm={4} md={4}>

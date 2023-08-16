@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 
 // ** MUI Imports
-import { Grid, Box, Button, Card, CardContent, IconButton, Tooltip, Typography } from '@mui/material';
+import { Grid, Box, Button, Card, CardContent, IconButton, Tooltip, Typography, Autocomplete, TextField } from '@mui/material';
 
 // ** Icons Imports
 import SearchIcon from '@mui/icons-material/Search';
@@ -9,7 +9,6 @@ import { EditNote, Delete } from "@mui/icons-material";
 
 // ** Components Imports
 import TableComponent from 'src/@core/components/table';
-import { TextField, AutoComplete } from 'src/@core/components/field';
 import sufacemonitoringData from 'src/api/monitoringsystem/nuocmat';
 import DisplayOperatingStatus from 'src/@core/components/monitoring-page/check-status';
 
@@ -36,44 +35,44 @@ const licensingAuthorities = [
 const columnsTable = [
   { id: 'stt', label: 'STT', rowspan: 2, },
   { id: 'ConstructionName', label: 'Tên công trình', rowspan: 2, },
-  { id: '#', label: 'Trạng thái vận hành',rowspan: 2,elm: (row: any) => (<DisplayOperatingStatus data={row} />)  },
-  { id: 'DownstreamWLPre', label: (<span>Mực nước <br /> hạ lưu (m)</span>), showId: [1,4,5], rowspan: 2, },
-  { id: 'CapacityPre', label: (<span>Dung tích hồ  <br /> (triệu m<sup>3</sup>)</span>), showId: [1,4,5], rowspan: 2, },
+  { id: '#', label: 'Trạng thái vận hành', rowspan: 2, elm: (row: any) => (<DisplayOperatingStatus data={row} />) },
+  { id: 'DownstreamWLPre', label: (<span>Mực nước <br /> hạ lưu (m)</span>), showId: [1, 4, 5], rowspan: 2, },
+  { id: 'CapacityPre', label: (<span>Dung tích hồ  <br /> (triệu m<sup>3</sup>)</span>), showId: [1, 4, 5], rowspan: 2, },
   {
-    id: '#', label: 'Mưc nước thượng lưu hồ (m)', showId: [1,4,5], children: [
+    id: '#', label: 'Mưc nước thượng lưu hồ (m)', showId: [1, 4, 5], children: [
       { id: 'UpstreamWL', label: 'Ngưỡng tràn', },
       { id: 'UpstreamWLPres', label: 'Thực tế ', },
       { id: '', label: 'Chênh lệch (+/-)', },
     ]
   },
   {
-    id: '#', label: 'Lưu lượng xả qua tràn  (m3/s)', showId: [1,4,5], children: [
+    id: '#', label: 'Lưu lượng xả qua tràn  (m3/s)', showId: [1, 4, 5], children: [
       { id: 'MaximumDischargeFlowPre', label: 'Thực tế' },
-      ]
+    ]
   },
   {
-    id: '#', label: 'Lưu lượng lớn nhất (m3/s)',  colspan: 8, children: [
+    id: '#', label: 'Lưu lượng lớn nhất (m3/s)', colspan: 8, children: [
       { id: 'MaximumFlow', label: 'Ngưỡng tràn', },
       { id: 'MaximumFlowPre', label: 'Thực tế ', },
       { id: '', label: 'Chênh lệch (+/-)', },
     ]
   },
   {
-    id: '#', label: 'Lưu lượng xả duy trì DCTT (m3/s) ', showId: [1,4,5], colspan: 8, children: [
+    id: '#', label: 'Lưu lượng xả duy trì DCTT (m3/s) ', showId: [1, 4, 5], colspan: 8, children: [
       { id: 'MinimumFlow', label: 'Ngưỡng tràn', },
       { id: 'MinimumFlowPre', label: 'Thực tế ', },
       { id: '', label: 'Chênh lệch (+/-)', },
     ]
   },
   {
-    id: '#', label: 'Lưu lượng về hạ du (m3/s) ', showId: [1,4], colspan: 8, children: [
+    id: '#', label: 'Lưu lượng về hạ du (m3/s) ', showId: [1, 4], colspan: 8, children: [
       { id: '', label: 'Ngưỡng tràn', },
       { id: '', label: 'Thực tế ', },
       { id: '', label: 'Chênh lệch (+/-)', },
     ]
   },
   {
-    id: '#', label: 'Chất lượng nước trong quá trình khai thác', showId: [1,5,6,11,13], colspan: 8, children: [
+    id: '#', label: 'Chất lượng nước trong quá trình khai thác', showId: [1, 5, 6, 11, 13], colspan: 8, children: [
       { id: 'Nhietdo', label: 'Nhiệt độ (°C)', },
       { id: 'pH', label: 'pH ', },
       { id: 'BOD5', label: 'BOD5', },
@@ -87,7 +86,7 @@ const columnsTable = [
 ];
 
 const SurfaceWaterMonitoring = () => {
-  const [mapCenter] = useState([ 15.012172, 108.676488 ]);
+  const [mapCenter] = useState([15.012172, 108.676488]);
   const [mapZoom] = useState(9);
 
   const [TypeOfConsId, setTypeOfConsId] = useState([1]);
@@ -135,34 +134,58 @@ const SurfaceWaterMonitoring = () => {
         </Card>
       </Grid>
       <Grid item xs={12} sm={5} md={3}>
-       <Typography>Tổng số bản ghi đã tìm thấy:132</Typography>
+        <Typography>Tổng số bản ghi đã tìm thấy:132</Typography>
       </Grid>
       <Grid item xs={12} sm={7} md={9}>
         <Grid className='_search _row'>
           <Grid item xs={12} sm={2} md={2}>
-            <AutoComplete
+            <Autocomplete
               onChange={(e: any, v: any) => handleChange(v)}
               size="small"
               options={constructionType}
               getOptionLabel={(option: any) => option.title}
-              label="Chọn loại hình CP"
+              renderInput={(params) => (
+                <TextField
+                  {...params}
+                  variant='standard'
+                  fullWidth
+
+                  label="Chọn loại hình CP"
+                />
+              )}
             />
           </Grid>
           <Grid item xs={12} sm={2} md={2}>
-            <AutoComplete
+            <Autocomplete
               onChange={(e: any, v: any) => handleChange(v)}
               size="small"
               options={constructionType}
               getOptionLabel={(option: any) => option.title}
-              label="Chọn trạng thái kết nối"
+              renderInput={(params) => (
+                <TextField
+                  {...params}
+                  variant='standard'
+                  fullWidth
+
+                  label="Chọn trạng thái kết nối"
+                />
+              )}
             />
           </Grid>
           <Grid item xs={12} sm={2} md={2}>
-            <AutoComplete
+            <Autocomplete
               size="small"
               options={licensingAuthorities}
               getOptionLabel={(option: any) => option.title}
-              label="Chọn cơ quan CP"
+              renderInput={(params) => (
+                <TextField
+                  {...params}
+                  variant='standard'
+                  fullWidth
+
+                  label="Chọn cơ quan CP"
+                />
+              )}
             />
           </Grid>
           <Grid item xs={12} sm={4} md={4}>

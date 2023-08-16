@@ -5,11 +5,10 @@ import { useState, ChangeEvent } from 'react';
 import { EditNote, PersonAddAlt } from "@mui/icons-material";
 
 // ** MUI Imports
-import { Grid, Button, DialogActions, FormControlLabel, Checkbox, IconButton, Typography } from "@mui/material";
+import { Grid, Button, DialogActions, FormControlLabel, Checkbox, IconButton, Typography, TextField } from "@mui/material";
 
 // ** Component Imports
 import DialogsControl from 'src/@core/components/dialog-control';
-import { TextField } from 'src/@core/components/field';
 import postApiData from 'src/api/post';
 import { useLoadingContext } from 'src/@core/theme/loading-provider';
 

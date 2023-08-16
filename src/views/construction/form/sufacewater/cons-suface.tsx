@@ -1,6 +1,5 @@
-import { Typography, Grid } from "@mui/material"
+import { Typography, Grid, Autocomplete, TextField } from "@mui/material"
 import { useEffect,ChangeEvent, FC, useState } from "react"
-import { AutoComplete, TextField } from "src/@core/components/field";
 import ConstructionDetails from "./cons-detail-fieldset";
 
 interface ConsTypeFieldsetProps {
@@ -51,12 +50,19 @@ const ConstructionField: FC<ConsTypeFieldsetProps> = ({ data, onChange }) => {
         </legend>
         <Grid container spacing={4}>
           <Grid item xs={12} md={4} sm={12} sx={{ my: 2 }}>
-            <AutoComplete
+            <Autocomplete
               onChange={(e: any, v: any) => handleChange(v)}
               size="small"
               options={construcsionType}
               getOptionLabel={(option: any) => option.title}
-              label="Chọn loại hình CP"
+              renderInput={(params) => (
+                <TextField
+                  {...params}
+                  variant='standard'
+                  fullWidth
+                  label="Chọn loại hình CP"
+                />
+              )}
             />
           </Grid>
           <Grid item xs={12} md={4} sm={12} sx={{ my: 2 }}>
@@ -64,38 +70,66 @@ const ConstructionField: FC<ConsTypeFieldsetProps> = ({ data, onChange }) => {
           </Grid>
           <Grid item xs={12} md={4} sm={12} sx={{ my: 2 }}>
 
-            <AutoComplete
+            <Autocomplete
               size="small"
               options={construcsionType}
               getOptionLabel={(option: any) => option.title}
-              label="Giấy phép"
+              renderInput={(params) => (
+                <TextField
+                  {...params}
+                  variant='standard'
+                  fullWidth
+                  label="Giấy phép"
+                />
+              )}
             />
           </Grid>
         </Grid>
 
         <Grid container spacing={4}>
           <Grid item xs={12} md={4} sm={12} sx={{ my: 2 }}>
-            <AutoComplete
+            <Autocomplete
               size="small"
               options={construcsionType}
               getOptionLabel={(option: any) => option.title}
-              label="Chọn Tỉnh/TP"
+              renderInput={(params) => (
+                <TextField
+                  {...params}
+                  variant='standard'
+                  fullWidth
+                  label="Chọn Tỉnh/TP"
+                />
+              )}
             />
           </Grid>
           <Grid item xs={12} md={4} sm={12} sx={{ my: 2 }}>
-            <AutoComplete
+            <Autocomplete
               size="small"
               options={construcsionType}
               getOptionLabel={(option: any) => option.title}
-              label="Chọn Quận/Huyện"
+              renderInput={(params) => (
+                <TextField
+                  {...params}
+                  variant='standard'
+                  fullWidth
+                  label="Chọn Quận/Huyện"
+                />
+              )}
             />
           </Grid>
           <Grid item xs={12} md={4} sm={12} sx={{ my: 2 }}>
-            <AutoComplete
+            <Autocomplete
               size="small"
               options={construcsionType}
               getOptionLabel={(option: any) => option.title}
-              label="Chọn Xã/phường"
+              renderInput={(params) => (
+                <TextField
+                  {...params}
+                  variant='standard'
+                  fullWidth
+                  label="Chọn Xã/phường"
+                />
+              )}
             />
           </Grid>
         </Grid>
@@ -126,11 +160,18 @@ const ConstructionField: FC<ConsTypeFieldsetProps> = ({ data, onChange }) => {
 
         <Grid container spacing={4}>
           <Grid item xs={12} md={6} sm={12} sx={{ my: 2 }}>
-            <AutoComplete
+            <Autocomplete
               size="small"
               options={construcsionType}
               getOptionLabel={(option: any) => option.title}
-              label="Chọn lưu vực sông"
+              renderInput={(params) => (
+                <TextField
+                  {...params}
+                  variant='standard'
+                  fullWidth
+                  label="Chọn lưu vực sông"
+                />
+              )}
             />
           </Grid>
           <Grid item xs={12} md={6} sm={12} sx={{ my: 2 }}>

@@ -29,6 +29,12 @@ interface DataGridComponentProps {
   actions?: any
 }
 
+interface ToolbarProps {
+  data: any
+  columns: any
+  formFilter?: any
+}
+
 const DataGridComponent = (props: DataGridComponentProps) => {
 
   const { rows, columns, columnGroupingModel, columnVisibility, columnFillter, formFilter, actions } = props;
@@ -41,13 +47,7 @@ const DataGridComponent = (props: DataGridComponentProps) => {
     setDisplayedColumns(columns)
   }, [rows, columns]);
 
-  interface SearchToolbarProps {
-    data: any
-    columns: any
-    formFilter?: any
-  }
-
-  function SearchToolbar(props: SearchToolbarProps) {
+  function Toolbar(props: ToolbarProps) {
     const { data, columns, formFilter } = props;
     const [filters, setFilters] = React.useState<any>({});
     const [quickSearchValue, setQuickSearchValue] = React.useState<string>('');
@@ -220,11 +220,6 @@ const DataGridComponent = (props: DataGridComponentProps) => {
                           variant='standard'
                           fullWidth
                           label={column.label}
-                          inputProps={{
-                            style: { fontSize: 11 },
-                            ...params.inputProps,
-                          }}
-                          InputLabelProps={{ style: { fontSize: 14 } }}
                         />
                       )}
                     />
@@ -250,11 +245,6 @@ const DataGridComponent = (props: DataGridComponentProps) => {
                               {...params}
                               variant='standard'
                               fullWidth
-                              inputProps={{
-                                style: { fontSize: 11 },
-                                ...params.inputProps,
-                              }}
-                              InputLabelProps={{ style: { fontSize: 14 } }}
                               label={`Từ ${column.label}`}
                             />
                           )}
@@ -278,11 +268,6 @@ const DataGridComponent = (props: DataGridComponentProps) => {
                               {...params}
                               variant='standard'
                               fullWidth
-                              inputProps={{
-                                style: { fontSize: 11 },
-                                ...params.inputProps,
-                              }}
-                              InputLabelProps={{ style: { fontSize: 14 } }}
                               label={`Đến ${column.label}`}
                             />
                           )}
@@ -330,7 +315,7 @@ const DataGridComponent = (props: DataGridComponentProps) => {
         pagination: { paginationModel: { pageSize: 10 } },
       }}
       pageSizeOptions={[10, 25, 50]}
-      slots={{ toolbar: SearchToolbar }}
+      slots={{ toolbar: Toolbar }}
       slotProps={{
         toolbar: {
           data: rows,

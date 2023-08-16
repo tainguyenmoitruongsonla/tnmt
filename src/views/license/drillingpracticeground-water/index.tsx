@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 
 // ** MUI Imports
-import { Grid, Box, Button, Card, CardContent, IconButton, Tooltip } from '@mui/material';
+import { Grid, Box, Button, Card, CardContent, IconButton, Tooltip, TextField, Autocomplete } from '@mui/material';
 
 // ** Icons Imports
 import SearchIcon from '@mui/icons-material/Search';
@@ -16,7 +16,6 @@ import ShowFilePDF from 'src/@core/components/show-file-pdf';
 import CheckEffect from 'src/views/license/check-effect';
 import TableComponent from 'src/@core/components/table';
 import CreateLicense from '../form';
-import { TextField, AutoComplete } from 'src/@core/components/field';
 import licensedrillingData from 'src/api/license/hanhnghekhoan';
 
 import dynamic from 'next/dynamic';
@@ -48,17 +47,17 @@ const columnsTable = [
       { id: 'Effect', label: 'Hiệu lực GP', elm: (row: any) => (<CheckEffect data={row} />) },
       { id: 'SignDate', label: 'Ngày ký', format: (value: any) => FormatDate(value) },
       { id: 'Duration', label: (<span>Thời hạn <br /> giấy phép</span>) },
-      { id: 'IssueDate', label: (<span>Ngày bắt đầu <br /> hiệu lực</span>), format: (value: any) => FormatDate(value)},
+      { id: 'IssueDate', label: (<span>Ngày bắt đầu <br /> hiệu lực</span>), format: (value: any) => FormatDate(value) },
       { id: 'ExpireDate', label: (<span>Ngày kết thúc <br /> hiệu lực</span>), format: (value: any) => FormatDate(value) },
       { id: 'LicenseHolderName', label: 'Tên chủ giấy phép' },
       { id: 'LicenseHolderAddress', label: 'Địa chỉ chủ giấy phép' },
-      { id: 'LicenseTypeName', label: (<span>Loại hình <br /> cấp phép</span>),rowspan:2 },
+      { id: 'LicenseTypeName', label: (<span>Loại hình <br /> cấp phép</span>), rowspan: 2 },
     ]
   },
   {
     id: 'OldLicense', label: 'Thông tin GP cũ', showId: [1], children: [
       { id: 'LicenseNumber', label: 'Số GP cũ' },
-      { id: 'SignDate', label:  (<span>Ngày ký<br /> giấy phép cũ</span>), format: (value: any) => FormatDate(value) },
+      { id: 'SignDate', label: (<span>Ngày ký<br /> giấy phép cũ</span>), format: (value: any) => FormatDate(value) },
     ]
   },
   {
@@ -69,13 +68,13 @@ const columnsTable = [
       { id: 'DistrictName', label: 'Huyện' },
     ]
   },
-  { id: 'DrillingScale', label: 'Quy mô hành nghề', showId: [1], rowspan: 2,},
+  { id: 'DrillingScale', label: 'Quy mô hành nghề', showId: [1], rowspan: 2, },
 
-  { id: 'actions', label: 'Thao tác', showId: [1], rowspan: 2,},
+  { id: 'actions', label: 'Thao tác', showId: [1], rowspan: 2, },
 ];
 
 const DrillingeGroundWaterLicense = () => {
-  const [mapCenter] = useState([ 15.012172, 108.676488 ]);
+  const [mapCenter] = useState([15.012172, 108.676488]);
   const [mapZoom] = useState(9);
 
   const [TypeOfConsId, setTypeOfConsId] = useState([1]);
@@ -128,20 +127,34 @@ const DrillingeGroundWaterLicense = () => {
       <Grid item xs={12} sm={12} md={12} className='_row _justifyContentBetween' >
         <Grid className='_search _row'>
           <Grid>
-            <AutoComplete
+            <Autocomplete
               onChange={(e: any, v: any) => handleChange(v)}
               size="small"
               options={licensingType}
               getOptionLabel={(option: any) => option.title}
-              label="Chọn loại hình CP"
+              renderInput={(params) => (
+                <TextField
+                  {...params}
+                  variant='standard'
+                  fullWidth
+                  label="Chọn loại hình CP"
+                />
+              )}
             />
           </Grid>
           <Grid>
-            <AutoComplete
+            <Autocomplete
               size="small"
               options={licensingAuthorities}
               getOptionLabel={(option: any) => option.title}
-              label="Chọn cơ quan CP"
+              renderInput={(params) => (
+                <TextField
+                  {...params}
+                  variant='standard'
+                  fullWidth
+                  label="Chọn cơ quan CP"
+                />
+              )}
             />
           </Grid>
           <Grid>

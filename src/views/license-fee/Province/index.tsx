@@ -1,16 +1,14 @@
 import { useState, useEffect } from 'react'
 
 // ** MUI Imports
-import { Grid, Box, IconButton, Tooltip, Button, Typography } from '@mui/material'
+import { Grid, Box, IconButton, Tooltip, Button, Typography, TextField, Autocomplete } from '@mui/material'
 
 // ** Icons Imports
 import { EditNote, Delete } from '@mui/icons-material'
 
 import TableComponent from 'src/@core/components/table'
-import { TextField } from 'src/@core/components/field'
 import licenseFeeMinister from 'src/api/licensefee/bocapquyen'
 import FormatDate from 'src/@core/components/format-date';
-import AutoComplete from 'src/@core/components/field/auto-complete'
 
 
 // id of columnsTable is parameter to bind ex: get LicseFk.BasinId: id: 'License_Fk.BasinId'
@@ -59,7 +57,7 @@ const LicenseProvince = () => {
     const val = e == undefined || e == null ? 1 : e.value
     setTypeOfConsId(val)
   }
-  
+
   // const fetchData = async () => {
   //   try {
   //     const response = await fetch('http://tnnsl.loc/api/Construction/list?BasinId=0&CommuneId=0&DistrictId=0&Keyword=&LicenseId=-1&LicensingAuthorities=-1&PageIndex=1&PageSize=0&ProvinceId=0&StartDate=-1&Status=true&TypeOfConstructionId=1'); // Thay đổi URL API tùy thuộc vào nguồn dữ liệu của bạn
@@ -102,62 +100,76 @@ const LicenseProvince = () => {
       <Grid item xs={12} sm={7} md={7}>
         <Grid container direction='row' justifyContent='flex-end' alignItems='center' spacing={3}>
           <Grid item xs={12} sm={4} md={4}>
-            <TextField label='Nhập số quyết định' size='small' fullWidth></TextField>
+            <TextField label='Nhập số quyết định' size='small' fullWidth />
           </Grid>
-         
+
           <Grid item xs={12} sm={2} md={2}>
-          <AutoComplete
+            <Autocomplete
               fullWidth
               onChange={(e: any, v: any) => handleChange(v)}
               size='small'
               options={complete2}
               getOptionLabel={(option: any) => option.title}
-              label='Từ:1998'
+              renderInput={(params) => (
+                <TextField
+                  {...params}
+                  variant='standard'
+                  fullWidth
+                  label='Từ:1998'
+                />
+              )}
             />
           </Grid>
           <Grid item xs={12} sm={2} md={2}>
-          <AutoComplete
+            <Autocomplete
               fullWidth
               onChange={(e: any, v: any) => handleChange(v)}
               size='small'
               options={complete2}
               getOptionLabel={(option: any) => option.title}
-              label='Đến:2023'
+              renderInput={(params) => (
+                <TextField
+                  {...params}
+                  variant='standard'
+                  fullWidth
+                  label='Đến:2023'
+                />
+              )}
             />
           </Grid>
           <Grid item xs={12} sm={2} md={2}>
-            <Button size='small' fullWidth  variant='outlined'>
-                Tìm kiếm
-              </Button>
+            <Button size='small' fullWidth variant='outlined'>
+              Tìm kiếm
+            </Button>
           </Grid>
           <Grid item xs={12} sm={2} md={2}>
-          <Button size='small' fullWidth  variant='outlined'>
+            <Button size='small' fullWidth variant='outlined'>
               Thêm mới
             </Button>
           </Grid>
-        </Grid>       
+        </Grid>
       </Grid>
       <Grid item xs={12} sm={12} md={12}>
-          <TableComponent
-            columns={columns}
-            data={data}
-            show={TypeOfConsId}
-            actions={(row: any) => (
-              <Box>
-                <Tooltip title='Chỉnh sửa giấy phép'>
-                  <IconButton onClick={() => EditLicense(row)}>
-                    <EditNote className='tableActionBtn' />
-                  </IconButton>
-                </Tooltip>
-                <Tooltip title='Xóa giấy phép'>
-                  <IconButton onClick={() => DeleteLicense(row)}>
-                    <Delete className='tableActionBtn deleteBtn' />
-                  </IconButton>
-                </Tooltip>
-              </Box>
-            )}
-          />
-        </Grid>
+        <TableComponent
+          columns={columns}
+          data={data}
+          show={TypeOfConsId}
+          actions={(row: any) => (
+            <Box>
+              <Tooltip title='Chỉnh sửa giấy phép'>
+                <IconButton onClick={() => EditLicense(row)}>
+                  <EditNote className='tableActionBtn' />
+                </IconButton>
+              </Tooltip>
+              <Tooltip title='Xóa giấy phép'>
+                <IconButton onClick={() => DeleteLicense(row)}>
+                  <Delete className='tableActionBtn deleteBtn' />
+                </IconButton>
+              </Tooltip>
+            </Box>
+          )}
+        />
+      </Grid>
     </Grid>
   )
 }

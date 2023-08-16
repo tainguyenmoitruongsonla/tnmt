@@ -1,11 +1,10 @@
 import DialogsControl from 'src/@core/components/dialog-control';
 import { Add, EditNote } from "@mui/icons-material";
-import { Grid, Button, DialogActions, FormControl, InputLabel } from "@mui/material";
+import { Grid, Button, DialogActions, FormControl, TextField } from "@mui/material";
 import { ChangeEvent, useState } from 'react';
 import { useLoadingContext } from 'src/@core/theme/loading-provider';
 import postData from 'src/api/post';
-import { LocalizationProvider } from '@mui/x-date-pickers';
-import { DatePicker, TextField } from 'src/@core/components/field';
+import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers';
 import dayjs, { Dayjs } from 'dayjs';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 
@@ -107,10 +106,10 @@ const Form = ({ data, setPostSuccess, closeDialogs }: any) => {
                 <Grid item xs={12} md={12} sx={{ my: 2 }}>
                     <LocalizationProvider dateAdapter={AdapterDayjs}>
                         <DatePicker
-                            fullWidth
                             label="Ngày ký"
                             value={values.signDate}
                             onChange={(newSignDate: any) => setValues({ ...values, signDate: newSignDate })}
+                            slotProps={{ textField: { size: 'small', fullWidth: true } }}
                             format="DD/MM/YYYY" />
                     </LocalizationProvider>
                 </Grid>
@@ -119,7 +118,6 @@ const Form = ({ data, setPostSuccess, closeDialogs }: any) => {
                 </Grid>
                 <Grid item xs={12} md={12} sx={{ my: 2 }}>
                     <FormControl fullWidth>
-                        <InputLabel htmlFor="file-input">Choose a file</InputLabel>
                         <TextField
                             id="file-input"
                             type="file"
