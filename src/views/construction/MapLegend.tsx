@@ -39,7 +39,8 @@ const MapLegend = () => {
     };
 
     return (
-    <Fragment>
+    <>
+        <Fragment>
       {/* Parent */}
         <FormControlLabel label="NƯỚC MẶT"  control={
             <Checkbox sx={{py: 1, pl: 4, pr: 1}} checked={checkedCons.length === consType.length} indeterminate={
@@ -82,6 +83,32 @@ const MapLegend = () => {
             } label={<Typography sx={{ display: "flex", fontSize: 13}}><img src="/images/icon/nhamaynuoc.png" alt="nhamaynuoc" width={20} /><span>&nbsp;Nhà máy nước</span></Typography> }/>
         </Box>
     </Fragment>
+    <Fragment>
+    {/* Parent */}
+        <FormControlLabel label="NƯỚC DƯỚI ĐẤT"  control={
+            <Checkbox sx={{py: 1, pl: 4, pr: 1}} checked={checkedCons.length === consType.length} indeterminate={
+            checkedCons.length !== consType.length &&
+            checkedCons.length > 0}
+            onChange={(event) => handleChange1(event.target.checked)}/>} 
+        />
+
+      {/* Childrens */}
+        <Box sx={{ display: "flex", flexDirection: "column", ml: 2, pb: 2 }}>
+            <FormControlLabel control={
+                <Checkbox sx={{py: 0, pl: 3, pr: 1}} key={4} checked={checkedCons.includes(4)}
+                onChange={(event) => handleChange2(event.target.checked, 4)}
+                inputProps={{ "aria-label": "controlled" }} />
+                } label={<Typography sx={{ display: "flex", fontSize: 13}}><img src="/images/icon/khaithac.png" alt="khaithac" width={20} /><span>&nbsp;Khai thác</span></Typography> }
+            />
+            <FormControlLabel control={
+                <Checkbox sx={{py: 0, pl: 3, pr: 1}} key={5} checked={checkedCons.includes(5)}
+                onChange={(event) => handleChange2(event.target.checked, 5)}
+                inputProps={{ "aria-label": "controlled" }} />
+                } label={<Typography sx={{ display: "flex", fontSize: 13}}><img src="/images/icon/thamdo.png" alt="thamdo" width={20} /><span>&nbsp;Thăm dò</span></Typography> }
+            />
+      </Box>
+    </Fragment>
+    </>
 
 
     );

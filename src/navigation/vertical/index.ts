@@ -23,6 +23,10 @@ const navigation = (): VerticalNavItemsType => {
       title: 'Công trình',
       children: [
         {
+          title: 'Bản đồ công trình',
+          path: '/cong-trinh'
+        },
+        {
           icon: CircleOutline,
           title: 'Nước mặt',
           path: '/cong-trinh/nuoc-mat'
