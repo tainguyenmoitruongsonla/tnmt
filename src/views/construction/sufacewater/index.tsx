@@ -224,46 +224,43 @@ const SurfaceConstruction = () => {
       ],
     },
     {
-        label: 'Tiểu vùng quy hoạch',
-        value: 'basinId',
-        type: 'select',
-        options: [
-          { label: 'Tiểu vùng quy hoạch 1', value: 1 },
-          { label: 'Tiểu vùng quy hoạch 2', value: 2 },
-          { label: 'Tiểu vùng quy hoạch 3', value: 3 },
-          { label: '...', value: 4 },
-        ],
-      },
-      {
-        label: 'Huyện',
-        value: 'districtId',
-        type: 'select',
-        options: [
-          { label: 'Huyện 1', value: 1 },
-          { label: 'Huyện 2', value: 2 },
-          { label: 'Huyện 3', value: 3 },
-          { label: '...', value: 4 },
-        ],
-      },
+      label: 'Tiểu vùng quy hoạch',
+      value: 'basinId',
+      type: 'select',
+      options: [
+        { label: 'Tiểu vùng quy hoạch 1', value: 1 },
+        { label: 'Tiểu vùng quy hoạch 2', value: 2 },
+        { label: 'Tiểu vùng quy hoạch 3', value: 3 },
+        { label: '...', value: 4 },
+      ],
+    },
+    {
+      label: 'Huyện',
+      value: 'districtId',
+      type: 'select',
+      options: [
+        { label: 'Huyện 1', value: 1 },
+        { label: 'Huyện 2', value: 2 },
+        { label: 'Huyện 3', value: 3 },
+        { label: '...', value: 4 },
+      ],
+    },
     {
       label: ' Nhập tên công trình',
       value: 'constructionName',
       type: 'text',
     },
     {
-        label: ' Nhập số GP',
-        value: 'licenseName',
-        type: 'text',
-      },
- 
-  
+      label: ' Nhập số GP',
+      value: 'licenseName',
+      type: 'text',
+    },
+
+
   ];
 
   const [mapCenter, setMapCenter] = useState([15.012172, 108.676488]);
   const [mapZoom, setMapZoom] = useState(9);
-
-  const [columns, setColumns] = useState<any[]>([]);
-  const [columnFillters, setcolumnFillters] = useState<any[]>([]);
 
   const columnVisibility = {
     'thuydien': [
@@ -277,29 +274,29 @@ const SurfaceConstruction = () => {
       'maximumPumpTime',
     ],
     'trambom': [
-        'constructionLevel',
-       'basinArea',
-       'rainAvgForYears',
-       'flowAvgForYears',
-       'guaranteedPower',
-       'damHeight',
-       'damWidth',
-       'damElevation',
-       'maximumFlow',
-       'minimumFlow',
-       'guaranteedFlow',
-       'hmax',
-       'hmin',
-       'htt',
-       'deadWL',
-       'riseWL',
-       'designFloodLevel',
-       'checkFloodWL',
-       'totalCapacity',
-       'deadCapacity',
-       'usefulCapacity',
-       'flowDesigned',
-       'realityFlow', 
+      'constructionLevel',
+      'basinArea',
+      'rainAvgForYears',
+      'flowAvgForYears',
+      'guaranteedPower',
+      'damHeight',
+      'damWidth',
+      'damElevation',
+      'maximumFlow',
+      'minimumFlow',
+      'guaranteedFlow',
+      'hmax',
+      'hmin',
+      'htt',
+      'deadWL',
+      'riseWL',
+      'designFloodLevel',
+      'checkFloodWL',
+      'totalCapacity',
+      'deadCapacity',
+      'usefulCapacity',
+      'flowDesigned',
+      'realityFlow',
     ],
     'tramcapnuoc': [
       'constructionLevel',
@@ -329,39 +326,39 @@ const SurfaceConstruction = () => {
       'averagePumpTime',
       'minimumPumpTime',
       'maximumPumpTime',
-  ],
-  'CTkhac': [
-    'constructionLevel',
-    'basinArea',
-    'rainAvgForYears',
-    'flowAvgForYears',
-    'power',
-    'guaranteedPower',
-    'damHeight',
-    'damWidth',
-    'damElevation',
-    'maximumFlow',
-    'minimumFlow',
-    'guaranteedFlow',
-    'hmax',
-    'hmin',
-    'htt',
-    'deadWL',
-    'riseWL',
-    'designFloodLevel',
-    'checkFloodWL',
-    'totalCapacity',
-    'deadCapacity',
-    'usefulCapacity',
-    'pumpNumber',
-    'flowDesigned',
-    'realityFlow',
-    'wateringAreaDesigned',
-    'realityWateringArea',
-    'averagePumpTime',
-    'minimumPumpTime',
-    'maximumPumpTime',
-],
+    ],
+    'CTkhac': [
+      'constructionLevel',
+      'basinArea',
+      'rainAvgForYears',
+      'flowAvgForYears',
+      'power',
+      'guaranteedPower',
+      'damHeight',
+      'damWidth',
+      'damElevation',
+      'maximumFlow',
+      'minimumFlow',
+      'guaranteedFlow',
+      'hmax',
+      'hmin',
+      'htt',
+      'deadWL',
+      'riseWL',
+      'designFloodLevel',
+      'checkFloodWL',
+      'totalCapacity',
+      'deadCapacity',
+      'usefulCapacity',
+      'pumpNumber',
+      'flowDesigned',
+      'realityFlow',
+      'wateringAreaDesigned',
+      'realityWateringArea',
+      'averagePumpTime',
+      'minimumPumpTime',
+      'maximumPumpTime',
+    ],
 
   }
 
@@ -375,29 +372,25 @@ const SurfaceConstruction = () => {
   };
   const [resData, setResData] = useState([]);
 
+  const getData = async () => {
+    setLoading(true);
+    try {
+      const data = await fetchData('Construction/list');
+      const filteredData = data.filter((item: { [key: string]: any }) =>
+        ['thuydien', 'hochua', 'trambom', 'tramcapnuoc', 'dapthuyloi', 'cong', 'nhamaynuoc', 'congtrinh_nuocmatkhac'].some(keyword =>
+          item['constructionTypeSlug']?.toString().toLowerCase().includes(keyword.toLowerCase())
+        )
+      );
+      setResData(filteredData);
+    } catch (error) {
+      setResData([]);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   useEffect(() => {
-    setColumns(columnsTable);
-    setcolumnFillters(columnFillter)
-
-    const getData = async () => {
-      setLoading(true);
-      try {
-        const data = await fetchData('Construction/list');
-        const filteredData = data.filter((item: { [key: string]: any }) =>
-          ['thuydien','hochua','trambom','tramcapnuoc','dapthuyloi','cong','nhamaynuoc','congtrinh_nuocmatkhac'].some(keyword =>
-            item['constructionTypeSlug']?.toString().toLowerCase().includes(keyword.toLowerCase())
-          )
-        );
-        setResData(filteredData);
-      } catch (error) {
-        setResData([]);
-      } finally {
-        setLoading(false);
-      }
-    };
-
     getData();
-
   }, [postSuccess]);
 
   const zoomConstruction = (coords: any) => {
@@ -419,10 +412,10 @@ const SurfaceConstruction = () => {
         <Paper elevation={3} sx={{ p: 0, height: '100%' }}>
           <DataGridComponent
             rows={resData}
-            columns={columns}
+            columns={columnsTable}
             columnGroupingModel={columnGroup}
             columnVisibility={columnVisibility}
-            columnFillter={columnFillters}
+            columnFillter={columnFillter}
             actions={
               <CreateConstruction isEdit={false} setPostSuccess={handlePostSuccess} />
             }
