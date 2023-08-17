@@ -8,7 +8,6 @@ import SearchIcon from '@mui/icons-material/Search';
 import { EditNote, Delete } from "@mui/icons-material";
 
 // ** Components Imports
-import SearchLicense from 'src/views/license/Search';
 import CountLicense from 'src/views/license/count-license';
 
 import FormatDate from 'src/@core/components/format-date';
@@ -16,7 +15,6 @@ import ShowFilePDF from 'src/@core/components/show-file-pdf';
 import CheckEffect from 'src/views/license/check-effect';
 import TableComponent from 'src/@core/components/table';
 import CreateLicense from '../form';
-import licenseprobeData from 'src/api/license/thamdo';
 
 import dynamic from 'next/dynamic';
 
@@ -103,7 +101,7 @@ const ProbeGroundWaterLicense = () => {
   // }; 
 
   useEffect(() => {
-    setData(licenseprobeData);
+    setData([]);
     setColumns(columnsTable);
 
     // fetchData();
@@ -164,9 +162,6 @@ const ProbeGroundWaterLicense = () => {
           </Grid>
           <Grid>
             <TextField size='small' type='text' label='Số GP' fullWidth placeholder='' defaultValue='' />
-          </Grid>
-          <Grid>
-            <SearchLicense />
           </Grid>
           <Grid>
             <Button size='small' startIcon={<SearchIcon />} variant="outlined">Xuất excel</Button>

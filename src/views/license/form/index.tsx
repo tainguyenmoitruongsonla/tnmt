@@ -31,11 +31,6 @@ const FormLicense: React.FC<FormLicenseProps> = ({ data, closeDialogs, setPostSu
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
-    //format data type = date(Dayjs) to new Date() 
-    licenseData.signDate = licenseData.signDate?.toDate();
-    licenseData.issueDate = licenseData.issueDate?.toDate();
-    licenseData.expriteDate = licenseData.expriteDate?.toDate();
-
     const newVal = {
       license: licenseData,
       business: businessData
@@ -46,7 +41,7 @@ const FormLicense: React.FC<FormLicenseProps> = ({ data, closeDialogs, setPostSu
 
     console.log(newVal)
 
-    closeDialogs();
+    // closeDialogs();
   };
 
   const handleClose = () => {
