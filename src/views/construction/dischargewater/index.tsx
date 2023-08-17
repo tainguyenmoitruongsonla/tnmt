@@ -152,10 +152,19 @@ const DischargeConstruction = () => {
 
   const columnFillter: columnFillters[] = [
     {
-      label: 'Số GP',
-      value: 'licenseNumber',
-      type: 'text',
-    },
+        label: 'Loại công trình',
+        value: 'constructionTypeSlug',
+        type: 'select',
+        options: [
+          { label: 'Khu/cụm CN tập trung', value: 'khu_cumcn_taptrung' },
+          { label: 'SX tiểu thủ CN', value: 'sx_tieuthu_cn' },
+          { label: 'SX KD dịch vụ', value: 'sx_kd_dv' },
+          { label: 'CS bệnh viện', value: 'cs_benhvien' },
+          { label: 'Khu dân cư/Làng nghề', value: 'khudancu_langnghe' },
+          { label: 'Chăn nuôi/ NTTS', value: 'channuoi_ntts' },
+          { label: 'Công trình khác', value: 'congtrinh_xathaikhac' },
+        ],
+      },
     {
       label: 'Cơ quan cấp phép',
       value: 'licensingAuthorities',
@@ -166,91 +175,38 @@ const DischargeConstruction = () => {
       ],
     },
     {
-      label: 'Loại hình cấp phép',
-      value: 'licenseTypeSlug',
-      type: 'select',
-      options: [
-        { label: 'Cấp mới', value: 'cap-moi' },
-        { label: 'Cấp lại', value: 'cap-lai' },
-        { label: 'Gia hạn', value: 'gia-han' },
-        { label: 'Điểu chỉnh', value: 'dieu-chinh' },
-        { label: 'Thu hồi', value: 'thu-hoi' },
-      ],
-    },
+        label: 'Tiểu vùng quy hoạch',
+        value: 'basinId',
+        type: 'select',
+        options: [
+          { label: 'Tiểu vùng quy hoạch 1', value: 1 },
+          { label: 'Tiểu vùng quy hoạch 2', value: 2 },
+          { label: 'Tiểu vùng quy hoạch 3', value: 3 },
+          { label: '...', value: 4 },
+        ],
+      },
+      {
+        label: 'Huyện',
+        value: 'districtId',
+        type: 'select',
+        options: [
+          { label: 'Huyện 1', value: 1 },
+          { label: 'Huyện 2', value: 2 },
+          { label: 'Huyện 3', value: 3 },
+          { label: '...', value: 4 },
+        ],
+      },
     {
-      label: 'Hiệu lực giấy phép',
-      value: 'licenseValidity',
-      type: 'select',
-      options: [
-        { label: 'Còn hiệu lực', value: 'con-hieu-luc' },
-        { label: 'Hết hiệu lực', value: 'het-hieu-luc' },
-        { label: 'Sáp hết hiệu lực', value: 'sap-het-hieu-luc' },
-        { label: 'Đã bị thu hồi', value: 'da-bi-thu-hoi' },
-      ],
-    },
-    {
-      label: 'Chủ  giấy phép',
-      value: 'businessId',
-      type: 'select',
-      options: [
-        { label: 'Công ty A', value: 1 },
-        { label: 'Công ty B', value: 2 },
-        { label: 'Công ty C', value: 3 },
-        { label: '...', value: 4 },
-      ],
-    },
-    {
-      label: 'Công trình',
+      label: ' Nhập tên công trình',
       value: 'constructionName',
       type: 'text',
     },
     {
-      label: 'Loại công trình',
-      value: 'constructionTypeSlug',
-      type: 'select',
-      options: [
-        { label: 'Khu/cụm CN tập trung', value: 'khu_cumcn_taptrung' },
-        { label: 'SX tiểu thủ CN', value: 'sx_tieuthu_cn' },
-        { label: 'SX KD dịch vụ', value: 'sx_kd_dv' },
-        { label: 'CS bệnh viện', value: 'cs_benhvien' },
-        { label: 'Khu dân cư/Làng nghề', value: 'khudancu_langnghe' },
-        { label: 'Chăn nuôi/ NTTS', value: 'channuoi_ntts' },
-        { label: 'Công trình khác', value: 'congtrinh_xathaikhac' },
-      ],
-    },
-    {
-      label: 'Huyện',
-      value: 'districtId',
-      type: 'select',
-      options: [
-        { label: 'Huyện 1', value: 1 },
-        { label: 'Huyện 2', value: 2 },
-        { label: 'Huyện 3', value: 3 },
-        { label: '...', value: 4 },
-      ],
-    },
-    {
-      label: 'Xã',
-      value: 'communeId',
-      type: 'select',
-      options: [
-        { label: 'Xã 1', value: 1 },
-        { label: 'Xã 2', value: 2 },
-        { label: 'Xã 3', value: 3 },
-        { label: '...', value: 4 },
-      ],
-    },
-    {
-      label: 'Tiểu vùng quy hoạch',
-      value: 'basinId',
-      type: 'select',
-      options: [
-        { label: 'Tiểu vùng quy hoạch 1', value: 1 },
-        { label: 'Tiểu vùng quy hoạch 2', value: 2 },
-        { label: 'Tiểu vùng quy hoạch 3', value: 3 },
-        { label: '...', value: 4 },
-      ],
-    },
+        label: ' Nhập số GP',
+        value: 'licenseName',
+        type: 'text',
+      },
+    
   ];
 
   const [mapCenter, setMapCenter] = useState([15.012172, 108.676488]);
