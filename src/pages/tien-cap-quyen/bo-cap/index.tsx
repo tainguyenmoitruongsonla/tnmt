@@ -1,5 +1,5 @@
-import LicenseMinister from "src/views/license-fee/minister"
+import LicenseFee from "src/views/license-fee"
 
-const LicenseFeeMinister = () => <LicenseMinister />
+const LicenseFeeMinister = () => <LicenseFee path='bo-cap' />
 
 export default LicenseFeeMinister

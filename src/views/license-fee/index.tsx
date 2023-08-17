@@ -11,10 +11,17 @@ import postData from 'src/api/post'
 import FormLicenseFee from 'src/views/license-fee/form'
 import DataGridComponent, { columnFillters } from 'src/@core/components/data-grid'
 import { GridColDef } from '@mui/x-data-grid'
-import { Delete } from 'mdi-material-ui';
 import ShowFilePDF from 'src/@core/components/show-file-pdf';
+import { Delete } from '@mui/icons-material';
+import { formatVndCost } from '../home/count-license-fee';
 
-const LicenseMinister = () => {
+interface LicenseFeeProps {
+  path: string
+}
+
+const LicenseFee = (props: LicenseFeeProps) => {
+
+  const { path } = props;
 
   const [postSuccess, setPostSuccess] = useState(false);
   const { showLoading, hideLoading } = useLoadingContext();
@@ -35,7 +42,7 @@ const LicenseMinister = () => {
     { field: 'licenseFeeNumber', headerClassName: 'tableHead', headerAlign: 'center', flex: 1, headerName: 'Quyết định cấp quyền', renderCell: (data: any) => (<ShowFilePDF name={data.row.licenseFeeNumber} src={`/pdf/licenseFees/` + data.row.licensingAuthorities + `/` + data.row.filePDF} />) },
     { field: 'signDate', headerClassName: 'tableHead', headerAlign: 'center', flex: 1, headerName: 'Ngày ký', renderCell: (data: any) => FormatDate(data.row.signDate) },
     { field: 'supplementLicenseFee', headerClassName: 'tableHead', headerAlign: 'center', flex: 1, headerName: 'Quyết định bổ sung', renderCell: (data: any) => (<ShowFilePDF name={data.row.supplementLicenseFee?.licenseFeeNumber} src={`/pdf/licenseFees/` + data.row.supplementLicenseFee?.licensingAuthorities + `/` + data.row.supplementLicenseFee?.filePDF} />) },
-    { field: 'totalMoney', headerClassName: 'tableHead', headerAlign: 'center', flex: 1, headerName: 'Tổng số tiền cấp quyền(VNĐ)' },
+    { field: 'totalMoney', headerClassName: 'tableHead', headerAlign: 'center', flex: 1, headerName: 'Tổng số tiền cấp quyền(VNĐ)', type: 'number' },
     { field: 'description', headerClassName: 'tableHead', headerAlign: 'center', flex: 1, headerName: 'Ghi chú' },
     { field: 'LicenseNumber', headerClassName: 'tableHead', headerAlign: 'center', flex: 1, headerName: 'Giấy phép' },
     { field: 'ConstructionName', headerClassName: 'tableHead', headerAlign: 'center', flex: 1, headerName: 'Công trình' },
@@ -47,7 +54,7 @@ const LicenseMinister = () => {
         <Box>
           <Tooltip title="Chỉnh sửa tiền cấp quyền">
             <IconButton>
-              <FormLicenseFee isEdit={true} data={data.row} />
+              <FormLicenseFee isEdit={true} data={data.row} setPostSuccess={handlePostSuccess} />
             </IconButton>
           </Tooltip>
           <Tooltip title="Xóa tiền cấp quyền">
@@ -82,8 +89,13 @@ const LicenseMinister = () => {
     const getData = async () => {
       setLoading(true);
       try {
-        const data = await fetchData('LicenseFee/list');
-        setResData(data);
+        if (path === 'bo-cap') {
+          const data = await fetchData('LicenseFee/list/minister');
+          setResData(data);
+        } else if (path === 'tinh-cap') {
+          const data = await fetchData('LicenseFee/list/province');
+          setResData(data);
+        }
       } catch (error) {
         setResData([]);
       } finally {
@@ -91,8 +103,10 @@ const LicenseMinister = () => {
       }
     };
     getData();
-  }, [postSuccess]);
+  }, [path, postSuccess]);
 
+  // Calculate the total of resData.totalMoney
+  const totalMoneySum = resData.reduce((sum, item: any) => sum + (item.totalMoney || 0), 0);
 
   const DeleteLicense = async (row: any) => {
     console.log(row)
@@ -116,7 +130,7 @@ const LicenseMinister = () => {
         </Typography>
       </Grid>
       <Grid item xs={12} sm={12} md={12}>
-        <Typography >Tổng số tiền cấp quyền: 426.293.061.000₫</Typography>
+        <Typography >Tổng số tiền cấp quyền: {formatVndCost(totalMoneySum)}</Typography>
       </Grid>
       <Grid item xs={12} sm={12} md={12}>
         <Paper elevation={3} sx={{ p: 0, height: '100%' }}>
@@ -134,4 +148,4 @@ const LicenseMinister = () => {
   )
 }
 
-export default LicenseMinister
+export default LicenseFee

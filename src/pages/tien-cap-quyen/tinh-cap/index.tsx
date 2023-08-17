@@ -1,5 +1,5 @@
-import LicenseProvince from "src/views/license-fee/province"
+import LicenseFee from "src/views/license-fee"
 
-const LicenseFeeProvince = () => <LicenseProvince />
+const LicenseFeeProvince = () => <LicenseFee path='tinh-cap' />
 
 export default LicenseFeeProvince
