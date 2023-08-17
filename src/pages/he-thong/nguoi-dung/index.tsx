@@ -15,7 +15,7 @@ import AccountOutline from 'mdi-material-ui/AccountOutline'
 
 // ** Third Party Styles Imports
 import 'react-datepicker/dist/react-datepicker.css'
-import ListAccount from 'src/views/Manage/account-settings/ListAccount'
+import ListAccount from 'src/views/manage/account-settings/ListAccount'
 
 const Tab = styled(MuiTab)<TabProps>(({ theme }) => ({
   [theme.breakpoints.down('md')]: {

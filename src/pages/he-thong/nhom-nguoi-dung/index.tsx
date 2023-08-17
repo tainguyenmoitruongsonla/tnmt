@@ -15,7 +15,7 @@ import LockOpenOutline from 'mdi-material-ui/LockOpenOutline'
 
 // ** Third Party Styles Imports
 import 'react-datepicker/dist/react-datepicker.css'
-import Roles from 'src/views/Manage/account-settings/ListRoles'
+import Roles from 'src/views/manage/account-settings/ListRoles'
 
 const Tab = styled(MuiTab)<TabProps>(({ theme }) => ({
   [theme.breakpoints.down('md')]: {
