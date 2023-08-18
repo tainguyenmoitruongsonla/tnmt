@@ -1,7 +1,6 @@
 import { Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import TableComponent from "src/@core/components/table";
-import licensedischargeData from "src/api/license/xathai";
 
 
 
@@ -31,7 +30,7 @@ const RequestTableDetails = () => {
   // }; 
 
     useEffect(() => {
-    setData(licensedischargeData);
+    setData([]);
     setColumns(columnsTable);
 
     // fetchData();
