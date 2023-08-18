@@ -37,8 +37,9 @@ const lineStyle = (feature: any) => {
 const createIcon = (url:any) => {
 	return new L.Icon({
 	  iconUrl: url,
-	  iconSize: [20, 20],
-	  popupAnchor: [0, -10]
+	  iconSize: [18, 18],
+	  iconAnchor: [18, 18],
+	  popupAnchor: [-9, -18]
 	});
 }
 
