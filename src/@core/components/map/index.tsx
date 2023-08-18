@@ -47,26 +47,41 @@ const createIcon = (url:any) => {
 const getIcon = (type:any) => {
 	if(type || type !== null){
 		switch (type) {
-			case 4 :
+			case 'thuydien' :
 				return createIcon('/images/icon/thuydien.png');
 				break;
-			case 5 :
+			case 'hochua' :
 				return createIcon('/images/icon/hochua.png');
 				break;
-			case 6 :
+			case 'trambom' :
 				return createIcon('/images/icon/trambom.png');
 				break;
-			case 11 :
+			case 'tramcapnuoc' :
 				return createIcon('/images/icon/tramcapnuoc.png');
 				break;
-			case 13 :
+			case 'cong' :
 				return createIcon('/images/icon/cong.png');
 				break;
-			case 14 :
+			case 'nhamaynuoc' :
 				return createIcon('/images/icon/nhamaynuoc.png');
 				break;
-			default :
-				return createIcon('/images/icon/thuydien.png');
+			case 'khaithac':
+				return createIcon('/images/icon/khaithac.png');
+				break;
+			case 'thamdo':
+				return createIcon('/images/icon/thamdo.png');
+				break;
+			case 'congtrinh_nuocduoidatkhac':
+				return createIcon('/images/icon/congtrinh_nuocduoidatkhac.png');
+				break;
+			case 'khu_cumcn_taptrung':
+				return createIcon('/images/icon/khu_cumcn_taptrung.png');
+				break;
+			case 'sx_tieuthu_cn':
+				return createIcon('/images/icon/sx_tieuthu_cn.png');
+				break;
+			case 'congtrinh_xathaikhac':
+				return createIcon('/images/icon/congtrinh_xathaikhac.png');
 				break;
 		}
 	}
@@ -129,7 +144,7 @@ export default function Map({ center, zoom, mapLineData, mapMarkerData }: any) {
 				{mapMarkerData && mapMarkerData.map((data:any) => {
 					if(data.lat !== null || data.lng !== null){
 						return (
-							<Marker icon={getIcon(data.constructionTypeId)} key={data.id} position={[data.lat, data.lng]}>
+							<Marker icon={getIcon(data.constructionTypeSlug)} key={data.id} position={[data.lat, data.lng]}>
 								<Popup >
 									<Typography sx={{color: '#035291', textAlign: 'center', fontWeight: 'bold', margin: '10px 0 !important'}}>{data.constructionName}</Typography>
 									<MapPopup popupData={data} />

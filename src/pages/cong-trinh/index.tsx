@@ -16,8 +16,26 @@ const Map = dynamic(() => import("src/@core/components/map"), { ssr: false });
 
 const Construction = () => {
 
-  const [mapCenter, ] = useState([15.012172, 108.676488]);
-  const [mapZoom, ] = useState(9);
+  const [mapCenter,] = useState([15.012172, 108.676488]);
+  const [mapZoom,] = useState(9);
+
+  const [initConsType, setInitConstype] = useState<any>([
+    "nuocmat",
+    "thuydien",
+    "hochua",
+    "trambom",
+    "tramcapnuoc",
+    "cong",
+    "nhamaynuoc",
+    "nuocduoidat",
+    "khaithac",
+    "thamdo",
+    "congtrinh_nuocduoidatkhac",
+    "xathai",
+    "khu_cumcn_taptrung",
+    "sx_tieuthu_cn",
+    "congtrinh_xathaikhac"
+  ])
 
   const { showLoading, hideLoading } = useLoadingContext();
   const [loading, setLoading] = useState(false)
@@ -25,12 +43,22 @@ const Construction = () => {
 
   const [resData, setResData] = useState([]);
 
+  const handleConsTypeChange = (data: any) => {
+    setInitConstype(data);
+  };
+
   useEffect(() => {
     const getData = async () => {
       setLoading(true);
       try {
         const data = await fetchData('Construction/list');
-        setResData(data);
+        console.log(initConsType)
+        const filteredData = data.filter((item: { [key: string]: any }) =>
+          initConsType.some((keyword: any) =>
+            item['constructionTypeSlug']?.toString().toLowerCase().includes(keyword.toLowerCase())
+          )
+        );
+        setResData(filteredData);
       } catch (error) {
         setResData([]);
       } finally {
@@ -38,17 +66,19 @@ const Construction = () => {
       }
     };
     getData();
-  }, []);
+  }, [initConsType]);
+
+  
 
   return (
 
     <Grid xs={12} md={12} sx={{ height: 'calc(100vh - 82px)', overflow: 'hidden' }}>
-    <Paper elevation={3} sx={{ height: '100%', position: 'relative' }}>
+      <Paper elevation={3} sx={{ height: '100%', position: 'relative' }}>
         <Box className="map-legend" sx={{ background: 'white' }}>
-        <MapLegend />
+          <MapLegend onChange={handleConsTypeChange} />
         </Box>
         <Map center={mapCenter} zoom={mapZoom} mapData={null} mapMarkerData={resData} />
-    </Paper>
+      </Paper>
     </Grid>
   );
 };
