@@ -1,117 +1,159 @@
-import { Fragment, useState } from "react";
-import { Typography, Box, Checkbox, FormControlLabel } from '@mui/material';
+import React, { Fragment, useState } from 'react';
+import Checkbox from '@mui/material/Checkbox';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import List from '@mui/material/List';
+import { Box, Typography } from '@mui/material';
 
-const consType = [
-    { id: 1, label: "NƯỚC MẶT"},
-    { id: 4, label: "Thuỷ điện" },
-    { id: 5, label: "Hồ chứa" },
-    { id: 6, label: "Trạm bơm" },
-    { id: 11, label: "Trạm cấp nước" },
-    { id: 13, label: "Cống" },
-    { id: 14, label: "Nhà máy nước" },
-];
-
-const MapLegend = () => {
-    const [checkedCons, setCheckedCons] = useState(Array);
-
-    const handleChange1 = (isChecked:any) => {
-        if (isChecked)
-        return setCheckedCons(
-            consType.map((estudiante) => estudiante.id)
-        );
-        else setCheckedCons([]);
-    };
-
-    const handleChange2 = (isChecked:any, id:any) => {
-        const index = checkedCons.indexOf(id);
-
-        // The checked value is altered before the state changes for some reason is not a trully controlled component
-        // So the next conditions are INVERTED.
-
-        if (isChecked) return setCheckedCons((state) => [...state, id]);
-
-        if (!isChecked && index > -1)
-        return setCheckedCons((state) => {
-            state.splice(index, 1);
-            
-            return JSON.parse(JSON.stringify(state));
-        });
-    };
+const MapLegendChild = ({ nodes, checkedItems, onCheck, findItemChildren }: any) => {
 
     return (
-    <>
-        <Fragment>
-      {/* Parent */}
-        <FormControlLabel label="NƯỚC MẶT"  control={
-            <Checkbox sx={{py: 1, pl: 4, pr: 1}} checked={checkedCons.length === consType.length} indeterminate={
-            checkedCons.length !== consType.length &&
-            checkedCons.length > 0}
-            onChange={(event) => handleChange1(event.target.checked)}/>} 
-        />
+        <List sx={{p: 0}}>
+            {nodes.map((node: { id: React.Key | null | undefined; label: boolean | React.ReactChild | React.ReactFragment | React.ReactPortal | null | undefined; children: string | any[]; }) => {
+                const labelId = `checkbox-list-label-${node.id}`;
 
-        {/* Childrens */}
-        <Box sx={{ display: "flex", flexDirection: "column", ml: 2, pb: 2 }}>
-            <FormControlLabel control={
-                <Checkbox sx={{py: 0, pl: 3, pr: 1}} key={4} checked={checkedCons.includes(4)}
-                onChange={(event) => handleChange2(event.target.checked, 4)}
-                inputProps={{ "aria-label": "controlled" }} />
-            } label={<Typography sx={{ display: "flex", fontSize: 13}}><img src="/images/icon/thuydien.png" alt="thuydien" width={20} /><span>&nbsp;Thuỷ điện</span></Typography> }/>
-            <FormControlLabel control={
-                <Checkbox sx={{py: 0, pl: 3, pr: 1}} key={5} checked={checkedCons.includes(5)}
-                onChange={(event) => handleChange2(event.target.checked, 5)}
-                inputProps={{ "aria-label": "controlled" }} />
-            } label={<Typography sx={{ display: "flex", fontSize: 13}}><img src="/images/icon/hochua.png" alt="hochua" width={20} /><span>&nbsp;Hồ chứa</span></Typography> }/>
-            <FormControlLabel control={
-                <Checkbox sx={{py: 0, pl: 3, pr: 1}} key={6} checked={checkedCons.includes(6)}
-                onChange={(event) => handleChange2(event.target.checked, 6)}
-                inputProps={{ "aria-label": "controlled" }} />
-            } label={<Typography sx={{ display: "flex", fontSize: 13}}><img src="/images/icon/trambom.png" alt="trambom" width={20} /><span>&nbsp;Trạm bơm</span></Typography> }/>
-            <FormControlLabel control={
-                <Checkbox sx={{py: 0, pl: 3, pr: 1}} key={11} checked={checkedCons.includes(11)}
-                onChange={(event) => handleChange2(event.target.checked, 11)}
-                inputProps={{ "aria-label": "controlled" }} />
-            } label={<Typography sx={{ display: "flex", fontSize: 13}}><img src="/images/icon/tramcapnuoc.png" alt="tramcapnuoc" width={20} /><span>&nbsp;Trạm cấp nước</span></Typography> }/>
-            <FormControlLabel control={
-                <Checkbox sx={{py: 0, pl: 3, pr: 1}} key={13} checked={checkedCons.includes(13)}
-                onChange={(event) => handleChange2(event.target.checked, 13)}
-                inputProps={{ "aria-label": "controlled" }} />
-            } label={<Typography sx={{ display: "flex", fontSize: 13}}><img src="/images/icon/cong.png" alt="cong" width={20} /><span>&nbsp;Cống</span></Typography> }/>
-            <FormControlLabel control={
-                <Checkbox sx={{py: 0, pl: 3, pr: 1}} key={14} checked={checkedCons.includes(14)}
-                onChange={(event) => handleChange2(event.target.checked, 14)}
-                inputProps={{ "aria-label": "controlled" }} />
-            } label={<Typography sx={{ display: "flex", fontSize: 13}}><img src="/images/icon/nhamaynuoc.png" alt="nhamaynuoc" width={20} /><span>&nbsp;Nhà máy nước</span></Typography> }/>
-        </Box>
-    </Fragment>
-    <Fragment>
-    {/* Parent */}
-        <FormControlLabel label="NƯỚC DƯỚI ĐẤT"  control={
-            <Checkbox sx={{py: 1, pl: 4, pr: 1}} checked={checkedCons.length === consType.length} indeterminate={
-            checkedCons.length !== consType.length &&
-            checkedCons.length > 0}
-            onChange={(event) => handleChange1(event.target.checked)}/>} 
-        />
-
-      {/* Childrens */}
-        <Box sx={{ display: "flex", flexDirection: "column", ml: 2, pb: 2 }}>
-            <FormControlLabel control={
-                <Checkbox sx={{py: 0, pl: 3, pr: 1}} key={4} checked={checkedCons.includes(4)}
-                onChange={(event) => handleChange2(event.target.checked, 4)}
-                inputProps={{ "aria-label": "controlled" }} />
-                } label={<Typography sx={{ display: "flex", fontSize: 13}}><img src="/images/icon/khaithac.png" alt="khaithac" width={20} /><span>&nbsp;Khai thác</span></Typography> }
-            />
-            <FormControlLabel control={
-                <Checkbox sx={{py: 0, pl: 3, pr: 1}} key={5} checked={checkedCons.includes(5)}
-                onChange={(event) => handleChange2(event.target.checked, 5)}
-                inputProps={{ "aria-label": "controlled" }} />
-                } label={<Typography sx={{ display: "flex", fontSize: 13}}><img src="/images/icon/thamdo.png" alt="thamdo" width={20} /><span>&nbsp;Thăm dò</span></Typography> }
-            />
-      </Box>
-    </Fragment>
-    </>
-
-
+                return (
+                    <Box key={node.id}>
+                        <FormControlLabel
+                            control={
+                                <Checkbox sx={{py: 0, pl: 4, pr: 1}}
+                                    onChange={onCheck(node.id)}
+                                    edge="start"
+                                    checked={checkedItems.includes(node.id)}
+                                    indeterminate={
+                                        findItemChildren(node.id).some((childId: any) => checkedItems.includes(childId)) &&
+                                        !checkedItems.includes(node.id)
+                                    }
+                                    disableRipple
+                                    inputProps={{ 'aria-labelledby': labelId }}
+                                />
+                            }
+                            label={<Typography variant='overline' sx={{fontWeight: 'bold', display: "flex", alignItems: 'center'}}>
+                                <img src={`/images/icon/${node.id}.png`} alt="icon" width={20} />
+                                <span>&nbsp;{node.label}</span></Typography>}
+                        />
+                        {node.children?.length > 0 && (
+                            <MapLegendChild
+                                nodes={node.children}
+                                checkedItems={checkedItems}
+                                onCheck={onCheck}
+                                findItemChildren={findItemChildren}
+                            />
+                        )}
+                    </Box>
+                );
+            })}
+        </List>
     );
+};
+
+const MapLegend = () => {
+
+    const data = [
+        {
+            id: "nuocmat", label: "NƯỚC MẶT", children: [
+                { label: "Thủy điện", id: "thuydien" },
+                { label: "Hồ chứa", id: "hochua" },
+                { label: "Trạm bơm", id: "trambom" },
+                { label: "Trạm cấp nước", id: "tramcapnuoc" },
+                { label: "Cống", id: "cong" },
+                { label: "Nhà máy nước", id: "nhamaynuoc" }
+            ]
+        },
+        {
+            id: "nuocduoidat", label: "NƯỚC DƯỚI ĐẤT", children: [
+                { label: "Khai thác", id: "khaithac" },
+                { label: "Thăm dò", id: "thamdo" },
+                { label: "Công trình khác", id: "congtrinh_nuocduoidatkhac" },
+            ]
+        },
+        {
+            id: "xathai", label: "XẢ THẢI", children: [
+                { label: "Khu / Cụm CN", id: "khu_cumcn_taptrung" },
+                { label: "SX tiểu thủ CN", id: "sx_tieuthu_cn" },
+                { label: "Công trình khác", id: "congtrinh_xathaikhac" },
+            ]
+        }
+    ];
+
+    const [checkedItems, setCheckedItems] = useState(Array);
+
+    const findItemChildren = (parentId: any) => {
+        const parentItem = data.find((item) => item.id === parentId);
+        if (!parentItem) return [];
+
+        const childrenIds: any = [];
+
+        const traverseChildren = (item: any) => {
+            if (item.children?.length === 0) return;
+            item.children?.forEach((child: any) => {
+               childrenIds.push(child.id);
+                traverseChildren(child);
+            });
+        };
+
+        traverseChildren(parentItem);
+
+        return childrenIds;
+    };
+
+    const handleCheckboxChange = (item: string) => () => {
+        setCheckedItems((prevCheckedItems:any) => {
+            const currentIndex = prevCheckedItems.indexOf(item);
+            let newChecked: string[] = [];
+    
+            if (currentIndex === -1) {
+                newChecked = [...prevCheckedItems, item];
+                const childrenIds = findItemChildren(item);
+                newChecked.push(...childrenIds.filter((childId:any) => !prevCheckedItems.includes(childId))); // Only push unchecked children
+            } else {
+                newChecked = prevCheckedItems.filter((checkedId:any) => checkedId !== item);
+                const childrenIds = findItemChildren(item);
+                newChecked = newChecked.filter((checkedId) => !childrenIds.includes(checkedId));
+            }
+    
+            return newChecked;
+        });
+    };
+    
+
+    const renderTree = (nodes: any) => (
+        <Fragment>
+            {nodes.map((node: any) => {
+                const labelId = `checkbox-list-label-${node.id}`;
+
+                return (
+                    <Box key={node.id} sx={{ display: "flex", flexDirection: "column", ml: 5 }}>
+                        <FormControlLabel 
+                            control={
+                                <Checkbox sx={{pb: 1, pl:2}}
+                                    onChange={handleCheckboxChange(node.id)}
+                                    edge="start"
+                                    checked={checkedItems.includes(node.id)}
+                                    indeterminate={
+                                        node.children.some((childId: any) => checkedItems.includes(childId)) &&
+                                        !checkedItems.includes(node.id)
+                                    }
+                                    disableRipple
+                                    inputProps={{ 'aria-labelledby': labelId }}
+                                />
+                            }
+                            label={<Typography variant='overline' sx={{fontWeight: 'bold'}}>{node.label}</Typography>}
+                        />
+                        {node.children.length > 0 && (
+                            <MapLegendChild
+                                nodes={node.children}
+                                checkedItems={checkedItems}
+                                onCheck={handleCheckboxChange}
+                                findItemChildren={findItemChildren}
+                            />
+                        )}
+                    </Box>
+                );
+            })}
+        </Fragment>
+    );
+
+    return <div>{renderTree(data)}</div>;
 };
 
 export default MapLegend;
