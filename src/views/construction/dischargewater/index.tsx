@@ -8,8 +8,6 @@ import { GridColDef, GridColumnGroupingModel } from '@mui/x-data-grid';
 
 //Other Imports
 import FormatDate from 'src/@core/components/format-date';
-
-import MapLegend from 'src/views/construction/MapLegend';
 import ShowFilePDF from 'src/@core/components/show-file-pdf';
 import DataGridComponent, { columnFillters } from 'src/@core/components/data-grid';
 import { Delete } from '@mui/icons-material';
@@ -260,9 +258,6 @@ const DischargeConstruction = () => {
     <Grid container spacing={2}>
       <Grid xs={12} md={12} sx={{ height: '55vh', overflow: 'hidden' }}>
         <Paper elevation={3} sx={{ height: '100%', position: 'relative' }}>
-          <Box className="map-legend" sx={{ background: 'white' }}>
-            <MapLegend />
-          </Box>
           <Map center={mapCenter} zoom={mapZoom} mapData={null} mapMarkerData={resData} />
         </Paper>
       </Grid>
