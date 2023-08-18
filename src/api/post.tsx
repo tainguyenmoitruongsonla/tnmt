@@ -14,15 +14,19 @@ const postData = async (url: string, postData: any) => {
         });
         const resData = await response.json();
         if (response.ok) {
-            
+
             // Show success snackbar notification
             enqueueSnackbar(resData?.message, { variant: 'success' });
 
-            return true;
+            if (resData?.id) {
+                return resData
+            } else {
+                return true
+            }
         } else {
 
             // Show error snackbar notification
-            enqueueSnackbar(resData?.message , { variant: 'error' });
+            enqueueSnackbar(resData?.message, { variant: 'error' });
 
             return false;
         }

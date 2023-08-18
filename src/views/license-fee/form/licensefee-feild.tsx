@@ -7,7 +7,7 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 
 interface LicenseFeeFieldsetProps {
     data?: LicenseFeeState; // Thêm prop data để truyền dữ liệu từ ngoài vào
-    onChange: (data: LicenseFeeState) => void;
+    onChange: (data: LicenseFeeState[]) => void;
 }
 
 interface LicenseFeeState {
@@ -55,9 +55,9 @@ const LicenseFeeFeild: FC<LicenseFeeFieldsetProps> = ({ data, onChange }) => {
         const newLicenseFees = [...licenseFees];
         newLicenseFees[index][prop] = value;
         setLicenseFees(newLicenseFees);
-        onChange(newLicenseFees[index]); // Call onChange with the updated item
-    };
 
+        onChange(newLicenseFees); 
+    };
 
     return (
         <fieldset>
@@ -87,7 +87,6 @@ const LicenseFeeFeild: FC<LicenseFeeFieldsetProps> = ({ data, onChange }) => {
                                         size='small'
                                         type='text'
                                         fullWidth
-                                        label='Số quyết định'
                                         placeholder=''
                                         value={item?.licenseFeeNumber}
                                         onChange={(event) => handleChange(index, 'licenseFeeNumber')(event.target.value)}
@@ -96,7 +95,6 @@ const LicenseFeeFeild: FC<LicenseFeeFieldsetProps> = ({ data, onChange }) => {
                                 <TableCell>
                                     <LocalizationProvider dateAdapter={AdapterDayjs}>
                                         <DatePicker
-                                            label="Ngày ký"
                                             value={item.signDate}
                                             onChange={(newSignDate: any) => handleChange(index, 'signDate')(newSignDate.toDate())}
                                             slotProps={{ textField: { size: 'small', fullWidth: true } }}
@@ -104,7 +102,14 @@ const LicenseFeeFeild: FC<LicenseFeeFieldsetProps> = ({ data, onChange }) => {
                                     </LocalizationProvider>
                                 </TableCell>
                                 <TableCell>
-                                    <TextField size='small' type='text' fullWidth label='Tổng tiền' placeholder='' value={item?.totalMoney} onChange={handleChange(index, 'totalMoney')} />
+                                    <TextField
+                                        size='small'
+                                        type='text'
+                                        fullWidth
+                                        placeholder=''
+                                        value={item?.totalMoney}
+                                        onChange={(event) => handleChange(index, 'totalMoney')(event.target.value)}
+                                    />
                                 </TableCell>
                                 <TableCell>
                                     <FormControl>

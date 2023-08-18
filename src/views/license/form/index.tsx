@@ -7,6 +7,8 @@ import BusinessFieldset from 'src/views/business/form/business-fieldset';
 import LicenseFieldset from 'src/views/license/form/license-fieldset';
 import ConstructionField from 'src/views/construction/form/sufacewater/cons-suface';
 import LicenseFeeFeild from 'src/views/license-fee/form/licensefee-feild';
+import { useLoadingContext } from 'src/@core/theme/loading-provider';
+import post from 'src/api/post';
 
 interface FormLicenseProps {
   data: any;
@@ -24,7 +26,7 @@ const FormLicense: React.FC<FormLicenseProps> = ({ data, closeDialogs, setPostSu
   };
 
   //License
-  const [licenseData, setLicenseData] = useState<any>({});
+  const [licenseData, setLicenseData] = useState<any>(data);
 
   const handleLicenseChange = (data: any) => {
     setLicenseData(data);
@@ -38,12 +40,14 @@ const FormLicense: React.FC<FormLicenseProps> = ({ data, closeDialogs, setPostSu
   };
 
   //licenseFee
-  const [licenseFeeData, setLicenseFeeData] = useState<any>({});
+  const [licenseFeeData, setLicenseFeeData] = useState<any[]>([]);
 
   const handleLicenseFeeChange = (data: any) => {
     // Handle the updated license data here
     setLicenseFeeData(data);
   };
+
+  const { showLoading, hideLoading } = useLoadingContext();
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
@@ -55,12 +59,24 @@ const FormLicense: React.FC<FormLicenseProps> = ({ data, closeDialogs, setPostSu
       construction: constructionData
     }
 
-    //Set postSuccess before hideLoading
-    typeof (setPostSuccess) === 'function' ? setPostSuccess(false) : '';
+    const handleApiCall = async () => {
+      showLoading();
+      const res = await post('License/save', newVal.license);
 
-    console.log(newVal)
+      console.log(res)
 
-    // closeDialogs();
+      if (res.id) {
+        // Reset form fields
+        setLicenseData({});
+        typeof (setPostSuccess) === 'function' ? setPostSuccess(true) : '';
+        hideLoading();
+      }
+      hideLoading();
+    };
+
+    // Call the function
+    handleApiCall();
+    closeDialogs();
   };
 
   const handleClose = () => {
@@ -74,10 +90,10 @@ const FormLicense: React.FC<FormLicenseProps> = ({ data, closeDialogs, setPostSu
           <BusinessFieldset data={data?.business} onChange={handleBusinessChange} />
         </Grid>
         <Grid item xs={12}>
-          <LicenseFieldset data={data?.license} onChange={handleLicenseChange} />
+          <LicenseFieldset data={data} onChange={handleLicenseChange} />
         </Grid>
         <Grid item xs={12}>
-          <LicenseFeeFeild data={licenseData} onChange={handleLicenseFeeChange} />
+          <LicenseFeeFeild data={data?.licenseFee} onChange={handleLicenseFeeChange} />
         </Grid>
         <Grid item xs={12}>
           <ConstructionField data={data?.consData} onChange={handleConstructionChange} />
