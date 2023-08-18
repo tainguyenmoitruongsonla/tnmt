@@ -9,6 +9,7 @@ import dayjs, { Dayjs } from 'dayjs';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { useRouter } from 'next/router';
 import fetchData from 'src/api/fetch';
+import upload from 'src/api/upload-file';
 
 interface State {
     id?: number,
@@ -16,7 +17,7 @@ interface State {
     licenseFeeNumber?: string,
     signDate?: Dayjs | null,
     totalMoney?: number,
-    filePdf?: File | null | undefined,
+    filePdf?: string,
     description?: string,
 }
 
@@ -39,6 +40,8 @@ const Form = ({ data, setPostSuccess, closeDialogs }: any) => {
         description: data?.description || '',
     });
 
+    const [fileUpload, setFileUpload] = useState<any>()
+
     const [supplementLicenseFee, setSupplementLicenseFee] = useState(false)
     const [listLicFee, setListLicFee] = useState([]);
     const { showLoading, hideLoading } = useLoadingContext();
@@ -53,7 +56,7 @@ const Form = ({ data, setPostSuccess, closeDialogs }: any) => {
 
     const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const file = event.target.files?.[0] || null;
-        setValues({ ...values, filePdf: file });
+        setFileUpload(file);
     };
 
     useEffect(() => {
@@ -74,11 +77,12 @@ const Form = ({ data, setPostSuccess, closeDialogs }: any) => {
         getData();
     }, [router.pathname]);
 
-
     const handleSubmit = async (e: any) => {
         e.preventDefault();
 
         const handleApiCall = async () => {
+
+            showLoading();
 
             let licAuthorities: number;
 
@@ -92,22 +96,22 @@ const Form = ({ data, setPostSuccess, closeDialogs }: any) => {
                 ...values,
                 licensingAuthorities: licAuthorities,
                 signDate: values.signDate?.toDate(),
-                filePdf: values.filePdf?.name
+                filePdf: `${values.licenseFeeNumber?.toLowerCase()}.pdf`
             }
 
-            showLoading();
+            const newFile = {
+                filePath: `${router.pathname.split('/')[1]}/${router.pathname.split('/')[2]}/${newVal.signDate?.getFullYear()}`,
+                fileName: `${newVal.licenseFeeNumber?.toLowerCase()}.pdf`,
+                file: fileUpload
+            }
+
             const res = await postData('LicenseFee/save', newVal);
 
             if (res) {
+                await upload(newFile)
+
                 // Reset form fields
-                setValues({
-                    id: 0,
-                    licenseFeeNumber: '',
-                    signDate: dayjs(today),
-                    totalMoney: 0,
-                    filePdf: null,
-                    description: ''
-                });
+                setValues({});
 
                 typeof (setPostSuccess) === 'function' ? setPostSuccess(true) : '';
                 closeDialogs();
@@ -120,15 +124,7 @@ const Form = ({ data, setPostSuccess, closeDialogs }: any) => {
     };
 
     const handleClose = () => {
-        setValues({
-            id: 0,
-            licenseFeeNumber: '',
-            signDate: dayjs(today),
-            totalMoney: 0,
-            filePdf: null,
-            description: ''
-        });
-
+        setValues({});
         closeDialogs();
     };
 

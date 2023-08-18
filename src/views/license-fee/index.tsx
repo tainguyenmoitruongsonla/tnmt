@@ -14,6 +14,7 @@ import { GridColDef } from '@mui/x-data-grid'
 import ShowFilePDF from 'src/@core/components/show-file-pdf';
 import { Delete } from '@mui/icons-material';
 import { formatVndCost } from '../home/count-license-fee';
+import { useRouter } from 'next/router';
 
 interface LicenseFeeProps {
   path: string
@@ -37,11 +38,22 @@ const LicenseFee = (props: LicenseFeeProps) => {
 
   const [resData, setResData] = useState([]);
 
+  // Hooks
+  const router = useRouter();
+
   const columns: GridColDef[] = [
     { field: 'id', headerClassName: 'tableHead', headerAlign: 'center', flex: 1, headerName: 'ID', minWidth: 90 },
-    { field: 'licenseFeeNumber', headerClassName: 'tableHead', headerAlign: 'center', flex: 1, headerName: 'Quyết định cấp quyền', renderCell: (data: any) => (<ShowFilePDF name={data.row.licenseFeeNumber} src={`/pdf/licenseFees/` + data.row.licensingAuthorities + `/` + data.row.filePDF} />) },
+    {
+      field: 'licenseFeeNumber', headerClassName: 'tableHead', headerAlign: 'center', flex: 1, headerName: 'Quyết định cấp quyền',
+      renderCell: (data: any) => (
+        <ShowFilePDF
+          name={data.row.licenseFeeNumber}
+          src={`${router.pathname.split('/')[1]}/${router.pathname.split('/')[2]}/${new Date(data.row.signDate).getFullYear()}/`}
+        />
+      ),
+    },
     { field: 'signDate', headerClassName: 'tableHead', headerAlign: 'center', flex: 1, headerName: 'Ngày ký', renderCell: (data: any) => FormatDate(data.row.signDate) },
-    { field: 'supplementLicenseFee', headerClassName: 'tableHead', headerAlign: 'center', flex: 1, headerName: 'Quyết định bổ sung', renderCell: (data: any) => (<ShowFilePDF name={data.row.supplementLicenseFee?.licenseFeeNumber} src={`/pdf/licenseFees/` + data.row.supplementLicenseFee?.licensingAuthorities + `/` + data.row.supplementLicenseFee?.filePDF} />) },
+    { field: 'supplementLicenseFee', headerClassName: 'tableHead', headerAlign: 'center', flex: 1, headerName: 'Quyết định bổ sung', renderCell: (data: any) => (<ShowFilePDF name={data.row.supplementLicenseFee?.licenseFeeNumber} src={`/ pdf / licenseFees / ` + data.row.supplementLicenseFee?.licensingAuthorities + ` / ` + data.row.supplementLicenseFee?.filePDF} />) },
     { field: 'totalMoney', headerClassName: 'tableHead', headerAlign: 'center', flex: 1, headerName: 'Tổng số tiền cấp quyền(VNĐ)', type: 'number' },
     { field: 'description', headerClassName: 'tableHead', headerAlign: 'center', flex: 1, headerName: 'Ghi chú' },
     { field: 'LicenseNumber', headerClassName: 'tableHead', headerAlign: 'center', flex: 1, headerName: 'Giấy phép' },
