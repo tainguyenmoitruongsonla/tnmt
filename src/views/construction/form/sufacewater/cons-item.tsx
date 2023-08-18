@@ -1,19 +1,25 @@
-import { useState } from 'react';
+import { useEffect,ChangeEvent, FC, useState } from 'react';
 import { Button, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow,  TextField,  Typography } from "@mui/material"
 import DeleteIcon from '@mui/icons-material/Delete';
 
 interface ConstructionItem {
   name: string;
-  x: string;
-  y: string;
+  x: number;
+  y: number;
 }
-const ConstructionDetails = () => {
+
+interface ConsItemProps {
+  data?: ConstructionItem; // Thêm prop data để truyền dữ liệu từ ngoài vào
+  onChange: (data: ConstructionItem) => void;
+}
+
+const ConstructionItem: FC<ConsItemProps> = ({ data, onChange }) => {
   const [constructionItems, setConstructionItems] = useState<ConstructionItem[]>([]);
   const addConstructionItem = () => {
     const newItem: ConstructionItem = {
       name: '',
-      x: '',
-      y: '',
+      x: 0,
+      y: 0,
     };
     setConstructionItems((prevItems) => [...prevItems, newItem]);
   };
@@ -26,6 +32,24 @@ const ConstructionDetails = () => {
       return newItems;
     });
   };
+
+  const [consSFData, setConsSFData] = useState<ConstructionItem>({
+    name: '',
+    x: 0,
+    y: 0,
+    });
+
+    useEffect(() => {
+      if (data) {
+        setConsSFData(data);
+      }
+  }, [data]);
+
+  const handleChange = (prop: keyof ConstructionItem) => (event: ChangeEvent<HTMLInputElement>) => {
+    const value = event.target.type === 'checkbox' ? event.target.checked : event.target.value;
+    setConsSFData({ ...consSFData, [prop]: value });
+    onChange({ ...consSFData, [prop]: value });
+};
 
   return (   
     <fieldset>
@@ -51,26 +75,30 @@ const ConstructionDetails = () => {
                 <TableCell className="text-center  size='small' align-middle font-13">{index + 1}</TableCell>
                 <TableCell>
                   <TextField
-                    type="text"
                     name="tenhangmuc"
                     fullWidth
                     size='small'
+                    value={consSFData.name}
+                    onChange={handleChange('name')}
                   />
                 </TableCell>
                 <TableCell>
                   <TextField
-                    type="text"
                     name="x"
                     fullWidth
                     size='small'
+                    value={consSFData.x}
+                    onChange={handleChange('x')}
+                   
                   />
                 </TableCell>
                 <TableCell>
                   <TextField
-                    type="text"
                     name="y"
                     fullWidth
                     size='small'
+                    value={consSFData.y}
+                    onChange={handleChange('y')}
                   />
                 </TableCell>
                 <TableCell  size='small' align='center'>
@@ -91,4 +119,4 @@ const ConstructionDetails = () => {
     </fieldset>)
 }
 
-export default ConstructionDetails
+export default ConstructionItem

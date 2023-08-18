@@ -126,6 +126,11 @@ const SurfaceConstruction = () => {
         { field: 'miningMode' },
         { field: 'miningPurpose' },
         { field: 'basinName' },
+
+
+
+
+        
         { field: 'constructionTime' },
         { field: 'startDate' },
       ],
