@@ -6,7 +6,7 @@ const input = (theme: Theme) => {
     MuiInputLabel: {
       styleOverrides: {
         root: {
-          color: theme.palette.text.secondary,
+          color: theme.palette.text.primary,
           fontSize: '14px',
         }
       }
@@ -53,7 +53,8 @@ const input = (theme: Theme) => {
             borderColor: theme.palette.error.main
           },
           '& .MuiOutlinedInput-notchedOutline': {
-            borderColor: `rgba(${theme.palette.customColors.main}, 0.22)`
+            borderColor: `${theme.palette.primary.light}66`,
+            borderRadius: 'unset',
           },
           '&.Mui-disabled .MuiOutlinedInput-notchedOutline': {
             borderColor: theme.palette.text.disabled

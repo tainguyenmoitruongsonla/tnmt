@@ -67,10 +67,6 @@ const LicenseFieldset: FC<LicenseFieldsetProps> = ({ data, onChange }) => {
         }
     };
 
-    useEffect(() => {
-        getData();
-    }, []);
-
     const licensingType = [
         { title: 'Cấp mới giấy phép', value: 1 },
         { title: 'Cấp lại giấy phép', value: 2 },
@@ -85,6 +81,7 @@ const LicenseFieldset: FC<LicenseFieldsetProps> = ({ data, onChange }) => {
     ];
 
     useEffect(() => {
+        getData();
         if (data) {
             setLicenseData(data);
         }
@@ -201,7 +198,7 @@ const LicenseFieldset: FC<LicenseFieldsetProps> = ({ data, onChange }) => {
                         <DatePicker label="Ngày hết hiệu lực"
                             value={licenseData.expriteDate}
                             onChange={(newExpriteDate: any) => handleChange('expriteDate')(newExpriteDate.toDate())}
-                            slotProps={{ textField: { size: 'small', fullWidth: true, required: licenseData.licensingTypeId == 5 ? true : false } }}
+                            slotProps={{ textField: { size: 'small', fullWidth: true, required: licenseData.licensingTypeId == 5 ? false : true } }}
                             format="DD/MM/YYYY" />
                     </LocalizationProvider>
                 </Grid>
@@ -236,7 +233,6 @@ const LicenseFieldset: FC<LicenseFieldsetProps> = ({ data, onChange }) => {
                                 format='DD/MM/YYYY'
                             />
                         </LocalizationProvider>
-
                     </Grid>
 
                 ) : ''}

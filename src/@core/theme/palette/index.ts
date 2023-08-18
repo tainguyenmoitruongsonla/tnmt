@@ -28,7 +28,7 @@ const DefaultPalette = (mode: PaletteMode, themeColor: ThemeColor) => {
     customColors: {
       main: mainColor,
       primaryGradient: primaryGradient(),
-      tableHeaderBg: mode === 'light' ? '#F9FAFC' : '#013959'
+      tableHeaderBg: mode === 'light' ? '#F9FAFC' : '#013959',
     },
     common: {
       black: '#000',
@@ -90,8 +90,7 @@ const DefaultPalette = (mode: PaletteMode, themeColor: ThemeColor) => {
     text: {
       primary: `rgba(${mainColor}, 0.87)`,
       secondary: `rgba(${mainColor}, 0.68)`,
-      disabled: `rgba(${mainColor}, 0.38)`,
-      light: `rgba(${darkColor})`
+      disabled: `rgba(${mainColor}, 0.38)`
     },
     divider: `rgba(${mainColor}, 0.12)`,
     background: {

@@ -5,6 +5,8 @@ import { Button, DialogActions, Grid } from '@mui/material';
 import DialogsControlFullScreen from 'src/@core/components/dialog-control-full-screen';
 import BusinessFieldset from 'src/views/business/form/business-fieldset';
 import LicenseFieldset from 'src/views/license/form/license-fieldset';
+import ConstructionField from 'src/views/construction/form/sufacewater/cons-suface';
+import LicenseFeeFeild from 'src/views/license-fee/form/licensefee-feild';
 
 interface FormLicenseProps {
   data: any;
@@ -28,12 +30,29 @@ const FormLicense: React.FC<FormLicenseProps> = ({ data, closeDialogs, setPostSu
     setLicenseData(data);
   };
 
+  //Construction
+  const [constructionData, setConstructionData] = useState<any>({});
+
+  const handleConstructionChange = (data: any) => {
+    setConstructionData(data);
+  };
+
+  //licenseFee
+  const [licenseFeeData, setLicenseFeeData] = useState<any>({});
+
+  const handleLicenseFeeChange = (data: any) => {
+    // Handle the updated license data here
+    setLicenseFeeData(data);
+  };
+
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
     const newVal = {
       license: licenseData,
-      business: businessData
+      business: businessData,
+      licenseFees: licenseFeeData,
+      construction: constructionData
     }
 
     //Set postSuccess before hideLoading
@@ -56,6 +75,12 @@ const FormLicense: React.FC<FormLicenseProps> = ({ data, closeDialogs, setPostSu
         </Grid>
         <Grid item xs={12}>
           <LicenseFieldset data={data?.license} onChange={handleLicenseChange} />
+        </Grid>
+        <Grid item xs={12}>
+          <LicenseFeeFeild data={licenseData} onChange={handleLicenseFeeChange} />
+        </Grid>
+        <Grid item xs={12}>
+          <ConstructionField data={data?.consData} onChange={handleConstructionChange} />
         </Grid>
       </Grid>
 
