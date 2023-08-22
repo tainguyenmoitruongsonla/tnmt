@@ -1,115 +1,457 @@
 //React Imports
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react'
 
 //MUI Imports
-import { Box, Tooltip, IconButton, Typography, Paper } from '@mui/material';
-import Grid from '@mui/material/Unstable_Grid2';
-import { GridColDef, GridColumnGroupingModel } from '@mui/x-data-grid';
+import { Box, Tooltip, IconButton, Typography, Paper } from '@mui/material'
+import Grid from '@mui/material/Unstable_Grid2'
+import { GridColDef, GridColumnGroupingModel } from '@mui/x-data-grid'
 
 //Other Imports
-import FormatDate from 'src/@core/components/format-date';
+import FormatDate from 'src/@core/components/format-date'
 
-import ShowFilePDF from 'src/@core/components/show-file-pdf';
-import DataGridComponent, { columnFillters } from 'src/@core/components/data-grid';
-import { Delete } from '@mui/icons-material';
+import ShowFilePDF from 'src/@core/components/show-file-pdf'
+import DataGridComponent, { columnFillters } from 'src/@core/components/data-grid'
+import { Delete } from '@mui/icons-material'
 
+import dynamic from 'next/dynamic'
+import fetchData from 'src/api/fetch'
 
-import dynamic from 'next/dynamic';
-import fetchData from 'src/api/fetch';
+import CreateConstruction from '../form/sufacewater'
+import post from 'src/api/post'
 
-import CreateConstruction from '../form/sufacewater';
-
-
-const Map = dynamic(() => import("src/@core/components/map"), { ssr: false });
+const Map = dynamic(() => import('src/@core/components/map'), { ssr: false })
 
 const EditLicense = (data: any) => {
   console.log('Edit: ' + data.row?.licenseNumber)
 }
 
-const DeleteLicense = (data: any) => {
-  confirm(`Bạn muốn xóa:  ${data.row?.licenseNumber} chứ?`)
-}
-
+// eslint-disable-next-line react-hooks/rules-of-hooks
 const SurfaceConstruction = () => {
 
   //Init columnTable
   const columnsTable: GridColDef[] = [
     { field: 'id', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'ID', minWidth: 90 },
     {
-      field: 'constructionName', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'Tên công trình', minWidth: 250, renderCell: (data) => (<Typography
-        className='btnShowFilePdf' onClick={() => zoomConstruction([data.row.lat, data.row.lng])}>{data.row.constructionName}</Typography>)
+      field: 'constructionName',
+      headerClassName: 'tableHead',
+      headerAlign: 'center',
+      headerName: 'Tên công trình',
+      minWidth: 250,
+      renderCell: data => (
+        <Typography className='btnShowFilePdf' onClick={() => zoomConstruction([data.row.lat, data.row.lng])}>
+          {data.row.constructionName}
+        </Typography>
+      )
     },
-    { field: 'constructionLocation', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'Địa điểm', minWidth: 150, },
-    { field: 'coordinates', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'Toạ độ đập chính(X,Y)', minWidth: 150, valueGetter: (data) => (`${data.row.x},${data.row.y}`) },
-    { field: 'exploitedWS', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'Nguồn nước khai thác', minWidth: 150, },
-    { field: 'miningMethod', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'Phương thức khai thác', minWidth: 150, },
-    { field: 'miningMode', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'Chế độ KT', minWidth: 150, },
-    { field: 'miningPurpose', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'Mục đích KT', minWidth: 150, },
-    { field: 'basinName', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'Tiểu vùng quy hoạch', minWidth: 150, },
-    { field: 'constructionTime', headerClassName: 'tableHead', headerAlign: 'center', headerName: '	Năm xây dựng', minWidth: 100, },
-    { field: 'startDate', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'Năm vận hành', minWidth: 100, },
+    {
+      field: 'constructionLocation',
+      headerClassName: 'tableHead',
+      headerAlign: 'center',
+      headerName: 'Địa điểm',
+      minWidth: 150
+    },
+    {
+      field: 'coordinates',
+      headerClassName: 'tableHead',
+      headerAlign: 'center',
+      headerName: 'Toạ độ đập chính(X,Y)',
+      minWidth: 150,
+      valueGetter: data => `${data.row.x},${data.row.y}`
+    },
+    {
+      field: 'exploitedWS',
+      headerClassName: 'tableHead',
+      headerAlign: 'center',
+      headerName: 'Nguồn nước khai thác',
+      minWidth: 150
+    },
+    {
+      field: 'miningMethod',
+      headerClassName: 'tableHead',
+      headerAlign: 'center',
+      headerName: 'Phương thức khai thác',
+      minWidth: 150
+    },
+    {
+      field: 'miningMode',
+      headerClassName: 'tableHead',
+      headerAlign: 'center',
+      headerName: 'Chế độ KT',
+      minWidth: 150
+    },
+    {
+      field: 'miningPurpose',
+      headerClassName: 'tableHead',
+      headerAlign: 'center',
+      headerName: 'Mục đích KT',
+      minWidth: 150
+    },
+    {
+      field: 'basinName',
+      headerClassName: 'tableHead',
+      headerAlign: 'center',
+      headerName: 'Tiểu vùng quy hoạch',
+      minWidth: 150
+    },
+    {
+      field: 'constructionTime',
+      headerClassName: 'tableHead',
+      headerAlign: 'center',
+      headerName: '	Năm xây dựng',
+      minWidth: 100
+    },
+    {
+      field: 'startDate',
+      headerClassName: 'tableHead',
+      headerAlign: 'center',
+      headerName: 'Năm vận hành',
+      minWidth: 100
+    },
 
     //constructionDetails
-    { field: 'constructionLevel', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'Cấp CT', minWidth: 150, },
-    { field: 'basinArea', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'F lưu vực (km2)', minWidth: 150, },
-    { field: 'rainAvgForYears', headerClassName: 'tableHead', headerAlign: 'center', renderHeader: () => (<span>X <sub>TB năm</sub> (m)</span>), minWidth: 150, },
-    { field: 'flowAvgForYears', headerClassName: 'tableHead', headerAlign: 'center', renderHeader: () => (<span>Q <sub>TB năm</sub>(m3/s)</span>), minWidth: 150, },
-    { field: 'power', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'CS lắp máy(MW)', minWidth: 150, },
-    { field: 'guaranteedPower', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'CS đảm bảo (MW)', minWidth: 150, },
-    { field: 'damHeight', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'Chiều cao đập (m)', minWidth: 150, },
-    { field: 'damWidth', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'Chiều dài đập (m)', minWidth: 150, },
-    { field: 'damElevation', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'Cao trình đập (m)', minWidth: 150, },
-    { field: 'maximumFlow', headerClassName: 'tableHead', headerAlign: 'center', renderHeader: () => (<span>Q<sub>max</sub>(m<sup>3</sup>/s)</span>), minWidth: 150, },
-    { field: 'minimumFlow', headerClassName: 'tableHead', headerAlign: 'center', renderHeader: () => (<span>Q<sub>TT</sub>(m<sup>3</sup>/s)</span>), minWidth: 150, },
-    { field: 'guaranteedFlow', headerClassName: 'tableHead', headerAlign: 'center', renderHeader: () => (<span>Q<sub>đảm bảo</sub>(m<sup>3</sup>/s)</span>), minWidth: 150, },
-    { field: 'hmax', headerClassName: 'tableHead', headerAlign: 'center', renderHeader: () => (<span>H<sub>max</sub> (m) </span>), minWidth: 150, },
-    { field: 'hmin', headerClassName: 'tableHead', headerAlign: 'center', renderHeader: () => (<span>H<sub>min</sub> (m)</span>), minWidth: 150, },
-    { field: 'htt', headerClassName: 'tableHead', headerAlign: 'center', renderHeader: () => (<span>H<sub>TT</sub></span>), minWidth: 150, },
-    { field: 'deadWL', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'MNC(m)', minWidth: 150, },
-    { field: 'riseWL', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'MNDBT(m)', minWidth: 150, },
-    { field: 'designFloodLevel', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'MNLTK(m)', minWidth: 150, },
-    { field: 'checkFloodWL', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'MNLKT(m)', minWidth: 150, },
-    { field: 'totalCapacity', headerClassName: 'tableHead', headerAlign: 'center', renderHeader: () => (<span>W<sub>toàn bộ</sub>(triệu m<sup>3</sup>)</span>), minWidth: 150, },
-    { field: 'deadCapacity', headerClassName: 'tableHead', headerAlign: 'center', renderHeader: () => (<span>W<sub> chết </sub>(triệu m<sup>3</sup>)</span>), minWidth: 150, },
-    { field: 'usefulCapacity', headerClassName: 'tableHead', headerAlign: 'center', renderHeader: () => (<span>W<sub>hữu ích</sub>(triệu m<sup>3</sup>)</span>), minWidth: 150, },
+    {
+      field: 'constructionLevel',
+      headerClassName: 'tableHead',
+      headerAlign: 'center',
+      headerName: 'Cấp CT',
+      minWidth: 150
+    },
+    {
+      field: 'basinArea',
+      headerClassName: 'tableHead',
+      headerAlign: 'center',
+      headerName: 'F lưu vực (km2)',
+      minWidth: 150
+    },
+    {
+      field: 'rainAvgForYears',
+      headerClassName: 'tableHead',
+      headerAlign: 'center',
+      renderHeader: () => (
+        <span>
+          X <sub>TB năm</sub> (m)
+        </span>
+      ),
+      minWidth: 150
+    },
+    {
+      field: 'flowAvgForYears',
+      headerClassName: 'tableHead',
+      headerAlign: 'center',
+      renderHeader: () => (
+        <span>
+          Q <sub>TB năm</sub>(m3/s)
+        </span>
+      ),
+      minWidth: 150
+    },
+    {
+      field: 'power',
+      headerClassName: 'tableHead',
+      headerAlign: 'center',
+      headerName: 'CS lắp máy(MW)',
+      minWidth: 150
+    },
+    {
+      field: 'guaranteedPower',
+      headerClassName: 'tableHead',
+      headerAlign: 'center',
+      headerName: 'CS đảm bảo (MW)',
+      minWidth: 150
+    },
+    {
+      field: 'damHeight',
+      headerClassName: 'tableHead',
+      headerAlign: 'center',
+      headerName: 'Chiều cao đập (m)',
+      minWidth: 150
+    },
+    {
+      field: 'damWidth',
+      headerClassName: 'tableHead',
+      headerAlign: 'center',
+      headerName: 'Chiều dài đập (m)',
+      minWidth: 150
+    },
+    {
+      field: 'damElevation',
+      headerClassName: 'tableHead',
+      headerAlign: 'center',
+      headerName: 'Cao trình đập (m)',
+      minWidth: 150
+    },
+    {
+      field: 'maximumFlow',
+      headerClassName: 'tableHead',
+      headerAlign: 'center',
+      renderHeader: () => (
+        <span>
+          Q<sub>max</sub>(m<sup>3</sup>/s)
+        </span>
+      ),
+      minWidth: 150
+    },
+    {
+      field: 'minimumFlow',
+      headerClassName: 'tableHead',
+      headerAlign: 'center',
+      renderHeader: () => (
+        <span>
+          Q<sub>TT</sub>(m<sup>3</sup>/s)
+        </span>
+      ),
+      minWidth: 150
+    },
+    {
+      field: 'guaranteedFlow',
+      headerClassName: 'tableHead',
+      headerAlign: 'center',
+      renderHeader: () => (
+        <span>
+          Q<sub>đảm bảo</sub>(m<sup>3</sup>/s)
+        </span>
+      ),
+      minWidth: 150
+    },
+    {
+      field: 'hmax',
+      headerClassName: 'tableHead',
+      headerAlign: 'center',
+      renderHeader: () => (
+        <span>
+          H<sub>max</sub> (m){' '}
+        </span>
+      ),
+      minWidth: 150
+    },
+    {
+      field: 'hmin',
+      headerClassName: 'tableHead',
+      headerAlign: 'center',
+      renderHeader: () => (
+        <span>
+          H<sub>min</sub> (m)
+        </span>
+      ),
+      minWidth: 150
+    },
+    {
+      field: 'htt',
+      headerClassName: 'tableHead',
+      headerAlign: 'center',
+      renderHeader: () => (
+        <span>
+          H<sub>TT</sub>
+        </span>
+      ),
+      minWidth: 150
+    },
+    { field: 'deadWL', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'MNC(m)', minWidth: 150 },
+    { field: 'riseWL', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'MNDBT(m)', minWidth: 150 },
+    {
+      field: 'designFloodLevel',
+      headerClassName: 'tableHead',
+      headerAlign: 'center',
+      headerName: 'MNLTK(m)',
+      minWidth: 150
+    },
+    {
+      field: 'checkFloodWL',
+      headerClassName: 'tableHead',
+      headerAlign: 'center',
+      headerName: 'MNLKT(m)',
+      minWidth: 150
+    },
+    {
+      field: 'totalCapacity',
+      headerClassName: 'tableHead',
+      headerAlign: 'center',
+      renderHeader: () => (
+        <span>
+          W<sub>toàn bộ</sub>(triệu m<sup>3</sup>)
+        </span>
+      ),
+      minWidth: 150
+    },
+    {
+      field: 'deadCapacity',
+      headerClassName: 'tableHead',
+      headerAlign: 'center',
+      renderHeader: () => (
+        <span>
+          W<sub> chết </sub>(triệu m<sup>3</sup>)
+        </span>
+      ),
+      minWidth: 150
+    },
+    {
+      field: 'usefulCapacity',
+      headerClassName: 'tableHead',
+      headerAlign: 'center',
+      renderHeader: () => (
+        <span>
+          W<sub>hữu ích</sub>(triệu m<sup>3</sup>)
+        </span>
+      ),
+      minWidth: 150
+    },
 
-    { field: 'pumpNumber', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'Số máy bơm', minWidth: 150, },
-    { field: 'flowDesigned', headerClassName: 'tableHead', headerAlign: 'center', renderHeader: () => (<span>Q<sub>TK</sub> (m<sup>3</sup>/h)</span>), minWidth: 150, },
-    { field: 'realityFlow', headerClassName: 'tableHead', headerAlign: 'center', renderHeader: () => (<span>Q<sub>TT</sub> (m<sup>3</sup>/h)</span>), minWidth: 150, },
-    { field: 'wateringAreaDesigned', headerClassName: 'tableHead', headerAlign: 'center', renderHeader: () => (<span>F<sub>tưới TK</sub> (ha)</span>), minWidth: 150, },
-    { field: 'realityWateringArea', headerClassName: 'tableHead', headerAlign: 'center', renderHeader: () => (<span>F<sub>tưới TT</sub> (ha)</span>), minWidth: 150, },
-    { field: 'averagePumpTime', headerClassName: 'tableHead', headerAlign: 'center', renderHeader: () => (<span>T<sub>bơm TB</sub>(h)</span>), minWidth: 150, },
-    { field: 'minimumPumpTime', headerClassName: 'tableHead', headerAlign: 'center', renderHeader: () => (<span>T<sub>bơm min</sub>(h)</span>), minWidth: 150, },
-    { field: 'maximumPumpTime', headerClassName: 'tableHead', headerAlign: 'center', renderHeader: () => (<span>T<sub>bơm max</sub>(h)</span>), minWidth: 150, },
+    {
+      field: 'pumpNumber',
+      headerClassName: 'tableHead',
+      headerAlign: 'center',
+      headerName: 'Số máy bơm',
+      minWidth: 150
+    },
+    {
+      field: 'flowDesigned',
+      headerClassName: 'tableHead',
+      headerAlign: 'center',
+      renderHeader: () => (
+        <span>
+          Q<sub>TK</sub> (m<sup>3</sup>/h)
+        </span>
+      ),
+      minWidth: 150
+    },
+    {
+      field: 'realityFlow',
+      headerClassName: 'tableHead',
+      headerAlign: 'center',
+      renderHeader: () => (
+        <span>
+          Q<sub>TT</sub> (m<sup>3</sup>/h)
+        </span>
+      ),
+      minWidth: 150
+    },
+    {
+      field: 'wateringAreaDesigned',
+      headerClassName: 'tableHead',
+      headerAlign: 'center',
+      renderHeader: () => (
+        <span>
+          F<sub>tưới TK</sub> (ha)
+        </span>
+      ),
+      minWidth: 150
+    },
+    {
+      field: 'realityWateringArea',
+      headerClassName: 'tableHead',
+      headerAlign: 'center',
+      renderHeader: () => (
+        <span>
+          F<sub>tưới TT</sub> (ha)
+        </span>
+      ),
+      minWidth: 150
+    },
+    {
+      field: 'averagePumpTime',
+      headerClassName: 'tableHead',
+      headerAlign: 'center',
+      renderHeader: () => (
+        <span>
+          T<sub>bơm TB</sub>(h)
+        </span>
+      ),
+      minWidth: 150
+    },
+    {
+      field: 'minimumPumpTime',
+      headerClassName: 'tableHead',
+      headerAlign: 'center',
+      renderHeader: () => (
+        <span>
+          T<sub>bơm min</sub>(h)
+        </span>
+      ),
+      minWidth: 150
+    },
+    {
+      field: 'maximumPumpTime',
+      headerClassName: 'tableHead',
+      headerAlign: 'center',
+      renderHeader: () => (
+        <span>
+          T<sub>bơm max</sub>(h)
+        </span>
+      ),
+      minWidth: 150
+    },
 
     //license
-    { field: 'licenseNumber', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'Số GP', minWidth: 150, renderCell: (data) => (<ShowFilePDF name={data.row.licenseNumber} src={`/pdf/Licenses/` + data.row.licensingAuthorities + `/` + data.row.typeSlug + `/` + data.row.licenseFile} />) },
-    { field: 'signDate', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'Hiệu lực GP', minWidth: 150, renderCell: (data) => (FormatDate(data.row.signDate)) },
-    { field: 'issueDate', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'Ngày ký', minWidth: 150, renderCell: (data) => (FormatDate(data.row.signDate)) },
+    {
+      field: 'licenseNumber',
+      headerClassName: 'tableHead',
+      headerAlign: 'center',
+      headerName: 'Số GP',
+      minWidth: 150,
+      renderCell: data => (
+        <ShowFilePDF
+          name={data.row.licenseNumber}
+          src={`/pdf/Licenses/` + data.row.licensingAuthorities + `/` + data.row.typeSlug + `/` + data.row.licenseFile}
+        />
+      )
+    },
+    {
+      field: 'signDate',
+      headerClassName: 'tableHead',
+      headerAlign: 'center',
+      headerName: 'Hiệu lực GP',
+      minWidth: 150,
+      renderCell: data => FormatDate(data.row.signDate)
+    },
+    {
+      field: 'issueDate',
+      headerClassName: 'tableHead',
+      headerAlign: 'center',
+      headerName: 'Ngày ký',
+      minWidth: 150,
+      renderCell: data => FormatDate(data.row.signDate)
+    },
 
     //licensefee
-    { field: 'licenseFeeNumber', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'Số QĐ', minWidth: 150, },
-    { field: 'totalMoney', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'Tổng tiền(đồng)', minWidth: 150, },
+    {
+      field: 'licenseFeeNumber',
+      headerClassName: 'tableHead',
+      headerAlign: 'center',
+      headerName: 'Số QĐ',
+      minWidth: 150
+    },
+    {
+      field: 'totalMoney',
+      headerClassName: 'tableHead',
+      headerAlign: 'center',
+      headerName: 'Tổng tiền(đồng)',
+      minWidth: 150
+    },
 
     //Action
     {
-      field: 'actions', headerClassName: 'tableHead', headerAlign: 'center', headerName: '#', minWidth: 120, sortable: false,
-      renderCell: (data) => (
+      field: 'actions',
+      headerClassName: 'tableHead',
+      headerAlign: 'center',
+      headerName: '#',
+      minWidth: 120,
+      sortable: false,
+      renderCell: data => (
         <Box>
-          <Tooltip title="Chỉnh sửa giấy phép">
+          <Tooltip title='Chỉnh sửa giấy phép'>
             <IconButton onClick={() => EditLicense(data)}>
               <CreateConstruction isEdit={true} data={data.row} />
             </IconButton>
           </Tooltip>
-          <Tooltip title="Xóa giấy phép">
-            <IconButton onClick={() => DeleteLicense(data)}>
+          <Tooltip title='Xóa giấy phép'>
+            <IconButton onClick={() => DeleteRowData(data)}>
               <Delete className='tableActionBtn deleteBtn' />
             </IconButton>
           </Tooltip>
         </Box>
       )
-    },
-  ];
+    }
+  ]
 
   //Grouping Column
   const columnGroup: GridColumnGroupingModel = [
@@ -127,13 +469,9 @@ const SurfaceConstruction = () => {
         { field: 'miningPurpose' },
         { field: 'basinName' },
 
-
-
-
-        
         { field: 'constructionTime' },
-        { field: 'startDate' },
-      ],
+        { field: 'startDate' }
+      ]
     },
 
     {
@@ -170,37 +508,28 @@ const SurfaceConstruction = () => {
         { field: 'realityWateringArea' },
         { field: 'averagePumpTime' },
         { field: 'minimumPumpTime' },
-        { field: 'maximumPumpTime' },
+        { field: 'maximumPumpTime' }
       ]
     },
     {
       groupId: 'Thông tin giấy phép',
       headerClassName: 'tableHead',
       headerAlign: 'center',
-      children: [
-        { field: 'licenseNumber' },
-        { field: 'signDate' },
-        { field: 'issueDate' },
-      ]
+      children: [{ field: 'licenseNumber' }, { field: 'signDate' }, { field: 'issueDate' }]
     },
     {
       groupId: 'Tiền cấp quyền',
       headerClassName: 'tableHead',
       headerAlign: 'center',
-      children: [
-        { field: 'licenseFeeNumber' },
-        { field: 'totalMoney' },
-      ]
+      children: [{ field: 'licenseFeeNumber' }, { field: 'totalMoney' }]
     },
     {
       groupId: ' ',
       headerClassName: 'tableHead',
       headerAlign: 'center',
-      children: [
-        { field: 'actions' }
-      ],
+      children: [{ field: 'actions' }]
     }
-  ];
+  ]
 
   const columnFillter: columnFillters[] = [
     {
@@ -215,8 +544,8 @@ const SurfaceConstruction = () => {
         { label: 'Cống', value: 'cong' },
         { label: 'Trạm cấp nước', value: 'tramcapnuoc' },
         { label: 'Nhà máy nước', value: 'nhamaynuoc' },
-        { label: 'Công trình khác', value: 'congtrinh_nuocmatkhac' },
-      ],
+        { label: 'Công trình khác', value: 'congtrinh_nuocmatkhac' }
+      ]
     },
     {
       label: 'Cơ quan cấp phép',
@@ -224,8 +553,8 @@ const SurfaceConstruction = () => {
       type: 'select',
       options: [
         { label: 'BTNMT', value: 0 },
-        { label: 'UBND Tỉnh', value: 1 },
-      ],
+        { label: 'UBND Tỉnh', value: 1 }
+      ]
     },
     {
       label: 'Tiểu vùng quy hoạch',
@@ -235,8 +564,8 @@ const SurfaceConstruction = () => {
         { label: 'Tiểu vùng quy hoạch 1', value: 1 },
         { label: 'Tiểu vùng quy hoạch 2', value: 2 },
         { label: 'Tiểu vùng quy hoạch 3', value: 3 },
-        { label: '...', value: 4 },
-      ],
+        { label: '...', value: 4 }
+      ]
     },
     {
       label: 'Huyện',
@@ -246,28 +575,26 @@ const SurfaceConstruction = () => {
         { label: 'Huyện 1', value: 1 },
         { label: 'Huyện 2', value: 2 },
         { label: 'Huyện 3', value: 3 },
-        { label: '...', value: 4 },
-      ],
+        { label: '...', value: 4 }
+      ]
     },
     {
       label: ' Nhập tên công trình',
       value: 'constructionName',
-      type: 'text',
+      type: 'text'
     },
     {
       label: ' Nhập số GP',
       value: 'licenseName',
-      type: 'text',
-    },
+      type: 'text'
+    }
+  ]
 
-
-  ];
-
-  const [mapCenter, setMapCenter] = useState([15.012172, 108.676488]);
-  const [mapZoom, setMapZoom] = useState(9);
+  const [mapCenter, setMapCenter] = useState([15.012172, 108.676488])
+  const [mapZoom, setMapZoom] = useState(9)
 
   const columnVisibility = {
-    'thuydien': [
+    thuydien: [
       'pumpNumber',
       'flowDesigned',
       'realityFlow',
@@ -275,9 +602,9 @@ const SurfaceConstruction = () => {
       'realityWateringArea',
       'averagePumpTime',
       'minimumPumpTime',
-      'maximumPumpTime',
+      'maximumPumpTime'
     ],
-    'trambom': [
+    trambom: [
       'constructionLevel',
       'basinArea',
       'rainAvgForYears',
@@ -300,9 +627,9 @@ const SurfaceConstruction = () => {
       'deadCapacity',
       'usefulCapacity',
       'flowDesigned',
-      'realityFlow',
+      'realityFlow'
     ],
-    'tramcapnuoc': [
+    tramcapnuoc: [
       'constructionLevel',
       'basinArea',
       'rainAvgForYears',
@@ -329,9 +656,9 @@ const SurfaceConstruction = () => {
       'realityWateringArea',
       'averagePumpTime',
       'minimumPumpTime',
-      'maximumPumpTime',
+      'maximumPumpTime'
     ],
-    'CTkhac': [
+    CTkhac: [
       'constructionLevel',
       'basinArea',
       'rainAvgForYears',
@@ -361,46 +688,68 @@ const SurfaceConstruction = () => {
       'realityWateringArea',
       'averagePumpTime',
       'minimumPumpTime',
-      'maximumPumpTime',
-    ],
-
+      'maximumPumpTime'
+    ]
   }
 
-  const [postSuccess, setPostSuccess] = useState(false);
-  
-  
-  
+  const [postSuccess, setPostSuccess] = useState(false)
 
   const handlePostSuccess = () => {
-    setPostSuccess(prevState => !prevState);
-  };
-  const [resData, setResData] = useState([]);
+    setPostSuccess(prevState => !prevState)
+  }
+  const [resData, setResData] = useState([])
 
   const getData = async () => {
-    
     try {
-      const data = await fetchData('Construction/list');
+      const data = await fetchData('Construction/list')
       const filteredData = data.filter((item: { [key: string]: any }) =>
-        ['thuydien', 'hochua', 'trambom', 'tramcapnuoc', 'dapthuyloi', 'cong', 'nhamaynuoc', 'congtrinh_nuocmatkhac'].some(keyword =>
-          item['constructionTypeSlug']?.toString().toLowerCase().includes(keyword.toLowerCase())
-        )
-      );
-      setResData(filteredData);
+        [
+          'thuydien',
+          'hochua',
+          'trambom',
+          'tramcapnuoc',
+          'dapthuyloi',
+          'cong',
+          'nhamaynuoc',
+          'congtrinh_nuocmatkhac'
+        ].some(keyword => item['constructionTypeSlug']?.toString().toLowerCase().includes(keyword.toLowerCase()))
+      )
+      setResData(filteredData)
     } catch (error) {
-      setResData([]);
+      setResData([])
     } finally {
-      
     }
-  };
+  }
+
+  //delete
+  const [loading, setLoading] = useState(false)
+  const DeleteRowData = async (data: any) => {
+    const confirmed = window.confirm(`Bạn muốn xóa:  ${data.row?.constructionName} chứ?`)
+    if (!confirmed) {
+      return
+    }
+
+    try {
+      setLoading(true)
+      const res = await post('Construction/delete', data.row)
+      if (res) {
+        setResData(prevData => prevData.filter((item: any) => item.id !== data.row.id))
+      }
+    } catch (error) {
+      console.error(error)
+    } finally {
+      setLoading(false)
+    }
+  }
 
   useEffect(() => {
-    getData();
-  }, [postSuccess]);
+    getData()
+  }, [postSuccess])
 
   const zoomConstruction = (coords: any) => {
-    setMapCenter(coords);
-    setMapZoom(13);
-  };
+    setMapCenter(coords)
+    setMapZoom(13)
+  }
 
   return (
     <Grid container spacing={2}>
@@ -413,18 +762,17 @@ const SurfaceConstruction = () => {
         <Paper elevation={3} sx={{ p: 0, height: '100%' }}>
           <DataGridComponent
             rows={resData}
+            loading={loading}
             columns={columnsTable}
             columnGroupingModel={columnGroup}
             columnVisibility={columnVisibility}
             columnFillter={columnFillter}
-            actions={
-              <CreateConstruction isEdit={false} setPostSuccess={handlePostSuccess} />
-            }
+            actions={<CreateConstruction isEdit={false} setPostSuccess={handlePostSuccess} />}
           />
         </Paper>
       </Grid>
     </Grid>
-  );
-};
+  )
+}
 
-export default SurfaceConstruction;
+export default SurfaceConstruction

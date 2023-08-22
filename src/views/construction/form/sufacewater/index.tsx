@@ -37,13 +37,8 @@ const FormLicense: React.FC<FormLicenseProps> = ({ data, closeDialogs, setPostSu
 
     const handleApiCall = async () => {
    
-        const newVal = {
-          consData : consSFData,
-          consItem: consItemData,
-        }
-    
         // 
-        const res = await postData('Construction/save', newVal);
+        const res = await postData('Construction/save', consSFData);
 
         if (res) {
             // Reset form fields
@@ -71,6 +66,8 @@ const handleClose = () => {
 
     closeDialogs();
 };
+
+
 console.log(consSFData);
 
 
@@ -80,8 +77,6 @@ console.log(consSFData);
         <Grid item xs={12}>
           <ConstructionField data={data?.consData} onChange={handleConsSFChange} />
         </Grid>
-
-       
         <Grid item xs={12}>
           <ConstructionItem data={data?.consItem} onChange={handleconsItemChange}/>
         </Grid>

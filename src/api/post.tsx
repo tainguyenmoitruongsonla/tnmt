@@ -2,6 +2,8 @@ import { enqueueSnackbar } from "notistack";
 import apiUrl from "./config";
 
 const postData = async (url: string, postData: any) => {
+    console.log(postData);
+    
     const token = localStorage.getItem('token');
     try {
         const response = await fetch(`${apiUrl}/${url}`, {
@@ -24,6 +26,7 @@ const postData = async (url: string, postData: any) => {
                 return true
             }
         } else {
+console.log(resData);
 
             // Show error snackbar notification
             enqueueSnackbar("Lỗi khi lưu", { variant: 'error' });
