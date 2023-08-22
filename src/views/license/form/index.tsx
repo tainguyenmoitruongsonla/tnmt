@@ -217,7 +217,7 @@ const FormLicense: React.FC<FormLicenseProps> = ({ data, closeDialogs, setPostSu
         <Button size='small' onClick={handleClose} className='btn cancleBtn'>
           Hủy
         </Button>
-        <Button type="submit" disabled={saving} className='btn saveBtn' onClick={handleSubmit}> {saving ? <CircularProgress color='inherit' size={20} /> : <Save />} &nbsp; Lưu </Button>
+        <Button disabled={saving} className='btn saveBtn' onClick={handleSubmit}> {saving ? <CircularProgress color='inherit' size={20} /> : <Save />} &nbsp; Lưu </Button>
       </DialogActions>
     </Paper>
   );
