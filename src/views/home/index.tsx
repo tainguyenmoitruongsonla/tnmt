@@ -30,8 +30,8 @@ const Home = () => {
 
         //license
         const lic = await fetchData('License/list');
-        const licBTNMT = lic.filter((item: { [key: string]: any }) => item['licensingAuthorities'] === 0);
-        const licUBND = lic.filter((item: { [key: string]: any }) => item['licensingAuthorities'] === 1);
+        const licBTNMT = lic.filter((item: { [key: string]: any }) => item['licensingAuthorities'] === 'BTNMT');
+        const licUBND = lic.filter((item: { [key: string]: any }) => item['licensingAuthorities'] === 'UBNDT');
 
         setLic({ total: lic.length, btnmt: licBTNMT.length, ubnd: licUBND.length });
       } catch (error) {

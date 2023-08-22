@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Add, Edit, Save } from '@mui/icons-material';
-import { Autocomplete, Button, CircularProgress, DialogActions, Grid, TextField, Typography } from '@mui/material';
+import { Autocomplete, Button, CircularProgress, DialogActions, Grid, TextField, Typography, Paper } from '@mui/material';
 import DialogsControlFullScreen from 'src/@core/components/dialog-control-full-screen';
 import LicenseFieldset, { LicenseState } from 'src/views/license/form/license-fieldset';
 import ConstructionField from 'src/views/construction/form/sufacewater/cons-suface';
@@ -8,6 +8,7 @@ import LicenseFeeFeild from 'src/views/license-fee/form/licensefee-feild';
 import post from 'src/api/post';
 import fetchData from 'src/api/fetch';
 import FormBusiness from 'src/views/business/form';
+import { enqueueSnackbar } from 'notistack';
 
 interface FormLicenseProps {
   data: any;
@@ -28,7 +29,6 @@ const FormLicense: React.FC<FormLicenseProps> = ({ data, closeDialogs, setPostSu
   const [licenseData, setLicenseData] = useState<LicenseState>(data);
 
   const handleLicenseChange = (data: any) => {
-    console.log(data)
     setLicenseData(data);
   };
 
@@ -55,6 +55,37 @@ const FormLicense: React.FC<FormLicenseProps> = ({ data, closeDialogs, setPostSu
       businessId: business.id
     }
 
+    if (
+      !business.id ||
+      !licenseData?.licenseNumber ||
+      !licenseData?.signDate ||
+      !licenseData?.issueDate ||
+      !licenseData?.licensingAuthorities ||
+      !licenseData?.licensingTypeId
+    ) {
+      let res: string | undefined = undefined;
+
+      if (!business.id) {
+        res = 'Chủ giấy phép*';
+      } else if (!licenseData?.licenseNumber) {
+        res = 'Số giấy phép*';
+      } else if (!licenseData?.signDate) {
+        res = 'Ngày ký giấy phép*';
+      } else if (!licenseData?.issueDate) {
+        res = 'Ngày có hiệu lực *';
+      } else if (!licenseData?.licensingAuthorities) {
+        res = 'Cơ quan cấp phép *';
+      } else if (!licenseData?.licensingTypeId) {
+        res = 'Loại giấy phép *';
+      }
+
+      if (res) {
+        enqueueSnackbar(`${res} không được để trống`, { variant: 'warning' });
+      }
+
+      return;
+    }
+
     console.log({ licFee: licenseFeeData, cons: constructionData })
 
     const handleApiCall = async () => {
@@ -70,15 +101,15 @@ const FormLicense: React.FC<FormLicenseProps> = ({ data, closeDialogs, setPostSu
             childId: 0,
             licensingTypeId: 0,
             businessId: 0,
-            licenseName: '',
-            licenseNumber: '',
+            licenseName: null,
+            licenseNumber: null,
             signDate: null,
             issueDate: null,
             expriteDate: null,
-            duration: '',
-            licensingAuthorities: 0,
-            relatedDocumentFile: '',
-            licenseRequestFile: '',
+            duration: null,
+            licensingAuthorities: null,
+            relatedDocumentFile: null,
+            licenseRequestFile: null,
           });
           typeof (setPostSuccess) === 'function' ? setPostSuccess(true) : '';
         }
@@ -86,12 +117,12 @@ const FormLicense: React.FC<FormLicenseProps> = ({ data, closeDialogs, setPostSu
       } finally {
         setSaving(false)
         setFetching(false)
+        closeDialogs();
       }
     };
 
     // Call the function
     handleApiCall();
-    closeDialogs();
   };
 
   useEffect(() => {
@@ -127,7 +158,7 @@ const FormLicense: React.FC<FormLicenseProps> = ({ data, closeDialogs, setPostSu
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <Paper>
       <Grid container gap={3}>
         <Grid item xs={12}>
           <fieldset>
@@ -186,9 +217,9 @@ const FormLicense: React.FC<FormLicenseProps> = ({ data, closeDialogs, setPostSu
         <Button size='small' onClick={handleClose} className='btn cancleBtn'>
           Hủy
         </Button>
-        <Button type="submit" disabled={saving} className='btn saveBtn'> {saving ? <CircularProgress color='inherit' size={20} /> : <Save />} &nbsp; Lưu </Button>
+        <Button type="submit" disabled={saving} className='btn saveBtn' onClick={handleSubmit}> {saving ? <CircularProgress color='inherit' size={20} /> : <Save />} &nbsp; Lưu </Button>
       </DialogActions>
-    </form>
+    </Paper>
   );
 };
 

@@ -84,12 +84,12 @@ const Form = ({ data, setPostSuccess, closeDialogs }: any) => {
         e.preventDefault();
 
         const handleApiCall = async () => {
-            let licAuthorities: number;
+            let licAuthorities: string;
 
             if (router.pathname.split('/')[2] == 'bo-cap') {
-                licAuthorities = 0;
+                licAuthorities = 'BTNMT';
             } else {
-                licAuthorities = 1;
+                licAuthorities = 'UBNDT';
             }
 
             const newVal = {

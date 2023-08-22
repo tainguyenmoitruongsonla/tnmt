@@ -24,14 +24,15 @@ interface ToolbarProps {
 const ManageLicense = () => {
     const [resData, setResData] = React.useState([]);
     const [resDataForChart, setResDataForChart] = React.useState([]);
-    
+
     const [loading, setLoading] = React.useState(false)
-    
+
+    console.log(loading)
 
     React.useEffect(() => {
         const getData = async () => {
-            
             try {
+                setLoading(true)
                 const data = await fetchData('License/list');
                 setResData(data);
                 setResDataForChart(data)
@@ -39,7 +40,7 @@ const ManageLicense = () => {
                 setResData([]);
                 setResDataForChart([]);
             } finally {
-                
+                setLoading(false)
             }
         };
         getData();
@@ -58,9 +59,9 @@ const ManageLicense = () => {
                 // Licensing Authorities
                 let ministerCount = count.minister;
                 let provinceCount = count.province;
-                if (item.licensingAuthorities === 0) {
+                if (item.licensingAuthorities === 'BTNMT') {
                     ministerCount++;
-                } else if (item.licensingAuthorities === 1) {
+                } else if (item.licensingAuthorities === 'UBNDT') {
                     provinceCount++;
                 }
 
@@ -166,8 +167,8 @@ const ManageLicense = () => {
             value: 'licensingAuthorities',
             type: 'select',
             options: [
-                { label: 'BTNMT', value: 0 },
-                { label: 'UBND Tỉnh', value: 1 },
+                { label: 'BTNMT', value: 'BTNMT' },
+                { label: 'UBND Tỉnh', value: 'UBNDT' },
             ],
         },
         {

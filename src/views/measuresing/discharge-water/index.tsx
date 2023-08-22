@@ -25,8 +25,8 @@ const groundType = [
 ];
 
 const licensingAuthorities = [
-  { title: "BTNMT", value: 0 },
-  { title: "UBND Tỉnh", value: 1 },
+  { title: "BTNMT", value: 'BTNMT' },
+  { title: "UBND Tỉnh", value: 'UBNDT' },
 ];
 
 
@@ -61,17 +61,6 @@ const DischargewaterMeasuresing = () => {
 
   const [data, setData] = useState<any[]>([]);
   const [columns, setColumns] = useState<any[]>([]);
-
-  // const fetchData = async () => {
-  //   try {
-  //     const response = await fetch('http://tnnsl.loc/api/Construction/list?BasinId=0&CommuneId=0&DistrictId=0&Keyword=&LicenseId=-1&LicensingAuthorities=-1&PageIndex=1&PageSize=0&ProvinceId=0&StartDate=-1&Status=true&TypeOfConstructionId=1'); // Thay đổi URL API tùy thuộc vào nguồn dữ liệu của bạn
-  //     const jsonData = await response.json();
-  //     console.log(jsonData.ListData)
-  //     setData(jsonData.ListData);
-  //   } catch (error) {
-  //     console.error('Error fetching data:', error);
-  //   }
-  // }; 
 
   useEffect(() => {
     setData(GroundmonitoringData);

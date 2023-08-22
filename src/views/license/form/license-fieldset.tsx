@@ -1,5 +1,5 @@
 import { useState, FC, useEffect } from 'react';
-import { Typography, Grid, TextField, Autocomplete } from '@mui/material';
+import { Typography, Grid, TextField, Autocomplete, CircularProgress } from '@mui/material';
 import dayjs, { Dayjs } from 'dayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
@@ -16,47 +16,41 @@ export interface LicenseState {
     childId: number;
     licensingTypeId: number;
     businessId: number;
-    licenseName: string;
-    licenseNumber: string;
+    licenseName: string | null;
+    licenseNumber: string | null;
     signDate: Dayjs | null;
     issueDate: Dayjs | null;
     expriteDate: Dayjs | null;
-    duration: string;
-    licensingAuthorities: number;
-    relatedDocumentFile: string;
-    licenseRequestFile: string;
+    duration: string | null;
+    licensingAuthorities: string | null;
+    relatedDocumentFile: string | null;
+    licenseRequestFile: string | null;
 }
 
 const LicenseFieldset: FC<LicenseFieldsetProps> = ({ data, onChange }) => {
 
-    const d = new Date();
-    const day = d.getDate() < 10 ? '0' + d.getDate() : d.getDate();
-    const m = d.getMonth() + 1 < 10 ? '0' + (d.getMonth() + 1) : d.getMonth() + 1;
-    const y = d.getFullYear();
-    const today = `${y}-${m}-${day}`;
-
     const [listLic, setListLic] = useState([])
-
     const [oldLic, setOldLic] = useState<any>([])
-
+    const [fetching, setFetching] = useState(false)
     const [licenseData, setLicenseData] = useState<LicenseState>({
         id: data?.id || 0,
         childId: data?.childId || 0,
         licensingTypeId: data?.licensingTypeId || 0,
         businessId: data?.businessId || 0,
-        licenseName: data?.licenseName || '',
-        licenseNumber: data?.licenseNumber || '',
-        signDate: dayjs(data?.signDate) || dayjs(today),
-        issueDate: dayjs(data?.issueDate) || dayjs(today),
-        expriteDate: dayjs(data?.expriteDate) || dayjs(today),
-        duration: data?.duration || '',
-        licensingAuthorities: data?.licensingAuthorities || 0,
-        relatedDocumentFile: data?.relatedDocumentFile || '',
-        licenseRequestFile: data?.licenseRequestFile || '',
+        licenseName: data?.licenseName || null,
+        licenseNumber: data?.licenseNumber || null,
+        signDate: dayjs(data?.signDate) || null,
+        issueDate: dayjs(data?.issueDate) || null,
+        expriteDate: dayjs(data?.expriteDate) || null,
+        duration: data?.duration || null,
+        licensingAuthorities: data?.licensingAuthorities || null,
+        relatedDocumentFile: data?.relatedDocumentFile || null,
+        licenseRequestFile: data?.licenseRequestFile || null,
     });
 
     const getData = async () => {
         try {
+            setFetching(true)
             const dataLic = await fetchData('License/list')
             const newData = dataLic.filter((item: { [key: string]: any }) =>
                 ['thuydien', 'hochua', 'trambom', 'tramcapnuoc', 'dapthuyloi', 'cong', 'nhamaynuoc', 'congtrinh_nuocmatkhac'].some(keyword =>
@@ -67,6 +61,7 @@ const LicenseFieldset: FC<LicenseFieldsetProps> = ({ data, onChange }) => {
         } catch (error) {
             setListLic([]);
         } finally {
+            setFetching(false)
         }
     };
 
@@ -79,8 +74,8 @@ const LicenseFieldset: FC<LicenseFieldsetProps> = ({ data, onChange }) => {
     ];
 
     const licensingAuthorities = [
-        { title: 'BTNMT', value: 0 },
-        { title: 'UBND Tỉnh', value: 1 },
+        { title: 'BTNMT', value: 'BTNMT' },
+        { title: 'UBND Tỉnh', value: 'UBNDT' },
     ];
 
     useEffect(() => {
@@ -208,41 +203,40 @@ const LicenseFieldset: FC<LicenseFieldsetProps> = ({ data, onChange }) => {
                     </LocalizationProvider>
                 </Grid>
 
-                {licenseData.licensingTypeId > 1 && licenseData.licensingTypeId <= 5 ? (
-                    <Grid item xs={12} md={6} sm={12} sx={{ my: 2 }}>
-                        <Autocomplete
-                            size="small"
-                            options={listLic}
-                            getOptionLabel={(option: any) => option.licenseNumber}
-                            isOptionEqualToValue={(option: any) => option.id}
-                            defaultValue={listLic.find((option: any) => option.childId === licenseData.id) || null}
-                            onChange={(_, value) => { handleChange('childId')(value?.id || 0); setOldLic(value || []) }}
-                            renderInput={(params) => (
-                                <TextField
-                                    required
-                                    {...params}
-                                    fullWidth
-                                    label="Số giấy phép cũ"
+                {licenseData.licensingTypeId > 1 && licenseData.licensingTypeId <= 5 ?
+                    fetching ? (<CircularProgress size={20} />) : (
+                        <Grid container spacing={4} rowSpacing={1} ml={0} >
+                            <Grid item xs={12} md={6} sm={12} sx={{ my: 2 }} >
+                                <Autocomplete
+                                    size="small"
+                                    options={listLic}
+                                    getOptionLabel={(option: any) => option.licenseNumber}
+                                    isOptionEqualToValue={(option: any) => option.id}
+                                    defaultValue={listLic.find((option: any) => option.childId === licenseData.id) || null}
+                                    onChange={(_, value) => { handleChange('childId')(value?.id || 0); setOldLic(value || []) }}
+                                    renderInput={(params) => (
+                                        <TextField
+                                            required
+                                            {...params}
+                                            fullWidth
+                                            label="Số giấy phép cũ"
+                                        />
+                                    )}
                                 />
-                            )}
-                        />
-                    </Grid>
-                ) : ''}
-                {licenseData.licensingTypeId > 1 && licenseData.licensingTypeId <= 5 ? (
-                    <Grid item xs={12} md={6} sm={12} sx={{ my: 2 }}>
-                        <LocalizationProvider dateAdapter={AdapterDayjs}>
-                            <DatePicker
-                                disabled
-                                label='Ngày ký giấy phép cũ'
-                                value={dayjs(oldLic.signDate)}
-                                slotProps={{ textField: { size: 'small', fullWidth: true, required: true } }}
-                                format='DD/MM/YYYY'
-                            />
-                        </LocalizationProvider>
-                    </Grid>
-
-                ) : ''}
-
+                            </Grid>
+                            <Grid item xs={12} md={6} sm={12} sx={{ my: 2 }}>
+                                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                                    <DatePicker
+                                        disabled
+                                        label='Ngày ký giấy phép cũ'
+                                        value={dayjs(oldLic.signDate) || null}
+                                        slotProps={{ textField: { size: 'small', fullWidth: true, required: true } }}
+                                        format='DD/MM/YYYY'
+                                    />
+                                </LocalizationProvider>
+                            </Grid>
+                        </Grid>
+                    ) : ''}
 
                 {/* <Grid item xs={12} md={6} sm={12} sx={{ my: 2 }}>
                     <TextField size='small' type='text' label='Thiết bị quan trắc mực nước' fullWidth placeholder='' value='' />
@@ -269,7 +263,7 @@ const LicenseFieldset: FC<LicenseFieldsetProps> = ({ data, onChange }) => {
                     <TextField size='small' type='text' label={<>Q<sub>qua tràn</sub>(m<sup>3</sup>/<sub>s</sub>)</>} fullWidth placeholder='' value='' />
                 </Grid> */}
             </Grid>
-        </fieldset>
+        </fieldset >
     );
 };
 

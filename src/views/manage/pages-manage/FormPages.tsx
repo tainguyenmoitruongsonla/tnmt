@@ -7,9 +7,9 @@ import postData from 'src/api/post';
 
 interface State {
   id?: number,
-  name?: string,
-  path?: string,
-  description?: string,
+  name?: string | null,
+  path?: string | null,
+  description?: string | null,
   permitAccess?: boolean,
 }
 
@@ -19,9 +19,9 @@ const Form = ({ data, setPostSuccess, closeDialogs }: any) => {
   const [saving, setSaving] = useState(false);
   const [values, setValues] = useState<State>({
     id: data?.id || 0,
-    name: data?.name || '',
-    path: data?.path || '',
-    description: data?.description || '',
+    name: data?.name || null,
+    path: data?.path || null,
+    description: data?.description || null,
     permitAccess: data?.permitAccess || false,
   });
 
@@ -59,9 +59,9 @@ const Form = ({ data, setPostSuccess, closeDialogs }: any) => {
   const handleClose = () => {
     setValues({
       id: 0,
-      name: '',
-      path: '',
-      description: '',
+      name: null,
+      path: null,
+      description: null,
       permitAccess: false,
     });
 

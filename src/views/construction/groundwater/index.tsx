@@ -194,8 +194,8 @@ const GroundConstruction = () => {
         value: 'licensingAuthorities',
         type: 'select',
         options: [
-          { label: 'BTNMT', value: 0 },
-          { label: 'UBND Tỉnh', value: 1 },
+          { label: 'BTNMT', value: 'BTNMT' },
+          { label: 'UBND Tỉnh', value: 'UBNDT' },
         ],
       },
       {
