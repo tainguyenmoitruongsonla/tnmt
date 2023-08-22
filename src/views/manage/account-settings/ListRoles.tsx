@@ -7,21 +7,15 @@ import { Delete } from '@mui/icons-material';
 // ** MUI Imports
 import { IconButton, Box, Checkbox } from '@mui/material';
 import TableComponent from 'src/@core/components/table';
-import EditRoles from './EditRoles';
+import FormRoles from './FormRoles';
 import fetchData from 'src/api/fetch';
-import { useLoadingContext } from 'src/@core/theme/loading-provider';
+
 
 const ListRoles = () => {
 
   const [postSuccess, setPostSuccess] = useState(false);
   const [resData, setResData] = useState([]);
-  const { showLoading, hideLoading } = useLoadingContext();
-  const [loading, setLoading] = useState(false)
-  if (loading == true) {
-    showLoading();
-  } else {
-    hideLoading();
-  }
+  const [loading, setLoading] = useState(false);
 
   const handlePostSuccess = () => {
     setPostSuccess(prevState => !prevState);
@@ -30,7 +24,7 @@ const ListRoles = () => {
   const columnsTable = [
     { id: 'name', label: 'Tên', },
     { id: 'isDefault', label: 'Mặc định', elm: (row: any) => (<Checkbox name='isDefault' checked={row?.isDefault} />) },
-    { id: 'actions', label: '#', elm: (row: any) => (<># <EditRoles data={row} isEdit={false} setPostSuccess={handlePostSuccess} /> </>) }
+    { id: 'actions', label: '#', elm: (row: any) => (<># <FormRoles data={row} isEdit={false} setPostSuccess={handlePostSuccess} /> </>) }
   ]
 
   useEffect(() => {
@@ -51,11 +45,11 @@ const ListRoles = () => {
 
   return (
     <>
-      <TableComponent columns={columnsTable} data={resData}
+      <TableComponent columns={columnsTable} data={resData} loading={loading}
         actions={(row: any) => (
           <Box display="flex" justifyContent="center">
             <IconButton aria-label="edit">
-              <EditRoles data={row} isEdit={true} setPostSuccess={handlePostSuccess} />
+              <FormRoles data={row} isEdit={true} setPostSuccess={handlePostSuccess} />
             </IconButton>
             <IconButton aria-label="delete">
               <Delete className='tableActionBtn deleteBtn' />

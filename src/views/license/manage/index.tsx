@@ -10,7 +10,7 @@ import Grid from '@mui/material/Unstable_Grid2';
 import CountLicenseForManage from 'src/views/license/count-license-for-manage';
 import ApexChartLicense from 'src/views/license/license-bar-chart';
 import fetchData from 'src/api/fetch';
-import { useLoadingContext } from 'src/@core/theme/loading-provider';
+
 import { columnFillters } from 'src/@core/components/data-grid';
 import { Cached, FilterList, Search } from '@mui/icons-material';
 
@@ -24,13 +24,13 @@ interface ToolbarProps {
 const ManageLicense = () => {
     const [resData, setResData] = React.useState([]);
     const [resDataForChart, setResDataForChart] = React.useState([]);
-    const { showLoading, hideLoading } = useLoadingContext();
+    
     const [loading, setLoading] = React.useState(false)
-    loading == true ? showLoading() : hideLoading();
+    
 
     React.useEffect(() => {
         const getData = async () => {
-            setLoading(true);
+            
             try {
                 const data = await fetchData('License/list');
                 setResData(data);
@@ -39,7 +39,7 @@ const ManageLicense = () => {
                 setResData([]);
                 setResDataForChart([]);
             } finally {
-                setLoading(false);
+                
             }
         };
         getData();

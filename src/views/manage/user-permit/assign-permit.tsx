@@ -1,10 +1,10 @@
 import { Tv } from '@mui/icons-material'
-import { Switch, Grid, Typography } from '@mui/material'
-import { useEffect, useState } from 'react'
+import { Checkbox, Grid, Typography, CircularProgress, FormControlLabel, Box } from '@mui/material'
+import { Fragment, useEffect, useState } from 'react'
 
 import DialogsControlFullScreen from 'src/@core/components/dialog-control-full-screen'
 import TableComponent from 'src/@core/components/table'
-import { useLoadingContext } from 'src/@core/theme/loading-provider'
+
 import fetchData from 'src/api/fetch'
 import postData from 'src/api/post'
 
@@ -13,28 +13,23 @@ const Form = ({ data }: any) => {
   const userData = [data]; // Use the updated `values` state here
   const [resData, setResData] = useState([]);
   const [postSuccess, setPostSuccess] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [switchLoadingMap, setSwitchLoadingMap] = useState<{ [key: string]: boolean }>({});
   const handlePostSuccess = () => {
     setPostSuccess(prevState => !prevState);
   };
 
-  const { showLoading, hideLoading } = useLoadingContext();
-  const [loading, setLoading] = useState(false)
-  if (loading == true) {
-    showLoading();
-  } else {
-    hideLoading();
-  }
-
   useEffect(() => {
     const getData = async () => {
       try {
-        setLoading(true);
+        setLoading(true)
         const resData = await fetchData(`Dashboard/listbyuser/${data.userName}`);
         setResData(resData);
       } catch (error) {
         setResData([]);
+      } finally {
+        setLoading(false)
       }
-      setLoading(false);
     };
 
     getData();
@@ -51,19 +46,26 @@ const Form = ({ data }: any) => {
       fileControl: row.fileControl,
       permitAccess: row.permitAccess == true ? false : true,
     };
-    setLoading(true);
-    if (permitAccess === true) {
-      await postData('UserDashboard/delete', item);
-    } else {
-      await postData('UserDashboard/save', item);
+
+    try {
+      setSwitchLoadingMap((prevState) => ({ ...prevState, [row.id]: true }));
+      if (permitAccess === true) {
+        await postData('UserDashboard/delete', item);
+      } else {
+        await postData('UserDashboard/save', item);
+      }
+    } catch (error) {
+      console.error(error)
+    } finally {
+      setSwitchLoadingMap((prevState) => ({ ...prevState, [row.id]: false }));
     }
+
     setPostSuccess(true);
-    setLoading(false);
     handlePostSuccess();
   };
- 
+
   const userInfoColumn = [
-    { id: 'userName', label: 'Tên', elm: (row:any) => (<Typography py={2}>{row.userName}</Typography>)},
+    { id: 'userName', label: 'Tên', elm: (row: any) => (<Typography py={2}>{row.userName}</Typography>) },
     { id: 'fullName', label: 'Mô tả' },
   ];
 
@@ -73,25 +75,43 @@ const Form = ({ data }: any) => {
     {
       id: 'permitAccess',
       label: 'Được phép truy cập',
-      elm: (row: any) => (
-        <Switch
-          name={row.path}
-          checked={!!row?.permitAccess}
-          onChange={handleCheckPermit(row, data)}
-        />
-      ),
-    },
+      elm: (row: any) => {
+        const isSwitchLoading = switchLoadingMap[row.id];
+        const isCheckboxChecked = !!row?.permitAccess;
+        const shouldShowLoading = isSwitchLoading && isCheckboxChecked;
+
+        return (
+          <FormControlLabel
+            key={row.id}
+            control={
+              shouldShowLoading ? (
+                <Box padding={'9px'}>
+                  <CircularProgress size={20} />
+                </Box>
+              ) : (
+                <Checkbox
+                  name={row.path}
+                  checked={isCheckboxChecked}
+                  onChange={handleCheckPermit(row, data)}
+                />
+              )
+            }
+            label={''}
+          />
+        );
+      },
+    }
   ];
 
   return (
     <>
       <Grid container>
         <Grid item xs={12} pb={10}>
-          <TableComponent columns={userInfoColumn} data={userData} />
+          <TableComponent columns={userInfoColumn} data={userData} loading={loading} />
         </Grid>
       </Grid>
 
-      <TableComponent columns={permitColumn} data={resData} pagination />
+      <TableComponent columns={permitColumn} data={resData} loading={loading} pagination />
     </>
   );
 }

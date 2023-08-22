@@ -10,7 +10,6 @@ import MapLegend from 'src/views/construction/MapLegend';
 
 import dynamic from 'next/dynamic';
 import fetchData from 'src/api/fetch';
-import { useLoadingContext } from 'src/@core/theme/loading-provider';
 
 const Map = dynamic(() => import("src/@core/components/map"), { ssr: false });
 
@@ -37,10 +36,6 @@ const Construction = () => {
     "congtrinh_xathaikhac"
   ])
 
-  const { showLoading, hideLoading } = useLoadingContext();
-  const [loading, setLoading] = useState(false)
-  loading == true ? showLoading() : hideLoading();
-
   const [resData, setResData] = useState([]);
 
   const handleConsTypeChange = (data: any) => {
@@ -49,7 +44,6 @@ const Construction = () => {
 
   useEffect(() => {
     const getData = async () => {
-      setLoading(true);
       try {
         const data = await fetchData('Construction/list');
         console.log(initConsType)
@@ -62,7 +56,6 @@ const Construction = () => {
       } catch (error) {
         setResData([]);
       } finally {
-        setLoading(false);
       }
     };
     getData();

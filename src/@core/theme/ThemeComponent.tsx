@@ -22,7 +22,6 @@ import themeOptions from './ThemeOptions'
 // ** Global Styles
 import GlobalStyling from './globalStyles'
 import { SnackbarProvider } from 'notistack'
-import { LoadingProvider } from './loading-provider'
 
 interface Props {
   settings: Settings
@@ -53,11 +52,9 @@ const ThemeComponent = (props: Props) => {
   return (
     <ThemeProvider theme={theme}>
       <SnackbarProvider maxSnack={3}>
-        <LoadingProvider>
-          <CssBaseline />
-          <GlobalStyles styles={() => GlobalStyling(theme) as any} />
-          {children}
-        </LoadingProvider>
+        <CssBaseline />
+        <GlobalStyles styles={() => GlobalStyling(theme) as any} />
+        {children}
       </SnackbarProvider>
     </ThemeProvider>
   )

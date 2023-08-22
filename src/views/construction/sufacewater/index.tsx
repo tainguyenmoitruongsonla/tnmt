@@ -16,7 +16,7 @@ import { Delete } from '@mui/icons-material';
 
 import dynamic from 'next/dynamic';
 import fetchData from 'src/api/fetch';
-import { useLoadingContext } from 'src/@core/theme/loading-provider';
+
 import CreateConstruction from '../form/sufacewater';
 
 
@@ -367,9 +367,9 @@ const SurfaceConstruction = () => {
   }
 
   const [postSuccess, setPostSuccess] = useState(false);
-  const { showLoading, hideLoading } = useLoadingContext();
-  const [loading, setLoading] = useState(false)
-  loading == true ? showLoading() : hideLoading();
+  
+  
+  
 
   const handlePostSuccess = () => {
     setPostSuccess(prevState => !prevState);
@@ -377,7 +377,7 @@ const SurfaceConstruction = () => {
   const [resData, setResData] = useState([]);
 
   const getData = async () => {
-    setLoading(true);
+    
     try {
       const data = await fetchData('Construction/list');
       const filteredData = data.filter((item: { [key: string]: any }) =>
@@ -389,7 +389,7 @@ const SurfaceConstruction = () => {
     } catch (error) {
       setResData([]);
     } finally {
-      setLoading(false);
+      
     }
   };
 

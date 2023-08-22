@@ -15,7 +15,7 @@ import { Delete } from '@mui/icons-material';
 
 import dynamic from 'next/dynamic';
 import fetchData from 'src/api/fetch';
-import { useLoadingContext } from 'src/@core/theme/loading-provider';
+
 import CreateConstruction from '../form/sufacewater';
 
 
@@ -43,7 +43,7 @@ const DischargeConstruction = () => {
     { field: 'dischargeWS', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'Nguồn tiếp nhận nước thải', minWidth: 150, },
 
     //coordinates
-    { field: 'x', headerClassName: 'tableHead', headerAlign: 'center',headerName: 'X', minWidth: 150, },
+    { field: 'x', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'X', minWidth: 150, },
     { field: 'y', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'Y', minWidth: 150, },
 
 
@@ -53,7 +53,7 @@ const DischargeConstruction = () => {
     { field: 'averageDischargeFlow', headerClassName: 'tableHead', headerAlign: 'center', renderHeader: () => (<span>Q<sub>xả trung bình</sub>  (m<sup>3</sup>/ngày đêm) </span>), minWidth: 150, },
     { field: 'maximumWasteWaterFlow', headerClassName: 'tableHead', headerAlign: 'center', renderHeader: () => (<span>Q<sub>xả lớn nhất</sub> (m<sup>3</sup>/ngày đêm)</span>), minWidth: 150, },
     { field: 'kqKf', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'Chất lượng nước thải (hệ số Kq và Kf)', minWidth: 150, },
-    
+
     //license
     { field: 'licenseNumber', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'Số GP', minWidth: 150, renderCell: (data) => (<ShowFilePDF name={data.row.licenseNumber} src={`/pdf/Licenses/` + data.row.licensingAuthorities + `/` + data.row.typeSlug + `/` + data.row.licenseFile} />) },
     { field: 'signDate', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'Hiệu lực GP', minWidth: 150, renderCell: (data) => (FormatDate(data.row.signDate)) },
@@ -108,17 +108,17 @@ const DischargeConstruction = () => {
     },
 
     {
-        groupId: 'Phương thức khai thác',
-        headerClassName: 'tableHead',
-        headerAlign: 'center',
-        children: [
-          { field: 'dischargeMethod' },
-          { field: 'dischargeMode' },
-          { field: 'averageDischargeFlow' },
-          { field: 'maximumWasteWaterFlow' },
-          { field: 'kqKf' },
-        ]
-      },
+      groupId: 'Phương thức khai thác',
+      headerClassName: 'tableHead',
+      headerAlign: 'center',
+      children: [
+        { field: 'dischargeMethod' },
+        { field: 'dischargeMode' },
+        { field: 'averageDischargeFlow' },
+        { field: 'maximumWasteWaterFlow' },
+        { field: 'kqKf' },
+      ]
+    },
     {
       groupId: 'Thông tin giấy phép',
       headerClassName: 'tableHead',
@@ -150,19 +150,19 @@ const DischargeConstruction = () => {
 
   const columnFillter: columnFillters[] = [
     {
-        label: 'Loại công trình',
-        value: 'constructionTypeSlug',
-        type: 'select',
-        options: [
-          { label: 'Khu/cụm CN tập trung', value: 'khu_cumcn_taptrung' },
-          { label: 'SX tiểu thủ CN', value: 'sx_tieuthu_cn' },
-          { label: 'SX KD dịch vụ', value: 'sx_kd_dv' },
-          { label: 'CS bệnh viện', value: 'cs_benhvien' },
-          { label: 'Khu dân cư/Làng nghề', value: 'khudancu_langnghe' },
-          { label: 'Chăn nuôi/ NTTS', value: 'channuoi_ntts' },
-          { label: 'Công trình khác', value: 'congtrinh_xathaikhac' },
-        ],
-      },
+      label: 'Loại công trình',
+      value: 'constructionTypeSlug',
+      type: 'select',
+      options: [
+        { label: 'Khu/cụm CN tập trung', value: 'khu_cumcn_taptrung' },
+        { label: 'SX tiểu thủ CN', value: 'sx_tieuthu_cn' },
+        { label: 'SX KD dịch vụ', value: 'sx_kd_dv' },
+        { label: 'CS bệnh viện', value: 'cs_benhvien' },
+        { label: 'Khu dân cư/Làng nghề', value: 'khudancu_langnghe' },
+        { label: 'Chăn nuôi/ NTTS', value: 'channuoi_ntts' },
+        { label: 'Công trình khác', value: 'congtrinh_xathaikhac' },
+      ],
+    },
     {
       label: 'Cơ quan cấp phép',
       value: 'licensingAuthorities',
@@ -173,38 +173,38 @@ const DischargeConstruction = () => {
       ],
     },
     {
-        label: 'Tiểu vùng quy hoạch',
-        value: 'basinId',
-        type: 'select',
-        options: [
-          { label: 'Tiểu vùng quy hoạch 1', value: 1 },
-          { label: 'Tiểu vùng quy hoạch 2', value: 2 },
-          { label: 'Tiểu vùng quy hoạch 3', value: 3 },
-          { label: '...', value: 4 },
-        ],
-      },
-      {
-        label: 'Huyện',
-        value: 'districtId',
-        type: 'select',
-        options: [
-          { label: 'Huyện 1', value: 1 },
-          { label: 'Huyện 2', value: 2 },
-          { label: 'Huyện 3', value: 3 },
-          { label: '...', value: 4 },
-        ],
-      },
+      label: 'Tiểu vùng quy hoạch',
+      value: 'basinId',
+      type: 'select',
+      options: [
+        { label: 'Tiểu vùng quy hoạch 1', value: 1 },
+        { label: 'Tiểu vùng quy hoạch 2', value: 2 },
+        { label: 'Tiểu vùng quy hoạch 3', value: 3 },
+        { label: '...', value: 4 },
+      ],
+    },
+    {
+      label: 'Huyện',
+      value: 'districtId',
+      type: 'select',
+      options: [
+        { label: 'Huyện 1', value: 1 },
+        { label: 'Huyện 2', value: 2 },
+        { label: 'Huyện 3', value: 3 },
+        { label: '...', value: 4 },
+      ],
+    },
     {
       label: ' Nhập tên công trình',
       value: 'constructionName',
       type: 'text',
     },
     {
-        label: ' Nhập số GP',
-        value: 'licenseName',
-        type: 'text',
-      },
-    
+      label: ' Nhập số GP',
+      value: 'licenseName',
+      type: 'text',
+    },
+
   ];
 
   const [mapCenter, setMapCenter] = useState([15.012172, 108.676488]);
@@ -213,12 +213,8 @@ const DischargeConstruction = () => {
   const [columns, setColumns] = useState<any[]>([]);
   const [columnFillters, setcolumnFillters] = useState<any[]>([]);
 
- 
-  const [postSuccess, setPostSuccess] = useState(false);
-  const { showLoading, hideLoading } = useLoadingContext();
-  const [loading, setLoading] = useState(false)
-  loading == true ? showLoading() : hideLoading();
 
+  const [postSuccess, setPostSuccess] = useState(false);
   const handlePostSuccess = () => {
     setPostSuccess(prevState => !prevState);
   };
@@ -229,11 +225,11 @@ const DischargeConstruction = () => {
     setcolumnFillters(columnFillter)
 
     const getData = async () => {
-      setLoading(true);
+
       try {
         const data = await fetchData('Construction/list');
         const filteredData = data.filter((item: { [key: string]: any }) =>
-          ['khu_cumcn_taptrung','sx_tieuthu_cn','sx_kd_dv','cs_benhvien','khudancu_langnghe','channuoi_ntts','congtrinh_xathaikhac'].some(keyword =>
+          ['khu_cumcn_taptrung', 'sx_tieuthu_cn', 'sx_kd_dv', 'cs_benhvien', 'khudancu_langnghe', 'channuoi_ntts', 'congtrinh_xathaikhac'].some(keyword =>
             item['constructionTypeSlug']?.toString().toLowerCase().includes(keyword.toLowerCase())
           )
         );
@@ -241,7 +237,7 @@ const DischargeConstruction = () => {
       } catch (error) {
         setResData([]);
       } finally {
-        setLoading(false);
+
       }
     };
 

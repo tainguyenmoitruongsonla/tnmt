@@ -215,7 +215,7 @@ const navigation = (): VerticalNavItemsType => {
         {
           title: 'Doanh nghiệp',
           icon: CircleOutline,
-          path: '#'
+          path: '/doanh-nghiep'
         },
         {
           title: 'Sông',

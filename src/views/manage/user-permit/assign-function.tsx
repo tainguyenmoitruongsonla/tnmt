@@ -1,30 +1,26 @@
-import { FormControlLabel, Grid, Switch, Typography } from '@mui/material'
+import { CircularProgress, Grid, Checkbox, Typography, FormControlLabel, Box } from '@mui/material'
 import { useEffect, useState } from 'react'
 import DialogsControlFullScreen from 'src/@core/components/dialog-control-full-screen'
 import TableComponent from 'src/@core/components/table'
-import { useLoadingContext } from 'src/@core/theme/loading-provider'
+
 import fetchData from 'src/api/fetch'
 import postData from 'src/api/post'
+
+type DialogsControlCallback = (content: React.ReactNode, title: React.ReactNode) => void;
 
 const Form = ({ data }: any) => {
 
   const userData = data;
   const [dashData, setDashData] = useState([]);
   const [postSuccess, setPostSuccess] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [switchLoadingMap, setSwitchLoadingMap] = useState<{ [key: string]: { [key: string]: boolean } }>({});
   const handlePostSuccess = () => {
     setPostSuccess(prevState => !prevState);
   };
 
-  const { showLoading, hideLoading } = useLoadingContext();
-  const [loading, setLoading] = useState(false)
-  if (loading == true) {
-    showLoading();
-  } else {
-    hideLoading();
-  }
-
   const userInfoColumn = [
-    { id: 'userName', label: 'Tên', elm: (row:any) => (<Typography py={2}>{row.userName}</Typography>)},
+    { id: 'userName', label: 'Tên', elm: (row: any) => (<Typography py={2}>{row.userName}</Typography>) },
     { id: 'fullName', label: 'Mô tả' },
   ];
 
@@ -37,14 +33,21 @@ const Form = ({ data }: any) => {
       elm: (dash: any) => (
         <div>
           {dash.functions.map((f: any) => {
-            // Get function
+            const key = `${dash.id}-${f.id}`;
+            const isLoading = switchLoadingMap[key];
+
             return (
-              <FormControlLabel
-                key={f.id}
-                control={<FormControlLabel control={<Switch name={f.permitCode} checked={f.status} onChange={handleCheckFunction(f, dash)} />} label={f.permitName} />}
-                label={f.name}
-              />
-            )
+              <FormControlLabel key={f.id} control={
+                isLoading ? (
+                  <Box padding={'9px'}><CircularProgress size={20} /> </Box>
+                ) : (
+                  <Checkbox
+                    name={f.path}
+                    checked={f?.status}
+                    onChange={handleCheckFunction(f, dash)}
+                  />)
+              } label={f.permitName} />
+            );
           })}
         </div>
       ),
@@ -54,21 +57,25 @@ const Form = ({ data }: any) => {
   useEffect(() => {
     const getData = async () => {
       try {
-        setLoading(true);
+        setLoading(true)
         const rdash = await fetchData(`User/getuserinfo/${data.id}`);
         setDashData(rdash.dashboards);
       } catch (error) {
         setDashData([]);
+      } finally {
+        setLoading(false)
       }
-      setLoading(false);
     };
     getData();
 
   }, [data.id, postSuccess]);
 
   const handleCheckFunction = (f: any, dash: any) => async () => {
-    setLoading(true);
+
+    const key = `${dash.id}-${f.id}`;
+
     const item = {
+      id: 0,
       userId: userData.id,
       userName: userData.userName,
       dashboardId: dash.id,
@@ -77,13 +84,19 @@ const Form = ({ data }: any) => {
       functionCode: f.permitCode,
     }
 
-    if (f.status == true) {
-      await postData('Permission/delete', item);
-    } else {
-      showLoading();
-      await postData('Permission/save', item);
+    try {
+      setSwitchLoadingMap((prevState: any) => ({ ...prevState, [key]: true, }));
+      if (f.status == true) {
+        await postData('Permission/delete', item);
+      } else {
+        await postData('Permission/save', item);
+      }
+    } catch (error) {
+      console.error(error)
+    } finally {
+      setSwitchLoadingMap((prevState: any) => ({ ...prevState, [key]: false, }));
     }
-    setLoading(false);
+
     setPostSuccess(true);
     handlePostSuccess();
   };
@@ -92,10 +105,10 @@ const Form = ({ data }: any) => {
     <>
       <Grid container>
         <Grid item xs={12} pb={10}>
-          <TableComponent columns={userInfoColumn} data={[userData]} />
+          <TableComponent columns={userInfoColumn} loading={loading} data={[userData]} />
         </Grid>
       </Grid>
-      <TableComponent columns={permitColumn} data={dashData} pagination />
+      <TableComponent columns={permitColumn} loading={loading} data={dashData} pagination />
     </>
   );
 }
@@ -105,7 +118,7 @@ const AssignFunction = ({ data }: any) => {
 
   return (
     <DialogsControlFullScreen>
-      {(openDialogs: (content: React.ReactNode, title: React.ReactNode) => void, closeDialogs: () => void) => (
+      {(openDialogs: DialogsControlCallback, closeDialogs: () => void) => (
         <Typography
           className='btnShowFilePdf'
           onClick={() => openDialogs(<Form data={data} closeDialogs={closeDialogs} />, formTitle)}

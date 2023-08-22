@@ -5,6 +5,7 @@ import { Autocomplete, Box, Button, Divider, Slide, TextField, Typography } from
 import Grid from '@mui/material/Unstable_Grid2';
 import { useRouter } from "next/router";
 import { dataGridProps } from "./data-grid-props";
+import BoxLoading from "../box-loading";
 
 interface columnFillter {
   label: string,
@@ -27,6 +28,7 @@ interface DataGridComponentProps {
   columnVisibility?: any
   columnFillter?: columnFillter[]
   formFilter?: any
+  loading?: boolean
   actions?: any
 }
 
@@ -38,7 +40,7 @@ interface ToolbarProps {
 
 const DataGridComponent = (props: DataGridComponentProps) => {
 
-  const { rows, columns, columnGroupingModel, columnVisibility, columnFillter, formFilter, actions } = props;
+  const { rows, columns, columnGroupingModel, columnVisibility, columnFillter, formFilter, loading, actions } = props;
   const [rowDatas, setRowDatas] = React.useState<any>(rows);
   const columnUpdated = columns;
   const [displayedColumns, setDisplayedColumns] = React.useState<any>(columnUpdated);
@@ -173,9 +175,13 @@ const DataGridComponent = (props: DataGridComponentProps) => {
             }}
           />
         </Grid>
-        <Button size="small" startIcon={<FilterList />} onClick={toggleSlide}>
-          Bộ lọc
-        </Button>
+        {
+          columnFillter ? (
+            <Button size="small" startIcon={<FilterList />} onClick={toggleSlide}>
+              Bộ lọc
+            </Button>
+          ) : ''
+        }
         <Divider orientation="vertical" variant="middle" sx={{ borderColor: 'gray' }} flexItem />
         <Button size="small" startIcon={<Cached />} onClick={toggleReload}>
           Tải lại
@@ -189,129 +195,138 @@ const DataGridComponent = (props: DataGridComponentProps) => {
         />
         <Divider orientation="vertical" variant="middle" sx={{ borderColor: 'gray' }} flexItem />
         {actions ? actions : ''}
-        <Slide direction="left" in={isSlideVisible} mountOnEnter unmountOnExit>
-          <fieldset style={{ width: '100%' }}>
-            <legend>
-              <Typography variant={'button'}>Bộ lọc</Typography>
-            </legend>
-            <Grid container >
-              {columns.map((column: any) => (
-                <Grid md={column.type === 'dateRange' ? 4 : 2} xs={12} py={2} px={column.type === 'dateRange' ? 0 : 2} key={column.value}>
-                  {column.type === 'text' ? (
-                    <TextField
-                      size='small'
-                      fullWidth
-                      variant='standard'
-                      inputProps={{ style: { fontSize: 11 } }}
-                      InputLabelProps={{ style: { fontSize: 14 } }}
-                      label={column.label}
-                      value={filters?.[column.value] || ''}
-                      onChange={(event) => handleFilterChange(column.value, event.target.value)}
-                    />
-                  ) : column.type === 'select' ? (
-                    <Autocomplete
-                      size='small'
-                      fullWidth
-                      options={column.options}
-                      getOptionLabel={(option) => option.label}
-                      value={filters?.[column.value] || null}
-                      onChange={(_, value) => handleFilterChange(column.value, value)}
-                      renderInput={(params) => (
+        {
+          columnFillter ? (
+            <Slide direction="left" in={isSlideVisible} mountOnEnter unmountOnExit>
+              <fieldset style={{ width: '100%' }}>
+                <legend>
+                  <Typography variant={'button'}>Bộ lọc</Typography>
+                </legend>
+                <Grid container >
+                  {columns.map((column: any) => (
+                    <Grid md={column.type === 'dateRange' ? 4 : 2} xs={12} py={2} px={column.type === 'dateRange' ? 0 : 2} key={column.value}>
+                      {column.type === 'text' ? (
                         <TextField
-                          {...params}
+                          size='small'
+                          fullWidth
                           variant='standard'
-                          fullWidth
+                          inputProps={{ style: { fontSize: 11 } }}
+                          InputLabelProps={{ style: { fontSize: 14 } }}
                           label={column.label}
+                          value={filters?.[column.value] || ''}
+                          onChange={(event) => handleFilterChange(column.value, event.target.value)}
                         />
-                      )}
-                    />
-
-                  ) : column.type === 'dateRange' ? (
-
-                    <Grid container>
-                      <Box width={'50%'} px={2}>
+                      ) : column.type === 'select' ? (
                         <Autocomplete
-                          size="small"
+                          size='small'
                           fullWidth
-                          options={column.options || []}
+                          options={column.options}
                           getOptionLabel={(option) => option.label}
-                          value={filters?.[column.value] && filters?.[column.value].from}
-                          onChange={(_, value) =>
-                            handleFilterChange(column.value, {
-                              ...filters?.[column.value],
-                              from: value?.value,
-                            })
-                          }
+                          value={filters?.[column.value] || null}
+                          onChange={(_, value) => handleFilterChange(column.value, value)}
                           renderInput={(params) => (
                             <TextField
                               {...params}
                               variant='standard'
                               fullWidth
-                              label={`Từ ${column.label}`}
+                              label={column.label}
                             />
                           )}
                         />
-                      </Box>
-                      <Box width={'50%'} px={2}>
-                        <Autocomplete
-                          size="small"
-                          fullWidth
-                          options={column.options || []}
-                          getOptionLabel={(option) => option.label}
-                          value={filters?.[column.value] && filters?.[column.value].to}
-                          onChange={(_, value) =>
-                            handleFilterChange(column.value, {
-                              ...filters?.[column.value],
-                              to: value?.value,
-                            })
-                          }
-                          renderInput={(params) => (
-                            <TextField
-                              {...params}
-                              variant='standard'
-                              fullWidth
-                              label={`Đến ${column.label}`}
-                            />
-                          )}
-                        />
-                      </Box>
 
+                      ) : column.type === 'dateRange' ? (
+
+                        <Grid container>
+                          <Box width={'50%'} px={2}>
+                            <Autocomplete
+                              size="small"
+                              fullWidth
+                              options={column.options || []}
+                              getOptionLabel={(option) => option.label}
+                              value={filters?.[column.value] && filters?.[column.value].from}
+                              onChange={(_, value) =>
+                                handleFilterChange(column.value, {
+                                  ...filters?.[column.value],
+                                  from: value?.value,
+                                })
+                              }
+                              renderInput={(params) => (
+                                <TextField
+                                  {...params}
+                                  variant='standard'
+                                  fullWidth
+                                  label={`Từ ${column.label}`}
+                                />
+                              )}
+                            />
+                          </Box>
+                          <Box width={'50%'} px={2}>
+                            <Autocomplete
+                              size="small"
+                              fullWidth
+                              options={column.options || []}
+                              getOptionLabel={(option) => option.label}
+                              value={filters?.[column.value] && filters?.[column.value].to}
+                              onChange={(_, value) =>
+                                handleFilterChange(column.value, {
+                                  ...filters?.[column.value],
+                                  to: value?.value,
+                                })
+                              }
+                              renderInput={(params) => (
+                                <TextField
+                                  {...params}
+                                  variant='standard'
+                                  fullWidth
+                                  label={`Đến ${column.label}`}
+                                />
+                              )}
+                            />
+                          </Box>
+
+                        </Grid>
+                      ) : null}
                     </Grid>
-                  ) : null}
+                  ))}
+                  {formFilter ?
+                    <Grid md={2} xs={6} px={2}>
+                      {formFilter}
+                    </Grid>
+                    : ''}
+                  <Grid xs={12} justifyContent={'end'} display={'flex'} pt={4}>
+                    <Button size="small" className="btn" variant="outlined" startIcon={<Search />} onClick={applyFilters}>
+                      Tìm  kiếm
+                    </Button>
+                  </Grid>
                 </Grid>
-              ))}
-              {formFilter ?
-                <Grid md={2} xs={6} px={2}>
-                  {formFilter}
-                </Grid>
-                : ''}
-              <Grid xs={12} justifyContent={'end'} display={'flex'} pt={4}>
-                <Button size="small" className="btn" variant="outlined" startIcon={<Search />} onClick={applyFilters}>
-                  Tìm  kiếm
-                </Button>
-              </Grid>
-            </Grid>
-          </fieldset>
-        </Slide>
+              </fieldset>
+            </Slide>
+          ) : ''
+        }
       </Grid>
     );
   };
 
   return (
-    <DataGrid
-      rows={rowDatas}
-      columns={displayedColumns}
-      columnGroupingModel={columnGroupingModel}
-      slots={{ toolbar: Toolbar }}
-      slotProps={{
-        toolbar: {
-          data: rows,
-          columns: columnFillter,
-          formFilter: formFilter
-        }
-      }}
-      {...dataGridProps}
-    />
+    loading ? (
+      <BoxLoading />
+    ) : (
+      <DataGrid
+        rows={rowDatas}
+        columns={displayedColumns}
+        columnGroupingModel={columnGroupingModel}
+        slots={{ toolbar: Toolbar }}
+        slotProps={{
+          toolbar: {
+            data: rows,
+            columns: columnFillter ? columnFillter : '',
+            formFilter: formFilter
+          }
+        }}
+        {...dataGridProps}
+      />
+    )
+
   );
 }
 

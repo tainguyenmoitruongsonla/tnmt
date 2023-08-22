@@ -42,7 +42,7 @@ const FormLicense: React.FC<FormLicenseProps> = ({ data, closeDialogs, setPostSu
           consItem: consItemData,
         }
     
-        // showLoading();
+        // 
         const res = await postData('Construction/save', newVal);
 
         if (res) {
@@ -56,7 +56,7 @@ const FormLicense: React.FC<FormLicenseProps> = ({ data, closeDialogs, setPostSu
             closeDialogs();
         }
 
-        // hideLoading();
+        // 
     };
 
     // Call the function

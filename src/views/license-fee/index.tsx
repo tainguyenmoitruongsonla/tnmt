@@ -5,7 +5,7 @@ import { Grid, Typography, Paper, Box, Tooltip, IconButton } from '@mui/material
 
 // ** Icons Imports
 import fetchData from 'src/api/fetch';
-import { useLoadingContext } from 'src/@core/theme/loading-provider';
+
 import FormatDate from 'src/@core/components/format-date';
 import postData from 'src/api/post'
 import FormLicenseFee from 'src/views/license-fee/form'
@@ -25,18 +25,12 @@ const LicenseFee = (props: LicenseFeeProps) => {
   const { path } = props;
 
   const [postSuccess, setPostSuccess] = useState(false);
-  const { showLoading, hideLoading } = useLoadingContext();
-  const [loading, setLoading] = useState(false)
-  if (loading == true) {
-    showLoading();
-  } else {
-    hideLoading();
-  }
   const handlePostSuccess = () => {
     setPostSuccess(prevState => !prevState);
   };
 
   const [resData, setResData] = useState([]);
+  const [loading, setLoading] = useState(false)
 
   // Hooks
   const router = useRouter();
@@ -99,7 +93,7 @@ const LicenseFee = (props: LicenseFeeProps) => {
 
   useEffect(() => {
     const getData = async () => {
-      setLoading(true);
+      setLoading(true)
       try {
         if (path === 'bo-cap') {
           const data = await fetchData('LicenseFee/list/minister');
@@ -111,7 +105,7 @@ const LicenseFee = (props: LicenseFeeProps) => {
       } catch (error) {
         setResData([]);
       } finally {
-        setLoading(false);
+        setLoading(false)
       }
     };
     getData();
@@ -150,6 +144,7 @@ const LicenseFee = (props: LicenseFeeProps) => {
             rows={resData}
             columns={columns}
             columnFillter={columnFillter}
+            loading={loading}
             actions={
               <FormLicenseFee setPostSuccess={handlePostSuccess} isEdit={false} />
             }

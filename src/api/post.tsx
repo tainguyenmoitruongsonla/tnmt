@@ -26,7 +26,7 @@ const postData = async (url: string, postData: any) => {
         } else {
 
             // Show error snackbar notification
-            enqueueSnackbar(resData?.message, { variant: 'error' });
+            enqueueSnackbar("Lỗi khi lưu", { variant: 'error' });
 
             return false;
         }

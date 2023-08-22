@@ -2,26 +2,25 @@ import React, { useEffect, useState } from 'react';
 import { IconButton, Box } from '@mui/material';
 import TableComponent from 'src/@core/components/table';
 import fetchData from 'src/api/fetch';
-import { useLoadingContext } from 'src/@core/theme/loading-provider';
+
 import AssignPermit from './assign-permit';
 import AssignFunction from './assign-function';
 
 const UserPermit = () => {
-  const { showLoading, hideLoading } = useLoadingContext();
-  const [loading, setLoading] = useState(false);
-  loading ? showLoading() : hideLoading();
+
   const [resData, setResData] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const getData = async () => {
       try {
-        setLoading(true);
+        setLoading(true)
         const data = await fetchData('User/list');
         setResData(data);
       } catch (error) {
         setResData([]);
       } finally {
-        setLoading(false);
+        setLoading(false)
       }
     };
 
@@ -39,6 +38,7 @@ const UserPermit = () => {
       <TableComponent
         columns={columnsTable}
         data={resData}
+        loading={loading}
         actions={(row: any) => (
           <Box>
             <IconButton>

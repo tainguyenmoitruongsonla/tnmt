@@ -1,8 +1,8 @@
 import DialogsControl from 'src/@core/components/dialog-control';
-import { Add, EditNote } from "@mui/icons-material";
-import { Grid, Button, DialogActions, FormControl, TextField, FormControlLabel, Checkbox, Autocomplete } from "@mui/material";
+import { Add, EditNote, Save } from "@mui/icons-material";
+import { Grid, Button, DialogActions, FormControl, TextField, FormControlLabel, Checkbox, Autocomplete, CircularProgress } from "@mui/material";
 import { ChangeEvent, useEffect, useState } from 'react';
-import { useLoadingContext } from 'src/@core/theme/loading-provider';
+
 import postData from 'src/api/post';
 import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers';
 import dayjs, { Dayjs } from 'dayjs';
@@ -41,10 +41,11 @@ const Form = ({ data, setPostSuccess, closeDialogs }: any) => {
     });
 
     const [fileUpload, setFileUpload] = useState<any>()
-
     const [supplementLicenseFee, setSupplementLicenseFee] = useState(false)
     const [listLicFee, setListLicFee] = useState([]);
-    const { showLoading, hideLoading } = useLoadingContext();
+    const [fetching, setFetching] = useState(false);
+    const [saving, setSaving] = useState(false);
+
 
     // Hooks
     const router = useRouter();
@@ -61,6 +62,7 @@ const Form = ({ data, setPostSuccess, closeDialogs }: any) => {
 
     useEffect(() => {
         const getData = async () => {
+            setFetching(true)
             try {
                 if (router.pathname.split('/')[2] == 'bo-cap') {
                     const data = await fetchData('LicenseFee/list/minister');
@@ -72,6 +74,7 @@ const Form = ({ data, setPostSuccess, closeDialogs }: any) => {
             } catch (error) {
                 setListLicFee([]);
             } finally {
+                setFetching(false)
             }
         };
         getData();
@@ -81,9 +84,6 @@ const Form = ({ data, setPostSuccess, closeDialogs }: any) => {
         e.preventDefault();
 
         const handleApiCall = async () => {
-
-            showLoading();
-
             let licAuthorities: number;
 
             if (router.pathname.split('/')[2] == 'bo-cap') {
@@ -105,18 +105,23 @@ const Form = ({ data, setPostSuccess, closeDialogs }: any) => {
                 file: fileUpload
             }
 
-            const res = await postData('LicenseFee/save', newVal);
+            setSaving(true)
+            try {
+                const res = await postData('LicenseFee/save', newVal);
+                if (res) {
+                    await upload(newFile)
 
-            if (res) {
-                await upload(newFile)
+                    // Reset form fields
+                    setValues({});
 
-                // Reset form fields
-                setValues({});
-
-                typeof (setPostSuccess) === 'function' ? setPostSuccess(true) : '';
-                closeDialogs();
+                    typeof (setPostSuccess) === 'function' ? setPostSuccess(true) : '';
+                    closeDialogs();
+                }
+            } catch (error) {
+                console.log(error)
+            } finally {
+                setSaving(false)
             }
-            hideLoading();
         };
 
         // Call the function
@@ -140,19 +145,24 @@ const Form = ({ data, setPostSuccess, closeDialogs }: any) => {
                 </Grid>
                 {supplementLicenseFee ? (
                     <Grid xs={12} md={12} sx={{ my: 2 }}>
-                        <Autocomplete
-                            onChange={(e: any, v: any) => setValues({ ...values, childrenId: v.id })}
-                            size="small"
-                            options={listLicFee}
-                            getOptionLabel={(option: any) => option.licenseFeeNumber}
-                            renderInput={(params) => (
-                                <TextField
-                                    {...params}
-                                    fullWidth
-                                    label="Chọn quyết định TCQ cần bổ xung"
-                                />
-                            )}
-                        />
+                        {fetching ? (
+                            <CircularProgress size={20} />
+                        ) : (
+                            <Autocomplete
+                                onChange={(e: any, v: any) => setValues({ ...values, childrenId: v.id })}
+                                size="small"
+                                options={listLicFee}
+                                getOptionLabel={(option: any) => option.licenseFeeNumber}
+                                renderInput={(params) => (
+                                    <TextField
+                                        {...params}
+                                        fullWidth
+                                        label="Chọn quyết định TCQ cần bổ xung"
+                                    />
+                                )}
+                            />
+                        )}
+
                     </Grid>
                 ) : ''}
 
@@ -192,7 +202,7 @@ const Form = ({ data, setPostSuccess, closeDialogs }: any) => {
             </Grid>
             <DialogActions sx={{ p: 0 }}>
                 <Button onClick={() => handleClose()} className='btn cancleBtn'>Hủy</Button>
-                <Button type="submit" className='btn saveBtn'>Lưu</Button>
+                <Button type="submit" disabled={saving} className='btn saveBtn'> {saving ? <CircularProgress color='inherit' size={20} /> : <Save />} &nbsp; Lưu </Button>
             </DialogActions>
         </form>
     );
@@ -206,17 +216,18 @@ const FormLicenseFee = ({ data, isEdit, setPostSuccess }: any) => {
             {(openDialogs: (content: React.ReactNode, title: React.ReactNode) => void, closeDialogs: () => void) => (
                 <>
                     {
-                        isEdit ?
+                        isEdit ? (
                             <EditNote className='tableActionBtn' onClick={() => openDialogs(<Form data={data} setPostSuccess={setPostSuccess} isEdit={isEdit} closeDialogs={closeDialogs} />, formTitle)} />
-                            :
+                        ) : (
                             <Button
                                 size="small" startIcon={<Add />}
                                 onClick={() => openDialogs(
                                     <Form data={data} setPostSuccess={setPostSuccess} isEdit={isEdit} closeDialogs={closeDialogs} />, formTitle
-                                )
-                                }
-                            >Thêm mới
+                                )}
+                            >
+                                Thêm mới
                             </Button>
+                        )
                     }
                 </>
             )}

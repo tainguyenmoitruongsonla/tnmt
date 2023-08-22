@@ -4,15 +4,15 @@ import { useState, ChangeEvent, MouseEvent } from 'react';
 // ** Icons Imports
 import EyeOutline from 'mdi-material-ui/EyeOutline'
 import EyeOffOutline from 'mdi-material-ui/EyeOffOutline'
-import { EditNote, PersonAddAlt } from "@mui/icons-material";
+import { EditNote, PersonAddAlt, Save } from "@mui/icons-material";
 
 // ** MUI Imports
-import { Grid, Button, DialogActions, IconButton, Typography, FormControl, InputAdornment, TextField } from "@mui/material";
+import { Grid, Button, DialogActions, IconButton, Typography, FormControl, InputAdornment, TextField, CircularProgress } from "@mui/material";
 
 // ** Component Imports
 import DialogsControl from 'src/@core/components/dialog-control';
 import postApiData from 'src/api/post';
-import { useLoadingContext } from 'src/@core/theme/loading-provider';
+
 
 interface State {
   id?: string,
@@ -37,7 +37,7 @@ const Form = ({ data, setPostSuccess, isEdit, closeDialogs }: any) => {
   });
 
   const [showPassword, setShowPassword] = useState(false)
-  const { showLoading, hideLoading } = useLoadingContext();
+  const [saving, setSaving] = useState(false);
 
   const handleChange = (prop: keyof State) => (event: ChangeEvent<HTMLInputElement>) => {
     const value = event.target.type === 'checkbox' ? event.target.checked : event.target.value;
@@ -56,25 +56,29 @@ const Form = ({ data, setPostSuccess, isEdit, closeDialogs }: any) => {
     e.preventDefault();
 
     const handleApiCall = async () => {
-      showLoading();
-      const res = await postApiData('User/save', values);
+      setSaving(true)
+      try {
+        const res = await postApiData('User/save', values);
+        if (res) {
+          // Reset form fields
+          setValues({
+            id: '',
+            userName: '',
+            password: '',
+            confirmPassword: '',
+            fullName: '',
+            email: '',
+            phoneNumber: '',
+          });
 
-      if (res) {
-        // Reset form fields
-        setValues({
-          id: '',
-          userName: '',
-          password: '',
-          confirmPassword: '',
-          fullName: '',
-          email: '',
-          phoneNumber: '',
-        });
-
-        typeof (setPostSuccess) === 'function' ? setPostSuccess(true) : '';
-        closeDialogs();
+          typeof (setPostSuccess) === 'function' ? setPostSuccess(true) : '';
+          closeDialogs();
+        }
+      } catch (error) {
+        console.log(error)
+      } finally {6
+        setSaving(false)
       }
-      hideLoading();
     };
 
     // Call the function
@@ -162,13 +166,13 @@ const Form = ({ data, setPostSuccess, isEdit, closeDialogs }: any) => {
       </Grid>
       <DialogActions sx={{ p: 0 }}>
         <Button onClick={() => handleClose()} className='btn cancleBtn'>Hủy</Button>
-        <Button type="submit" className='btn saveBtn'>Lưu</Button>
+        <Button type="submit" disabled={saving} className='btn saveBtn'> {saving ? <CircularProgress color='inherit' size={20} /> : <Save />} &nbsp; Lưu </Button>
       </DialogActions>
     </form>
   );
 };
 
-const EditAccount = ({ data, setPostSuccess, isEdit }: any) => {
+const FormAccount = ({ data, setPostSuccess, isEdit }: any) => {
   const formTitle = isEdit ? 'Thay đổi thông tin tài khoản' : 'Thêm tài khoản mới';
 
   return (
@@ -190,4 +194,4 @@ const EditAccount = ({ data, setPostSuccess, isEdit }: any) => {
   );
 };
 
-export default EditAccount;
+export default FormAccount;

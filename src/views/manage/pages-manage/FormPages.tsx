@@ -1,8 +1,8 @@
 import DialogsControl from 'src/@core/components/dialog-control';
-import { EditNote, PersonAddAlt } from "@mui/icons-material";
-import { Grid, Button, TextField, DialogActions, IconButton, Typography, FormControlLabel, Checkbox } from "@mui/material";
+import { EditNote, PersonAddAlt, Save } from "@mui/icons-material";
+import { Grid, Button, TextField, DialogActions, IconButton, Typography, FormControlLabel, Checkbox, CircularProgress } from "@mui/material";
 import { ChangeEvent, useState } from 'react';
-import { useLoadingContext } from 'src/@core/theme/loading-provider';
+
 import postData from 'src/api/post';
 
 interface State {
@@ -16,6 +16,7 @@ interface State {
 
 const Form = ({ data, setPostSuccess, closeDialogs }: any) => {
 
+  const [saving, setSaving] = useState(false);
   const [values, setValues] = useState<State>({
     id: data?.id || 0,
     name: data?.name || '',
@@ -29,30 +30,27 @@ const Form = ({ data, setPostSuccess, closeDialogs }: any) => {
     setValues({ ...values, [prop]: value });
   };
 
-  const { showLoading, hideLoading } = useLoadingContext();
-
   const handleSubmit = async (e: any) => {
     e.preventDefault();
 
     const handleApiCall = async () => {
-      showLoading();
-      const res = await postData('Dashboard/save', values);
 
-      if (res) {
-        // Reset form fields
-        setValues({
-          id: 0,
-          name: '',
-          path: '',
-          description: '',
-          permitAccess: false,
-        });
+      setSaving(true)
+      try {
+        const res = await postData('Dashboard/save', values);
+        if (res) {
+          // Reset form fields
+          setValues({});
 
-        typeof (setPostSuccess) === 'function' ? setPostSuccess(true) : '';
-        closeDialogs();
+          typeof (setPostSuccess) === 'function' ? setPostSuccess(true) : '';
+          closeDialogs();
+        }
+      } catch (error) {
+        console.log(error)
+      } finally {
+        setSaving(false)
       }
-      hideLoading();
-    };
+    }
 
     // Call the function
     handleApiCall();
@@ -88,13 +86,13 @@ const Form = ({ data, setPostSuccess, closeDialogs }: any) => {
       </Grid>
       <DialogActions sx={{ p: 0 }}>
         <Button onClick={() => handleClose()} className='btn cancleBtn'>Hủy</Button>
-        <Button type="submit" className='btn saveBtn'>Lưu</Button>
+        <Button type="submit" disabled={saving} className='btn saveBtn'> {saving ? <CircularProgress color='inherit' size={20} /> : <Save />} &nbsp; Lưu </Button>
       </DialogActions>
     </form>
   );
 };
 
-const EditPages = ({ data, isEdit, setPostSuccess }: any) => {
+const FormPages = ({ data, isEdit, setPostSuccess }: any) => {
   const formTitle = isEdit ? 'Thay đổi thông tin trang truy cập' : 'Thêm trang truy cập';
 
   return (
@@ -117,4 +115,4 @@ const EditPages = ({ data, isEdit, setPostSuccess }: any) => {
   );
 };
 
-export default EditPages;
+export default FormPages;

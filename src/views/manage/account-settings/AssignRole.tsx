@@ -2,16 +2,17 @@
 import React, { useState, useEffect, ChangeEvent } from 'react';
 
 // ** Imports MUI
-import { Grid, DialogActions, Typography, TextField, Table, TableHead, TableRow, TableCell, TableBody, Checkbox, Button } from '@mui/material';
+import { Grid, DialogActions, Typography, TextField, Table, TableHead, TableRow, TableCell, TableBody, Checkbox, Button, CircularProgress } from '@mui/material';
 
 // ** Imports Icons
-import { ShieldTwoTone } from '@mui/icons-material';
+import { Save, ShieldTwoTone } from '@mui/icons-material';
 
 // ** Imports Component
 import DialogsControlFullScreen from 'src/@core/components/dialog-control-full-screen';
 import fetchData from 'src/api/fetch';
 import postData from 'src/api/post';
-import { useLoadingContext } from 'src/@core/theme/loading-provider';
+import BoxLoading from 'src/@core/components/box-loading';
+
 
 interface State {
   userId: string
@@ -20,14 +21,10 @@ interface State {
 
 const Form = ({ data, setPostSuccess, closeDialogs }: any) => {
 
-  const [roleData, setRoleData] = useState([]);  
-  const { showLoading, hideLoading } = useLoadingContext();
-  const [loading, setLoading] = useState(false)
-  if (loading == true) {
-    showLoading();
-  } else {
-    hideLoading();
-  }
+  const [roleData, setRoleData] = useState([]);
+  const [fecthing, setFetching] = useState(false);
+  const [saving, setSaving] = useState(false);
+
   const [values, setValues] = useState<State>({
     userId: data?.id,
     roleName: data?.role,
@@ -36,13 +33,13 @@ const Form = ({ data, setPostSuccess, closeDialogs }: any) => {
   useEffect(() => {
     const getData = async () => {
       try {
-        setLoading(true)
+        setFetching(true)
         const data = await fetchData('Role/list');
         setRoleData(data);
       } catch (error) {
         setRoleData([]);
       }
-      setLoading(false)
+      setFetching(false)
     };
 
     getData();
@@ -61,22 +58,26 @@ const Form = ({ data, setPostSuccess, closeDialogs }: any) => {
     e.preventDefault();
 
     const handleApiCall = async () => {
-      setLoading(true)
-      const res = await postData('Auth/assign-role', values);
+      setSaving(true)
+      try {
+        const res = await postData('Auth/assign-role', values);
+        if (res) {
+          // Reset form fields
+          setValues({
+            userId: '',
+            roleName: '',
+          });
 
-      if (res) {
-        // Reset form fields
-        setValues({
-          userId: '',
-          roleName: '',
-        });
-
-        if (typeof setPostSuccess === 'function') {
-          setPostSuccess(true);
+          if (typeof setPostSuccess === 'function') {
+            setPostSuccess(true);
+          }
+          closeDialogs();
         }
-        closeDialogs();
+      } catch (error) {
+        console.log(error)
+      } finally {
+        setSaving(false)
       }
-      setLoading(false)
     };
 
     // Call the function
@@ -115,36 +116,39 @@ const Form = ({ data, setPostSuccess, closeDialogs }: any) => {
             <Typography variant='h6'>PHÂN QUYỀN TRUY CẬP</Typography>
           </Grid>
           <Grid item xs={12} sm={12}>
-            <Table>
-              <TableHead>
-                <TableRow>
-                  <TableCell size='small'>ROLES</TableCell>
-                  <TableCell size='small'>PERMIT</TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {roleData.map((row: any, key) => (
-                  <TableRow key={key}>
-                    <TableCell size='small'>
-                      {row?.name}
-                    </TableCell>
-                    <TableCell size='small'>
-                      <Checkbox
-                        name='isDefault'
-                        checked={values.roleName === row.name}
-                        onChange={handleChange('roleName', row.name)}
-                      />
-
-                    </TableCell>
+            {fecthing ? (<BoxLoading />) : (
+              <Table>
+                <TableHead>
+                  <TableRow>
+                    <TableCell size='small'>ROLES</TableCell>
+                    <TableCell size='small'>PERMIT</TableCell>
                   </TableRow>
-                ))}
-              </TableBody>
-            </Table>
+                </TableHead>
+                <TableBody>
+                  {roleData.map((row: any, key) => (
+                    <TableRow key={key}>
+                      <TableCell size='small'>
+                        {row?.name}
+                      </TableCell>
+                      <TableCell size='small'>
+                        <Checkbox
+                          name='isDefault'
+                          checked={values.roleName === row.name}
+                          onChange={handleChange('roleName', row.name)}
+                        />
+
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            )}
+
           </Grid>
         </Grid>
         <DialogActions>
           <Button className='btn cancleBtn' onClick={handleClose}>HỦY</Button>
-          <Button type='submit' className='btn saveBtn'>LƯU THAY ĐỔI</Button>
+          <Button type="submit" disabled={saving} className='btn saveBtn'> {saving ? <CircularProgress color='inherit' size={20} /> : <Save />} &nbsp; Lưu </Button>
         </DialogActions>
       </form>
     </div>

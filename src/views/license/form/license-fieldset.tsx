@@ -11,7 +11,7 @@ interface LicenseFieldsetProps {
     onChange: (data: LicenseState) => void;
 }
 
-interface LicenseState {
+export interface LicenseState {
     id: number;
     parentId: number;
     licensingTypeId: number;
@@ -181,7 +181,7 @@ const LicenseFieldset: FC<LicenseFieldsetProps> = ({ data, onChange }) => {
                         getOptionLabel={(option: any) => option.title}
                         defaultValue={licensingAuthorities.find(option => option.value === licenseData.licensingAuthorities) || null}
                         isOptionEqualToValue={(option: any) => option.value}
-                        onChange={(_, value) => handleChange('licensingAuthorities')(value?.value || 0)}
+                        onChange={(_, value) => handleChange('licensingAuthorities')(value?.value || -1)}
                         renderInput={(params) => (
                             <TextField
                                 required

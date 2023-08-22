@@ -8,21 +8,17 @@ import { Delete } from '@mui/icons-material';
 // ** Component Imports
 import SetRole from './AssignRole';
 import ChangePassword from './ChangePassword';
-import EditAccount from './EditAccount';
+import FormAccount from './FormAccount';
 import TableComponent from 'src/@core/components/table';
 import fetchData from 'src/api/fetch';
-import { useLoadingContext } from 'src/@core/theme/loading-provider';
+
 
 const ListAccount = () => {
 
   const [postSuccess, setPostSuccess] = useState(false);
-  const { showLoading, hideLoading } = useLoadingContext();
-  const [loading, setLoading] = useState(false)
-  if (loading == true) {
-    showLoading();
-  } else {
-    hideLoading();
-  }
+  const [resData, setResData] = useState([]);
+  const [loading, setLoading] = useState(false);
+  
   const handlePostSuccess = () => {
     setPostSuccess(prevState => !prevState);
   };
@@ -33,10 +29,8 @@ const ListAccount = () => {
     { id: 'fullName', label: 'Họ tên(Full Name)', },
     { id: 'email', label: 'Email', },
     { id: 'phoneNumber', label: 'Số điện thoại(Phone Number)', },
-    { id: 'actions', label: '#', elm: (row: any) => (<># <EditAccount data={row} setPostSuccess={handlePostSuccess} isEdit={false} /></>) }
+    { id: 'actions', label: '#', elm: (row: any) => (<># <FormAccount data={row} setPostSuccess={handlePostSuccess} isEdit={false} /></>) }
   ]
-
-  const [resData, setResData] = useState([]);
 
   useEffect(() => {
     const getData = async () => {
@@ -55,7 +49,7 @@ const ListAccount = () => {
 
   return (
     <div>
-      <TableComponent columns={columnsTable} data={resData}
+      <TableComponent columns={columnsTable} data={resData} loading={loading}
         actions={(row: any) => (
           <Box>
             <IconButton aria-label="setRole">
@@ -65,7 +59,7 @@ const ListAccount = () => {
               <ChangePassword />
             </IconButton>
             <IconButton aria-label="edit">
-              <EditAccount data={row} setPostSuccess={handlePostSuccess} isEdit={true} />
+              <FormAccount data={row} setPostSuccess={handlePostSuccess} isEdit={true} />
             </IconButton>
             <IconButton aria-label="delete">
               <Delete className='tableActionBtn deleteBtn' />

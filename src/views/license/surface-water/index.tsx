@@ -19,7 +19,7 @@ import CreateLicense from '../form';
 
 import dynamic from 'next/dynamic';
 import fetchData from 'src/api/fetch';
-import { useLoadingContext } from 'src/@core/theme/loading-provider';
+
 
 const Map = dynamic(() => import("src/@core/components/map"), { ssr: false });
 
@@ -32,9 +32,7 @@ const SurfaceWaterLicense = () => {
   const [mapZoom] = useState(9);
 
   const [postSuccess, setPostSuccess] = useState(false);
-  const { showLoading, hideLoading } = useLoadingContext();
-  const [loading, setLoading] = useState(false)
-  loading == true ? showLoading() : hideLoading();
+  const [loading, setLoading] = useState(false);
 
   const handlePostSuccess = () => {
     setPostSuccess(prevState => !prevState);
@@ -264,18 +262,20 @@ const SurfaceWaterLicense = () => {
 
   useEffect(() => {
     const getData = async () => {
-      setLoading(true);
+      setLoading(true)
       try {
         const data = await fetchData('License/list');
         setResData(data);
       } catch (error) {
         setResData([]);
       } finally {
-        setLoading(false);
+        setLoading(false)
       }
     };
     getData();
   }, [postSuccess]);
+
+
 
   return (
     <Grid container spacing={2}>
@@ -299,6 +299,7 @@ const SurfaceWaterLicense = () => {
             columns={columnsTable}
             columnGroupingModel={columnGroup}
             columnFillter={columnFillter}
+            loading={loading}
             actions={
               <CreateLicense isEdit={false} setPostSuccess={handlePostSuccess} />
             }

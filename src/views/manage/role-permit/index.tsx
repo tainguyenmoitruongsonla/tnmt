@@ -7,27 +7,20 @@ import { IconButton, Box } from '@mui/material';
 // ** Component Imports
 import TableComponent from 'src/@core/components/table';
 import fetchData from 'src/api/fetch';
-import { useLoadingContext } from 'src/@core/theme/loading-provider';
+
 import AssignPermit from './assign-permit';
 import AssignFunction from './assign-function';
 
 const RolePermit = () => {
 
-  const { showLoading, hideLoading } = useLoadingContext();
-  const [loading, setLoading] = useState(false)
-  if (loading == true) {
-    showLoading();
-  } else {
-    hideLoading();
-  }
+  const [resData, setResData] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   const columnsTable = [
-    { id: 'name', label: 'Tên nhóm người dùng',elm:(row:any) => (<AssignFunction data={row} />) },
+    { id: 'name', label: 'Tên nhóm người dùng', elm: (row: any) => (<AssignFunction data={row} />) },
     { id: 'description', label: 'Mô tả', },
     { id: 'actions', label: '#', }
   ]
-
-  const [resData, setResData] = useState([]);
 
   useEffect(() => {
     const getData = async () => {
@@ -46,7 +39,7 @@ const RolePermit = () => {
 
   return (
     <div>
-      <TableComponent columns={columnsTable} data={resData}
+      <TableComponent columns={columnsTable} data={resData} loading={loading}
         actions={(row: any) => (
           <Box>
             <IconButton>

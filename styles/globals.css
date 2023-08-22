@@ -149,6 +149,13 @@ code[class*='language-'] {
   color: red !important;
 }
 
+.saveBtn, .cancleBtn{
+  max-height: 40px;
+  height: 40px;
+  max-width: 90px;
+  width: 90px;
+}
+
 
 .footer-content-container {
   padding: 5px !important;
