@@ -53,9 +53,34 @@ const SurfaceWaterLicense = () => {
     { field: 'business.name', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'Tên', minWidth: 400, valueGetter: (data) => (`${data.row.business?.name || ''}`) },
     { field: 'business.address', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'Địa chỉ', minWidth: 400, valueGetter: (data) => (`${data.row.business?.address || ''}`) },
 
-    //oldLicense
-    { field: 'oldLicense.licenseNumber', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'Số GP', minWidth: 150, renderCell: (data) => (<ShowFilePDF name={data.row.oldLicense?.licenseNumber} src={`/pdf/Licenses/` + data.row.oldLicense?.licensingAuthorities + `/` + data.row.oldLicense?.typeSlug + `/` + data.row.oldLicense?.LicenseFile} />) },
-    { field: 'oldLicense.signDate', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'Ngày ký', minWidth: 150, valueGetter: (data) => (`${data.row.oldLicense?.signDate || ''}`) },
+    //oldLicenses
+    {
+      field: 'oldLicenses.licenseNumber', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'Số GP', minWidth: 150, renderCell: (data) => (
+        <div>
+          {data.row.oldLicenses.map((license: any) => (
+            <div key={license.id}>
+              <ShowFilePDF
+                name={license.licenseNumber}
+                src={`/pdf/Licenses/${license.licensingAuthorities}/${license.typeSlug}/${license.licenseFile}`}
+              />
+            </div>
+          ))}
+        </div>
+      ),
+    },
+    {
+      field: 'oldLicenses.signDate', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'Ngày ký', minWidth: 150,
+      renderCell: (data) => (
+        <div>
+          {data.row.oldLicenses.map((license: any) => (
+            <div key={license.id}>
+              {FormatDate(license.signDate)}
+            </div>
+          ))}
+        </div>
+      ),
+    },
+
 
     //Construction
     { field: 'construction.constructionName', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'Tên Công trình', minWidth: 200, valueGetter: (data) => (`${data.row.construction?.constructionName || ''}`) },
@@ -121,8 +146,8 @@ const SurfaceWaterLicense = () => {
       headerClassName: 'tableHead',
       headerAlign: 'center',
       children: [
-        { field: 'oldLicense.licenseNumber' },
-        { field: 'oldLicense.signDate' }
+        { field: 'oldLicenses.licenseNumber' },
+        { field: 'oldLicenses.signDate' }
       ]
     },
     {
@@ -274,8 +299,6 @@ const SurfaceWaterLicense = () => {
     };
     getData();
   }, [postSuccess]);
-
-
 
   return (
     <Grid container spacing={2}>

@@ -28,6 +28,7 @@ const FormLicense: React.FC<FormLicenseProps> = ({ data, closeDialogs, setPostSu
   const [licenseData, setLicenseData] = useState<LicenseState>(data);
 
   const handleLicenseChange = (data: any) => {
+    console.log(data)
     setLicenseData(data);
   };
 
@@ -66,7 +67,7 @@ const FormLicense: React.FC<FormLicenseProps> = ({ data, closeDialogs, setPostSu
           // Reset form fields
           setLicenseData({
             id: 0,
-            parentId: 0,
+            childId: 0,
             licensingTypeId: 0,
             businessId: 0,
             licenseName: '',

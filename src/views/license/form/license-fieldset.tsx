@@ -13,7 +13,7 @@ interface LicenseFieldsetProps {
 
 export interface LicenseState {
     id: number;
-    parentId: number;
+    childId: number;
     licensingTypeId: number;
     businessId: number;
     licenseName: string;
@@ -41,7 +41,7 @@ const LicenseFieldset: FC<LicenseFieldsetProps> = ({ data, onChange }) => {
 
     const [licenseData, setLicenseData] = useState<LicenseState>({
         id: data?.id || 0,
-        parentId: data?.parentId || 0,
+        childId: data?.childId || 0,
         licensingTypeId: data?.licensingTypeId || 0,
         businessId: data?.businessId || 0,
         licenseName: data?.licenseName || '',
@@ -111,7 +111,7 @@ const LicenseFieldset: FC<LicenseFieldsetProps> = ({ data, onChange }) => {
                         label='Số giấy phép'
                         fullWidth
                         placeholder=''
-                        defaultValue={licenseData.licenseNumber}
+                        value={licenseData.licenseNumber}
                         onChange={(event) => handleChange('licenseNumber')(event.target.value)}
                     />
                 </Grid>
@@ -133,7 +133,7 @@ const LicenseFieldset: FC<LicenseFieldsetProps> = ({ data, onChange }) => {
                         label='Tên văn bản'
                         fullWidth
                         placeholder=''
-                        defaultValue={licenseData.licenseName}
+                        value={licenseData.licenseName}
                         onChange={(event) => handleChange('licenseName')(event.target.value)} />
                 </Grid>
                 <Grid item xs={12} md={6} sm={12} sx={{ my: 2 }}>
@@ -151,7 +151,7 @@ const LicenseFieldset: FC<LicenseFieldsetProps> = ({ data, onChange }) => {
                         size="small"
                         options={licensingType}
                         getOptionLabel={(option: any) => option.title}
-                        defaultValue={licensingType.find(option => option.value === licenseData.licensingTypeId) || null}
+                        value={licensingType.find(option => option.value === licenseData.licensingTypeId) || null}
                         isOptionEqualToValue={(option: any) => option.value}
                         onChange={(_, value) => handleChange('licensingTypeId')(value?.value || 0)}
                         renderInput={(params) => (
@@ -171,7 +171,7 @@ const LicenseFieldset: FC<LicenseFieldsetProps> = ({ data, onChange }) => {
                         label='Thời hạn giấy phép'
                         fullWidth
                         placeholder=''
-                        defaultValue={licenseData.duration}
+                        value={licenseData.duration}
                         onChange={(event) => handleChange('duration')(event.target.value)} />
                 </Grid>
                 <Grid item xs={12} md={6} sm={12} sx={{ my: 2 }}>
@@ -179,7 +179,7 @@ const LicenseFieldset: FC<LicenseFieldsetProps> = ({ data, onChange }) => {
                         size="small"
                         options={licensingAuthorities}
                         getOptionLabel={(option: any) => option.title}
-                        defaultValue={licensingAuthorities.find(option => option.value === licenseData.licensingAuthorities) || null}
+                        value={licensingAuthorities.find(option => option.value === licenseData.licensingAuthorities) || null}
                         isOptionEqualToValue={(option: any) => option.value}
                         onChange={(_, value) => handleChange('licensingAuthorities')(value?.value || -1)}
                         renderInput={(params) => (
@@ -215,8 +215,8 @@ const LicenseFieldset: FC<LicenseFieldsetProps> = ({ data, onChange }) => {
                             options={listLic}
                             getOptionLabel={(option: any) => option.licenseNumber}
                             isOptionEqualToValue={(option: any) => option.id}
-                            defaultValue={listLic.find((option: any) => option.parentId === licenseData.id) || null}
-                            onChange={(_, value) => { handleChange('parentId')(value?.value || 0); setOldLic(value || []) }}
+                            defaultValue={listLic.find((option: any) => option.childId === licenseData.id) || null}
+                            onChange={(_, value) => { handleChange('childId')(value?.id || 0); setOldLic(value || []) }}
                             renderInput={(params) => (
                                 <TextField
                                     required
@@ -245,28 +245,28 @@ const LicenseFieldset: FC<LicenseFieldsetProps> = ({ data, onChange }) => {
 
 
                 {/* <Grid item xs={12} md={6} sm={12} sx={{ my: 2 }}>
-                    <TextField size='small' type='text' label='Thiết bị quan trắc mực nước' fullWidth placeholder='' defaultValue='' />
+                    <TextField size='small' type='text' label='Thiết bị quan trắc mực nước' fullWidth placeholder='' value='' />
                 </Grid>
                 <Grid item xs={12} md={6} sm={12} sx={{ my: 2 }}>
-                    <TextField size='small' type='text' label='Thiết bị quan trắc lưu lượng' fullWidth placeholder='' defaultValue='' />
+                    <TextField size='small' type='text' label='Thiết bị quan trắc lưu lượng' fullWidth placeholder='' value='' />
                 </Grid>
                 <Grid item xs={12} md={6} sm={12} sx={{ my: 2 }}>
-                    <TextField size='small' type='text' label='Thiết bị quan trắc dòng chảy tối thiểu' fullWidth placeholder='' defaultValue='' />
+                    <TextField size='small' type='text' label='Thiết bị quan trắc dòng chảy tối thiểu' fullWidth placeholder='' value='' />
                 </Grid>
                 <Grid item xs={12} md={6} sm={12} sx={{ my: 2 }}>
-                    <TextField size='small' type='text' label='Thiết bị quan trắc định kỳ' fullWidth placeholder='' defaultValue='' />
+                    <TextField size='small' type='text' label='Thiết bị quan trắc định kỳ' fullWidth placeholder='' value='' />
                 </Grid>
                 <Grid item xs={12} md={6} sm={12} sx={{ my: 2 }}>
-                    <TextField size='small' type='text' label={<>Q<sub>tt</sub>(m<sup>3</sup>/<sub>s</sub>)</>} fullWidth placeholder='' defaultValue='' />
+                    <TextField size='small' type='text' label={<>Q<sub>tt</sub>(m<sup>3</sup>/<sub>s</sub>)</>} fullWidth placeholder='' value='' />
                 </Grid>
                 <Grid item xs={12} md={6} sm={12} sx={{ my: 2 }}>
-                    <TextField size='small' type='text' label={<>H<sub>hồ</sub>(m)</>} fullWidth placeholder='' defaultValue='' />
+                    <TextField size='small' type='text' label={<>H<sub>hồ</sub>(m)</>} fullWidth placeholder='' value='' />
                 </Grid>
                 <Grid item xs={12} md={6} sm={12} sx={{ my: 2 }}>
-                    <TextField size='small' type='text' label={<>Q<sub>qua nhà máy</sub>(m<sup>3</sup>/<sub>s</sub>)</>} fullWidth placeholder='' defaultValue='' />
+                    <TextField size='small' type='text' label={<>Q<sub>qua nhà máy</sub>(m<sup>3</sup>/<sub>s</sub>)</>} fullWidth placeholder='' value='' />
                 </Grid>
                 <Grid item xs={12} md={6} sm={12} sx={{ my: 2 }}>
-                    <TextField size='small' type='text' label={<>Q<sub>qua tràn</sub>(m<sup>3</sup>/<sub>s</sub>)</>} fullWidth placeholder='' defaultValue='' />
+                    <TextField size='small' type='text' label={<>Q<sub>qua tràn</sub>(m<sup>3</sup>/<sub>s</sub>)</>} fullWidth placeholder='' value='' />
                 </Grid> */}
             </Grid>
         </fieldset>
