@@ -212,7 +212,7 @@ const LicenseFieldset: FC<LicenseFieldsetProps> = ({ data, onChange }) => {
                                     options={listLic}
                                     getOptionLabel={(option: any) => option.licenseNumber}
                                     isOptionEqualToValue={(option: any) => option.id}
-                                    defaultValue={listLic.find((option: any) => option.childId === licenseData.id) || null}
+                                    defaultValue={listLic.find((option: any) => option.id === licenseData.childId) || null}
                                     onChange={(_, value) => { handleChange('childId')(value?.id || 0); setOldLic(value || []) }}
                                     renderInput={(params) => (
                                         <TextField

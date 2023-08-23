@@ -56,15 +56,15 @@ const LicenseFeeFeild: FC<LicenseFeeFieldsetProps> = ({ data, onChange }) => {
         newLicenseFees[index][prop] = value;
         setLicenseFees(newLicenseFees);
 
-        onChange(newLicenseFees); 
+        onChange(newLicenseFees);
     };
 
     return (
-        <fieldset>
-            <legend>
-                <Typography variant={'subtitle1'} className='legend__title'>TIỀN CẤP QUYỀN</Typography>
-            </legend>
-            <TableContainer component={Paper}>
+        <TableContainer component={Paper}>
+            <fieldset>
+                <legend>
+                    <Typography variant={'subtitle1'} className='legend__title'>TIỀN CẤP QUYỀN</Typography>
+                </legend>
                 <Table sx={{ minWidth: 650 }} aria-label='simple table'>
                     <TableHead>
                         <TableRow>
@@ -139,8 +139,9 @@ const LicenseFeeFeild: FC<LicenseFeeFieldsetProps> = ({ data, onChange }) => {
                         ))}
                     </TableBody>
                 </Table>
-            </TableContainer>
-        </fieldset>)
+            </fieldset>
+        </TableContainer>
+    )
 }
 
 export default LicenseFeeFeild

@@ -36,6 +36,7 @@ const Form: React.FC<FormProps> = ({ data, closeDialogs, setPostSuccess }) => {
             } catch (error) {
             } finally {
                 setSaving(false)
+                closeDialogs();
             }
         };
 
@@ -48,7 +49,7 @@ const Form: React.FC<FormProps> = ({ data, closeDialogs, setPostSuccess }) => {
     };
 
     return (
-        <form onSubmit={handleSubmit}>
+        <form>
             <Grid container gap={3}>
                 <Grid item xs={12}>
                     <BusinessFieldset data={data} onChange={handleBusinessChange} />
@@ -57,7 +58,7 @@ const Form: React.FC<FormProps> = ({ data, closeDialogs, setPostSuccess }) => {
 
             <DialogActions sx={{ p: 0, mt: 5 }}>
                 <Button size='small' onClick={handleClose} className='btn cancleBtn'> Hủy </Button>
-                <Button type="submit" disabled={saving} className='btn saveBtn'> {saving ? <CircularProgress color='inherit' size={20} /> : <Save />} &nbsp; Lưu </Button>
+                <Button onClick={handleSubmit} disabled={saving} className='btn saveBtn'> {saving ? <CircularProgress color='inherit' size={20} /> : <Save />} &nbsp; Lưu </Button>
             </DialogActions>
         </form>
     );

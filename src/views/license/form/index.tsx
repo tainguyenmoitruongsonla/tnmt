@@ -24,6 +24,10 @@ const FormLicense: React.FC<FormLicenseProps> = ({ data, closeDialogs, setPostSu
   //Business
   const [listBusiness, setListBusiness] = useState<any>([]);
   const [business, setBusiness] = useState<any>({});
+  const [saveBusinessSuccess, setBusinessSuccess] = useState<boolean>(false)
+  const handleSaveBusinessSuccess = () => {
+    setBusinessSuccess(prevState => !prevState);
+  };
 
   //License
   const [licenseData, setLicenseData] = useState<LicenseState>(data);
@@ -56,7 +60,7 @@ const FormLicense: React.FC<FormLicenseProps> = ({ data, closeDialogs, setPostSu
     }
 
     if (
-      !business.id ||
+      !business || !licenseData?.businessId ||
       !licenseData?.licenseNumber ||
       !licenseData?.signDate ||
       !licenseData?.issueDate ||
@@ -65,7 +69,7 @@ const FormLicense: React.FC<FormLicenseProps> = ({ data, closeDialogs, setPostSu
     ) {
       let res: string | undefined = undefined;
 
-      if (!business.id) {
+      if (!licenseData?.businessId && licenseData?.businessId > 0) {
         res = 'Chủ giấy phép*';
       } else if (!licenseData?.licenseNumber) {
         res = 'Số giấy phép*';
@@ -132,6 +136,10 @@ const FormLicense: React.FC<FormLicenseProps> = ({ data, closeDialogs, setPostSu
       setFetching(true)
       try {
         const data = await fetchData('Business/list');
+        if (licenseData?.businessId > 0) {
+          const singleBusiness = await fetchData(`Business/${licenseData?.businessId}`)
+          setBusiness(singleBusiness)
+        }
         if (isMounted) {
           setListBusiness(data);
         }
@@ -151,7 +159,7 @@ const FormLicense: React.FC<FormLicenseProps> = ({ data, closeDialogs, setPostSu
     return () => {
       isMounted = false; // Set the flag to false when unmounting
     };
-  }, []);
+  }, [licenseData?.businessId, saveBusinessSuccess]);
 
   const handleClose = () => {
     closeDialogs();
@@ -167,7 +175,7 @@ const FormLicense: React.FC<FormLicenseProps> = ({ data, closeDialogs, setPostSu
             </legend>
             {fetching ? <CircularProgress size={20} /> : (
               <Grid container spacing={4} alignContent={'center'}>
-                <Grid item xs={12} md={4} sm={12} sx={{ my: 2 }}>
+                <Grid item xs={12} md={4} sm={12}>
                   <Autocomplete
                     size="small"
                     options={listBusiness}
@@ -186,7 +194,7 @@ const FormLicense: React.FC<FormLicenseProps> = ({ data, closeDialogs, setPostSu
                     )}
                   />
                 </Grid>
-                <Grid item xs={12} md={6} sm={12} sx={{ my: 2 }}>
+                <Grid item xs={12} md={6} sm={12}>
                   <TextField
                     label='Địa chỉ'
                     size='small'
@@ -195,8 +203,8 @@ const FormLicense: React.FC<FormLicenseProps> = ({ data, closeDialogs, setPostSu
                     placeholder=''
                     value={business?.address || ''} />
                 </Grid>
-                <Grid item xs={12} md={2} sm={12} sx={{ my: 2 }} alignContent={'center'}>
-                  <FormBusiness isEdit={false} setPostSuccess={(prevState => !prevState)} />
+                <Grid item xs={12} md={2} sm={12} alignContent={'center'}>
+                  <FormBusiness isEdit={false} setPostSuccess={handleSaveBusinessSuccess} />
                 </Grid>
               </Grid>
             )}

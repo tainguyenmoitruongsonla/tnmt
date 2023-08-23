@@ -8,11 +8,16 @@ const fetchData = async (url: string) => {
         Authorization: `Bearer ${token}`,
       },
     });
-
     if (response.ok) {
-      const data = await response.json();
 
-      return data;
+      if (response.status === 204) {
+        // Empty response, return an empty object
+        return [];
+      } else {
+        const data = await response.json();
+
+        return data;
+      }
     } else {
       // Handle non-200 status code
       const errorData = await response.text();
@@ -20,7 +25,7 @@ const fetchData = async (url: string) => {
       throw new Error(errorData);
     }
   } catch (error) {
-    // Handle fetch or parsing errorsz
+    // Handle fetch or parsing errors
     console.log(error);
 
     return [];
