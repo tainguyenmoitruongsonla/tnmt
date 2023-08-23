@@ -93,9 +93,25 @@ const SurfaceWaterLicense = () => {
     { field: 'construction.basinName', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'Tiểu vùng quy hoạch', minWidth: 250, valueGetter: (data) => (`${data.row.construction?.basinName || ''}`) },
 
     //licenseFee
-    { field: 'licenseFee.licenseFeeNumber', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'Số QĐ', minWidth: 150, renderCell: (data) => (<ShowFilePDF name={data.row.licenseFee?.licenseFeeNumber} src={`/pdf/licenseFees/` + data.row.licenseFee?.licensingAuthorities + `/` + data.row.licenseFee?.filePDF} />) },
-    { field: 'licenseFee.signDate', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'Ngày ký', minWidth: 150, renderCell: (data) => (FormatDate(data.row.licenseFee?.signDate)) },
-    { field: 'licenseFee.TotalMoney', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'Tổng tiền cấp quyền (VNĐ)', minWidth: 150, type: 'number', valueGetter: (data) => (data.row.licenseFee?.totalMoney || '') },
+    {
+      field: 'licenseFees.licenseFeeNumber', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'Số QĐ', minWidth: 150, renderCell: (data) => {
+        <div>
+          {data.row.licenseFees.map((e: any) => (
+
+           console.log( e.licenseFeeNumber)
+
+            // <div key={e.id}>
+            //   <ShowFilePDF
+            //     name={e.licenseFeeNumber}
+            //     src={`/pdf/Licenses/${e.licensingAuthorities}/${e.typeSlug}/${e.licenseFile}`}
+            //   />
+            // </div>
+          ))}
+        </div>
+      }
+    },
+    { field: 'licenseFees.signDate', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'Ngày ký', minWidth: 150, renderCell: (data) => (FormatDate(data.row.licenseFee?.signDate)) },
+    { field: 'licenseFees.TotalMoney', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'Tổng tiền cấp quyền (VNĐ)', minWidth: 150, type: 'number', valueGetter: (data) => (data.row.licenseFee?.totalMoney || '') },
 
     //Action
     {
@@ -170,9 +186,9 @@ const SurfaceWaterLicense = () => {
       headerClassName: 'tableHead',
       headerAlign: 'center',
       children: [
-        { field: 'licenseFee.licenseFeeNumber' },
-        { field: 'licenseFee.signDate' },
-        { field: 'licenseFee.TotalMoney' }
+        { field: 'licenseFees.licenseFeeNumber' },
+        { field: 'licenseFees.signDate' },
+        { field: 'licenseFees.TotalMoney' }
       ],
     },
     {

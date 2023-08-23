@@ -11,33 +11,26 @@ import { useRouter } from 'next/router';
 import fetchData from 'src/api/fetch';
 import upload from 'src/api/upload-file';
 
-interface State {
+export interface LicenseFeeState {
     id?: number,
     childrenId?: number,
-    licenseFeeNumber?: string,
+    licenseFeeNumber?: string | null,
     signDate?: Dayjs | null,
-    totalMoney?: number,
-    filePdf?: string,
-    description?: string,
+    totalMoney?: number | undefined,
+    filePdf?: File | null | undefined,
+    description?: string | null,
 }
-
 
 const Form = ({ data, setPostSuccess, closeDialogs }: any) => {
 
-    const d = new Date();
-    const day = d.getDate() < 10 ? '0' + d.getDate() : d.getDate();
-    const m = d.getMonth() + 1 < 10 ? '0' + (d.getMonth() + 1) : d.getMonth() + 1;
-    const y = d.getFullYear();
-    const today = `${y}-${m}-${day}`
-
-    const [values, setValues] = useState<State>({
+    const [values, setValues] = useState<LicenseFeeState>({
         id: data?.id || 0,
         childrenId: data?.childrenId || 0,
-        licenseFeeNumber: data?.licenseFeeNumber || '',
-        signDate: dayjs(data?.signDate) || dayjs(today),
-        totalMoney: data?.totalMoney || '',
-        filePdf: data?.filePdf || '',
-        description: data?.description || '',
+        licenseFeeNumber: data?.licenseFeeNumber || null,
+        signDate: dayjs(data?.signDate) || null,
+        totalMoney: data?.totalMoney || null,
+        filePdf: data?.filePdf || null,
+        description: data?.description || null,
     });
 
     const [fileUpload, setFileUpload] = useState<any>()
@@ -50,7 +43,7 @@ const Form = ({ data, setPostSuccess, closeDialogs }: any) => {
     // Hooks
     const router = useRouter();
 
-    const handleChange = (prop: keyof State) => (event: ChangeEvent<HTMLInputElement>) => {
+    const handleChange = (prop: keyof LicenseFeeState) => (event: ChangeEvent<HTMLInputElement>) => {
         const value = event.target.type === 'checkbox' ? event.target.checked : event.target.value;
         setValues({ ...values, [prop]: value });
     };

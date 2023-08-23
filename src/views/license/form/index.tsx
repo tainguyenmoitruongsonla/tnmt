@@ -5,6 +5,7 @@ import DialogsControlFullScreen from 'src/@core/components/dialog-control-full-s
 import LicenseFieldset, { LicenseState } from 'src/views/license/form/license-fieldset';
 import ConstructionField from 'src/views/construction/form/sufacewater/cons-suface';
 import LicenseFeeFeild from 'src/views/license-fee/form/licensefee-feild';
+import { LicenseFeeState } from 'src/views/license-fee/form';
 import post from 'src/api/post';
 import fetchData from 'src/api/fetch';
 import FormBusiness from 'src/views/business/form';
@@ -44,7 +45,7 @@ const FormLicense: React.FC<FormLicenseProps> = ({ data, closeDialogs, setPostSu
   };
 
   //licenseFee
-  const [licenseFeeData, setLicenseFeeData] = useState<any[]>([]);
+  const [licenseFeeData, setLicenseFeeData] = useState<LicenseFeeState[]>([]);
 
   const handleLicenseFeeChange = (data: any) => {
     // Handle the updated license data here
@@ -115,6 +116,15 @@ const FormLicense: React.FC<FormLicenseProps> = ({ data, closeDialogs, setPostSu
             relatedDocumentFile: null,
             licenseRequestFile: null,
           });
+
+          licenseFeeData?.map(async (e: any) => {
+            e.licensingAuthorities = newLic.licensingAuthorities;
+            const licFee = await post('LicenseFee/save', e);
+            if (licFee.id) {
+              await post('LicenseLicenseFee/save', { id: 0, licenseId: res.id, licenseFeeId: licFee.id });
+            }
+          })
+
           typeof (setPostSuccess) === 'function' ? setPostSuccess(true) : '';
         }
       } catch (error) {

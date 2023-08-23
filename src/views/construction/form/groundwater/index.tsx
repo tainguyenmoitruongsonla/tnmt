@@ -38,40 +38,36 @@ const FormLicense: React.FC<FormLicenseProps> = ({ data, closeDialogs, setPostSu
     e.preventDefault();
 
     const handleApiCall = async () => {
-   
-        // 
-        const res = await postData('Construction/save', consSFData);
 
-        if (res) {
-            // Reset form fields
-            setConsSFData({
-              consData : consSFData,
-              consItem: consItemData,
-            });
+      // 
+      const res = await postData('Construction/save', consSFData);
 
-            typeof (setPostSuccess) === 'function' ? setPostSuccess(true) : '';
-            closeDialogs();
-        }
+      if (res) {
+        // Reset form fields
+        setConsSFData({
+          consData: consSFData,
+          consItem: consItemData,
+        });
 
-        // 
+        typeof (setPostSuccess) === 'function' ? setPostSuccess(true) : '';
+        closeDialogs();
+      }
+
+      // 
     };
 
     // Call the function
     handleApiCall();
-};
+  };
 
-const handleClose = () => {
-  setConsSFData({
-    consData : consSFData,
-    consItem: consItemData,
+  const handleClose = () => {
+    setConsSFData({
+      consData: consSFData,
+      consItem: consItemData,
     });
 
     closeDialogs();
-};
-
-
-console.log(consSFData);
-
+  };
 
   return (
     <form onSubmit={handleSubmit}>
@@ -81,7 +77,7 @@ console.log(consSFData);
         </Grid>
 
         <Grid item xs={12}>
-          <ConsGroundItem data={data?.consItem} onChange={handleconsItemChange}/>
+          <ConsGroundItem data={data?.consItem} onChange={handleconsItemChange} />
         </Grid>
       </Grid>
 

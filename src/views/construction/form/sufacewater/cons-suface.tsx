@@ -104,8 +104,6 @@ const ConstructionField: FC<ConsTypeFieldsetProps> = ({ data, onChange }) => {
     onChange({ ...consSFData, [prop]: value })
   }
 
-  console.log(consSFData)
-
   return (
     <>
       <fieldset>
@@ -226,14 +224,14 @@ const ConstructionField: FC<ConsTypeFieldsetProps> = ({ data, onChange }) => {
             />
           </Grid>
           <Grid item xs={12} md={6} sm={12} sx={{ my: 2 }}>
-              <Autocomplete
+            <Autocomplete
               size='small'
-               options={consType}
-               getOptionLabel={(option: any) => option.label}
-               defaultValue={consType.find((option: any) => option.value === consSFData.constructionTypeId) || null}
-               isOptionEqualToValue={(option: any) => option.id}
-               onChange={(_, value) => handleChange('constructionTypeId')(value?.id || 0)}
-               renderInput={params => <TextField  {...params} fullWidth label='Chọn tiểu vùng quy hoạch' />}
+              options={consType}
+              getOptionLabel={(option: any) => option.label}
+              defaultValue={consType.find((option: any) => option.value === consSFData.constructionTypeId) || null}
+              isOptionEqualToValue={(option: any) => option.id}
+              onChange={(_, value) => handleChange('constructionTypeId')(value?.id || 0)}
+              renderInput={params => <TextField  {...params} fullWidth label='Chọn tiểu vùng quy hoạch' />}
             />
           </Grid>
         </Grid>

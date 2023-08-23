@@ -1,43 +1,29 @@
 import { FC, useState } from 'react';
 import { Button, FormControl, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography } from "@mui/material"
 import DeleteIcon from '@mui/icons-material/Delete';
-import dayjs, { Dayjs } from 'dayjs';
+import dayjs from 'dayjs';
 import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { LicenseFeeState } from '.';
 
 interface LicenseFeeFieldsetProps {
     data?: LicenseFeeState; // Thêm prop data để truyền dữ liệu từ ngoài vào
     onChange: (data: LicenseFeeState[]) => void;
 }
 
-interface LicenseFeeState {
-    id?: number,
-    childrenId?: number,
-    licenseFeeNumber?: string,
-    signDate?: Dayjs | null,
-    totalMoney?: number | undefined,
-    filePdf?: File | null | undefined,
-    description?: string,
-}
 const LicenseFeeFeild: FC<LicenseFeeFieldsetProps> = ({ data, onChange }) => {
 
     const [licenseFees, setLicenseFees] = useState<LicenseFeeState[]>([]);
-
-    const d = new Date();
-    const day = d.getDate() < 10 ? '0' + d.getDate() : d.getDate();
-    const m = d.getMonth() + 1 < 10 ? '0' + (d.getMonth() + 1) : d.getMonth() + 1;
-    const y = d.getFullYear();
-    const today = `${y}-${m}-${day}`
 
     const addLicenseFee = () => {
         const newItem: LicenseFeeState = {
             id: 0,
             childrenId: 0,
-            licenseFeeNumber: '',
-            signDate: dayjs(data?.signDate) || dayjs(today),
+            licenseFeeNumber: null,
+            signDate: dayjs(data?.signDate) || null,
             totalMoney: 0,
             filePdf: null,
-            description: '',
+            description: null,
         };
         setLicenseFees((prevItems) => [...prevItems, newItem]);
     };
@@ -73,7 +59,7 @@ const LicenseFeeFeild: FC<LicenseFeeFieldsetProps> = ({ data, onChange }) => {
                             <TableCell size='small' align='center'>Ngày ký</TableCell>
                             <TableCell size='small' align='center'>Tổng TCQ</TableCell>
                             <TableCell size='small' align='center'>File TCQ</TableCell>
-                            <TableCell size='small' align='center'>
+                            <TableCell size='small' align='center' sx={{ maxWidth: 100, width: 100 }}>
                                 <Button className='btn-link' onClick={addLicenseFee}>Thêm</Button>
                             </TableCell>
                         </TableRow>
