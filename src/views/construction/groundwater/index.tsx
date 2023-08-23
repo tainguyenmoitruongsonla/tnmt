@@ -15,8 +15,9 @@ import { Delete } from '@mui/icons-material';
 
 import dynamic from 'next/dynamic';
 import fetchData from 'src/api/fetch';
+import CreateConstructionGround from '../form/groundwater';
 
-import CreateConstruction from '../form/sufacewater';
+
 
 
 const Map = dynamic(() => import("src/@core/components/map"), { ssr: false });
@@ -81,7 +82,7 @@ const GroundConstruction = () => {
         <Box>
           <Tooltip title="Chỉnh sửa giấy phép">
             <IconButton onClick={() => EditLicense(data)}>
-              <CreateConstruction isEdit={true} data={data.row} />
+              <CreateConstructionGround isEdit={true} data={data.row} />
             </IconButton>
           </Tooltip>
           <Tooltip title="Xóa giấy phép">
@@ -175,7 +176,6 @@ const GroundConstruction = () => {
   ];
 
   const columnFillter: columnFillters[] = [
-    
     {
         label: 'Loại công trình',
         value: 'constructionTypeSlug',
@@ -242,9 +242,6 @@ const GroundConstruction = () => {
 
   const [postSuccess, setPostSuccess] = useState(false);
   
-  
-  
-
   const handlePostSuccess = () => {
     setPostSuccess(prevState => !prevState);
   };
@@ -295,7 +292,7 @@ const GroundConstruction = () => {
             columnGroupingModel={columnGroup}
             columnFillter={columnFillters}
             actions={
-              <CreateConstruction isEdit={false} setPostSuccess={handlePostSuccess} />
+              <CreateConstructionGround isEdit={false} setPostSuccess={handlePostSuccess} />
             }
           />
         </Paper>

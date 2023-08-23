@@ -1,68 +1,128 @@
-import { EditNote } from '@mui/icons-material'
-import AddIcon from '@mui/icons-material/Add'
-import {
-  Grid,
-  Button,
-  DialogActions,
-} from '@mui/material'
-import DialogsControlFullScreen from 'src/@core/components/dialog-control-full-screen'
-import ConstructionField from './cons-ground'
+import React, { useState } from 'react';
+import { Add, Edit } from '@mui/icons-material';
+import { Button, DialogActions, Grid } from '@mui/material';
+
+import DialogsControlFullScreen from 'src/@core/components/dialog-control-full-screen';
+
+import postData from 'src/api/post';
+
+import GroundWaterField from './cons-ground';
+import ConsGroundItem from './ground-item';
 
 
-const FormContruction = ({ onSubmit, closeDialogs }: any) => {
-  const handleSubmit = (event: any) => {
-    event.preventDefault()
-    onSubmit()
-    closeDialogs()
-  }
-  const handleClose = () => {
-    closeDialogs()
-  }
+interface FormLicenseProps {
+  data: any;
+  closeDialogs: () => void;
+  setPostSuccess?: (value: boolean) => void;
+}
+
+const FormLicense: React.FC<FormLicenseProps> = ({ data, closeDialogs, setPostSuccess }) => {
+
+  //Business
+  const [consSFData, setConsSFData] = useState<any>({});
+
+  const handleConsSFChange = (data: any) => {
+    console.log(data)
+    setConsSFData(data);
+  };
+
+  //License
+  const [consItemData, setConsItemData] = useState<any>({});
+
+  const handleconsItemChange = (data: any) => {
+    console.log(data)
+    setConsItemData(data);
+  };
+
+  const handleSubmit = async (e: any) => {
+    e.preventDefault();
+
+    const handleApiCall = async () => {
+   
+        // 
+        const res = await postData('Construction/save', consSFData);
+
+        if (res) {
+            // Reset form fields
+            setConsSFData({
+              consData : consSFData,
+              consItem: consItemData,
+            });
+
+            typeof (setPostSuccess) === 'function' ? setPostSuccess(true) : '';
+            closeDialogs();
+        }
+
+        // 
+    };
+
+    // Call the function
+    handleApiCall();
+};
+
+const handleClose = () => {
+  setConsSFData({
+    consData : consSFData,
+    consItem: consItemData,
+    });
+
+    closeDialogs();
+};
+
+
+console.log(consSFData);
+
 
   return (
     <form onSubmit={handleSubmit}>
       <Grid container gap={3}>
         <Grid item xs={12}>
-          <ConstructionField />
+          <GroundWaterField data={data?.consData} onChange={handleConsSFChange} />
+        </Grid>
+
+        <Grid item xs={12}>
+          <ConsGroundItem data={data?.consItem} onChange={handleconsItemChange}/>
         </Grid>
       </Grid>
 
       <DialogActions sx={{ p: 0, mt: 5 }}>
-        <Button onClick={() => handleClose()} className='btn cancleBtn'>
+        <Button size='small' onClick={handleClose} className='btn cancleBtn'>
           Hủy
         </Button>
-        <Button type='submit' className='btn saveBtn'>
+        <Button size='small' type='submit' className='btn saveBtn'>
           Lưu
         </Button>
       </DialogActions>
     </form>
-  )
+  );
+};
+
+interface CreateConstructionProps {
+  isEdit: boolean;
+  data?: any;
+  setPostSuccess?: (value: boolean) => void;
 }
 
-const CreateConstructionGround = ({ isEdit }: { isEdit: boolean }) => {
-  const formTitle = isEdit ? 'Thay đổi thông tin trang truy cập' : 'THÔNG TIN CÔNG TRÌNH KHAI THÁC, SỬ DỤNG NƯỚC MẶT'
-  const handleSubmit = () => {
-    // handle form submission logic here
-  }
+const CreateConstructionGround: React.FC<CreateConstructionProps> = ({ isEdit, data, setPostSuccess }) => {
+  const formTitle = isEdit ? 'Sửa công trình' : 'Thêm công trình mới';
 
   return (
     <DialogsControlFullScreen>
       {(openDialogs: (content: React.ReactNode, title: React.ReactNode) => void, closeDialogs: () => void) => (
         <>
           {isEdit ? (
-            <EditNote
+            <Edit
+              className='tableActionBtn'
               onClick={() =>
-                openDialogs(<FormContruction onSubmit={handleSubmit} closeDialogs={closeDialogs} />, formTitle)
+                openDialogs(<FormLicense data={data} closeDialogs={closeDialogs} setPostSuccess={setPostSuccess} />, formTitle)
               }
             />
           ) : (
             <Button
-              fullWidth
-              size='small'
-              startIcon={<AddIcon />}
-              variant='outlined'
+              size="small"
+              startIcon={<Add />}
               onClick={() =>
-                openDialogs(<FormContruction onSubmit={handleSubmit} closeDialogs={closeDialogs} />, formTitle)
+                openDialogs(<FormLicense data={data} closeDialogs={closeDialogs} setPostSuccess={setPostSuccess} />, formTitle)
               }
             >
               Thêm mới
@@ -71,7 +131,7 @@ const CreateConstructionGround = ({ isEdit }: { isEdit: boolean }) => {
         </>
       )}
     </DialogsControlFullScreen>
-  )
-}
+  );
+};
 
-export default CreateConstructionGround
+export default CreateConstructionGround;

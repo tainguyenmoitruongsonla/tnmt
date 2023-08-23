@@ -103,4 +103,6 @@ export interface Suface {
   minimumFlowPre?: number | null
   maximumFlowPre?: number | null
   power?: number | null
+  miningAquifer ?: number | null
+  probeAquifer ?: number | null
 }

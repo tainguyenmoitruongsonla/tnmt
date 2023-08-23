@@ -2,7 +2,7 @@ import { Search } from '@mui/icons-material'
 import { Typography, Grid, Autocomplete, TextField, Button } from '@mui/material'
 import { useEffect, FC, useState } from 'react'
 import fetchData from 'src/api/fetch'
-import { Suface } from './construction'
+import { Suface } from '../construction'
 
 interface ConsTypeFieldsetProps {
   data?: Suface // Thêm prop data để truyền dữ liệu từ ngoài vào
@@ -123,7 +123,7 @@ const ConstructionField: FC<ConsTypeFieldsetProps> = ({ data, onChange }) => {
               defaultValue={consType.find((option: any) => option.value === consSFData.constructionTypeId) || null}
               isOptionEqualToValue={(option: any) => option.id}
               onChange={(_, value) => handleChange('constructionTypeId')(value?.id || 0)}
-              renderInput={params => <TextField required {...params} fullWidth label='Chọn loại hình CP' />}
+              renderInput={params => <TextField required {...params} fullWidth label='Chọn loại hình công trình' />}
             />
           </Grid>
 
