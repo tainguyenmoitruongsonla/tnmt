@@ -1,8 +1,7 @@
 import { useState, useEffect } from 'react'
-import { MapContainer, TileLayer, LayersControl, useMap, Marker, Popup } from 'react-leaflet';
+import { MapContainer, TileLayer, LayersControl, useMap, Marker, Popup, Tooltip } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import { BingLayer } from 'src/@core/components/bingmap';
-import { GeoJSON } from 'react-leaflet';
 import ReactLeafletKml from "react-leaflet-kml";
 import MapPopup from './pop-up';
 import { Typography } from '@mui/material';
@@ -19,18 +18,6 @@ const SetViewOnClick = ({ coords, zoom }: any) => {
 	// 	console.log(index);
 	// })
 	return null;
-}
-
-// Create style for map line
-const lineStyle = (feature: any) => {
-	return {
-		fillColor: "transparent",
-		weight: 3,
-		opacity: 1,
-		color: "orange", //Outline color
-		fillOpacity: 1,
-		className: "line-layer " + feature.properties.id
-	};
 }
 
 // Create icon for map marker
@@ -87,7 +74,7 @@ const getIcon = (type:any) => {
 	}
 }
 
-export default function Map({ center, zoom, mapLineData, mapMarkerData }: any) {
+export default function Map({ center, zoom, showLabel, mapMarkerData }: any) {
 	const bing_key = "AuhiCJHlGzhg93IqUH_oCpl_-ZUrIE6SPftlyGYUvr9Amx5nzA-WqGcPquyFZl4L"
 	const [kml, setKml] = useState<any>(null);
 
@@ -120,31 +107,13 @@ export default function Map({ center, zoom, mapLineData, mapMarkerData }: any) {
 						<BingLayer bingkey={bing_key} type="AerialWithLabels" />
 					</BaseLayer>
 				</LayersControl>
-				<GeoJSON data={mapLineData} style={lineStyle} onEachFeature={(feature, layer) => {
-					layer.on({
-						click: () => {
-							layer.bindPopup(feature.properties.detailContent, { closeOnClick: true, autoClose: true }).openPopup()
-						},
-						mouseover: (e) => {
-							e.target.setStyle({
-								color: '#cc34eb',
-								opacity: 1,
-								weight: 3
-							});
-						},
-						mouseout: (e) => {
-							e.target.setStyle({
-								color: 'orange',
-								opacity: 1,
-								weight: 3
-							});
-						}
-					});
-				}} />
 				{mapMarkerData && mapMarkerData.map((data:any) => {
 					if(data.lat !== null || data.lng !== null){
 						return (
 							<Marker icon={getIcon(data.constructionTypeSlug)} key={data.id} position={[data.lat, data.lng]}>
+								{showLabel === true && 
+									<Tooltip direction="top" offset={[-10, -18]} opacity={1} permanent>{data.constructionName}</Tooltip>
+								}
 								<Popup >
 									<Typography sx={{color: '#035291', textAlign: 'center', fontWeight: 'bold', margin: '10px 0 !important'}}>{data.constructionName}</Typography>
 									<MapPopup popupData={data} />

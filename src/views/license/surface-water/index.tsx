@@ -68,23 +68,7 @@ const SurfaceWaterLicense = () => {
     { field: 'construction.basinName', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'Tiểu vùng quy hoạch', minWidth: 250, valueGetter: (data) => (`${data.row.construction?.basinName || ''}`) },
 
     //licenseFee
-    {
-      field: 'licenseFees.licenseFeeNumber', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'Số QĐ', minWidth: 150, renderCell: (data) => {
-        <div>
-          {data.row.licenseFees.map((e: any) => (
-
-            console.log(e)
-
-            // <div key={e.id}>
-            //   <ShowFilePDF
-            //     name={e.licenseFeeNumber}
-            //     src={`/pdf/Licenses/${e.licensingAuthorities}/${e.typeSlug}/${e.licenseFile}`}
-            //   />
-            // </div>
-          ))}
-        </div>
-      }
-    },
+    { field: 'licenseFees.licenseNumber', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'Số GP', minWidth: 150, renderCell: (data) => (<ShowFilePDF name={data.row.licenseFees?.licenseFeeNumber} src={`/pdf/Licenses`} />) },
     { field: 'licenseFees.signDate', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'Ngày ký', minWidth: 150, renderCell: (data) => (FormatDate(data.row.licenseFee?.signDate)) },
     { field: 'licenseFees.TotalMoney', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'Tổng tiền cấp quyền (VNĐ)', minWidth: 150, type: 'number', valueGetter: (data) => (data.row.licenseFee?.totalMoney || '') },
 

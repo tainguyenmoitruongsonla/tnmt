@@ -12,6 +12,9 @@ import FormatDate from 'src/@core/components/format-date'
 import ShowFilePDF from 'src/@core/components/show-file-pdf'
 import DataGridComponent, { columnFillters } from 'src/@core/components/data-grid'
 import { Delete } from '@mui/icons-material'
+import FormGroup from '@mui/material/FormGroup';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import Checkbox from '@mui/material/Checkbox';
 
 import dynamic from 'next/dynamic'
 import fetchData from 'src/api/fetch'
@@ -592,6 +595,7 @@ const SurfaceConstruction = () => {
 
   const [mapCenter, setMapCenter] = useState([15.012172, 108.676488])
   const [mapZoom, setMapZoom] = useState(9)
+  const [showLabel, setShowLabel] = useState(false)
 
   const columnVisibility = {
     thuydien: [
@@ -698,9 +702,11 @@ const SurfaceConstruction = () => {
     setPostSuccess(prevState => !prevState)
   }
   const [resData, setResData] = useState([])
+  const [loading, setLoading] = useState(false)
 
   const getData = async () => {
     try {
+      setLoading(true)
       const data = await fetchData('Construction/list')
       const filteredData = data.filter((item: { [key: string]: any }) =>
         [
@@ -718,11 +724,12 @@ const SurfaceConstruction = () => {
     } catch (error) {
       setResData([])
     } finally {
+      setLoading(false)
     }
   }
 
   //delete
-  const [loading, setLoading] = useState(false)
+
   const DeleteRowData = async (data: any) => {
     const confirmed = window.confirm(`Bạn muốn xóa:  ${data.row?.constructionName} chứ?`)
     if (!confirmed) {
@@ -755,7 +762,12 @@ const SurfaceConstruction = () => {
     <Grid container spacing={2}>
       <Grid xs={12} md={12} sx={{ height: '55vh', overflow: 'hidden' }}>
         <Paper elevation={3} sx={{ height: '100%', position: 'relative' }}>
-          <Map center={mapCenter} zoom={mapZoom} mapData={null} mapMarkerData={resData} />
+          <Box className="map-legend" sx={{ background: 'white', pl: 2 }}>
+            <FormGroup>
+              <FormControlLabel control={<Checkbox onClick={ () => setShowLabel(!showLabel)} />} label="Hiển thị tên công trình" />
+            </FormGroup>
+          </Box>
+          <Map center={mapCenter} zoom={mapZoom} showLabel={showLabel} mapMarkerData={resData} />
         </Paper>
       </Grid>
       <Grid xs={12} md={12}>

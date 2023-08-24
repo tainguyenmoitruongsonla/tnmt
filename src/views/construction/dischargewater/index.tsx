@@ -12,6 +12,9 @@ import ShowFilePDF from 'src/@core/components/show-file-pdf';
 import DataGridComponent, { columnFillters } from 'src/@core/components/data-grid';
 import { Delete } from '@mui/icons-material';
 
+import FormGroup from '@mui/material/FormGroup';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import Checkbox from '@mui/material/Checkbox';
 
 import dynamic from 'next/dynamic';
 import fetchData from 'src/api/fetch';
@@ -209,6 +212,7 @@ const DischargeConstruction = () => {
 
   const [mapCenter, setMapCenter] = useState([15.012172, 108.676488]);
   const [mapZoom, setMapZoom] = useState(9);
+  const [showLabel, setShowLabel] = useState(false)
 
   const [columns, setColumns] = useState<any[]>([]);
   const [columnFillters, setcolumnFillters] = useState<any[]>([]);
@@ -219,6 +223,7 @@ const DischargeConstruction = () => {
     setPostSuccess(prevState => !prevState);
   };
   const [resData, setResData] = useState([]);
+  const [loading, setLoading] = useState(false)
 
   useEffect(() => {
     setColumns(columnsTable);
@@ -227,6 +232,7 @@ const DischargeConstruction = () => {
     const getData = async () => {
 
       try {
+        setLoading(true)
         const data = await fetchData('Construction/list');
         const filteredData = data.filter((item: { [key: string]: any }) =>
           ['khu_cumcn_taptrung', 'sx_tieuthu_cn', 'sx_kd_dv', 'cs_benhvien', 'khudancu_langnghe', 'channuoi_ntts', 'congtrinh_xathaikhac'].some(keyword =>
@@ -237,7 +243,7 @@ const DischargeConstruction = () => {
       } catch (error) {
         setResData([]);
       } finally {
-
+        setLoading(false)
       }
     };
 
@@ -254,13 +260,19 @@ const DischargeConstruction = () => {
     <Grid container spacing={2}>
       <Grid xs={12} md={12} sx={{ height: '55vh', overflow: 'hidden' }}>
         <Paper elevation={3} sx={{ height: '100%', position: 'relative' }}>
-          <Map center={mapCenter} zoom={mapZoom} mapData={null} mapMarkerData={resData} />
+          <Box className="map-legend" sx={{ background: 'white', pl: 2 }}>
+            <FormGroup>
+              <FormControlLabel control={<Checkbox onClick={ () => setShowLabel(!showLabel)} />} label="Hiển thị tên công trình" />
+            </FormGroup>
+          </Box>
+          <Map center={mapCenter} zoom={mapZoom} showLabel={showLabel} mapMarkerData={resData} />
         </Paper>
       </Grid>
       <Grid xs={12} md={12}>
         <Paper elevation={3} sx={{ p: 0, height: '100%' }}>
           <DataGridComponent
             rows={resData}
+            loading={loading}
             columns={columns}
             columnGroupingModel={columnGroup}
             columnFillter={columnFillters}
