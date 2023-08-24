@@ -19,15 +19,16 @@ const loginApi = async (username: string, password: string) => {
         });
 
         if (response.ok) {
-            const data = await response.json();
-            const decodedToken = jwt_decode(data) as DecodedToken;
+            const token = await response.json();
+
+            localStorage.setItem('authToken', token);
+
+            const decodedToken = jwt_decode(token) as DecodedToken;
 
             const userInfo = {
                 fullName: decodedToken['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier'],
                 userName: decodedToken['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name'],
                 userRole: decodedToken['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'],
-                userEmail: decodedToken['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress'],
-                userPhone: decodedToken['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/mobilephone'],
             }
             localStorage.setItem('userInfo', JSON.stringify(userInfo));
 

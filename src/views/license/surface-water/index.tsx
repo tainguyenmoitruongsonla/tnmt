@@ -53,40 +53,15 @@ const SurfaceWaterLicense = () => {
     { field: 'business.name', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'Tên', minWidth: 400, valueGetter: (data) => (`${data.row.business?.name || ''}`) },
     { field: 'business.address', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'Địa chỉ', minWidth: 400, valueGetter: (data) => (`${data.row.business?.address || ''}`) },
 
-    //oldLicenses
-    {
-      field: 'oldLicenses.licenseNumber', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'Số GP', minWidth: 150, renderCell: (data) => (
-        <div>
-          {data.row.oldLicenses.map((license: any) => (
-            <div key={license.id}>
-              <ShowFilePDF
-                name={license.licenseNumber}
-                src={`/pdf/Licenses/${license.licensingAuthorities}/${license.typeSlug}/${license.licenseFile}`}
-              />
-            </div>
-          ))}
-        </div>
-      ),
-    },
-    {
-      field: 'oldLicenses.signDate', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'Ngày ký', minWidth: 150,
-      renderCell: (data) => (
-        <div>
-          {data.row.oldLicenses.map((license: any) => (
-            <div key={license.id}>
-              {FormatDate(license.signDate)}
-            </div>
-          ))}
-        </div>
-      ),
-    },
-
+    //oldLicense
+    { field: 'oldLicense.licenseNumber', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'Số GP', minWidth: 150, renderCell: (data) => (<ShowFilePDF name={data.row.oldLicense?.licenseNumber} src={`/pdf/Licenses/${data.row.oldLicense?.licensingAuthorities}/${data.row.oldLicense?.typeSlug}/${data.row.oldLicense?.licenseFile}`} />) },
+    { field: 'oldLicense.signDate', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'Ngày ký', minWidth: 150, renderCell: (data) => (FormatDate(data.row.oldLicense?.signDate)), },
 
     //Construction
     { field: 'construction.constructionName', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'Tên Công trình', minWidth: 200, valueGetter: (data) => (`${data.row.construction?.constructionName || ''}`) },
     { field: 'construction.constructionLocation', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'Địa điểm Công trình', minWidth: 400, valueGetter: (data) => (`${data.row.construction?.constructionLocation || ''}`) },
     { field: 'construction.constructionTypeName', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'Loại hình Công trình', minWidth: 150, valueGetter: (data) => (`${data.row.construction?.constructionTypeName || ''}`) },
-    { field: 'construction.CommuneName', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'Xã', minWidth: 150, valueGetter: (data) => (`${data.row.construction?.CommuneName || ''}`) },
+    { field: 'construction.communeName', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'Xã', minWidth: 150, valueGetter: (data) => (`${data.row.construction?.communeName || ''}`) },
     { field: 'construction.districtName', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'Huyện', minWidth: 150, valueGetter: (data) => (`${data.row.construction?.districtName || ''}`) },
     { field: 'construction.exploitedWS', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'Nguồn nước khai thác', minWidth: 150, valueGetter: (data) => (`${data.row.construction?.exploitedWS || ''}`) },
     { field: 'construction.riverName', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'Lưu vực', minWidth: 150, valueGetter: (data) => (`${data.row.construction?.riverName || ''}`) },
@@ -98,7 +73,7 @@ const SurfaceWaterLicense = () => {
         <div>
           {data.row.licenseFees.map((e: any) => (
 
-           console.log( e.licenseFeeNumber)
+            console.log(e)
 
             // <div key={e.id}>
             //   <ShowFilePDF
@@ -162,8 +137,8 @@ const SurfaceWaterLicense = () => {
       headerClassName: 'tableHead',
       headerAlign: 'center',
       children: [
-        { field: 'oldLicenses.licenseNumber' },
-        { field: 'oldLicenses.signDate' }
+        { field: 'oldLicense.licenseNumber' },
+        { field: 'oldLicense.signDate' }
       ]
     },
     {
@@ -174,7 +149,7 @@ const SurfaceWaterLicense = () => {
         { field: 'construction.constructionName' },
         { field: 'construction.constructionLocation' },
         { field: 'construction.constructionTypeName' },
-        { field: 'construction.CommuneName' },
+        { field: 'construction.communeName' },
         { field: 'construction.districtName' },
         { field: 'construction.exploitedWS' },
         { field: 'construction.riverName' },

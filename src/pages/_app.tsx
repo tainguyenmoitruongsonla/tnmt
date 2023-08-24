@@ -63,12 +63,14 @@ const App = (props: ExtendedAppProps) => {
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
-      const loggedin = localStorage.getItem('userInfo')
-      if (!loggedin) {
+      // Kiểm tra trạng thái đăng nhập ở đây
+      const loggedIn = localStorage.getItem('authToken');
+      if (!loggedIn && router.pathname !== '/pages/login') {
         router.push('/pages/login')
       }
     }
-  }, [])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [router.pathname]);
 
   // Variables
   const getLayout = Component.getLayout ?? (page => <UserLayout>{page}</UserLayout>)

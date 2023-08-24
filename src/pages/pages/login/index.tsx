@@ -32,6 +32,8 @@ import themeConfig from 'src/configs/themeConfig'
 import BlankLayout from 'src/@core/layouts/BlankLayout'
 import Alert from '@mui/material/Alert';
 import loginApi from 'src/api/login'
+import { Login } from '@mui/icons-material'
+import { CircularProgress } from '@mui/material'
 
 interface State {
   username: string
@@ -61,13 +63,14 @@ const FormControlLabel = styled(MuiFormControlLabel)<FormControlLabelProps>(({ t
 const LoginPage = () => {
   // ** State
   const [values, setValues] = useState<State>({
-    username: 'admin1',
-    password: 'admin1',
+    username: 'admin',
+    password: 'admin',
     showPassword: false,
     rememberMe: false
   })
 
   const [isError, setIsErrors] = useState(false)
+  const [isLoading, setIsLoading] = useState(false)
 
   // ** Hook
   const router = useRouter()
@@ -88,6 +91,8 @@ const LoginPage = () => {
     e.preventDefault();
 
     try {
+      setIsLoading(true)
+
       // Call the loginApi function with the entered username and password
       const success = await loginApi(values.username, values.password);
 
@@ -101,6 +106,8 @@ const LoginPage = () => {
     } catch (error) {
       // Handle login errors
       setIsErrors(true);
+    } finally {
+      setIsLoading(false)
     }
   };
 
@@ -171,8 +178,10 @@ const LoginPage = () => {
               variant='contained'
               sx={{ marginBottom: 7 }}
               type="submit"
+              disabled={isLoading}
+              endIcon={isLoading ? <CircularProgress color='inherit' size={20} /> : <Login />}
             >
-              Login
+              Đăng nhập
             </Button>
           </form>
         </CardContent>
