@@ -19,18 +19,16 @@ interface FormLicenseProps {
 const FormLicense: React.FC<FormLicenseProps> = ({ data, closeDialogs, setPostSuccess }) => {
 
   //Business
-  const [consSFData, setConsSFData] = useState<any>({});
+  const [consSFData, setConsSFData] = useState<any>(data);
 
   const handleConsSFChange = (data: any) => {
-    console.log(data)
     setConsSFData(data);
   };
 
   //License
-  const [consItemData, setConsItemData] = useState<any>({});
+  const [consItemData, setConsItemData] = useState<any>(data);
 
   const handleconsItemChange = (data: any) => {
-    console.log(data)
     setConsItemData(data);
   };
 
@@ -38,27 +36,23 @@ const FormLicense: React.FC<FormLicenseProps> = ({ data, closeDialogs, setPostSu
     e.preventDefault();
 
     const handleApiCall = async () => {
-
-      // 
+   
       const res = await postData('Construction/save', consSFData);
 
       if (res) {
-        // Reset form fields
-        setConsSFData({
-          consData: consSFData,
-          consItem: consItemData,
-        });
+          // Reset form fields
+          setConsSFData({});
 
-        typeof (setPostSuccess) === 'function' ? setPostSuccess(true) : '';
-        closeDialogs();
+          typeof (setPostSuccess) === 'function' ? setPostSuccess(true) : '';
+          closeDialogs();
       }
 
       // 
-    };
-
-    // Call the function
-    handleApiCall();
   };
+
+  // Call the function
+  handleApiCall();
+};
 
   const handleClose = () => {
     setConsSFData({
@@ -73,7 +67,7 @@ const FormLicense: React.FC<FormLicenseProps> = ({ data, closeDialogs, setPostSu
     <form onSubmit={handleSubmit}>
       <Grid container gap={3}>
         <Grid item xs={12}>
-          <GroundWaterField data={data?.consData} onChange={handleConsSFChange} />
+          <GroundWaterField  data={consSFData} onChange={handleConsSFChange} />
         </Grid>
 
         <Grid item xs={12}>

@@ -4,7 +4,7 @@ import fetchData from 'src/api/fetch'
 import { Suface } from '../construction'
 
 interface ConsTypeFieldsetProps {
-  data?: Suface // Thêm prop data để truyền dữ liệu từ ngoài vào
+  data?: any  // Thêm prop data để truyền dữ liệu từ ngoài vào
   onChange: (data: Suface) => void
 }
 
@@ -58,19 +58,9 @@ const GroundWaterField: FC<ConsTypeFieldsetProps> = ({ data, onChange }) => {
   useEffect(() => {
     const getData = async () => {
       try {
-        const data = await fetchData('ConstructionTypes/list')
-        const Groundwaterconstype: any = []
-        data.map((e: any) => {
-          if (e.parentId == 2) {
-            const option = {
-              id: e.id,
-              label: e.typeName,
-              value: e.typeSlug
-            }
-            Groundwaterconstype.push(option)
-          }
-        })
-        setconsType(Groundwaterconstype)
+        const consTypes = await fetchData('ConstructionTypes/list');
+        const filteredData = consTypes.filter((item: any) => item.parentId === 2);
+        setconsType(filteredData);
       } catch (error) {
         setconsType([])
       } finally {
@@ -78,14 +68,11 @@ const GroundWaterField: FC<ConsTypeFieldsetProps> = ({ data, onChange }) => {
     }
     getData()
   }, [])
-  console.log(data)
 
   const handleChange = (prop: keyof Suface) => (value: any) => {
     setConsGroundData({ ...consGroundData, [prop]: value })
     onChange({ ...consGroundData, [prop]: value })
   }
-
-  console.log(consGroundData)
 
   return (
     <>
@@ -100,8 +87,8 @@ const GroundWaterField: FC<ConsTypeFieldsetProps> = ({ data, onChange }) => {
             <Autocomplete
               size='small'
               options={consType}
-              getOptionLabel={(option: any) => option.label}
-              defaultValue={consType.find((option: any) => option.value === consGroundData.constructionTypeId) || null}
+              getOptionLabel={(option: any) => option.typeName}
+              value={consType.find((option: any) => option.id === consGroundData.constructionTypeId) || null}
               isOptionEqualToValue={(option: any) => option.id}
               onChange={(_, value) => handleChange('constructionTypeId')(value?.id || 0)}
               renderInput={params => <TextField required {...params} fullWidth label='Chọn loại hình công trình' />}

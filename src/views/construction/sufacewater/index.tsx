@@ -24,10 +24,6 @@ import post from 'src/api/post'
 
 const Map = dynamic(() => import('src/@core/components/map'), { ssr: false })
 
-const EditLicense = (data: any) => {
-  console.log('Edit: ' + data.row?.licenseNumber)
-}
-
 // eslint-disable-next-line react-hooks/rules-of-hooks
 const SurfaceConstruction = () => {
 
@@ -440,10 +436,11 @@ const SurfaceConstruction = () => {
       minWidth: 120,
       sortable: false,
       renderCell: data => (
+        
         <Box>
           <Tooltip title='Chỉnh sửa giấy phép'>
-            <IconButton onClick={() => EditLicense(data)}>
-              <CreateConstruction isEdit={true} data={data.row} />
+            <IconButton>
+              <CreateConstruction isEdit={true} data={data.row} setPostSuccess={handlePostSuccess}/>
             </IconButton>
           </Tooltip>
           <Tooltip title='Xóa giấy phép'>
@@ -608,6 +605,16 @@ const SurfaceConstruction = () => {
       'minimumPumpTime',
       'maximumPumpTime'
     ],
+    hochua: [
+      'pumpNumber',
+      'flowDesigned',
+      'realityFlow',
+      'wateringAreaDesigned',
+      'realityWateringArea',
+      'averagePumpTime',
+      'minimumPumpTime',
+      'maximumPumpTime'
+    ],
     trambom: [
       'constructionLevel',
       'basinArea',
@@ -717,7 +724,7 @@ const SurfaceConstruction = () => {
           'dapthuyloi',
           'cong',
           'nhamaynuoc',
-          'congtrinh_nuocmatkhac'
+          'congtrinhkhac_nm'
         ].some(keyword => item['constructionTypeSlug']?.toString().toLowerCase().includes(keyword.toLowerCase()))
       )
       setResData(filteredData)
@@ -729,7 +736,7 @@ const SurfaceConstruction = () => {
   }
 
   //delete
-
+ 
   const DeleteRowData = async (data: any) => {
     const confirmed = window.confirm(`Bạn muốn xóa:  ${data.row?.constructionName} chứ?`)
     if (!confirmed) {

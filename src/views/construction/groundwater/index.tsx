@@ -241,9 +241,6 @@ const GroundConstruction = () => {
   const [mapZoom, setMapZoom] = useState(9);
   const [showLabel, setShowLabel] = useState(false)
 
-  const [columns, setColumns] = useState<any[]>([]);
-  const [columnFillters, setcolumnFillters] = useState<columnFillters[]>([]);
-
   const [postSuccess, setPostSuccess] = useState(false);
   
   const handlePostSuccess = () => {
@@ -253,11 +250,9 @@ const GroundConstruction = () => {
   const [loading, setLoading] = useState(false)
 
   useEffect(() => {
-    setColumns(columnsTable);
-    setcolumnFillters(columnFillter)
 
     const getData = async () => {
-      
+      setLoading(true)
       try {
         setLoading(true)
         const data = await fetchData('Construction/list');
@@ -298,11 +293,11 @@ const GroundConstruction = () => {
       <Grid xs={12} md={12}>
         <Paper elevation={3} sx={{ p: 0, height: '100%' }}>
           <DataGridComponent
+            loading = {loading}
             rows={resData}
-            loading={loading}
-            columns={columns}
+            columns={columnsTable}
             columnGroupingModel={columnGroup}
-            columnFillter={columnFillters}
+            columnFillter={columnFillter}
             actions={
               <CreateConstructionGround isEdit={false} setPostSuccess={handlePostSuccess} />
             }

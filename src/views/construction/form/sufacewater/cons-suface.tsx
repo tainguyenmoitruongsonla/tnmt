@@ -5,7 +5,7 @@ import fetchData from 'src/api/fetch'
 import { Suface } from '../construction'
 
 interface ConsTypeFieldsetProps {
-  data?: Suface // Thêm prop data để truyền dữ liệu từ ngoài vào
+  data?: any // Thêm prop data để truyền dữ liệu từ ngoài vào
   onChange: (data: Suface) => void
 }
 
@@ -74,23 +74,25 @@ const ConstructionField: FC<ConsTypeFieldsetProps> = ({ data, onChange }) => {
   }, [data])
 
   const [consType, setconsType] = useState<any>([])
-
+  const [district, setDistrict] = useState<any>([])
+  const [commune, setCommune] = useState<any>([])
   useEffect(() => {
     const getData = async () => {
       try {
-        const data = await fetchData('ConstructionTypes/list')
-        const SFwaterconstype: any = []
-        data.map((e: any) => {
-          if (e.parentId == 1) {
-            const option = {
-              id: e.id,
-              label: e.typeName,
-              value: e.typeSlug
-            }
-            SFwaterconstype.push(option)
-          }
-        })
-        setconsType(SFwaterconstype)
+
+        //constructionType
+        const consTypes = await fetchData('ConstructionTypes/list');
+        const filteredData = consTypes.filter((item: any) => item.parentId === 1);
+        setconsType(filteredData);
+
+        //district
+        const distric = await fetchData('Locations/list/distric/51');
+        setDistrict(distric);       
+
+        //commune
+        const commune = await fetchData(`Locations/list/commune/${consSFData?.districtId}`);
+        setCommune(commune);
+
       } catch (error) {
         setconsType([])
       } finally {
@@ -117,8 +119,8 @@ const ConstructionField: FC<ConsTypeFieldsetProps> = ({ data, onChange }) => {
             <Autocomplete
               size='small'
               options={consType}
-              getOptionLabel={(option: any) => option.label}
-              defaultValue={consType.find((option: any) => option.value === consSFData.constructionTypeId) || null}
+              getOptionLabel={(option: any) => option.typeName}
+              value={consType.find((option: any) => option.id === consSFData.constructionTypeId) || null}
               isOptionEqualToValue={(option: any) => option.id}
               onChange={(_, value) => handleChange('constructionTypeId')(value?.id || 0)}
               renderInput={params => <TextField required {...params} fullWidth label='Chọn loại hình công trình' />}
@@ -151,18 +153,23 @@ const ConstructionField: FC<ConsTypeFieldsetProps> = ({ data, onChange }) => {
         <Grid container spacing={4}>
           <Grid item xs={12} md={3} sm={12} sx={{ my: 2 }}>
             <Autocomplete
-              onChange={(e: any, v: any) => handleChange(v)}
               size='small'
-              options={consType}
-              getOptionLabel={(option: any) => option.title}
-              renderInput={params => <TextField {...params} variant='outlined' fullWidth label='Chọn Quận/Huyện' />}
+              options={district}
+              getOptionLabel={(option: any) => option.districtName}
+              value={district.find((option: any) => option.id === consSFData.districtId) || null}
+              isOptionEqualToValue={(option: any) => option.id}
+              onChange={(_, value) => handleChange('districtId')(value?.id || 0)}
+              renderInput={params => <TextField required {...params} fullWidth label='Chọn Quận/Huyện' />}
             />
           </Grid>
           <Grid item xs={12} md={3} sm={12} sx={{ my: 2 }}>
             <Autocomplete
               size='small'
-              options={consType}
-              getOptionLabel={(option: any) => option.title}
+              options={commune}
+              getOptionLabel={(option: any) => option.communeName}
+              value={commune.find((option: any) => option.id === consSFData.communeId) || null}
+              isOptionEqualToValue={(option: any) => option.id}
+              onChange={(_, value) => handleChange('communeId')(value?.id || 0)}
               renderInput={params => <TextField {...params} variant='outlined' fullWidth label='Chọn Xã/phường' />}
             />
           </Grid>
