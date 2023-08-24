@@ -46,10 +46,13 @@ const FormLicense: React.FC<FormLicenseProps> = ({ data, closeDialogs, setPostSu
 
   //licenseFee
   const [licenseFeeData, setLicenseFeeData] = useState<LicenseFeeState[]>([]);
+  const [licenseFeeDataRemove, setLicenseFeeDataRemove] = useState<LicenseFeeState[]>([]);
 
-  const handleLicenseFeeChange = (data: any) => {
+
+  const handleLicenseFeeChange = (dataSave: any, dataDelete: any) => {
     // Handle the updated license data here
-    setLicenseFeeData(data);
+    setLicenseFeeData(dataSave);
+    setLicenseFeeDataRemove(dataDelete)
   };
 
   const handleSubmit = (event: React.FormEvent) => {
@@ -91,7 +94,7 @@ const FormLicense: React.FC<FormLicenseProps> = ({ data, closeDialogs, setPostSu
       return;
     }
 
-    console.log({ licFee: licenseFeeData, cons: constructionData })
+    console.log(constructionData)
 
     const handleApiCall = async () => {
       setSaving(true)
@@ -116,6 +119,13 @@ const FormLicense: React.FC<FormLicenseProps> = ({ data, closeDialogs, setPostSu
             relatedDocumentFile: null,
             licenseRequestFile: null,
           });
+
+          licenseFeeDataRemove?.map(async (e: any) => {
+            const licFee = await post('LicenseFee/delete', e)
+            if (licFee) {
+              await post('LicenseLicenseFee/delete', { id: 0, licenseId: res.id, licenseFeeId: e.id });
+            }
+          })
 
           licenseFeeData?.map(async (e: any) => {
             e.licensingAuthorities = newLic.licensingAuthorities;
@@ -224,7 +234,7 @@ const FormLicense: React.FC<FormLicenseProps> = ({ data, closeDialogs, setPostSu
           <LicenseFieldset data={data} onChange={handleLicenseChange} />
         </Grid>
         <Grid item xs={12}>
-          <LicenseFeeFeild data={data?.licenseFee} onChange={handleLicenseFeeChange} />
+          <LicenseFeeFeild data={data?.licenseFees} onChange={handleLicenseFeeChange} />
         </Grid>
         <Grid item xs={12}>
           <ConstructionField data={data?.consData} onChange={handleConstructionChange} />

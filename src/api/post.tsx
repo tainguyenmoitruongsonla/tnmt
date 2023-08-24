@@ -2,8 +2,6 @@ import { enqueueSnackbar } from "notistack";
 import apiUrl from "./config";
 
 const postData = async (url: string, postData: any) => {
-    console.log(postData);
-    
     const token = localStorage.getItem('token');
     try {
         const response = await fetch(`${apiUrl}/${url}`, {
@@ -18,7 +16,11 @@ const postData = async (url: string, postData: any) => {
         if (response.ok) {
 
             // Show success snackbar notification
-            enqueueSnackbar(resData?.message, { variant: 'success' });
+            if (resData.error) {
+                enqueueSnackbar(resData?.message, { variant: 'error' });
+            } else {
+                enqueueSnackbar(resData?.message, { variant: 'success' });
+            }
 
             if (resData?.id) {
                 return resData
@@ -26,10 +28,14 @@ const postData = async (url: string, postData: any) => {
                 return true
             }
         } else {
-console.log(resData);
+            console.log(resData);
 
             // Show error snackbar notification
-            enqueueSnackbar("Lỗi khi lưu", { variant: 'error' });
+            if (resData.error) {
+                enqueueSnackbar(resData?.message, { variant: 'error' });
+            } else {
+                enqueueSnackbar("Lỗi khi lưu", { variant: 'error' });
+            }
 
             return false;
         }

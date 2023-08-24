@@ -7,20 +7,32 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LicenseFeeState } from '.';
 
 interface LicenseFeeFieldsetProps {
-    data?: LicenseFeeState; // Thêm prop data để truyền dữ liệu từ ngoài vào
-    onChange: (data: LicenseFeeState[]) => void;
+    data?: LicenseFeeState[];
+    onChange: (data: LicenseFeeState[], dataDeleted: LicenseFeeState[]) => void;
 }
 
 const LicenseFeeFeild: FC<LicenseFeeFieldsetProps> = ({ data, onChange }) => {
 
-    const [licenseFees, setLicenseFees] = useState<LicenseFeeState[]>([]);
+    const initialLicenseFees: LicenseFeeState[] = data ? data.map((e: LicenseFeeState) => ({
+        id: e.id,
+        childrenId: e.childrenId,
+        licenseFeeNumber: e.licenseFeeNumber,
+        signDate: dayjs(e?.signDate),
+        totalMoney: e.totalMoney,
+        filePdf: e.filePdf,
+        description: e.description,
+    })) : [];
+
+
+    const [licenseFees, setLicenseFees] = useState<LicenseFeeState[]>(initialLicenseFees);
+    const [itemDelete, setItemDelete] = useState<LicenseFeeState[]>([]);
 
     const addLicenseFee = () => {
         const newItem: LicenseFeeState = {
             id: 0,
             childrenId: 0,
-            licenseFeeNumber: null,
-            signDate: dayjs(data?.signDate) || null,
+            licenseFeeNumber: '',
+            signDate: null,
             totalMoney: 0,
             filePdf: null,
             description: null,
@@ -28,13 +40,20 @@ const LicenseFeeFeild: FC<LicenseFeeFieldsetProps> = ({ data, onChange }) => {
         setLicenseFees((prevItems) => [...prevItems, newItem]);
     };
 
-    const removeLicenseFee = (index: any) => {
+    const removeLicenseFee = (index: number) => {
         setLicenseFees((prevItems) => {
             const newItems = [...prevItems];
-            newItems.splice(index, 1);
+            const removedItem = newItems.splice(index, 1)[0];
+
+            if (removedItem?.id !== undefined && removedItem?.id > 0) {
+                setItemDelete((prevDeletedItems) => [...prevDeletedItems, removedItem]);
+            }
 
             return newItems;
         });
+
+        // Call onChange after the state update
+        onChange(licenseFees, itemDelete);
     };
 
     const handleChange = (index: number, prop: keyof LicenseFeeState) => (value: any) => {
@@ -42,7 +61,8 @@ const LicenseFeeFeild: FC<LicenseFeeFieldsetProps> = ({ data, onChange }) => {
         newLicenseFees[index][prop] = value;
         setLicenseFees(newLicenseFees);
 
-        onChange(newLicenseFees);
+        // Call onChange after the state update
+        onChange(newLicenseFees, itemDelete);
     };
 
     return (
@@ -74,7 +94,7 @@ const LicenseFeeFeild: FC<LicenseFeeFieldsetProps> = ({ data, onChange }) => {
                                         type='text'
                                         fullWidth
                                         placeholder=''
-                                        value={item?.licenseFeeNumber}
+                                        value={item.licenseFeeNumber}
                                         onChange={(event) => handleChange(index, 'licenseFeeNumber')(event.target.value)}
                                     />
                                 </TableCell>
@@ -93,7 +113,7 @@ const LicenseFeeFeild: FC<LicenseFeeFieldsetProps> = ({ data, onChange }) => {
                                         type='text'
                                         fullWidth
                                         placeholder=''
-                                        value={item?.totalMoney}
+                                        value={item.totalMoney}
                                         onChange={(event) => handleChange(index, 'totalMoney')(event.target.value)}
                                     />
                                 </TableCell>
@@ -130,4 +150,4 @@ const LicenseFeeFeild: FC<LicenseFeeFieldsetProps> = ({ data, onChange }) => {
     )
 }
 
-export default LicenseFeeFeild
+export default LicenseFeeFeild;
