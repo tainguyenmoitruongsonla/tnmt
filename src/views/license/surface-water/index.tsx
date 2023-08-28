@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 
 //MUI Imports
-import { Box, Tooltip, IconButton, Typography, Paper } from '@mui/material';
+import { Box, Tooltip, IconButton, Typography, Paper, Popover, Alert, ButtonGroup, Button } from '@mui/material';
 import Grid from '@mui/material/Unstable_Grid2';
 import { GridColDef, GridColumnGroupingModel } from '@mui/x-data-grid';
 
@@ -19,13 +19,10 @@ import CreateLicense from '../form';
 
 import dynamic from 'next/dynamic';
 import fetchData from 'src/api/fetch';
+import post from 'src/api/post';
 
 
 const Map = dynamic(() => import("src/@core/components/map"), { ssr: false });
-
-const DeleteLicense = (data: any) => {
-  confirm(`Bạn muốn xóa:  ${data.row?.licenseNumber} chứ?`)
-}
 
 const SurfaceWaterLicense = () => {
   const [mapCenter] = useState([15.012172, 108.676488]);
@@ -37,7 +34,47 @@ const SurfaceWaterLicense = () => {
   const handlePostSuccess = () => {
     setPostSuccess(prevState => !prevState);
   };
+
   const [resData, setResData] = useState([]);
+  const [deleteConfirmAnchorEl, setDeleteConfirmAnchorEl] = useState<HTMLButtonElement | null>(null);
+  const deleteConfirmOpen = Boolean(deleteConfirmAnchorEl);
+
+  //delete
+
+  const DeleteRowData = (event: React.MouseEvent<HTMLButtonElement>) => {
+    setDeleteConfirmAnchorEl(event.currentTarget);
+  };
+
+  const handleDeleteConfirm = () => {
+    if (deleteConfirmAnchorEl) {
+      const rowId = parseInt(deleteConfirmAnchorEl.getAttribute('data-row-id') || '', 10);
+      const rowToDelete = resData.find((row: any) => row.id === rowId);
+      if (rowToDelete) {
+        handleDeleteRowData(rowToDelete);
+      }
+    }
+
+    setDeleteConfirmAnchorEl(null);
+  };
+
+  const handleDeleteCancel = () => {
+    setDeleteConfirmAnchorEl(null);
+  };
+
+  const handleDeleteRowData = async (data: any) => {
+    try {
+      setLoading(true)
+      const res = await post('License/delete', data)
+      if (res) {
+        setResData(prevData => prevData.filter((item: any) => item.id !== data.id))
+      }
+    } catch (error) {
+      console.error(error)
+    } finally {
+      setLoading(false)
+      setDeleteConfirmAnchorEl(null)
+    }
+  }
 
   //Init columnTable
   const columnsTable: GridColDef[] = [
@@ -75,21 +112,44 @@ const SurfaceWaterLicense = () => {
     //Action
     {
       field: 'actions', headerClassName: 'tableHead', headerAlign: 'center', headerName: '#', minWidth: 120, sortable: false,
-      renderCell: (data) => (
+      renderCell: data => (
         <Box>
-          <Tooltip title="Chỉnh sửa giấy phép">
-            <IconButton>
-              <CreateLicense isEdit={true} data={data.row} setPostSuccess={handlePostSuccess} />
-            </IconButton>
-          </Tooltip>
-          <Tooltip title="Xóa giấy phép">
-            <IconButton onClick={() => DeleteLicense(data)}>
-              <Delete className='tableActionBtn deleteBtn' />
-            </IconButton>
+          <CreateLicense isEdit={true} data={data.row} setPostSuccess={handlePostSuccess} />
+
+          <Tooltip title='Xóa thông tin giấy phép'>
+            <>
+              <IconButton aria-describedby={data.row.id} onClick={DeleteRowData} data-row-id={data.row.id} >
+                <Delete className='tableActionBtn deleteBtn' />
+              </IconButton>
+              <Popover
+                id={deleteConfirmOpen ? data.row.id : undefined}
+                open={deleteConfirmOpen}
+                anchorEl={deleteConfirmAnchorEl}
+                onClose={handleDeleteCancel}
+                anchorOrigin={{
+                  vertical: 'bottom',
+                  horizontal: 'left',
+                }}
+              >
+                <Alert severity="warning">
+                  Xóa bản ghi này ?
+                  <Box sx={{ justifyContent: 'center', paddingTop: 4, width: '100%' }}>
+                    <ButtonGroup variant="outlined" aria-label="outlined button group">
+                      <Button size="small" onClick={handleDeleteConfirm}>
+                        Đúng
+                      </Button>
+                      <Button color='error' size="small" onClick={handleDeleteCancel}>
+                        Hủy
+                      </Button>
+                    </ButtonGroup>
+                  </Box>
+                </Alert>
+              </Popover>
+            </>
           </Tooltip>
         </Box>
       )
-    },
+    }
   ];
 
   //Grouping Column

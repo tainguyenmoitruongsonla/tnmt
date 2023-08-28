@@ -21,35 +21,35 @@ const SetViewOnClick = ({ coords, zoom }: any) => {
 }
 
 // Create icon for map marker
-const createIcon = (url:any) => {
+const createIcon = (url: any) => {
 	return new L.Icon({
-	  iconUrl: url,
-	  iconSize: [18, 18],
-	  iconAnchor: [18, 18],
-	  popupAnchor: [-9, -18]
+		iconUrl: url,
+		iconSize: [18, 18],
+		iconAnchor: [18, 18],
+		popupAnchor: [-9, -18]
 	});
 }
 
 // Set icon for cons type
-const getIcon = (type:any) => {
-	if(type || type !== null){
+const getIcon = (type: any) => {
+	if (type || type !== null) {
 		switch (type) {
-			case 'thuydien' :
+			case 'thuydien':
 				return createIcon('/images/icon/thuydien.png');
 				break;
-			case 'hochua' :
+			case 'hochua':
 				return createIcon('/images/icon/hochua.png');
 				break;
-			case 'trambom' :
+			case 'trambom':
 				return createIcon('/images/icon/trambom.png');
 				break;
-			case 'tramcapnuoc' :
+			case 'tramcapnuoc':
 				return createIcon('/images/icon/tramcapnuoc.png');
 				break;
-			case 'cong' :
+			case 'cong':
 				return createIcon('/images/icon/cong.png');
 				break;
-			case 'nhamaynuoc' :
+			case 'nhamaynuoc':
 				return createIcon('/images/icon/nhamaynuoc.png');
 				break;
 			case 'khaithac':
@@ -75,20 +75,21 @@ const getIcon = (type:any) => {
 }
 
 export default function Map({ center, zoom, showLabel, mapMarkerData }: any) {
-	const bing_key = "AuhiCJHlGzhg93IqUH_oCpl_-ZUrIE6SPftlyGYUvr9Amx5nzA-WqGcPquyFZl4L"
+	const [bing_key, setBingKey] = useState("AuhiCJHlGzhg93IqUH_oCpl_-ZUrIE6SPftlyGYUvr9Amx5nzA-WqGcPquyFZl4L")
 	const [kml, setKml] = useState<any>(null);
 
 	useEffect(() => {
-        fetch(
-          "/kml/tinh-quangngai.kml"
-        )
-          .then((res) => res.text())
-          .then((kmlText) => {
-            const parser = new DOMParser();
-            const kml = parser.parseFromString(kmlText, "text/xml");
-            setKml(kml);
-          });
-    }, []);
+		setBingKey("AuhiCJHlGzhg93IqUH_oCpl_-ZUrIE6SPftlyGYUvr9Amx5nzA-WqGcPquyFZl4L")
+		fetch(
+			"/kml/tinh-quangngai.kml"
+		)
+			.then((res) => res.text())
+			.then((kmlText) => {
+				const parser = new DOMParser();
+				const kml = parser.parseFromString(kmlText, "text/xml");
+				setKml(kml);
+			});
+	}, []);
 
 	return (
 		<>
@@ -101,25 +102,25 @@ export default function Map({ center, zoom, showLabel, mapMarkerData }: any) {
 						<BingLayer bingkey={bing_key} type="Road" />
 					</BaseLayer>
 					<BaseLayer name="Bản đồ vệ tinh 1">
-						<TileLayer url='https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}'	/>
+						<TileLayer url='https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}' />
 					</BaseLayer>
 					<BaseLayer checked name='Bản đồ vệ tinh 2'>
 						<BingLayer bingkey={bing_key} type="AerialWithLabels" />
 					</BaseLayer>
 				</LayersControl>
-				{mapMarkerData && mapMarkerData.map((data:any) => {
-					if(data.lat !== null || data.lng !== null){
+				{mapMarkerData && mapMarkerData.map((data: any) => {
+					if (data.lat !== null || data.lng !== null) {
 						return (
 							<Marker icon={getIcon(data.constructionTypeSlug)} key={data.id} position={[data.lat, data.lng]}>
-								{showLabel === true && 
+								{showLabel === true &&
 									<Tooltip direction="top" offset={[-10, -18]} opacity={1} permanent>{data.constructionName}</Tooltip>
 								}
 								<Popup >
-									<Typography sx={{color: '#035291', textAlign: 'center', fontWeight: 'bold', margin: '10px 0 !important'}}>{data.constructionName}</Typography>
+									<Typography sx={{ color: '#035291', textAlign: 'center', fontWeight: 'bold', margin: '10px 0 !important' }}>{data.constructionName}</Typography>
 									<MapPopup popupData={data} />
 								</Popup>
 							</Marker>
-							)
+						)
 					} else return null;
 				})}
 				<SetViewOnClick coords={center} zoom={zoom} />

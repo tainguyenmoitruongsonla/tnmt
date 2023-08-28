@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Add, Edit, Save } from '@mui/icons-material';
-import { Autocomplete, Button, CircularProgress, DialogActions, Grid, TextField, Typography, Paper } from '@mui/material';
+import { Autocomplete, Button, CircularProgress, DialogActions, Grid, TextField, Typography, Paper, Tooltip, IconButton } from '@mui/material';
 import DialogsControlFullScreen from 'src/@core/components/dialog-control-full-screen';
 import LicenseFieldset, { LicenseState } from 'src/views/license/form/license-fieldset';
 import ConstructionField from 'src/views/construction/form/sufacewater/cons-suface';
@@ -265,12 +265,17 @@ const CreateLicense: React.FC<CreateLicenseProps> = ({ isEdit, data, setPostSucc
       {(openDialogs: (content: React.ReactNode, title: React.ReactNode) => void, closeDialogs: () => void) => (
         <>
           {isEdit ? (
-            <Edit
-              className='tableActionBtn'
-              onClick={() =>
+            <Tooltip title="Chỉnh sửa giấy phép">
+              <IconButton onClick={() =>
                 openDialogs(<FormLicense data={data} closeDialogs={closeDialogs} setPostSuccess={setPostSuccess} />, formTitle)
-              }
-            />
+              }>
+                <Edit
+                  className='tableActionBtn'
+
+                />
+              </IconButton>
+            </Tooltip>
+
           ) : (
             <Button
               size="small"
