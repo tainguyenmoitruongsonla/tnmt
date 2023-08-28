@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Add, Edit } from '@mui/icons-material';
-import { Button, DialogActions, Grid } from '@mui/material';
+import { Button, DialogActions, Grid, IconButton, Tooltip } from '@mui/material';
 
 import DialogsControlFullScreen from 'src/@core/components/dialog-control-full-screen';
 import ConstructionField from './cons-suface';
@@ -100,19 +100,23 @@ interface CreateConstructionProps {
 }
 
 const CreateConstruction: React.FC<CreateConstructionProps> = ({ isEdit, data, setPostSuccess }) => {
-  const formTitle = isEdit ? 'Sửa công trình' : 'Thêm công trình mới';
+  const formTitle = isEdit ? 'Sửa thông tin công trình' : 'Thêm công trình mới';
 
   return (
     <DialogsControlFullScreen>
       {(openDialogs: (content: React.ReactNode, title: React.ReactNode) => void, closeDialogs: () => void) => (
         <>
           {isEdit ? (
-            <Edit
-              className='tableActionBtn'
-              onClick={() =>
+            <Tooltip title='Chỉnh sửa thông tin công trình'>
+              <IconButton onClick={() =>
                 openDialogs(<FormConstruction data={data} closeDialogs={closeDialogs} setPostSuccess={setPostSuccess} />, formTitle)
-              }
-            />
+              }>
+                <Edit
+                  className='tableActionBtn'
+                />
+              </IconButton>
+            </Tooltip>
+
           ) : (
             <Button
               size="small"

@@ -2,7 +2,7 @@ import { Search } from '@mui/icons-material'
 import { Typography, Grid, Autocomplete, TextField, Button } from '@mui/material'
 import { useEffect, FC, useState } from 'react'
 import fetchData from 'src/api/fetch'
-import { Suface } from '../construction'
+import { Suface } from '../construction-interface'
 
 interface ConsTypeFieldsetProps {
   data?: any // Thêm prop data để truyền dữ liệu từ ngoài vào

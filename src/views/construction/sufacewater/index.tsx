@@ -436,13 +436,9 @@ const SurfaceConstruction = () => {
       minWidth: 120,
       sortable: false,
       renderCell: data => (
-
         <Box>
-          <Tooltip title='Chỉnh sửa giấy phép'>
-            <IconButton>
-              <CreateConstruction isEdit={true} data={data.row} setPostSuccess={handlePostSuccess} />
-            </IconButton>
-          </Tooltip>
+          <CreateConstruction isEdit={true} data={data.row} setPostSuccess={handlePostSuccess} />
+          
           <Tooltip title='Xóa giấy phép'>
             <IconButton onClick={() => DeleteRowData(data)}>
               <Delete className='tableActionBtn deleteBtn' />
@@ -738,7 +734,7 @@ const SurfaceConstruction = () => {
   //delete
 
   const DeleteRowData = async (data: any) => {
-    const confirmed = window.confirm(`Bạn muốn xóa:  ${data.row?.constructionName} chứ?`)
+    const confirmed = window.confirm(`Bạn muốn xóa công trình:  ${data.row?.constructionName} chứ?`)
     if (!confirmed) {
       return
     }

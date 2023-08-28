@@ -1,4 +1,4 @@
-export interface Suface {
+export interface SufaceWaterConstructionState {
   id: number
   constructionTypeId?: number
   provinceId?: number
@@ -103,6 +103,19 @@ export interface Suface {
   minimumFlowPre?: number | null
   maximumFlowPre?: number | null
   power?: number | null
-  miningAquifer ?: number | null
-  probeAquifer ?: number | null
+  miningAquifer?: number | null
+  probeAquifer?: number | null
+}
+
+
+
+// Construction Items State
+export interface ConstructionItemState {
+  id?: number;
+  constructionId?: number;
+  name?: string;
+  x?: number;
+  y?: number;
+  lat?: number;
+  lng?: number;
 }

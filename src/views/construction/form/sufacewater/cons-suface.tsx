@@ -2,15 +2,15 @@ import { Search } from '@mui/icons-material'
 import { Typography, Grid, Autocomplete, TextField, Button, CircularProgress } from '@mui/material'
 import { useEffect, FC, useState, Fragment } from 'react'
 import fetchData from 'src/api/fetch'
-import { Suface } from '../construction'
+import { SufaceWaterConstructionState } from '../construction-interface'
 
 interface ConsTypeFieldsetProps {
   data?: any // Thêm prop data để truyền dữ liệu từ ngoài vào
-  onChange: (data: Suface) => void
+  onChange: (data: SufaceWaterConstructionState) => void
 }
 
 const ConstructionField: FC<ConsTypeFieldsetProps> = ({ data, onChange }) => {
-  const [consSFData, setConsSFData] = useState<Suface>({
+  const [consSFData, setConsSFData] = useState<SufaceWaterConstructionState>({
     id: data?.id || 0,
     constructionTypeId: data?.constructionTypeId || 0,
     provinceId: data?.provinceId || 51,
@@ -104,7 +104,7 @@ const ConstructionField: FC<ConsTypeFieldsetProps> = ({ data, onChange }) => {
 
   }, [consSFData?.districtId])
 
-  const handleChange = (prop: keyof Suface) => (value: any) => {
+  const handleChange = (prop: keyof SufaceWaterConstructionState) => (value: any) => {
     setConsSFData({ ...consSFData, [prop]: value })
     onChange({ ...consSFData, [prop]: value })
   }
