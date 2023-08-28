@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react'
 
 //MUI Imports
-import { Box, Tooltip, IconButton, Typography, Paper } from '@mui/material'
+import { Box, Tooltip, IconButton, Typography, Paper, Popover, Alert, ButtonGroup, Button } from '@mui/material'
 import Grid from '@mui/material/Unstable_Grid2'
 import { GridColDef, GridColumnGroupingModel } from '@mui/x-data-grid'
 
@@ -438,12 +438,37 @@ const SurfaceConstruction = () => {
       renderCell: data => (
         <Box>
           <CreateConstruction isEdit={true} data={data.row} setPostSuccess={handlePostSuccess} />
-          
-          <Tooltip title='Xóa giấy phép'>
-            <IconButton onClick={() => DeleteRowData(data)}>
+
+          <Tooltip title='Xóa thông tin công trình'>
+            <IconButton onClick={(e) => DeleteRowData(e)}>
               <Delete className='tableActionBtn deleteBtn' />
             </IconButton>
           </Tooltip>
+          <Popover
+            id={data.row.id}
+            open={open}
+            anchorEl={anchorEl}
+            onClose={handleClickNotAccept}
+            anchorOrigin={{
+              vertical: 'bottom',
+              horizontal: 'left',
+            }}
+          >
+            <Alert severity="warning">
+              Xóa bản ghi này ?
+              <Box sx={{ justifyContent: 'center', paddingTop: 4, width: '100%' }}>
+                <ButtonGroup variant="outlined" aria-label="outlined button group">
+                  <Button size="small" onClick={() => handleDeleteRowData(data)} >
+                    Đúng
+                  </Button>
+                  <Button color='error' size="small" onClick={() => handleClickNotAccept()} >
+                    Không
+                  </Button>
+                </ButtonGroup>
+
+              </Box>
+            </Alert>
+          </Popover>
         </Box>
       )
     }
@@ -589,6 +614,8 @@ const SurfaceConstruction = () => {
   const [mapCenter, setMapCenter] = useState([15.012172, 108.676488])
   const [mapZoom, setMapZoom] = useState(9)
   const [showLabel, setShowLabel] = useState(false)
+  const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
+  const open = Boolean(anchorEl);
 
   const columnVisibility = {
     thuydien: [
@@ -733,12 +760,11 @@ const SurfaceConstruction = () => {
 
   //delete
 
-  const DeleteRowData = async (data: any) => {
-    const confirmed = window.confirm(`Bạn muốn xóa công trình:  ${data.row?.constructionName} chứ?`)
-    if (!confirmed) {
-      return
-    }
+  const DeleteRowData = (event: React.MouseEvent<HTMLButtonElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
 
+  const handleDeleteRowData = async (data: any) => {
     try {
       setLoading(true)
       const res = await post('Construction/delete', data.row)
@@ -749,7 +775,12 @@ const SurfaceConstruction = () => {
       console.error(error)
     } finally {
       setLoading(false)
+      setAnchorEl(null)
     }
+  }
+
+  const handleClickNotAccept = () => {
+    setAnchorEl(null)
   }
 
   useEffect(() => {
