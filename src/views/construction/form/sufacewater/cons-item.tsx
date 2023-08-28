@@ -1,22 +1,38 @@
-import { useEffect,ChangeEvent, FC, useState } from 'react';
-import { Button, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow,  TextField,  Typography } from "@mui/material"
+import { FC, useEffect, useState } from 'react';
+import { Button, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography } from "@mui/material"
 import DeleteIcon from '@mui/icons-material/Delete';
 
-interface ConstructionItem {
-  name: string;
-  x: number;
-  y: number;
+interface ConstructionItemState {
+  id?: number;
+  constructionId?: number;
+  name?: string;
+  x?: number;
+  y?: number;
 }
 
-interface ConsItemProps {
-  data?: ConstructionItem; // Thêm prop data để truyền dữ liệu từ ngoài vào
-  onChange: (data: ConstructionItem) => void;
+interface ConstructionItemFieldProps {
+  data?: ConstructionItemState[];
+  onChange: (data: ConstructionItemState[], dataDeleted: ConstructionItemState[]) => void;
 }
 
-const ConstructionItem: FC<ConsItemProps> = ({ data, onChange }) => {
-  const [constructionItems, setConstructionItems] = useState<ConstructionItem[]>([]);
+const ConstructionItem: FC<ConstructionItemFieldProps> = ({ data, onChange }) => {
+
+  const initialLicenseFees: ConstructionItemState[] = data ? data.map((e: ConstructionItemState) => ({
+    id: e.id,
+    constructionId: e.constructionId,
+    name: e.name,
+    x: e.x,
+    y: e.y,
+  })) : [];
+
+
+  const [constructionItems, setConstructionItems] = useState<ConstructionItemState[]>(initialLicenseFees);
+  const [itemDelete, setItemDelete] = useState<ConstructionItemState[]>([]);
+
   const addConstructionItem = () => {
-    const newItem: ConstructionItem = {
+    const newItem: ConstructionItemState = {
+      id: 0,
+      constructionId: 0,
       name: '',
       x: 0,
       y: 0,
@@ -24,34 +40,37 @@ const ConstructionItem: FC<ConsItemProps> = ({ data, onChange }) => {
     setConstructionItems((prevItems) => [...prevItems, newItem]);
   };
 
-  const removeConstructionItem = (index: any) => {
+  const removeConstructionItem = (index: number) => {
     setConstructionItems((prevItems) => {
       const newItems = [...prevItems];
-      newItems.splice(index, 1);
-      
+      const removedItem = newItems.splice(index, 1)[0];
+
+      if (removedItem?.id !== undefined && removedItem?.id > 0) {
+        setItemDelete((prevDeletedItems) => [...prevDeletedItems, removedItem]);
+      }
+
       return newItems;
     });
+
+    // Call onChange after the state update
+    onChange(constructionItems, itemDelete);
   };
 
-  const [consSFData, setConsSFData] = useState<ConstructionItem>({
-    name: '',
-    x: 0,
-    y: 0,
-    });
+  const handleChange = (index: number, prop: keyof ConstructionItemState) => (value: any) => {
+    const newConstructionItems = [...constructionItems];
+    newConstructionItems[index][prop] = value;
+    setConstructionItems(newConstructionItems);
 
-    useEffect(() => {
-      if (data) {
-        setConsSFData(data);
-      }
-  }, [data]);
+    // Call onChange after the state update
+    onChange(newConstructionItems, itemDelete);
+  };
 
-  const handleChange = (prop: keyof ConstructionItem) => (event: ChangeEvent<HTMLInputElement>) => {
-    const value = event.target.type === 'checkbox' ? event.target.checked : event.target.value;
-    setConsSFData({ ...consSFData, [prop]: value });
-    onChange({ ...consSFData, [prop]: value });
-};
+  useEffect(() => {
+    onChange(constructionItems, itemDelete);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [constructionItems, itemDelete]);
 
-  return (   
+  return (
     <fieldset>
       <legend>
         <Typography variant={'subtitle1'} className='legend__title'>VỊ TRÍ CÁC HẠNG MỤC CHÍNH CỦA CÔNG TRÌNH KHAI THÁC SỬ DỤNG NƯỚC</Typography>
@@ -61,10 +80,10 @@ const ConstructionItem: FC<ConsItemProps> = ({ data, onChange }) => {
           <TableHead>
             <TableRow>
               <TableCell size='small' align='center'>TT</TableCell>
-              <TableCell  size='small' align='center'>Hạng mục</TableCell>
-              <TableCell  size='small' align='center'>Tọa độ X</TableCell>
-              <TableCell  size='small' align='center'>Tọa độ Y</TableCell>
-              <TableCell  size='small' align='center'>
+              <TableCell size='small' align='center'>Hạng mục</TableCell>
+              <TableCell size='small' align='center'>Tọa độ X</TableCell>
+              <TableCell size='small' align='center'>Tọa độ Y</TableCell>
+              <TableCell size='small' align='center'>
                 <Button className='btn-link' onClick={addConstructionItem}>Thêm</Button>
               </TableCell>
             </TableRow>
@@ -78,8 +97,8 @@ const ConstructionItem: FC<ConsItemProps> = ({ data, onChange }) => {
                     name="tenhangmuc"
                     fullWidth
                     size='small'
-                    value={consSFData.name}
-                    onChange={handleChange('name')}
+                    value={item.name}
+                    onChange={(event) => handleChange(index, 'name')(event.target.value)}
                   />
                 </TableCell>
                 <TableCell>
@@ -87,9 +106,8 @@ const ConstructionItem: FC<ConsItemProps> = ({ data, onChange }) => {
                     name="x"
                     fullWidth
                     size='small'
-                    value={consSFData.x}
-                    onChange={handleChange('x')}
-                   
+                    value={item.x}
+                    onChange={(event) => handleChange(index, 'x')(event.target.value)}
                   />
                 </TableCell>
                 <TableCell>
@@ -97,11 +115,11 @@ const ConstructionItem: FC<ConsItemProps> = ({ data, onChange }) => {
                     name="y"
                     fullWidth
                     size='small'
-                    value={consSFData.y}
-                    onChange={handleChange('y')}
+                    value={item.y}
+                    onChange={(event) => handleChange(index, 'y')(event.target.value)}
                   />
                 </TableCell>
-                <TableCell  size='small' align='center'>
+                <TableCell size='small' align='center'>
                   <Button
                     variant="text"
                     size="small"

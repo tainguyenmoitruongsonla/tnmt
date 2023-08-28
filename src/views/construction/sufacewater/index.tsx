@@ -47,50 +47,50 @@ const SurfaceConstruction = () => {
       headerClassName: 'tableHead',
       headerAlign: 'center',
       headerName: 'Địa điểm',
-      minWidth: 150
+      minWidth: 350
     },
     {
       field: 'coordinates',
       headerClassName: 'tableHead',
       headerAlign: 'center',
       headerName: 'Toạ độ đập chính(X,Y)',
-      minWidth: 150,
-      valueGetter: data => `${data.row.x},${data.row.y}`
+      minWidth: 200,
+      valueGetter: data => `X: ${data.row.x}, Y: ${data.row.y}`
     },
     {
       field: 'exploitedWS',
       headerClassName: 'tableHead',
       headerAlign: 'center',
       headerName: 'Nguồn nước khai thác',
-      minWidth: 150
+      minWidth: 300
     },
     {
       field: 'miningMethod',
       headerClassName: 'tableHead',
       headerAlign: 'center',
       headerName: 'Phương thức khai thác',
-      minWidth: 150
+      minWidth: 300
     },
     {
       field: 'miningMode',
       headerClassName: 'tableHead',
       headerAlign: 'center',
       headerName: 'Chế độ KT',
-      minWidth: 150
+      minWidth: 300
     },
     {
       field: 'miningPurpose',
       headerClassName: 'tableHead',
       headerAlign: 'center',
       headerName: 'Mục đích KT',
-      minWidth: 150
+      minWidth: 300
     },
     {
       field: 'basinName',
       headerClassName: 'tableHead',
       headerAlign: 'center',
       headerName: 'Tiểu vùng quy hoạch',
-      minWidth: 150
+      minWidth: 200
     },
     {
       field: 'constructionTime',
@@ -436,11 +436,11 @@ const SurfaceConstruction = () => {
       minWidth: 120,
       sortable: false,
       renderCell: data => (
-        
+
         <Box>
           <Tooltip title='Chỉnh sửa giấy phép'>
             <IconButton>
-              <CreateConstruction isEdit={true} data={data.row} setPostSuccess={handlePostSuccess}/>
+              <CreateConstruction isEdit={true} data={data.row} setPostSuccess={handlePostSuccess} />
             </IconButton>
           </Tooltip>
           <Tooltip title='Xóa giấy phép'>
@@ -736,7 +736,7 @@ const SurfaceConstruction = () => {
   }
 
   //delete
- 
+
   const DeleteRowData = async (data: any) => {
     const confirmed = window.confirm(`Bạn muốn xóa:  ${data.row?.constructionName} chứ?`)
     if (!confirmed) {
@@ -771,7 +771,7 @@ const SurfaceConstruction = () => {
         <Paper elevation={3} sx={{ height: '100%', position: 'relative' }}>
           <Box className="map-legend" sx={{ background: 'white', pl: 2 }}>
             <FormGroup>
-              <FormControlLabel control={<Checkbox onClick={ () => setShowLabel(!showLabel)} />} label="Hiển thị tên công trình" />
+              <FormControlLabel control={<Checkbox onClick={() => setShowLabel(!showLabel)} />} label="Hiển thị tên công trình" />
             </FormGroup>
           </Box>
           <Map center={mapCenter} zoom={mapZoom} showLabel={showLabel} mapMarkerData={resData} />

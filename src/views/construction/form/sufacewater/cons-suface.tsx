@@ -1,6 +1,6 @@
 import { Search } from '@mui/icons-material'
-import { Typography, Grid, Autocomplete, TextField, Button } from '@mui/material'
-import { useEffect, FC, useState } from 'react'
+import { Typography, Grid, Autocomplete, TextField, Button, CircularProgress } from '@mui/material'
+import { useEffect, FC, useState, Fragment } from 'react'
 import fetchData from 'src/api/fetch'
 import { Suface } from '../construction'
 
@@ -67,18 +67,15 @@ const ConstructionField: FC<ConsTypeFieldsetProps> = ({ data, onChange }) => {
     drainSize: data?.drainSize || null
   })
 
-  useEffect(() => {
-    if (data) {
-      setConsSFData(data)
-    }
-  }, [data])
-
   const [consType, setconsType] = useState<any>([])
   const [district, setDistrict] = useState<any>([])
   const [commune, setCommune] = useState<any>([])
+  const [loading, setLoading] = useState<boolean>(false)
+
   useEffect(() => {
     const getData = async () => {
       try {
+        setLoading(true)
 
         //constructionType
         const consTypes = await fetchData('ConstructionTypes/list');
@@ -87,19 +84,25 @@ const ConstructionField: FC<ConsTypeFieldsetProps> = ({ data, onChange }) => {
 
         //district
         const distric = await fetchData('Locations/list/distric/51');
-        setDistrict(distric);       
+        setDistrict(distric);
 
         //commune
-        const commune = await fetchData(`Locations/list/commune/${consSFData?.districtId}`);
-        setCommune(commune);
+        const communes = await fetchData(`Locations/list/commune`);
+        const communeFiltered = communes.filter((item: any) => item.districtId == consSFData?.districtId?.toString())
+        setCommune(communeFiltered);
 
       } catch (error) {
-        setconsType([])
+
+        //console.log(error)
       } finally {
+        setLoading(false)
       }
     }
+
     getData()
-  }, [])
+    setCommune([]);
+
+  }, [consSFData?.districtId])
 
   const handleChange = (prop: keyof Suface) => (value: any) => {
     setConsSFData({ ...consSFData, [prop]: value })
@@ -117,13 +120,22 @@ const ConstructionField: FC<ConsTypeFieldsetProps> = ({ data, onChange }) => {
         <Grid container spacing={4}>
           <Grid item xs={12} md={3} sm={12} sx={{ my: 2 }}>
             <Autocomplete
+              disabled={loading}
               size='small'
               options={consType}
               getOptionLabel={(option: any) => option.typeName}
               value={consType.find((option: any) => option.id === consSFData.constructionTypeId) || null}
               isOptionEqualToValue={(option: any) => option.id}
               onChange={(_, value) => handleChange('constructionTypeId')(value?.id || 0)}
-              renderInput={params => <TextField required {...params} fullWidth label='Chọn loại hình công trình' />}
+              renderInput={params => <TextField required {...params} fullWidth label='Chọn loại hình công trình' InputProps={{
+                ...params.InputProps,
+                endAdornment: (
+                  <Fragment>
+                    {loading && <CircularProgress color='primary' size={20} />}
+                    {params.InputProps.endAdornment}
+                  </Fragment>
+                ),
+              }} />}
             />
           </Grid>
 
@@ -134,7 +146,7 @@ const ConstructionField: FC<ConsTypeFieldsetProps> = ({ data, onChange }) => {
               label='Tên công trình'
               fullWidth
               placeholder=''
-              defaultValue={consSFData.constructionName}
+              value={consSFData.constructionName || ''}
               onChange={event => handleChange('constructionName')(event.target.value)}
             />
           </Grid>
@@ -144,7 +156,9 @@ const ConstructionField: FC<ConsTypeFieldsetProps> = ({ data, onChange }) => {
               variant='outlined'
               fullWidth
               label='Địa điểm công trình'
-              defaultValue={consSFData.constructionLocation}
+              multiline
+              maxRows={4}
+              value={consSFData.constructionLocation || ''}
               onChange={event => handleChange('constructionLocation')(event.target.value)}
             />
           </Grid>
@@ -153,24 +167,43 @@ const ConstructionField: FC<ConsTypeFieldsetProps> = ({ data, onChange }) => {
         <Grid container spacing={4}>
           <Grid item xs={12} md={3} sm={12} sx={{ my: 2 }}>
             <Autocomplete
+              disabled={loading}
               size='small'
               options={district}
               getOptionLabel={(option: any) => option.districtName}
-              value={district.find((option: any) => option.id === consSFData.districtId) || null}
-              isOptionEqualToValue={(option: any) => option.id}
-              onChange={(_, value) => handleChange('districtId')(value?.id || 0)}
-              renderInput={params => <TextField required {...params} fullWidth label='Chọn Quận/Huyện' />}
+              value={district.find((option: any) => option.districtId === consSFData.districtId?.toString()) || null}
+              isOptionEqualToValue={(option: any) => option.districtId}
+              onChange={(_, value) => handleChange('districtId')(value?.districtId || 0)}
+              renderInput={params => <TextField required {...params} fullWidth label='Chọn Quận/Huyện' InputProps={{
+                ...params.InputProps,
+                endAdornment: (
+                  <Fragment>
+                    {loading && <CircularProgress color='primary' size={20} />}
+                    {params.InputProps.endAdornment}
+                  </Fragment>
+                ),
+              }} />}
             />
           </Grid>
+
           <Grid item xs={12} md={3} sm={12} sx={{ my: 2 }}>
             <Autocomplete
+              disabled={consSFData?.districtId !== undefined && consSFData.districtId == 0}
               size='small'
               options={commune}
               getOptionLabel={(option: any) => option.communeName}
-              value={commune.find((option: any) => option.id === consSFData.communeId) || null}
-              isOptionEqualToValue={(option: any) => option.id}
-              onChange={(_, value) => handleChange('communeId')(value?.id || 0)}
-              renderInput={params => <TextField {...params} variant='outlined' fullWidth label='Chọn Xã/phường' />}
+              value={commune.find((option: any) => option.communeId === consSFData.communeId?.toString()) || null}
+              isOptionEqualToValue={(option: any) => option.communeId}
+              onChange={(_, value) => handleChange('communeId')(value?.communeId || 0)}
+              renderInput={params => <TextField {...params} variant='outlined' fullWidth label='Chọn Xã/phường' InputProps={{
+                ...params.InputProps,
+                endAdornment: (
+                  <Fragment>
+                    {loading && <CircularProgress color='primary' size={20} />}
+                    {params.InputProps.endAdornment}
+                  </Fragment>
+                ),
+              }} />}
             />
           </Grid>
           <Grid item xs={12} md={3} sm={12} sx={{ my: 2 }}>
@@ -180,7 +213,7 @@ const ConstructionField: FC<ConsTypeFieldsetProps> = ({ data, onChange }) => {
               fullWidth
               placeholder=''
               label='Vĩ độ'
-              defaultValue={consSFData.x}
+              value={consSFData.x || ''}
               onChange={event => handleChange('x')(event.target.value)}
             />
           </Grid>
@@ -190,7 +223,7 @@ const ConstructionField: FC<ConsTypeFieldsetProps> = ({ data, onChange }) => {
               type='text'
               fullWidth
               placeholder=''
-              defaultValue={consSFData.y}
+              value={consSFData.y || ''}
               onChange={event => handleChange('y')(event.target.value)}
               label='Kinh độ'
               InputProps={{
@@ -215,7 +248,7 @@ const ConstructionField: FC<ConsTypeFieldsetProps> = ({ data, onChange }) => {
               fullWidth
               label='Năm vận hành'
               placeholder=''
-              defaultValue={consSFData.startDate}
+              value={consSFData.startDate || ''}
               onChange={event => handleChange('startDate')(event.target.value)}
             />
           </Grid>
@@ -226,7 +259,7 @@ const ConstructionField: FC<ConsTypeFieldsetProps> = ({ data, onChange }) => {
               fullWidth
               placeholder=''
               label='Năm xây dựng'
-              defaultValue={consSFData.constructionTime}
+              value={consSFData.constructionTime || ''}
               onChange={event => handleChange('constructionTime')(event.target.value)}
             />
           </Grid>
@@ -235,10 +268,18 @@ const ConstructionField: FC<ConsTypeFieldsetProps> = ({ data, onChange }) => {
               size='small'
               options={consType}
               getOptionLabel={(option: any) => option.label}
-              defaultValue={consType.find((option: any) => option.value === consSFData.constructionTypeId) || null}
+              value={consType.find((option: any) => option.value === consSFData.constructionTypeId) || null}
               isOptionEqualToValue={(option: any) => option.id}
               onChange={(_, value) => handleChange('constructionTypeId')(value?.id || 0)}
-              renderInput={params => <TextField  {...params} fullWidth label='Chọn tiểu vùng quy hoạch' />}
+              renderInput={params => <TextField  {...params} fullWidth label='Chọn tiểu vùng quy hoạch' InputProps={{
+                ...params.InputProps,
+                endAdornment: (
+                  <Fragment>
+                    {loading && <CircularProgress color='primary' size={20} />}
+                    {params.InputProps.endAdornment}
+                  </Fragment>
+                ),
+              }} />}
             />
           </Grid>
         </Grid>
@@ -249,7 +290,15 @@ const ConstructionField: FC<ConsTypeFieldsetProps> = ({ data, onChange }) => {
               size='small'
               options={consType}
               getOptionLabel={(option: any) => option.title}
-              renderInput={params => <TextField {...params} variant='outlined' fullWidth label='Chọn lưu vực sông' />}
+              renderInput={params => <TextField {...params} variant='outlined' fullWidth label='Chọn lưu vực sông' InputProps={{
+                ...params.InputProps,
+                endAdornment: (
+                  <Fragment>
+                    {loading && <CircularProgress color='primary' size={20} />}
+                    {params.InputProps.endAdornment}
+                  </Fragment>
+                ),
+              }} />}
             />
           </Grid>
           <Grid item xs={12} md={6} sm={12} sx={{ my: 2 }}>
@@ -258,7 +307,9 @@ const ConstructionField: FC<ConsTypeFieldsetProps> = ({ data, onChange }) => {
               type='text'
               fullWidth
               placeholder=''
-              defaultValue={consSFData.exploitedWS}
+              multiline
+              maxRows={4}
+              value={consSFData.exploitedWS || ''}
               onChange={event => handleChange('exploitedWS')(event.target.value)}
               label='Nguồn nước khai thác'
             />
@@ -272,7 +323,9 @@ const ConstructionField: FC<ConsTypeFieldsetProps> = ({ data, onChange }) => {
               type='text'
               fullWidth
               placeholder=''
-              defaultValue={consSFData.miningMethod}
+              multiline
+              maxRows={4}
+              value={consSFData.miningMethod || ''}
               onChange={event => handleChange('miningMethod')(event.target.value)}
               label='Phương thức khai thác'
             />
@@ -285,7 +338,7 @@ const ConstructionField: FC<ConsTypeFieldsetProps> = ({ data, onChange }) => {
               type='text'
               fullWidth
               placeholder=''
-              defaultValue={consSFData.miningMode}
+              value={consSFData.miningMode || ''}
               onChange={event => handleChange('miningMode')(event.target.value)}
               label='Chế độ khai thác'
             />
@@ -310,7 +363,7 @@ const ConstructionField: FC<ConsTypeFieldsetProps> = ({ data, onChange }) => {
                   label='Cấp công trình'
                   fullWidth
                   placeholder=''
-                  defaultValue={consSFData.constructionLevel}
+                  value={consSFData.constructionLevel || ''}
                   onChange={event => handleChange('constructionLevel')(event.target.value)}
                 />
               </Grid>
@@ -321,7 +374,7 @@ const ConstructionField: FC<ConsTypeFieldsetProps> = ({ data, onChange }) => {
                   label='Diện tích lưu vực'
                   fullWidth
                   placeholder=''
-                  defaultValue={consSFData.basinArea}
+                  value={consSFData.basinArea || ''}
                   onChange={event => handleChange('basinArea')(event.target.value)}
                 />
               </Grid>
@@ -332,7 +385,7 @@ const ConstructionField: FC<ConsTypeFieldsetProps> = ({ data, onChange }) => {
                   label='Lượng mưa trung bình nhiều năm'
                   fullWidth
                   placeholder=''
-                  defaultValue={consSFData.rainAvgForYears}
+                  value={consSFData.rainAvgForYears || ''}
                   onChange={event => handleChange('rainAvgForYears')(event.target.value)}
                 />
               </Grid>
@@ -343,7 +396,7 @@ const ConstructionField: FC<ConsTypeFieldsetProps> = ({ data, onChange }) => {
                   label='Lưu lượng trung bình nhiều năm'
                   fullWidth
                   placeholder=''
-                  defaultValue={consSFData.flowAvgForYears}
+                  value={consSFData.flowAvgForYears || ''}
                   onChange={event => handleChange('flowAvgForYears')(event.target.value)}
                 />
               </Grid>
@@ -357,7 +410,7 @@ const ConstructionField: FC<ConsTypeFieldsetProps> = ({ data, onChange }) => {
                   label='Công suất'
                   fullWidth
                   placeholder=''
-                  defaultValue={consSFData.power}
+                  value={consSFData.power || ''}
                   onChange={event => handleChange('power')(event.target.value)}
                 />
               </Grid>
@@ -368,7 +421,7 @@ const ConstructionField: FC<ConsTypeFieldsetProps> = ({ data, onChange }) => {
                   label='Công suất đảm bảo'
                   fullWidth
                   placeholder=''
-                  defaultValue={consSFData.guaranteedFlow}
+                  value={consSFData.guaranteedFlow || ''}
                   onChange={event => handleChange('guaranteedFlow')(event.target.value)}
                 />
               </Grid>
@@ -379,7 +432,7 @@ const ConstructionField: FC<ConsTypeFieldsetProps> = ({ data, onChange }) => {
                   label='Chiều cao đập'
                   fullWidth
                   placeholder=''
-                  defaultValue={consSFData.damHeight}
+                  value={consSFData.damHeight || ''}
                   onChange={event => handleChange('damHeight')(event.target.value)}
                 />
               </Grid>
@@ -390,7 +443,7 @@ const ConstructionField: FC<ConsTypeFieldsetProps> = ({ data, onChange }) => {
                   label='Lưu lượng tối đa'
                   fullWidth
                   placeholder=''
-                  defaultValue={consSFData.maximumFlow}
+                  value={consSFData.maximumFlow || ''}
                   onChange={event => handleChange('maximumFlow')(event.target.value)}
                 />
               </Grid>
@@ -404,7 +457,7 @@ const ConstructionField: FC<ConsTypeFieldsetProps> = ({ data, onChange }) => {
                   label='Lưu lượng tối thiểu'
                   fullWidth
                   placeholder=''
-                  defaultValue={consSFData.minimumFlow}
+                  value={consSFData.minimumFlow || ''}
                   onChange={event => handleChange('minimumFlow')(event.target.value)}
                 />
               </Grid>
@@ -415,7 +468,7 @@ const ConstructionField: FC<ConsTypeFieldsetProps> = ({ data, onChange }) => {
                   label='Lưu lượng đảm bảo'
                   fullWidth
                   placeholder=''
-                  defaultValue={consSFData.guaranteedFlow}
+                  value={consSFData.guaranteedFlow || ''}
                   onChange={event => handleChange('guaranteedFlow')(event.target.value)}
                 />
               </Grid>
@@ -426,7 +479,7 @@ const ConstructionField: FC<ConsTypeFieldsetProps> = ({ data, onChange }) => {
                   label='Hmax'
                   fullWidth
                   placeholder=''
-                  defaultValue={consSFData.hmax}
+                  value={consSFData.hmax || ''}
                   onChange={event => handleChange('hmax')(event.target.value)}
                 />
               </Grid>
@@ -437,7 +490,7 @@ const ConstructionField: FC<ConsTypeFieldsetProps> = ({ data, onChange }) => {
                   label='Hmin'
                   fullWidth
                   placeholder=''
-                  defaultValue={consSFData.hmin}
+                  value={consSFData.hmin || ''}
                   onChange={event => handleChange('hmin')(event.target.value)}
                 />
               </Grid>
@@ -451,7 +504,7 @@ const ConstructionField: FC<ConsTypeFieldsetProps> = ({ data, onChange }) => {
                   label='Htt'
                   fullWidth
                   placeholder=''
-                  defaultValue={consSFData.htt}
+                  value={consSFData.htt || ''}
                   onChange={event => handleChange('htt')(event.target.value)}
                 />
               </Grid>
@@ -463,7 +516,7 @@ const ConstructionField: FC<ConsTypeFieldsetProps> = ({ data, onChange }) => {
                   label='Dung tích toàn bộ'
                   fullWidth
                   placeholder=''
-                  defaultValue={consSFData.totalCapacity}
+                  value={consSFData.totalCapacity || ''}
                   onChange={event => handleChange('totalCapacity')(event.target.value)}
                 />
               </Grid>
@@ -474,7 +527,7 @@ const ConstructionField: FC<ConsTypeFieldsetProps> = ({ data, onChange }) => {
                   label='Dung tích chết'
                   fullWidth
                   placeholder=''
-                  defaultValue={consSFData.deadCapacity}
+                  value={consSFData.deadCapacity || ''}
                   onChange={event => handleChange('deadCapacity')(event.target.value)}
                 />
               </Grid>
@@ -485,7 +538,7 @@ const ConstructionField: FC<ConsTypeFieldsetProps> = ({ data, onChange }) => {
                   label='Dung tích hữu ích'
                   fullWidth
                   placeholder=''
-                  defaultValue={consSFData.usefulCapacity}
+                  value={consSFData.usefulCapacity || ''}
                   onChange={event => handleChange('usefulCapacity')(event.target.value)}
                 />
               </Grid>
@@ -500,7 +553,7 @@ const ConstructionField: FC<ConsTypeFieldsetProps> = ({ data, onChange }) => {
                       label='Mực nước chết'
                       fullWidth
                       placeholder=''
-                      defaultValue={consSFData.deadWL}
+                      value={consSFData.deadWL || ''}
                       onChange={event => handleChange('deadWL')(event.target.value)}
                     />
                   </Grid>
@@ -511,7 +564,7 @@ const ConstructionField: FC<ConsTypeFieldsetProps> = ({ data, onChange }) => {
                       label='Mực nước dâng bình thường'
                       fullWidth
                       placeholder=''
-                      defaultValue={consSFData.riseWL}
+                      value={consSFData.riseWL || ''}
                       onChange={event => handleChange('riseWL')(event.target.value)}
                     />
                   </Grid>
@@ -522,7 +575,7 @@ const ConstructionField: FC<ConsTypeFieldsetProps> = ({ data, onChange }) => {
                       label='Mực nước lũ thiết kế'
                       fullWidth
                       placeholder=''
-                      defaultValue={consSFData.designFloodLevel}
+                      value={consSFData.designFloodLevel || ''}
                       onChange={event => handleChange('designFloodLevel')(event.target.value)}
                     />
                   </Grid>
@@ -533,7 +586,7 @@ const ConstructionField: FC<ConsTypeFieldsetProps> = ({ data, onChange }) => {
                       label='Mực nước lũ kiểm tra'
                       fullWidth
                       placeholder=''
-                      defaultValue={consSFData.checkFloodWL}
+                      value={consSFData.checkFloodWL || ''}
                       onChange={event => handleChange('checkFloodWL')(event.target.value)}
                     />
                   </Grid>
@@ -564,7 +617,7 @@ const ConstructionField: FC<ConsTypeFieldsetProps> = ({ data, onChange }) => {
                 label='Số máy bơm'
                 fullWidth
                 placeholder=''
-                defaultValue={consSFData.pumpNumber}
+                value={consSFData.pumpNumber || ''}
                 onChange={event => handleChange('pumpNumber')(event.target.value)}
               />
             </Grid>
@@ -575,7 +628,7 @@ const ConstructionField: FC<ConsTypeFieldsetProps> = ({ data, onChange }) => {
                 label='Diện tích tưới thiết kế'
                 fullWidth
                 placeholder=''
-                defaultValue={consSFData.wateringAreaDesigned}
+                value={consSFData.wateringAreaDesigned || ''}
                 onChange={event => handleChange('wateringAreaDesigned')(event.target.value)}
               />
             </Grid>
@@ -586,7 +639,7 @@ const ConstructionField: FC<ConsTypeFieldsetProps> = ({ data, onChange }) => {
                 label='Lượng mưa tưới thực tế'
                 fullWidth
                 placeholder=''
-                defaultValue={consSFData.realityWateringArea}
+                value={consSFData.realityWateringArea || ''}
                 onChange={event => handleChange('realityWateringArea')(event.target.value)}
               />
             </Grid>
@@ -597,7 +650,7 @@ const ConstructionField: FC<ConsTypeFieldsetProps> = ({ data, onChange }) => {
                 label='Lưu lượng thiết kế'
                 fullWidth
                 placeholder=''
-                defaultValue={consSFData.flowDesigned}
+                value={consSFData.flowDesigned || ''}
                 onChange={event => handleChange('flowDesigned')(event.target.value)}
               />
             </Grid>
@@ -611,7 +664,7 @@ const ConstructionField: FC<ConsTypeFieldsetProps> = ({ data, onChange }) => {
                 label='Lưu lượng thực tế'
                 fullWidth
                 placeholder=''
-                defaultValue={consSFData.realityFlow}
+                value={consSFData.realityFlow || ''}
                 onChange={event => handleChange('realityFlow')(event.target.value)}
               />
             </Grid>
@@ -626,7 +679,7 @@ const ConstructionField: FC<ConsTypeFieldsetProps> = ({ data, onChange }) => {
                 }
                 fullWidth
                 placeholder=''
-                defaultValue={consSFData.pumpDesignFlow}
+                value={consSFData.pumpDesignFlow || ''}
                 onChange={event => handleChange('pumpDesignFlow')(event.target.value)}
               />
             </Grid>
@@ -641,7 +694,7 @@ const ConstructionField: FC<ConsTypeFieldsetProps> = ({ data, onChange }) => {
                 }
                 fullWidth
                 placeholder=''
-                defaultValue={consSFData.pumpMaxFlow}
+                value={consSFData.pumpMaxFlow || ''}
                 onChange={event => handleChange('pumpMaxFlow')(event.target.value)}
               />
             </Grid>
@@ -652,7 +705,7 @@ const ConstructionField: FC<ConsTypeFieldsetProps> = ({ data, onChange }) => {
                 label='Mực nước bể hút'
                 fullWidth
                 placeholder=''
-                defaultValue={consSFData.suctionTankWL}
+                value={consSFData.suctionTankWL || ''}
                 onChange={event => handleChange('suctionTankWL')(event.target.value)}
               />
             </Grid>
@@ -679,7 +732,7 @@ const ConstructionField: FC<ConsTypeFieldsetProps> = ({ data, onChange }) => {
                 label='Cao trình cống'
                 fullWidth
                 placeholder=''
-                defaultValue={consSFData.drainElevation}
+                value={consSFData.drainElevation || ''}
                 onChange={event => handleChange('drainElevation')(event.target.value)}
               />
             </Grid>
@@ -690,7 +743,7 @@ const ConstructionField: FC<ConsTypeFieldsetProps> = ({ data, onChange }) => {
                 label='Chiều dài cống'
                 fullWidth
                 placeholder=''
-                defaultValue={consSFData.drainLength}
+                value={consSFData.drainLength || ''}
                 onChange={event => handleChange('drainLength')(event.target.value)}
               />
             </Grid>
@@ -701,7 +754,7 @@ const ConstructionField: FC<ConsTypeFieldsetProps> = ({ data, onChange }) => {
                 label='Đường kính (m)'
                 fullWidth
                 placeholder=''
-                defaultValue={consSFData.drainDiameter}
+                value={consSFData.drainDiameter || ''}
                 onChange={event => handleChange('drainDiameter')(event.target.value)}
               />
             </Grid>
@@ -712,7 +765,7 @@ const ConstructionField: FC<ConsTypeFieldsetProps> = ({ data, onChange }) => {
                 label='Kích thước(rộng*cao)'
                 fullWidth
                 placeholder=''
-                defaultValue={consSFData.drainSize}
+                value={consSFData.drainSize || ''}
                 onChange={event => handleChange('drainSize')(event.target.value)}
               />
             </Grid>

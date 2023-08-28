@@ -1,4 +1,4 @@
-import { FC, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
 import { Button, FormControl, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography } from "@mui/material"
 import DeleteIcon from '@mui/icons-material/Delete';
 import dayjs from 'dayjs';
@@ -64,6 +64,11 @@ const LicenseFeeFeild: FC<LicenseFeeFieldsetProps> = ({ data, onChange }) => {
         // Call onChange after the state update
         onChange(newLicenseFees, itemDelete);
     };
+
+    useEffect(() => {
+        onChange(licenseFees, itemDelete);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [licenseFees, itemDelete]);
 
     return (
         <TableContainer component={Paper}>
