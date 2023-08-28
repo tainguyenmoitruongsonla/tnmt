@@ -65,21 +65,21 @@ const SurfaceConstruction = () => {
       minWidth: 300
     },
     {
-      field: 'miningMethod',
+      field: 'exploitMethod',
       headerClassName: 'tableHead',
       headerAlign: 'center',
       headerName: 'Phương thức khai thác',
       minWidth: 300
     },
     {
-      field: 'miningMode',
+      field: 'exploitMode',
       headerClassName: 'tableHead',
       headerAlign: 'center',
       headerName: 'Chế độ KT',
       minWidth: 300
     },
     {
-      field: 'miningPurpose',
+      field: 'exploitPurpose',
       headerClassName: 'tableHead',
       headerAlign: 'center',
       headerName: 'Mục đích KT',
@@ -486,9 +486,9 @@ const SurfaceConstruction = () => {
         { field: 'constructionLocation' },
         { field: 'coordinates' },
         { field: 'exploitedWS' },
-        { field: 'miningMethod' },
-        { field: 'miningMode' },
-        { field: 'miningPurpose' },
+        { field: 'exploitMethod' },
+        { field: 'exploitMode' },
+        { field: 'exploitPurpose' },
         { field: 'basinName' },
 
         { field: 'constructionTime' },

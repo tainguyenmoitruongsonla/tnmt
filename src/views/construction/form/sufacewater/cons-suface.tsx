@@ -31,8 +31,8 @@ const ConstructionField: FC<ConsTypeFieldsetProps> = ({ data, onChange }) => {
     constructionTime: data?.constructionTime || '',
     smallPlanningArea: data?.smallPlanningArea || '',
     exploitedWS: data?.exploitedWS || '',
-    miningMethod: data?.miningMethod || '',
-    miningMode: data?.miningMode || '',
+    exploitMethod: data?.exploitMethod || '',
+    exploitMode: data?.exploitMode || '',
     constructionLevel: data?.constructionLevel || '',
     basinArea: data?.basinArea || null,
     rainAvgForYears: data?.rainAvgForYears || null,
@@ -325,8 +325,8 @@ const ConstructionField: FC<ConsTypeFieldsetProps> = ({ data, onChange }) => {
               placeholder=''
               multiline
               maxRows={4}
-              value={consSFData.miningMethod || ''}
-              onChange={event => handleChange('miningMethod')(event.target.value)}
+              value={consSFData.exploitMethod || ''}
+              onChange={event => handleChange('exploitMethod')(event.target.value)}
               label='Phương thức khai thác'
             />
           </Grid>
@@ -338,8 +338,8 @@ const ConstructionField: FC<ConsTypeFieldsetProps> = ({ data, onChange }) => {
               type='text'
               fullWidth
               placeholder=''
-              value={consSFData.miningMode || ''}
-              onChange={event => handleChange('miningMode')(event.target.value)}
+              value={consSFData.exploitMode || ''}
+              onChange={event => handleChange('exploitMode')(event.target.value)}
               label='Chế độ khai thác'
             />
           </Grid>

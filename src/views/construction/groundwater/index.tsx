@@ -43,8 +43,8 @@ const GroundConstruction = () => {
         className='btnShowFilePdf' onClick={() => zoomConstruction([data.row.lat, data.row.lng])}>{data.row.constructionName}</Typography>)
     },
     { field: 'constructionLocation', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'Ví trí công trình', minWidth: 150, },
-    { field: 'miningPurpose', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'Mục đích khai thác,sử dụng nước', minWidth: 150, },
-    { field: 'numberMiningWells', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'Số giếng khai thác', minWidth: 150, },
+    { field: 'exploitPurpose', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'Mục đích khai thác,sử dụng nước', minWidth: 150, },
+    { field: 'numberExploitWells', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'Số giếng khai thác', minWidth: 150, },
     { field: 'constructionTime', headerClassName: 'tableHead', headerAlign: 'center', headerName: '	Năm xây dựng', minWidth: 100, },
     { field: 'startDate', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'Năm vận hành', minWidth: 100, },
     { field: 'amountWaterExploited', headerClassName: 'tableHead', headerAlign: 'center', renderHeader: () => (<span>Q<sub>KT</sub> (m<sup>3</sup>/ngày đêm)</span>), minWidth: 150, },
@@ -63,10 +63,10 @@ const GroundConstruction = () => {
     { field: 'waterSupplyFlow', headerClassName: 'tableHead', headerAlign: 'center', renderHeader: () => (<span>Q<sub>khai thác</sub> (m<sup>3</sup>/ng.đêm)</span>), minWidth: 150, },
     { field: 'wellWL', headerClassName: 'tableHead', headerAlign: 'center', renderHeader: () => (<span> H<sub>giếng khai thác</sub></span>), minWidth: 150, },
     { field: 'monitoringWellWL', headerClassName: 'tableHead', headerAlign: 'center', renderHeader: () => (<span> H<sub>giếng quan trắc</sub></span>), minWidth: 150, },
-    { field: 'miningMethod', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'Chế độ KT (giờ/ng.đêm)', minWidth: 150, },
+    { field: 'exploitMethod', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'Chế độ KT (giờ/ng.đêm)', minWidth: 150, },
     { field: 'staticWL', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'Chiều sâu MN tĩnh(m)', minWidth: 150, },
     { field: 'dynamicWL', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'Chiều sâu MN động max(m)', minWidth: 150, },
-    { field: 'miningAquifer', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'Tầng chứa nước KT', minWidth: 150, },
+    { field: 'exploitAquifer', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'Tầng chứa nước KT', minWidth: 150, },
     { field: 'lowWL', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'Mực nước hạ thấp', minWidth: 150, },
 
     //license
@@ -107,8 +107,8 @@ const GroundConstruction = () => {
       children: [
         { field: 'constructionName' },
         { field: 'constructionLocation' },
-        { field: 'miningPurpose' },
-        { field: 'numberMiningWells' },
+        { field: 'exploitPurpose' },
+        { field: 'numberExploitWells' },
         { field: 'constructionTime' },
         { field: 'startDate' },
         { field: 'amountWaterExploited' },
@@ -142,10 +142,10 @@ const GroundConstruction = () => {
         { field: 'waterSupplyFlow' },
         { field: 'wellWL' },
         { field: 'monitoringWellWL' },
-        { field: 'miningMethod' },
+        { field: 'exploitMethod' },
         { field: 'staticWL' },
         { field: 'dynamicWL' },
-        { field: 'miningAquifer' },
+        { field: 'exploitAquifer' },
         { field: 'lowWL' },
       ]
     },

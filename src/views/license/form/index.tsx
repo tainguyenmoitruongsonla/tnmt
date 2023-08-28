@@ -10,6 +10,8 @@ import post from 'src/api/post';
 import fetchData from 'src/api/fetch';
 import FormBusiness from 'src/views/business/form';
 import { enqueueSnackbar } from 'notistack';
+import ConstructionItem from 'src/views/construction/form/sufacewater/cons-item';
+import { ConstructionItemState, SufaceWaterConstructionState } from 'src/views/construction/form/construction-interface';
 
 interface FormLicenseProps {
   data: any;
@@ -18,6 +20,8 @@ interface FormLicenseProps {
 }
 
 const FormLicense: React.FC<FormLicenseProps> = ({ data, closeDialogs, setPostSuccess }) => {
+
+  console.log(data)
 
   const [fetching, setFetching] = useState(true)
   const [saving, setSaving] = useState(false);
@@ -38,14 +42,23 @@ const FormLicense: React.FC<FormLicenseProps> = ({ data, closeDialogs, setPostSu
   };
 
   //Construction
-  const [constructionData, setConstructionData] = useState<any>({});
+  const [constructionData, setConstructionData] = useState<SufaceWaterConstructionState>(data.construction || {});
 
   const handleConstructionChange = (data: any) => {
     setConstructionData(data);
   };
 
+  //Construction
+  const [consItemData, setConsItemData] = useState<ConstructionItemState[]>(data.construction?.constructionItems || []);
+  const [consItemDataDetele, setConsItemDataDelete] = useState<any>();
+
+  const handleconsItemChange = (dataSave: any, dataDelete: any) => {
+    setConsItemDataDelete(dataDelete)
+    setConsItemData(dataSave);
+  };
+
   //licenseFee
-  const [licenseFeeData, setLicenseFeeData] = useState<LicenseFeeState[]>([]);
+  const [licenseFeeData, setLicenseFeeData] = useState<LicenseFeeState[]>(data.licenseFees || []);
   const [licenseFeeDataRemove, setLicenseFeeDataRemove] = useState<LicenseFeeState[]>([]);
 
 
@@ -94,7 +107,7 @@ const FormLicense: React.FC<FormLicenseProps> = ({ data, closeDialogs, setPostSu
       return;
     }
 
-    console.log(constructionData)
+    console.log(constructionData, consItemData, consItemDataDetele)
 
     const handleApiCall = async () => {
       setSaving(true)
@@ -234,10 +247,11 @@ const FormLicense: React.FC<FormLicenseProps> = ({ data, closeDialogs, setPostSu
           <LicenseFieldset data={data} onChange={handleLicenseChange} />
         </Grid>
         <Grid item xs={12}>
-          <LicenseFeeFeild data={data?.licenseFees} onChange={handleLicenseFeeChange} />
+          <LicenseFeeFeild data={licenseFeeData} onChange={handleLicenseFeeChange} />
         </Grid>
         <Grid item xs={12}>
-          <ConstructionField data={data?.consData} onChange={handleConstructionChange} />
+          <ConstructionField data={constructionData} onChange={handleConstructionChange} />
+          <ConstructionItem data={consItemData} onChange={handleconsItemChange} />
         </Grid>
       </Grid>
 

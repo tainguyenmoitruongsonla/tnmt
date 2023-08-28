@@ -80,10 +80,7 @@ const LicenseFieldset: FC<LicenseFieldsetProps> = ({ data, onChange }) => {
 
     useEffect(() => {
         getData();
-        if (data) {
-            setLicenseData(data);
-        }
-    }, [data]);
+    }, []);
 
     const handleChange = (prop: keyof LicenseState) => (value: any) => {
         setLicenseData({ ...licenseData, [prop]: value });

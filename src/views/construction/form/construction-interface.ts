@@ -17,15 +17,15 @@ export interface SufaceWaterConstructionState {
   lng?: number | null
   startDate?: number | null
   exploitedWS?: string
-  miningMode?: string
-  miningMethod?: string
-  miningPurpose?: string
+  exploitMode?: string
+  exploitMethod?: string
+  exploitPurpose?: string
   dischargeMethod?: string
   dischargeMode?: string
   dischargeWS?: string
   dischargeFlow?: number | null
   maximumDischargeFlow?: number | null
-  miningMaxFlow?: number | null
+  exploitMaxFlow?: number | null
   maximumFlow?: number | null
   minimumFlow?: number | null
   maximumWasteWaterFlow?: number | null
@@ -52,7 +52,7 @@ export interface SufaceWaterConstructionState {
   pumpMaxFlow?: number | null
   suctionTankWL?: number | null
   waterSupplyFlow?: number | null
-  miningDuration?: string
+  exploitDuration?: string
   drillingDuration?: string
   drillingPurpose?: string
   explorationPurposes?: string
@@ -60,7 +60,7 @@ export interface SufaceWaterConstructionState {
   constructionTime?: string
   designFloodLevel?: number | null
   checkFloodWL?: number | null
-  numberMiningWells?: number | null
+  numberExploitWells?: number | null
   amountWaterExploited?: number | null
   numberMonitoringWells?: number | null
   description?: string
@@ -103,7 +103,7 @@ export interface SufaceWaterConstructionState {
   minimumFlowPre?: number | null
   maximumFlowPre?: number | null
   power?: number | null
-  miningAquifer?: number | null
+  exploitAquifer?: number | null
   probeAquifer?: number | null
 }
 

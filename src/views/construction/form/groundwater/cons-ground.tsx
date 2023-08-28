@@ -26,14 +26,14 @@ const GroundWaterField: FC<ConsTypeFieldsetProps> = ({ data, onChange }) => {
     lat: data?.lat || null,
     lng: data?.lng || null,
     startDate: data?.startDate || null,
-    miningPurpose: data?.miningPurpose || '',
+    exploitPurpose: data?.exploitPurpose || '',
     constructionTime: data?.constructionTime || '',
     explorationPurposes: data?.explorationPurposes || '',
     drillingDuration: data?.drillingDuration || '',
-    numberMiningWells: data?.numberMiningWells || null,
+    numberExploitWells: data?.numberExploitWells || null,
     amountWaterExploited: data?.amountWaterExploited || null,
     wellNumber: data?.wellNumber || '',
-    miningAquifer: data?.miningAquifer || null,
+    exploitAquifer: data?.exploitAquifer || null,
     waterDepthFrom: data?.waterDepthFrom || null,
     waterDepthTo: data?.waterDepthTo || null,
     waterSupplyFlow: data?.waterSupplyFlow || null,
@@ -41,7 +41,7 @@ const GroundWaterField: FC<ConsTypeFieldsetProps> = ({ data, onChange }) => {
     dynamicWL: data?.dynamicWL || null,
     lowWL: data?.lowWL || null,
     wellWL: data?.wellWL || null,
-    miningMode: data?.miningMode || '',
+    exploitMode: data?.exploitMode || '',
     probeAquifer: data?.probeAquifer || null,
     volumeOfExplorationItems: data?.volumeOfExplorationItems || '',
     drillingScale: data?.drillingScale || ''
@@ -250,8 +250,8 @@ const GroundWaterField: FC<ConsTypeFieldsetProps> = ({ data, onChange }) => {
                   label='Số giếng khai thác'
                   fullWidth
                   placeholder=''
-                  defaultValue={consGroundData.numberMiningWells}
-                  onChange={event => handleChange('numberMiningWells')(event.target.value)}
+                  defaultValue={consGroundData.numberExploitWells}
+                  onChange={event => handleChange('numberExploitWells')(event.target.value)}
                 />
               </Grid>
               <Grid item xs={12} md={4} sm={12} sx={{ my: 2 }}>
@@ -286,8 +286,8 @@ const GroundWaterField: FC<ConsTypeFieldsetProps> = ({ data, onChange }) => {
                   label='Tâng chứa nước khai thác'
                   fullWidth
                   placeholder=''
-                  defaultValue={consGroundData.miningAquifer}
-                  onChange={event => handleChange('miningAquifer')(event.target.value)}
+                  defaultValue={consGroundData.exploitAquifer}
+                  onChange={event => handleChange('exploitAquifer')(event.target.value)}
                 />
               </Grid>
               <Grid item xs={12} md={4} sm={12} sx={{ my: 2 }}>
@@ -407,8 +407,8 @@ const GroundWaterField: FC<ConsTypeFieldsetProps> = ({ data, onChange }) => {
                 label='Chế độ khai thác(giờ/ngày đêm)'
                 fullWidth
                 placeholder=''
-                defaultValue={consGroundData.miningMode}
-                onChange={event => handleChange('miningMode')(event.target.value)}
+                defaultValue={consGroundData.exploitMode}
+                onChange={event => handleChange('exploitMode')(event.target.value)}
               />
             </Grid>
             <Grid item xs={12} md={4} sm={12} sx={{ my: 2 }}>
