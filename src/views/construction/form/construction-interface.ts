@@ -224,4 +224,12 @@ export interface ConstructionItemState {
   y?: number;
   lat?: number;
   lng?: number;
+  amountWaterExploited?:number | null;
+  miningMode?:number | null;
+  waterDepthFrom?: number | null;
+  waterDepthTo?: number | null
+  staticWL?: number | null
+  dynamicWL?: number | null
+  depthFilterTubeFrom?: number | null
+  depthFilterTubeTo?: number | null
 }

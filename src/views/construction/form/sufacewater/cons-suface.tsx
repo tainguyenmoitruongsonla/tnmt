@@ -422,8 +422,8 @@ const ConstructionField: FC<ConsTypeFieldsetProps> = ({ data, onChange }) => {
                   label='Công suất đảm bảo'
                   fullWidth
                   placeholder=''
-                  value={consSFData.guaranteedFlow || ''}
-                  onChange={event => handleChange('guaranteedFlow')(event.target.value)}
+                  value={consSFData.guaranteedPower || ''}
+                  onChange={event => handleChange('guaranteedPower')(event.target.value)}
                 />
               </Grid>
               <Grid item xs={12} md={3} sm={12} sx={{ my: 2 }}>
