@@ -40,14 +40,14 @@ const FormLicense: React.FC<FormLicenseProps> = ({ data, closeDialogs, setPostSu
   };
 
   //Construction
-  const [constructionData, setConstructionData] = useState<ConstructionState>(data.construction || {});
+  const [constructionData, setConstructionData] = useState<ConstructionState>(data?.construction || {});
 
   const handleConstructionChange = (data: any) => {
     setConstructionData(data);
   };
 
   //Construction
-  const [consItemData, setConsItemData] = useState<ConstructionItemState[]>(data.construction?.constructionItems || []);
+  const [consItemData, setConsItemData] = useState<ConstructionItemState[]>(data?.construction?.constructionItems || []);
   const [consItemDataDetele, setConsItemDataDelete] = useState<any>();
 
   const handleconsItemChange = (dataSave: any, dataDelete: any) => {
@@ -56,7 +56,7 @@ const FormLicense: React.FC<FormLicenseProps> = ({ data, closeDialogs, setPostSu
   };
 
   //licenseFee
-  const [licenseFeeData, setLicenseFeeData] = useState<LicenseFeeState[]>(data.licenseFees || []);
+  const [licenseFeeData, setLicenseFeeData] = useState<LicenseFeeState[]>(data?.licenseFees || []);
   const [licenseFeeDataRemove, setLicenseFeeDataRemove] = useState<LicenseFeeState[]>([]);
 
 

@@ -1,10 +1,10 @@
 import { FC, useEffect, useState } from 'react';
-import { Button, FormControl, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography } from "@mui/material"
-import DeleteIcon from '@mui/icons-material/Delete';
+import { Alert, Box, Button, ButtonGroup, FormControl, IconButton, Paper, Popover, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography } from "@mui/material"
 import dayjs from 'dayjs';
 import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LicenseFeeState } from '.';
+import { Delete } from '@mui/icons-material';
 
 interface LicenseFeeFieldsetProps {
     data?: LicenseFeeState[];
@@ -40,7 +40,29 @@ const LicenseFeeFeild: FC<LicenseFeeFieldsetProps> = ({ data, onChange }) => {
         setLicenseFees((prevItems) => [...prevItems, newItem]);
     };
 
-    const removeLicenseFee = (index: number) => {
+    const [deleteConfirmAnchorEl, setDeleteConfirmAnchorEl] = useState<HTMLButtonElement | null>(null);
+    const deleteConfirmOpen = Boolean(deleteConfirmAnchorEl);
+    const [deleteTargetIndex, setDeleteTargetIndex] = useState<number | null>(null);
+
+    const DeleteRowData = (event: React.MouseEvent<HTMLButtonElement>, index: number) => {
+        setDeleteConfirmAnchorEl(event.currentTarget);
+        setDeleteTargetIndex(index);
+    };
+
+    const handleDeleteCancel = () => {
+        setDeleteConfirmAnchorEl(null);
+    };
+
+    const handleDeleteConfirm = () => {
+        if (deleteTargetIndex !== null) {
+            deleteLicFeeItem(deleteTargetIndex); // Pass the index here
+            setDeleteTargetIndex(null);
+        }
+
+        setDeleteConfirmAnchorEl(null);
+    };
+
+    const deleteLicFeeItem = (index: number) => {
         setLicenseFees((prevItems) => {
             const newItems = [...prevItems];
             const removedItem = newItems.splice(index, 1)[0];
@@ -54,7 +76,9 @@ const LicenseFeeFeild: FC<LicenseFeeFieldsetProps> = ({ data, onChange }) => {
 
         // Call onChange after the state update
         onChange(licenseFees, itemDelete);
+        setDeleteConfirmAnchorEl(null);
     };
+
 
     const handleChange = (index: number, prop: keyof LicenseFeeState) => (value: any) => {
         const newLicenseFees = [...licenseFees];
@@ -137,14 +161,39 @@ const LicenseFeeFeild: FC<LicenseFeeFieldsetProps> = ({ data, onChange }) => {
                                     </FormControl>
                                 </TableCell>
                                 <TableCell size='small' align='center'>
-                                    <Button
-                                        variant="text"
-                                        size="small"
-                                        onClick={() => removeLicenseFee(index)}
-                                        className="text-danger"
-                                    >
-                                        <DeleteIcon />
-                                    </Button>
+                                    <>
+                                        <IconButton
+                                            aria-describedby={`${item.licenseFeeNumber}-${index}`}
+                                            onClick={(event) => DeleteRowData(event, index)} // Pass the index here
+                                            data-row-id={`${item.licenseFeeNumber}-${index}`}
+                                        >
+                                            <Delete className='tableActionBtn deleteBtn' />
+                                        </IconButton>
+                                        <Popover
+                                            id={deleteConfirmOpen ? `${item.licenseFeeNumber}-${index}` : undefined}
+                                            open={deleteConfirmOpen}
+                                            anchorEl={deleteConfirmAnchorEl}
+                                            onClose={handleDeleteCancel}
+                                            anchorOrigin={{
+                                                vertical: 'bottom',
+                                                horizontal: 'left',
+                                            }}
+                                        >
+                                            <Alert severity="warning">
+                                                Xóa bản ghi này ?
+                                                <Box sx={{ justifyContent: 'center', paddingTop: 4, width: '100%' }}>
+                                                    <ButtonGroup variant="outlined" aria-label="outlined button group">
+                                                        <Button size="small" onClick={() => handleDeleteConfirm()} >
+                                                            Đúng
+                                                        </Button>
+                                                        <Button color='error' size="small" onClick={() => handleDeleteCancel()} >
+                                                            Không
+                                                        </Button>
+                                                    </ButtonGroup>
+                                                </Box>
+                                            </Alert>
+                                        </Popover>
+                                    </>
                                 </TableCell>
                             </TableRow>
                         ))}

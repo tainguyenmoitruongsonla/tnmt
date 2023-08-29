@@ -1,7 +1,7 @@
 import { FC, useEffect, useState } from 'react';
-import { Alert, Box, Button, ButtonGroup, Paper, Popover, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography } from "@mui/material"
-import DeleteIcon from '@mui/icons-material/Delete';
+import { Alert, Box, Button, ButtonGroup, IconButton, Paper, Popover, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography } from "@mui/material"
 import { ConstructionItemState } from '../construction-interface';
+import { Delete } from '@mui/icons-material';
 
 interface ConstructionItemFieldProps {
   data?: ConstructionItemState[];
@@ -23,7 +23,6 @@ const ConstructionItem: FC<ConstructionItemFieldProps> = ({ data, onChange }) =>
 
   const [constructionItems, setConstructionItems] = useState<ConstructionItemState[]>(initialLicenseFees);
   const [itemDelete, setItemDelete] = useState<ConstructionItemState[]>([]);
-  const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
 
   const addConstructionItem = () => {
     const newItem: ConstructionItemState = {
@@ -38,11 +37,29 @@ const ConstructionItem: FC<ConstructionItemFieldProps> = ({ data, onChange }) =>
     setConstructionItems((prevItems) => [...prevItems, newItem]);
   };
 
-  const removeConstructionItem = (event: React.MouseEvent<HTMLButtonElement>) => {
-    setAnchorEl(event.currentTarget);
+  const [deleteConfirmAnchorEl, setDeleteConfirmAnchorEl] = useState<HTMLButtonElement | null>(null);
+  const deleteConfirmOpen = Boolean(deleteConfirmAnchorEl);
+  const [deleteTargetIndex, setDeleteTargetIndex] = useState<number | null>(null);
+
+  const DeleteRowData = (event: React.MouseEvent<HTMLButtonElement>, index: number) => {
+    setDeleteConfirmAnchorEl(event.currentTarget);
+    setDeleteTargetIndex(index);
   };
 
-  const handleClickAccept = (index: number) => {
+  const handleDeleteCancel = () => {
+    setDeleteConfirmAnchorEl(null);
+  };
+
+  const handleDeleteConfirm = () => {
+    if (deleteTargetIndex !== null) {
+      deleteLicFeeItem(deleteTargetIndex); // Pass the index here
+      setDeleteTargetIndex(null);
+    }
+
+    setDeleteConfirmAnchorEl(null);
+  };
+
+  const deleteLicFeeItem = (index: number) => {
     setConstructionItems((prevItems) => {
       const newItems = [...prevItems];
       const removedItem = newItems.splice(index, 1)[0];
@@ -56,12 +73,8 @@ const ConstructionItem: FC<ConstructionItemFieldProps> = ({ data, onChange }) =>
 
     // Call onChange after the state update
     onChange(constructionItems, itemDelete);
-    setAnchorEl(null)
-  }
-
-  const handleClickNotAccept = () => {
-    setAnchorEl(null)
-  }
+    setDeleteConfirmAnchorEl(null);
+  };
 
   const handleChange = (index: number, prop: keyof ConstructionItemState) => (value: any) => {
     const newConstructionItems = [...constructionItems];
@@ -76,8 +89,6 @@ const ConstructionItem: FC<ConstructionItemFieldProps> = ({ data, onChange }) =>
     onChange(constructionItems, itemDelete);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [constructionItems, itemDelete]);
-
-  const open = Boolean(anchorEl);
 
   return (
     <fieldset>
@@ -154,39 +165,39 @@ const ConstructionItem: FC<ConstructionItemFieldProps> = ({ data, onChange }) =>
                   />
                 </TableCell>
                 <TableCell size='small' align='center'>
-                  <Button
-                    variant="text"
-                    size="small"
-                    onClick={(event) => removeConstructionItem(event)}
-                    className="text-danger"
-                  >
-                    <DeleteIcon />
-                  </Button>
-                  <Popover
-                    id={item.name}
-                    open={open}
-                    anchorEl={anchorEl}
-                    onClose={handleClickNotAccept}
-                    anchorOrigin={{
-                      vertical: 'bottom',
-                      horizontal: 'left',
-                    }}
-                  >
-                    <Alert severity="warning">
-                      Xóa bản ghi này ?
-                      <Box sx={{ justifyContent: 'center', paddingTop: 4, width: '100%' }}>
-                        <ButtonGroup variant="outlined" aria-label="outlined button group">
-                          <Button size="small" onClick={() => handleClickAccept(index)} >
-                            Đúng
-                          </Button>
-                          <Button color='error' size="small" onClick={() => handleClickNotAccept()} >
-                            Không
-                          </Button>
-                        </ButtonGroup>
-
-                      </Box>
-                    </Alert>
-                  </Popover>
+                  <>
+                    <IconButton
+                      aria-describedby={`${item.name}-${index}`}
+                      onClick={(event) => DeleteRowData(event, index)} // Pass the index here
+                      data-row-id={`${item.name}-${index}`}
+                    >
+                      <Delete className='tableActionBtn deleteBtn' />
+                    </IconButton>
+                    <Popover
+                      id={deleteConfirmOpen ? `${item.name}-${index}` : undefined}
+                      open={deleteConfirmOpen}
+                      anchorEl={deleteConfirmAnchorEl}
+                      onClose={handleDeleteCancel}
+                      anchorOrigin={{
+                        vertical: 'bottom',
+                        horizontal: 'left',
+                      }}
+                    >
+                      <Alert severity="warning">
+                        Xóa bản ghi này ?
+                        <Box sx={{ justifyContent: 'center', paddingTop: 4, width: '100%' }}>
+                          <ButtonGroup variant="outlined" aria-label="outlined button group">
+                            <Button size="small" onClick={() => handleDeleteConfirm()} >
+                              Đúng
+                            </Button>
+                            <Button color='error' size="small" onClick={() => handleDeleteCancel()} >
+                              Không
+                            </Button>
+                          </ButtonGroup>
+                        </Box>
+                      </Alert>
+                    </Popover>
+                  </>
                 </TableCell>
               </TableRow>
             ))}
