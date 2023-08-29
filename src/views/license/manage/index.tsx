@@ -13,6 +13,7 @@ import fetchData from 'src/api/fetch';
 
 import { columnFillters } from 'src/@core/components/data-grid';
 import { Cached, FilterList, Search } from '@mui/icons-material';
+import BoxLoading from 'src/@core/components/box-loading';
 
 interface ToolbarProps {
     data: any
@@ -24,10 +25,7 @@ interface ToolbarProps {
 const ManageLicense = () => {
     const [resData, setResData] = React.useState([]);
     const [resDataForChart, setResDataForChart] = React.useState([]);
-
     const [loading, setLoading] = React.useState(false)
-
-    console.log(loading)
 
     React.useEffect(() => {
         const getData = async () => {
@@ -433,15 +431,21 @@ const ManageLicense = () => {
     };
 
     return (
-        <Grid container spacing={3}>
-            <CountLicenseForManage data={dataForCount} />
-            <Grid xs={12} sm={12} md={12} sx={{ height: '55vh', overflow: 'hidden' }}>
-                <Paper elevation={3}>
-                    <Toolbar data={resData} columns={columnFillter} />
-                    <ApexChartLicense data={data} year={year} color={color} />
-                </Paper>
-            </Grid>
-        </Grid >
+        loading ? (
+            <Box sx={{ width: '100%', height: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                <BoxLoading />
+            </Box>
+        ) : (
+            <Grid container spacing={3}>
+                <CountLicenseForManage data={dataForCount} />
+                <Grid xs={12} sm={12} md={12} sx={{ height: '55vh', overflow: 'hidden' }}>
+                    <Paper elevation={3}>
+                        <Toolbar data={resData} columns={columnFillter} />
+                        <ApexChartLicense data={data} year={year} color={color} />
+                    </Paper>
+                </Grid>
+            </Grid >
+        )
     )
 }
 
