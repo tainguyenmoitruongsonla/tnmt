@@ -1,88 +1,92 @@
-import React, { useState } from 'react';
-import { Add, Edit } from '@mui/icons-material';
-import { Button, DialogActions, Grid } from '@mui/material';
+import React, { useState } from 'react'
+import { Add, Edit } from '@mui/icons-material'
+import { Button, DialogActions, Grid } from '@mui/material'
 
-import DialogsControlFullScreen from 'src/@core/components/dialog-control-full-screen';
+import DialogsControlFullScreen from 'src/@core/components/dialog-control-full-screen'
 
-import postData from 'src/api/post';
+import postData from 'src/api/post'
 
-import GroundWaterField from './cons-ground';
-import ConstructionItem from '../sufacewater/cons-item';
-
+import GroundWaterField from './cons-ground'
+import ConstructionItem from '../sufacewater/cons-item'
+import ExploitItem from './exploit-item'
 
 interface FormLicenseProps {
-  data: any;
-  closeDialogs: () => void;
-  setPostSuccess?: (value: boolean) => void;
+  data: any
+  closeDialogs: () => void
+  setPostSuccess?: (value: boolean) => void
 }
 
 const FormLicense: React.FC<FormLicenseProps> = ({ data, closeDialogs, setPostSuccess }) => {
-
   //Business
-  const [consSFData, setConsSFData] = useState<any>(data);
+  const [consSFData, setConsSFData] = useState<any>(data)
 
   const handleConsSFChange = (data: any) => {
-    setConsSFData(data);
-  };
+    setConsSFData(data)
+  }
 
   //Construction
-  const [consItemData, setConsItemData] = useState<any>(data?.constructionItems);
-  const [consItemDataDetele, setConsItemDataDelete] = useState<any>();
+  const [consItemData, setConsItemData] = useState<any>(data?.constructionItems)
+  const [consItemDataDetele, setConsItemDataDelete] = useState<any>()
 
   const handleconsItemChange = (dataSave: any, dataDelete: any) => {
     setConsItemDataDelete(dataDelete)
-    setConsItemData(dataSave);
-  };
+    setConsItemData(dataSave)
+  }
 
   const handleSubmit = async (e: any) => {
-    e.preventDefault();
+    e.preventDefault()
 
     const handleApiCall = async () => {
-      const res = await postData('Construction/save', consSFData);
+      const res = await postData('Construction/save', consSFData)
 
       if (res) {
         // Reset form fields
-        setConsSFData({});
+        setConsSFData({})
 
         consItemDataDetele.map(async (e: any) => {
-          await postData('ConstructionDetail/delete', e);
+          await postData('ConstructionDetail/delete', e)
         })
 
         consItemData.map(async (e: any) => {
-          e.constructionId = res.id;
-          await postData('ConstructionDetail/save', e);
+          e.constructionId = res.id
+          await postData('ConstructionDetail/save', e)
         })
 
-          typeof (setPostSuccess) === 'function' ? setPostSuccess(true) : '';
-          closeDialogs();
+        typeof setPostSuccess === 'function' ? setPostSuccess(true) : ''
+        closeDialogs()
       }
 
-      // 
-  };
+      //
+    }
 
-  // Call the function
-  handleApiCall();
-};
+    // Call the function
+    handleApiCall()
+  }
 
   const handleClose = () => {
     setConsSFData({
       consData: consSFData,
-      consItem: consItemData,
-    });
+      consItem: consItemData
+    })
 
-    closeDialogs();
-  };
+    closeDialogs()
+  }
 
   return (
     <form onSubmit={handleSubmit}>
       <Grid container gap={3}>
         <Grid item xs={12}>
-          <GroundWaterField  data={consSFData} onChange={handleConsSFChange} />
+          <GroundWaterField data={consSFData} onChange={handleConsSFChange} />
         </Grid>
-
-        <Grid item xs={12}>
-         <ConstructionItem data={consItemData} onChange={handleconsItemChange} />
-        </Grid>
+        {consSFData?.constructionTypeId === 7 ? (
+          <Grid item xs={12}>
+            <ExploitItem data={consItemData} onChange={handleconsItemChange} />
+          </Grid>
+        ) : (
+          <Grid item xs={12}>
+            <ConstructionItem data={consItemData} onChange={handleconsItemChange} />
+          </Grid>
+        )}
       </Grid>
 
       <DialogActions sx={{ p: 0, mt: 5 }}>
@@ -94,17 +98,17 @@ const FormLicense: React.FC<FormLicenseProps> = ({ data, closeDialogs, setPostSu
         </Button>
       </DialogActions>
     </form>
-  );
-};
+  )
+}
 
 interface CreateConstructionProps {
-  isEdit: boolean;
-  data?: any;
-  setPostSuccess?: (value: boolean) => void;
+  isEdit: boolean
+  data?: any
+  setPostSuccess?: (value: boolean) => void
 }
 
 const CreateConstructionGround: React.FC<CreateConstructionProps> = ({ isEdit, data, setPostSuccess }) => {
-  const formTitle = isEdit ? 'Sửa công trình' : 'Thêm công trình mới';
+  const formTitle = isEdit ? 'Sửa công trình' : 'Thêm công trình mới'
 
   return (
     <DialogsControlFullScreen>
@@ -114,15 +118,21 @@ const CreateConstructionGround: React.FC<CreateConstructionProps> = ({ isEdit, d
             <Edit
               className='tableActionBtn'
               onClick={() =>
-                openDialogs(<FormLicense data={data} closeDialogs={closeDialogs} setPostSuccess={setPostSuccess} />, formTitle)
+                openDialogs(
+                  <FormLicense data={data} closeDialogs={closeDialogs} setPostSuccess={setPostSuccess} />,
+                  formTitle
+                )
               }
             />
           ) : (
             <Button
-              size="small"
+              size='small'
               startIcon={<Add />}
               onClick={() =>
-                openDialogs(<FormLicense data={data} closeDialogs={closeDialogs} setPostSuccess={setPostSuccess} />, formTitle)
+                openDialogs(
+                  <FormLicense data={data} closeDialogs={closeDialogs} setPostSuccess={setPostSuccess} />,
+                  formTitle
+                )
               }
             >
               Thêm mới
@@ -131,7 +141,7 @@ const CreateConstructionGround: React.FC<CreateConstructionProps> = ({ isEdit, d
         </>
       )}
     </DialogsControlFullScreen>
-  );
-};
+  )
+}
 
-export default CreateConstructionGround;
+export default CreateConstructionGround

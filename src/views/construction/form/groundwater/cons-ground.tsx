@@ -1,16 +1,16 @@
-import { Typography, Grid, Autocomplete, TextField } from '@mui/material'
-import { useEffect, FC, useState } from 'react'
+import { Typography, Grid, Autocomplete, TextField, CircularProgress  } from '@mui/material'
+import { useEffect, FC, useState , Fragment} from 'react'
 import fetchData from 'src/api/fetch'
-import { SufaceWaterConstructionState } from '../construction-interface'
+import { ConstructionState } from '../construction-interface'
 
 
 interface ConsTypeFieldsetProps {
   data?: any  // Thêm prop data để truyền dữ liệu từ ngoài vào
-  onChange: (data: SufaceWaterConstructionState) => void
+  onChange: (data: ConstructionState) => void
 }
 
 const GroundWaterField: FC<ConsTypeFieldsetProps> = ({ data, onChange }) => {
-  const [consGroundData, setConsGroundData] = useState<SufaceWaterConstructionState>({
+  const [consGroundData, setConsGroundData] = useState<ConstructionState>({
     id: data?.id || 0,
     constructionTypeId: data?.constructionTypeId || 0,
     provinceId: data?.provinceId || 51,
@@ -55,22 +55,42 @@ const GroundWaterField: FC<ConsTypeFieldsetProps> = ({ data, onChange }) => {
   }, [data])
 
   const [consType, setconsType] = useState<any>([])
-
+  const [district, setDistrict] = useState<any>([])
+  const [commune, setCommune] = useState<any>([])
+  const [loading, setLoading] = useState<boolean>(false)
   useEffect(() => {
     const getData = async () => {
       try {
+        setLoading(true)
+
+        //constructionType
         const consTypes = await fetchData('ConstructionTypes/list');
         const filteredData = consTypes.filter((item: any) => item.parentId === 2);
         setconsType(filteredData);
+
+        //district
+        const distric = await fetchData('Locations/list/distric/51');
+        setDistrict(distric);
+
+        //commune
+        const communes = await fetchData(`Locations/list/commune`);
+        const communeFiltered = communes.filter((item: any) => item.districtId == consGroundData?.districtId?.toString())
+        setCommune(communeFiltered);
+
       } catch (error) {
-        setconsType([])
+
+        //console.log(error)
       } finally {
+        setLoading(false)
       }
     }
-    getData()
-  }, [])
 
-  const handleChange = (prop: keyof SufaceWaterConstructionState) => (value: any) => {
+    getData()
+    setCommune([]);
+
+  }, [consGroundData?.districtId])
+
+  const handleChange = (prop: keyof ConstructionState) => (value: any) => {
     setConsGroundData({ ...consGroundData, [prop]: value })
     onChange({ ...consGroundData, [prop]: value })
   }
@@ -85,14 +105,23 @@ const GroundWaterField: FC<ConsTypeFieldsetProps> = ({ data, onChange }) => {
         </legend>
         <Grid container spacing={4}>
           <Grid item xs={12} md={3} sm={12} sx={{ my: 2 }}>
-            <Autocomplete
+          <Autocomplete
+              disabled={loading}
               size='small'
               options={consType}
               getOptionLabel={(option: any) => option.typeName}
               value={consType.find((option: any) => option.id === consGroundData.constructionTypeId) || null}
               isOptionEqualToValue={(option: any) => option.id}
               onChange={(_, value) => handleChange('constructionTypeId')(value?.id || 0)}
-              renderInput={params => <TextField required {...params} fullWidth label='Chọn loại hình công trình' />}
+              renderInput={params => <TextField required {...params} fullWidth label='Chọn loại hình công trình' InputProps={{
+                ...params.InputProps,
+                endAdornment: (
+                  <Fragment>
+                    {loading && <CircularProgress color='primary' size={20} />}
+                    {params.InputProps.endAdornment}
+                  </Fragment>
+                ),
+              }} />}
             />
           </Grid>
           <Grid item xs={12} md={3} sm={12} sx={{ my: 2 }}>
@@ -121,20 +150,43 @@ const GroundWaterField: FC<ConsTypeFieldsetProps> = ({ data, onChange }) => {
 
         <Grid container spacing={4}>
           <Grid item xs={12} md={3} sm={12} sx={{ my: 2 }}>
-            <Autocomplete
-              onChange={(e: any, v: any) => handleChange(v)}
+          <Autocomplete
+              disabled={loading}
               size='small'
-              options={consType}
-              getOptionLabel={(option: any) => option.title}
-              renderInput={params => <TextField {...params} variant='outlined' fullWidth label='Chọn Quận/Huyện' />}
+              options={district}
+              getOptionLabel={(option: any) => option.districtName}
+              value={district.find((option: any) => option.districtId === consGroundData.districtId?.toString()) || null}
+              isOptionEqualToValue={(option: any) => option.districtId}
+              onChange={(_, value) => handleChange('districtId')(value?.districtId || 0)}
+              renderInput={params => <TextField required {...params} fullWidth label='Chọn Quận/Huyện' InputProps={{
+                ...params.InputProps,
+                endAdornment: (
+                  <Fragment>
+                    {loading && <CircularProgress color='primary' size={20} />}
+                    {params.InputProps.endAdornment}
+                  </Fragment>
+                ),
+              }} />}
             />
           </Grid>
           <Grid item xs={12} md={3} sm={12} sx={{ my: 2 }}>
-            <Autocomplete
+          <Autocomplete
+              disabled={consGroundData?.districtId !== undefined && consGroundData.districtId == 0}
               size='small'
-              options={consType}
-              getOptionLabel={(option: any) => option.title}
-              renderInput={params => <TextField {...params} variant='outlined' fullWidth label='Chọn Xã/phường' />}
+              options={commune}
+              getOptionLabel={(option: any) => option.communeName}
+              value={commune.find((option: any) => option.communeId === consGroundData.communeId?.toString()) || null}
+              isOptionEqualToValue={(option: any) => option.communeId}
+              onChange={(_, value) => handleChange('communeId')(value?.communeId || 0)}
+              renderInput={params => <TextField {...params} variant='outlined' fullWidth label='Chọn Xã/phường' InputProps={{
+                ...params.InputProps,
+                endAdornment: (
+                  <Fragment>
+                    {loading && <CircularProgress color='primary' size={20} />}
+                    {params.InputProps.endAdornment}
+                  </Fragment>
+                ),
+              }} />}
             />
           </Grid>
           <Grid item xs={12} md={3} sm={12} sx={{ my: 2 }}>

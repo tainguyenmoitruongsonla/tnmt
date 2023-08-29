@@ -1,38 +1,29 @@
 //React Imports
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react'
 
 //MUI Imports
-import { Box, Tooltip, IconButton, Typography, Paper } from '@mui/material';
-import Grid from '@mui/material/Unstable_Grid2';
-import { GridColDef, GridColumnGroupingModel } from '@mui/x-data-grid';
+import { Box, Tooltip, IconButton, Typography, Paper, Popover, Alert, ButtonGroup, Button } from '@mui/material'
+import Grid from '@mui/material/Unstable_Grid2'
+import { GridColDef, GridColumnGroupingModel } from '@mui/x-data-grid'
 
 //Other Imports
-import FormatDate from 'src/@core/components/format-date';
-import ShowFilePDF from 'src/@core/components/show-file-pdf';
-import DataGridComponent, { columnFillters } from 'src/@core/components/data-grid';
-import { Delete } from '@mui/icons-material';
+import FormatDate from 'src/@core/components/format-date'
 
+import ShowFilePDF from 'src/@core/components/show-file-pdf'
+import DataGridComponent, { columnFillters } from 'src/@core/components/data-grid'
+import { Delete } from '@mui/icons-material'
 import FormGroup from '@mui/material/FormGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
 
-import dynamic from 'next/dynamic';
-import fetchData from 'src/api/fetch';
-import CreateConstructionDisCharge from '../form/dischargewater';
+import dynamic from 'next/dynamic'
+import fetchData from 'src/api/fetch'
+import post from 'src/api/post'
+import CreateConstructionDisCharge from '../form/dischargewater'
 
+const Map = dynamic(() => import('src/@core/components/map'), { ssr: false })
 
-
-
-const Map = dynamic(() => import("src/@core/components/map"), { ssr: false });
-
-const EditLicense = (data: any) => {
-  console.log('Edit: ' + data.row?.licenseNumber)
-}
-
-const DeleteLicense = (data: any) => {
-  confirm(`Bạn muốn xóa:  ${data.row?.licenseNumber} chứ?`)
-}
-
+// eslint-disable-next-line react-hooks/rules-of-hooks
 const DischargeConstruction = () => {
 
   //Init columnTable
@@ -69,26 +60,53 @@ const DischargeConstruction = () => {
 
     //Action
     {
-      field: 'actions', headerClassName: 'tableHead', headerAlign: 'center', headerName: '#', minWidth: 120, sortable: false,
-      renderCell: (data) => (
+      field: 'actions',
+      headerClassName: 'tableHead',
+      headerAlign: 'center',
+      headerName: '#',
+      minWidth: 120,
+      sortable: false,
+      renderCell: data => (
         <Box>
-          <Tooltip title="Chỉnh sửa giấy phép">
-            <IconButton onClick={() => EditLicense(data)}>
-              <CreateConstructionDisCharge isEdit={true} data={data.row} />
-            </IconButton>
-          </Tooltip>
-          <Tooltip title="Xóa giấy phép">
-            <IconButton onClick={() => DeleteLicense(data)}>
-              <Delete className='tableActionBtn deleteBtn' />
-            </IconButton>
+          <CreateConstructionDisCharge isEdit={true} data={data.row} setPostSuccess={handlePostSuccess} />
+          <Tooltip title='Xóa thông tin công trình'>
+            <>
+              <IconButton aria-describedby={data.row.id} onClick={DeleteRowData} data-row-id={data.row.id} >
+                <Delete className='tableActionBtn deleteBtn' />
+              </IconButton>
+              <Popover
+                id={deleteConfirmOpen ? data.row.id : undefined}
+                open={deleteConfirmOpen}
+                anchorEl={deleteConfirmAnchorEl}
+                onClose={handleDeleteCancel}
+                anchorOrigin={{
+                  vertical: 'bottom',
+                  horizontal: 'left',
+                }}
+              >
+                <Alert severity="warning">
+                  Xóa bản ghi này ?
+                  <Box sx={{ justifyContent: 'center', paddingTop: 4, width: '100%' }}>
+                    <ButtonGroup variant="outlined" aria-label="outlined button group">
+                      <Button size="small" onClick={handleDeleteConfirm}>
+                        Đúng
+                      </Button>
+                      <Button color='error' size="small" onClick={handleDeleteCancel}>
+                        Hủy
+                      </Button>
+                    </ButtonGroup>
+                  </Box>
+                </Alert>
+              </Popover>
+            </>
           </Tooltip>
         </Box>
       )
-    },
-  ];
+    }
+  ]
 
   //Grouping Column
-  const columnGroup: GridColumnGroupingModel = [
+ const columnGroup: GridColumnGroupingModel = [
     {
       groupId: 'Thông tin công trình',
       headerClassName: 'tableHead',
@@ -152,20 +170,22 @@ const DischargeConstruction = () => {
     }
   ];
 
+
   const columnFillter: columnFillters[] = [
     {
       label: 'Loại công trình',
       value: 'constructionTypeSlug',
       type: 'select',
       options: [
-        { label: 'Khu/cụm CN tập trung', value: 'khu_cumcn_taptrung' },
-        { label: 'SX tiểu thủ CN', value: 'sx_tieuthu_cn' },
-        { label: 'SX KD dịch vụ', value: 'sx_kd_dv' },
-        { label: 'CS bệnh viện', value: 'cs_benhvien' },
-        { label: 'Khu dân cư/Làng nghề', value: 'khudancu_langnghe' },
-        { label: 'Chăn nuôi/ NTTS', value: 'channuoi_ntts' },
-        { label: 'Công trình khác', value: 'congtrinh_xathaikhac' },
-      ],
+        { label: 'Thủy điện', value: 'thuydien' },
+        { label: 'Hồ chứa', value: 'hochua' },
+        { label: 'Trạm bơm', value: 'trambom' },
+        { label: 'Đập/Hệ thống thủy lợi', value: 'dapthuyloi' },
+        { label: 'Cống', value: 'cong' },
+        { label: 'Trạm cấp nước', value: 'tramcapnuoc' },
+        { label: 'Nhà máy nước', value: 'nhamaynuoc' },
+        { label: 'Công trình khác', value: 'congtrinh_nuocmatkhac' }
+      ]
     },
     {
       label: 'Cơ quan cấp phép',
@@ -184,8 +204,8 @@ const DischargeConstruction = () => {
         { label: 'Tiểu vùng quy hoạch 1', value: 1 },
         { label: 'Tiểu vùng quy hoạch 2', value: 2 },
         { label: 'Tiểu vùng quy hoạch 3', value: 3 },
-        { label: '...', value: 4 },
-      ],
+        { label: '...', value: 4 }
+      ]
     },
     {
       label: 'Huyện',
@@ -195,67 +215,96 @@ const DischargeConstruction = () => {
         { label: 'Huyện 1', value: 1 },
         { label: 'Huyện 2', value: 2 },
         { label: 'Huyện 3', value: 3 },
-        { label: '...', value: 4 },
-      ],
+        { label: '...', value: 4 }
+      ]
     },
     {
       label: ' Nhập tên công trình',
       value: 'constructionName',
-      type: 'text',
+      type: 'text'
     },
     {
       label: ' Nhập số GP',
       value: 'licenseName',
-      type: 'text',
-    },
+      type: 'text'
+    }
+  ]
 
-  ];
-
-  const [mapCenter, setMapCenter] = useState([15.012172, 108.676488]);
-  const [mapZoom, setMapZoom] = useState(9);
+  const [mapCenter, setMapCenter] = useState([15.012172, 108.676488])
+  const [mapZoom, setMapZoom] = useState(9)
   const [showLabel, setShowLabel] = useState(false)
 
-  const [columns, setColumns] = useState<any[]>([]);
-  const [columnFillters, setcolumnFillters] = useState<any[]>([]);
+  const [postSuccess, setPostSuccess] = useState(false)
 
-
-  const [postSuccess, setPostSuccess] = useState(false);
   const handlePostSuccess = () => {
-    setPostSuccess(prevState => !prevState);
-  };
-  const [resData, setResData] = useState([]);
+    setPostSuccess(prevState => !prevState)
+  }
+  const [resData, setResData] = useState([])
   const [loading, setLoading] = useState(false)
 
-  useEffect(() => {
-    setColumns(columnsTable);
-    setcolumnFillters(columnFillter)
-
-    const getData = async () => {
-
-      try {
-        setLoading(true)
-        const data = await fetchData('Construction/list');
-        const filteredData = data.filter((item: { [key: string]: any }) =>
+  const getData = async () => {
+    try {
+      setLoading(true)
+      const data = await fetchData('Construction/list')
+      const filteredData = data.filter((item: { [key: string]: any }) =>
           ['khu_cumcn_taptrung', 'sx_tieuthu_cn', 'sx_kd_dv', 'cs_benhvien', 'khudancu_langnghe', 'channuoi_ntts', 'congtrinh_xathaikhac'].some(keyword =>
             item['constructionTypeSlug']?.toString().toLowerCase().includes(keyword.toLowerCase())
           )
         );
-        setResData(filteredData);
-      } catch (error) {
-        setResData([]);
-      } finally {
-        setLoading(false)
+      setResData(filteredData)
+    } catch (error) {
+      setResData([])
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  //delete
+  const [deleteConfirmAnchorEl, setDeleteConfirmAnchorEl] = useState<HTMLButtonElement | null>(null);
+  const deleteConfirmOpen = Boolean(deleteConfirmAnchorEl);
+  const DeleteRowData = (event: React.MouseEvent<HTMLButtonElement>) => {
+    setDeleteConfirmAnchorEl(event.currentTarget);
+  };
+
+  const handleDeleteConfirm = () => {
+    if (deleteConfirmAnchorEl) {
+      const rowId = parseInt(deleteConfirmAnchorEl.getAttribute('data-row-id') || '', 10);
+      const rowToDelete = resData.find((row: any) => row.id === rowId);
+      if (rowToDelete) {
+        handleDeleteRowData(rowToDelete);
       }
-    };
+    }
 
-    getData();
+    setDeleteConfirmAnchorEl(null);
+  };
 
-  }, [postSuccess]);
+  const handleDeleteCancel = () => {
+    setDeleteConfirmAnchorEl(null);
+  };
+
+  const handleDeleteRowData = async (data: any) => {
+    try {
+      setLoading(true)
+      const res = await post('Construction/delete', data)
+      if (res) {
+        setResData(prevData => prevData.filter((item: any) => item.id !== data.id))
+      }
+    } catch (error) {
+      console.error(error)
+    } finally {
+      setLoading(false)
+      setDeleteConfirmAnchorEl(null)
+    }
+  }
+
+  useEffect(() => {
+    getData()
+  }, [postSuccess])
 
   const zoomConstruction = (coords: any) => {
-    setMapCenter(coords);
-    setMapZoom(13);
-  };
+    setMapCenter(coords)
+    setMapZoom(13)
+  }
 
   return (
     <Grid container spacing={2}>
@@ -263,7 +312,7 @@ const DischargeConstruction = () => {
         <Paper elevation={3} sx={{ height: '100%', position: 'relative' }}>
           <Box className="map-legend" sx={{ background: 'white', pl: 2 }}>
             <FormGroup>
-              <FormControlLabel control={<Checkbox onClick={ () => setShowLabel(!showLabel)} />} label="Hiển thị tên công trình" />
+              <FormControlLabel control={<Checkbox onClick={() => setShowLabel(!showLabel)} />} label="Hiển thị tên công trình" />
             </FormGroup>
           </Box>
           <Map center={mapCenter} zoom={mapZoom} showLabel={showLabel} mapMarkerData={resData} />
@@ -274,17 +323,15 @@ const DischargeConstruction = () => {
           <DataGridComponent
             rows={resData}
             loading={loading}
-            columns={columns}
+            columns={columnsTable}
             columnGroupingModel={columnGroup}
-            columnFillter={columnFillters}
-            actions={
-              <CreateConstructionDisCharge isEdit={false} setPostSuccess={handlePostSuccess} />
-            }
+            columnFillter={columnFillter}
+            actions={<CreateConstructionDisCharge isEdit={false} setPostSuccess={handlePostSuccess} />}
           />
         </Paper>
       </Grid>
     </Grid>
-  );
-};
+  )
+}
 
-export default DischargeConstruction;
+export default DischargeConstruction
