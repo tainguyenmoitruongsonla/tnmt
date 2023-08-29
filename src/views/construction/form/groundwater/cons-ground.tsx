@@ -1,15 +1,16 @@
 import { Typography, Grid, Autocomplete, TextField } from '@mui/material'
 import { useEffect, FC, useState } from 'react'
 import fetchData from 'src/api/fetch'
-import { Suface } from '../construction-interface'
+import { SufaceWaterConstructionState } from '../construction-interface'
+
 
 interface ConsTypeFieldsetProps {
   data?: any  // Thêm prop data để truyền dữ liệu từ ngoài vào
-  onChange: (data: Suface) => void
+  onChange: (data: SufaceWaterConstructionState) => void
 }
 
 const GroundWaterField: FC<ConsTypeFieldsetProps> = ({ data, onChange }) => {
-  const [consGroundData, setConsGroundData] = useState<Suface>({
+  const [consGroundData, setConsGroundData] = useState<SufaceWaterConstructionState>({
     id: data?.id || 0,
     constructionTypeId: data?.constructionTypeId || 0,
     provinceId: data?.provinceId || 51,
@@ -69,7 +70,7 @@ const GroundWaterField: FC<ConsTypeFieldsetProps> = ({ data, onChange }) => {
     getData()
   }, [])
 
-  const handleChange = (prop: keyof Suface) => (value: any) => {
+  const handleChange = (prop: keyof SufaceWaterConstructionState) => (value: any) => {
     setConsGroundData({ ...consGroundData, [prop]: value })
     onChange({ ...consGroundData, [prop]: value })
   }

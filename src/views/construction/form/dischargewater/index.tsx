@@ -23,10 +23,12 @@ const FormConstruction: React.FC<FormConstructionProps> = ({ data, closeDialogs,
   };
 
   //Construction
-  const [consItemData, setConsItemData] = useState<any>(data);
+  const [consItemData, setConsItemData] = useState<any>(data?.constructionItems);
+  const [consItemDataDetele, setConsItemDataDelete] = useState<any>();
 
-  const handleconsItemChange = (data: any) => {
-    setConsItemData(data);
+  const handleconsItemChange = (dataSave: any, dataDelete: any) => {
+    setConsItemDataDelete(dataDelete)
+    setConsItemData(dataSave);
   };
 
   const handleSubmit = async (e: any) => {
@@ -37,8 +39,17 @@ const FormConstruction: React.FC<FormConstructionProps> = ({ data, closeDialogs,
         const res = await postData('Construction/save', consSFData);
 
         if (res) {
-            // Reset form fields
-            setConsSFData({});
+          // Reset form fields
+          setConsSFData({});
+  
+          consItemDataDetele.map(async (e: any) => {
+            await postData('ConstructionDetail/delete', e);
+          })
+  
+          consItemData.map(async (e: any) => {
+            e.constructionId = res.id;
+            await postData('ConstructionDetail/save', e);
+          })
 
             typeof (setPostSuccess) === 'function' ? setPostSuccess(true) : '';
             closeDialogs();
@@ -67,7 +78,7 @@ const handleClose = () => {
           <ConstructionField data={consSFData} onChange={handleConsSFChange} />
         </Grid>
         <Grid item xs={12}>
-          <ConstructionItem data={data?.consItem} onChange={handleconsItemChange}/>
+          <ConstructionItem data={consItemData} onChange={handleconsItemChange} />
         </Grid>
       </Grid>
 
