@@ -5,21 +5,14 @@ import { ChangeEvent, useEffect, useState } from 'react';
 
 import postData from 'src/api/post';
 import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers';
-import dayjs, { Dayjs } from 'dayjs';
+import dayjs from 'dayjs';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { useRouter } from 'next/router';
 import fetchData from 'src/api/fetch';
 import upload from 'src/api/upload-file';
+import { LicenseFeeState, emptyLicenseFeeData } from './license-fee-interface';
 
-export interface LicenseFeeState {
-    id?: number,
-    childrenId?: number,
-    licenseFeeNumber?: string | null,
-    signDate?: Dayjs | null,
-    totalMoney?: number | undefined,
-    filePdf?: File | null | undefined,
-    description?: string | null,
-}
+
 
 const Form = ({ data, setPostSuccess, closeDialogs }: any) => {
 
@@ -105,7 +98,7 @@ const Form = ({ data, setPostSuccess, closeDialogs }: any) => {
                     await upload(newFile)
 
                     // Reset form fields
-                    setValues({});
+                    setValues(emptyLicenseFeeData);
 
                     typeof (setPostSuccess) === 'function' ? setPostSuccess(true) : '';
                     closeDialogs();
@@ -166,7 +159,7 @@ const Form = ({ data, setPostSuccess, closeDialogs }: any) => {
                     <LocalizationProvider dateAdapter={AdapterDayjs}>
                         <DatePicker
                             label="Ngày ký"
-                            value={values.signDate}
+                            value={values.signDate || null}
                             onChange={(newSignDate: any) => setValues({ ...values, signDate: newSignDate })}
                             slotProps={{ textField: { size: 'small', fullWidth: true } }}
                             format="DD/MM/YYYY" />

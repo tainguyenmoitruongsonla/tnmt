@@ -3,8 +3,8 @@ import { Alert, Box, Button, ButtonGroup, FormControl, IconButton, Paper, Popove
 import dayjs from 'dayjs';
 import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { LicenseFeeState } from '.';
 import { Delete } from '@mui/icons-material';
+import { LicenseFeeState } from './license-fee-interface';
 
 interface LicenseFeeFieldsetProps {
     data?: LicenseFeeState[];
@@ -130,8 +130,8 @@ const LicenseFeeFeild: FC<LicenseFeeFieldsetProps> = ({ data, onChange }) => {
                                 <TableCell>
                                     <LocalizationProvider dateAdapter={AdapterDayjs}>
                                         <DatePicker
-                                            value={item.signDate}
-                                            onChange={(newSignDate: any) => handleChange(index, 'signDate')(newSignDate.toDate())}
+                                            value={item.signDate || null}
+                                            onChange={(newSignDate: any) => handleChange(index, 'signDate')(newSignDate)}
                                             slotProps={{ textField: { size: 'small', fullWidth: true } }}
                                             format="DD/MM/YYYY" />
                                     </LocalizationProvider>
@@ -153,7 +153,7 @@ const LicenseFeeFeild: FC<LicenseFeeFieldsetProps> = ({ data, onChange }) => {
                                             type="file"
                                             size='small'
                                             fullWidth
-                                            onChange={(event) => handleChange(index, 'licenseFeeNumber')(event.target.value)}
+                                            onChange={(event) => handleChange(index, 'filePdf')(event.target.value)}
                                             inputProps={{
                                                 accept: '.pdf', // Specify the accepted file types
                                             }}

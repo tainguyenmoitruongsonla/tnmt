@@ -5,13 +5,13 @@ import DialogsControlFullScreen from 'src/@core/components/dialog-control-full-s
 import LicenseFieldset, { LicenseState } from 'src/views/license/form/license-fieldset';
 import ConstructionField from 'src/views/construction/form/sufacewater/cons-suface';
 import LicenseFeeFeild from 'src/views/license-fee/form/licensefee-feild';
-import { LicenseFeeState } from 'src/views/license-fee/form';
 import post from 'src/api/post';
 import fetchData from 'src/api/fetch';
 import FormBusiness from 'src/views/business/form';
 import { enqueueSnackbar } from 'notistack';
 import ConstructionItem from 'src/views/construction/form/sufacewater/cons-item';
 import { ConstructionItemState, ConstructionState, emptyConstructionData } from 'src/views/construction/form/construction-interface';
+import { LicenseFeeState } from 'src/views/license-fee/form/license-fee-interface';
 
 interface FormLicenseProps {
   data: any;
@@ -105,8 +105,6 @@ const FormLicense: React.FC<FormLicenseProps> = ({ data, closeDialogs, setPostSu
       return;
     }
 
-    console.log(constructionData, consItemData, consItemDataDetele)
-
     const handleApiCall = async () => {
       setSaving(true)
       setFetching(true)
@@ -159,6 +157,8 @@ const FormLicense: React.FC<FormLicenseProps> = ({ data, closeDialogs, setPostSu
             })
 
             // Reset form fields
+            setLicenseFeeData([]);
+            setLicenseFeeDataRemove([])
             setConstructionData(emptyConstructionData);
           }
 
