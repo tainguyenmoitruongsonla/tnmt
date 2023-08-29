@@ -325,7 +325,19 @@ const SurfaceWaterLicense = () => {
       setLoading(true)
       try {
         const data = await fetchData('License/list');
-        setResData(data);
+        const filteredData = data.filter((item: { [key: string]: any }) =>
+          [
+            'thuydien',
+            'hochua',
+            'trambom',
+            'tramcapnuoc',
+            'dapthuyloi',
+            'cong',
+            'nhamaynuoc',
+            'congtrinhkhac_nm'
+          ].some(keyword => item['constructionTypeSlug']?.toString().toLowerCase().includes(keyword.toLowerCase()))
+        )
+        setResData(filteredData)
       } catch (error) {
         setResData([]);
       } finally {

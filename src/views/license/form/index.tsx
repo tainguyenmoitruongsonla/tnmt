@@ -11,7 +11,7 @@ import fetchData from 'src/api/fetch';
 import FormBusiness from 'src/views/business/form';
 import { enqueueSnackbar } from 'notistack';
 import ConstructionItem from 'src/views/construction/form/sufacewater/cons-item';
-import { ConstructionItemState, SufaceWaterConstructionState } from 'src/views/construction/form/construction-interface';
+import { ConstructionItemState, ConstructionState, emptyConstructionData } from 'src/views/construction/form/construction-interface';
 
 interface FormLicenseProps {
   data: any;
@@ -20,8 +20,6 @@ interface FormLicenseProps {
 }
 
 const FormLicense: React.FC<FormLicenseProps> = ({ data, closeDialogs, setPostSuccess }) => {
-
-  console.log(data)
 
   const [fetching, setFetching] = useState(true)
   const [saving, setSaving] = useState(false);
@@ -42,7 +40,7 @@ const FormLicense: React.FC<FormLicenseProps> = ({ data, closeDialogs, setPostSu
   };
 
   //Construction
-  const [constructionData, setConstructionData] = useState<SufaceWaterConstructionState>(data.construction || {});
+  const [constructionData, setConstructionData] = useState<ConstructionState>(data.construction || {});
 
   const handleConstructionChange = (data: any) => {
     setConstructionData(data);
@@ -147,6 +145,22 @@ const FormLicense: React.FC<FormLicenseProps> = ({ data, closeDialogs, setPostSu
               await post('LicenseLicenseFee/save', { id: 0, licenseId: res.id, licenseFeeId: licFee.id });
             }
           })
+
+          const saveCons = await post('Construction/save', constructionData);
+
+          if (saveCons) {
+
+            consItemDataDetele.map(async (e: any) => {
+              await post('ConstructionDetail/delete', e);
+            })
+
+            consItemData.map(async (e: any) => {
+              await post('ConstructionDetail/save', e);
+            })
+
+            // Reset form fields
+            setConstructionData(emptyConstructionData);
+          }
 
           typeof (setPostSuccess) === 'function' ? setPostSuccess(true) : '';
         }
