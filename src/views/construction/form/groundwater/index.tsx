@@ -7,7 +7,7 @@ import DialogsControlFullScreen from 'src/@core/components/dialog-control-full-s
 import postData from 'src/api/post';
 
 import GroundWaterField from './cons-ground';
-import ConsGroundItem from './ground-item';
+import ConstructionItem from '../sufacewater/cons-item';
 
 
 interface FormLicenseProps {
@@ -25,23 +25,33 @@ const FormLicense: React.FC<FormLicenseProps> = ({ data, closeDialogs, setPostSu
     setConsSFData(data);
   };
 
-  //License
-  const [consItemData, setConsItemData] = useState<any>(data);
+  //Construction
+  const [consItemData, setConsItemData] = useState<any>(data?.constructionItems);
+  const [consItemDataDetele, setConsItemDataDelete] = useState<any>();
 
-  const handleconsItemChange = (data: any) => {
-    setConsItemData(data);
+  const handleconsItemChange = (dataSave: any, dataDelete: any) => {
+    setConsItemDataDelete(dataDelete)
+    setConsItemData(dataSave);
   };
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
 
     const handleApiCall = async () => {
-   
       const res = await postData('Construction/save', consSFData);
 
       if (res) {
-          // Reset form fields
-          setConsSFData({});
+        // Reset form fields
+        setConsSFData({});
+
+        consItemDataDetele.map(async (e: any) => {
+          await postData('ConstructionDetail/delete', e);
+        })
+
+        consItemData.map(async (e: any) => {
+          e.constructionId = res.id;
+          await postData('ConstructionDetail/save', e);
+        })
 
           typeof (setPostSuccess) === 'function' ? setPostSuccess(true) : '';
           closeDialogs();
@@ -71,7 +81,7 @@ const FormLicense: React.FC<FormLicenseProps> = ({ data, closeDialogs, setPostSu
         </Grid>
 
         <Grid item xs={12}>
-          <ConsGroundItem data={data?.consItem} onChange={handleconsItemChange} />
+         <ConstructionItem data={consItemData} onChange={handleconsItemChange} />
         </Grid>
       </Grid>
 

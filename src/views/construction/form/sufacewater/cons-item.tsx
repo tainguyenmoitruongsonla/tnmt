@@ -18,6 +18,7 @@ const ConstructionItem: FC<ConstructionItemFieldProps> = ({ data, onChange }) =>
     y: e.y,
     lat: e.lat,
     lng: e.lng,
+    
   })) : [];
 
 
@@ -87,6 +88,7 @@ const ConstructionItem: FC<ConstructionItemFieldProps> = ({ data, onChange }) =>
 
   useEffect(() => {
     onChange(constructionItems, itemDelete);
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [constructionItems, itemDelete]);
 

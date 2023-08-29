@@ -1,16 +1,17 @@
 import { Search } from '@mui/icons-material'
-import { Typography, Grid, Autocomplete, TextField, Button } from '@mui/material'
-import { useEffect, FC, useState } from 'react'
+import { Typography, Grid, Autocomplete, TextField, Button,CircularProgress } from '@mui/material'
+import { useEffect, FC, useState, Fragment } from 'react'
 import fetchData from 'src/api/fetch'
-import { Suface } from '../construction-interface'
+import { SufaceWaterConstructionState } from '../construction-interface'
+
 
 interface ConsTypeFieldsetProps {
   data?: any // Thêm prop data để truyền dữ liệu từ ngoài vào
-  onChange: (data: Suface) => void
+  onChange: (data: SufaceWaterConstructionState) => void
 }
 
 const ConstructionField: FC<ConsTypeFieldsetProps> = ({ data, onChange }) => {
-  const [consSFData, setConsSFData] = useState<Suface>({
+  const [consSFData, setConsSFData] = useState<SufaceWaterConstructionState>({
     id: data?.id || 0,
     constructionTypeId: data?.constructionTypeId || 0,
     provinceId: data?.provinceId || 51,
@@ -46,15 +47,18 @@ const ConstructionField: FC<ConsTypeFieldsetProps> = ({ data, onChange }) => {
   const [consType, setconsType] = useState<any>([])
   const [district, setDistrict] = useState<any>([])
   const [commune, setCommune] = useState<any>([])
+  const [loading, setLoading] = useState<boolean>(false)
   useEffect(() => {
     const getData = async () => {
       try {
+        setLoading(true)
 
         //constructionType
         const consTypes = await fetchData('ConstructionTypes/list');
         const filteredData = consTypes.filter((item: any) => item.parentId === 3);
         setconsType(filteredData);
-
+        console.log(consTypes);
+        
         //district
         const distric = await fetchData('Locations/list/distric/51');
         setDistrict(distric);       
@@ -66,12 +70,13 @@ const ConstructionField: FC<ConsTypeFieldsetProps> = ({ data, onChange }) => {
       } catch (error) {
         setconsType([])
       } finally {
+        setLoading(false)
       }
     }
     getData()
   }, [])
 
-  const handleChange = (prop: keyof Suface) => (value: any) => {
+  const handleChange = (prop: keyof SufaceWaterConstructionState) => (value: any) => {
     setConsSFData({ ...consSFData, [prop]: value })
     onChange({ ...consSFData, [prop]: value })
   }
@@ -86,14 +91,23 @@ const ConstructionField: FC<ConsTypeFieldsetProps> = ({ data, onChange }) => {
         </legend>
         <Grid container spacing={4}>
           <Grid item xs={12} md={3} sm={12} sx={{ my: 2 }}>
-            <Autocomplete
+          <Autocomplete
+              disabled={loading}
               size='small'
               options={consType}
               getOptionLabel={(option: any) => option.typeName}
               value={consType.find((option: any) => option.id === consSFData.constructionTypeId) || null}
               isOptionEqualToValue={(option: any) => option.id}
               onChange={(_, value) => handleChange('constructionTypeId')(value?.id || 0)}
-              renderInput={params => <TextField required {...params} fullWidth label='Chọn loại hình công trình' />}
+              renderInput={params => <TextField required {...params} fullWidth label='Chọn loại hình công trình' InputProps={{
+                ...params.InputProps,
+                endAdornment: (
+                  <Fragment>
+                    {loading && <CircularProgress color='primary' size={20} />}
+                    {params.InputProps.endAdornment}
+                  </Fragment>
+                ),
+              }} />}
             />
           </Grid>
 
