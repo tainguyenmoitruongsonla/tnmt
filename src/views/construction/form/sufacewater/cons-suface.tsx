@@ -209,41 +209,6 @@ const ConstructionField: FC<ConsTypeFieldsetProps> = ({ data, onChange }) => {
           <Grid item xs={12} md={3} sm={12} sx={{ my: 2 }}>
             <TextField
               size='small'
-              type='text'
-              fullWidth
-              placeholder=''
-              label='Vĩ độ'
-              value={consSFData.x || ''}
-              onChange={event => handleChange('x')(event.target.value)}
-            />
-          </Grid>
-          <Grid item xs={12} md={3} sm={12} sx={{ my: 2 }}>
-            <TextField
-              size='small'
-              type='text'
-              fullWidth
-              placeholder=''
-              value={consSFData.y || ''}
-              onChange={event => handleChange('y')(event.target.value)}
-              label='Kinh độ'
-              InputProps={{
-                endAdornment: (
-                  <Button
-                    sx={{ border: 0, marginRight: '-14px', backgroundColor: 'rgba(0, 70, 110, 0.04)' }}
-                    onClick={() => alert('open map')}
-                  >
-                    <Search />
-                  </Button>
-                )
-              }}
-            />
-          </Grid>
-        </Grid>
-
-        <Grid container spacing={4}>
-          <Grid item xs={12} md={3} sm={12} sx={{ my: 2 }}>
-            <TextField
-              size='small'
               variant='outlined'
               fullWidth
               label='Năm vận hành'
@@ -263,7 +228,46 @@ const ConstructionField: FC<ConsTypeFieldsetProps> = ({ data, onChange }) => {
               onChange={event => handleChange('constructionTime')(event.target.value)}
             />
           </Grid>
-          <Grid item xs={12} md={6} sm={12} sx={{ my: 2 }}>
+        </Grid>
+
+        <Grid container spacing={4}>
+          <Grid item xs={12} md={3} sm={12} sx={{ my: 2 }}>
+            <TextField
+              size='small'
+              type='text'
+              fullWidth
+              placeholder=''
+              label='X (VN2000)'
+              value={consSFData.x || ''}
+              onChange={event => handleChange('x')(event.target.value)}
+            />
+          </Grid>
+          <Grid item xs={12} md={3} sm={12} sx={{ my: 2 }}>
+            <TextField
+              size='small'
+              type='text'
+              fullWidth
+              placeholder=''
+              value={consSFData.y || ''}
+              onChange={event => handleChange('y')(event.target.value)}
+              label='Y (VN2000)'
+              InputProps={{
+                endAdornment: (
+                  <Button
+                    sx={{ border: 0, marginRight: '-14px', backgroundColor: 'rgba(0, 70, 110, 0.04)' }}
+                    onClick={() => alert('open map')}
+                  >
+                    <Search />
+                  </Button>
+                )
+              }}
+            />
+          </Grid>
+          
+        </Grid>
+
+        <Grid container spacing={4}>
+          <Grid item xs={12} md={3} sm={12} sx={{ my: 2 }}>
             <Autocomplete
               size='small'
               options={consType}
@@ -282,10 +286,7 @@ const ConstructionField: FC<ConsTypeFieldsetProps> = ({ data, onChange }) => {
               }} />}
             />
           </Grid>
-        </Grid>
-
-        <Grid container spacing={4}>
-          <Grid item xs={12} md={6} sm={12} sx={{ my: 2 }}>
+          <Grid item xs={12} md={3} sm={12} sx={{ my: 2 }}>
             <Autocomplete
               size='small'
               options={consType}

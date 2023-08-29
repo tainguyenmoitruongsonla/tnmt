@@ -36,16 +36,16 @@ const LicenseFieldset: FC<LicenseFieldsetProps> = ({ data, onChange }) => {
         id: data?.id || 0,
         childId: data?.childId || 0,
         licensingTypeId: data?.licensingTypeId || 0,
-        businessId: data?.businessId || 0,
-        licenseName: data?.licenseName || null,
-        licenseNumber: data?.licenseNumber || null,
-        signDate: dayjs(data?.signDate) || null,
-        issueDate: dayjs(data?.issueDate) || null,
-        expriteDate: dayjs(data?.expriteDate) || null,
-        duration: data?.duration || null,
-        licensingAuthorities: data?.licensingAuthorities || null,
-        relatedDocumentFile: data?.relatedDocumentFile || null,
-        licenseRequestFile: data?.licenseRequestFile || null,
+        businessId: data?.businessId || '',
+        licenseName: data?.licenseName || '',
+        licenseNumber: data?.licenseNumber || '',
+        signDate: dayjs(data?.signDate) || '',
+        issueDate: dayjs(data?.issueDate) || '',
+        expriteDate: dayjs(data?.expriteDate) || '',
+        duration: data?.duration || '',
+        licensingAuthorities: data?.licensingAuthorities || '',
+        relatedDocumentFile: data?.relatedDocumentFile || '',
+        licenseRequestFile: data?.licenseRequestFile || '',
     });
 
     const getData = async () => {
@@ -209,7 +209,7 @@ const LicenseFieldset: FC<LicenseFieldsetProps> = ({ data, onChange }) => {
                                     options={listLic}
                                     getOptionLabel={(option: any) => option.licenseNumber}
                                     isOptionEqualToValue={(option: any) => option.id}
-                                    defaultValue={listLic.find((option: any) => option.id === licenseData.childId) || null}
+                                    value={listLic.find((option: any) => option.id === licenseData.childId) || null}
                                     onChange={(_, value) => { handleChange('childId')(value?.id || 0); setOldLic(value || []) }}
                                     renderInput={(params) => (
                                         <TextField
