@@ -130,8 +130,8 @@ const LicenseFeeFeild: FC<LicenseFeeFieldsetProps> = ({ data, onChange }) => {
                                 <TableCell>
                                     <LocalizationProvider dateAdapter={AdapterDayjs}>
                                         <DatePicker
-                                            value={item.signDate || null}
-                                            onChange={(newSignDate: any) => handleChange(index, 'signDate')(newSignDate)}
+                                            value={dayjs(item.signDate)}
+                                            onChange={(newSignDate: any) => handleChange(index, 'signDate')(newSignDate.toDate())}
                                             slotProps={{ textField: { size: 'small', fullWidth: true } }}
                                             format="DD/MM/YYYY" />
                                     </LocalizationProvider>

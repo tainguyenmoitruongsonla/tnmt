@@ -1,31 +1,19 @@
 import { useState, FC, useEffect } from 'react';
+
+//MUI Imports
 import { Typography, Grid, TextField, Autocomplete, CircularProgress } from '@mui/material';
-import dayjs, { Dayjs } from 'dayjs';
+
+//DatePicker Imports
+import dayjs from 'dayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DatePicker } from '@mui/x-date-pickers';
+
+//API Imports
 import fetchData from 'src/api/fetch';
 
-interface LicenseFieldsetProps {
-    data?: any;
-    onChange: (data: LicenseState) => void;
-}
-
-export interface LicenseState {
-    id: number;
-    childId: number;
-    licensingTypeId: number;
-    businessId: number;
-    licenseName: string | null;
-    licenseNumber: string | null;
-    signDate: Dayjs | null;
-    issueDate: Dayjs | null;
-    expriteDate: Dayjs | null;
-    duration: string | null;
-    licensingAuthorities: string | null;
-    relatedDocumentFile: string | null;
-    licenseRequestFile: string | null;
-}
+//Interface Imports
+import { LicenseFieldsetProps, LicenseState } from './license-interface';
 
 const LicenseFieldset: FC<LicenseFieldsetProps> = ({ data, onChange }) => {
 
@@ -39,9 +27,9 @@ const LicenseFieldset: FC<LicenseFieldsetProps> = ({ data, onChange }) => {
         businessId: data?.businessId || '',
         licenseName: data?.licenseName || '',
         licenseNumber: data?.licenseNumber || '',
-        signDate: dayjs(data?.signDate) || '',
-        issueDate: dayjs(data?.issueDate) || '',
-        expriteDate: dayjs(data?.expriteDate) || '',
+        signDate: data?.signDate || null,
+        issueDate: data?.issueDate || null,
+        expriteDate: data?.expriteDate || null,
         duration: data?.duration || '',
         licensingAuthorities: data?.licensingAuthorities || '',
         relatedDocumentFile: data?.relatedDocumentFile || '',

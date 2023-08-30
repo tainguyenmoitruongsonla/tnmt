@@ -105,7 +105,7 @@ const SurfaceWaterLicense = () => {
     { field: 'construction.basinName', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'Tiểu vùng quy hoạch', minWidth: 250, valueGetter: (data) => (`${data.row.construction?.basinName || ''}`) },
 
     //licenseFee
-    { field: 'licenseFees.licenseFeeNumber', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'Số GP', minWidth: 150, renderCell: (data) => (<>{data.row.licenseFees.map((e: any) => (<div key={e.id} style={{ width: '100%' }}><ShowFilePDF name={e.licenseFeeNumber} src={`/pdf/Licenses`} /></div>))}</>) },
+    { field: 'licenseFees.licenseFeeNumber', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'Số QĐ', minWidth: 150, renderCell: (data) => (<>{data.row.licenseFees.map((e: any) => (<div key={e.id} style={{ width: '100%' }}><ShowFilePDF name={e.licenseFeeNumber} src={`/pdf/Licenses`} /></div>))}</>) },
     { field: 'licenseFees.signDate', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'Ngày ký', minWidth: 150, renderCell: (data) => (FormatDate(data.row.licenseFee?.signDate)) },
     { field: 'licenseFees.TotalMoney', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'Tổng tiền cấp quyền (VNĐ)', minWidth: 150, type: 'number', valueGetter: (data) => (data.row.licenseFee?.totalMoney || '') },
 
@@ -123,7 +123,7 @@ const SurfaceWaterLicense = () => {
               </IconButton>
               <Popover
                 id={deleteConfirmOpen ? data.row.id : undefined}
-                open={deleteConfirmOpen}
+                open={deleteConfirmOpen}   
                 anchorEl={deleteConfirmAnchorEl}
                 onClose={handleDeleteCancel}
                 anchorOrigin={{

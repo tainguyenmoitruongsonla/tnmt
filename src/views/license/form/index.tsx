@@ -1,25 +1,30 @@
-import React, { useEffect, useState } from 'react';
+import React, { FC, FormEvent, ReactNode, useEffect, useState } from 'react';
+
+// MUI Imports
 import { Add, Edit, Save } from '@mui/icons-material';
 import { Autocomplete, Button, CircularProgress, DialogActions, Grid, TextField, Typography, Paper, Tooltip, IconButton } from '@mui/material';
 import DialogsControlFullScreen from 'src/@core/components/dialog-control-full-screen';
-import LicenseFieldset, { LicenseState } from 'src/views/license/form/license-fieldset';
+
+//Form Imports
+import LicenseFieldset from 'src/views/license/form/license-fieldset';
 import ConstructionField from 'src/views/construction/form/sufacewater/cons-suface';
 import LicenseFeeFeild from 'src/views/license-fee/form/licensefee-feild';
+import FormBusiness from 'src/views/business/form';
+import ConstructionItem from 'src/views/construction/form/sufacewater/cons-item';
+
+// API Imports
 import post from 'src/api/post';
 import fetchData from 'src/api/fetch';
-import FormBusiness from 'src/views/business/form';
+
+//Notistack Imports
 import { enqueueSnackbar } from 'notistack';
-import ConstructionItem from 'src/views/construction/form/sufacewater/cons-item';
+
+//Interface Imports
 import { ConstructionItemState, ConstructionState, emptyConstructionData } from 'src/views/construction/form/construction-interface';
 import { LicenseFeeState } from 'src/views/license-fee/form/license-fee-interface';
+import { FormLicenseProps, LicenseState, emptyLicenseData } from './license-interface';
 
-interface FormLicenseProps {
-  data: any;
-  closeDialogs: () => void;
-  setPostSuccess?: (value: boolean) => void;
-}
-
-const FormLicense: React.FC<FormLicenseProps> = ({ data, closeDialogs, setPostSuccess }) => {
+const FormLicense: FC<FormLicenseProps> = ({ data, closeDialogs, setPostSuccess }) => {
 
   const [fetching, setFetching] = useState(true)
   const [saving, setSaving] = useState(false);
@@ -66,16 +71,11 @@ const FormLicense: React.FC<FormLicenseProps> = ({ data, closeDialogs, setPostSu
     setLicenseFeeDataRemove(dataDelete)
   };
 
-  const handleSubmit = (event: React.FormEvent) => {
+  const handleSubmit = (event: FormEvent) => {
     event.preventDefault();
 
-    const newLic = {
-      ...licenseData,
-      businessId: business.id
-    }
-
     if (
-      !business || !licenseData?.businessId ||
+      !licenseData?.businessId && licenseData?.businessId > 0 ||
       !licenseData?.licenseNumber ||
       !licenseData?.signDate ||
       !licenseData?.issueDate ||
@@ -109,58 +109,49 @@ const FormLicense: React.FC<FormLicenseProps> = ({ data, closeDialogs, setPostSu
       setSaving(true)
       setFetching(true)
       try {
-        const res = await post('License/save', newLic);
 
-        if (res) {
-          // Reset form fields
-          setLicenseData({
-            id: 0,
-            childId: 0,
-            licensingTypeId: 0,
-            businessId: 0,
-            licenseName: null,
-            licenseNumber: null,
-            signDate: null,
-            issueDate: null,
-            expriteDate: null,
-            duration: null,
-            licensingAuthorities: null,
-            relatedDocumentFile: null,
-            licenseRequestFile: null,
-          });
+        const saveCons = await post('Construction/save', constructionData);
 
-          licenseFeeDataRemove?.map(async (e: any) => {
-            const licFee = await post('LicenseFee/delete', e)
-            if (licFee) {
-              await post('LicenseLicenseFee/delete', { id: 0, licenseId: res.id, licenseFeeId: e.id });
-            }
+        if (saveCons) {
+
+          consItemDataDetele.map(async (e: any) => {
+            await post('ConstructionDetail/delete', e);
           })
 
-          licenseFeeData?.map(async (e: any) => {
-            e.licensingAuthorities = newLic.licensingAuthorities;
-            const licFee = await post('LicenseFee/save', e);
-            if (licFee.id) {
-              await post('LicenseLicenseFee/save', { id: 0, licenseId: res.id, licenseFeeId: licFee.id });
-            }
+          consItemData.map(async (e: any) => {
+            await post('ConstructionDetail/save', e);
           })
 
-          const saveCons = await post('Construction/save', constructionData);
-
-          if (saveCons) {
-
-            consItemDataDetele.map(async (e: any) => {
-              await post('ConstructionDetail/delete', e);
-            })
-
-            consItemData.map(async (e: any) => {
-              await post('ConstructionDetail/save', e);
-            })
-
-            // Reset form fields
-            setLicenseFeeData([]);
-            setLicenseFeeDataRemove([])
-            setConstructionData(emptyConstructionData);
+          const newLic = {
+            ...licenseData,
+            businessId: business.id,
+            constructionId: saveCons.id,
           }
+
+          const saveLic = await post('License/save', newLic);
+
+          if (saveLic) {
+            licenseFeeDataRemove?.map(async (e: any) => {
+              const saveLicFee = await post('LicenseFee/delete', e)
+              if (saveLicFee) {
+                await post('LicenseLicenseFee/delete', { id: 0, licenseId: saveLic.id, licenseFeeId: e.id });
+              }
+            })
+
+            licenseFeeData?.map(async (e: any) => {
+              e.licensingAuthorities = newLic.licensingAuthorities;
+              const saveLicFee = await post('LicenseFee/save', e);
+              if (saveLicFee.id) {
+                await post('LicenseLicenseFee/save', { id: 0, licenseId: saveLic.id, licenseFeeId: saveLicFee.id });
+              }
+            })
+          }
+
+          // Reset form fields
+          setConstructionData(emptyConstructionData);
+          setLicenseData(emptyLicenseData);
+          setLicenseFeeData([]);
+          setLicenseFeeDataRemove([])
 
           typeof (setPostSuccess) === 'function' ? setPostSuccess(true) : '';
         }
@@ -285,12 +276,12 @@ interface CreateLicenseProps {
   setPostSuccess?: (value: boolean) => void;
 }
 
-const CreateLicense: React.FC<CreateLicenseProps> = ({ isEdit, data, setPostSuccess }) => {
+const CreateLicense: FC<CreateLicenseProps> = ({ isEdit, data, setPostSuccess }) => {
   const formTitle = isEdit ? 'Sửa giấy phép' : 'Thêm mới giấy phép';
 
   return (
     <DialogsControlFullScreen>
-      {(openDialogs: (content: React.ReactNode, title: React.ReactNode) => void, closeDialogs: () => void) => (
+      {(openDialogs: (content: ReactNode, title: ReactNode) => void, closeDialogs: () => void) => (
         <>
           {isEdit ? (
             <Tooltip title="Chỉnh sửa giấy phép">
