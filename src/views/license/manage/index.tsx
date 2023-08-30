@@ -436,7 +436,7 @@ const ManageLicense = () => {
                 <BoxLoading />
             </Box>
         ) : (
-            <Grid container spacing={3}>
+            <Grid container rowSpacing={5} pt={3} px={2}>
                 <CountLicenseForManage data={dataForCount} />
                 <Grid xs={12} sm={12} md={12} sx={{ height: '55vh', overflow: 'hidden' }}>
                     <Paper elevation={3}>
