@@ -69,8 +69,11 @@ const getIcon = (type: any) => {
 			case 'congtrinh_xathaikhac':
 				return createIcon('/images/icon/congtrinh_xathaikhac.png');
 				break;
+			case 'khaithac_nuocbien':
+				return createIcon('/images/icon/khaithac_nuocbien.png');
+				break;
 			default:
-				return createIcon('/images/icon/congtrinh_xathaikhac.png');
+				return createIcon('/images/icon/thuydien.png');
 				break;
 		}
 	}
