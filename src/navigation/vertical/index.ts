@@ -16,9 +16,8 @@ const navigation = (): VerticalNavItemsType => {
       path: '/'
     },
     {
-      sectionTitle: 'Danh mục'
+      sectionTitle: 'hệ thống'
     },
-
     {
       title: 'Công trình',
       children: [
@@ -65,17 +64,52 @@ const navigation = (): VerticalNavItemsType => {
       ]
     },
     {
-      title: 'KN tiếp nhận nước thải',
+      title: 'Giám sát',
       children: [
         {
           icon: CircleOutline,
-          title: 'Nguồn nước sông',
-          path: '#'
+          title: 'Đăng ký kết nối',
+          path: '/giam-sat/yeu-cau-ket-noi'
         },
         {
           icon: CircleOutline,
-          title: 'Nguồn nước hồ',
-          path: '#'
+          title: 'QL đăng ký kết nối',
+          path: '/giam-sat/quan-ly-yeu-cau-ket-noi'
+        },
+        {
+          icon: CircleOutline,
+          title: 'KT,SD nước mặt',
+          path: '/giam-sat/nuoc-mat'
+        },
+        {
+          icon: CircleOutline,
+          title: 'KT,SD nước dưới đất',
+          path: '/giam-sat/nuoc-duoi-dat'
+        },
+        {
+          icon: CircleOutline,
+          title: 'Xả thải',
+          path: '/giam-sat/xa-thai'
+        }
+      ]
+    },
+    {
+      title: 'Trữ lượng nước',
+      children: [
+        {
+          icon: CircleOutline,
+          title: 'Nước mưa',
+          path: '/tru-luong-nuoc/nuoc-mua'
+        },
+        {
+          icon: CircleOutline,
+          title: 'Nước mặt',
+          path: '/tru-luong-nuoc/nuoc-mat'
+        },
+        {
+          icon: CircleOutline,
+          title: 'Nước dưới đất',
+          path: '/tru-luong-nuoc/nuoc-duoi-dat'
         }
       ]
     },
@@ -135,72 +169,7 @@ const navigation = (): VerticalNavItemsType => {
       ]
     },
     {
-      title: 'Giám sát',
-      children: [
-        {
-          icon: CircleOutline,
-          title: 'Yêu cầu kết nối',
-          path: '/giam-sat/yeu-cau-ket-noi'
-        },
-        {
-          icon: CircleOutline,
-          title: 'QL yêu cầu kết nối',
-          path: '/giam-sat/quan-ly-yeu-cau-ket-noi'
-        },
-        {
-          icon: CircleOutline,
-          title: 'KT,SD nước mặt',
-          path: '/giam-sat/nuoc-mat'
-        },
-        {
-          icon: CircleOutline,
-          title: 'KT,SD nước dưới đất',
-          path: '/giam-sat/nuoc-duoi-dat'
-        },
-        {
-          icon: CircleOutline,
-          title: 'Xả thải',
-          path: '/giam-sat/xa-thai'
-        }
-      ]
-    },
-    {
-      title: 'Trữ lượng nước',
-      children: [
-        {
-          icon: CircleOutline,
-          title: 'Nước mưa',
-          path: '/tru-luong-nuoc/nuoc-mua'
-        },
-        {
-          icon: CircleOutline,
-          title: 'Nước mặt',
-          path: '/tru-luong-nuoc/nuoc-mat'
-        },
-        {
-          icon: CircleOutline,
-          title: 'Nước dưới đất',
-          path: '/tru-luong-nuoc/nuoc-duoi-dat'
-        }
-      ]
-    },
-    {
-      title: 'Thông tin - Báo cáo biểu mẫu',
-      path: '/bao-cao-bieu-mau'
-    },
-    {
-      title: 'Nội dung khác',
-      path: '#'
-    },
-    {
-      title: 'Hướng dẫn sử dụng',
-      path: '#'
-    },
-    {
-      sectionTitle: 'Quản lý'
-    },
-    {
-      title: 'Dữ liệu',
+      title: 'Thông tin - Dữ liệu',
       children: [
         {
           title: 'Loại công trình',
@@ -238,6 +207,55 @@ const navigation = (): VerticalNavItemsType => {
           path: '#'
         },
       ]
+    },
+    {
+      title: 'Thông báo - cảnh báo',
+      path: '/thong-bao-canh-bao'
+    },
+    {
+      title: 'Báo cáo biểu mẫu',
+      path: '/bao-cao-bieu-mau'
+    },
+    {
+      title: 'KN tiếp nhận nước thải',
+      children: [
+        {
+          icon: CircleOutline,
+          title: 'Nguồn nước sông',
+          path: '#'
+        },
+        {
+          icon: CircleOutline,
+          title: 'Nguồn nước hồ',
+          path: '#'
+        }
+      ]
+    },
+    {
+      title: 'Danh mục nguồn nước nội tỉnh',
+      children: [
+        {
+          icon: CircleOutline,
+          title: 'Nguồn nước sông, suối',
+          path: '#'
+        },
+        {
+          icon: CircleOutline,
+          title: 'Nguồn nước ao, hồ',
+          path: '#'
+        }
+      ]
+    },
+    {
+      title: 'Nội dung khác',
+      path: '#'
+    },
+    {
+      title: 'Hướng dẫn sử dụng',
+      path: '#'
+    },
+    {
+      sectionTitle: 'Quản lý'
     },
     {
       title: 'Hệ thống',
