@@ -72,7 +72,7 @@ const Construction = () => {
         <Box className="map-legend" sx={{ background: 'white', zIndex: `${loading ? -1 : 999 }` }}>
           <MapLegend onChange={handleConsTypeChange} />
         </Box>
-        <Map center={mapCenter} zoom={mapZoom} mapData={null} mapMarkerData={resData} loading={loading} />
+        <Map center={mapCenter} zoom={mapZoom} mapData={resData} loading={loading} />
       </Paper>
     </Grid>
   );

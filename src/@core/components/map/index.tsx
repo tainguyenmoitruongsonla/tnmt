@@ -79,7 +79,7 @@ const getIcon = (type: any) => {
 	}
 }
 
-export default function Map({ center, zoom, showLabel, mapMarkerData, loading }: any) {
+export default function Map({ center, zoom, showLabel, mapData, loading }: any) {
 	const [bing_key, setBingKey] = useState("AuhiCJHlGzhg93IqUH_oCpl_-ZUrIE6SPftlyGYUvr9Amx5nzA-WqGcPquyFZl4L")
 	const [kml, setKml] = useState<any>(null);
 
@@ -118,7 +118,7 @@ export default function Map({ center, zoom, showLabel, mapMarkerData, loading }:
 						<BingLayer bingkey={bing_key} type="AerialWithLabels" />
 					</BaseLayer>
 				</LayersControl>
-				{mapMarkerData && mapMarkerData.map((data: any) => {
+				{mapData && mapData.map((data: any) => {
 					if (data.x !== null || data.y !== null) {
 						return (
 							<Marker icon={getIcon(data.constructionTypeSlug)} key={data.id} position={[ConverterCood(data.y, data.x)[0], ConverterCood(data.y, data.x)[1]]}>

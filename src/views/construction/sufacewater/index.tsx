@@ -811,7 +811,7 @@ const SurfaceConstruction = () => {
               <FormControlLabel control={<Checkbox onClick={() => setShowLabel(!showLabel)} />} label="Hiển thị tên công trình" />
             </FormGroup>
           </Box>
-          <Map center={mapCenter} zoom={mapZoom} showLabel={showLabel} mapMarkerData={resData} loading={false}  />
+          <Map center={mapCenter} zoom={mapZoom} showLabel={showLabel} mapData={resData} loading={false}  />
         </Paper>
       </Grid>
       <Grid xs={12} md={12}>
