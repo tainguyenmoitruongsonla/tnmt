@@ -48,7 +48,6 @@ const Construction = () => {
       try {
         setLoading(true)
         const data = await fetchData('Construction/list');
-        console.log(initConsType)
         const filteredData = data.filter((item: { [key: string]: any }) =>
           initConsType.some((keyword: any) =>
             item['constructionTypeSlug']?.toString().toLowerCase().includes(keyword.toLowerCase())

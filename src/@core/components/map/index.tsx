@@ -69,6 +69,9 @@ const getIcon = (type: any) => {
 			case 'congtrinh_xathaikhac':
 				return createIcon('/images/icon/congtrinh_xathaikhac.png');
 				break;
+			default:
+				return createIcon('/images/icon/congtrinh_xathaikhac.png');
+				break;
 		}
 	}
 }
@@ -113,7 +116,7 @@ export default function Map({ center, zoom, showLabel, mapMarkerData, loading }:
 					</BaseLayer>
 				</LayersControl>
 				{mapMarkerData && mapMarkerData.map((data: any) => {
-					if (data.lat !== null || data.lng !== null) {
+					if (data.x !== null || data.y !== null) {
 						return (
 							<Marker icon={getIcon(data.constructionTypeSlug)} key={data.id} position={[ConverterCood(data.y, data.x)[0], ConverterCood(data.y, data.x)[1]]}>
 								{showLabel === true &&
