@@ -8,18 +8,17 @@ import { GridColDef, GridColumnGroupingModel } from '@mui/x-data-grid'
 
 //Other Imports
 import FormatDate from 'src/@core/components/format-date'
-
 import ShowFilePDF from 'src/@core/components/show-file-pdf'
 import DataGridComponent, { columnFillters } from 'src/@core/components/data-grid'
 import { Delete } from '@mui/icons-material'
 import FormGroup from '@mui/material/FormGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
-
 import dynamic from 'next/dynamic'
 import fetchData from 'src/api/fetch'
 import post from 'src/api/post'
-import CreateConstructionDisCharge from '../form/dischargewater'
+import CreateConstruction from '../form'
+
 
 const Map = dynamic(() => import('src/@core/components/map'), { ssr: false })
 
@@ -68,7 +67,7 @@ const DischargeConstruction = () => {
       sortable: false,
       renderCell: data => (
         <Box>
-          <CreateConstructionDisCharge isEdit={true} data={data.row} setPostSuccess={handlePostSuccess} />
+          <CreateConstruction isEdit={true} data={data.row} setPostSuccess={handlePostSuccess} />
           <Tooltip title='Xóa thông tin công trình'>
             <>
               <IconButton aria-describedby={data.row.id} onClick={DeleteRowData} data-row-id={data.row.id} >
@@ -326,7 +325,7 @@ const DischargeConstruction = () => {
             columns={columnsTable}
             columnGroupingModel={columnGroup}
             columnFillter={columnFillter}
-            actions={<CreateConstructionDisCharge isEdit={false} setPostSuccess={handlePostSuccess} />}
+            actions={<CreateConstruction isEdit={false} setPostSuccess={handlePostSuccess} />}
           />
         </Paper>
       </Grid>

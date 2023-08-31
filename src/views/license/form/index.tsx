@@ -7,10 +7,10 @@ import DialogsControlFullScreen from 'src/@core/components/dialog-control-full-s
 
 //Form Imports
 import LicenseFieldset from 'src/views/license/form/license-fieldset';
-import ConstructionField from 'src/views/construction/form/sufacewater/cons-suface';
+import ConstructionField from 'src/views/construction/form/cons-suface';
 import LicenseFeeFeild from 'src/views/license-fee/form/licensefee-feild';
 import FormBusiness from 'src/views/business/form';
-import ConstructionItem from 'src/views/construction/form/sufacewater/cons-item';
+import ConstructionItem from 'src/views/construction/form/cons-item';
 
 // API Imports
 import post from 'src/api/post';

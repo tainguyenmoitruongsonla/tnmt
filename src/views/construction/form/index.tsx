@@ -3,9 +3,14 @@ import { Add, Edit } from '@mui/icons-material';
 import { Button, DialogActions, Grid, IconButton, Tooltip } from '@mui/material';
 
 import DialogsControlFullScreen from 'src/@core/components/dialog-control-full-screen';
-import ConstructionField from './cons-suface';
-import ConstructionItem from './cons-item';
+
 import postData from 'src/api/post';
+import ConstructionItem from './cons-item';
+import { useRouter } from 'next/router';
+import GroundWaterField from './cons-ground';
+import ExploitItem from './exploit-item';
+import SurfaceWaterField from './cons-suface';
+import DischargeWaterField from './cons-discharge';
 
 
 interface FormConstructionProps {
@@ -17,6 +22,7 @@ interface FormConstructionProps {
 const FormConstruction: React.FC<FormConstructionProps> = ({ data, closeDialogs, setPostSuccess }) => {
 
   //Business
+
   const [consSFData, setConsSFData] = useState<any>(data);
 
   const handleConsSFChange = (data: any) => {
@@ -26,6 +32,9 @@ const FormConstruction: React.FC<FormConstructionProps> = ({ data, closeDialogs,
   //Construction
   const [consItemData, setConsItemData] = useState<any>(data?.constructionItems);
   const [consItemDataDetele, setConsItemDataDelete] = useState<any>();
+
+  //Hooks
+  const route = useRouter()
 
   const handleconsItemChange = (dataSave: any, dataDelete: any) => {
     setConsItemDataDelete(dataDelete)
@@ -74,11 +83,28 @@ const FormConstruction: React.FC<FormConstructionProps> = ({ data, closeDialogs,
     <form onSubmit={handleSubmit}>
       <Grid container gap={3}>
         <Grid item xs={12}>
-          <ConstructionField data={consSFData} onChange={handleConsSFChange} />
+            {
+            route.pathname.split('/')[2] == 'nuoc-mat'?
+            <SurfaceWaterField data={consSFData} onChange={handleConsSFChange} />
+            :
+            route.pathname.split('/')[2] == 'nuoc-duoi-dat'?
+            <GroundWaterField data={consSFData} onChange={handleConsSFChange} />
+            :
+            route.pathname.split('/')[2] == 'xa-thai'?
+            <DischargeWaterField data={consSFData} onChange={handleConsSFChange} />
+            :''
+            }
+         
         </Grid>
-        <Grid item xs={12}>
-          <ConstructionItem data={consItemData} onChange={handleconsItemChange} />
-        </Grid>
+        {consSFData?.constructionTypeId === 7 ? (
+          <Grid item xs={12}>
+            <ExploitItem data={consItemData} onChange={handleconsItemChange} />
+          </Grid>
+        ) : (
+          <Grid item xs={12}>
+            <ConstructionItem data={consItemData} onChange={handleconsItemChange} />
+          </Grid>
+        )}
       </Grid>
 
       <DialogActions sx={{ p: 0, mt: 5 }}>

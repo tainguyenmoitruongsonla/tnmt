@@ -1,7 +1,7 @@
 import { Typography, Grid, Autocomplete, TextField, CircularProgress  } from '@mui/material'
 import { useEffect, FC, useState , Fragment} from 'react'
 import fetchData from 'src/api/fetch'
-import { ConstructionState } from '../construction-interface'
+import { ConstructionState } from './construction-interface'
 
 
 interface ConsTypeFieldsetProps {
@@ -24,8 +24,6 @@ const GroundWaterField: FC<ConsTypeFieldsetProps> = ({ data, onChange }) => {
     constructionLocation: data?.constructionLocation || '',
     x: data?.x || null,
     y: data?.y || null,
-    lat: data?.lat || null,
-    lng: data?.lng || null,
     startDate: data?.startDate || null,
     exploitPurpose: data?.exploitPurpose || '',
     constructionTime: data?.constructionTime || '',
@@ -236,32 +234,22 @@ const GroundWaterField: FC<ConsTypeFieldsetProps> = ({ data, onChange }) => {
               label='Y (VN2000)'
             />
           </Grid>
-          <Grid item xs={12} md={3} sm={12} sx={{ my: 2 }}>
+          <Grid item xs={12} md={6} sm={12} sx={{ my: 2 }}>
             <TextField
               size='small'
               type='text'
               fullWidth
               placeholder=''
-              label='X (WGS84)'
-              defaultValue={consGroundData.lat}
-              onChange={event => handleChange('lat')(event.target.value)}
-            />
-          </Grid>
-          <Grid item xs={12} md={3} sm={12} sx={{ my: 2 }}>
-            <TextField
-              size='small'
-              type='text'
-              fullWidth
-              placeholder=''
-              defaultValue={consGroundData.lng}
-              onChange={event => handleChange('lng')(event.target.value)}
-              label='Y (WGS84)'
+              defaultValue={consGroundData.drillingDuration}
+              multiline
+              onChange={event => handleChange('drillingDuration')(event.target.value)}
+              label='Thời gian hành nghề'
             />
           </Grid>
         </Grid>
 
         <Grid container spacing={4}>
-          <Grid item xs={12} md={8} sm={12} sx={{ my: 2 }}>
+          <Grid item xs={12} md={12} sm={12} sx={{ my: 2 }}>
             <TextField
               size='small'
               type='text'
@@ -272,17 +260,7 @@ const GroundWaterField: FC<ConsTypeFieldsetProps> = ({ data, onChange }) => {
               label='Mục đích khai thác,sử dụng nước'
             />
           </Grid>
-          <Grid item xs={12} md={4} sm={12} sx={{ my: 2 }}>
-            <TextField
-              size='small'
-              type='text'
-              fullWidth
-              placeholder=''
-              defaultValue={consGroundData.drillingDuration}
-              onChange={event => handleChange('drillingDuration')(event.target.value)}
-              label='Thời gian hành nghề'
-            />
-          </Grid>
+          
         </Grid>
       </fieldset>
 

@@ -13,8 +13,6 @@ export interface ConstructionState {
   constructionLocation?: string | null
   x?: number | null
   y?: number | null
-  lat?: number | null
-  lng?: number | null
   startDate?: number | null
   exploitedWS?: string | null
   exploitMode?: string | null
@@ -122,8 +120,6 @@ export const emptyConstructionData: ConstructionState = {
   constructionLocation: null,
   x: null,
   y: null,
-  lat: null,
-  lng: null,
   startDate: null,
   exploitedWS: null,
   exploitMode: null,
@@ -222,8 +218,6 @@ export interface ConstructionItemState {
   name?: string;
   x?: number;
   y?: number;
-  lat?: number;
-  lng?: number;
   amountWaterExploited?:number | null;
   miningMode?:number | null;
   waterDepthFrom?: number | null;
