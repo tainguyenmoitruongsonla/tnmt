@@ -7,10 +7,10 @@ import DialogsControlFullScreen from 'src/@core/components/dialog-control-full-s
 
 //Form Imports
 import LicenseFieldset from 'src/views/license/form/license-fieldset';
-import ConstructionField from 'src/views/construction/form/cons-suface';
+
 import LicenseFeeFeild from 'src/views/license-fee/form/licensefee-feild';
 import FormBusiness from 'src/views/business/form';
-import ConstructionItem from 'src/views/construction/form/cons-item';
+
 
 // API Imports
 import post from 'src/api/post';
@@ -23,6 +23,12 @@ import { enqueueSnackbar } from 'notistack';
 import { ConstructionItemState, ConstructionState, emptyConstructionData } from 'src/views/construction/form/construction-interface';
 import { LicenseFeeState } from 'src/views/license-fee/form/license-fee-interface';
 import { FormLicenseProps, LicenseState, emptyLicenseData } from './license-interface';
+import ConstructionItem from 'src/views/construction/form/cons-item';
+import { useRouter } from 'next/router';
+import SurfaceWaterField from 'src/views/construction/form/cons-suface';
+import GroundWaterField from 'src/views/construction/form/cons-ground';
+import DischargeWaterField from 'src/views/construction/form/cons-discharge';
+import ExploitItem from 'src/views/construction/form/exploit-item';
 
 const FormLicense: FC<FormLicenseProps> = ({ data, closeDialogs, setPostSuccess }) => {
 
@@ -46,7 +52,6 @@ const FormLicense: FC<FormLicenseProps> = ({ data, closeDialogs, setPostSuccess 
 
   //Construction
   const [constructionData, setConstructionData] = useState<ConstructionState>(data?.construction || {});
-
   const handleConstructionChange = (data: any) => {
     setConstructionData(data);
   };
@@ -63,6 +68,9 @@ const FormLicense: FC<FormLicenseProps> = ({ data, closeDialogs, setPostSuccess 
   //licenseFee
   const [licenseFeeData, setLicenseFeeData] = useState<LicenseFeeState[]>(data?.licenseFees || []);
   const [licenseFeeDataRemove, setLicenseFeeDataRemove] = useState<LicenseFeeState[]>([]);
+
+  //Hooks
+  const route = useRouter()
 
 
   const handleLicenseFeeChange = (dataSave: any, dataDelete: any) => {
@@ -255,11 +263,29 @@ const FormLicense: FC<FormLicenseProps> = ({ data, closeDialogs, setPostSuccess 
           <LicenseFeeFeild data={licenseFeeData} onChange={handleLicenseFeeChange} />
         </Grid>
         <Grid item xs={12}>
-          <ConstructionField data={constructionData} onChange={handleConstructionChange} />
-          <ConstructionItem data={consItemData} onChange={handleconsItemChange} />
+            {
+            route.pathname.split('/')[2] == 'nuoc-mat'?
+            <SurfaceWaterField data={constructionData} onChange={handleConstructionChange} />
+            :
+            route.pathname.split('/')[2] == 'nuoc-duoi-dat'?
+            <GroundWaterField data={constructionData} onChange={handleConstructionChange} />
+            :
+            route.pathname.split('/')[2] == 'xa-thai'?
+            <DischargeWaterField data={constructionData} onChange={handleConstructionChange} />
+            :''
+            }
+         
         </Grid>
+        {constructionData?.constructionTypeId === 7 ? (
+          <Grid item xs={12}>
+            <ExploitItem data={consItemData} onChange={handleconsItemChange} />
+          </Grid>
+        ) : (
+          <Grid item xs={12}>
+            <ConstructionItem data={consItemData} onChange={handleconsItemChange} />
+          </Grid>
+        )}
       </Grid>
-
       <DialogActions sx={{ p: 0, mt: 5 }}>
         <Button size='small' onClick={handleClose} className='btn cancleBtn'>
           Hủy

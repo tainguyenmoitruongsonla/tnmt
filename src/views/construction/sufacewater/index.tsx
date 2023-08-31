@@ -20,6 +20,7 @@ import post from 'src/api/post'
 import { ConverterCood } from 'src/@core/components/map/convert-coord'
 import CreateConstruction from '../form'
 
+
 const Map = dynamic(() => import('src/@core/components/map'), { ssr: false })
 
 // eslint-disable-next-line react-hooks/rules-of-hooks
@@ -435,8 +436,7 @@ const SurfaceConstruction = () => {
       sortable: false,
       renderCell: data => (
         <Box>
-          <CreateConstruction isEdit={true} data={data.row} setPostSuccess={handlePostSuccess} />
-
+          <CreateConstruction isEdit={true} data={data.row} setPostSuccess={handlePostSuccess} />      
           <Tooltip title='Xóa thông tin công trình'>
             <>
               <IconButton aria-describedby={data.row.id} onClick={DeleteRowData} data-row-id={data.row.id} >
