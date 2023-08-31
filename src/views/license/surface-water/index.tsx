@@ -13,13 +13,14 @@ import CheckEffect from 'src/views/license/check-effect';
 // import MapComponent from 'src/@core/components/map';
 import CountLicense from 'src/views/license/count-license';
 import ShowFilePDF from 'src/@core/components/show-file-pdf';
-import DataGridComponent, { columnFillters } from 'src/@core/components/data-grid';
+import DataGridComponent from 'src/@core/components/data-grid';
 import { Delete } from '@mui/icons-material';
 import CreateLicense from '../form';
 
 import dynamic from 'next/dynamic';
 import fetchData from 'src/api/fetch';
 import post from 'src/api/post';
+import ColumnFilters from '../column-filter';
 
 
 const Map = dynamic(() => import("src/@core/components/map"), { ssr: false });
@@ -105,9 +106,54 @@ const SurfaceWaterLicense = () => {
     { field: 'construction.basinName', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'Tiểu vùng quy hoạch', minWidth: 250, valueGetter: (data) => (`${data.row.construction?.basinName || ''}`) },
 
     //licenseFee
-    { field: 'licenseFees.licenseFeeNumber', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'Số QĐ', minWidth: 150, renderCell: (data) => (<>{data.row.licenseFees.map((e: any) => (<div key={e.id} style={{ width: '100%' }}><ShowFilePDF name={e.licenseFeeNumber} src={`/pdf/Licenses`} /></div>))}</>) },
-    { field: 'licenseFees.signDate', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'Ngày ký', minWidth: 150, renderCell: (data) => (FormatDate(data.row.licenseFee?.signDate)) },
-    { field: 'licenseFees.TotalMoney', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'Tổng tiền cấp quyền (VNĐ)', minWidth: 150, type: 'number', valueGetter: (data) => (data.row.licenseFee?.totalMoney || '') },
+    {
+      field: 'licenseFees.licenseFeeNumber',
+      headerClassName: 'tableHead',
+      headerAlign: 'center',
+      headerName: 'Số QĐ',
+      minWidth: 150,
+      renderCell: (params) => (
+        <div style={{ width: '100%' }}>
+          {params.row.licenseFees.map((e: any) => (
+            <div key={e.id}>
+              <Typography>
+                <ShowFilePDF name={e.licenseFeeNumber} src={`/pdf/Licenses`} />
+              </Typography>
+            </div>
+          ))}
+        </div>
+      ),
+    },
+    {
+      field: 'licenseFees.signDate',
+      headerClassName: 'tableHead',
+      headerAlign: 'center',
+      headerName: 'Ngày ký',
+      minWidth: 150,
+      renderCell: (params) => (
+        <div style={{ width: '100%' }}>
+          {params.row.licenseFees.map((e: any) => (
+            <div key={e.id}>
+              <Typography>
+                {FormatDate(e.signDate)}
+              </Typography>
+            </div>
+          ))}
+        </div>
+      ),
+    },
+    {
+      field: 'licenseFees.TotalMoney', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'Tổng tiền cấp quyền (VNĐ)', minWidth: 150, type: 'number', valueGetter: (params) => {
+        const licenseFees = params.row.licenseFees || [];
+        let totalMoney = 0;
+
+        licenseFees.forEach((e: any) => {
+          totalMoney += parseFloat(e.totalMoney) || 0;
+        });
+
+        return totalMoney;
+      },
+    },
 
     //Action
     {
@@ -123,7 +169,7 @@ const SurfaceWaterLicense = () => {
               </IconButton>
               <Popover
                 id={deleteConfirmOpen ? data.row.id : undefined}
-                open={deleteConfirmOpen}   
+                open={deleteConfirmOpen}
                 anchorEl={deleteConfirmAnchorEl}
                 onClose={handleDeleteCancel}
                 anchorOrigin={{
@@ -220,106 +266,6 @@ const SurfaceWaterLicense = () => {
     }
   ];
 
-  const columnFillter: columnFillters[] = [
-    {
-      label: 'Số GP',
-      value: 'licenseNumber',
-      type: 'text',
-    },
-    {
-      label: 'Cơ quan cấp phép',
-      value: 'licensingAuthorities',
-      type: 'select',
-      options: [
-        { label: 'BTNMT', value: 'BTNMT' },
-        { label: 'UBND Tỉnh', value: 'UBNDT' },
-      ],
-    },
-    {
-      label: 'Loại hình cấp phép',
-      value: 'licenseTypeSlug',
-      type: 'select',
-      options: [
-        { label: 'Cấp mới', value: 'cap-moi' },
-        { label: 'Cấp lại', value: 'cap-lai' },
-        { label: 'Gia hạn', value: 'gia-han' },
-        { label: 'Điểu chỉnh', value: 'dieu-chinh' },
-        { label: 'Thu hồi', value: 'thu-hoi' },
-      ],
-    },
-    {
-      label: 'Hiệu lực giấy phép',
-      value: 'licenseValidity',
-      type: 'select',
-      options: [
-        { label: 'Còn hiệu lực', value: 'con-hieu-luc' },
-        { label: 'Hết hiệu lực', value: 'het-hieu-luc' },
-        { label: 'Sáp hết hiệu lực', value: 'sap-het-hieu-luc' },
-        { label: 'Đã bị thu hồi', value: 'da-bi-thu-hoi' },
-      ],
-    },
-    {
-      label: 'Chủ  giấy phép',
-      value: 'businessId',
-      type: 'select',
-      options: [
-        { label: 'Công ty A', value: 1 },
-        { label: 'Công ty B', value: 2 },
-        { label: 'Công ty C', value: 3 },
-        { label: '...', value: 4 },
-      ],
-    },
-    {
-      label: 'Công trình',
-      value: 'constructionName',
-      type: 'text',
-    },
-    {
-      label: 'Loại công trình',
-      value: 'constructionTypeSlug',
-      type: 'select',
-      options: [
-        { label: 'Thủy điện', value: 'thuydien' },
-        { label: 'Hồ chứa', value: 'hochua' },
-        { label: 'Trạm bơm', value: 'trambom' },
-        { label: '...', value: '...' },
-      ],
-    },
-    {
-      label: 'Huyện',
-      value: 'districtId',
-      type: 'select',
-      options: [
-        { label: 'Huyện 1', value: 1 },
-        { label: 'Huyện 2', value: 2 },
-        { label: 'Huyện 3', value: 3 },
-        { label: '...', value: 4 },
-      ],
-    },
-    {
-      label: 'Xã',
-      value: 'communeId',
-      type: 'select',
-      options: [
-        { label: 'Xã 1', value: 1 },
-        { label: 'Xã 2', value: 2 },
-        { label: 'Xã 3', value: 3 },
-        { label: '...', value: 4 },
-      ],
-    },
-    {
-      label: 'Tiểu vùng quy hoạch',
-      value: 'basinId',
-      type: 'select',
-      options: [
-        { label: 'Tiểu vùng quy hoạch 1', value: 1 },
-        { label: 'Tiểu vùng quy hoạch 2', value: 2 },
-        { label: 'Tiểu vùng quy hoạch 3', value: 3 },
-        { label: '...', value: 4 },
-      ],
-    },
-  ];
-
   useEffect(() => {
     const getData = async () => {
       setLoading(true)
@@ -368,7 +314,7 @@ const SurfaceWaterLicense = () => {
             rows={resData}
             columns={columnsTable}
             columnGroupingModel={columnGroup}
-            columnFillter={columnFillter}
+            columnFillter={ColumnFilters()}
             loading={loading}
             actions={
               <CreateLicense isEdit={false} setPostSuccess={handlePostSuccess} />

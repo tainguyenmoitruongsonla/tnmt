@@ -5,7 +5,7 @@ export const dataGridProps = {
     disableColumnMenu: true,
     showCellVerticalBorder: true,
     showColumnVerticalBorder: true,
-    density: "compact" as GridDensity,
+    density: "standard" as GridDensity,
     experimentalFeatures: {
       'columnGrouping': true
     },

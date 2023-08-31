@@ -155,7 +155,7 @@ const DataGridComponent = (props: DataGridComponentProps) => {
 
     return (
       <Grid container justifyContent={'end'} alignItems={'center'} py={3} >
-        <Grid md={2} xs={12} px={2}>
+        <Grid md={3} xs={12} px={2}>
           <TextField
             sx={{ p: 0 }}
             size="small"
@@ -204,7 +204,7 @@ const DataGridComponent = (props: DataGridComponentProps) => {
                 </legend>
                 <Grid container >
                   {columns.map((column: any) => (
-                    <Grid md={column.type === 'dateRange' ? 4 : 2} xs={12} py={2} px={column.type === 'dateRange' ? 0 : 2} key={column.value}>
+                    <Grid md={column.type === 'dateRange' ? 4 : 3} xs={12} py={2} px={column.type === 'dateRange' ? 0 : 2} key={column.value}>
                       {column.type === 'text' ? (
                         <TextField
                           size='small'
@@ -289,7 +289,7 @@ const DataGridComponent = (props: DataGridComponentProps) => {
                     </Grid>
                   ))}
                   {formFilter ?
-                    <Grid md={2} xs={6} px={2}>
+                    <Grid md={3} xs={6} px={2}>
                       {formFilter}
                     </Grid>
                     : ''}
