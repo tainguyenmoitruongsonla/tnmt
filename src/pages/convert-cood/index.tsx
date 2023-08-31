@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 
 //MUI Imports
-import { Box, Button, Paper, TextField } from '@mui/material';
+import { Box, Paper, TextField } from '@mui/material';
 import Grid from '@mui/material/Unstable_Grid2';
 
 import MapLegend from 'src/views/construction/MapLegend';
@@ -43,7 +43,38 @@ const Construction = () => {
         setInitConstype(data);
     };
 
-    useEffect(() => {
+   
+
+    const N_DEC_WGS84 = 8;
+
+    const converter = (x: any, y: any) => {
+        proj4.defs('VN2000_QUANG_NGAI', '+proj=tmerc +lat_0=0 +lon_0=108.000 +k=0.9999 +x_0=500000 +y_0=0 +ellps=WGS84 +towgs84=-191.90441429,-39.30318279,-111.45032835,-0.00928836,0.01975479,-0.00427372,0.252906278 +units=m +no_defs');
+
+        const proj4Src: any = proj4.defs('VN2000_QUANG_NGAI');
+        const proj4Dest: any = proj4.defs('EPSG:4326');
+
+        const toMeterSrc: any = proj4Src ? proj4Src.units?.to_meter || 1 : 1;
+        const toMeterDest: any = proj4Dest ? proj4Dest.units?.to_meter || 1 : 1;
+        const xVal = x / toMeterSrc;
+        const yVal = y / toMeterSrc;
+
+        const pj = proj4.toPoint([xVal, yVal]);
+        const result: any = proj4(proj4Src, proj4Dest).forward(pj);
+        result.x *= toMeterDest.toFixed(N_DEC_WGS84);
+        result.y *= toMeterDest.toFixed(N_DEC_WGS84);
+
+        return result;
+    }
+    const [coodinate, setCoodinate] = useState({ x: 0, y: 0 });
+    
+
+    
+    const handleChange = (prop: any) => (value: any) => {
+        setCoodinate({ ...coodinate, [prop]: value })
+    }
+
+     useEffect(() => {
+        console.log(converter(coodinate.x, coodinate.y));
         const getData = async () => {
             try {
                 const data = await fetchData('Construction/list');
@@ -60,46 +91,7 @@ const Construction = () => {
             }
         };
         getData();
-    }, [initConsType]);
-
-    const N_DEC_WGS84 = 8;
-
-    const converter = (x: any, y: any, from: any, to: any) => {
-        const proj4Src: any = proj4.defs(from);
-        const proj4Dest: any = proj4.defs(to);
-
-        const toMeterSrc: any = proj4Src ? proj4Src.units?.to_meter || 1 : 1;
-        const toMeterDest: any = proj4Dest ? proj4Dest.units?.to_meter || 1 : 1;
-        const xVal = x / toMeterSrc;
-        const yVal = y / toMeterSrc;
-
-        const pj = proj4.toPoint([xVal, yVal]);
-        const result: any = proj4(proj4Src, proj4Dest).forward(pj);
-        result.x *= toMeterDest;
-        result.y *= toMeterDest;
-
-        return result;
-    }
-
-
-    const [coodinate, setCoodinate] = useState({ x: 0, y: 0 });
-    const handleChange = (prop: any) => (value: any) => {
-        setCoodinate({ ...coodinate, [prop]: value })
-    }
-
-    const handleConvert = () => {
-
-        proj4.defs('VN2000_QUANG_NGAI', '+proj=tmerc +lat_0=0 +lon_0=108.000 +k=0.9999 +x_0=500000 +y_0=0 +ellps=WGS84 +towgs84=-191.90441429,-39.30318279,-111.45032835,-0.00928836,0.01975479,-0.00427372,0.252906278 +units=m +no_defs');
-
-        const { x, y } = converter(coodinate.x, coodinate.y, 'VN2000_QUANG_NGAI', 'EPSG:4326');
-
-        const result = {
-            x: x.toFixed(N_DEC_WGS84),
-            y: y.toFixed(N_DEC_WGS84),
-        }
-        console.log(result);
-
-    }
+    }, [coodinate.x, coodinate.y, initConsType]);
 
     return (
 
@@ -125,13 +117,6 @@ const Construction = () => {
                     value={coodinate.y}
                     onChange={(e) => handleChange('y')(e.target.value)}
                 />
-            </Grid>
-            <Grid xs={12} md={3} sm={12} sx={{ my: 2 }}>
-                <Button sx={{ border: 0, marginRight: '-14px', backgroundColor: 'rgba(0, 70, 110, 0.04)' }}
-                    onClick={() => handleConvert()}
-                >
-                    Convert
-                </Button>
             </Grid>
             <Grid xs={12} md={12} sx={{ height: 'calc(100vh - 82px)', overflow: 'hidden' }}>
                 <Paper elevation={3} sx={{ height: '100%', position: 'relative' }}>

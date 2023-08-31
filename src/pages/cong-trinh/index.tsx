@@ -37,6 +37,7 @@ const Construction = () => {
   ])
 
   const [resData, setResData] = useState([]);
+  const [loading, setLoading] = useState<boolean>(false)
 
   const handleConsTypeChange = (data: any) => {
     setInitConstype(data);
@@ -45,6 +46,7 @@ const Construction = () => {
   useEffect(() => {
     const getData = async () => {
       try {
+        setLoading(true)
         const data = await fetchData('Construction/list');
         console.log(initConsType)
         const filteredData = data.filter((item: { [key: string]: any }) =>
@@ -56,6 +58,7 @@ const Construction = () => {
       } catch (error) {
         setResData([]);
       } finally {
+        setLoading(false)
       }
     };
     getData();
@@ -67,10 +70,10 @@ const Construction = () => {
 
     <Grid xs={12} md={12} sx={{ height: 'calc(100vh - 82px)', overflow: 'hidden' }}>
       <Paper elevation={3} sx={{ height: '100%', position: 'relative' }}>
-        <Box className="map-legend" sx={{ background: 'white' }}>
+        <Box className="map-legend" sx={{ background: 'white', zIndex: `${loading ? -1 : 999 }` }}>
           <MapLegend onChange={handleConsTypeChange} />
         </Box>
-        <Map center={mapCenter} zoom={mapZoom} mapData={null} mapMarkerData={resData} />
+        <Map center={mapCenter} zoom={mapZoom} mapData={null} mapMarkerData={resData} loading={loading} />
       </Paper>
     </Grid>
   );

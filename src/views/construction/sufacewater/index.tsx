@@ -21,6 +21,7 @@ import fetchData from 'src/api/fetch'
 
 import CreateConstruction from '../form/sufacewater'
 import post from 'src/api/post'
+import { ConverterCood } from 'src/@core/components/map/convert-coord'
 
 const Map = dynamic(() => import('src/@core/components/map'), { ssr: false })
 
@@ -37,7 +38,7 @@ const SurfaceConstruction = () => {
       headerName: 'Tên công trình',
       minWidth: 250,
       renderCell: data => (
-        <Typography className='btnShowFilePdf' onClick={() => zoomConstruction([data.row.lat, data.row.lng])}>
+        <Typography className='btnShowFilePdf' onClick={() => zoomConstruction(ConverterCood(data.row.y, data.row.x))}>
           {data.row.constructionName}
         </Typography>
       )
@@ -813,7 +814,7 @@ const SurfaceConstruction = () => {
               <FormControlLabel control={<Checkbox onClick={() => setShowLabel(!showLabel)} />} label="Hiển thị tên công trình" />
             </FormGroup>
           </Box>
-          <Map center={mapCenter} zoom={mapZoom} showLabel={showLabel} mapMarkerData={resData} />
+          <Map center={mapCenter} zoom={mapZoom} showLabel={showLabel} mapMarkerData={resData} loading={loading}  />
         </Paper>
       </Grid>
       <Grid xs={12} md={12}>

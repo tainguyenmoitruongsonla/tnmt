@@ -4,7 +4,9 @@ import 'leaflet/dist/leaflet.css';
 import { BingLayer } from 'src/@core/components/bingmap';
 import ReactLeafletKml from "react-leaflet-kml";
 import MapPopup from './pop-up';
-import { Typography } from '@mui/material';
+import { Box, Typography } from '@mui/material';
+import { ConverterCood } from './convert-coord';
+import BoxLoading from '../box-loading';
 
 const { BaseLayer } = LayersControl;
 
@@ -14,9 +16,6 @@ const SetViewOnClick = ({ coords, zoom }: any) => {
 		duration: 1
 	});
 
-	// map._layers.forEach((index:any) => {
-	// 	console.log(index);
-	// })
 	return null;
 }
 
@@ -74,7 +73,7 @@ const getIcon = (type: any) => {
 	}
 }
 
-export default function Map({ center, zoom, showLabel, mapMarkerData }: any) {
+export default function Map({ center, zoom, showLabel, mapMarkerData, loading }: any) {
 	const [bing_key, setBingKey] = useState("AuhiCJHlGzhg93IqUH_oCpl_-ZUrIE6SPftlyGYUvr9Amx5nzA-WqGcPquyFZl4L")
 	const [kml, setKml] = useState<any>(null);
 
@@ -92,6 +91,11 @@ export default function Map({ center, zoom, showLabel, mapMarkerData }: any) {
 	}, []);
 
 	return (
+		loading ? (
+            <Box sx={{ width: '100%', height: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                <BoxLoading />
+            </Box>
+        ) : (
 		<>
 			<MapContainer attributionControl={false} center={center} zoom={zoom} style={{ height: '100%' }}>
 				<LayersControl position='bottomright'>
@@ -111,7 +115,7 @@ export default function Map({ center, zoom, showLabel, mapMarkerData }: any) {
 				{mapMarkerData && mapMarkerData.map((data: any) => {
 					if (data.lat !== null || data.lng !== null) {
 						return (
-							<Marker icon={getIcon(data.constructionTypeSlug)} key={data.id} position={[data.lat, data.lng]}>
+							<Marker icon={getIcon(data.constructionTypeSlug)} key={data.id} position={[ConverterCood(data.y, data.x)[0], ConverterCood(data.y, data.x)[1]]}>
 								{showLabel === true &&
 									<Tooltip direction="top" offset={[-10, -18]} opacity={1} permanent>{data.constructionName}</Tooltip>
 								}
@@ -127,5 +131,6 @@ export default function Map({ center, zoom, showLabel, mapMarkerData }: any) {
 				{kml && <ReactLeafletKml kml={kml} />}
 			</MapContainer>
 		</>
+		)
 	);
 }
