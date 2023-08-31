@@ -1,5 +1,4 @@
-import { Search } from '@mui/icons-material'
-import { Typography, Grid, Autocomplete, TextField, Button, CircularProgress } from '@mui/material'
+import { Typography, Grid, Autocomplete, TextField, CircularProgress } from '@mui/material'
 import { useEffect, FC, useState, Fragment } from 'react'
 import fetchData from 'src/api/fetch'
 import { ConstructionState } from './construction-interface'
@@ -249,16 +248,6 @@ const SurfaceWaterField: FC<ConsTypeFieldsetProps> = ({ data, onChange }) => {
               value={consSFData.y || ''}
               onChange={event => handleChange('y')(event.target.value)}
               label='Y (VN2000)'
-              InputProps={{
-                endAdornment: (
-                  <Button
-                    sx={{ border: 0, marginRight: '-14px', backgroundColor: 'rgba(0, 70, 110, 0.04)' }}
-                    onClick={() => alert('open map')}
-                  >
-                    <Search />
-                  </Button>
-                )
-              }}
             />
           </Grid>
           
