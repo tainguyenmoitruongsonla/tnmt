@@ -1,6 +1,6 @@
 import { FC, useEffect, useState } from 'react';
 import { Alert, Box, Button, ButtonGroup, IconButton, Paper, Popover, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography } from "@mui/material"
-import { ConstructionItemState } from '../construction-interface';
+import { ConstructionItemState } from './construction-interface';
 import { Delete } from '@mui/icons-material';
 
 interface ConstructionItemFieldProps {
@@ -16,8 +16,6 @@ const ConstructionItem: FC<ConstructionItemFieldProps> = ({ data, onChange }) =>
         name: e.name,
         x: e.x,
         y: e.y,
-        lat: e.lat,
-        lng: e.lng,
        
       }))
     : []
@@ -32,8 +30,6 @@ const ConstructionItem: FC<ConstructionItemFieldProps> = ({ data, onChange }) =>
       name: '',
       x: 0,
       y: 0,
-      lat: 0,
-      lng: 0,
       
     }
     setConstructionItems(prevItems => [...prevItems, newItem])
@@ -116,12 +112,6 @@ const ConstructionItem: FC<ConstructionItemFieldProps> = ({ data, onChange }) =>
               <TableCell size='small' align='center'>
                 Y(VN2000)
               </TableCell>
-              <TableCell size='small' align='center'>
-                Lat(WGS84)
-              </TableCell>
-              <TableCell size='small' align='center'>
-                Long(WGS84)
-              </TableCell>
               <TableCell size='small' align='center' sx={{ maxWidth: 50 }}>
                 <Button className='btn-link' onClick={addConstructionItem}>
                   Thêm
@@ -163,27 +153,6 @@ const ConstructionItem: FC<ConstructionItemFieldProps> = ({ data, onChange }) =>
                     onChange={event => handleChange(index, 'y')(event.target.value)}
                   />
                 </TableCell>
-                <TableCell>
-                  <TextField
-                    name='lat'
-                    fullWidth
-                    placeholder='Tọa độ Lat(WGS84)'
-                    size='small'
-                    value={item.lat}
-                    onChange={event => handleChange(index, 'lat')(event.target.value)}
-                  />
-                </TableCell>
-                <TableCell>
-                  <TextField
-                    name='lng'
-                    fullWidth
-                    placeholder='Tọa độ Long(WGS84)'
-                    size='small'
-                    value={item.lng}
-                    onChange={event => handleChange(index, 'lng')(event.target.value)}
-                  />
-                </TableCell>
-
                 <TableCell size='small' align='center'>
                   <>
                     <IconButton

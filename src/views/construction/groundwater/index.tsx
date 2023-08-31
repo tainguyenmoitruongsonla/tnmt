@@ -20,7 +20,8 @@ import dynamic from 'next/dynamic'
 import fetchData from 'src/api/fetch'
 
 import post from 'src/api/post'
-import CreateConstructionGround from '../form/groundwater'
+import CreateConstruction from '../form'
+
 
 const Map = dynamic(() => import('src/@core/components/map'), { ssr: false })
 
@@ -75,7 +76,7 @@ const GroundConstruction = () => {
     field: 'actions', headerClassName: 'tableHead', headerAlign: 'center', headerName: '#', minWidth: 120, sortable: false,
     renderCell: (data) => (
       <Box>
-      <CreateConstructionGround isEdit={true} data={data.row} setPostSuccess={handlePostSuccess} />
+      <CreateConstruction isEdit={true} data={data.row} setPostSuccess={handlePostSuccess} />
 
       <Tooltip title='Xóa thông tin công trình'>
         <>
@@ -349,7 +350,7 @@ const columnFillter: columnFillters[] = [
             columns={columnsTable}
             columnGroupingModel={columnGroup}
             columnFillter={columnFillter}
-            actions={<CreateConstructionGround isEdit={false} setPostSuccess={handlePostSuccess} />}
+            actions={<CreateConstruction isEdit={false} setPostSuccess={handlePostSuccess} />}
           />
         </Paper>
       </Grid>

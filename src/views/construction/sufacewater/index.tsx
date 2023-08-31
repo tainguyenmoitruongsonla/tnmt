@@ -8,20 +8,17 @@ import { GridColDef, GridColumnGroupingModel } from '@mui/x-data-grid'
 
 //Other Imports
 import FormatDate from 'src/@core/components/format-date'
-
 import ShowFilePDF from 'src/@core/components/show-file-pdf'
 import DataGridComponent, { columnFillters } from 'src/@core/components/data-grid'
 import { Delete } from '@mui/icons-material'
 import FormGroup from '@mui/material/FormGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
-
 import dynamic from 'next/dynamic'
 import fetchData from 'src/api/fetch'
-
-import CreateConstruction from '../form/sufacewater'
 import post from 'src/api/post'
 import { ConverterCood } from 'src/@core/components/map/convert-coord'
+import CreateConstruction from '../form'
 
 const Map = dynamic(() => import('src/@core/components/map'), { ssr: false })
 

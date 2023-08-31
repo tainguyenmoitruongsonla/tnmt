@@ -23,12 +23,10 @@ interface LicenseFeeProps {
 const LicenseFee = (props: LicenseFeeProps) => {
 
   const { path } = props;
-
   const [postSuccess, setPostSuccess] = useState(false);
   const handlePostSuccess = () => {
     setPostSuccess(prevState => !prevState);
   };
-
   const [resData, setResData] = useState([]);
   const [loading, setLoading] = useState(false)
 
