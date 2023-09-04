@@ -94,7 +94,7 @@ const VerticalNavLink = ({ item, settings, navVisible, toggleNavVisibility }: Pr
       // Retrieve permits from local storage and parse it as JSON
       const permits: any[] = JSON.parse(localStorage.getItem('permit') || '[]');
 
-      const userInfo: any = localStorage.getItem('userInfo') || null;
+      const userInfo: any = localStorage.getItem('userInfo');
       const role = JSON.parse(userInfo).userRole;
 
       if (role === 'Admin') {
