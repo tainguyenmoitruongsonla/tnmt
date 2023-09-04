@@ -16,10 +16,8 @@ const navigation = (): VerticalNavItemsType => {
       path: '/'
     },
     {
-      sectionTitle: 'hệ thống'
-    },
-    {
       title: 'Công trình',
+      primaryPath: 'cong-trinh',
       children: [
         {
           icon: CircleOutline,
@@ -45,6 +43,7 @@ const navigation = (): VerticalNavItemsType => {
     },
     {
       title: 'Quan trắc',
+      primaryPath: 'quan-trac',
       children: [
         {
           icon: CircleOutline,
@@ -65,6 +64,7 @@ const navigation = (): VerticalNavItemsType => {
     },
     {
       title: 'Giám sát',
+      primaryPath: 'giam-sat',
       children: [
         {
           icon: CircleOutline,
@@ -95,6 +95,7 @@ const navigation = (): VerticalNavItemsType => {
     },
     {
       title: 'Trữ lượng nước',
+      primaryPath: 'tru-luong-nuoc',
       children: [
         {
           icon: CircleOutline,
@@ -115,6 +116,7 @@ const navigation = (): VerticalNavItemsType => {
     },
     {
       title: 'Giấy phép',
+      primaryPath: 'giam-sat',
       children: [
         {
           icon: CircleOutline,
@@ -150,6 +152,7 @@ const navigation = (): VerticalNavItemsType => {
     },
     {
       title: 'Tiền cấp quyền',
+      primaryPath: 'tien-cap-quyen',
       children: [
         {
           icon: CircleOutline,
@@ -215,6 +218,7 @@ const navigation = (): VerticalNavItemsType => {
     },
     {
       title: 'Thông báo - cảnh báo',
+      primaryPath: 'thong-bao-canh-bao',
       path: '/thong-bao-canh-bao'
     },
     {
@@ -264,6 +268,7 @@ const navigation = (): VerticalNavItemsType => {
     },
     {
       title: 'Hệ thống',
+      primaryPath: 'he-thong',
       children: [
         {
           title: 'Nhóm người dùng',
@@ -289,6 +294,7 @@ const navigation = (): VerticalNavItemsType => {
     },
     {
       title: 'Phân quyền',
+      primaryPath: 'phan-quyen',
       children: [
         {
           title: 'Nhóm người dùng',

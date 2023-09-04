@@ -24,7 +24,7 @@ const loginApi = async (username: string, password: string) => {
             localStorage.setItem('authToken', token);
 
             const decodedToken = jwt_decode(token) as DecodedToken;
-            
+
             const permit = decodedToken['Permission'].map((e: any) => {
                 return JSON.parse(e);
             })

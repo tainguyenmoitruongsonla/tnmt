@@ -21,7 +21,7 @@ import { List } from '@mui/material'
 import themeConfig from 'src/configs/themeConfig'
 
 // ** Types
-import { NavGroup, NavLink } from 'src/@core/layouts/types'
+import { NavLink } from 'src/@core/layouts/types'
 import { Settings } from 'src/@core/context/settingsContext'
 
 // ** Custom Components Imports
@@ -31,7 +31,7 @@ import UserIcon from 'src/layouts/components/UserIcon'
 import { handleURLQueries } from 'src/@core/layouts/utils'
 
 interface Props {
-  item: NavLink | NavGroup
+  item: NavLink
   settings: Settings
   navVisible?: boolean
   toggleNavVisibility: () => void
@@ -87,22 +87,119 @@ const VerticalNavLink = ({ item, settings, navVisible, toggleNavVisibility }: Pr
       return false
     }
   }
-  
+
+  const shouldShow = (itemPath: string | undefined) => {
+
+    if (typeof localStorage !== 'undefined') {
+      // Retrieve permits from local storage and parse it as JSON
+      const permits: any[] = JSON.parse(localStorage.getItem('permit') || '[]');
+
+      const userInfo: any = localStorage.getItem('userInfo') || null;
+      const role = JSON.parse(userInfo).userRole;
+
+      if (role === 'Admin') {
+        return true;
+      } else {
+        // Use Array.prototype.some to check if any permit matches the condition
+        return permits.some((permit: any) => {
+          return itemPath === undefined || (itemPath === permit.dashSrc && permit.funcCode === "View");
+        });
+      }
+    }
+  };
+
   if (item.children && item.children.length > 0) {
 
     // Level 1 Menu Item with children
     return (
-      <>
-        <ListItem disablePadding className='nav-link' disabled={item.disabled || false} sx={{ mt: 1.5, px: '0 !important' }} onMouseDown={handleClick}>
-          <Link passHref href={item.path === undefined ? '#' : `${item.path}`}>
+      shouldShow(item.primaryPath) ?
+        <>
+          <ListItem disablePadding className='nav-link' disabled={item.disabled || false} sx={{ mt: 1.5, px: '0 !important' }} onMouseDown={handleClick}>
+            <Link passHref href={item.path === undefined ? '#' : `${item.path}`}>
+              <MenuNavLink
+                component={'a'}
+                className={`${item.children.some(child => isNavLinkActive(child.path)) ? 'active' : ''} menu__item`}
+                {...(item.openInNewTab ? { target: '_blank' } : null)}
+                onClick={(e) => {
+                  if (item.path === undefined) {
+                    e.preventDefault()
+                    e.stopPropagation()
+                  }
+                }}
+                sx={{
+                  pl: 5.5,
+                  ...(item.disabled ? { pointerEvents: 'none' } : { cursor: 'pointer' })
+                }}
+              >
+                {item.icon ? <ListItemIcon
+                  sx={{
+                    mr: 2.5,
+                    transition: 'margin .25s ease-in-out',
+                    color: `#fff`
+                  }}
+                >
+                  <UserIcon icon={IconTag} />
+                </ListItemIcon> : ''}
+                <MenuItemTextMetaWrapper>
+                  <Typography sx={{ color: `#fff` }} {...(themeConfig.menuTextTruncate && { noWrap: true })}>
+                    {item.title}
+                  </Typography>
+                  {item.badgeContent ? (
+                    <Chip
+                      label={item.badgeContent}
+                      color={item.badgeColor || 'primary'}
+                      sx={{
+                        height: 20,
+                        fontWeight: 500,
+                        marginLeft: 1.25,
+                        '& .MuiChip-label': { px: 1.5, textTransform: 'capitalize' }
+                      }}
+                    />
+                  ) : null}
+                </MenuItemTextMetaWrapper>
+                {open || item.children.some(child => isNavLinkActive(child.path)) ? (
+                  <ExpandIcon className='is-opened-children' sx={{ color: `#fff` }} />
+                ) : (
+                  <ExpandIcon className='is-not-opened-children' sx={{ color: `#fff` }} />
+                )}
+              </MenuNavLink>
+            </Link>
+          </ListItem>
+          <Collapse in={open || item.children.some(child => isNavLinkActive(child.path))} timeout='auto' unmountOnExit>
+            <List sx={{ paddingLeft: '10px' }}>
+              {item.children.map((child: NavLink, index: number) => (
+
+                // Level 2 Menu Items
+                <VerticalNavLink
+                  key={index}
+                  item={child}
+                  settings={settings}
+                  navVisible={navVisible}
+                  toggleNavVisibility={toggleNavVisibility}
+                />
+              ))}
+            </List>
+          </Collapse>
+        </> : <ListItem style={{ display: 'none' }}></ListItem>
+    )
+  } else {
+
+    // Level 1 Menu Item without children
+    return (
+      shouldShow(item.primaryPath) ?
+        <ListItem disablePadding className='nav-link' disabled={item.disabled || false} sx={{ mt: 1.5, px: '0 !important' }}>
+          <Link passHref href={item.path === undefined ? '/' : `${item.path}`}>
             <MenuNavLink
               component={'a'}
-              className={`${item.children.some(child => isNavLinkActive(child.path)) ? 'active' : ''} menu__item`}
+              className={`${isNavLinkActive(item.path) ? 'active' : ''} menu__item`}
               {...(item.openInNewTab ? { target: '_blank' } : null)}
               onClick={(e) => {
                 if (item.path === undefined) {
                   e.preventDefault()
                   e.stopPropagation()
+                }
+                if (navVisible) {
+                  toggleNavVisibility()
                 }
               }}
               sx={{
@@ -119,6 +216,7 @@ const VerticalNavLink = ({ item, settings, navVisible, toggleNavVisibility }: Pr
               >
                 <UserIcon icon={IconTag} />
               </ListItemIcon> : ''}
+
               <MenuItemTextMetaWrapper>
                 <Typography sx={{ color: `#fff` }} {...(themeConfig.menuTextTruncate && { noWrap: true })}>
                   {item.title}
@@ -136,86 +234,10 @@ const VerticalNavLink = ({ item, settings, navVisible, toggleNavVisibility }: Pr
                   />
                 ) : null}
               </MenuItemTextMetaWrapper>
-              {open || item.children.some(child => isNavLinkActive(child.path)) ? (
-                <ExpandIcon className='is-opened-children' sx={{ color: `#fff` }} />
-              ) : (
-                <ExpandIcon className='is-not-opened-children' sx={{ color: `#fff` }} />
-              )}
             </MenuNavLink>
           </Link>
         </ListItem>
-        <Collapse in={open || item.children.some(child => isNavLinkActive(child.path))} timeout='auto' unmountOnExit>
-          <List sx={{ paddingLeft: '10px' }}>
-            {item.children.map((child: NavLink, index: number) => (
-
-              // Level 2 Menu Items
-              <VerticalNavLink
-                key={index}
-                item={child}
-                settings={settings}
-                navVisible={navVisible}
-                toggleNavVisibility={toggleNavVisibility}
-              />
-            ))}
-          </List>
-        </Collapse>
-      </>
-    )
-  } else {
-
-    // Level 1 Menu Item without children
-
-    return (
-      <ListItem disablePadding className='nav-link' disabled={item.disabled || false} sx={{ mt: 1.5, px: '0 !important' }}>
-        <Link passHref href={item.path === undefined ? '/' : `${item.path}`}>
-          <MenuNavLink
-            component={'a'}
-            className={`${isNavLinkActive(item.path) ? 'active' : ''} menu__item`}
-            {...(item.openInNewTab ? { target: '_blank' } : null)}
-            onClick={(e) => {
-              if (item.path === undefined) {
-                e.preventDefault()
-                e.stopPropagation()
-              }
-              if (navVisible) {
-                toggleNavVisibility()
-              }
-            }}
-            sx={{
-              pl: 5.5,
-              ...(item.disabled ? { pointerEvents: 'none' } : { cursor: 'pointer' })
-            }}
-          >
-            {item.icon ? <ListItemIcon
-              sx={{
-                mr: 2.5,
-                transition: 'margin .25s ease-in-out',
-                color: `#fff`
-              }}
-            >
-              <UserIcon icon={IconTag} />
-            </ListItemIcon> : ''}
-
-            <MenuItemTextMetaWrapper>
-              <Typography sx={{ color: `#fff` }} {...(themeConfig.menuTextTruncate && { noWrap: true })}>
-                {item.title}
-              </Typography>
-              {item.badgeContent ? (
-                <Chip
-                  label={item.badgeContent}
-                  color={item.badgeColor || 'primary'}
-                  sx={{
-                    height: 20,
-                    fontWeight: 500,
-                    marginLeft: 1.25,
-                    '& .MuiChip-label': { px: 1.5, textTransform: 'capitalize' }
-                  }}
-                />
-              ) : null}
-            </MenuItemTextMetaWrapper>
-          </MenuNavLink>
-        </Link>
-      </ListItem>
+        : <ListItem style={{ display: 'none' }}></ListItem>
     )
   }
 }
