@@ -1,0 +1,104 @@
+import React, { useState } from 'react';
+import { Add, Edit, Save } from '@mui/icons-material';
+import { Button, CircularProgress, DialogActions, Grid } from '@mui/material';
+
+import DialogsControl from 'src/@core/components/dialog-control';
+import post from 'src/api/post';
+import ConstructionTypeFieldset from './construction-type-fieldset';
+
+interface FormProps {
+    data: any;
+    closeDialogs: () => void;
+    setPostSuccess?: (value: boolean) => void;
+}
+
+const Form: React.FC<FormProps> = ({ data, closeDialogs, setPostSuccess }) => {
+
+    //ConstructionTypes
+    const [constructionTypesData, setConstructionTypesData] = useState<any>(data);
+    const [saving, setSaving] = useState(false);
+
+    const handleConstructionTypesChange = (data: any) => {
+        setConstructionTypesData(data);
+    };
+    const handleSubmit = (event: React.FormEvent) => {
+        event.preventDefault();
+
+        const handleApiCall = async () => {
+            try {
+                setSaving(true)
+                const res = await post('ConstructionTypes/save', constructionTypesData);
+                if (res) {
+                    // Reset form fields
+                    setConstructionTypesData({});
+                    typeof (setPostSuccess) === 'function' ? setPostSuccess(true) : '';
+                }
+            } catch (error) {
+            } finally {
+                setSaving(false)
+                closeDialogs();
+            }
+        };
+
+        // Call the function
+        handleApiCall();
+    };
+
+    const handleClose = () => {
+        closeDialogs();
+    };
+
+    return (
+        <form>
+            <Grid container gap={3}>
+                <Grid item xs={12}>
+                    <ConstructionTypeFieldset data={data} onChange={handleConstructionTypesChange} />
+                </Grid>
+            </Grid>
+
+            <DialogActions sx={{ p: 0, mt: 5 }}>
+                <Button size='small' onClick={handleClose} className='btn cancleBtn'> Hủy </Button>
+                <Button onClick={handleSubmit} disabled={saving} className='btn saveBtn'> {saving ? <CircularProgress color='inherit' size={20} /> : <Save />} &nbsp; Lưu </Button>
+            </DialogActions>
+        </form>
+    );
+};
+
+interface FormConstructionTypeProps {
+    isEdit: boolean;
+    data?: any;
+    setPostSuccess?: (value: boolean) => void;
+}
+
+const FormConstructionTypes: React.FC<FormConstructionTypeProps> = ({ isEdit, data, setPostSuccess }) => {
+    const formTitle = isEdit ? 'Sửa thông tin doanh nghiệp' : 'Thêm mới thông tin doanh nghiệp';
+
+    return (
+        <DialogsControl>
+            {(openDialogs: (content: React.ReactNode, title: React.ReactNode) => void, closeDialogs: () => void) => (
+                <>
+                    {isEdit ? (
+                        <Edit
+                            className='tableActionBtn'
+                            onClick={() =>
+                                openDialogs(<Form data={data} closeDialogs={closeDialogs} setPostSuccess={setPostSuccess} />, formTitle)
+                            }
+                        />
+                    ) : (
+                        <Button
+                            size="small"
+                            startIcon={<Add />}
+                            onClick={() =>
+                                openDialogs(<Form data={data} closeDialogs={closeDialogs} setPostSuccess={setPostSuccess} />, formTitle)
+                            }
+                        >
+                            Thêm mới
+                        </Button>
+                    )}
+                </>
+            )}
+        </DialogsControl>
+    );
+};
+
+export default FormConstructionTypes;

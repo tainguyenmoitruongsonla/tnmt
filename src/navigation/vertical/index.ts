@@ -174,7 +174,7 @@ const navigation = (): VerticalNavItemsType => {
         {
           title: 'Loại công trình',
           icon: CircleOutline,
-          path: '#'
+          path: '/loai-cong-trinh'
         },
         {
           title: 'Loại giấy phép',
