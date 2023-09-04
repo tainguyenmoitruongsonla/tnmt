@@ -5,8 +5,8 @@ interface DecodedToken {
 
     // Define the properties you need here
     [key: string]: any;
-  }
-  
+}
+
 
 const loginApi = async (username: string, password: string) => {
     try {
@@ -24,6 +24,14 @@ const loginApi = async (username: string, password: string) => {
             localStorage.setItem('authToken', token);
 
             const decodedToken = jwt_decode(token) as DecodedToken;
+            
+            const permit = decodedToken['Permission'].map((e: any) => {
+                return JSON.parse(e);
+            })
+
+            console.log(permit)
+
+            localStorage.setItem('permit', JSON.stringify(permit));
 
             const userInfo = {
                 fullName: decodedToken['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier'],
