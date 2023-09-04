@@ -179,7 +179,7 @@ const navigation = (): VerticalNavItemsType => {
         {
           title: 'Loại giấy phép',
           icon: CircleOutline,
-          path: '#'
+          path: '/loai-giay-phep'
         },
         {
           title: 'Doanh nghiệp',
@@ -189,10 +189,15 @@ const navigation = (): VerticalNavItemsType => {
         {
           title: 'Sông',
           icon: CircleOutline,
-          path: '#'
+          path: '/song'
         },
         {
           title: 'Lưu vực',
+          icon: CircleOutline,
+          path: '#'
+        },
+        {
+          title: 'Tiểu vùng quy hoạch',
           icon: CircleOutline,
           path: '#'
         },
