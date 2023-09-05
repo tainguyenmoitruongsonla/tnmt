@@ -11,21 +11,19 @@ import FormatDate from 'src/@core/components/format-date'
 import ShowFilePDF from 'src/@core/components/show-file-pdf'
 import DataGridComponent, { columnFillters } from 'src/@core/components/data-grid'
 import { Delete } from '@mui/icons-material'
-import FormGroup from '@mui/material/FormGroup';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
+import FormGroup from '@mui/material/FormGroup'
+import FormControlLabel from '@mui/material/FormControlLabel'
+import Checkbox from '@mui/material/Checkbox'
 import dynamic from 'next/dynamic'
 import fetchData from 'src/api/fetch'
 import post from 'src/api/post'
 import { ConverterCood } from 'src/@core/components/map/convert-coord'
 import CreateConstruction from '../form'
 
-
 const Map = dynamic(() => import('src/@core/components/map'), { ssr: false })
 
 // eslint-disable-next-line react-hooks/rules-of-hooks
 const SurfaceConstruction = () => {
-
   //Init columnTable
   const columnsTable: GridColDef[] = [
     { field: 'id', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'ID', minWidth: 90 },
@@ -386,7 +384,7 @@ const SurfaceConstruction = () => {
       headerAlign: 'center',
       headerName: 'Số GP',
       minWidth: 150,
-      renderCell: (params) => (
+      renderCell: params => (
         <div style={{ width: '100%' }}>
           {params.row.licenses?.map((e: any) => (
             <div key={e.id}>
@@ -396,7 +394,7 @@ const SurfaceConstruction = () => {
             </div>
           ))}
         </div>
-      ),
+      )
     },
     {
       field: 'license.IssueDate',
@@ -404,17 +402,15 @@ const SurfaceConstruction = () => {
       headerAlign: 'center',
       headerName: 'Hiệu lực GP',
       minWidth: 150,
-      renderCell: (params) => (
+      renderCell: params => (
         <div style={{ width: '100%' }}>
           {params.row.licenses?.map((e: any) => (
             <div key={e.id}>
-              <Typography>
-                {FormatDate(e.issueDate)}
-              </Typography>
+              <Typography>{FormatDate(e.issueDate)}</Typography>
             </div>
           ))}
         </div>
-      ),
+      )
     },
     {
       field: 'license.SignDate',
@@ -422,50 +418,54 @@ const SurfaceConstruction = () => {
       headerAlign: 'center',
       headerName: 'Ngày ký',
       minWidth: 150,
-      renderCell: (params) => (
+      renderCell: params => (
         <div style={{ width: '100%' }}>
           {params.row.licenses?.map((e: any) => (
             <div key={e.id}>
+              <Typography>{FormatDate(e.signDate)}</Typography>
+            </div>
+          ))}
+        </div>
+      )
+    },
+
+    //licenseFee
+    {
+      field: 'licenseFees.licenseFeeNumber',
+      headerClassName: 'tableHead',
+      headerAlign: 'center',
+      headerName: 'Số QĐ',
+      minWidth: 150,
+      renderCell: params => (
+        <div style={{ width: '100%' }}>
+          {params.row.licenses.licenseFees?.map((e: any) => (
+            <div key={e.id}>
               <Typography>
-                {FormatDate(e.signDate)}
+                <ShowFilePDF name={e.licenseFeeNumber} src={`/pdf/Licenses`} />
               </Typography>
             </div>
           ))}
         </div>
-      ),
+      )
     },
+    {
+      field: 'licenseFees.TotalMoney',
+      headerClassName: 'tableHead',
+      headerAlign: 'center',
+      headerName: 'Tổng tiền cấp quyền (VNĐ)',
+      minWidth: 150,
+      type: 'number',
+      valueGetter: params => {
+        const licenseFees = params.row.licenseFees || []
+        let totalMoney = 0
 
-       //licenseFee
-       {
-        field: 'licenseFees.licenseFeeNumber',
-        headerClassName: 'tableHead',
-        headerAlign: 'center',
-        headerName: 'Số QĐ',
-        minWidth: 150,
-        renderCell: (params) => (
-          <div style={{ width: '100%' }}>
-            {params.row.licenses.licenseFees?.map((e: any) => (
-              <div key={e.id}>
-                <Typography>
-                  <ShowFilePDF name={e.licenseFeeNumber} src={`/pdf/Licenses`} />
-                </Typography>
-              </div>
-            ))}
-          </div>
-        ),
-      },
-      {
-        field: 'licenseFees.TotalMoney', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'Tổng tiền cấp quyền (VNĐ)', minWidth: 150, type: 'number', valueGetter: (params) => {
-          const licenseFees = params.row.licenseFees || [];
-          let totalMoney = 0;
-  
-          licenseFees.forEach((e: any) => {
-            totalMoney += parseFloat(e.totalMoney) || 0;
-          });
-  
-          return totalMoney;
-        },
-      },
+        licenseFees.forEach((e: any) => {
+          totalMoney += parseFloat(e.totalMoney) || 0
+        })
+
+        return totalMoney
+      }
+    },
 
     //Action
     {
@@ -477,10 +477,10 @@ const SurfaceConstruction = () => {
       sortable: false,
       renderCell: data => (
         <Box>
-          <CreateConstruction isEdit={true} data={data.row} setPostSuccess={handlePostSuccess} />      
+          <CreateConstruction isEdit={true} data={data.row} setPostSuccess={handlePostSuccess} />
           <Tooltip title='Xóa thông tin công trình'>
             <>
-              <IconButton aria-describedby={data.row.id} onClick={DeleteRowData} data-row-id={data.row.id} >
+              <IconButton aria-describedby={data.row.id} onClick={DeleteRowData} data-row-id={data.row.id}>
                 <Delete className='tableActionBtn deleteBtn' />
               </IconButton>
               <Popover
@@ -490,17 +490,17 @@ const SurfaceConstruction = () => {
                 onClose={handleDeleteCancel}
                 anchorOrigin={{
                   vertical: 'bottom',
-                  horizontal: 'left',
+                  horizontal: 'left'
                 }}
               >
-                <Alert severity="warning">
+                <Alert severity='warning'>
                   Xóa bản ghi này ?
                   <Box sx={{ justifyContent: 'center', paddingTop: 4, width: '100%' }}>
-                    <ButtonGroup variant="outlined" aria-label="outlined button group">
-                      <Button size="small" onClick={handleDeleteConfirm}>
+                    <ButtonGroup variant='outlined' aria-label='outlined button group'>
+                      <Button size='small' onClick={handleDeleteConfirm}>
                         Đúng
                       </Button>
-                      <Button color='error' size="small" onClick={handleDeleteCancel}>
+                      <Button color='error' size='small' onClick={handleDeleteCancel}>
                         Hủy
                       </Button>
                     </ButtonGroup>
@@ -576,21 +576,14 @@ const SurfaceConstruction = () => {
       groupId: 'Thông tin giấy phép',
       headerClassName: 'tableHead',
       headerAlign: 'center',
-      children: [
-        { field: 'license.LicenseNumber' },
-        { field: 'license.SignDate' },
-        { field: 'license.IssueDate' },
-       ]
+      children: [{ field: 'license.LicenseNumber' }, { field: 'license.SignDate' }, { field: 'license.IssueDate' }]
     },
 
     {
       groupId: 'Tiền cấp quyền',
       headerClassName: 'tableHead',
       headerAlign: 'center',
-      children: [
-        { field: 'licenseFees.licenseFeeNumber' },
-        { field: 'licenseFees.TotalMoney' }
-      ]
+      children: [{ field: 'licenseFees.licenseFeeNumber' }, { field: 'licenseFees.TotalMoney' }]
     },
     {
       groupId: ' ',
@@ -622,8 +615,8 @@ const SurfaceConstruction = () => {
       type: 'select',
       options: [
         { label: 'BTNMT', value: 'BTNMT' },
-        { label: 'UBND Tỉnh', value: 'UBNDT' },
-      ],
+        { label: 'UBND Tỉnh', value: 'UBNDT' }
+      ]
     },
     {
       label: 'Tiểu vùng quy hoạch',
@@ -784,19 +777,12 @@ const SurfaceConstruction = () => {
     try {
       setLoading(true)
       const data = await fetchData('Construction/list')
-      console.log(data);
-      
+      console.log(data)
+
       const filteredData = data.filter((item: { [key: string]: any }) =>
-        [
-          'thuydien',
-          'hochua',
-          'trambom',
-          'tramcapnuoc',
-          'dapthuyloi',
-          'cong',
-          'nhamaynuoc',
-          'congtrinhkhac_nm'
-        ].some(keyword => item['constructionTypeSlug']?.toString().toLowerCase().includes(keyword.toLowerCase()))
+        ['thuydien', 'hochua', 'trambom', 'tramcapnuoc', 'dapthuyloi', 'cong', 'nhamaynuoc', 'congtrinhkhac_nm'].some(
+          keyword => item['constructionTypeSlug']?.toString().toLowerCase().includes(keyword.toLowerCase())
+        )
       )
       setResData(filteredData)
     } catch (error) {
@@ -807,27 +793,27 @@ const SurfaceConstruction = () => {
   }
 
   //delete
-  const [deleteConfirmAnchorEl, setDeleteConfirmAnchorEl] = useState<HTMLButtonElement | null>(null);
-  const deleteConfirmOpen = Boolean(deleteConfirmAnchorEl);
+  const [deleteConfirmAnchorEl, setDeleteConfirmAnchorEl] = useState<HTMLButtonElement | null>(null)
+  const deleteConfirmOpen = Boolean(deleteConfirmAnchorEl)
   const DeleteRowData = (event: React.MouseEvent<HTMLButtonElement>) => {
-    setDeleteConfirmAnchorEl(event.currentTarget);
-  };
+    setDeleteConfirmAnchorEl(event.currentTarget)
+  }
 
   const handleDeleteConfirm = () => {
     if (deleteConfirmAnchorEl) {
-      const rowId = parseInt(deleteConfirmAnchorEl.getAttribute('data-row-id') || '', 10);
-      const rowToDelete = resData.find((row: any) => row.id === rowId);
+      const rowId = parseInt(deleteConfirmAnchorEl.getAttribute('data-row-id') || '', 10)
+      const rowToDelete = resData.find((row: any) => row.id === rowId)
       if (rowToDelete) {
-        handleDeleteRowData(rowToDelete);
+        handleDeleteRowData(rowToDelete)
       }
     }
 
-    setDeleteConfirmAnchorEl(null);
-  };
+    setDeleteConfirmAnchorEl(null)
+  }
 
   const handleDeleteCancel = () => {
-    setDeleteConfirmAnchorEl(null);
-  };
+    setDeleteConfirmAnchorEl(null)
+  }
 
   const handleDeleteRowData = async (data: any) => {
     try {
@@ -857,12 +843,15 @@ const SurfaceConstruction = () => {
     <Grid container spacing={2}>
       <Grid xs={12} md={12} sx={{ height: '55vh', overflow: 'hidden' }}>
         <Paper elevation={3} sx={{ height: '100%', position: 'relative' }}>
-          <Box className="map-legend" sx={{ background: 'white', pl: 2 }}>
+          <Box className='map-legend' sx={{ background: 'white', pl: 2 }}>
             <FormGroup>
-              <FormControlLabel control={<Checkbox onClick={() => setShowLabel(!showLabel)} />} label="Hiển thị tên công trình" />
+              <FormControlLabel
+                control={<Checkbox onClick={() => setShowLabel(!showLabel)} />}
+                label='Hiển thị tên công trình'
+              />
             </FormGroup>
           </Box>
-          <Map center={mapCenter} zoom={mapZoom} showLabel={showLabel} mapData={resData} loading={false}  />
+          <Map center={mapCenter} zoom={mapZoom} showLabel={showLabel} mapData={resData} loading={false} />
         </Paper>
       </Grid>
       <Grid xs={12} md={12}>
