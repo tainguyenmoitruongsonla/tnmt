@@ -1,9 +1,7 @@
 import React, { useState } from 'react'
 import { Add, Edit, Save  } from '@mui/icons-material'
 import { Button, CircularProgress,DialogActions, Grid, IconButton, Tooltip } from '@mui/material'
-
 import DialogsControlFullScreen from 'src/@core/components/dialog-control-full-screen'
-
 import postData from 'src/api/post'
 import ConstructionItem from './cons-item'
 import { useRouter } from 'next/router'
@@ -20,14 +18,14 @@ interface FormConstructionProps {
 
 const FormConstruction: React.FC<FormConstructionProps> = ({ data, closeDialogs, setPostSuccess }) => {
 
-  //Business
+  //Construction
   const [consSFData, setConsSFData] = useState<any>(data)
   const [saving, setSaving] = useState(false);
   const handleConsSFChange = (data: any) => {
     setConsSFData(data)
   }
 
-  //Construction
+  //ConstructionItem
   const [consItemData, setConsItemData] = useState<any>(data?.constructionItems)
   const [consItemDataDetele, setConsItemDataDelete] = useState<any>()
 

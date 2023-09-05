@@ -64,13 +64,92 @@ const GroundConstruction = () => {
   { field: 'lowWL', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'Mực nước hạ thấp', minWidth: 150, },
 
   //license
-  { field: 'licenseNumber', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'Số GP', minWidth: 150, renderCell: (data) => (<ShowFilePDF name={data.row.licenseNumber} src={`/pdf/Licenses/` + data.row.licensingAuthorities + `/` + data.row.typeSlug + `/` + data.row.licenseFile} />) },
-  { field: 'signDate', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'Hiệu lực GP', minWidth: 150, renderCell: (data) => (FormatDate(data.row.signDate)) },
-  { field: 'issueDate', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'Ngày ký', minWidth: 150, renderCell: (data) => (FormatDate(data.row.signDate)) },
+  {
+    field: 'license.LicenseNumber',
+    headerClassName: 'tableHead',
+    headerAlign: 'center',
+    headerName: 'Số GP',
+    minWidth: 150,
+    renderCell: (params) => (
+      <div style={{ width: '100%' }}>
+        {params.row.licenses?.map((e: any) => (
+          <div key={e.id}>
+            <Typography>
+              <ShowFilePDF name={e.licenseNumber} src={`/pdf/Licenses`} />
+            </Typography>
+          </div>
+        ))}
+      </div>
+    ),
+  },
+  {
+    field: 'license.IssueDate',
+    headerClassName: 'tableHead',
+    headerAlign: 'center',
+    headerName: 'Hiệu lực GP',
+    minWidth: 150,
+    renderCell: (params) => (
+      <div style={{ width: '100%' }}>
+        {params.row.licenses?.map((e: any) => (
+          <div key={e.id}>
+            <Typography>
+              {FormatDate(e.issueDate)}
+            </Typography>
+          </div>
+        ))}
+      </div>
+    ),
+  },
+  {
+    field: 'license.SignDate',
+    headerClassName: 'tableHead',
+    headerAlign: 'center',
+    headerName: 'Ngày ký',
+    minWidth: 150,
+    renderCell: (params) => (
+      <div style={{ width: '100%' }}>
+        {params.row.licenses?.map((e: any) => (
+          <div key={e.id}>
+            <Typography>
+              {FormatDate(e.signDate)}
+            </Typography>
+          </div>
+        ))}
+      </div>
+    ),
+  },
 
-  //licensefee
-  { field: 'licenseFeeNumber', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'Số QĐ', minWidth: 150, },
-  { field: 'totalMoney', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'Tổng tiền(đồng)', minWidth: 150, },
+     //licenseFee
+     {
+      field: 'licenseFees.licenseFeeNumber',
+      headerClassName: 'tableHead',
+      headerAlign: 'center',
+      headerName: 'Số QĐ',
+      minWidth: 150,
+      renderCell: (params) => (
+        <div style={{ width: '100%' }}>
+          {params.row.licenses.licenseFees?.map((e: any) => (
+            <div key={e.id}>
+              <Typography>
+                <ShowFilePDF name={e.licenseFeeNumber} src={`/pdf/Licenses`} />
+              </Typography>
+            </div>
+          ))}
+        </div>
+      ),
+    },
+    {
+      field: 'licenseFees.TotalMoney', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'Tổng tiền cấp quyền (VNĐ)', minWidth: 150, type: 'number', valueGetter: (params) => {
+        const licenseFees = params.row.licenseFees || [];
+        let totalMoney = 0;
+
+        licenseFees.forEach((e: any) => {
+          totalMoney += parseFloat(e.totalMoney) || 0;
+        });
+
+        return totalMoney;
+      },
+    },
 
   //Action
   {
@@ -172,20 +251,22 @@ const GroundConstruction = () => {
     headerClassName: 'tableHead',
     headerAlign: 'center',
     children: [
-      { field: 'licenseNumber' },
-      { field: 'signDate' },
-      { field: 'issueDate' },
-    ]
+      { field: 'license.LicenseNumber' },
+      { field: 'license.SignDate' },
+      { field: 'license.IssueDate' },
+     ]
   },
+
   {
     groupId: 'Tiền cấp quyền',
     headerClassName: 'tableHead',
     headerAlign: 'center',
     children: [
-      { field: 'licenseFeeNumber' },
-      { field: 'totalMoney' },
+      { field: 'licenseFees.licenseFeeNumber' },
+      { field: 'licenseFees.TotalMoney' }
     ]
   },
+
   {
     groupId: ' ',
     headerClassName: 'tableHead',
