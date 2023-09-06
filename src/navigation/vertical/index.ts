@@ -202,12 +202,12 @@ const navigation = (): VerticalNavItemsType => {
         {
           title: 'Tiểu vùng quy hoạch',
           icon: CircleOutline,
-          path: '#'
+          path: '/tieu-vung-quy-hoach'
         },
         {
           title: 'Tầng chứa nước',
           icon: CircleOutline,
-          path: '#'
+          path: '/tang-chua-nuoc'
         },
         {
           title: 'File hướng dẫn sử dụng',

@@ -11,10 +11,10 @@ import { GridColDef } from '@mui/x-data-grid';
 import DataGridComponent from 'src/@core/components/data-grid';
 import { Delete } from '@mui/icons-material';
 import fetchData from 'src/api/fetch';
-import FormBasins from './form';
+import FormAquifers from './form';
 import post from 'src/api/post';
 
-const Basin = () => {
+const Aquifer = () => {
     const [resData, setResData] = useState([]);
     const [postSuccess, setPostSuccess] = useState(false);
     const [loading, setLoading] = useState(false);
@@ -26,20 +26,20 @@ const Basin = () => {
     //Init columnTable
     const columnsTable: GridColDef[] = [
         { field: 'id', flex: 1, headerClassName: 'tableHead', headerAlign: 'center', headerName: 'ID', minWidth: 90 },
-        { field: 'name', flex: 1, headerClassName: 'tableHead', headerAlign: 'center', headerName: 'Tên lưu vực', minWidth: 150 },
-        { field: 'description', flex: 1, headerClassName: 'tableHead', headerAlign: 'center', headerName: 'Ghi chú', minWidth: 150 },
+        { field: 'name', flex: 1, headerClassName: 'tableHead', headerAlign: 'center', headerName: 'Tên tầng chứa nước', minWidth: 150 },
+        { field: 'aquiferSymbol', flex: 1, headerClassName: 'tableHead', headerAlign: 'center', headerName: 'Ký hiệu', minWidth: 150 },
 
         //Action
         {
             field: 'actions', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'Thao tác', minWidth: 120, sortable: false,
             renderCell: (data) => (
                 <Box>
-                    <Tooltip title="Chỉnh sửa lưu vực">
+                    <Tooltip title="Chỉnh sửa tầng chứa nước">
                         <IconButton>
-                            <FormBasins isEdit={true} data={data.row} setPostSuccess={handlePostSuccess} />
+                            <FormAquifers isEdit={true} data={data.row} setPostSuccess={handlePostSuccess} />
                         </IconButton>
                     </Tooltip>
-                    <Tooltip title="Xóa lưu vực">
+                    <Tooltip title="Xóa tầng chứa nước">
                         <IconButton onClick={() => DeleteRowData(data)}>
                             <Delete className='tableActionBtn deleteBtn' />
                         </IconButton>
@@ -53,7 +53,7 @@ const Basin = () => {
         const getData = async () => {
             try {
                 setLoading(true);
-                const data = await fetchData('Basin/list');
+                const data = await fetchData('Aquifer/list');
                 setResData(data);
             } catch (error) {
                 setResData([]);
@@ -72,7 +72,7 @@ const Basin = () => {
 
         try {
             setLoading(true);
-            const res = await post('Basin/delete', data.row);
+            const res = await post('Aquifer/delete', data.row);
             if (res) {
                 setResData(prevData => prevData.filter((item: any) => item.id !== data.row.id));
             }
@@ -90,11 +90,11 @@ const Basin = () => {
                 columns={columnsTable}
                 loading={loading}
                 actions={
-                    <FormBasins isEdit={false} setPostSuccess={handlePostSuccess} />
+                    <FormAquifers isEdit={false} setPostSuccess={handlePostSuccess} />
                 }
             />
         </Paper>
     );
 };
 
-export default Basin;
+export default Aquifer;

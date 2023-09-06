@@ -4,7 +4,7 @@ import { Button, CircularProgress, DialogActions, Grid } from '@mui/material';
 
 import DialogsControl from 'src/@core/components/dialog-control';
 import post from 'src/api/post';
-import BasinFieldset from './basin-fieldset';
+import AquiferFieldset from './aquifer-fieldset';
 
 interface FormProps {
     data: any;
@@ -14,12 +14,12 @@ interface FormProps {
 
 const Form: React.FC<FormProps> = ({ data, closeDialogs, setPostSuccess }) => {
 
-    //Basin
-    const [BasinData, setBasinData] = useState<any>(data);
+    //Aquifer
+    const [AquiferData, setAquiferData] = useState<any>(data);
     const [saving, setSaving] = useState(false);
 
-    const handleBasinChange = (data: any) => {
-        setBasinData(data);
+    const handleAquiferChange = (data: any) => {
+        setAquiferData(data);
     };
     const handleSubmit = (event: React.FormEvent) => {
         event.preventDefault();
@@ -27,10 +27,10 @@ const Form: React.FC<FormProps> = ({ data, closeDialogs, setPostSuccess }) => {
         const handleApiCall = async () => {
             try {
                 setSaving(true)
-                const res = await post('Basin/save', BasinData);
+                const res = await post('Aquifer/save', AquiferData);
                 if (res) {
                     // Reset form fields
-                    setBasinData({});
+                    setAquiferData({});
                     typeof (setPostSuccess) === 'function' ? setPostSuccess(true) : '';
                 }
             } catch (error) {
@@ -52,7 +52,7 @@ const Form: React.FC<FormProps> = ({ data, closeDialogs, setPostSuccess }) => {
         <form>
             <Grid container gap={3}>
                 <Grid item xs={12}>
-                    <BasinFieldset data={data} onChange={handleBasinChange} />
+                    <AquiferFieldset data={data} onChange={handleAquiferChange} />
                 </Grid>
             </Grid>
 
@@ -64,14 +64,14 @@ const Form: React.FC<FormProps> = ({ data, closeDialogs, setPostSuccess }) => {
     );
 };
 
-interface FormBasinProps {
+interface FormAquiferProps {
     isEdit: boolean;
     data?: any;
     setPostSuccess?: (value: boolean) => void;
 }
 
-const FormBasin: React.FC<FormBasinProps> = ({ isEdit, data, setPostSuccess }) => {
-    const formTitle = isEdit ? 'Sửa thông tin lưu vực' : 'Thêm mới thông tin lưu vực';
+const FormAquifer: React.FC<FormAquiferProps> = ({ isEdit, data, setPostSuccess }) => {
+    const formTitle = isEdit ? 'Sửa thông tin tầng chứa nước' : 'Thêm mới thông tin tầng chứa nước';
 
     return (
         <DialogsControl>
@@ -101,4 +101,4 @@ const FormBasin: React.FC<FormBasinProps> = ({ isEdit, data, setPostSuccess }) =
     );
 };
 
-export default FormBasin;
+export default FormAquifer;
