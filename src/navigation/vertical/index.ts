@@ -197,7 +197,7 @@ const navigation = (): VerticalNavItemsType => {
         {
           title: 'Lưu vực',
           icon: CircleOutline,
-          path: '#'
+          path: '/luu-vuc'
         },
         {
           title: 'Tiểu vùng quy hoạch',
