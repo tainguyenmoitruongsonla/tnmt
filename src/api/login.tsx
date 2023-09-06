@@ -25,13 +25,11 @@ const loginApi = async (username: string, password: string) => {
 
             const decodedToken = jwt_decode(token) as DecodedToken;
 
-            const permit = decodedToken['Permission'].map((e: any) => {
-                return JSON.parse(e);
-            })
+            // const permit = decodedToken['Permission'].map((e: any) => {
+            //     return JSON.parse(e);
+            // })
 
-            console.log(permit)
-
-            localStorage.setItem('permit', JSON.stringify(permit));
+            // localStorage.setItem('permit', JSON.stringify(permit));
 
             const userInfo = {
                 fullName: decodedToken['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier'],

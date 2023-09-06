@@ -18,10 +18,11 @@ const Home = () => {
 
 
   useEffect(() => {
-    const getData = async () => {
-      setLoading(true)
-      try {
+    let isMounted = true; // A flag to check if the component is mounted
 
+    const getData = async () => {
+      setLoading(true);
+      try {
         //license fee
         const BTNMT = await fetchData('LicenseFee/list/minister');
         const UBND = await fetchData('LicenseFee/list/province');
@@ -33,16 +34,33 @@ const Home = () => {
         const licBTNMT = lic.filter((item: { [key: string]: any }) => item['licensingAuthorities'] === 'BTNMT');
         const licUBND = lic.filter((item: { [key: string]: any }) => item['licensingAuthorities'] === 'UBNDT');
 
-        setLic({ total: lic.length, btnmt: licBTNMT.length, ubnd: licUBND.length });
+        if (isMounted) {
+          // Only update the state if the component is still mounted
+          setLicFee({ btnmt: BTNMT, ubnd: UBND });
+          setLic({ total: lic.length, btnmt: licBTNMT.length, ubnd: licUBND.length });
+        }
       } catch (error) {
         console.error('Error fetching data:', error);
-        setLicFee({ btnmt: [], ubnd: [] });
+        if (isMounted) {
+          // Only update the state if the component is still mounted
+          setLicFee({ btnmt: [], ubnd: [] });
+        }
       } finally {
-        setLoading(false)
+        if (isMounted) {
+          // Only update the state if the component is still mounted
+          setLoading(false);
+        }
       }
     };
+
     getData();
-  }, []); // Empty dependency array means this effect runs once after initial render
+
+    // Cleanup function to cancel any asynchronous tasks when the component is unmounted
+    return () => {
+      isMounted = false;
+    };
+  }, []);
+
 
   return (
     <Grid container spacing={3}>

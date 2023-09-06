@@ -68,6 +68,20 @@ const App = (props: ExtendedAppProps) => {
       if (!loggedIn && router.pathname !== '/pages/login') {
         router.push('/pages/login')
       }
+
+      //  else {
+      //   // Đăng ký một hàm xử lý cho sự kiện beforeunload hoặc unload
+      //   const handleBeforeUnload = () => {
+      //     // Xóa dữ liệu từ localStorage
+      //     localStorage.removeItem('authToken');
+      //   };
+      //   window.addEventListener('unload', handleBeforeUnload);
+
+      //   // Hủy đăng ký hàm xử lý khi component bị unmount
+      //   return () => {
+      //     window.removeEventListener('unload', handleBeforeUnload);
+      //   };
+      // }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [router.pathname]);
