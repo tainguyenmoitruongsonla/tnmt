@@ -1,29 +1,16 @@
 import { FC, useEffect, useState } from 'react';
-import { styled } from '@mui/material/styles';
 import { Alert, Box, Button, ButtonGroup, IconButton, Paper, Popover, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography } from "@mui/material"
 import dayjs from 'dayjs';
 import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { CloudUpload, Delete } from '@mui/icons-material';
 import { LicenseFeeState } from './license-fee-interface';
+import { VisuallyHiddenInput } from 'src/@core/theme/VisuallyHiddenInput';
 
 interface LicenseFeeFieldsetProps {
     data?: LicenseFeeState[];
     onChange: (data: LicenseFeeState[], dataDeleted: LicenseFeeState[]) => void;
 }
-
-const VisuallyHiddenInput = styled('input')`
-  clip: rect(0 0 0 0);
-  clip-path: inset(50%);
-  height: 1px;
-  overflow: hidden;
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  white-space: nowrap;
-  width: 1px;
-  color: #fff;
-`;
 
 const LicenseFeeFeild: FC<LicenseFeeFieldsetProps> = ({ data, onChange }) => {
 
@@ -103,6 +90,11 @@ const LicenseFeeFeild: FC<LicenseFeeFieldsetProps> = ({ data, onChange }) => {
         onChange(newLicenseFees, itemDelete);
     };
 
+    const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const file = event.target.files?.[0] || null;
+        console.log(file)
+    };
+
     useEffect(() => {
         onChange(licenseFees, itemDelete);
         // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -166,25 +158,11 @@ const LicenseFeeFeild: FC<LicenseFeeFieldsetProps> = ({ data, onChange }) => {
                                         component="label"
                                         variant="contained"
                                         startIcon={<CloudUpload />}
-                                        href="#file-upload"
+                                        href={`#file-upload${index}`}
                                     >
-                                        Upload a file
-                                        <VisuallyHiddenInput type="file" />
+                                        Upload file
+                                        <VisuallyHiddenInput type="file" onChange={handleFileChange} accept='.pdf' />
                                     </Button>
-
-
-                                    {/* <FormControl>
-                                        <TextField
-                                            id="file-input"
-                                            type="file"
-                                            size='small'
-                                            fullWidth
-                                            onChange={(event) => handleChange(index, 'filePdf')(event.target.value)}
-                                            inputProps={{
-                                                accept: '.pdf', // Specify the accepted file types
-                                            }}
-                                        />
-                                    </FormControl> */}
                                 </TableCell>
                                 <TableCell size='small' align='center'>
                                     <>

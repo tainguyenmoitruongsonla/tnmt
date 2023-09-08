@@ -1,6 +1,6 @@
 import DialogsControl from 'src/@core/components/dialog-control';
-import { Add, EditNote, Save } from "@mui/icons-material";
-import { Grid, Button, DialogActions, FormControl, TextField, FormControlLabel, Checkbox, Autocomplete, CircularProgress } from "@mui/material";
+import { Add, CloudUpload, EditNote, Save } from "@mui/icons-material";
+import { Grid, Button, DialogActions, TextField, FormControlLabel, Checkbox, Autocomplete, CircularProgress } from "@mui/material";
 import { ChangeEvent, useEffect, useState } from 'react';
 
 import postData from 'src/api/post';
@@ -11,6 +11,7 @@ import { useRouter } from 'next/router';
 import fetchData from 'src/api/fetch';
 import upload from 'src/api/upload-file';
 import { LicenseFeeState, emptyLicenseFeeData } from './license-fee-interface';
+import { VisuallyHiddenInput } from 'src/@core/theme/VisuallyHiddenInput';
 
 
 
@@ -87,9 +88,10 @@ const Form = ({ data, setPostSuccess, closeDialogs }: any) => {
 
             const newFile = {
                 filePath: `${router.pathname.split('/')[1]}/${router.pathname.split('/')[2]}/${newVal.signDate?.getFullYear()}`,
-                fileName: `${newVal.licenseFeeNumber?.toLowerCase()}.pdf`,
+                fileName: newVal.licenseFeeNumber,
                 file: fileUpload
             }
+            console.log(newFile)
 
             setSaving(true)
             try {
@@ -169,18 +171,16 @@ const Form = ({ data, setPostSuccess, closeDialogs }: any) => {
                     <TextField size='small' type='text' fullWidth label='Tổng tiền' placeholder='' value={values?.totalMoney} onChange={handleChange('totalMoney')} />
                 </Grid>
                 <Grid item xs={12} md={12} sx={{ my: 2 }}>
-                    <FormControl fullWidth>
-                        <TextField
-                            id="file-input"
-                            type="file"
-                            size='small'
-                            fullWidth
-                            onChange={handleFileChange}
-                            inputProps={{
-                                accept: '.pdf', // Specify the accepted file types
-                            }}
-                        />
-                    </FormControl>
+                    <Button
+                        className="uploadBtn"
+                        component="label"
+                        variant="contained"
+                        startIcon={<CloudUpload />}
+                        href={`#file-upload`}
+                    >
+                        Upload file
+                        <VisuallyHiddenInput type="file" onChange={handleFileChange} accept='.pdf' />
+                    </Button>
                 </Grid>
                 <Grid item xs={12} md={12} sx={{ my: 2 }}>
                     <TextField size='small' type='text' fullWidth label='Ghi chú' placeholder='' value={values?.description} onChange={handleChange('description')} />

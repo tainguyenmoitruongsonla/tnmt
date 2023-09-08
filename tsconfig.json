@@ -21,12 +21,7 @@
     "jsx": "preserve",
     "incremental": true,
     "paths": {
-      "apexcharts": [
-        "./node_modules"
-      ],
-      "apexcharts/*": [
-        "./node_modules/*"
-      ],
+      
     }
   },
   "include": [
