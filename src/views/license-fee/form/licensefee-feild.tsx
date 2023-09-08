@@ -1,15 +1,29 @@
 import { FC, useEffect, useState } from 'react';
-import { Alert, Box, Button, ButtonGroup, FormControl, IconButton, Paper, Popover, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography } from "@mui/material"
+import { styled } from '@mui/material/styles';
+import { Alert, Box, Button, ButtonGroup, IconButton, Paper, Popover, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography } from "@mui/material"
 import dayjs from 'dayjs';
 import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { Delete } from '@mui/icons-material';
+import { CloudUpload, Delete } from '@mui/icons-material';
 import { LicenseFeeState } from './license-fee-interface';
 
 interface LicenseFeeFieldsetProps {
     data?: LicenseFeeState[];
     onChange: (data: LicenseFeeState[], dataDeleted: LicenseFeeState[]) => void;
 }
+
+const VisuallyHiddenInput = styled('input')`
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  height: 1px;
+  overflow: hidden;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  white-space: nowrap;
+  width: 1px;
+  color: #fff;
+`;
 
 const LicenseFeeFeild: FC<LicenseFeeFieldsetProps> = ({ data, onChange }) => {
 
@@ -147,7 +161,19 @@ const LicenseFeeFeild: FC<LicenseFeeFieldsetProps> = ({ data, onChange }) => {
                                     />
                                 </TableCell>
                                 <TableCell>
-                                    <FormControl>
+                                    <Button
+                                        className="uploadBtn"
+                                        component="label"
+                                        variant="contained"
+                                        startIcon={<CloudUpload />}
+                                        href="#file-upload"
+                                    >
+                                        Upload a file
+                                        <VisuallyHiddenInput type="file" />
+                                    </Button>
+
+
+                                    {/* <FormControl>
                                         <TextField
                                             id="file-input"
                                             type="file"
@@ -158,7 +184,7 @@ const LicenseFeeFeild: FC<LicenseFeeFieldsetProps> = ({ data, onChange }) => {
                                                 accept: '.pdf', // Specify the accepted file types
                                             }}
                                         />
-                                    </FormControl>
+                                    </FormControl> */}
                                 </TableCell>
                                 <TableCell size='small' align='center'>
                                     <>
