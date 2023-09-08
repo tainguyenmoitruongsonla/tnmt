@@ -267,11 +267,14 @@ const SurfaceWaterLicense = () => {
   ];
 
   useEffect(() => {
+    // Create a variable to store a flag indicating if the component is unmounted
+    let isMounted = true;
+
     const getData = async () => {
-      setLoading(true)
+      setLoading(true);
       try {
         const data = await fetchData('License/list');
-        const filteredData = data.filter((item: { [key: string]: any }) =>
+        const filteredData = data.filter((item: any) =>
           [
             'thuydien',
             'hochua',
@@ -281,16 +284,31 @@ const SurfaceWaterLicense = () => {
             'cong',
             'nhamaynuoc',
             'congtrinhkhac_nm'
-          ].some(keyword => item['constructionTypeSlug']?.toString().toLowerCase().includes(keyword.toLowerCase()))
-        )
-        setResData(filteredData)
+          ].some((keyword) =>
+            item['constructionTypeSlug']?.toString().toLowerCase().includes(keyword.toLowerCase())
+          )
+        );
+
+        // Check if the component is still mounted before updating the state
+        if (isMounted) {
+          setResData(filteredData);
+        }
       } catch (error) {
         setResData([]);
       } finally {
-        setLoading(false)
+        // Check if the component is still mounted before updating the state
+        if (isMounted) {
+          setLoading(false);
+        }
       }
     };
+
     getData();
+
+    // Cleanup function to set isMounted to false when the component unmounts
+    return () => {
+      isMounted = false;
+    };
   }, [postSuccess]);
 
   return (

@@ -773,25 +773,6 @@ const SurfaceConstruction = () => {
   const [resData, setResData] = useState([])
   const [loading, setLoading] = useState(false)
 
-  const getData = async () => {
-    try {
-      setLoading(true)
-      const data = await fetchData('Construction/list')
-      console.log(data)
-
-      const filteredData = data.filter((item: { [key: string]: any }) =>
-        ['thuydien', 'hochua', 'trambom', 'tramcapnuoc', 'dapthuyloi', 'cong', 'nhamaynuoc', 'congtrinhkhac_nm'].some(
-          keyword => item['constructionTypeSlug']?.toString().toLowerCase().includes(keyword.toLowerCase())
-        )
-      )
-      setResData(filteredData)
-    } catch (error) {
-      setResData([])
-    } finally {
-      setLoading(false)
-    }
-  }
-
   //delete
   const [deleteConfirmAnchorEl, setDeleteConfirmAnchorEl] = useState<HTMLButtonElement | null>(null)
   const deleteConfirmOpen = Boolean(deleteConfirmAnchorEl)
@@ -831,6 +812,22 @@ const SurfaceConstruction = () => {
   }
 
   useEffect(() => {
+    const getData = async () => {
+      try {
+        setLoading(true)
+        const data = await fetchData('Construction/list')
+        const filteredData = data.filter((item: { [key: string]: any }) =>
+          ['thuydien', 'hochua', 'trambom', 'tramcapnuoc', 'dapthuyloi', 'cong', 'nhamaynuoc', 'congtrinhkhac_nm'].some(
+            keyword => item['constructionTypeSlug']?.toString().toLowerCase().includes(keyword.toLowerCase())
+          )
+        )
+        setResData(filteredData)
+      } catch (error) {
+        setResData([])
+      } finally {
+        setLoading(false)
+      }
+    }
     getData()
   }, [postSuccess])
 
