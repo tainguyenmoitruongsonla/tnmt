@@ -1,5 +1,5 @@
 import { useRouter } from 'next/router';
-import { shouldShow } from 'src/@core/layouts/components/shouldShow';
+import { checkAccessPermission } from 'src/@core/layouts/components/checkAccessPermission';
 import Error401 from "src/pages/401";
 import DrillingPracticeGroundWaterLicense from 'src/views/license/drillingpracticeground-water';
 
@@ -11,7 +11,7 @@ const DrillingPracticeGroundWater = () => {
     const routeSegment = routePath.split('/')[1];
 
     // Use routeSegment in your conditional rendering
-    return shouldShow(routeSegment) ? <DrillingPracticeGroundWaterLicense /> : <Error401 />;
+    return checkAccessPermission(routeSegment, 'view') ? <DrillingPracticeGroundWaterLicense /> : <Error401 />;
 }
 
 export default DrillingPracticeGroundWater;

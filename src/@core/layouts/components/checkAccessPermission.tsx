@@ -5,7 +5,7 @@ interface DecodedToken {
 }
 
 
-export const shouldShow = (itemPath: string | undefined) => {
+export const checkAccessPermission = (linkControl: string | undefined, action: string | undefined) => {
 
     if (typeof localStorage !== 'undefined') {
 
@@ -25,7 +25,7 @@ export const shouldShow = (itemPath: string | undefined) => {
             } else {
                 // Use Array.prototype.some to check if any permit matches the condition
                 return permits.some((permit: any) => {
-                    return itemPath === undefined || (itemPath === permit.dashSrc && permit.funcCode === "View");
+                    return linkControl === undefined || (linkControl === permit.dashSrc && permit.funcCode.toLowerCase() === action?.toLocaleLowerCase());
                 });
             }
         }

@@ -80,13 +80,13 @@ const Form = ({ data }: any) => {
       elm: (row: any) => {
         const isSwitchLoading = switchLoadingMap[row.id];
         const isCheckboxChecked = !!row?.permitAccess;
-        const shouldShowLoading = isSwitchLoading && isCheckboxChecked;
+        const checkAccessPermissionLoading = isSwitchLoading && isCheckboxChecked;
 
         return (
           <FormControlLabel
             key={row.id}
             control={
-              shouldShowLoading ? (
+              checkAccessPermissionLoading ? (
                 <Box padding={'9px'}>
                   <CircularProgress size={20} />
                 </Box>

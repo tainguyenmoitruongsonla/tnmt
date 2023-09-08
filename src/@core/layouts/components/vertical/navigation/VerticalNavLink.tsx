@@ -29,7 +29,7 @@ import UserIcon from 'src/layouts/components/UserIcon'
 
 // ** Utils
 import { handleURLQueries } from 'src/@core/layouts/utils'
-import { shouldShow } from '../../shouldShow'
+import { checkAccessPermission } from '../../checkAccessPermission'
 
 interface Props {
   item: NavLink
@@ -91,7 +91,7 @@ const VerticalNavLink = ({ item, settings, navVisible, toggleNavVisibility }: Pr
   }
 
   useEffect(() => {
-    setHavePermit(shouldShow(item.primaryPath));
+    setHavePermit(checkAccessPermission(item.primaryPath, 'view'));
   }, [item.primaryPath])
 
   if (item.children && item.children.length > 0) {
