@@ -17,6 +17,12 @@ import Typography from '@mui/material/Typography'
 import LogoutVariant from 'mdi-material-ui/LogoutVariant'
 import AccountOutline from 'mdi-material-ui/AccountOutline'
 
+import jwt_decode from 'jwt-decode';
+
+interface DecodedToken {
+  [key: string]: any;
+}
+
 // ** Styled Components
 const BadgeContentSpan = styled('span')(({ theme }) => ({
   width: 8,
@@ -53,12 +59,14 @@ const UserDropdown = () => {
   }
 
   useEffect(() => {
-    if (typeof window !== 'undefined') {
-      const storedUserInfor = localStorage.getItem('userInfo');
-      if (storedUserInfor) {
-        const userObject = JSON.parse(storedUserInfor);
-        setUserName(userObject.fullName);
-        setRole(userObject.userRole);
+    if (typeof localStorage !== 'undefined') {
+
+      const token = localStorage.getItem('authToken') || '';
+
+      if (token) {
+        const decodedToken = jwt_decode(token) as DecodedToken;
+        setUserName(decodedToken['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier'])
+        setRole(decodedToken['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'].toUpperCase())
       }
     }
   }, [])

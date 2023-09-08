@@ -4,7 +4,6 @@ interface DecodedToken {
     [key: string]: any;
 }
 
-
 export const checkAccessPermission = (linkControl: string | undefined, action: string | undefined) => {
 
     if (typeof localStorage !== 'undefined') {

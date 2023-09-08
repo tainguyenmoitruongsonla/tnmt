@@ -29,7 +29,7 @@ import UserIcon from 'src/layouts/components/UserIcon'
 
 // ** Utils
 import { handleURLQueries } from 'src/@core/layouts/utils'
-import { checkAccessPermission } from '../../checkAccessPermission'
+import { checkAccessPermission } from '../../../checkAccessPermission'
 
 interface Props {
   item: NavLink
