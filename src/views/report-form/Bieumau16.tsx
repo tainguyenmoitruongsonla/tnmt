@@ -17,12 +17,13 @@ import DownloadIcon from '@mui/icons-material/Download'
 import DialogControlFullScreen from 'src/@core/components/dialog-control-full-screen'
 import { useState, useEffect } from 'react'
 import fetchData from 'src/api/fetch'
+import React from 'react'
 
 interface LicenseData {
   [key: string]: {
-    thisPeriod: any; // Thay any bằng kiểu dữ liệu phù hợp
-    previousPeriod: any; // Thay any bằng kiểu dữ liệu phù hợp
-  };
+    thisPeriod: any // Thay any bằng kiểu dữ liệu phù hợp
+    previousPeriod: any // Thay any bằng kiểu dữ liệu phù hợp
+  }
 }
 
 const FormContruction = () => {
@@ -126,6 +127,7 @@ const FormContruction = () => {
   return (
     <Paper sx={{ p: 8 }}>
       {/* dautrang */}
+
       <Grid container>
         <Grid md={11}>
           <Typography variant='h5'>Biểu mẫu số 4. Tổng lượng nước mặt trên các lưu vực sông</Typography>
@@ -264,20 +266,41 @@ const FormContruction = () => {
             </TableHead>
 
             <TableBody className='tableBody'>
-              {Object.entries(dataCountered).map(([index, value]: [string, any] , rowIndex: number) => (
-              <TableRow key={index}>
-                <TableCell className="text-center  size='small' align-middle font-13">{rowIndex + 1}</TableCell>
-                <TableCell className="text-center  size='small' align-middle font-13">{index}</TableCell>
-                <TableCell className="text-center  size='small' align-middle font-13">{value.previousPeriod.total}</TableCell>
-                <TableCell className="text-center  size='small' align-middle font-13">{value.thisPeriod.total}</TableCell>
-                <TableCell className="text-center  size='small' align-middle font-13"> {`${value.thisPeriod.total - value.previousPeriod.total}`}</TableCell>
-                <TableCell className="text-center  size='small' align-middle font-13">{value.previousPeriod.minister}</TableCell>
-                <TableCell className="text-center  size='small' align-middle font-13">{value.thisPeriod.minister}</TableCell>
-                <TableCell className="text-center  size='small' align-middle font-13"> {`${value.thisPeriod.minister - value.previousPeriod.minister}`}</TableCell>
-                <TableCell className="text-center  size='small' align-middle font-13">{value.previousPeriod.province}</TableCell>
-                <TableCell className="text-center  size='small' align-middle font-13">{value.thisPeriod.province}</TableCell>
-                <TableCell className="text-center  size='small' align-middle font-13"> {`${value.thisPeriod.province - value.previousPeriod.province}`}</TableCell>
-              </TableRow>
+              {Object.entries(dataCountered).map(([index, value]: [string, any], rowIndex: number) => (
+                <TableRow key={index}>
+                  <TableCell className="text-center  size='small' align-middle font-13">{rowIndex + 1}</TableCell>
+                  <TableCell className="text-center  size='small' align-middle font-13">{index}</TableCell>
+                  <TableCell className="text-center  size='small' align-middle font-13">
+                    {value.previousPeriod.total}
+                  </TableCell>
+                  <TableCell className="text-center  size='small' align-middle font-13">
+                    {value.thisPeriod.total}
+                  </TableCell>
+                  <TableCell className="text-center  size='small' align-middle font-13">
+                    {' '}
+                    {`${value.thisPeriod.total - value.previousPeriod.total}`}
+                  </TableCell>
+                  <TableCell className="text-center  size='small' align-middle font-13">
+                    {value.previousPeriod.minister}
+                  </TableCell>
+                  <TableCell className="text-center  size='small' align-middle font-13">
+                    {value.thisPeriod.minister}
+                  </TableCell>
+                  <TableCell className="text-center  size='small' align-middle font-13">
+                    {' '}
+                    {`${value.thisPeriod.minister - value.previousPeriod.minister}`}
+                  </TableCell>
+                  <TableCell className="text-center  size='small' align-middle font-13">
+                    {value.previousPeriod.province}
+                  </TableCell>
+                  <TableCell className="text-center  size='small' align-middle font-13">
+                    {value.thisPeriod.province}
+                  </TableCell>
+                  <TableCell className="text-center  size='small' align-middle font-13">
+                    {' '}
+                    {`${value.thisPeriod.province - value.previousPeriod.province}`}
+                  </TableCell>
+                </TableRow>
               ))}
             </TableBody>
           </Table>
