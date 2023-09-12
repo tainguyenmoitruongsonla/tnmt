@@ -2,9 +2,7 @@ import { Box, Typography, Paper, Divider } from '@mui/material';
 import { useEffect, useState } from 'react'
 
 const CountLicense = (props: any) => {
-
     const { data } = props;
-
     const totalLic = data?.length;
     const [licIsRevoked, setLicIsRevoked] = useState(0);
     const [licExpire, setLicExpire] = useState(0);

@@ -6,51 +6,18 @@ import {
   Link,
   Box,
   IconButton,
+  TableContainer,
+  Table,
+  TableHead,
+  TableRow,
+  TableCell,
+  TableBody
 } from '@mui/material'
-import DeleteIcon from '@mui/icons-material/Delete';
+import DownloadIcon from '@mui/icons-material/Download';
 import DialogControlFullScreen from 'src/@core/components/dialog-control-full-screen'
-import { useState, useEffect  } from 'react';
-import bieumau1 from 'src/api/report/bieumau1';
-import TableComponent from 'src/@core/components/table';
 
-const columnsTable = [
-  { id: 'stt', label: 'STT', rowspan: 2, },
-  { id: 'LuuVucSong', label: 'Tên trạm', rowspan: 2, },
-  { id: '#', label: 'Thời kỳ quan trắc', rowspan: 2, },
-  {
-    id: '#', label: 'Tổng lượng mưa theo năm(mm)',  children: [
-      { id: 'TongTramKyTruoc', label: 'Kỳ trước', },
-      { id: 'TongTramBaoCao', label: 'Kỳ báo cáo', },
-      { id: 'TongTramThayDoi', label: 'Kỳ thay đổi', },
-    ]
-  },
-  {
-    id: '#', label: 'Tổng lượng mưa theo mùa mưa(mm)',  children: [
-      { id: 'TramKTKyTruoc', label: 'Kỳ trước', },
-      { id: 'TramKTBaoCao', label: 'Kỳ báo cáo', },
-      { id: 'TramKTThayDoi', label: 'Kỳ thay đổi', },
-    ]
-  },
- 
-  {
-    id: '#', label: 'Tổng lượng mưa theo mùa khô(mm)',  children: [
-      { id: 'TramTVKyTruoc', label: 'Kỳ trước', },
-      { id: 'TramTVBaoCao', label: 'Kỳ báo cáo', },
-      { id: 'TramTVThayDoi', label: 'Kỳ thay đổi', },
-    ]
-  },
-  
-];
 
 const FormContruction = () => {
-  const [data, setData] = useState<any[]>([]);
-  const [columns, setColumns] = useState<any[]>([]);
-  useEffect(() => {
-    setData(bieumau1);
-    setColumns(columnsTable);
-
-    // fetchData();
-  }, []);
 
   return (
     <Paper sx={{ p: 8 }}>
@@ -63,7 +30,7 @@ const FormContruction = () => {
         </Grid>
         <Grid md={1}>
           <IconButton>
-            <DeleteIcon />
+            <DownloadIcon />
           </IconButton>
         </Grid>
       </Grid>
@@ -108,9 +75,126 @@ const FormContruction = () => {
       </Grid>
 
       <Grid className='_text_center' sx={{mt:3}} >
-      <TableComponent
-            columns={columns}
-            data={data}/>
+      <TableContainer component={Paper}>
+          <Table sx={{ minWidth: 650 }} aria-label='simple table'>
+            <TableHead className='tableHead'>
+              <TableRow>
+                <TableCell size='small' align='center' rowSpan={4}>
+                  STT
+                </TableCell>
+                <TableCell size='small' align='center' rowSpan={3}>
+                  Tên trạm
+                </TableCell>
+                <TableCell size='small' align='center' rowSpan={3}>
+                 Thời kỳ quan trắc
+                </TableCell>
+                <TableCell size='small' align='center' colSpan={12}>
+                 Tổng lượng mưa(mm)
+                </TableCell>
+              </TableRow>
+
+              <TableRow>
+                <TableCell size='small' align='center' colSpan={3}>
+                  Năm
+                </TableCell>
+                <TableCell size='small' align='center' colSpan={3}>
+                 Mùa mưa
+                </TableCell>
+                <TableCell size='small' align='center' colSpan={3}>
+                  Mùa khô
+                </TableCell>
+              </TableRow>
+
+              <TableRow>
+                <TableCell size='small' align='center'>
+                  Kỳ trước
+                </TableCell>
+                <TableCell size='small' align='center'>
+                  Kỳ báo cáo
+                </TableCell>
+                <TableCell size='small' align='center'>
+                  Thay đổi
+                </TableCell>
+
+                <TableCell size='small' align='center'>
+                  Kỳ trước
+                </TableCell>
+                <TableCell size='small' align='center'>
+                  Kỳ báo cáo
+                </TableCell>
+                <TableCell size='small' align='center'>
+                  Thay đổi
+                </TableCell>
+
+                <TableCell size='small' align='center'>
+                  Kỳ trước
+                </TableCell>
+                <TableCell size='small' align='center'>
+                  Kỳ báo cáo
+                </TableCell>
+                <TableCell size='small' align='center'>
+                  Thay đổi
+                </TableCell>
+              </TableRow>
+
+              <TableRow>
+                <TableCell size='small' align='center'>
+                  (1)&nbsp;
+                </TableCell>
+                <TableCell size='small' align='center'>
+                  (2)&nbsp;
+                </TableCell>
+                <TableCell size='small' align='center'>
+                  (3)&nbsp;
+                </TableCell>
+                <TableCell size='small' align='center'>
+                  (4)&nbsp;
+                </TableCell>
+
+                <TableCell size='small' align='center'>
+                  (5)=(4)-(3)
+                </TableCell>
+                <TableCell size='small' align='center'>
+                  (6)&nbsp;
+                </TableCell>
+                <TableCell size='small' align='center'>
+                  (7)&nbsp;
+                </TableCell>
+
+                <TableCell size='small' align='center'>
+                  (8)=(7)-(6)
+                </TableCell>
+                <TableCell size='small' align='center'>
+                  (9)&nbsp;
+                </TableCell>
+                <TableCell size='small' align='center'>
+                  (10)&nbsp;
+                </TableCell>
+
+                <TableCell size='small' align='center'>
+                  (11)=(10)-(9)
+                </TableCell>
+              </TableRow>
+            </TableHead>
+
+            <TableBody className='tableBody'>
+              <TableRow>
+                <TableCell className="text-center  size='small' align-middle font-13">1</TableCell>
+                <TableCell className="text-center  size='small' align-middle font-13">1</TableCell>
+                <TableCell className="text-center  size='small' align-middle font-13">1</TableCell>
+                <TableCell className="text-center  size='small' align-middle font-13">1</TableCell>
+                <TableCell className="text-center  size='small' align-middle font-13">1</TableCell>
+                <TableCell className="text-center  size='small' align-middle font-13">1</TableCell>
+                <TableCell className="text-center  size='small' align-middle font-13">1</TableCell>
+                <TableCell className="text-center  size='small' align-middle font-13">1</TableCell>
+                <TableCell className="text-center  size='small' align-middle font-13">1</TableCell>
+                <TableCell className="text-center  size='small' align-middle font-13">1</TableCell>
+                <TableCell className="text-center  size='small' align-middle font-13">1</TableCell>
+                <TableCell className="text-center  size='small' align-middle font-13">1</TableCell>               
+              </TableRow>
+            </TableBody>
+          </Table>
+        </TableContainer>
       </Grid>
       <Grid className='_space_between' sx={{mt:5}}>
         <Grid >
