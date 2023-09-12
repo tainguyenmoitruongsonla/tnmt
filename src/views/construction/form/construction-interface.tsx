@@ -73,7 +73,7 @@ export interface ConstructionState {
   volumeOfExplorationItems?: string | null
   waterExtractionFlowDesign?: number | null
   waterExtractionFlowReality?: number | null
-  constructionDetailLocation?: string | null
+  WasteDischargeLocation?: string | null
   realityWateringArea?: number | null
   wateringAreaDesigned?: number | null
   guaranteedFlow?: number | null
@@ -178,7 +178,7 @@ export const emptyConstructionData: ConstructionState = {
   volumeOfExplorationItems: null,
   waterExtractionFlowDesign: null,
   waterExtractionFlowReality: null,
-  constructionDetailLocation: null,
+  WasteDischargeLocation: null,
   realityWateringArea: null,
   wateringAreaDesigned: null,
   guaranteedFlow: null,

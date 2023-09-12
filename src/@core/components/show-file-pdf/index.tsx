@@ -1,58 +1,92 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import apiUrl from 'src/api/config';
+import { pdfjs, Document, Page } from 'react-pdf';
 import { Typography } from '@mui/material';
 import DialogControlShowPDF from '../dialog-control-show-pdf';
-import apiUrl from 'src/api/config';
 
-const PDFFile = ({ src }: { src: string }) => {
-  return (
-    <object style={{ width: '100%', height: '500px' }} type="application/pdf" data={src}></object>
-  );
-};
+interface ShowFilePDFProps {
+  src: string
+  name: string
+  fileName: string
+}
 
-const ShowFilePDF = ({ src, name }: { src: string, name: string }) => {
-  const openPdfDialog = async (openDialogs: any) => {
-    const pdfUrl = await fetchAndDisplayPDF(src, name);
+const ShowFilePDF = ({ src, name, fileName }: ShowFilePDFProps) => {
+  const [fileUrl, setFileUrl] = useState<any>(null);
+  const [numPages, setNumPages] = useState(0);
+  const [loading, setLoading] = useState(false)
 
-    if (pdfUrl) {
-      const pdfContent = <PDFFile src={pdfUrl} />;
-      openDialogs(pdfContent, name);
-    }
-  };
+  console.log(fileName, src)
 
-  const fetchAndDisplayPDF = async (filePath: string, fileName: string) => {
-    const url = `${apiUrl}/getfile?filePath=${filePath}&fileName=${fileName.toLowerCase()}.pdf`;
+  useEffect(() => {
+    // Set the worker source URL
+    pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.min.js`;
 
+    // Load the PDF file when the component mounts
+    handleReadFile();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const handleReadFile = async () => {
     try {
-      const response = await fetch(url);
-
-      console.log(await response.json())
+      setLoading(true)
+      const response = await fetch(`${apiUrl}/readfile?FilePath=${src}&FileName=${fileName}`);
 
       if (!response.ok) {
-        throw new Error('Network response was not ok');
+        throw new Error('File not found');
       }
 
       const blob = await response.blob();
-      const pdfUrl = URL.createObjectURL(blob);
+      const url = URL.createObjectURL(blob);
+      setFileUrl(url);
 
-      return pdfUrl;
-    } catch (error) {
-      console.error('Error fetching or displaying PDF:', error);
-
-      return null;
+      // Get the total number of pages
+      const pdf = await pdfjs.getDocument(url).promise;
+      setNumPages(pdf.numPages);
+    } catch (error: any) {
+      console.error(error.message);
+    } finally {
+      setLoading(false)
     }
   };
 
+  // Generate an array of <Page> components for all pages
+  const renderPages = () => {
+    const pages = [];
+    for (let pageNumber = 1; pageNumber <= numPages; pageNumber++) {
+      pages.push(
+        <Page
+          key={pageNumber}
+          pageNumber={pageNumber}
+          renderTextLayer={false}
+          renderAnnotationLayer={false}
+        />
+      );
+    }
+
+    return pages;
+  };
+
+  const openPdfDialog = async (openDialogs: any) => {
+    openDialogs(fileUrl && (
+      <Document file={fileUrl} loading={loading}>
+        {renderPages()}
+      </Document>
+    ), name);
+  };
+
   return (
-    <DialogControlShowPDF>
-      {(openDialogs: any) => (
-        <Typography
-          className='btnShowFilePdf'
-          onClick={() => openPdfDialog(openDialogs)}
-        >
-          {name}
-        </Typography>
-      )}
-    </DialogControlShowPDF>
+    <div>
+      <DialogControlShowPDF>
+        {(openDialogs: any) => (
+          <Typography
+            className='btnShowFilePdf'
+            onClick={() => openPdfDialog(openDialogs)}
+          >
+            {name}
+          </Typography>
+        )}
+      </DialogControlShowPDF>
+    </div>
   );
 };
 

@@ -156,11 +156,6 @@ const navigation = (): VerticalNavItemsType => {
       children: [
         {
           icon: CircleOutline,
-          title: 'Tổng quan',
-          path: '/tien-cap-quyen/tong-quan'
-        },
-        {
-          icon: CircleOutline,
           title: 'Giấy phép Bộ cấp',
           path: '/tien-cap-quyen/bo-cap'
         },

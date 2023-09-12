@@ -28,7 +28,7 @@ const DischargeWaterField: FC<ConsTypeFieldsetProps> = ({ data, onChange }) => {
     x: data?.x || null,
     y: data?.y || null,
     startDate: data?.startDate || null,
-    constructionDetailLocation: data?.constructionDetailLocation || null,
+    WasteDischargeLocation: data?.WasteDischargeLocation || null,
     dischargeWS :data?.dischargeWS || null,
     dischargeMethod:data?.dischargeMethod || null,
     dischargeMode:data?.dischargeMode || null,
@@ -208,8 +208,8 @@ const DischargeWaterField: FC<ConsTypeFieldsetProps> = ({ data, onChange }) => {
               type='text'
               fullWidth
               placeholder=''
-              defaultValue={consSFData.constructionDetailLocation}
-              onChange={event => handleChange('constructionDetailLocation')(event.target.value)}
+              defaultValue={consSFData.WasteDischargeLocation}
+              onChange={event => handleChange('WasteDischargeLocation')(event.target.value)}
               label='Vị trí xả thải'
             />
           </Grid>

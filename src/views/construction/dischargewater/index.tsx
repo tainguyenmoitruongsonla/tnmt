@@ -33,7 +33,7 @@ const DischargeConstruction = () => {
         className='btnShowFilePdf' onClick={() => zoomConstruction([data.row.lat, data.row.lng])}>{data.row.constructionName}</Typography>)
     },
     { field: 'constructionLocation', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'Vị trí công trình', minWidth: 150, },
-    { field: 'constructionDetailLocation', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'Ví trí xả thải', minWidth: 150, valueGetter: (data) => (`${data.row.x},${data.row.y}`) },
+    { field: 'WasteDischargeLocation', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'Ví trí xả thải', minWidth: 150, valueGetter: (data) => (`${data.row.x},${data.row.y}`) },
     { field: 'dischargeWS', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'Nguồn tiếp nhận nước thải', minWidth: 150, },
 
     //coordinates
@@ -192,7 +192,7 @@ const DischargeConstruction = () => {
       children: [
         { field: 'constructionName' },
         { field: 'constructionLocation' },
-        { field: 'constructionDetailLocation' },
+        { field: 'WasteDischargeLocation' },
         { field: 'dischargeWS' },
       ],
     },
@@ -208,7 +208,7 @@ const DischargeConstruction = () => {
     },
 
     {
-      groupId: 'Phương thức khai thác',
+      groupId: 'Phương thức xả thải',
       headerClassName: 'tableHead',
       headerAlign: 'center',
       children: [
