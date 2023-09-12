@@ -39,13 +39,22 @@ const LicenseFee = (props: LicenseFeeProps) => {
       field: 'licenseFeeNumber', headerClassName: 'tableHead', headerAlign: 'center', flex: 1, headerName: 'Quyết định cấp quyền',
       renderCell: (data: any) => (
         <ShowFilePDF
-          name={data.row.licenseFeeNumber}
+          name={data.row.licenseFeeNumber || ''}
           src={`${router.pathname.split('/')[1]}/${router.pathname.split('/')[2]}/${new Date(data.row.signDate).getFullYear()}/`}
+          fileName={data.row.filePDF || ''}
         />
       ),
     },
     { field: 'signDate', headerClassName: 'tableHead', headerAlign: 'center', flex: 1, headerName: 'Ngày ký', renderCell: (data: any) => FormatDate(data.row.signDate) },
-    { field: 'supplementLicenseFee', headerClassName: 'tableHead', headerAlign: 'center', flex: 1, headerName: 'Quyết định bổ sung', renderCell: (data: any) => (<ShowFilePDF name={data.row.supplementLicenseFee?.licenseFeeNumber} src={`/ pdf / licenseFees / ` + data.row.supplementLicenseFee?.licensingAuthorities + ` / ` + data.row.supplementLicenseFee?.filePDF} />) },
+    {
+      field: 'supplementLicenseFee', headerClassName: 'tableHead', headerAlign: 'center', flex: 1, headerName: 'Quyết định bổ sung', renderCell: (data: any) => (
+        <ShowFilePDF
+          name={data.row.supplementLicenseFee?.licenseFeeNumber || ''}
+          src={`${router.pathname.split('/')[1]}/${router.pathname.split('/')[2]}/${new Date(data.row.supplementLicenseFee?.signDate).getFullYear()}/`}
+          fileName={data.row.supplementLicenseFee?.filePDF || ''}
+        />
+      )
+    },
     { field: 'totalMoney', headerClassName: 'tableHead', headerAlign: 'center', flex: 1, headerName: 'Tổng số tiền cấp quyền(VNĐ)', type: 'number' },
     { field: 'description', headerClassName: 'tableHead', headerAlign: 'center', flex: 1, headerName: 'Ghi chú' },
     { field: 'LicenseNumber', headerClassName: 'tableHead', headerAlign: 'center', flex: 1, headerName: 'Giấy phép' },

@@ -529,7 +529,6 @@ const SurfaceConstruction = () => {
         { field: 'exploitMode' },
         { field: 'exploitPurpose' },
         { field: 'basinName' },
-
         { field: 'constructionTime' },
         { field: 'startDate' }
       ]

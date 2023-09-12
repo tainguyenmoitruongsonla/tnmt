@@ -23,7 +23,7 @@ const Form = ({ data, setPostSuccess, closeDialogs }: any) => {
         licenseFeeNumber: data?.licenseFeeNumber || null,
         signDate: dayjs(data?.signDate) || null,
         totalMoney: data?.totalMoney || null,
-        filePdf: data?.filePdf || null,
+        filePDF: data?.filePDF || null,
         description: data?.description || null,
     });
 
@@ -83,12 +83,12 @@ const Form = ({ data, setPostSuccess, closeDialogs }: any) => {
                 ...values,
                 licensingAuthorities: licAuthorities,
                 signDate: values.signDate?.toDate(),
-                filePdf: `${values.licenseFeeNumber?.toLowerCase()}.pdf`
+                filePDF: `${values.licenseFeeNumber?.replace(/\//g, "_").toLowerCase()}.pdf`
             }
 
             const newFile = {
                 filePath: `${router.pathname.split('/')[1]}/${router.pathname.split('/')[2]}/${newVal.signDate?.getFullYear()}`,
-                fileName: newVal.licenseFeeNumber,
+                fileName: newVal.filePDF,
                 file: fileUpload
             }
             console.log(newFile)

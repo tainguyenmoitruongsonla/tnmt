@@ -6,7 +6,7 @@ export interface LicenseFeeState {
     licenseFeeNumber?: string | null,
     signDate?: Dayjs | null,
     totalMoney?: number | undefined,
-    filePdf?: File | null | undefined,
+    filePDF?: File | null | undefined,
     description?: string | null,
 }
 
@@ -16,6 +16,6 @@ export const emptyLicenseFeeData = {
     licenseFeeNumber: '',
     signDate: null,
     totalMoney: 0,
-    filePdf: null,
+    filePDF: null,
     description: null,
 }

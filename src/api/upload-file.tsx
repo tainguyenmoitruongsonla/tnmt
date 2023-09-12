@@ -8,7 +8,7 @@ const upload = async (postData: any) => {
             const formData = new FormData();
 
             formData.append('filePath', postData.filePath);
-            formData.append('fileName', `${postData.fileName?.replace(/\//g, "_").toLowerCase()}.pdf`);
+            formData.append('fileName', `${postData.fileName}`);
             formData.append('file', postData.file); // Make sure postData.file is a File object
 
             const response = await fetch(`${apiUrl}/upload`, {
