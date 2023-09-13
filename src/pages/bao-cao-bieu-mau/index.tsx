@@ -39,88 +39,88 @@ const Report = () => {
 
   return (
     <Grid container spacing={3}>
-      <Grid item xs={3}>
+      <Grid item sm = {12} md={3} >
         <Bieumau1 />
       </Grid>
-      <Grid item xs={3}>
+      <Grid item sm = {12} md={3} >
       <Bieumau2 />
       </Grid>
-      <Grid item xs={3}>
+      <Grid item sm = {12} md={3} >
       <Bieumau3 />
       </Grid>
-      <Grid item xs={3}>
+      <Grid item sm = {12} md={3} >
       <Bieumau4 />
       </Grid>
-      <Grid item xs={3}>
+      <Grid item sm = {12} md={3} >
       <Bieumau5 />
       </Grid>
-      <Grid item xs={3}>
+      <Grid item sm = {12} md={3} >
       <Bieumau6A />
       </Grid>
-      <Grid item xs={3}>
+      <Grid item sm = {12} md={3} >
       <Bieumau6B />
       </Grid>
-      <Grid item xs={3}>
+      <Grid item sm = {12} md={3} >
       <Bieumau7 />
       </Grid>
-      <Grid item xs={3}>
+      <Grid item sm = {12} md={3} >
       <Bieumau8/>
       </Grid>
-      <Grid item xs={3}>
+      <Grid item sm = {12} md={3} >
       <Bieumau9 />
       </Grid>
-      <Grid item xs={3}>
+      <Grid item sm = {12} md={3} >
       <Bieumau10/>
       </Grid>
-      <Grid item xs={3}>
+      <Grid item sm = {12} md={3} >
       <Bieumau11 />
       </Grid>
-      <Grid item xs={3}>
+      <Grid item sm = {12} md={3} >
       <Bieumau12 />
       </Grid>
-      <Grid item xs={3}>
+      <Grid item sm = {12} md={3} >
       <Bieumau13 />
       </Grid>
-      <Grid item xs={3}>
+      <Grid item sm = {12} md={3} >
       <Bieumau14 />
       </Grid>
-      <Grid item xs={3}>
+      <Grid item sm = {12} md={3} >
       <Bieumau15 />
       </Grid>
-      <Grid item xs={3}>
+      <Grid item sm = {12} md={3} >
       <Bieumau16 />
       </Grid>
-      <Grid item xs={3}>
+      <Grid item sm = {12} md={3} >
       <Bieumau17 />
       </Grid>
-      <Grid item xs={3}>
+      <Grid item sm = {12} md={3} >
       <Bieumau18A />
       </Grid>
-      <Grid item xs={3}>
+      <Grid item sm = {12} md={3} >
       <Bieumau18B/>
       </Grid>
-      <Grid item xs={3}>
+      <Grid item sm = {12} md={3} >
       <Bieumau19 />
       </Grid>
-      <Grid item xs={3}>
+      <Grid item sm = {12} md={3} >
       <Bieumau20 />
       </Grid>
-      <Grid item xs={3}>
+      <Grid item sm = {12} md={3} >
       <Bieumau21 />
       </Grid>
-      <Grid item xs={3}>
+      <Grid item sm = {12} md={3} >
       <Bieumau22 />
       </Grid>
-      <Grid item xs={3}>
+      <Grid item sm = {12} md={3} >
       <Bieumau23 />
       </Grid>
-      <Grid item xs={3}>
+      <Grid item sm = {12} md={3} >
       <Bieumau24 />
       </Grid>
-      <Grid item xs={3}>
+      <Grid item sm = {12} md={3} >
       <Bieumau25A/>
       </Grid>
-      <Grid item xs={3}>
+      <Grid item sm = {12} md={3} >
       <Bieumau25B />
       </Grid>
     </Grid>

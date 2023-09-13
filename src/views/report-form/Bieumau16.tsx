@@ -18,6 +18,7 @@ import DialogControlFullScreen from 'src/@core/components/dialog-control-full-sc
 import { useState, useEffect } from 'react'
 import fetchData from 'src/api/fetch'
 import React from 'react'
+import BoxLoading from 'src/@core/components/box-loading'
 
 interface LicenseData {
   [key: string]: {
@@ -28,6 +29,7 @@ interface LicenseData {
 
 const FormContruction = () => {
   const [dataCountered, setDataCountered] = useState<any>({})
+  const [loading, setLoading] = useState(false)
   const licSurfaceWater = [
     'thuydien',
     'hochua',
@@ -77,10 +79,12 @@ const FormContruction = () => {
       { total: 0, minister: 0, province: 0 }
     )
   }
+  
 
   useEffect(() => {
     const getData = async () => {
       try {
+        setLoading(true)
         const data = await fetchData('License/list')
 
         const licenseTypes = [
@@ -95,7 +99,7 @@ const FormContruction = () => {
         const previousYearStart = new Date(today.getFullYear() - 1, 0, 1)
 
         const licenseData: LicenseData = {}
-
+ 
         for (const { name, types } of licenseTypes) {
           const thisPeriodData = countLicense(data, types)
 
@@ -120,6 +124,9 @@ const FormContruction = () => {
       } catch (e) {
         // Xử lý lỗi
       }
+      finally{
+        setLoading(false)
+      }
     }
     getData()
   }, [])
@@ -130,7 +137,7 @@ const FormContruction = () => {
 
       <Grid container>
         <Grid md={11}>
-          <Typography variant='h5'>Biểu mẫu số 4. Tổng lượng nước mặt trên các lưu vực sông</Typography>
+          <Typography variant='h5'>Biểu mẫu số 16. Tổng lượng nước mặt trên các lưu vực sông</Typography>
         </Grid>
         <Grid md={1}>
           <IconButton>
@@ -171,8 +178,10 @@ const FormContruction = () => {
           (Kỳ báo cáo: <TextField size='small' sx={{ width: '50px' }}></TextField>)
         </Typography>
       </Grid>
-
-      <Grid className='_text_center' sx={{ mt: 3 }}>
+      {loading? (
+              <BoxLoading />
+          ) : (
+            <Grid className='_text_center' sx={{ mt: 3 }}>
         <TableContainer component={Paper}>
           <Table sx={{ minWidth: 650 }} aria-label='simple table'>
             <TableHead className='tableHead'>
@@ -264,48 +273,48 @@ const FormContruction = () => {
                 </TableCell>
               </TableRow>
             </TableHead>
-
-            <TableBody className='tableBody'>
-              {Object.entries(dataCountered).map(([index, value]: [string, any], rowIndex: number) => (
-                <TableRow key={index}>
-                  <TableCell className="text-center  size='small' align-middle font-13">{rowIndex + 1}</TableCell>
-                  <TableCell className="text-center  size='small' align-middle font-13">{index}</TableCell>
-                  <TableCell className="text-center  size='small' align-middle font-13">
-                    {value.previousPeriod.total}
-                  </TableCell>
-                  <TableCell className="text-center  size='small' align-middle font-13">
-                    {value.thisPeriod.total}
-                  </TableCell>
-                  <TableCell className="text-center  size='small' align-middle font-13">
-                    {' '}
-                    {`${value.thisPeriod.total - value.previousPeriod.total}`}
-                  </TableCell>
-                  <TableCell className="text-center  size='small' align-middle font-13">
-                    {value.previousPeriod.minister}
-                  </TableCell>
-                  <TableCell className="text-center  size='small' align-middle font-13">
-                    {value.thisPeriod.minister}
-                  </TableCell>
-                  <TableCell className="text-center  size='small' align-middle font-13">
-                    {' '}
-                    {`${value.thisPeriod.minister - value.previousPeriod.minister}`}
-                  </TableCell>
-                  <TableCell className="text-center  size='small' align-middle font-13">
-                    {value.previousPeriod.province}
-                  </TableCell>
-                  <TableCell className="text-center  size='small' align-middle font-13">
-                    {value.thisPeriod.province}
-                  </TableCell>
-                  <TableCell className="text-center  size='small' align-middle font-13">
-                    {' '}
-                    {`${value.thisPeriod.province - value.previousPeriod.province}`}
-                  </TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
+               <TableBody className='tableBody'>
+               {Object.entries(dataCountered).map(([index, value]: [string, any], rowIndex: number) => (
+                 <TableRow key={index}>
+                   <TableCell className="text-center  size='small' align-middle font-13">{rowIndex + 1}</TableCell>
+                   <TableCell className="text-center  size='small' align-middle font-13">{index}</TableCell>
+                   <TableCell className="text-center  size='small' align-middle font-13">
+                     {value.previousPeriod.total}
+                   </TableCell>
+                   <TableCell className="text-center  size='small' align-middle font-13">
+                     {value.thisPeriod.total}
+                   </TableCell>
+                   <TableCell className="text-center  size='small' align-middle font-13">
+                     {' '}
+                     {`${value.thisPeriod.total - value.previousPeriod.total}`}
+                   </TableCell>
+                   <TableCell className="text-center  size='small' align-middle font-13">
+                     {value.previousPeriod.minister}
+                   </TableCell>
+                   <TableCell className="text-center  size='small' align-middle font-13">
+                     {value.thisPeriod.minister}
+                   </TableCell>
+                   <TableCell className="text-center  size='small' align-middle font-13">
+                     {' '}
+                     {`${value.thisPeriod.minister - value.previousPeriod.minister}`}
+                   </TableCell>
+                   <TableCell className="text-center  size='small' align-middle font-13">
+                     {value.previousPeriod.province}
+                   </TableCell>
+                   <TableCell className="text-center  size='small' align-middle font-13">
+                     {value.thisPeriod.province}
+                   </TableCell>
+                   <TableCell className="text-center  size='small' align-middle font-13">
+                     {' '}
+                     {`${value.thisPeriod.province - value.previousPeriod.province}`}
+                   </TableCell>
+                 </TableRow>
+               ))}
+             </TableBody>
           </Table>
         </TableContainer>
       </Grid>
+          )}
       <Grid className='_space_between' sx={{ mt: 5 }}>
         <Grid>
           <Typography>Nơi nhận</Typography>

@@ -70,7 +70,7 @@ const FormContruction = () => {
       <Grid container>
         <Grid md={11}>
           <Typography variant='h5'>
-          Biểu mẫu số 4. Tổng lượng nước mặt trên các lưu vực sông
+          Biểu mẫu số 11. Số lượng công trình khai thác phân theo loại hình công trình khai thác
           </Typography>
         </Grid>
         <Grid md={1}>
@@ -112,7 +112,7 @@ const FormContruction = () => {
           BÁO CÁO
         </Typography>
         <Typography className='font-weight-bold ' variant="h6">
-          Số lượng trạm quan trắc khí tượng, thuỷ văn, tài nguyên nước, nước dưới đất
+          Số lượng công trình khai thác phân theo loại hình công trình khai thác
         </Typography>
         <Typography className='font-weight-bold ' variant="h6">
           (Kỳ báo cáo: <TextField size='small' sx={{ width: '50px' }}></TextField>)
