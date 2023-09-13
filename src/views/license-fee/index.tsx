@@ -40,7 +40,7 @@ const LicenseFee = (props: LicenseFeeProps) => {
       renderCell: (data: any) => (
         <ShowFilePDF
           name={data.row.licenseFeeNumber || ''}
-          src={`${router.pathname.split('/')[1]}/${router.pathname.split('/')[2]}/${new Date(data.row.signDate).getFullYear()}/`}
+          src={`pdf/tien-cap-quyen/${router.pathname.split('/')[2]}/${new Date(data.row.signDate).getFullYear()}/`}
           fileName={data.row.filePDF || ''}
         />
       ),
@@ -50,7 +50,7 @@ const LicenseFee = (props: LicenseFeeProps) => {
       field: 'supplementLicenseFee', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'Quyết định bổ sung', minWidth: 180, renderCell: (data: any) => (
         <ShowFilePDF
           name={data.row.supplementLicenseFee?.licenseFeeNumber || ''}
-          src={`${router.pathname.split('/')[1]}/${router.pathname.split('/')[2]}/${new Date(data.row.supplementLicenseFee?.signDate).getFullYear()}/`}
+          src={`pdf/tien-cap-quyen/${router.pathname.split('/')[2]}/${new Date(data.row.supplementLicenseFee?.signDate).getFullYear()}/`}
           fileName={data.row.supplementLicenseFee?.filePDF || ''}
         />
       )

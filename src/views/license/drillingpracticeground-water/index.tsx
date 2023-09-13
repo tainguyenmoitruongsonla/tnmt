@@ -21,6 +21,7 @@ import dynamic from 'next/dynamic';
 import fetchData from 'src/api/fetch';
 import post from 'src/api/post';
 import ColumnFilters from '../column-filter';
+import { useRouter } from 'next/router';
 
 
 const Map = dynamic(() => import("src/@core/components/map"), { ssr: false });
@@ -39,6 +40,8 @@ const DrillingeGroundWaterLicense = () => {
   const [resData, setResData] = useState([]);
   const [deleteConfirmAnchorEl, setDeleteConfirmAnchorEl] = useState<HTMLButtonElement | null>(null);
   const deleteConfirmOpen = Boolean(deleteConfirmAnchorEl);
+
+  const router = useRouter()
 
   //delete
 
@@ -80,7 +83,13 @@ const DrillingeGroundWaterLicense = () => {
   //Init columnTable
   const columnsTable: GridColDef[] = [
     { field: 'id', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'ID', minWidth: 90 },
-    { field: 'licenseNumber', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'Số GP', minWidth: 150, renderCell: (data) => (<ShowFilePDF name={data.row.licenseNumber} src={`/pdf/Licenses/` + data.row.licensingAuthorities + `/` + data.row.typeSlug + `/` + data.row.licenseFile} />) },
+    {
+      field: 'licenseNumber', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'Số GP', minWidth: 150, renderCell: (data) => (
+        <ShowFilePDF name={data.row.licenseNumber}
+          src={`/pdf/giay-phep/${router.pathname.split('/')[2]}/${data.row.licensingAuthorities}/${data.row.typeSlug}`}
+          fileName={data.row.licenseFile}
+        />)
+    },
     { field: 'effect', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'Hiệu lực GP', minWidth: 150, renderCell: (data) => (<CheckEffect data={data.row} />) },
     { field: 'signDate', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'Ngày ký', minWidth: 150, renderCell: (data) => (FormatDate(data.row.signDate)) },
     { field: 'issueDate', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'Ngày có hiệu lực', minWidth: 150, renderCell: (data) => (FormatDate(data.row.issueDate)) },
@@ -92,7 +101,13 @@ const DrillingeGroundWaterLicense = () => {
     { field: 'business.address', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'Địa chỉ', minWidth: 400, valueGetter: (data) => (`${data.row.business?.address || ''}`) },
 
     //oldLicense
-    { field: 'oldLicense.licenseNumber', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'Số GP', minWidth: 150, renderCell: (data) => (<ShowFilePDF name={data.row.oldLicense?.licenseNumber} src={`/pdf/Licenses/${data.row.oldLicense?.licensingAuthorities}/${data.row.oldLicense?.typeSlug}/${data.row.oldLicense?.licenseFile}`} />) },
+    {
+      field: 'oldLicense.licenseNumber', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'Số GP', minWidth: 150, renderCell: (data) => (
+        <ShowFilePDF name={data.row.licenseNumber}
+          src={`/pdf/giay-phep/${router.pathname.split('/')[2]}/${data.row.oldLicense.licensingAuthorities}/${data.row.oldLicense.typeSlug}`}
+          fileName={data.row.licenseFile}
+        />)
+    },
     { field: 'oldLicense.signDate', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'Ngày ký', minWidth: 150, renderCell: (data) => (FormatDate(data.row.oldLicense?.signDate)), },
 
     //Construction
@@ -114,9 +129,11 @@ const DrillingeGroundWaterLicense = () => {
         <div style={{ width: '100%' }}>
           {params.row.licenseFees.map((e: any) => (
             <div key={e.id}>
-              <Typography>
-                <ShowFilePDF name={e.licenseFeeNumber} src={`/pdf/Licenses`} />
-              </Typography>
+              <ShowFilePDF
+                name={e?.licenseFeeNumber || ''}
+                src={`/pdf/tien-cap-quyen/${router.pathname.split('/')[2]}/${new Date(e?.signDate).getFullYear()}/`}
+                fileName={e?.filePDF || ''}
+              />
             </div>
           ))}
         </div>
@@ -240,7 +257,7 @@ const DrillingeGroundWaterLicense = () => {
         { field: 'construction.communeName' },
         { field: 'construction.districtName' },
         { field: 'construction.drillingScale' },
-        
+
       ],
     },
     {

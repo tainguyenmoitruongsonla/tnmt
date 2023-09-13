@@ -29,6 +29,8 @@ import SurfaceWaterField from 'src/views/construction/form/cons-suface';
 import GroundWaterField from 'src/views/construction/form/cons-ground';
 import DischargeWaterField from 'src/views/construction/form/cons-discharge';
 import ExploitItem from 'src/views/construction/form/exploit-item';
+import dayjs from 'dayjs';
+import upload from 'src/api/upload-file';
 
 const FormLicense: FC<FormLicenseProps> = ({ data, closeDialogs, setPostSuccess }) => {
 
@@ -38,6 +40,7 @@ const FormLicense: FC<FormLicenseProps> = ({ data, closeDialogs, setPostSuccess 
   //Business
   const [listBusiness, setListBusiness] = useState<any>([]);
   const [business, setBusiness] = useState<any>({});
+  const [fileUpload, setFileUpload] = useState<any>({})
   const [saveBusinessSuccess, setBusinessSuccess] = useState<boolean>(false)
   const handleSaveBusinessSuccess = () => {
     setBusinessSuccess(prevState => !prevState);
@@ -46,7 +49,8 @@ const FormLicense: FC<FormLicenseProps> = ({ data, closeDialogs, setPostSuccess 
   //License
   const [licenseData, setLicenseData] = useState<LicenseState>(data);
 
-  const handleLicenseChange = (data: any) => {
+  const handleLicenseChange = (data: any, fileupload: any) => {
+    setFileUpload(fileupload)
     setLicenseData(data);
   };
 
@@ -70,7 +74,7 @@ const FormLicense: FC<FormLicenseProps> = ({ data, closeDialogs, setPostSuccess 
   const [licenseFeeDataRemove, setLicenseFeeDataRemove] = useState<LicenseFeeState[]>([]);
 
   //Hooks
-  const route = useRouter()
+  const router = useRouter()
 
 
   const handleLicenseFeeChange = (dataSave: any, dataDelete: any) => {
@@ -121,7 +125,6 @@ const FormLicense: FC<FormLicenseProps> = ({ data, closeDialogs, setPostSuccess 
         const saveCons = await post('Construction/save', constructionData);
 
         if (saveCons) {
-
           consItemDataDetele.map(async (e: any) => {
             await post('ConstructionDetail/delete', e);
           })
@@ -134,11 +137,43 @@ const FormLicense: FC<FormLicenseProps> = ({ data, closeDialogs, setPostSuccess 
             ...licenseData,
             businessId: business.id,
             constructionId: saveCons.id,
+            licenseFile: `${licenseData.licenseNumber?.replace(/\//g, "_").toLowerCase()}.pdf`
+          }
+
+          const filePath = `pdf/giay-phep/${newLic?.licensingAuthorities?.toLowerCase()}/${router.pathname.split('/')[2]}/${dayjs(newLic?.signDate).year()}/${newLic?.licenseNumber?.replace(/\//g, "_").toLowerCase()}`;
+
+          const newLicenseFile = {
+            filePath: filePath,
+            fileName: newLic?.licenseFile,
+            file: fileUpload.licenseFile
+          }
+
+          const newLicenseRequestFile = {
+            filePath: filePath,
+            fileName: newLic?.licenseRequestFile,
+            file: fileUpload.licenseRequestFile
+          }
+
+          const newRelatedDocumentFile = {
+            filePath: filePath,
+            fileName: newLic?.relatedDocumentFile,
+            file: fileUpload.relatedDocumentFile
           }
 
           const saveLic = await post('License/save', newLic);
 
           if (saveLic) {
+            console.log(newLicenseFile)
+            if (newLicenseFile.fileName || newLicenseFile.fileName !== null && newLicenseFile.file || newLicenseFile.file !== null) {
+              await upload(newLicenseFile)
+            }
+            if (newLicenseRequestFile.fileName || newLicenseRequestFile.fileName !== null && newLicenseRequestFile.file || newLicenseRequestFile.file !== null) {
+              await upload(newLicenseRequestFile)
+            }
+            if (newRelatedDocumentFile.fileName || newRelatedDocumentFile.fileName !== null && newRelatedDocumentFile.file || newRelatedDocumentFile.file !== null) {
+              await upload(newRelatedDocumentFile)
+            }
+
             licenseFeeDataRemove?.map(async (e: any) => {
               const saveLicFee = await post('LicenseFee/delete', e)
               if (saveLicFee) {
@@ -205,7 +240,7 @@ const FormLicense: FC<FormLicenseProps> = ({ data, closeDialogs, setPostSuccess 
     return () => {
       isMounted = false; // Set the flag to false when unmounting
     };
-  }, [licenseData?.businessId, saveBusinessSuccess]);
+  }, [fileUpload.licenseFile, licenseData?.businessId, licenseData?.licenseFile, licenseData?.signDate, router.pathname, saveBusinessSuccess]);
 
   const handleClose = () => {
     closeDialogs();
@@ -263,18 +298,18 @@ const FormLicense: FC<FormLicenseProps> = ({ data, closeDialogs, setPostSuccess 
           <LicenseFeeFeild data={licenseFeeData} onChange={handleLicenseFeeChange} />
         </Grid>
         <Grid item xs={12}>
-            {
-            route.pathname.split('/')[2] == 'nuoc-mat'?
-            <SurfaceWaterField data={constructionData} onChange={handleConstructionChange} />
-            :
-            route.pathname.split('/')[2] == 'nuoc-duoi-dat'?
-            <GroundWaterField data={constructionData} onChange={handleConstructionChange} />
-            :
-            route.pathname.split('/')[2] == 'xa-thai'?
-            <DischargeWaterField data={constructionData} onChange={handleConstructionChange} />
-            :''
-            }
-         
+          {
+            router.pathname.split('/')[2] == 'nuoc-mat' ?
+              <SurfaceWaterField data={constructionData} onChange={handleConstructionChange} />
+              :
+              router.pathname.split('/')[2] == 'nuoc-duoi-dat' ?
+                <GroundWaterField data={constructionData} onChange={handleConstructionChange} />
+                :
+                router.pathname.split('/')[2] == 'xa-thai' ?
+                  <DischargeWaterField data={constructionData} onChange={handleConstructionChange} />
+                  : ''
+          }
+
         </Grid>
         {constructionData?.constructionTypeId === 7 ? (
           <Grid item xs={12}>

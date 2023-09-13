@@ -21,6 +21,7 @@ import dynamic from 'next/dynamic';
 import fetchData from 'src/api/fetch';
 import post from 'src/api/post';
 import ColumnFilters from '../column-filter';
+import { useRouter } from 'next/router';
 
 
 const Map = dynamic(() => import("src/@core/components/map"), { ssr: false });
@@ -31,6 +32,8 @@ const ProbeGroundWaterLicense = () => {
 
   const [postSuccess, setPostSuccess] = useState(false);
   const [loading, setLoading] = useState(false);
+
+  const router = useRouter();
 
   const handlePostSuccess = () => {
     setPostSuccess(prevState => !prevState);
@@ -80,7 +83,13 @@ const ProbeGroundWaterLicense = () => {
   //Init columnTable
   const columnsTable: GridColDef[] = [
     { field: 'id', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'ID', minWidth: 90 },
-    { field: 'licenseNumber', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'Số GP', minWidth: 150, renderCell: (data) => (<ShowFilePDF name={data.row.licenseNumber} src={`/pdf/Licenses/` + data.row.licensingAuthorities + `/` + data.row.typeSlug + `/` + data.row.licenseFile} />) },
+    {
+      field: 'licenseNumber', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'Số GP', minWidth: 150, renderCell: (data) => (
+        <ShowFilePDF name={data.row.licenseNumber}
+          src={`/pdf/giay-phep/${router.pathname.split('/')[2]}/${data.row.licensingAuthorities}/${data.row.typeSlug}`}
+          fileName={data.row.licenseFile}
+        />)
+    },
     { field: 'effect', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'Hiệu lực GP', minWidth: 150, renderCell: (data) => (<CheckEffect data={data.row} />) },
     { field: 'signDate', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'Ngày ký', minWidth: 150, renderCell: (data) => (FormatDate(data.row.signDate)) },
     { field: 'issueDate', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'Ngày có hiệu lực', minWidth: 150, renderCell: (data) => (FormatDate(data.row.issueDate)) },
@@ -92,14 +101,20 @@ const ProbeGroundWaterLicense = () => {
     { field: 'business.address', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'Địa chỉ', minWidth: 400, valueGetter: (data) => (`${data.row.business?.address || ''}`) },
 
     //oldLicense
-    { field: 'oldLicense.licenseNumber', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'Số GP', minWidth: 150, renderCell: (data) => (<ShowFilePDF name={data.row.oldLicense?.licenseNumber} src={`/pdf/Licenses/${data.row.oldLicense?.licensingAuthorities}/${data.row.oldLicense?.typeSlug}/${data.row.oldLicense?.licenseFile}`} />) },
+    {
+      field: 'oldLicense.licenseNumber', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'Số GP', minWidth: 150, renderCell: (data) => (
+        <ShowFilePDF name={data.row.licenseNumber}
+          src={`/pdf/giay-phep/${router.pathname.split('/')[2]}/${data.row.oldLicense.licensingAuthorities}/${data.row.oldLicense.typeSlug}`}
+          fileName={data.row.licenseFile}
+        />)
+    },
     { field: 'oldLicense.signDate', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'Ngày ký', minWidth: 150, renderCell: (data) => (FormatDate(data.row.oldLicense?.signDate)), },
 
     //Construction
     { field: 'construction.constructionName', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'Tên Công trình', minWidth: 200, valueGetter: (data) => (`${data.row.construction?.constructionName || ''}`) },
     { field: 'construction.constructionLocation', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'Địa điểm Công trình', minWidth: 400, valueGetter: (data) => (`${data.row.construction?.constructionLocation || ''}`) },
     { field: 'construction.communeName', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'Xã', minWidth: 150, valueGetter: (data) => (`${data.row.construction?.communeName || ''}`) },
-    { field: 'construction.districtName', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'Huyện', minWidth: 150, valueGetter: (data) => (`${data.row.construction?.districtName|| ''}`) },
+    { field: 'construction.districtName', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'Huyện', minWidth: 150, valueGetter: (data) => (`${data.row.construction?.districtName || ''}`) },
     { field: 'construction.x', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'X', minWidth: 150, valueGetter: (data) => (`${data.row.construction?.x || ''}`) },
     { field: 'construction.y', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'Y', minWidth: 150, valueGetter: (data) => (`${data.row.construction?.y || ''}`) },
     { field: 'construction.explorationPurposes', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'Mục đích thăm dò', minWidth: 150, valueGetter: (data) => (`${data.row.construction?.explorationPurposes || ''}`) },
@@ -117,9 +132,11 @@ const ProbeGroundWaterLicense = () => {
         <div style={{ width: '100%' }}>
           {params.row.licenseFees.map((e: any) => (
             <div key={e.id}>
-              <Typography>
-                <ShowFilePDF name={e.licenseFeeNumber} src={`/pdf/Licenses`} />
-              </Typography>
+              <ShowFilePDF
+                name={e?.licenseFeeNumber || ''}
+                src={`/pdf/tien-cap-quyen/${router.pathname.split('/')[2]}/${new Date(e?.signDate).getFullYear()}/`}
+                fileName={e?.filePDF || ''}
+              />
             </div>
           ))}
         </div>
@@ -274,10 +291,10 @@ const ProbeGroundWaterLicense = () => {
       try {
         const data = await fetchData('License/list');
         const filteredData = data.filter((item: { [key: string]: any }) =>
-        [ 'thamdo'].some(keyword =>
-          item['constructionTypeSlug']?.toString().toLowerCase().includes(keyword.toLowerCase())
-        )
-      );
+          ['thamdo'].some(keyword =>
+            item['constructionTypeSlug']?.toString().toLowerCase().includes(keyword.toLowerCase())
+          )
+        );
         setResData(filteredData)
       } catch (error) {
         setResData([]);

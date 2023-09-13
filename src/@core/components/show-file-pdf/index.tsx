@@ -18,7 +18,9 @@ const ShowFilePDF = ({ src, name, fileName }: ShowFilePDFProps) => {
     useEffect(() => {
         pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.min.js`;
 
-        handleReadFile();
+        if (fileName && fileName !== null) {
+            handleReadFile();
+        }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 

@@ -12,6 +12,7 @@ export interface LicenseState {
     expriteDate: Dayjs | null;
     duration: string | null;
     licensingAuthorities: string | null;
+    licenseFile: string | null;
     relatedDocumentFile: string | null;
     licenseRequestFile: string | null;
 }
@@ -28,6 +29,7 @@ export const emptyLicenseData = {
     expriteDate: null,
     duration: null,
     licensingAuthorities: null,
+    licenseFile: null,
     relatedDocumentFile: null,
     licenseRequestFile: null,
 }
@@ -40,5 +42,5 @@ export interface FormLicenseProps {
 
 export interface LicenseFieldsetProps {
     data?: any;
-    onChange: (data: LicenseState) => void;
+    onChange: (data: LicenseState, fileUpload?: any) => void;
 }

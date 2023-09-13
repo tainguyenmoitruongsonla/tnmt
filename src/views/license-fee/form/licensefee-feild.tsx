@@ -20,7 +20,7 @@ const LicenseFeeFeild: FC<LicenseFeeFieldsetProps> = ({ data, onChange }) => {
         licenseFeeNumber: e.licenseFeeNumber,
         signDate: dayjs(e?.signDate),
         totalMoney: e.totalMoney,
-        filePdf: e.filePdf,
+        filePdf: e.filePDF,
         description: e.description,
     })) : [];
 
@@ -35,7 +35,7 @@ const LicenseFeeFeild: FC<LicenseFeeFieldsetProps> = ({ data, onChange }) => {
             licenseFeeNumber: '',
             signDate: null,
             totalMoney: 0,
-            filePdf: null,
+            filePDF: null,
             description: null,
         };
         setLicenseFees((prevItems) => [...prevItems, newItem]);

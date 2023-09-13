@@ -389,7 +389,7 @@ const SurfaceConstruction = () => {
           {params.row.licenses?.map((e: any) => (
             <div key={e.id}>
               <Typography>
-                <ShowFilePDF name={e.licenseNumber} src={`/pdf/Licenses`} />
+                <ShowFilePDF name={e.licenseNumber} src={`/pdf/giay-pheps`} />
               </Typography>
             </div>
           ))}
@@ -441,7 +441,7 @@ const SurfaceConstruction = () => {
           {params.row.licenses.licenseFees?.map((e: any) => (
             <div key={e.id}>
               <Typography>
-                <ShowFilePDF name={e.licenseFeeNumber} src={`/pdf/Licenses`} />
+                <ShowFilePDF name={e.licenseFeeNumber} src={`/pdf/giay-pheps`} />
               </Typography>
             </div>
           ))}

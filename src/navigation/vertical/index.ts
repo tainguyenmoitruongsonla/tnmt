@@ -116,7 +116,7 @@ const navigation = (): VerticalNavItemsType => {
     },
     {
       title: 'Giấy phép',
-      primaryPath: 'giam-sat',
+      primaryPath: 'giay-phep',
       children: [
         {
           icon: CircleOutline,
@@ -170,44 +170,61 @@ const navigation = (): VerticalNavItemsType => {
       title: 'Thông tin - Dữ liệu',
       children: [
         {
-          title: 'Loại công trình',
           icon: CircleOutline,
-          path: '/loai-cong-trinh'
+          title: 'SL,CL nước',
+          path: '/thong-tin-du-lieu/so-luong-chat-luong-nuoc'
         },
         {
-          title: 'Loại giấy phép',
           icon: CircleOutline,
-          path: '/loai-giay-phep'
+          title: 'SL điều tra',
+          path: '/thong-tin-du-lieu/so-lieu-dieu-tra'
         },
         {
-          title: 'Doanh nghiệp',
           icon: CircleOutline,
-          path: '/doanh-nghiep'
+          title: 'KTSD TNN',
+          path: '/thong-tin-du-lieu/du-lieu-ktsd-tnnn'
         },
         {
-          title: 'Sông',
           icon: CircleOutline,
-          path: '/song'
+          title: 'KQ cấp phép',
+          path: '/thong-tin-du-lieu/ket-qua-cap-phep'
         },
         {
-          title: 'Lưu vực',
           icon: CircleOutline,
-          path: '/luu-vuc'
+          title: 'HSKT Trạm',
+          path: '/thong-tin-du-lieu/hskt-tram'
         },
         {
-          title: 'Tiểu vùng quy hoạch',
+          title: 'DM lưu vực sông',
           icon: CircleOutline,
-          path: '/tieu-vung-quy-hoach'
-        },
-        {
-          title: 'Tầng chứa nước',
-          icon: CircleOutline,
-          path: '/tang-chua-nuoc'
-        },
-        {
-          title: 'File hướng dẫn sử dụng',
-          icon: CircleOutline,
-          path: '#'
+          children: [
+            {
+              title: 'Tiểu vùng QH',
+              icon: CircleOutline,
+              path: '/thong-tin-du-lieu/tieu-vung-quy-hoach'
+            },
+            {
+              title: 'Hành lang BVNN',
+              icon: CircleOutline,
+              path: '/thong-tin-du-lieu/hanh-lang-bao-ve-nguon-nuoc'
+            },
+            {
+              title: 'Danh mục NNNT',
+              icon: CircleOutline,
+              children: [
+                {
+                  icon: CircleOutline,
+                  title: 'Sông, suối',
+                  path: '/thong-tin-du-lieu/danh-muc-nguon-nuoc-song-suoi'
+                },
+                {
+                  icon: CircleOutline,
+                  title: 'Ao, hồ',
+                  path: '/thong-tin-du-lieu/danh-muc-nguon-nuoc-ao-ho'
+                }
+              ]
+            },
+          ]
         },
       ]
     },
@@ -236,21 +253,6 @@ const navigation = (): VerticalNavItemsType => {
       ]
     },
     {
-      title: 'Danh mục nguồn nước nội tỉnh',
-      children: [
-        {
-          icon: CircleOutline,
-          title: 'Nguồn nước sông, suối',
-          path: '#'
-        },
-        {
-          icon: CircleOutline,
-          title: 'Nguồn nước ao, hồ',
-          path: '#'
-        }
-      ]
-    },
-    {
       title: 'Nội dung khác',
       path: '#'
     },
@@ -260,6 +262,47 @@ const navigation = (): VerticalNavItemsType => {
     },
     {
       sectionTitle: 'Quản lý'
+    },
+    {
+      title: 'Dữ liệu',
+      primaryPath: 'he-thong',
+      children: [
+        {
+          title: 'Loại công trình',
+          icon: CircleOutline,
+          path: '/loai-cong-trinh'
+        },
+        {
+          title: 'Loại giấy phép',
+          icon: CircleOutline,
+          path: '/loai-giay-phep'
+        },
+        {
+          title: 'Doanh nghiệp',
+          icon: CircleOutline,
+          path: '/doanh-nghiep'
+        },
+        {
+          title: 'Sông',
+          icon: CircleOutline,
+          path: '/song'
+        },
+        {
+          title: 'Lưu vực',
+          icon: CircleOutline,
+          path: '/luu-vuc'
+        },
+        {
+          title: 'Tầng chứa nước',
+          icon: CircleOutline,
+          path: '/tang-chua-nuoc'
+        },
+        {
+          title: 'File hướng dẫn sử dụng',
+          icon: CircleOutline,
+          path: '#'
+        },
+      ]
     },
     {
       title: 'Hệ thống',

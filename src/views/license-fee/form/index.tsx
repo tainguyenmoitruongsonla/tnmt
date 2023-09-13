@@ -87,11 +87,10 @@ const Form = ({ data, setPostSuccess, closeDialogs }: any) => {
             }
 
             const newFile = {
-                filePath: `${router.pathname.split('/')[1]}/${router.pathname.split('/')[2]}/${newVal.signDate?.getFullYear()}`,
+                filePath: `pdf/tien-cap-quyen/${router.pathname.split('/')[2]}/${newVal.signDate?.getFullYear()}`,
                 fileName: newVal.filePDF,
                 file: fileUpload
             }
-            console.log(newFile)
 
             setSaving(true)
             try {
