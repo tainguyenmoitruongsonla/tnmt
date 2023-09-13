@@ -2,12 +2,12 @@ import { Typography } from "@mui/material";
 import Grid from "@mui/system/Unstable_Grid";
 import { DataGrid, GridColDef, GridColumnGroupingModel, GridToolbarExport } from '@mui/x-data-grid';
 
-const RainWater = () => {
+const AquiferArea = () => {
     const columns: GridColDef[] = [
         { field: 'id', headerName: 'ID', },
         {
             field: 'stt',
-            headerName: '〈 1 〉',
+            headerName:'〈 1 〉',
             headerClassName: 'tableHead',
             headerAlign: 'center',
             align: 'center',
@@ -17,7 +17,7 @@ const RainWater = () => {
         },
         {
             field: 'basin',
-            headerName: '〈 2 〉',
+            headerName:'〈 2 〉',
             headerClassName: 'tableHead',
             headerAlign: 'center',
             width: 280,
@@ -25,7 +25,7 @@ const RainWater = () => {
         },
         {
             field: 'acreage',
-            headerName: '〈 3 〉',
+            headerName:'〈 3 〉',
             headerClassName: 'tableHead',
             headerAlign: 'center',
             width: 150,
@@ -33,7 +33,7 @@ const RainWater = () => {
         },
         {
             field: 'annualRainfall',
-            headerName: '〈 4 〉',
+            headerName:'〈 4 〉',
             headerClassName: 'tableHead',
             headerAlign: 'center',
             width: 150,
@@ -41,7 +41,7 @@ const RainWater = () => {
         },
         {
             field: 'population',
-            headerName: '〈 5 〉',
+            headerName:'〈 5 〉',
             headerClassName: 'tableHead',
             headerAlign: 'center',
             width: 150,
@@ -49,7 +49,7 @@ const RainWater = () => {
         },
         {
             field: 'totalAmountOfRainWater',
-            headerName: '〈 6 〉',
+            headerName:'〈 6 〉',
             headerClassName: 'tableHead',
             headerAlign: 'center',
             width: 150,
@@ -57,7 +57,7 @@ const RainWater = () => {
         },
         {
             field: 'amountOfRainWater',
-            headerName: '〈 7 〉',
+            headerName:'〈 7 〉',
             headerClassName: 'tableHead',
             headerAlign: 'center',
             width: 150,
@@ -65,7 +65,7 @@ const RainWater = () => {
         },
         {
             field: 'description',
-            headerName: '〈 8 〉',
+            headerName:'〈 8 〉',
             headerClassName: 'tableHead',
             headerAlign: 'center',
             width: 250,
@@ -82,7 +82,7 @@ const RainWater = () => {
             children: [{ field: 'stt' }],
         },
         {
-            groupId: 'Tiểu vùng lưu vực',
+            groupId: 'Tầng chứa nước/lưu vực',
             headerClassName: 'tableHead',
             headerAlign: 'center',
             children: [{ field: 'basin' }],
@@ -136,7 +136,6 @@ const RainWater = () => {
         return (
             <Grid display={'flex'} justifyContent={'end'}>
                 <GridToolbarExport csvOptions={{
-
                     utf8WithBom: true,
                 }} />
             </Grid>
@@ -146,7 +145,7 @@ const RainWater = () => {
     return (
         <Grid container>
             <Grid md={12} xs={12} textAlign={'center'} textTransform={'uppercase'}>
-                <Typography pt={7} pb={4} variant="h6">thống kê số liệu đánh giá lượng nước mưa trên các tiểu vùng lưu vực <br /> trên địa bàn tỉnh quảng ngãi</Typography>
+                <Typography pt={7} pb={4} variant="h6">THÔNG TIN DỮ LIỆU VỀ DIỆN TÍCH CÁC TẦNG CHỨA NƯỚC THEO TIỂU VÙNG QUY HOẠCH <br /> trên địa bàn tỉnh quảng ngãi</Typography>
                 <Typography variant="button">Kỳ báo cáo: <b>{new Date().getFullYear()}</b></Typography>
             </Grid>
             <Grid md={12} xs={12} pt={3}>
@@ -177,4 +176,4 @@ const RainWater = () => {
         </Grid>
     )
 }
-export default RainWater;
+export default AquiferArea;

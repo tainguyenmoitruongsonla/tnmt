@@ -7,7 +7,7 @@ const SurfaceWater = () => {
         { field: 'id', headerName: 'ID', },
         {
             field: 'stt',
-            headerName: '(1) ',
+            headerName: '〈 1 〉 ',
             headerClassName: 'tableHead',
             headerAlign: 'center',
             align: 'center',
@@ -17,7 +17,7 @@ const SurfaceWater = () => {
         },
         {
             field: 'basin',
-            headerName: '(2) ',
+            headerName: '〈 2 〉 ',
             headerClassName: 'tableHead',
             headerAlign: 'center',
             width: 280,
@@ -25,7 +25,7 @@ const SurfaceWater = () => {
         },
         {
             field: 'i',
-            headerName: '(3) ',
+            headerName: '〈 3 〉 ',
             headerClassName: 'tableHead',
             headerAlign: 'center',
             width: 100,
@@ -33,7 +33,7 @@ const SurfaceWater = () => {
         },
         {
             field: 'ii',
-            headerName: '(4) ',
+            headerName: '〈 4 〉 ',
             headerClassName: 'tableHead',
             headerAlign: 'center',
             width: 100,
@@ -41,7 +41,7 @@ const SurfaceWater = () => {
         },
         {
             field: 'iii',
-            headerName: '(5) ',
+            headerName: '〈 5 〉 ',
             headerClassName: 'tableHead',
             headerAlign: 'center',
             width: 100,
@@ -49,7 +49,7 @@ const SurfaceWater = () => {
         },
         {
             field: 'iv',
-            headerName: '(6) ',
+            headerName: '〈 6 〉 ',
             headerClassName: 'tableHead',
             headerAlign: 'center',
             width: 100,
@@ -57,7 +57,7 @@ const SurfaceWater = () => {
         },
         {
             field: 'v',
-            headerName: '(7) ',
+            headerName: '〈 7 〉 ',
             headerClassName: 'tableHead',
             headerAlign: 'center',
             width: 100,
@@ -65,7 +65,7 @@ const SurfaceWater = () => {
         },
         {
             field: 'vi',
-            headerName: '(8) ',
+            headerName: '〈 8 〉 ',
             headerClassName: 'tableHead',
             headerAlign: 'center',
             width: 100,
@@ -73,7 +73,7 @@ const SurfaceWater = () => {
         },
         {
             field: 'vii',
-            headerName: '(9) ',
+            headerName: '〈 9 〉 ',
             headerClassName: 'tableHead',
             headerAlign: 'center',
             width: 100,
@@ -81,7 +81,7 @@ const SurfaceWater = () => {
         },
         {
             field: 'viii',
-            headerName: '(10) ',
+            headerName: '〈 10 〉 ',
             headerClassName: 'tableHead',
             headerAlign: 'center',
             width: 100,
@@ -89,7 +89,7 @@ const SurfaceWater = () => {
         },
         {
             field: 'ix',
-            headerName: '(11) ',
+            headerName: '〈 11 〉 ',
             headerClassName: 'tableHead',
             headerAlign: 'center',
             width: 100,
@@ -97,7 +97,7 @@ const SurfaceWater = () => {
         },
         {
             field: 'x',
-            headerName: '(12) ',
+            headerName: '〈 12 〉 ',
             headerClassName: 'tableHead',
             headerAlign: 'center',
             width: 100,
@@ -105,7 +105,7 @@ const SurfaceWater = () => {
         },
         {
             field: 'xi',
-            headerName: '(13) ',
+            headerName: '〈 13 〉 ',
             headerClassName: 'tableHead',
             headerAlign: 'center',
             width: 100,
@@ -113,7 +113,7 @@ const SurfaceWater = () => {
         },
         {
             field: 'xii',
-            headerName: '(14) ',
+            headerName: '〈 14 〉 ',
             headerClassName: 'tableHead',
             headerAlign: 'center',
             width: 100,
@@ -121,7 +121,7 @@ const SurfaceWater = () => {
         },
         {
             field: 'avgYear',
-            headerName: '(15) ',
+            headerName: '〈 15 〉 ',
             headerClassName: 'tableHead',
             headerAlign: 'center',
             width: 150,
@@ -129,7 +129,7 @@ const SurfaceWater = () => {
         },
         {
             field: 'totalAmountOfSurfaceWater',
-            headerName: '(16) ',
+            headerName: '〈 16 〉 ',
             headerClassName: 'tableHead',
             headerAlign: 'center',
             width: 150,
@@ -138,7 +138,7 @@ const SurfaceWater = () => {
 
         {
             field: 'description',
-            headerName: '(17) ',
+            headerName: '〈 17 〉 ',
             headerClassName: 'tableHead',
             headerAlign: 'center',
             minWidth: 250,
@@ -243,7 +243,7 @@ const SurfaceWater = () => {
                 <Typography pt={7} pb={4} variant="h6">THÔNG TIN DỮ LIỆU VỀ LƯU LƯỢNG TRUNG BÌNH THÁNG NĂM TRÊN CÁC TIỂU VÙNG QUY HOẠCH <br /> TRÊN ĐỊA BÀN tỉnh quảng ngãi</Typography>
                 <Typography variant="button">Kỳ báo cáo: <b>{new Date().getFullYear()}</b></Typography>
             </Grid>
-            <Grid md={12} xs={12} px={15} pt={3}>
+            <Grid md={12} xs={12} pt={3}>
                 <DataGrid
                     className="main-table"
                     rows={rows}
