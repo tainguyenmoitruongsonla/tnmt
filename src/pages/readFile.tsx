@@ -59,11 +59,11 @@ const FileDisplay = () => {
 
     return (
         <div>
-            {fileUrl && (
+            {fileUrl ? (
                 <Document file={fileUrl} loading={loading}>
                     {renderPages()}
                 </Document>
-            )}
+            ) : <>Không có file PDF</>}
         </div>
     );
 };

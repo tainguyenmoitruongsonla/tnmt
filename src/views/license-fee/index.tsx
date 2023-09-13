@@ -34,9 +34,9 @@ const LicenseFee = (props: LicenseFeeProps) => {
   const router = useRouter();
 
   const columns: GridColDef[] = [
-    { field: 'id', headerClassName: 'tableHead', headerAlign: 'center', flex: 1, headerName: 'ID', minWidth: 90 },
+    { field: 'id', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'ID', minWidth: 90 },
     {
-      field: 'licenseFeeNumber', headerClassName: 'tableHead', headerAlign: 'center', flex: 1, headerName: 'Quyết định cấp quyền',
+      field: 'licenseFeeNumber', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'Quyết định cấp quyền', minWidth: 180,
       renderCell: (data: any) => (
         <ShowFilePDF
           name={data.row.licenseFeeNumber || ''}
@@ -45,9 +45,9 @@ const LicenseFee = (props: LicenseFeeProps) => {
         />
       ),
     },
-    { field: 'signDate', headerClassName: 'tableHead', headerAlign: 'center', flex: 1, headerName: 'Ngày ký', renderCell: (data: any) => FormatDate(data.row.signDate) },
+    { field: 'signDate', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'Ngày ký', minWidth: 180, renderCell: (data: any) => FormatDate(data.row.signDate) },
     {
-      field: 'supplementLicenseFee', headerClassName: 'tableHead', headerAlign: 'center', flex: 1, headerName: 'Quyết định bổ sung', renderCell: (data: any) => (
+      field: 'supplementLicenseFee', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'Quyết định bổ sung', minWidth: 180, renderCell: (data: any) => (
         <ShowFilePDF
           name={data.row.supplementLicenseFee?.licenseFeeNumber || ''}
           src={`${router.pathname.split('/')[1]}/${router.pathname.split('/')[2]}/${new Date(data.row.supplementLicenseFee?.signDate).getFullYear()}/`}
@@ -55,10 +55,10 @@ const LicenseFee = (props: LicenseFeeProps) => {
         />
       )
     },
-    { field: 'totalMoney', headerClassName: 'tableHead', headerAlign: 'center', flex: 1, headerName: 'Tổng số tiền cấp quyền(VNĐ)', type: 'number' },
+    { field: 'totalMoney', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'Tổng số tiền cấp quyền(VNĐ)', minWidth: 180, type: 'number' },
     { field: 'description', headerClassName: 'tableHead', headerAlign: 'center', flex: 1, headerName: 'Ghi chú' },
-    { field: 'LicenseNumber', headerClassName: 'tableHead', headerAlign: 'center', flex: 1, headerName: 'Giấy phép' },
-    { field: 'ConstructionName', headerClassName: 'tableHead', headerAlign: 'center', flex: 1, headerName: 'Công trình' },
+    { field: 'LicenseNumber', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'Giấy phép', minWidth: 180 },
+    { field: 'ConstructionName', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'Công trình', minWidth: 180 },
 
     //Action
     {
