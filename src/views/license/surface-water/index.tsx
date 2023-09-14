@@ -135,7 +135,7 @@ const SurfaceWaterLicense = () => {
             <div key={e.id}>
               <ShowFilePDF
                 name={e?.licenseFeeNumber || ''}
-                src={`/pdf/tien-cap-quyen/${router.pathname.split('/')[2]}/${new Date(e?.signDate).getFullYear()}/`}
+                src={`/pdf/tien-cap-quyen/${e.licensingAuthorities?.toLowerCase()}/${new Date(e?.signDate).getFullYear()}/`}
                 fileName={e?.filePDF || ''}
               />
             </div>
@@ -153,9 +153,7 @@ const SurfaceWaterLicense = () => {
         <div style={{ width: '100%' }}>
           {params.row.licenseFees.map((e: any) => (
             <div key={e.id}>
-              <Typography>
-                {FormatDate(e.signDate)}
-              </Typography>
+              {FormatDate(e.signDate)}
             </div>
           ))}
         </div>
@@ -170,7 +168,7 @@ const SurfaceWaterLicense = () => {
           totalMoney += parseFloat(e.totalMoney) || 0;
         });
 
-        return totalMoney;
+        return totalMoney == 0 ? '' : totalMoney;
       },
     },
 

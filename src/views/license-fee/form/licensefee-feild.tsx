@@ -20,7 +20,7 @@ const LicenseFeeFeild: FC<LicenseFeeFieldsetProps> = ({ data, onChange }) => {
         licenseFeeNumber: e.licenseFeeNumber,
         signDate: dayjs(e?.signDate),
         totalMoney: e.totalMoney,
-        filePdf: e.filePDF,
+        filePDF: e.filePDF,
         description: e.description,
     })) : [];
 
@@ -37,6 +37,7 @@ const LicenseFeeFeild: FC<LicenseFeeFieldsetProps> = ({ data, onChange }) => {
             totalMoney: 0,
             filePDF: null,
             description: null,
+            fileUpload: null,
         };
         setLicenseFees((prevItems) => [...prevItems, newItem]);
     };
@@ -82,17 +83,32 @@ const LicenseFeeFeild: FC<LicenseFeeFieldsetProps> = ({ data, onChange }) => {
 
 
     const handleChange = (index: number, prop: keyof LicenseFeeState) => (value: any) => {
-        const newLicenseFees = [...licenseFees];
-        newLicenseFees[index][prop] = value;
-        setLicenseFees(newLicenseFees);
+        setLicenseFees((prevLicenseFees) => {
+            const newLicenseFees = [...prevLicenseFees];
+            newLicenseFees[index] = {
+                ...newLicenseFees[index],
+                [prop]: value,
+                filePDF: `${newLicenseFees[index].licenseFeeNumber?.replace(/\//g, "_").toLowerCase()}.pdf`,
+            };
+            onChange(newLicenseFees, itemDelete);
 
-        // Call onChange after the state update
-        onChange(newLicenseFees, itemDelete);
+            return newLicenseFees;
+        });
     };
 
-    const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>, index: number) => {
         const file = event.target.files?.[0] || null;
-        console.log(file)
+        setLicenseFees((prevLicenseFees) => {
+            const newFileUpload = [...prevLicenseFees];
+            newFileUpload[index] = {
+                ...newFileUpload[index],
+                filePDF: `${newFileUpload[index].licenseFeeNumber?.replace(/\//g, "_").toLowerCase()}.pdf`,
+                fileUpload: file,
+            };
+            onChange(newFileUpload, itemDelete);
+
+            return newFileUpload;
+        });
     };
 
     useEffect(() => {
@@ -153,6 +169,7 @@ const LicenseFeeFeild: FC<LicenseFeeFieldsetProps> = ({ data, onChange }) => {
                                     />
                                 </TableCell>
                                 <TableCell>
+                                    {item.fileUpload && (<Typography mb={3}>{item.fileUpload?.name}</Typography>)}
                                     <Button
                                         className="uploadBtn"
                                         component="label"
@@ -161,7 +178,7 @@ const LicenseFeeFeild: FC<LicenseFeeFieldsetProps> = ({ data, onChange }) => {
                                         href={`#file-upload${index}`}
                                     >
                                         Upload file
-                                        <VisuallyHiddenInput type="file" onChange={handleFileChange} accept='.pdf' />
+                                        <VisuallyHiddenInput type="file" onChange={(e) => handleFileChange(e, index)} accept='.pdf' />
                                     </Button>
                                 </TableCell>
                                 <TableCell size='small' align='center'>

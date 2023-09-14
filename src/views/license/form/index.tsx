@@ -92,7 +92,8 @@ const FormLicense: FC<FormLicenseProps> = ({ data, closeDialogs, setPostSuccess 
       !licenseData?.signDate ||
       !licenseData?.issueDate ||
       !licenseData?.licensingAuthorities ||
-      !licenseData?.licensingTypeId
+      !licenseData?.licensingTypeId ||
+      !fileUpload.licenseFile && fileUpload.licenseFile !== null
     ) {
       let res: string | undefined = undefined;
 
@@ -108,6 +109,8 @@ const FormLicense: FC<FormLicenseProps> = ({ data, closeDialogs, setPostSuccess 
         res = 'Cơ quan cấp phép *';
       } else if (!licenseData?.licensingTypeId) {
         res = 'Loại giấy phép *';
+      } else if (!fileUpload.licenseFile && fileUpload.licenseFile !== null) {
+        res = 'File giấy phép *';
       }
 
       if (res) {
@@ -163,14 +166,13 @@ const FormLicense: FC<FormLicenseProps> = ({ data, closeDialogs, setPostSuccess 
           const saveLic = await post('License/save', newLic);
 
           if (saveLic) {
-            console.log(newLicenseFile)
-            if (newLicenseFile.fileName || newLicenseFile.fileName !== null && newLicenseFile.file || newLicenseFile.file !== null) {
+            if (newLicenseFile.fileName && newLicenseFile.fileName !== null && newLicenseFile.file && newLicenseFile.file !== null) {
               await upload(newLicenseFile)
             }
-            if (newLicenseRequestFile.fileName || newLicenseRequestFile.fileName !== null && newLicenseRequestFile.file || newLicenseRequestFile.file !== null) {
+            if (newLicenseRequestFile.fileName && newLicenseRequestFile.fileName !== null && newLicenseRequestFile.file && newLicenseRequestFile.file !== null) {
               await upload(newLicenseRequestFile)
             }
-            if (newRelatedDocumentFile.fileName || newRelatedDocumentFile.fileName !== null && newRelatedDocumentFile.file || newRelatedDocumentFile.file !== null) {
+            if (newRelatedDocumentFile.fileName && newRelatedDocumentFile.fileName !== null && newRelatedDocumentFile.file && newRelatedDocumentFile.file !== null) {
               await upload(newRelatedDocumentFile)
             }
 
@@ -185,6 +187,15 @@ const FormLicense: FC<FormLicenseProps> = ({ data, closeDialogs, setPostSuccess 
               e.licensingAuthorities = newLic.licensingAuthorities;
               const saveLicFee = await post('LicenseFee/save', e);
               if (saveLicFee.id) {
+                const licFeeFile = {
+                  filePath: `pdf/tien-cap-quyen/${e.licensingAuthorities.toLowerCase()}/${dayjs(e.signDate)?.year()}`,
+                  fileName: e?.filePDF,
+                  file: e.fileUpload
+                }
+                if (licFeeFile.fileName && licFeeFile.fileName !== null && licFeeFile.file && licFeeFile.file !== null) {
+                  await upload(licFeeFile)
+                }
+
                 await post('LicenseLicenseFee/save', { id: 0, licenseId: saveLic.id, licenseFeeId: saveLicFee.id });
               }
             })
