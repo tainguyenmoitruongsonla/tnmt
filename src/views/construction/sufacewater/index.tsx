@@ -8,7 +8,7 @@ import { GridColDef, GridColumnGroupingModel } from '@mui/x-data-grid'
 
 //Other Imports
 import FormatDate from 'src/@core/components/format-date'
-import ShowFilePDF from 'src/@core/components/show-file-pdf'
+import ShowFilePDF from 'src/@core/components/show-file-pdf';
 import DataGridComponent, { columnFillters } from 'src/@core/components/data-grid'
 import { Delete } from '@mui/icons-material'
 import FormGroup from '@mui/material/FormGroup'
@@ -376,7 +376,7 @@ const SurfaceConstruction = () => {
       ),
       minWidth: 150
     },
-
+  
     //license
     {
       field: 'license.LicenseNumber',
@@ -384,17 +384,20 @@ const SurfaceConstruction = () => {
       headerAlign: 'center',
       headerName: 'Số GP',
       minWidth: 150,
-      renderCell: params => (
+      renderCell: (params) => (
         <div style={{ width: '100%' }}>
-          {params.row.licenses?.map((e: any) => (
+          {params.row.licenses.map((e: any) => (
             <div key={e.id}>
-              <Typography>
-                <ShowFilePDF name={e.licenseNumber} src={`/pdf/giay-pheps`} />
-              </Typography>
+              <ShowFilePDF
+                name={e?.licenseNumber || ''}
+                src={`/pdf/giay-pheps/${e.licensingAuthorities?.toLowerCase()}/${new Date(e?.signDate).getFullYear()}/`}
+                fileName={e?.filePDF || ''}
+              />
             </div>
           ))}
         </div>
-      )
+      ),
+      
     },
     {
       field: 'license.IssueDate',
@@ -436,17 +439,19 @@ const SurfaceConstruction = () => {
       headerAlign: 'center',
       headerName: 'Số QĐ',
       minWidth: 150,
-      renderCell: params => (
+      renderCell: (params) => (
         <div style={{ width: '100%' }}>
-          {params.row.licenses.licenseFees?.map((e: any) => (
+          {params.row.licenseFees?.map((e: any) => (
             <div key={e.id}>
-              <Typography>
-                <ShowFilePDF name={e.licenseFeeNumber} src={`/pdf/giay-pheps`} />
-              </Typography>
+              <ShowFilePDF
+                name={e?.licenseFeeNumber || ''}
+                src={`/pdf/tien-cap-quyen/${e.licensingAuthorities?.toLowerCase()}/${new Date(e?.signDate).getFullYear()}/`}
+                fileName={e?.filePDF || ''}
+              />
             </div>
           ))}
         </div>
-      )
+      ),
     },
     {
       field: 'licenseFees.TotalMoney',

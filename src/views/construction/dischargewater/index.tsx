@@ -57,11 +57,13 @@ const DischargeConstruction = () => {
       minWidth: 150,
       renderCell: (params) => (
         <div style={{ width: '100%' }}>
-          {params.row.licenses?.map((e: any) => (
+          {params.row.licenses.map((e: any) => (
             <div key={e.id}>
-              <Typography>
-                <ShowFilePDF name={e.licenseNumber} src={`/pdf/giay-pheps`} />
-              </Typography>
+              <ShowFilePDF
+                name={e?.licenseNumber || ''}
+                src={`/pdf/giay-pheps/${e.licensingAuthorities?.toLowerCase()}/${new Date(e?.signDate).getFullYear()}/`}
+                fileName={e?.filePDF || ''}
+              />
             </div>
           ))}
         </div>
@@ -113,11 +115,13 @@ const DischargeConstruction = () => {
         minWidth: 150,
         renderCell: (params) => (
           <div style={{ width: '100%' }}>
-            {params.row.licenses.licenseFees?.map((e: any) => (
+            {params.row.licenses.map((e: any) => (
               <div key={e.id}>
-                <Typography>
-                  <ShowFilePDF name={e.licenseFeeNumber} src={`/pdf/giay-pheps`} />
-                </Typography>
+                <ShowFilePDF
+                  name={e?.licenseNumber || ''}
+                  src={`/pdf/giay-pheps/${e.licensingAuthorities?.toLowerCase()}/${new Date(e?.signDate).getFullYear()}/`}
+                  fileName={e?.filePDF || ''}
+                />
               </div>
             ))}
           </div>
