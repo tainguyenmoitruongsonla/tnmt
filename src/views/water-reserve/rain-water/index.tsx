@@ -1,13 +1,15 @@
 import { Typography } from "@mui/material";
 import Grid from "@mui/system/Unstable_Grid";
 import { DataGrid, GridColDef, GridColumnGroupingModel, GridToolbarExport } from '@mui/x-data-grid';
+import HeaderWaterReseve from "../header";
+import FooterWaterReseve from "../footer";
 
 const RainWater = () => {
     const columns: GridColDef[] = [
         { field: 'id', headerName: 'ID', },
         {
             field: 'stt',
-            headerName: '〈 1 〉',
+            headerName: '〈 1 〉 ',
             headerClassName: 'tableHead',
             headerAlign: 'center',
             align: 'center',
@@ -16,62 +18,110 @@ const RainWater = () => {
             sortable: false,
         },
         {
-            field: 'basin',
-            headerName: '〈 2 〉',
+            field: 'riverID',
+            headerName: '〈 2 〉 ',
             headerClassName: 'tableHead',
             headerAlign: 'center',
             width: 280,
             sortable: false,
         },
         {
-            field: 'acreage',
-            headerName: '〈 3 〉',
+            field: 'riverName',
+            headerName: '〈 3 〉 ',
             headerClassName: 'tableHead',
             headerAlign: 'center',
-            width: 150,
+            width: 100,
             sortable: false,
         },
         {
-            field: 'annualRainfall',
-            headerName: '〈 4 〉',
+            field: 'outflow',
+            headerName: '〈 4 〉 ',
             headerClassName: 'tableHead',
             headerAlign: 'center',
-            width: 150,
+            width: 100,
             sortable: false,
         },
         {
-            field: 'population',
-            headerName: '〈 5 〉',
+            field: 'length',
+            headerName: '〈 5 〉 ',
             headerClassName: 'tableHead',
             headerAlign: 'center',
-            width: 150,
+            width: 100,
             sortable: false,
         },
         {
-            field: 'totalAmountOfRainWater',
-            headerName: '〈 6 〉',
+            field: 'xStart',
+            headerName: '〈 6 〉 ',
             headerClassName: 'tableHead',
             headerAlign: 'center',
-            width: 150,
+            width: 100,
             sortable: false,
         },
         {
-            field: 'amountOfRainWater',
-            headerName: '〈 7 〉',
+            field: 'yStart',
+            headerName: '〈 7 〉 ',
             headerClassName: 'tableHead',
             headerAlign: 'center',
-            width: 150,
+            width: 100,
+            sortable: false,
+        },
+        {
+            field: 'communeStart',
+            headerName: '〈 8 〉 ',
+            headerClassName: 'tableHead',
+            headerAlign: 'center',
+            width: 100,
+            sortable: false,
+        },
+        {
+            field: 'districtStart',
+            headerName: '〈 9 〉 ',
+            headerClassName: 'tableHead',
+            headerAlign: 'center',
+            width: 100,
+            sortable: false,
+        },
+        {
+            field: 'xFinish',
+            headerName: '〈 10 〉 ',
+            headerClassName: 'tableHead',
+            headerAlign: 'center',
+            width: 100,
+            sortable: false,
+        },
+        {
+            field: 'yFinish',
+            headerName: '〈 11 〉 ',
+            headerClassName: 'tableHead',
+            headerAlign: 'center',
+            width: 100,
+            sortable: false,
+        },
+        {
+            field: 'communeFinish',
+            headerName: '〈 12 〉 ',
+            headerClassName: 'tableHead',
+            headerAlign: 'center',
+            width: 100,
+            sortable: false,
+        },
+        {
+            field: 'districtFinish',
+            headerName: '〈 13 〉 ',
+            headerClassName: 'tableHead',
+            headerAlign: 'center',
+            width: 100,
             sortable: false,
         },
         {
             field: 'description',
-            headerName: '〈 8 〉',
+            headerName: '〈 14 〉 ',
             headerClassName: 'tableHead',
             headerAlign: 'center',
-            width: 250,
-            flex: 1,
+            width: 100,
             sortable: false,
         },
+       
     ];
 
     const columnGroupingModel: GridColumnGroupingModel = [
@@ -79,56 +129,90 @@ const RainWater = () => {
             groupId: 'STT',
             headerClassName: 'tableHead',
             headerAlign: 'center',
-            children: [{ field: 'stt' }],
+            children: [{
+                groupId: ' ',
+                headerClassName: 'tableHead',
+                children: [{ field: 'stt' }]
+            }],
         },
         {
-            groupId: 'Tiểu vùng lưu vực',
+            groupId: 'Mã sông',
             headerClassName: 'tableHead',
             headerAlign: 'center',
-            children: [{ field: 'basin' }],
+            children: [{
+                groupId: ' ',
+                headerClassName: 'tableHead',
+                children: [{ field: 'riverID' }]
+            }],
         },
         {
-            groupId: 'Diện tích(km)',
+            groupId: 'Tên sông',
             headerClassName: 'tableHead',
             headerAlign: 'center',
-            children: [{ field: 'acreage' }],
+            children: [{
+                groupId: ' ',
+                headerClassName: 'tableHead',
+                children: [{ field: 'riverName' }]
+            }],
         },
         {
-            groupId: 'Dân số(người)',
+            groupId: 'Chảy ra ',
             headerClassName: 'tableHead',
             headerAlign: 'center',
-            children: [{ field: 'annualRainfall' }],
+            children: [{
+                groupId: ' ',
+                headerClassName: 'tableHead',
+                children: [{ field: 'outflow' }]
+            }],
         },
         {
-            groupId: 'Lưu lượng mưa năm(mm)',
+            groupId: 'Chiều dài',
             headerClassName: 'tableHead',
             headerAlign: 'center',
-            children: [{ field: 'population' }],
+            children: [{
+                groupId: ' ',
+                headerClassName: 'tableHead',
+                children: [{ field: 'length' }]
+            }],
         },
         {
-            groupId: 'Tổng lượng nước mưa(10³m³)',
+            groupId: 'Vị trí đầu sông',
             headerClassName: 'tableHead',
             headerAlign: 'center',
-            children: [{ field: 'totalAmountOfRainWater' }],
+            children: [
+                { groupId: 'Tọa độ X', headerClassName: 'tableHead', headerAlign: 'center', children: [{ field: 'xStart' }] },
+                { groupId: 'Tọa độ Y', headerClassName: 'tableHead', headerAlign: 'center', children: [{ field: 'yStart' }] },
+                { groupId: 'Xã', headerClassName: 'tableHead', headerAlign: 'center', children: [{ field: 'communeStart' }] },
+                { groupId: 'Huyện', headerClassName: 'tableHead', headerAlign: 'center', children: [{ field: 'districtStart' }] },
+            ],
         },
         {
-            groupId: 'Lượng nước mưa(m³/người/năm)',
+            groupId: 'Vị trí cuối sông',
             headerClassName: 'tableHead',
             headerAlign: 'center',
-            children: [{ field: 'amountOfRainWater' }],
+            children: [
+                { groupId: 'Tọa độ X', headerClassName: 'tableHead', headerAlign: 'center', children: [{ field: 'xFinish' }] },
+                { groupId: 'Tọa độ Y', headerClassName: 'tableHead', headerAlign: 'center', children: [{ field: 'yFinish' }] },
+                { groupId: 'Xã', headerClassName: 'tableHead', headerAlign: 'center', children: [{ field: 'communeFinish' }] },
+                { groupId: 'Huyện', headerClassName: 'tableHead', headerAlign: 'center', children: [{ field: 'districtFinish' }] },
+            ],
         },
         {
             groupId: 'Ghi chú',
             headerClassName: 'tableHead',
             headerAlign: 'center',
-            children: [{ field: 'description' }],
+            children: [{
+                groupId: ' ',
+                headerClassName: 'tableHead',
+                children: [{ field: 'description' }]
+            }],
         },
     ];
 
     const rows = [
-        { id: 1, stt: 1, basin: 'basin1', acreage: '15', annualRainfall: '1000', population: '1000000', totalAmountOfRainWater: '1000000', amountOfRainWater: '10000', description: 'note' },
-        { id: 2, stt: 2, basin: 'basin1', acreage: '15', annualRainfall: '1000', population: '1000000', totalAmountOfRainWater: '1000000', amountOfRainWater: '10000', description: 'note' },
-        { id: 3, stt: 3, basin: 'basin1', acreage: '15', annualRainfall: '1000', population: '1000000', totalAmountOfRainWater: '1000000', amountOfRainWater: '10000', description: 'note' }
+        { id: 1,stt: 1, description: 1 },
+        { id: 2, stt: 2,description: 2 },
+        { id: 3, stt: 3,  description: 3 },
     ];
 
     const toolbar = () => {
@@ -136,8 +220,7 @@ const RainWater = () => {
         return (
             <Grid display={'flex'} justifyContent={'end'}>
                 <GridToolbarExport csvOptions={{
-
-                    utf8WithBom: true,
+                 utf8WithBom: true,
                 }} />
             </Grid>
         )
@@ -145,9 +228,9 @@ const RainWater = () => {
 
     return (
         <Grid container>
+            <HeaderWaterReseve />   
             <Grid md={12} xs={12} textAlign={'center'} textTransform={'uppercase'}>
-                <Typography pt={7} pb={4} variant="h6">thống kê số liệu đánh giá lượng nước mưa trên các tiểu vùng lưu vực <br /> trên địa bàn tỉnh quảng ngãi</Typography>
-                <Typography variant="button">Kỳ báo cáo: <b>{new Date().getFullYear()}</b></Typography>
+                <Typography pt={7} pb={4} variant="h6">KIỂM KÊ SỐ LƯỢNG NGUỒN NƯỚC MẶT SÔNG, SUỐI, KÊNH RẠCH</Typography>
             </Grid>
             <Grid md={12} xs={12} pt={3}>
                 <DataGrid
@@ -174,6 +257,7 @@ const RainWater = () => {
                     density="compact"
                 />
             </Grid>
+            <FooterWaterReseve />   
         </Grid>
     )
 }
