@@ -385,7 +385,7 @@ code[class*='language-'] {
   position: absolute;
   z-index: 999;
   right: 15px;
-  top: 15px;
+  top: 45px;
 }
 
 .leaflet-popup-content {
