@@ -6,88 +6,39 @@ import {
   Link,
   Box,
   IconButton,
+  TableContainer,
+  Table,
+  TableHead,
+  TableRow,
+  TableCell,
+  TableBody
 } from '@mui/material'
-import DeleteIcon from '@mui/icons-material/Delete';
+import DownloadIcon from '@mui/icons-material/Download';
 import DialogControlFullScreen from 'src/@core/components/dialog-control-full-screen'
-import { useState, useEffect  } from 'react';
-import bieumau1 from 'src/api/report/bieumau1';
-import TableComponent from 'src/@core/components/table';
-
-const columnsTable = [
-  { id: 'stt', label: 'STT', rowspan: 2, },
-  { id: 'LuuVucSong', label: 'Lưu vực', rowspan: 2, },
-  {
-    id: '#', label: 'Tổng số trạm quan trắc(trạm)',  children: [
-      { id: 'TongTramKyTruoc', label: 'Kỳ trước', },
-      { id: 'TongTramBaoCao', label: 'Kỳ báo cáo', },
-      { id: 'TongTramThayDoi', label: 'Kỳ thay đổi', },
-    ]
-  },
-  {
-    id: '#', label: 'Trạm khí tượng',  children: [
-      { id: 'TramKTKyTruoc', label: 'Kỳ trước', },
-      { id: 'TramKTBaoCao', label: 'Kỳ báo cáo', },
-      { id: 'TramKTThayDoi', label: 'Kỳ thay đổi', },
-    ]
-  },
- 
-  {
-    id: '#', label: 'Thủy văn, thủy văn kết hợp tài nguyên nước',  children: [
-      { id: 'TramTVKyTruoc', label: 'Kỳ trước', },
-      { id: 'TramTVBaoCao', label: 'Kỳ báo cáo', },
-      { id: 'TramTVThayDoi', label: 'Kỳ thay đổi', },
-    ]
-  },
-  {
-    id: '#', label: 'Tài nguyên nước độc lập',  children: [
-      { id: 'TramTNNKyTruoc', label: 'Kỳ trước', },
-      { id: 'TramTNNBaoCao', label: 'Kỳ báo cáo', },
-      { id: 'TramTNNThayDoi', label: 'Kỳ thay đổi', },
-    ]
-  },
-  {
-    id: '#', label: 'Quan trắc nước dưới đất',  children: [
-      { id: 'TramNDDKyTruoc', label: 'Kỳ trước', },
-      { id: 'TramNDDBaoCao', label: 'Kỳ báo cáo ', },
-      { id: 'TramNDDThayDoi', label: 'Kỳ thay đổi', },
-    ]
-  },
-];
 
 const FormContruction = () => {
-  const [data, setData] = useState<any[]>([]);
-  const [columns, setColumns] = useState<any[]>([]);
-  useEffect(() => {
-    setData(bieumau1);
-    setColumns(columnsTable);
-
-    // fetchData();
-  }, []);
-  
   return (
     <Paper sx={{ p: 8 }}>
       {/* dautrang */}
       <Grid container>
         <Grid md={11}>
           <Typography variant='h5'>
-          Biểu mẫu số 4. Tổng lượng nước mặt trên các lưu vực sông
+            Biểu mẫu số 6. Tổng dung tích các hồ chứa lớn, quan trọng trên các lưu vực sông
           </Typography>
         </Grid>
         <Grid md={1}>
           <IconButton>
-            <DeleteIcon />
+            <DownloadIcon />
           </IconButton>
         </Grid>
       </Grid>
-      <Grid className='_space_between' sx={{mt:5}}>
+      <Grid className='_space_between' sx={{ mt: 5 }}>
         <Grid className='_text_center'>
-          <Typography variant="h5">
-            UBND Tỉnh Sơn La
-          </Typography >
-          <Typography className='font-weight-bold ' variant="h5">
-          SỞ TÀI NGUYÊN VÀ MÔI TRƯỜNG
+          <Typography variant='h5'>UBND Tỉnh Sơn La</Typography>
+          <Typography className='font-weight-bold ' variant='h5'>
+            SỞ TÀI NGUYÊN VÀ MÔI TRƯỜNG
           </Typography>
-          <Typography variant="h5">
+          <Typography variant='h5'>
             Số:
             <TextField size='small' sx={{ width: '50px' }}></TextField>
             /STNMT-TNN-KS&KTTV
@@ -95,74 +46,129 @@ const FormContruction = () => {
         </Grid>
 
         <Grid className='_text_center'>
-          <Typography variant="h5">
-            CỘNG HOÀ XÃ HỘI CHỦ NGHĨA VIỆT NAM
-          </Typography >
-          <Typography className='font-weight-bold ' variant="h5">
+          <Typography variant='h5'>CỘNG HOÀ XÃ HỘI CHỦ NGHĨA VIỆT NAM</Typography>
+          <Typography className='font-weight-bold ' variant='h5'>
             Độc lập - Tự do - Hạnh phúc
           </Typography>
-          <Typography variant="h6">
-            Sơn La, ngày 25 tháng 04 năm 2023
-          </Typography>
+          <Typography variant='h6'>Sơn La, ngày 25 tháng 04 năm 2023</Typography>
         </Grid>
       </Grid>
 
       <Grid className='_text_center'>
-        <Typography className='font-weight-bold ' variant="h4">
+        <Typography className='font-weight-bold ' variant='h4'>
           BÁO CÁO
         </Typography>
-        <Typography className='font-weight-bold ' variant="h6">
-          Số lượng trạm quan trắc khí tượng, thuỷ văn, tài nguyên nước, nước dưới đất
+        <Typography className='font-weight-bold ' variant='h6'>
+        Tổng dung tích các hồ chứa thủy điện trên địa bàn tỉnh Sơn La
         </Typography>
-        <Typography className='font-weight-bold ' variant="h6">
+        <Typography className='font-weight-bold ' variant='h6'>
           (Kỳ báo cáo: <TextField size='small' sx={{ width: '50px' }}></TextField>)
         </Typography>
       </Grid>
 
-      <Grid className='_text_center' sx={{mt:3}} >
-      <TableComponent
-            columns={columns}
-            data={data}/>
+      <Grid className='_text_center' sx={{ mt: 3 }}>
+        <TableContainer component={Paper}>
+          <Table sx={{ minWidth: 650 }} aria-label='simple table'>
+            <TableHead className='tableHead'>
+              <TableRow>
+                <TableCell size='small' align='center' rowSpan={3}>
+                  STT
+                </TableCell>
+                <TableCell size='small' align='center' rowSpan={2}>
+                  Huyện
+                </TableCell>
+                <TableCell size='small' align='center'  rowSpan={2}>
+                  Số lượng hồ chứa tổng hợp(hồ)
+                </TableCell>
+                <TableCell size='small' align='center' colSpan={4}>
+                  Tổng dung tích
+                </TableCell>
+                
+              </TableRow>
+
+              <TableRow>
+                <TableCell size='small' align='center' >
+                Toàn bộ (triệu m3)
+                </TableCell>
+                <TableCell size='small' align='center' >
+                Hiệu tích (triệu m3)
+                </TableCell>
+                <TableCell size='small' align='center' >
+                Phòng lũ (triệu m3)
+                </TableCell>
+                <TableCell size='small' align='center' >
+                Tích được vào cuối mùa lũ, đầu mùa cạn (triệu m3)
+                </TableCell>
+              </TableRow>
+
+
+              <TableRow>
+                <TableCell size='small' align='center'>
+                  (1)&nbsp;
+                </TableCell>
+                <TableCell size='small' align='center'>
+                  (2)&nbsp;
+                </TableCell>
+                <TableCell size='small' align='center'>
+                  (3)&nbsp;
+                </TableCell>
+
+                <TableCell size='small' align='center'>
+                  (4)
+                </TableCell>
+                <TableCell size='small' align='center'>
+                  (5)
+                </TableCell>
+                <TableCell size='small' align='center'>
+                  (6)&nbsp;
+                </TableCell>
+              </TableRow>
+            </TableHead>
+
+            <TableBody className='tableBody'>
+              <TableRow>
+                <TableCell className="text-center  size='small' align-middle font-13">1</TableCell>
+                <TableCell className="text-center  size='small' align-middle font-13">1</TableCell>
+                <TableCell className="text-center  size='small' align-middle font-13">1</TableCell>
+                <TableCell className="text-center  size='small' align-middle font-13">1</TableCell>
+                <TableCell className="text-center  size='small' align-middle font-13">1</TableCell>
+                <TableCell className="text-center  size='small' align-middle font-13">1</TableCell>
+                <TableCell className="text-center  size='small' align-middle font-13">1</TableCell>
+               
+              </TableRow>
+            </TableBody>
+          </Table>
+        </TableContainer>
       </Grid>
-      <Grid className='_space_between' sx={{mt:5}}>
-        <Grid >
-          <Typography >
-            Nơi nhận
-          </Typography >
-          <Typography >
-            - Ban Giám đốc sở
-          </Typography >
-          <Typography>
-            - Lưu:VT; TNN, KS&KTTV; VP, 10b
-          </Typography>
+      <Grid className='_space_between' sx={{ mt: 5 }}>
+        <Grid>
+          <Typography>Nơi nhận</Typography>
+          <Typography>- Ban Giám đốc sở</Typography>
+          <Typography>- Lưu:VT; TNN, KS&KTTV; VP, 10b</Typography>
         </Grid>
 
-        <Grid >
-          <Typography  className='font-weight-bold' variant='h6'>
+        <Grid>
+          <Typography className='font-weight-bold' variant='h6'>
             Người thống kê
-          </Typography >
+          </Typography>
         </Grid>
-        
       </Grid>
     </Paper>
   )
-
 }
 
-const Bieumau4= () => {
+const Bieumau6A = () => {
   const formTitle = 'BIỂU MẪU THÔNG TƯ 31/2018/TT-BTNMT/ BIỂU MẪU SỐ 6A'
 
   return (
     <DialogControlFullScreen>
       {(openDialogs: (content: React.ReactNode, title: React.ReactNode) => void) => (
         <>
-          <Link className='formReport_box' onClick={() =>
-            openDialogs(<FormContruction />, formTitle)
-          }>
+          <Link className='formReport_box' onClick={() => openDialogs(<FormContruction />, formTitle)}>
             <Grid item xs={8}>
               <Typography className='text-danger text-weight-bold'>Biểu mẫu 6A</Typography>
               <Typography className='text-success text-weight-bold _font12'>
-                Tổng dung tích các hồ chứa thủy điện
+                Tổng dung tích các hồ chứa thủy lợi
               </Typography>
             </Grid>
             <Grid item xs={4}>
@@ -175,4 +181,4 @@ const Bieumau4= () => {
   )
 }
 
-export default Bieumau4
+export default Bieumau6A
