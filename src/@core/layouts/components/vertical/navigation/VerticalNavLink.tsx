@@ -30,6 +30,7 @@ import UserIcon from 'src/layouts/components/UserIcon'
 // ** Utils
 import { handleURLQueries } from 'src/@core/layouts/utils'
 import { checkAccessPermission } from '../../../checkAccessPermission'
+import { CheckCircle } from '@mui/icons-material'
 
 interface Props {
   item: NavLink
@@ -123,7 +124,11 @@ const VerticalNavLink = ({ item, settings, navVisible, toggleNavVisibility }: Pr
                   color: `#fff`
                 }}
               >
-                <UserIcon icon={IconTag} />
+                {open || item.children.some(child => isNavLinkActive(child.path)) ? (
+                  <CheckCircle sx={{ fontSize: '16px' }} />
+                ) : (
+                  <UserIcon icon={IconTag} />
+                )}
               </ListItemIcon> : ''}
               <MenuItemTextMetaWrapper>
                 <Typography sx={{ color: `#fff` }} {...(themeConfig.menuTextTruncate && { noWrap: true })}>
@@ -198,7 +203,11 @@ const VerticalNavLink = ({ item, settings, navVisible, toggleNavVisibility }: Pr
                 color: `#fff`
               }}
             >
-              <UserIcon icon={IconTag} />
+              {isNavLinkActive(item.path) ? (
+                <CheckCircle sx={{ fontSize: '16px' }} />
+              ) : (
+                <UserIcon icon={IconTag} />
+              )}
             </ListItemIcon> : ''}
 
             <MenuItemTextMetaWrapper>
