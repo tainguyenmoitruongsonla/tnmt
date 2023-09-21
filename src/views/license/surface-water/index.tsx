@@ -297,7 +297,7 @@ const SurfaceWaterLicense = () => {
 
   const getData = async () => {
     setLoading(true);
-    fetchData('https://localhost:7249/api/License/list', paramsFilter)
+    fetchData('License/list', paramsFilter)
       .then((data) => {
         if (isMounted.current) {
           setResData(data);

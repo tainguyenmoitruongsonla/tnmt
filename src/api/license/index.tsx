@@ -1,8 +1,9 @@
 import axios from 'axios';
+import apiUrl from '../config';
 
-async function fetchData(apiUrl: string, params: any) {
+async function fetchData(url: string, params: any) {
     try {
-        const response = await axios.get(`${apiUrl}`, {
+        const response = await axios.get(`${apiUrl}/${url}`, {
             params: params,
         });
 
