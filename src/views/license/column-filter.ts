@@ -9,6 +9,7 @@ const ColumnFilters = () => {
     const [constructionTypes, setConstructionTypes] = useState([]);
     const [districts, setDistricts] = useState([]);
     const [communes, setCommune] = useState([]);
+    const [subBasin, setSubBasin] = useState([]);
 
     const router = useRouter();
 
@@ -33,9 +34,29 @@ const ColumnFilters = () => {
 
                 // commune
                 const comunnesData = await fetchData('Locations/list/commune');
-                setCommune(comunnesData.map((commune: any) => ({ label: commune.communeName, value: commune.communeId })));
+                const communeMap = new Map();
 
-                // ... (rest of your code)
+                comunnesData.forEach((commune: any) => {
+                    const communeName = commune.communeName;
+                    const communeId = commune.communeId;
+                    const districtName = commune.districtName;
+
+                    if (communeMap.has(communeName)) {
+                        const updatedCommuneName = `${communeName}-${districtName}`;
+                        communeMap.set(updatedCommuneName, communeId);
+                    } else {
+                        communeMap.set(communeName, communeId);
+                    }
+                });
+
+                const updatedCommuneData: any = [...communeMap.entries()].map(([name, id]) => ({ label: name, value: id }));
+
+                setCommune(updatedCommuneData);
+
+                // subBasin
+                const subBasinData = await fetchData('SubBasin/list');
+                setSubBasin(subBasinData.map((subBasin: any) => ({ label: subBasin.name, value: subBasin.id })));
+
             } catch (error) {
             } finally {
             }
@@ -107,14 +128,9 @@ const ColumnFilters = () => {
         },
         {
             label: 'Tiểu vùng quy hoạch',
-            value: 'basinId',
+            value: 'subBasinId',
             type: 'select',
-            options: [
-                { label: 'Tiểu vùng quy hoạch 1', value: 1 },
-                { label: 'Tiểu vùng quy hoạch 2', value: 2 },
-                { label: 'Tiểu vùng quy hoạch 3', value: 3 },
-                { label: '...', value: 4 },
-            ],
+            options: subBasin,
         },
     ];
 

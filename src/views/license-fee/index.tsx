@@ -34,9 +34,9 @@ const LicenseFee = (props: LicenseFeeProps) => {
   const router = useRouter();
 
   const columns: GridColDef[] = [
-    { field: 'id', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'ID', minWidth: 90 },
+    { field: 'id',  headerAlign: 'center', headerName: 'ID', minWidth: 90 },
     {
-      field: 'licenseFeeNumber', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'Quyết định cấp quyền', minWidth: 180,
+      field: 'licenseFeeNumber',  headerAlign: 'center', headerName: 'Quyết định cấp quyền', minWidth: 180,
       renderCell: (data: any) => (
         <ShowFilePDF
           name={data.row.licenseFeeNumber || ''}
@@ -45,9 +45,9 @@ const LicenseFee = (props: LicenseFeeProps) => {
         />
       ),
     },
-    { field: 'signDate', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'Ngày ký', minWidth: 180, renderCell: (data: any) => FormatDate(data.row.signDate) },
+    { field: 'signDate',  headerAlign: 'center', headerName: 'Ngày ký', minWidth: 180, renderCell: (data: any) => FormatDate(data.row.signDate) },
     {
-      field: 'supplementLicenseFee', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'Quyết định bổ sung', minWidth: 180, renderCell: (data: any) => (
+      field: 'supplementLicenseFee',  headerAlign: 'center', headerName: 'Quyết định bổ sung', minWidth: 180, renderCell: (data: any) => (
         <ShowFilePDF
           name={data.row.supplementLicenseFee?.licenseFeeNumber || ''}
           src={`pdf/tien-cap-quyen/${router.pathname.split('/')[2]}/${new Date(data.row.supplementLicenseFee?.signDate).getFullYear()}/`}
@@ -55,14 +55,14 @@ const LicenseFee = (props: LicenseFeeProps) => {
         />
       )
     },
-    { field: 'totalMoney', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'Tổng số tiền cấp quyền(VNĐ)', minWidth: 180, type: 'number' },
-    { field: 'description', headerClassName: 'tableHead', headerAlign: 'center', flex: 1, headerName: 'Ghi chú' },
-    { field: 'LicenseNumber', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'Giấy phép', minWidth: 180 },
-    { field: 'ConstructionName', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'Công trình', minWidth: 180 },
+    { field: 'totalMoney',  headerAlign: 'center', headerName: 'Tổng số tiền cấp quyền(VNĐ)', minWidth: 180, type: 'number' },
+    { field: 'description',  headerAlign: 'center', flex: 1, headerName: 'Ghi chú' },
+    { field: 'LicenseNumber',  headerAlign: 'center', headerName: 'Giấy phép', minWidth: 180 },
+    { field: 'ConstructionName',  headerAlign: 'center', headerName: 'Công trình', minWidth: 180 },
 
     //Action
     {
-      field: 'actions', headerClassName: 'tableHead', headerAlign: 'center', headerName: '#', minWidth: 120, sortable: false,
+      field: 'actions',  headerAlign: 'center', headerName: '#', minWidth: 120, sortable: false,
       renderCell: (data) => (
         <Box>
           <Tooltip title="Chỉnh sửa tiền cấp quyền">

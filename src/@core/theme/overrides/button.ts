@@ -13,7 +13,7 @@ const Button = (theme: Theme) => {
           borderRadius: 5,
           lineHeight: 1.71,
           letterSpacing: '0.3px',
-          fontSize: '12px',
+          fontSize: '11px',
           padding: `${theme.spacing(1.875, 3)}`
         },
         contained: {
@@ -29,7 +29,7 @@ const Button = (theme: Theme) => {
             padding: `${theme.spacing(1, 3.5)}`
           },
           '&.MuiButton-outlined': {
-            padding: `${theme.spacing(0.75, 3.25)}`
+            padding: `${theme.spacing(1.4, 5.25)}`
           }
         },
         sizeLarge: {

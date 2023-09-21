@@ -7,11 +7,27 @@ const input = (theme: Theme) => {
       styleOverrides: {
         root: {
           color: theme.palette.text.primary,
-          fontSize: '14px',
+          fontSize: '12px',
         }
       }
     },
     MuiInput: {
+      styleOverrides: {
+        root: {
+          '&:before': {
+            borderBottom: `1px solid rgba(${theme.palette.customColors.main}, 0.22)`
+          },
+          '&:hover:not(.Mui-disabled):before': {
+            borderBottom: `1px solid rgba(${theme.palette.customColors.main}, 0.32)`
+          },
+          '&.Mui-disabled:before': {
+            borderBottom: `1px solid ${theme.palette.text.disabled}`
+          },
+          fontSize: '12px',
+        }
+      }
+    },
+    MuiInputBase: {
       styleOverrides: {
         root: {
           '&:before': {

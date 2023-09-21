@@ -25,14 +25,14 @@ const LicenseTypes = () => {
 
     //Init columnTable
     const columnsTable: GridColDef[] = [
-        { field: 'id', flex: 1, headerClassName: 'tableHead', headerAlign: 'center', headerName: 'ID', minWidth: 90 },
-        { field: 'typeName', flex: 1, headerClassName: 'tableHead', headerAlign: 'center', headerName: 'Tên loại công trình', minWidth: 150 },
-        { field: 'typeSlug', flex: 1, headerClassName: 'tableHead', headerAlign: 'center', headerName: 'Mã loại công trình', minWidth: 150 },
-        { field: 'description', flex: 1, headerClassName: 'tableHead', headerAlign: 'center', headerName: 'Ghi chú', minWidth: 150 },
+        { field: 'id', flex: 1,  headerAlign: 'center', headerName: 'ID', minWidth: 90 },
+        { field: 'typeName', flex: 1,  headerAlign: 'center', headerName: 'Tên loại công trình', minWidth: 150 },
+        { field: 'typeSlug', flex: 1,  headerAlign: 'center', headerName: 'Mã loại công trình', minWidth: 150 },
+        { field: 'description', flex: 1,  headerAlign: 'center', headerName: 'Ghi chú', minWidth: 150 },
 
         //Action
         {
-            field: 'actions', headerClassName: 'tableHead', headerAlign: 'center', headerName: '#', minWidth: 120, sortable: false,
+            field: 'actions',  headerAlign: 'center', headerName: '#', minWidth: 120, sortable: false,
             renderCell: (data) => (
                 <Box>
                     <Tooltip title="Chỉnh sửa giấy phép">

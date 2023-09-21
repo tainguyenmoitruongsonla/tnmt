@@ -10,7 +10,7 @@ const RainWater = () => {
         {
             field: 'stt',
             headerName: '〈 1 〉 ',
-            headerClassName: 'tableHead',
+            
             headerAlign: 'center',
             align: 'center',
             width: 80,
@@ -20,7 +20,7 @@ const RainWater = () => {
         {
             field: 'riverID',
             headerName: '〈 2 〉 ',
-            headerClassName: 'tableHead',
+            
             headerAlign: 'center',
             width: 280,
             sortable: false,
@@ -28,7 +28,7 @@ const RainWater = () => {
         {
             field: 'riverName',
             headerName: '〈 3 〉 ',
-            headerClassName: 'tableHead',
+            
             headerAlign: 'center',
             width: 100,
             sortable: false,
@@ -36,7 +36,7 @@ const RainWater = () => {
         {
             field: 'outflow',
             headerName: '〈 4 〉 ',
-            headerClassName: 'tableHead',
+            
             headerAlign: 'center',
             width: 100,
             sortable: false,
@@ -44,7 +44,7 @@ const RainWater = () => {
         {
             field: 'length',
             headerName: '〈 5 〉 ',
-            headerClassName: 'tableHead',
+            
             headerAlign: 'center',
             width: 100,
             sortable: false,
@@ -52,7 +52,7 @@ const RainWater = () => {
         {
             field: 'xStart',
             headerName: '〈 6 〉 ',
-            headerClassName: 'tableHead',
+            
             headerAlign: 'center',
             width: 100,
             sortable: false,
@@ -60,7 +60,7 @@ const RainWater = () => {
         {
             field: 'yStart',
             headerName: '〈 7 〉 ',
-            headerClassName: 'tableHead',
+            
             headerAlign: 'center',
             width: 100,
             sortable: false,
@@ -68,7 +68,7 @@ const RainWater = () => {
         {
             field: 'communeStart',
             headerName: '〈 8 〉 ',
-            headerClassName: 'tableHead',
+            
             headerAlign: 'center',
             width: 100,
             sortable: false,
@@ -76,7 +76,7 @@ const RainWater = () => {
         {
             field: 'districtStart',
             headerName: '〈 9 〉 ',
-            headerClassName: 'tableHead',
+            
             headerAlign: 'center',
             width: 100,
             sortable: false,
@@ -84,7 +84,7 @@ const RainWater = () => {
         {
             field: 'xFinish',
             headerName: '〈 10 〉 ',
-            headerClassName: 'tableHead',
+            
             headerAlign: 'center',
             width: 100,
             sortable: false,
@@ -92,7 +92,7 @@ const RainWater = () => {
         {
             field: 'yFinish',
             headerName: '〈 11 〉 ',
-            headerClassName: 'tableHead',
+            
             headerAlign: 'center',
             width: 100,
             sortable: false,
@@ -100,7 +100,7 @@ const RainWater = () => {
         {
             field: 'communeFinish',
             headerName: '〈 12 〉 ',
-            headerClassName: 'tableHead',
+            
             headerAlign: 'center',
             width: 100,
             sortable: false,
@@ -108,7 +108,7 @@ const RainWater = () => {
         {
             field: 'districtFinish',
             headerName: '〈 13 〉 ',
-            headerClassName: 'tableHead',
+            
             headerAlign: 'center',
             width: 100,
             sortable: false,
@@ -116,7 +116,7 @@ const RainWater = () => {
         {
             field: 'description',
             headerName: '〈 14 〉 ',
-            headerClassName: 'tableHead',
+            
             headerAlign: 'center',
             width: 100,
             sortable: false,
@@ -127,83 +127,83 @@ const RainWater = () => {
     const columnGroupingModel: GridColumnGroupingModel = [
         {
             groupId: 'STT',
-            headerClassName: 'tableHead',
+            
             headerAlign: 'center',
             children: [{
                 groupId: ' ',
-                headerClassName: 'tableHead',
+                
                 children: [{ field: 'stt' }]
             }],
         },
         {
             groupId: 'Mã sông',
-            headerClassName: 'tableHead',
+            
             headerAlign: 'center',
             children: [{
                 groupId: ' ',
-                headerClassName: 'tableHead',
+                
                 children: [{ field: 'riverID' }]
             }],
         },
         {
             groupId: 'Tên sông',
-            headerClassName: 'tableHead',
+            
             headerAlign: 'center',
             children: [{
                 groupId: ' ',
-                headerClassName: 'tableHead',
+                
                 children: [{ field: 'riverName' }]
             }],
         },
         {
             groupId: 'Chảy ra ',
-            headerClassName: 'tableHead',
+            
             headerAlign: 'center',
             children: [{
                 groupId: ' ',
-                headerClassName: 'tableHead',
+                
                 children: [{ field: 'outflow' }]
             }],
         },
         {
             groupId: 'Chiều dài',
-            headerClassName: 'tableHead',
+            
             headerAlign: 'center',
             children: [{
                 groupId: ' ',
-                headerClassName: 'tableHead',
+                
                 children: [{ field: 'length' }]
             }],
         },
         {
             groupId: 'Vị trí đầu sông',
-            headerClassName: 'tableHead',
+            
             headerAlign: 'center',
             children: [
-                { groupId: 'Tọa độ X', headerClassName: 'tableHead', headerAlign: 'center', children: [{ field: 'xStart' }] },
-                { groupId: 'Tọa độ Y', headerClassName: 'tableHead', headerAlign: 'center', children: [{ field: 'yStart' }] },
-                { groupId: 'Xã', headerClassName: 'tableHead', headerAlign: 'center', children: [{ field: 'communeStart' }] },
-                { groupId: 'Huyện', headerClassName: 'tableHead', headerAlign: 'center', children: [{ field: 'districtStart' }] },
+                { groupId: 'Tọa độ X',  headerAlign: 'center', children: [{ field: 'xStart' }] },
+                { groupId: 'Tọa độ Y',  headerAlign: 'center', children: [{ field: 'yStart' }] },
+                { groupId: 'Xã',  headerAlign: 'center', children: [{ field: 'communeStart' }] },
+                { groupId: 'Huyện',  headerAlign: 'center', children: [{ field: 'districtStart' }] },
             ],
         },
         {
             groupId: 'Vị trí cuối sông',
-            headerClassName: 'tableHead',
+            
             headerAlign: 'center',
             children: [
-                { groupId: 'Tọa độ X', headerClassName: 'tableHead', headerAlign: 'center', children: [{ field: 'xFinish' }] },
-                { groupId: 'Tọa độ Y', headerClassName: 'tableHead', headerAlign: 'center', children: [{ field: 'yFinish' }] },
-                { groupId: 'Xã', headerClassName: 'tableHead', headerAlign: 'center', children: [{ field: 'communeFinish' }] },
-                { groupId: 'Huyện', headerClassName: 'tableHead', headerAlign: 'center', children: [{ field: 'districtFinish' }] },
+                { groupId: 'Tọa độ X',  headerAlign: 'center', children: [{ field: 'xFinish' }] },
+                { groupId: 'Tọa độ Y',  headerAlign: 'center', children: [{ field: 'yFinish' }] },
+                { groupId: 'Xã',  headerAlign: 'center', children: [{ field: 'communeFinish' }] },
+                { groupId: 'Huyện',  headerAlign: 'center', children: [{ field: 'districtFinish' }] },
             ],
         },
         {
             groupId: 'Ghi chú',
-            headerClassName: 'tableHead',
+            
             headerAlign: 'center',
             children: [{
                 groupId: ' ',
-                headerClassName: 'tableHead',
+                
                 children: [{ field: 'description' }]
             }],
         },

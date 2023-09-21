@@ -31,42 +31,42 @@ const GroundConstruction = () => {
 
  //Init columnTable
  const columnsTable: GridColDef[] = [
-  { field: 'id', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'ID', minWidth: 90 },
+  { field: 'id',  headerAlign: 'center', headerName: 'ID', minWidth: 90 },
   {
-    field: 'constructionName', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'Tên công trình', minWidth: 250, renderCell: (data) => (<Typography
+    field: 'constructionName',  headerAlign: 'center', headerName: 'Tên công trình', minWidth: 250, renderCell: (data) => (<Typography
       className='btnShowFilePdf' onClick={() => zoomConstruction([data.row.lat, data.row.lng])}>{data.row.constructionName}</Typography>)
   },
-  { field: 'constructionLocation', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'Ví trí công trình', minWidth: 150, },
-  { field: 'exploitPurpose', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'Mục đích khai thác,sử dụng nước', minWidth: 150, },
-  { field: 'numberExploitWells', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'Số giếng khai thác', minWidth: 150, },
-  { field: 'constructionTime', headerClassName: 'tableHead', headerAlign: 'center', headerName: '	Năm xây dựng', minWidth: 100, },
-  { field: 'startDate', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'Năm vận hành', minWidth: 100, },
-  { field: 'amountWaterExploited', headerClassName: 'tableHead', headerAlign: 'center', renderHeader: () => (<span>Q<sub>KT</sub> (m<sup>3</sup>/ngày đêm)</span>), minWidth: 150, },
-  { field: 'wellNumber', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'Số hiệu', minWidth: 150, },
-  { field: 'drillingDuration', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'Thời gian hành nghề khoan', minWidth: 150, },
+  { field: 'constructionLocation',  headerAlign: 'center', headerName: 'Ví trí công trình', minWidth: 150, },
+  { field: 'exploitPurpose',  headerAlign: 'center', headerName: 'Mục đích khai thác,sử dụng nước', minWidth: 150, },
+  { field: 'numberExploitWells',  headerAlign: 'center', headerName: 'Số giếng khai thác', minWidth: 150, },
+  { field: 'constructionTime',  headerAlign: 'center', headerName: '	Năm xây dựng', minWidth: 100, },
+  { field: 'startDate',  headerAlign: 'center', headerName: 'Năm vận hành', minWidth: 100, },
+  { field: 'amountWaterExploited',  headerAlign: 'center', renderHeader: () => (<span>Q<sub>KT</sub> (m<sup>3</sup>/ngày đêm)</span>), minWidth: 150, },
+  { field: 'wellNumber',  headerAlign: 'center', headerName: 'Số hiệu', minWidth: 150, },
+  { field: 'drillingDuration',  headerAlign: 'center', headerName: 'Thời gian hành nghề khoan', minWidth: 150, },
 
   //coordinates
-  { field: 'x', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'X', minWidth: 150, },
-  { field: 'y', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'Y', minWidth: 150, },
+  { field: 'x',  headerAlign: 'center', headerName: 'X', minWidth: 150, },
+  { field: 'y',  headerAlign: 'center', headerName: 'Y', minWidth: 150, },
 
   //
-  { field: 'waterDepthFrom', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'Từ ', minWidth: 150, },
-  { field: 'waterDepthTo', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'Đến', minWidth: 150, },
+  { field: 'waterDepthFrom',  headerAlign: 'center', headerName: 'Từ ', minWidth: 150, },
+  { field: 'waterDepthTo',  headerAlign: 'center', headerName: 'Đến', minWidth: 150, },
 
   //constructionDetails
-  { field: 'waterSupplyFlow', headerClassName: 'tableHead', headerAlign: 'center', renderHeader: () => (<span>Q<sub>khai thác</sub> (m<sup>3</sup>/ng.đêm)</span>), minWidth: 150, },
-  { field: 'wellWL', headerClassName: 'tableHead', headerAlign: 'center', renderHeader: () => (<span> H<sub>giếng khai thác</sub></span>), minWidth: 150, },
-  { field: 'monitoringWellWL', headerClassName: 'tableHead', headerAlign: 'center', renderHeader: () => (<span> H<sub>giếng quan trắc</sub></span>), minWidth: 150, },
-  { field: 'exploitMethod', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'Chế độ KT (giờ/ng.đêm)', minWidth: 150, },
-  { field: 'staticWL', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'Chiều sâu MN tĩnh(m)', minWidth: 150, },
-  { field: 'dynamicWL', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'Chiều sâu MN động max(m)', minWidth: 150, },
-  { field: 'exploitAquifer', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'Tầng chứa nước KT', minWidth: 150, },
-  { field: 'lowWL', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'Mực nước hạ thấp', minWidth: 150, },
+  { field: 'waterSupplyFlow',  headerAlign: 'center', renderHeader: () => (<span>Q<sub>khai thác</sub> (m<sup>3</sup>/ng.đêm)</span>), minWidth: 150, },
+  { field: 'wellWL',  headerAlign: 'center', renderHeader: () => (<span> H<sub>giếng khai thác</sub></span>), minWidth: 150, },
+  { field: 'monitoringWellWL',  headerAlign: 'center', renderHeader: () => (<span> H<sub>giếng quan trắc</sub></span>), minWidth: 150, },
+  { field: 'exploitMethod',  headerAlign: 'center', headerName: 'Chế độ KT (giờ/ng.đêm)', minWidth: 150, },
+  { field: 'staticWL',  headerAlign: 'center', headerName: 'Chiều sâu MN tĩnh(m)', minWidth: 150, },
+  { field: 'dynamicWL',  headerAlign: 'center', headerName: 'Chiều sâu MN động max(m)', minWidth: 150, },
+  { field: 'exploitAquifer',  headerAlign: 'center', headerName: 'Tầng chứa nước KT', minWidth: 150, },
+  { field: 'lowWL',  headerAlign: 'center', headerName: 'Mực nước hạ thấp', minWidth: 150, },
 
   //license
   {
     field: 'license.LicenseNumber',
-    headerClassName: 'tableHead',
+    
     headerAlign: 'center',
     headerName: 'Số GP',
     minWidth: 150,
@@ -86,7 +86,7 @@ const GroundConstruction = () => {
   },
   {
     field: 'license.IssueDate',
-    headerClassName: 'tableHead',
+    
     headerAlign: 'center',
     headerName: 'Hiệu lực GP',
     minWidth: 150,
@@ -104,7 +104,7 @@ const GroundConstruction = () => {
   },
   {
     field: 'license.SignDate',
-    headerClassName: 'tableHead',
+    
     headerAlign: 'center',
     headerName: 'Ngày ký',
     minWidth: 150,
@@ -124,7 +124,7 @@ const GroundConstruction = () => {
      //licenseFee
      {
       field: 'licenseFees.licenseFeeNumber',
-      headerClassName: 'tableHead',
+      
       headerAlign: 'center',
       headerName: 'Số QĐ',
       minWidth: 150,
@@ -143,7 +143,7 @@ const GroundConstruction = () => {
       ),
     },
     {
-      field: 'licenseFees.TotalMoney', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'Tổng tiền cấp quyền (VNĐ)', minWidth: 150, type: 'number', valueGetter: (params) => {
+      field: 'licenseFees.TotalMoney',  headerAlign: 'center', headerName: 'Tổng tiền cấp quyền (VNĐ)', minWidth: 150, type: 'number', valueGetter: (params) => {
         const licenseFees = params.row.licenseFees || [];
         let totalMoney = 0;
 
@@ -157,7 +157,7 @@ const GroundConstruction = () => {
 
   //Action
   {
-    field: 'actions', headerClassName: 'tableHead', headerAlign: 'center', headerName: '#', minWidth: 120, sortable: false,
+    field: 'actions',  headerAlign: 'center', headerName: '#', minWidth: 120, sortable: false,
     renderCell: (data) => (
       <Box>
       <CreateConstruction isEdit={true} data={data.row} setPostSuccess={handlePostSuccess} />
@@ -203,7 +203,7 @@ const GroundConstruction = () => {
  const columnGroup: GridColumnGroupingModel = [
   {
     groupId: 'Thông tin công trình',
-    headerClassName: 'tableHead',
+    
     headerAlign: 'center',
     children: [
       { field: 'constructionName' },
@@ -219,7 +219,7 @@ const GroundConstruction = () => {
   },
   {
     groupId: 'Tọa độ',
-    headerClassName: 'tableHead',
+    
     headerAlign: 'center',
     children: [
       { field: 'x' },
@@ -228,7 +228,7 @@ const GroundConstruction = () => {
   },
   {
     groupId: 'Chiều sâu đoạn thu nước(m)',
-    headerClassName: 'tableHead',
+    
     headerAlign: 'center',
     children: [
       { field: 'waterDepthFrom' },
@@ -237,7 +237,7 @@ const GroundConstruction = () => {
   },
   {
     groupId: 'Thông số của công trình',
-    headerClassName: 'tableHead',
+    
     headerAlign: 'center',
     children: [
       { field: 'waterSupplyFlow' },
@@ -252,7 +252,7 @@ const GroundConstruction = () => {
   },
   {
     groupId: 'Thông tin giấy phép',
-    headerClassName: 'tableHead',
+    
     headerAlign: 'center',
     children: [
       { field: 'license.LicenseNumber' },
@@ -263,7 +263,7 @@ const GroundConstruction = () => {
 
   {
     groupId: 'Tiền cấp quyền',
-    headerClassName: 'tableHead',
+    
     headerAlign: 'center',
     children: [
       { field: 'licenseFees.licenseFeeNumber' },
@@ -273,7 +273,7 @@ const GroundConstruction = () => {
 
   {
     groupId: ' ',
-    headerClassName: 'tableHead',
+    
     headerAlign: 'center',
     children: [
       { field: 'actions' }

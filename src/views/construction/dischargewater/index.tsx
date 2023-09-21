@@ -27,31 +27,31 @@ const DischargeConstruction = () => {
 
   //Init columnTable
   const columnsTable: GridColDef[] = [
-    { field: 'id', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'ID', minWidth: 90 },
+    { field: 'id',  headerAlign: 'center', headerName: 'ID', minWidth: 90 },
     {
-      field: 'constructionName', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'Tên công trình', minWidth: 250, renderCell: (data) => (<Typography
+      field: 'constructionName',  headerAlign: 'center', headerName: 'Tên công trình', minWidth: 250, renderCell: (data) => (<Typography
         className='btnShowFilePdf' onClick={() => zoomConstruction([data.row.lat, data.row.lng])}>{data.row.constructionName}</Typography>)
     },
-    { field: 'constructionLocation', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'Vị trí công trình', minWidth: 150, },
-    { field: 'WasteDischargeLocation', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'Ví trí xả thải', minWidth: 150, valueGetter: (data) => (`${data.row.x},${data.row.y}`) },
-    { field: 'dischargeWS', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'Nguồn tiếp nhận nước thải', minWidth: 150, },
+    { field: 'constructionLocation',  headerAlign: 'center', headerName: 'Vị trí công trình', minWidth: 150, },
+    { field: 'WasteDischargeLocation',  headerAlign: 'center', headerName: 'Ví trí xả thải', minWidth: 150, valueGetter: (data) => (`${data.row.x},${data.row.y}`) },
+    { field: 'dischargeWS',  headerAlign: 'center', headerName: 'Nguồn tiếp nhận nước thải', minWidth: 150, },
 
     //coordinates
-    { field: 'x', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'X', minWidth: 150, },
-    { field: 'y', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'Y', minWidth: 150, },
+    { field: 'x',  headerAlign: 'center', headerName: 'X', minWidth: 150, },
+    { field: 'y',  headerAlign: 'center', headerName: 'Y', minWidth: 150, },
 
 
     //constructionDetails
-    { field: 'dischargeMethod', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'Phương thức xả nước thải', minWidth: 150, },
-    { field: 'dischargeMode', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'Chế độ xả nước thải', minWidth: 150, },
-    { field: 'averageDischargeFlow', headerClassName: 'tableHead', headerAlign: 'center', renderHeader: () => (<span>Q<sub>xả trung bình</sub>  (m<sup>3</sup>/ngày đêm) </span>), minWidth: 150, },
-    { field: 'maximumWasteWaterFlow', headerClassName: 'tableHead', headerAlign: 'center', renderHeader: () => (<span>Q<sub>xả lớn nhất</sub> (m<sup>3</sup>/ngày đêm)</span>), minWidth: 150, },
-    { field: 'kqKf', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'Chất lượng nước thải (hệ số Kq và Kf)', minWidth: 150, },
+    { field: 'dischargeMethod',  headerAlign: 'center', headerName: 'Phương thức xả nước thải', minWidth: 150, },
+    { field: 'dischargeMode',  headerAlign: 'center', headerName: 'Chế độ xả nước thải', minWidth: 150, },
+    { field: 'averageDischargeFlow',  headerAlign: 'center', renderHeader: () => (<span>Q<sub>xả trung bình</sub>  (m<sup>3</sup>/ngày đêm) </span>), minWidth: 150, },
+    { field: 'maximumWasteWaterFlow',  headerAlign: 'center', renderHeader: () => (<span>Q<sub>xả lớn nhất</sub> (m<sup>3</sup>/ngày đêm)</span>), minWidth: 150, },
+    { field: 'kqKf',  headerAlign: 'center', headerName: 'Chất lượng nước thải (hệ số Kq và Kf)', minWidth: 150, },
 
      //license
      {
       field: 'license.LicenseNumber',
-      headerClassName: 'tableHead',
+      
       headerAlign: 'center',
       headerName: 'Số GP',
       minWidth: 150,
@@ -71,7 +71,7 @@ const DischargeConstruction = () => {
     },
     {
       field: 'license.IssueDate',
-      headerClassName: 'tableHead',
+      
       headerAlign: 'center',
       headerName: 'Hiệu lực GP',
       minWidth: 150,
@@ -89,7 +89,7 @@ const DischargeConstruction = () => {
     },
     {
       field: 'license.SignDate',
-      headerClassName: 'tableHead',
+      
       headerAlign: 'center',
       headerName: 'Ngày ký',
       minWidth: 150,
@@ -109,7 +109,7 @@ const DischargeConstruction = () => {
        //licenseFee
        {
         field: 'licenseFees.licenseFeeNumber',
-        headerClassName: 'tableHead',
+        
         headerAlign: 'center',
         headerName: 'Số QĐ',
         minWidth: 150,
@@ -128,7 +128,7 @@ const DischargeConstruction = () => {
         ),
       },
       {
-        field: 'licenseFees.TotalMoney', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'Tổng tiền cấp quyền (VNĐ)', minWidth: 150, type: 'number', valueGetter: (params) => {
+        field: 'licenseFees.TotalMoney',  headerAlign: 'center', headerName: 'Tổng tiền cấp quyền (VNĐ)', minWidth: 150, type: 'number', valueGetter: (params) => {
           const licenseFees = params.row.licenseFees || [];
           let totalMoney = 0;
   
@@ -143,7 +143,7 @@ const DischargeConstruction = () => {
     //Action
     {
       field: 'actions',
-      headerClassName: 'tableHead',
+      
       headerAlign: 'center',
       headerName: '#',
       minWidth: 120,
@@ -191,7 +191,7 @@ const DischargeConstruction = () => {
  const columnGroup: GridColumnGroupingModel = [
     {
       groupId: 'Thông tin công trình',
-      headerClassName: 'tableHead',
+      
       headerAlign: 'center',
       children: [
         { field: 'constructionName' },
@@ -203,7 +203,7 @@ const DischargeConstruction = () => {
 
     {
       groupId: 'Tọa độ (VN2000, Kinh tuyến trục 104⁰, múi chiếu 3⁰)',
-      headerClassName: 'tableHead',
+      
       headerAlign: 'center',
       children: [
         { field: 'x' },
@@ -213,7 +213,7 @@ const DischargeConstruction = () => {
 
     {
       groupId: 'Phương thức xả thải',
-      headerClassName: 'tableHead',
+      
       headerAlign: 'center',
       children: [
         { field: 'dischargeMethod' },
@@ -225,7 +225,7 @@ const DischargeConstruction = () => {
     },
     {
       groupId: 'Thông tin giấy phép',
-      headerClassName: 'tableHead',
+      
       headerAlign: 'center',
       children: [
         { field: 'license.LicenseNumber' },
@@ -236,7 +236,7 @@ const DischargeConstruction = () => {
 
     {
       groupId: 'Tiền cấp quyền',
-      headerClassName: 'tableHead',
+      
       headerAlign: 'center',
       children: [
         { field: 'licenseFees.licenseFeeNumber' },
@@ -245,7 +245,7 @@ const DischargeConstruction = () => {
     },
     {
       groupId: ' ',
-      headerClassName: 'tableHead',
+      
       headerAlign: 'center',
       children: [
         { field: 'actions' }

@@ -25,16 +25,16 @@ const Business = () => {
 
     //Init columnTable
     const columnsTable: GridColDef[] = [
-        { field: 'id', flex: 1, headerClassName: 'tableHead', headerAlign: 'center', headerName: 'ID', minWidth: 90 },
-        { field: 'name', flex: 1, headerClassName: 'tableHead', headerAlign: 'center', headerName: 'Tên doanh nghiệp', minWidth: 150 },
-        { field: 'address', flex: 1, headerClassName: 'tableHead', headerAlign: 'center', headerName: 'Địa chỉ', minWidth: 150 },
-        { field: 'phone', flex: 1, headerClassName: 'tableHead', headerAlign: 'center', headerName: 'Số điện thoại', minWidth: 150 },
-        { field: 'fax', flex: 1, headerClassName: 'tableHead', headerAlign: 'center', headerName: 'Số Fax', minWidth: 150 },
-        { field: 'email', flex: 1, headerClassName: 'tableHead', headerAlign: 'center', headerName: 'Địa chỉ Email', minWidth: 150 },
+        { field: 'id', flex: 1,  headerAlign: 'center', headerName: 'ID', minWidth: 90 },
+        { field: 'name', flex: 1,  headerAlign: 'center', headerName: 'Tên doanh nghiệp', minWidth: 150 },
+        { field: 'address', flex: 1,  headerAlign: 'center', headerName: 'Địa chỉ', minWidth: 150 },
+        { field: 'phone', flex: 1,  headerAlign: 'center', headerName: 'Số điện thoại', minWidth: 150 },
+        { field: 'fax', flex: 1,  headerAlign: 'center', headerName: 'Số Fax', minWidth: 150 },
+        { field: 'email', flex: 1,  headerAlign: 'center', headerName: 'Địa chỉ Email', minWidth: 150 },
 
         //Action
         {
-            field: 'actions', headerClassName: 'tableHead', headerAlign: 'center', headerName: '#', minWidth: 120, sortable: false,
+            field: 'actions',  headerAlign: 'center', headerName: '#', minWidth: 120, sortable: false,
             renderCell: (data) => (
                 <Box>
                     <Tooltip title="Chỉnh sửa giấy phép">

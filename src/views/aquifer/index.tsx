@@ -25,13 +25,13 @@ const Aquifer = () => {
 
     //Init columnTable
     const columnsTable: GridColDef[] = [
-        { field: 'id', flex: 1, headerClassName: 'tableHead', headerAlign: 'center', headerName: 'ID', minWidth: 90 },
-        { field: 'name', flex: 1, headerClassName: 'tableHead', headerAlign: 'center', headerName: 'Tên tầng chứa nước', minWidth: 150 },
-        { field: 'aquiferSymbol', flex: 1, headerClassName: 'tableHead', headerAlign: 'center', headerName: 'Ký hiệu', minWidth: 150 },
+        { field: 'id', flex: 1,  headerAlign: 'center', headerName: 'ID', minWidth: 90 },
+        { field: 'name', flex: 1,  headerAlign: 'center', headerName: 'Tên tầng chứa nước', minWidth: 150 },
+        { field: 'aquiferSymbol', flex: 1,  headerAlign: 'center', headerName: 'Ký hiệu', minWidth: 150 },
 
         //Action
         {
-            field: 'actions', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'Thao tác', minWidth: 120, sortable: false,
+            field: 'actions',  headerAlign: 'center', headerName: 'Thao tác', minWidth: 120, sortable: false,
             renderCell: (data) => (
                 <Box>
                     <Tooltip title="Chỉnh sửa tầng chứa nước">

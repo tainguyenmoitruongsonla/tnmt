@@ -1,10 +1,10 @@
 //React Imports
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 
 //MUI Imports
-import { Box, Tooltip, IconButton, Typography, Paper, Popover, Alert, ButtonGroup, Button } from '@mui/material';
-import Grid from '@mui/material/Unstable_Grid2';
+import { Box, Tooltip, IconButton, Typography, Paper, Popover, Alert, ButtonGroup, Button, Grid } from '@mui/material';
 import { GridColDef, GridColumnGroupingModel } from '@mui/x-data-grid';
+
 
 //Other Imports
 import FormatDate from 'src/@core/components/format-date';
@@ -18,11 +18,12 @@ import { Delete } from '@mui/icons-material';
 import CreateLicense from '../form';
 
 import dynamic from 'next/dynamic';
-import fetchData from 'src/api/fetch';
+import fetchData from 'src/api/license';
 import post from 'src/api/post';
 import ColumnFilters from '../column-filter';
 import { useRouter } from 'next/router';
 import dayjs from 'dayjs';
+import LicenseToolBar from '../tool-bar';
 
 
 const Map = dynamic(() => import("src/@core/components/map"), { ssr: false });
@@ -32,15 +33,15 @@ const SurfaceWaterLicense = () => {
   const [mapZoom] = useState(9);
 
   const [postSuccess, setPostSuccess] = useState(false);
-  const [loading, setLoading] = useState(false);
-
   const handlePostSuccess = () => {
     setPostSuccess(prevState => !prevState);
   };
+  const [loading, setLoading] = useState(false);
 
   const [resData, setResData] = useState([]);
   const [deleteConfirmAnchorEl, setDeleteConfirmAnchorEl] = useState<HTMLButtonElement | null>(null);
   const deleteConfirmOpen = Boolean(deleteConfirmAnchorEl);
+
 
   //delete
 
@@ -83,49 +84,48 @@ const SurfaceWaterLicense = () => {
 
   //Init columnTable
   const columnsTable: GridColDef[] = [
-    { field: 'id', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'ID', minWidth: 90 },
+    { field: 'id', headerAlign: 'center', headerName: 'ID', minWidth: 90 },
     {
-      field: 'licenseNumber', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'Số GP', minWidth: 150, renderCell: (data) => (
+      field: 'licenseNumber', headerAlign: 'center', headerName: 'Số GP', minWidth: 150, renderCell: (data) => (
         <ShowFilePDF name={data.row.licenseNumber}
           src={`pdf/giay-phep/${data.row?.licensingAuthorities?.toLowerCase()}/${router.pathname.split('/')[2]}/${dayjs(data.row?.signDate).year()}/${data.row?.licenseNumber?.replace(/\//g, "_").toLowerCase()}`}
           fileName={data.row.licenseFile}
         />)
     },
-    { field: 'effect', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'Hiệu lực GP', minWidth: 150, renderCell: (data) => (<CheckEffect data={data.row} />) },
-    { field: 'signDate', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'Ngày ký', minWidth: 150, renderCell: (data) => (FormatDate(data.row.signDate)) },
-    { field: 'issueDate', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'Ngày có hiệu lực', minWidth: 150, renderCell: (data) => (FormatDate(data.row.issueDate)) },
-    { field: 'expriteDate', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'Ngày hểt hiệu lực', minWidth: 150, renderCell: (data) => (FormatDate(data.row.expriteDate)) },
-    { field: 'licenseTypeName', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'Loại hình', minWidth: 120 },
+    { field: 'effect', headerAlign: 'center', headerName: 'Hiệu lực GP', minWidth: 150, renderCell: (data) => (<CheckEffect data={data.row} />) },
+    { field: 'signDate', headerAlign: 'center', headerName: 'Ngày ký', minWidth: 150, renderCell: (data) => (FormatDate(data.row.signDate)) },
+    { field: 'issueDate', headerAlign: 'center', headerName: 'Ngày có hiệu lực', minWidth: 150, renderCell: (data) => (FormatDate(data.row.issueDate)) },
+    { field: 'expriteDate', headerAlign: 'center', headerName: 'Ngày hểt hiệu lực', minWidth: 150, renderCell: (data) => (FormatDate(data.row.expriteDate)) },
+    { field: 'licenseTypeName', headerAlign: 'center', headerName: 'Loại hình', minWidth: 200 },
 
     //business
-    { field: 'business.name', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'Tên', minWidth: 400, valueGetter: (data) => (`${data.row.business?.name || ''}`) },
-    { field: 'business.address', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'Địa chỉ', minWidth: 400, valueGetter: (data) => (`${data.row.business?.address || ''}`) },
+    { field: 'business.name', headerAlign: 'center', headerName: 'Tên', minWidth: 400, valueGetter: (data) => (`${data.row.business?.name || ''}`) },
+    { field: 'business.address', headerAlign: 'center', headerName: 'Địa chỉ', minWidth: 400, valueGetter: (data) => (`${data.row.business?.address || ''}`) },
 
     //oldLicense
     {
-      field: 'oldLicense.licenseNumber', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'Số GP', minWidth: 150, renderCell: (data) => (
+      field: 'oldLicense.licenseNumber', headerAlign: 'center', headerName: 'Số GP', minWidth: 150, renderCell: (data) => (
         <ShowFilePDF name={data.row.oldLicense?.licenseNumber}
           src={`pdf/giay-phep/${data.row.oldLicense?.licensingAuthorities?.toLowerCase()}/${router.pathname.split('/')[2]}/${dayjs(data.row.oldLicense?.signDate).year()}/${data.row.oldLicense?.licenseNumber?.replace(/\//g, "_").toLowerCase()}`}
           fileName={data.row.oldLicense?.licenseFile}
         />
       )
     },
-    { field: 'oldLicense.signDate', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'Ngày ký', minWidth: 150, renderCell: (data) => (FormatDate(data.row.oldLicense?.signDate)), },
+    { field: 'oldLicense.signDate', headerAlign: 'center', headerName: 'Ngày ký', minWidth: 150, renderCell: (data) => (FormatDate(data.row.oldLicense?.signDate)), },
 
     //Construction
-    { field: 'construction.constructionName', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'Tên Công trình', minWidth: 200, valueGetter: (data) => (`${data.row.construction?.constructionName || ''}`) },
-    { field: 'construction.constructionLocation', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'Địa điểm Công trình', minWidth: 400, valueGetter: (data) => (`${data.row.construction?.constructionLocation || ''}`) },
-    { field: 'construction.constructionTypeName', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'Loại hình Công trình', minWidth: 150, valueGetter: (data) => (`${data.row.construction?.constructionTypeName || ''}`) },
-    { field: 'construction.communeName', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'Xã', minWidth: 150, valueGetter: (data) => (`${data.row.construction?.communeName || ''}`) },
-    { field: 'construction.districtName', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'Huyện', minWidth: 150, valueGetter: (data) => (`${data.row.construction?.districtName || ''}`) },
-    { field: 'construction.exploitedWS', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'Nguồn nước khai thác', minWidth: 150, valueGetter: (data) => (`${data.row.construction?.exploitedWS || ''}`) },
-    { field: 'construction.riverName', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'Lưu vực', minWidth: 150, valueGetter: (data) => (`${data.row.construction?.riverName || ''}`) },
-    { field: 'construction.basinName', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'Tiểu vùng quy hoạch', minWidth: 250, valueGetter: (data) => (`${data.row.construction?.basinName || ''}`) },
+    { field: 'construction.constructionName', headerAlign: 'center', headerName: 'Tên Công trình', minWidth: 300, valueGetter: (data) => (`${data.row.construction?.constructionName || ''}`) },
+    { field: 'construction.constructionLocation', headerAlign: 'center', headerName: 'Địa điểm Công trình', minWidth: 400, valueGetter: (data) => (`${data.row.construction?.constructionLocation || ''}`) },
+    { field: 'construction.constructionTypeName', headerAlign: 'center', headerName: 'Loại hình Công trình', minWidth: 200, valueGetter: (data) => (`${data.row.construction?.constructionTypeName || ''}`) },
+    { field: 'construction.communeName', headerAlign: 'center', headerName: 'Xã', minWidth: 200, valueGetter: (data) => (`${data.row.construction?.communeName || ''}`) },
+    { field: 'construction.districtName', headerAlign: 'center', headerName: 'Huyện', minWidth: 200, valueGetter: (data) => (`${data.row.construction?.districtName || ''}`) },
+    { field: 'construction.exploitedWS', headerAlign: 'center', headerName: 'Nguồn nước khai thác', minWidth: 200, valueGetter: (data) => (`${data.row.construction?.exploitedWS || ''}`) },
+    { field: 'construction.riverName', headerAlign: 'center', headerName: 'Lưu vực', minWidth: 150, valueGetter: (data) => (`${data.row.construction?.riverName || ''}`) },
+    { field: 'construction.basinName', headerAlign: 'center', headerName: 'Tiểu vùng quy hoạch', minWidth: 250, valueGetter: (data) => (`${data.row.construction?.basinName || ''}`) },
 
     //licenseFee
     {
       field: 'licenseFees.licenseFeeNumber',
-      headerClassName: 'tableHead',
       headerAlign: 'center',
       headerName: 'Số QĐ',
       minWidth: 150,
@@ -145,7 +145,7 @@ const SurfaceWaterLicense = () => {
     },
     {
       field: 'licenseFees.signDate',
-      headerClassName: 'tableHead',
+
       headerAlign: 'center',
       headerName: 'Ngày ký',
       minWidth: 150,
@@ -160,7 +160,7 @@ const SurfaceWaterLicense = () => {
       ),
     },
     {
-      field: 'licenseFees.TotalMoney', headerClassName: 'tableHead', headerAlign: 'center', headerName: 'Tổng tiền cấp quyền (VNĐ)', minWidth: 150, type: 'number', valueGetter: (params) => {
+      field: 'licenseFees.TotalMoney', headerAlign: 'center', headerName: 'Tổng tiền cấp quyền (VNĐ)', minWidth: 150, type: 'number', valueGetter: (params) => {
         const licenseFees = params.row.licenseFees || [];
         let totalMoney = 0;
 
@@ -174,7 +174,7 @@ const SurfaceWaterLicense = () => {
 
     //Action
     {
-      field: 'actions', headerClassName: 'tableHead', headerAlign: 'center', headerName: '#', minWidth: 120, sortable: false,
+      field: 'actions', headerAlign: 'center', headerName: '#', minWidth: 120, sortable: false,
       renderCell: data => (
         <Box>
           <CreateLicense isEdit={true} data={data.row} setPostSuccess={handlePostSuccess} />
@@ -219,7 +219,6 @@ const SurfaceWaterLicense = () => {
   const columnGroup: GridColumnGroupingModel = [
     {
       groupId: 'Thông tin GP',
-      headerClassName: 'tableHead',
       headerAlign: 'center',
       children: [
         { field: 'licenseNumber' },
@@ -232,7 +231,6 @@ const SurfaceWaterLicense = () => {
     },
     {
       groupId: 'Cơ quan/cá nhân được CP',
-      headerClassName: 'tableHead',
       headerAlign: 'center',
       children: [
         { field: 'business.name' },
@@ -241,7 +239,6 @@ const SurfaceWaterLicense = () => {
     },
     {
       groupId: 'Thông tin GP cũ',
-      headerClassName: 'tableHead',
       headerAlign: 'center',
       children: [
         { field: 'oldLicense.licenseNumber' },
@@ -250,7 +247,6 @@ const SurfaceWaterLicense = () => {
     },
     {
       groupId: 'Thông tin CT',
-      headerClassName: 'tableHead',
       headerAlign: 'center',
       children: [
         { field: 'construction.constructionName' },
@@ -265,7 +261,6 @@ const SurfaceWaterLicense = () => {
     },
     {
       groupId: 'Tiền cấp quyền',
-      headerClassName: 'tableHead',
       headerAlign: 'center',
       children: [
         { field: 'licenseFees.licenseFeeNumber' },
@@ -275,7 +270,6 @@ const SurfaceWaterLicense = () => {
     },
     {
       groupId: ' ',
-      headerClassName: 'tableHead',
       headerAlign: 'center',
       children: [
         { field: 'actions' }
@@ -283,81 +277,95 @@ const SurfaceWaterLicense = () => {
     }
   ];
 
+  const [paramsFilter, setParamsFilter] = useState({
+    licenseNumber: null,
+    licensingAuthorities: null,
+    licenseTypeId: 0,
+    licenseValidity: null,
+    businessId: 0,
+    constructionId: 0,
+    constructionTypeId: 0,
+    districtId: 0,
+    communeId: 0,
+    subBasinId: 0,
+    pageIndex: 0,
+    pageSize: 0
+  });
+
+
+  const isMounted = useRef(true);
+
+  const getData = async () => {
+    setLoading(true);
+    fetchData('https://localhost:7249/api/License/list', paramsFilter)
+      .then((data) => {
+        if (isMounted.current) {
+          setResData(data);
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  };
+
+
   useEffect(() => {
-    // Create a variable to store a flag indicating if the component is unmounted
-    let isMounted = true;
 
-    const getData = async () => {
-      setLoading(true);
-      try {
-        const data = await fetchData('License/list');
-        const filteredData = data.filter((item: any) =>
-          [
-            'thuydien',
-            'hochua',
-            'trambom',
-            'tramcapnuoc',
-            'dapthuyloi',
-            'cong',
-            'nhamaynuoc',
-            'congtrinhkhac_nm'
-          ].some((keyword) =>
-            item['constructionTypeSlug']?.toString().toLowerCase().includes(keyword.toLowerCase())
-          )
-        );
+    // Component is mounted
+    isMounted.current = true;
 
-        // Check if the component is still mounted before updating the state
-        if (isMounted) {
-          setResData(filteredData);
-        }
-      } catch (error) {
-        setResData([]);
-      } finally {
-        // Check if the component is still mounted before updating the state
-        if (isMounted) {
-          setLoading(false);
-        }
-      }
-    };
-
-    getData();
-
-    // Cleanup function to set isMounted to false when the component unmounts
+    // Cleanup function to set isMounted to false when the component is unmounted
     return () => {
-      isMounted = false;
+      isMounted.current = false;
     };
-  }, [postSuccess]);
+  }, []);
+
+
+  useEffect(() => {
+    getData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [postSuccess, paramsFilter]);
+
+  const handleFilterChange = (data: any, postSuccess: boolean | undefined) => {
+    setParamsFilter(data);
+    if (postSuccess !== undefined) {
+      setPostSuccess(postSuccess);
+    }
+  };
 
   return (
-    <Grid container spacing={2}>
-      <Grid xs={12} md={12}>
+    <Grid container spacing={3}>
+      <Grid item xs={12} md={12}>
         <Paper elevation={3} sx={{ py: 1, px: 3 }}>
-          <Typography variant='overline'>Giấy phép/nước mặt</Typography>
+          <Grid><Typography variant='overline'>Giấy phép/nước mặt</Typography></Grid>
         </Paper>
       </Grid>
-      <Grid xs={12} md={3}>
-        <CountLicense data={resData} />
+      <Grid item xs={12} md={3}>
+        <Grid item xs={12} md={12} sx={{ height: '45vh' }}>
+          <CountLicense data={resData} />
+        </Grid>
       </Grid>
-      <Grid xs={12} md={9} sx={{ height: '55vh', overflow: 'hidden' }}>
-        <Paper elevation={3} sx={{ height: '100%' }}>
+      <Grid item xs={12} md={9}>
+        <Paper elevation={3} sx={{ height: '45vh', p: 1 }}>
           <Map center={mapCenter} zoom={mapZoom} mapData={null} />
         </Paper>
       </Grid>
-      <Grid xs={12} md={12}>
+      <Grid item xs={12} md={12}>
         <Paper elevation={3} sx={{ p: 0, height: '100%' }}>
+          <LicenseToolBar onChange={handleFilterChange} />
           <DataGridComponent
             rows={resData}
             columns={columnsTable}
             columnGroupingModel={columnGroup}
             columnFillter={ColumnFilters()}
             loading={loading}
-            actions={
-              <CreateLicense isEdit={false} setPostSuccess={handlePostSuccess} />
-            }
           />
         </Paper>
       </Grid>
-    </Grid>
+    </Grid >
   );
 };
 

@@ -29,8 +29,15 @@ const GlobalStyles = (theme: Theme) => {
       }
     },
 
+    '&.MuiDataGrid-columnHeader': {
+      whiteSpace: 'break-spaces !important',
+      backgroundColor: 'rgb(21 83 143) !important',
+      color: '#fff !important'
+    },
+
     '&.MuiDataGrid-cell': {
-      color: '#2f2f2f'
+      color: '#2f2f2f',
+      whiteSpace: 'normal !important'
     },
 
     '#nprogress': {

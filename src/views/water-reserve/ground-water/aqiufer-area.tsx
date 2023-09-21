@@ -8,7 +8,7 @@ const AquiferArea = () => {
         {
             field: 'stt',
             headerName:'〈 1 〉',
-            headerClassName: 'tableHead',
+            
             headerAlign: 'center',
             align: 'center',
             width: 80,
@@ -18,7 +18,7 @@ const AquiferArea = () => {
         {
             field: 'basin',
             headerName:'〈 2 〉',
-            headerClassName: 'tableHead',
+            
             headerAlign: 'center',
             width: 280,
             sortable: false,
@@ -26,7 +26,7 @@ const AquiferArea = () => {
         {
             field: 'acreage',
             headerName:'〈 3 〉',
-            headerClassName: 'tableHead',
+            
             headerAlign: 'center',
             width: 150,
             sortable: false,
@@ -34,7 +34,7 @@ const AquiferArea = () => {
         {
             field: 'annualRainfall',
             headerName:'〈 4 〉',
-            headerClassName: 'tableHead',
+            
             headerAlign: 'center',
             width: 150,
             sortable: false,
@@ -42,7 +42,7 @@ const AquiferArea = () => {
         {
             field: 'population',
             headerName:'〈 5 〉',
-            headerClassName: 'tableHead',
+            
             headerAlign: 'center',
             width: 150,
             sortable: false,
@@ -50,7 +50,7 @@ const AquiferArea = () => {
         {
             field: 'totalAmountOfRainWater',
             headerName:'〈 6 〉',
-            headerClassName: 'tableHead',
+            
             headerAlign: 'center',
             width: 150,
             sortable: false,
@@ -58,7 +58,7 @@ const AquiferArea = () => {
         {
             field: 'amountOfRainWater',
             headerName:'〈 7 〉',
-            headerClassName: 'tableHead',
+            
             headerAlign: 'center',
             width: 150,
             sortable: false,
@@ -66,7 +66,7 @@ const AquiferArea = () => {
         {
             field: 'description',
             headerName:'〈 8 〉',
-            headerClassName: 'tableHead',
+            
             headerAlign: 'center',
             width: 250,
             flex: 1,
@@ -77,49 +77,49 @@ const AquiferArea = () => {
     const columnGroupingModel: GridColumnGroupingModel = [
         {
             groupId: 'STT',
-            headerClassName: 'tableHead',
+            
             headerAlign: 'center',
             children: [{ field: 'stt' }],
         },
         {
             groupId: 'Tầng chứa nước/lưu vực',
-            headerClassName: 'tableHead',
+            
             headerAlign: 'center',
             children: [{ field: 'basin' }],
         },
         {
             groupId: 'Diện tích(km)',
-            headerClassName: 'tableHead',
+            
             headerAlign: 'center',
             children: [{ field: 'acreage' }],
         },
         {
             groupId: 'Dân số(người)',
-            headerClassName: 'tableHead',
+            
             headerAlign: 'center',
             children: [{ field: 'annualRainfall' }],
         },
         {
             groupId: 'Lưu lượng mưa năm(mm)',
-            headerClassName: 'tableHead',
+            
             headerAlign: 'center',
             children: [{ field: 'population' }],
         },
         {
             groupId: 'Tổng lượng nước mưa(10³m³)',
-            headerClassName: 'tableHead',
+            
             headerAlign: 'center',
             children: [{ field: 'totalAmountOfRainWater' }],
         },
         {
             groupId: 'Lượng nước mưa(m³/người/năm)',
-            headerClassName: 'tableHead',
+            
             headerAlign: 'center',
             children: [{ field: 'amountOfRainWater' }],
         },
         {
             groupId: 'Ghi chú',
-            headerClassName: 'tableHead',
+            
             headerAlign: 'center',
             children: [{ field: 'description' }],
         },

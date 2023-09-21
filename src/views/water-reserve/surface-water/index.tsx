@@ -8,7 +8,7 @@ const SurfaceWater = () => {
         {
             field: 'stt',
             headerName: '〈 1 〉 ',
-            headerClassName: 'tableHead',
+            
             headerAlign: 'center',
             align: 'center',
             width: 80,
@@ -18,7 +18,7 @@ const SurfaceWater = () => {
         {
             field: 'basin',
             headerName: '〈 2 〉 ',
-            headerClassName: 'tableHead',
+            
             headerAlign: 'center',
             width: 280,
             sortable: false,
@@ -26,7 +26,7 @@ const SurfaceWater = () => {
         {
             field: 'i',
             headerName: '〈 3 〉 ',
-            headerClassName: 'tableHead',
+            
             headerAlign: 'center',
             width: 100,
             sortable: false,
@@ -34,7 +34,7 @@ const SurfaceWater = () => {
         {
             field: 'ii',
             headerName: '〈 4 〉 ',
-            headerClassName: 'tableHead',
+            
             headerAlign: 'center',
             width: 100,
             sortable: false,
@@ -42,7 +42,7 @@ const SurfaceWater = () => {
         {
             field: 'iii',
             headerName: '〈 5 〉 ',
-            headerClassName: 'tableHead',
+            
             headerAlign: 'center',
             width: 100,
             sortable: false,
@@ -50,7 +50,7 @@ const SurfaceWater = () => {
         {
             field: 'iv',
             headerName: '〈 6 〉 ',
-            headerClassName: 'tableHead',
+            
             headerAlign: 'center',
             width: 100,
             sortable: false,
@@ -58,7 +58,7 @@ const SurfaceWater = () => {
         {
             field: 'v',
             headerName: '〈 7 〉 ',
-            headerClassName: 'tableHead',
+            
             headerAlign: 'center',
             width: 100,
             sortable: false,
@@ -66,7 +66,7 @@ const SurfaceWater = () => {
         {
             field: 'vi',
             headerName: '〈 8 〉 ',
-            headerClassName: 'tableHead',
+            
             headerAlign: 'center',
             width: 100,
             sortable: false,
@@ -74,7 +74,7 @@ const SurfaceWater = () => {
         {
             field: 'vii',
             headerName: '〈 9 〉 ',
-            headerClassName: 'tableHead',
+            
             headerAlign: 'center',
             width: 100,
             sortable: false,
@@ -82,7 +82,7 @@ const SurfaceWater = () => {
         {
             field: 'viii',
             headerName: '〈 10 〉 ',
-            headerClassName: 'tableHead',
+            
             headerAlign: 'center',
             width: 100,
             sortable: false,
@@ -90,7 +90,7 @@ const SurfaceWater = () => {
         {
             field: 'ix',
             headerName: '〈 11 〉 ',
-            headerClassName: 'tableHead',
+            
             headerAlign: 'center',
             width: 100,
             sortable: false,
@@ -98,7 +98,7 @@ const SurfaceWater = () => {
         {
             field: 'x',
             headerName: '〈 12 〉 ',
-            headerClassName: 'tableHead',
+            
             headerAlign: 'center',
             width: 100,
             sortable: false,
@@ -106,7 +106,7 @@ const SurfaceWater = () => {
         {
             field: 'xi',
             headerName: '〈 13 〉 ',
-            headerClassName: 'tableHead',
+            
             headerAlign: 'center',
             width: 100,
             sortable: false,
@@ -114,7 +114,7 @@ const SurfaceWater = () => {
         {
             field: 'xii',
             headerName: '〈 14 〉 ',
-            headerClassName: 'tableHead',
+            
             headerAlign: 'center',
             width: 100,
             sortable: false,
@@ -122,7 +122,7 @@ const SurfaceWater = () => {
         {
             field: 'avgYear',
             headerName: '〈 15 〉 ',
-            headerClassName: 'tableHead',
+            
             headerAlign: 'center',
             width: 150,
             sortable: false,
@@ -130,7 +130,7 @@ const SurfaceWater = () => {
         {
             field: 'totalAmountOfSurfaceWater',
             headerName: '〈 16 〉 ',
-            headerClassName: 'tableHead',
+            
             headerAlign: 'center',
             width: 150,
             sortable: false,
@@ -139,7 +139,7 @@ const SurfaceWater = () => {
         {
             field: 'description',
             headerName: '〈 17 〉 ',
-            headerClassName: 'tableHead',
+            
             headerAlign: 'center',
             minWidth: 250,
             flex: 1,
@@ -150,70 +150,70 @@ const SurfaceWater = () => {
     const columnGroupingModel: GridColumnGroupingModel = [
         {
             groupId: 'STT',
-            headerClassName: 'tableHead',
+            
             headerAlign: 'center',
             children: [{
                 groupId: ' ',
-                headerClassName: 'tableHead',
+                
                 children: [{ field: 'stt' }]
             }],
         },
         {
             groupId: 'Tiểu vùng lưu vực',
-            headerClassName: 'tableHead',
+            
             headerAlign: 'center',
             children: [{
                 groupId: ' ',
-                headerClassName: 'tableHead',
+                
                 children: [{ field: 'basin' }]
             }],
         },
         {
             groupId: 'Lưu lượng (m³/s)',
-            headerClassName: 'tableHead',
+            
             headerAlign: 'center',
             children: [
-                { groupId: 'I', headerClassName: 'tableHead', headerAlign: 'center', children: [{ field: 'i' }] },
-                { groupId: 'II', headerClassName: 'tableHead', headerAlign: 'center', children: [{ field: 'ii' }] },
-                { groupId: 'III', headerClassName: 'tableHead', headerAlign: 'center', children: [{ field: 'iii' }] },
-                { groupId: 'IV', headerClassName: 'tableHead', headerAlign: 'center', children: [{ field: 'iv' }] },
-                { groupId: 'V', headerClassName: 'tableHead', headerAlign: 'center', children: [{ field: 'v' }] },
-                { groupId: 'VI', headerClassName: 'tableHead', headerAlign: 'center', children: [{ field: 'vi' }] },
-                { groupId: 'VII', headerClassName: 'tableHead', headerAlign: 'center', children: [{ field: 'vii' }] },
-                { groupId: 'VIII', headerClassName: 'tableHead', headerAlign: 'center', children: [{ field: 'viii' }] },
-                { groupId: 'IX', headerClassName: 'tableHead', headerAlign: 'center', children: [{ field: 'ix' }] },
-                { groupId: 'X', headerClassName: 'tableHead', headerAlign: 'center', children: [{ field: 'x' }] },
-                { groupId: 'XI', headerClassName: 'tableHead', headerAlign: 'center', children: [{ field: 'xi' }] },
-                { groupId: 'XII', headerClassName: 'tableHead', headerAlign: 'center', children: [{ field: 'xii' }] }
+                { groupId: 'I',  headerAlign: 'center', children: [{ field: 'i' }] },
+                { groupId: 'II',  headerAlign: 'center', children: [{ field: 'ii' }] },
+                { groupId: 'III',  headerAlign: 'center', children: [{ field: 'iii' }] },
+                { groupId: 'IV',  headerAlign: 'center', children: [{ field: 'iv' }] },
+                { groupId: 'V',  headerAlign: 'center', children: [{ field: 'v' }] },
+                { groupId: 'VI',  headerAlign: 'center', children: [{ field: 'vi' }] },
+                { groupId: 'VII',  headerAlign: 'center', children: [{ field: 'vii' }] },
+                { groupId: 'VIII',  headerAlign: 'center', children: [{ field: 'viii' }] },
+                { groupId: 'IX',  headerAlign: 'center', children: [{ field: 'ix' }] },
+                { groupId: 'X',  headerAlign: 'center', children: [{ field: 'x' }] },
+                { groupId: 'XI',  headerAlign: 'center', children: [{ field: 'xi' }] },
+                { groupId: 'XII',  headerAlign: 'center', children: [{ field: 'xii' }] }
             ],
         },
         {
             groupId: 'TB năm',
-            headerClassName: 'tableHead',
+            
             headerAlign: 'center',
             children: [{
                 groupId: ' ',
-                headerClassName: 'tableHead',
+                
                 children: [{ field: 'avgYear' }]
             }],
         },
         {
             groupId: 'W(10⁶m³)',
-            headerClassName: 'tableHead',
+            
             headerAlign: 'center',
             children: [{
                 groupId: ' ',
-                headerClassName: 'tableHead',
+                
                 children: [{ field: 'totalAmountOfSurfaceWater' }]
             }],
         },
         {
             groupId: 'Ghi chú',
-            headerClassName: 'tableHead',
+            
             headerAlign: 'center',
             children: [{
                 groupId: ' ',
-                headerClassName: 'tableHead',
+                
                 children: [{ field: 'description' }]
             }],
         },

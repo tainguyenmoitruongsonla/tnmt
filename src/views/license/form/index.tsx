@@ -369,13 +369,13 @@ const CreateLicense: FC<CreateLicenseProps> = ({ isEdit, data, setPostSuccess })
 
           ) : (
             <Button
-              size="small"
+              variant='outlined' size='small' fullWidth sx={{ borderRadius: 0 }}
               startIcon={<Add />}
               onClick={() =>
                 openDialogs(<FormLicense data={data} closeDialogs={closeDialogs} setPostSuccess={setPostSuccess} />, formTitle)
               }
             >
-              Thêm mới
+              Thêm
             </Button>
           )}
         </>
