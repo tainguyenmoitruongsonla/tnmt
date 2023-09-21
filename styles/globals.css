@@ -354,3 +354,7 @@ code[class*='language-'] {
 .react-pdf__Page__canvas {
   margin: auto;
 }
+
+.italicText{
+  font-style: italic;
+}

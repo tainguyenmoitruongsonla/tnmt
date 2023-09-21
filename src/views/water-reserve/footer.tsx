@@ -4,16 +4,16 @@ const FooterWaterReseve = () => {
   return (
     <Grid className='_space_between' container sx={{mt:5}}>
       <Grid className='_text_center' item xs={4}>
-        <Typography variant='h5'>
+        <Typography>
           Người lập biểu
         </Typography>
       </Grid>
 
       <Grid className='_text_center' item xs={4}>
-        <Typography variant='h5'>Người kiểm tra</Typography>
+        <Typography>Người kiểm tra</Typography>
       </Grid>
       <Grid className='_text_center' item xs={4}>
-        <Typography variant='h5'>Sở Tài nguyên và Môi trường</Typography>
+        <Typography>Sở Tài nguyên và Môi trường</Typography>
       </Grid>
     </Grid>
   )

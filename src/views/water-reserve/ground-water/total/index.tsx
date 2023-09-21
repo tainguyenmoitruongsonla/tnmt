@@ -1,28 +1,28 @@
 import {
-  Grid,
-  Paper,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-  Typography
-} from '@mui/material'
-import HeaderWaterReseve from '../header'
-import FooterWaterReseve from '../footer'
-
-const RainWater = () => {
-  return (
-    <Grid container>
+    Grid,
+    Paper,
+    Table,
+    TableBody,
+    TableCell,
+    TableContainer,
+    TableHead,
+    TableRow,
+    Typography
+  } from '@mui/material'
+import HeaderWaterReseve from '../../header'
+import FooterWaterReseve from '../../footer'
+ 
+  
+  const GroundTotal = () => {
+    return (
+   <Grid container>
       <HeaderWaterReseve />
-      <Grid md={12} xs={12} textAlign={'center'} textTransform={'uppercase'}>
+      <Grid item md={12} xs={12} textAlign={'center'} textTransform={'uppercase'}>
         <Typography pt={7} pb={4} className='font-weight-bold ' variant='h6'>
-          KIỂM KÊ TỔNG LƯỢNG NƯỚC MƯA
+          KIỂM KÊ SỐ LƯỢNG NƯỚC DƯỚI ĐẤT
         </Typography>
       </Grid>
-      <Grid md={12} xs={12} pt={3}>
-        <Typography className='_flexEnd'>Đơn vị:mm</Typography>
+      <Grid item md={12} xs={12} pt={3}>
         <TableContainer component={Paper}>
           <Table sx={{ minWidth: 650 }} aria-label='simple table'>
             <TableHead className='tableHead'>
@@ -31,70 +31,67 @@ const RainWater = () => {
                   STT
                 </TableCell>
                 <TableCell size='small' align='center' rowSpan={2}>
-                  Tên trạm
+                  Tầng chứa nước
                 </TableCell>
-                <TableCell size='small' align='center' rowSpan={2}>
-                  Năm
+                <TableCell size='small' align='center' colSpan={4}>
+                  Nước ngọt
                 </TableCell>
-                <TableCell size='small' align='center' colSpan={2}>
-                  Vị trí hành chính
-                </TableCell>
-                <TableCell size='small' align='center' colSpan={12}>
-                  Tháng
-                </TableCell>
-                <TableCell size='small' align='center' rowSpan={2}>
-                  Mùa mưa
-                </TableCell>
-                <TableCell size='small' align='center' rowSpan={2}>
-                  Mùa khô
-                </TableCell>
-                <TableCell size='small' align='center' rowSpan={2}>
-                  Cả năm
+                <TableCell size='small' align='center' colSpan={3}>
+                  Nước mặn
                 </TableCell>
               </TableRow>
 
               <TableRow>
                 <TableCell size='small' align='center'>
-                  Xã
+                  Diện tích phân bố <br /> (km2)
                 </TableCell>
                 <TableCell size='small' align='center'>
-                  Huyện
+                  Vị trí hành chính <br /> (xã,huyện)
                 </TableCell>
                 <TableCell size='small' align='center'>
-                  1
+                  Trữ lượng tiềm <br /> năng(m3/ngày)
                 </TableCell>
                 <TableCell size='small' align='center'>
-                  2
+                  Trữ lượng có thể <br /> khai thác(m3/ngày)
                 </TableCell>
                 <TableCell size='small' align='center'>
-                  3
+                  Diện tích phân bố <br /> (km2)
                 </TableCell>
                 <TableCell size='small' align='center'>
-                  4
+                  Vị trí hành chính <br /> (xã,huyện)
                 </TableCell>
                 <TableCell size='small' align='center'>
-                  5
+                  Trữ lượng  <br /> (m3/ngày)
+                </TableCell>
+              </TableRow>
+
+              <TableRow>
+                <TableCell size='small' align='center'>
+                  (1)
                 </TableCell>
                 <TableCell size='small' align='center'>
-                  6
+                  (2)
                 </TableCell>
                 <TableCell size='small' align='center'>
-                  7
+                  (3)
                 </TableCell>
                 <TableCell size='small' align='center'>
-                  8
+                  (4)
                 </TableCell>
                 <TableCell size='small' align='center'>
-                  9
+                  (5)
                 </TableCell>
                 <TableCell size='small' align='center'>
-                  10
+                  (6)
                 </TableCell>
                 <TableCell size='small' align='center'>
-                  11
+                  (7)
                 </TableCell>
                 <TableCell size='small' align='center'>
-                  12
+                  (8)
+                </TableCell>
+                <TableCell size='small' align='center'>
+                  (9)
                 </TableCell>
               </TableRow>
             </TableHead>
@@ -102,18 +99,7 @@ const RainWater = () => {
             <TableBody className='tableBody'>
               <TableRow>
                 <TableCell className="text-center  size='small' align-middle font-13">1</TableCell>
-                <TableCell className="text-center  size='small' align-middle font-13">Trà khúc</TableCell>
-                <TableCell className="text-center  size='small' align-middle font-13">1</TableCell>
-                <TableCell className="text-center  size='small' align-middle font-13">1</TableCell>
-                <TableCell className="text-center  size='small' align-middle font-13">1</TableCell>
-                <TableCell className="text-center  size='small' align-middle font-13">1</TableCell>
-                <TableCell className="text-center  size='small' align-middle font-13">1</TableCell>
-                <TableCell className="text-center  size='small' align-middle font-13">1</TableCell>
-                <TableCell className="text-center  size='small' align-middle font-13">1</TableCell>
-                <TableCell className="text-center  size='small' align-middle font-13">1</TableCell>
-                <TableCell className="text-center  size='small' align-middle font-13">1</TableCell>
-                <TableCell className="text-center  size='small' align-middle font-13">1</TableCell>
-                <TableCell className="text-center  size='small' align-middle font-13">1</TableCell>
+                <TableCell className="text-center  size='small' align-middle font-13">Tầng chứa nước qp</TableCell>
                 <TableCell className="text-center  size='small' align-middle font-13">1</TableCell>
                 <TableCell className="text-center  size='small' align-middle font-13">1</TableCell>
                 <TableCell className="text-center  size='small' align-middle font-13">1</TableCell>
@@ -128,6 +114,7 @@ const RainWater = () => {
       </Grid>
       <FooterWaterReseve />
     </Grid>
-  )
-}
-export default RainWater
+    )
+  }
+  export default GroundTotal
+  
