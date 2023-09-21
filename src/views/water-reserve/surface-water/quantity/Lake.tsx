@@ -1,8 +1,11 @@
 import { Typography } from "@mui/material";
 import Grid from "@mui/system/Unstable_Grid";
 import { DataGrid, GridColDef, GridColumnGroupingModel, GridToolbarExport } from '@mui/x-data-grid';
+import HeaderWaterReseve from "../../header";
+import FooterWaterReseve from "../../footer";
 
-const SurfaceWater = () => {
+
+const LakeSFReserve = () => {
     const columns: GridColDef[] = [
         { field: 'id', headerName: 'ID', },
         {
@@ -16,7 +19,7 @@ const SurfaceWater = () => {
             sortable: false,
         },
         {
-            field: 'basin',
+            field: 'lakeName',
             headerName: '〈 2 〉 ',
             headerClassName: 'tableHead',
             headerAlign: 'center',
@@ -24,7 +27,7 @@ const SurfaceWater = () => {
             sortable: false,
         },
         {
-            field: 'i',
+            field: 'exploitedWater',
             headerName: '〈 3 〉 ',
             headerClassName: 'tableHead',
             headerAlign: 'center',
@@ -32,7 +35,7 @@ const SurfaceWater = () => {
             sortable: false,
         },
         {
-            field: 'ii',
+            field: 'belongsRiver',
             headerName: '〈 4 〉 ',
             headerClassName: 'tableHead',
             headerAlign: 'center',
@@ -40,7 +43,7 @@ const SurfaceWater = () => {
             sortable: false,
         },
         {
-            field: 'iii',
+            field: 'surfaceArea',
             headerName: '〈 5 〉 ',
             headerClassName: 'tableHead',
             headerAlign: 'center',
@@ -48,7 +51,7 @@ const SurfaceWater = () => {
             sortable: false,
         },
         {
-            field: 'iv',
+            field: 'totalCapacity',
             headerName: '〈 6 〉 ',
             headerClassName: 'tableHead',
             headerAlign: 'center',
@@ -56,7 +59,7 @@ const SurfaceWater = () => {
             sortable: false,
         },
         {
-            field: 'v',
+            field: 'usefulCapacity',
             headerName: '〈 7 〉 ',
             headerClassName: 'tableHead',
             headerAlign: 'center',
@@ -64,7 +67,7 @@ const SurfaceWater = () => {
             sortable: false,
         },
         {
-            field: 'vi',
+            field: 'communeStart',
             headerName: '〈 8 〉 ',
             headerClassName: 'tableHead',
             headerAlign: 'center',
@@ -72,7 +75,7 @@ const SurfaceWater = () => {
             sortable: false,
         },
         {
-            field: 'vii',
+            field: 'districtStart',
             headerName: '〈 9 〉 ',
             headerClassName: 'tableHead',
             headerAlign: 'center',
@@ -80,71 +83,23 @@ const SurfaceWater = () => {
             sortable: false,
         },
         {
-            field: 'viii',
+            field: 'purpose',
             headerName: '〈 10 〉 ',
             headerClassName: 'tableHead',
             headerAlign: 'center',
             width: 100,
             sortable: false,
         },
+        
         {
-            field: 'ix',
+            field: 'description',
             headerName: '〈 11 〉 ',
             headerClassName: 'tableHead',
             headerAlign: 'center',
             width: 100,
             sortable: false,
         },
-        {
-            field: 'x',
-            headerName: '〈 12 〉 ',
-            headerClassName: 'tableHead',
-            headerAlign: 'center',
-            width: 100,
-            sortable: false,
-        },
-        {
-            field: 'xi',
-            headerName: '〈 13 〉 ',
-            headerClassName: 'tableHead',
-            headerAlign: 'center',
-            width: 100,
-            sortable: false,
-        },
-        {
-            field: 'xii',
-            headerName: '〈 14 〉 ',
-            headerClassName: 'tableHead',
-            headerAlign: 'center',
-            width: 100,
-            sortable: false,
-        },
-        {
-            field: 'avgYear',
-            headerName: '〈 15 〉 ',
-            headerClassName: 'tableHead',
-            headerAlign: 'center',
-            width: 150,
-            sortable: false,
-        },
-        {
-            field: 'totalAmountOfSurfaceWater',
-            headerName: '〈 16 〉 ',
-            headerClassName: 'tableHead',
-            headerAlign: 'center',
-            width: 150,
-            sortable: false,
-        },
-
-        {
-            field: 'description',
-            headerName: '〈 17 〉 ',
-            headerClassName: 'tableHead',
-            headerAlign: 'center',
-            minWidth: 250,
-            flex: 1,
-            sortable: false,
-        },
+       
     ];
 
     const columnGroupingModel: GridColumnGroupingModel = [
@@ -159,52 +114,82 @@ const SurfaceWater = () => {
             }],
         },
         {
-            groupId: 'Tiểu vùng lưu vực',
+            groupId: 'Tên hồ chứa,ao,đầm,phá',
             headerClassName: 'tableHead',
             headerAlign: 'center',
             children: [{
                 groupId: ' ',
                 headerClassName: 'tableHead',
-                children: [{ field: 'basin' }]
+                children: [{ field: 'lakeName' }]
             }],
         },
         {
-            groupId: 'Lưu lượng (m³/s)',
+            groupId: 'Nguồn nước khai thác',
+            headerClassName: 'tableHead',
+            headerAlign: 'center',
+            children: [{
+                groupId: ' ',
+                headerClassName: 'tableHead',
+                children: [{ field: 'exploitedWater' }]
+            }],
+        },
+        {
+            groupId: 'Thuộc hệ thống sông ',
+            headerClassName: 'tableHead',
+            headerAlign: 'center',
+            children: [{
+                groupId: ' ',
+                headerClassName: 'tableHead',
+                children: [{ field: 'belongsRiver' }]
+            }],
+        },
+        {
+            groupId: 'Diện tích mặt nước(m2)',
+            headerClassName: 'tableHead',
+            headerAlign: 'center',
+            children: [{
+                groupId: ' ',
+                headerClassName: 'tableHead',
+                children: [{ field: 'surfaceArea' }]
+            }],
+        },
+        {
+            groupId: 'Dung tích toàn bộ(triệu/m3)',
+            headerClassName: 'tableHead',
+            headerAlign: 'center',
+            children: [{
+                groupId: ' ',
+                headerClassName: 'tableHead',
+                children: [{ field: 'totalCapacity' }]
+            }],
+        },
+        {
+            groupId: 'Dung tích hữu ích(triệu/m3)',
+            headerClassName: 'tableHead',
+            headerAlign: 'center',
+            children: [{
+                groupId: ' ',
+                headerClassName: 'tableHead',
+                children: [{ field: 'usefulCapacity' }]
+            }],
+        },
+        {
+            groupId: 'Vị trí hành chính',
             headerClassName: 'tableHead',
             headerAlign: 'center',
             children: [
-                { groupId: 'I', headerClassName: 'tableHead', headerAlign: 'center', children: [{ field: 'i' }] },
-                { groupId: 'II', headerClassName: 'tableHead', headerAlign: 'center', children: [{ field: 'ii' }] },
-                { groupId: 'III', headerClassName: 'tableHead', headerAlign: 'center', children: [{ field: 'iii' }] },
-                { groupId: 'IV', headerClassName: 'tableHead', headerAlign: 'center', children: [{ field: 'iv' }] },
-                { groupId: 'V', headerClassName: 'tableHead', headerAlign: 'center', children: [{ field: 'v' }] },
-                { groupId: 'VI', headerClassName: 'tableHead', headerAlign: 'center', children: [{ field: 'vi' }] },
-                { groupId: 'VII', headerClassName: 'tableHead', headerAlign: 'center', children: [{ field: 'vii' }] },
-                { groupId: 'VIII', headerClassName: 'tableHead', headerAlign: 'center', children: [{ field: 'viii' }] },
-                { groupId: 'IX', headerClassName: 'tableHead', headerAlign: 'center', children: [{ field: 'ix' }] },
-                { groupId: 'X', headerClassName: 'tableHead', headerAlign: 'center', children: [{ field: 'x' }] },
-                { groupId: 'XI', headerClassName: 'tableHead', headerAlign: 'center', children: [{ field: 'xi' }] },
-                { groupId: 'XII', headerClassName: 'tableHead', headerAlign: 'center', children: [{ field: 'xii' }] }
+                { groupId: 'Xã', headerClassName: 'tableHead', headerAlign: 'center', children: [{ field: 'communeStart' }] },
+                { groupId: 'Huyện', headerClassName: 'tableHead', headerAlign: 'center', children: [{ field: 'districtStart' }] },
             ],
         },
         {
-            groupId: 'TB năm',
+            groupId: 'Mục đích sử dụng',
             headerClassName: 'tableHead',
             headerAlign: 'center',
             children: [{
                 groupId: ' ',
                 headerClassName: 'tableHead',
-                children: [{ field: 'avgYear' }]
-            }],
-        },
-        {
-            groupId: 'W(10⁶m³)',
-            headerClassName: 'tableHead',
-            headerAlign: 'center',
-            children: [{
-                groupId: ' ',
-                headerClassName: 'tableHead',
-                children: [{ field: 'totalAmountOfSurfaceWater' }]
+                children: [{ field: 'purpose' }]
             }],
         },
         {
@@ -220,9 +205,9 @@ const SurfaceWater = () => {
     ];
 
     const rows = [
-        { id: 1, stt: 1, basin: 'basin1', i: 1, ii: 1, iii: 1, iv: 1, v: 1, vi: 1, vii: 1, viii: 1, ix: 1, x: 1, xi: 1, xii: 1, avgYear: 1, totalAmountOfSurfaceWater: 1, description: 1 },
-        { id: 2, stt: 2, basin: 'basin2', i: 2, ii: 2, iii: 2, iv: 2, v: 2, vi: 2, vii: 2, viii: 2, ix: 2, x: 2, xi: 2, xii: 2, avgYear: 2, totalAmountOfSurfaceWater: 2, description: 2 },
-        { id: 3, stt: 3, basin: 'basin3', i: 3, ii: 3, iii: 3, iv: 3, v: 3, vi: 3, vii: 3, viii: 3, ix: 3, x: 3, xi: 3, xii: 3, avgYear: 3, totalAmountOfSurfaceWater: 3, description: 3 },
+        { id: 1,stt: 1, description: 1 },
+        { id: 2, stt: 2,description: 2 },
+        { id: 3, stt: 3,  description: 3 },
     ];
 
     const toolbar = () => {
@@ -230,8 +215,7 @@ const SurfaceWater = () => {
         return (
             <Grid display={'flex'} justifyContent={'end'}>
                 <GridToolbarExport csvOptions={{
-
-                    utf8WithBom: true,
+                 utf8WithBom: true,
                 }} />
             </Grid>
         )
@@ -239,9 +223,9 @@ const SurfaceWater = () => {
 
     return (
         <Grid container>
+            <HeaderWaterReseve />   
             <Grid md={12} xs={12} textAlign={'center'} textTransform={'uppercase'}>
-                <Typography pt={7} pb={4} variant="h6">THÔNG TIN DỮ LIỆU VỀ LƯU LƯỢNG TRUNG BÌNH THÁNG NĂM TRÊN CÁC TIỂU VÙNG QUY HOẠCH <br /> TRÊN ĐỊA BÀN tỉnh quảng ngãi</Typography>
-                <Typography variant="button">Kỳ báo cáo: <b>{new Date().getFullYear()}</b></Typography>
+                <Typography pt={7} pb={4} className='font-weight-bold ' variant="h6">KIỂM KÊ SỐ LƯỢNG NGUỒN NƯỚC MẶT AO, HỒ, ĐẦM, PHÁ</Typography>
             </Grid>
             <Grid md={12} xs={12} pt={3}>
                 <DataGrid
@@ -268,7 +252,8 @@ const SurfaceWater = () => {
                     density="compact"
                 />
             </Grid>
+            <FooterWaterReseve />   
         </Grid>
     )
 }
-export default SurfaceWater;
+export default LakeSFReserve;

@@ -104,13 +104,45 @@ const navigation = (): VerticalNavItemsType => {
         },
         {
           icon: CircleOutline,
-          title: 'Nước mặt',
-          path: '/tru-luong-nuoc/nuoc-mat'
+          title: 'Nước mặt',         
+          children: [
+            {
+              title: 'Số lượng',
+              icon: CircleOutline,
+              path: '/tru-luong-nuoc/nuoc-mat/so-luong'
+            },
+            {
+              title: 'Tổng lượng',
+              icon: CircleOutline,
+              path: '/tru-luong-nuoc/nuoc-mat/tong-luong'
+            },
+            {
+              title: 'Chất lượng nước',
+              icon: CircleOutline,
+              path: '/tru-luong-nuoc/nuoc-mat/chat-luong-nuoc'
+            },
+          ]
         },
         {
           icon: CircleOutline,
           title: 'Nước dưới đất',
-          path: '/tru-luong-nuoc/nuoc-duoi-dat'
+          children: [
+            {
+              title: 'Số lượng NDĐ',
+              icon: CircleOutline,
+              path: '#'
+            },
+            {
+              title: 'Tổng lượng NDĐ',
+              icon: CircleOutline,
+              path: '#'
+            },
+            {
+              title: 'Chất lượng NDĐ',
+              icon: CircleOutline,
+              path: '#'
+            },
+          ]
         }
       ]
     },
