@@ -130,12 +130,12 @@ const navigation = (): VerticalNavItemsType => {
             {
               title: 'Số lượng NDĐ',
               icon: CircleOutline,
-              path: '#'
+              path: '/tru-luong-nuoc/nuoc-duoi-dat/so-luong'
             },
             {
               title: 'Tổng lượng NDĐ',
               icon: CircleOutline,
-              path: '#'
+              path: '/tru-luong-nuoc/nuoc-duoi-dat/tong-luong'
             },
             {
               title: 'Chất lượng NDĐ',
