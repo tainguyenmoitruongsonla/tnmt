@@ -141,15 +141,45 @@ const LoginPage = () => {
           </Box>
           {isError ? (<Box sx={{ mb: 3 }}> <Alert severity="error">Tài khoản hoặc mật khẩu không chính xác!</Alert> </Box>) : ""}
           <form noValidate autoComplete='off' onSubmit={handleSubmit}>
-            <TextField autoFocus fullWidth id='username' label='Tên đăng nhập' sx={{ marginBottom: 4 }} value={values.username} onChange={handleChange('username')} />
+            <TextField autoFocus fullWidth
+              id='username'
+              label={<Typography variant='overline' sx={{ fontSize: 14, fontWeight: 600, lineHeight: 0, transformOrigin: 'center' }}>
+                Tài khoản
+              </Typography>}
+              sx={{ marginBottom: 4 }}
+              value={values.username}
+              onChange={handleChange('username')}
+              inputProps={{
+                style: {
+                  paddingTop: 10,
+                  paddingBottom: 10,
+                  fontSize: 15
+                }
+              }}
+            />
             <FormControl fullWidth>
-              <InputLabel htmlFor='auth-login-password'>Mật khẩu</InputLabel>
+              <InputLabel htmlFor='auth-login-password'>
+                <Typography variant='overline' sx={{ fontSize: 14, fontWeight: 600, lineHeight: 0, transformOrigin: 'center' }}>
+                  Mật khẩu
+                </Typography>
+              </InputLabel>
               <OutlinedInput
-                label='Password'
+                label={
+                  <Typography variant='overline' sx={{ fontSize: 14, fontWeight: 600, lineHeight: 0, transformOrigin: 'center' }}>
+                    Mật khẩu
+                  </Typography>
+                }
                 value={values.password}
                 id='auth-login-password'
                 onChange={handleChange('password')}
                 type={values.showPassword ? 'text' : 'password'}
+                inputProps={{
+                  style: {
+                    paddingTop: 10,
+                    paddingBottom: 10,
+                    fontSize: 15
+                  }
+                }}
                 endAdornment={
                   <InputAdornment position='end'>
                     <IconButton
