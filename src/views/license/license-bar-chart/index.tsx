@@ -52,7 +52,7 @@ const ApexChartLicense: React.FC<ApexChartLicenseProps> = ({ data, year, color }
   useEffect(() => {
     // Call the annotation function here after the series data is fetched and set
     addStackedTotalsAnnotations(series, year, setAnnotations);
-  }, [series, year]);
+  }, [series, year, setAnnotations]);
 
   const options: ApexOptions = {
     annotations: {

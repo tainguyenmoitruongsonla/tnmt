@@ -189,16 +189,22 @@ const LicenseToolBar: FC<LicenseToolBarProps> = ({ onChange }) => {
     return (
         <Toolbar variant="dense">
             <Grid container spacing={2} sx={{ paddingY: 3 }}>
-                <Grid item xs={12} md={3} py={0}>
-                    <TextField
-                        sx={{ p: 0 }}
-                        size="small"
-                        fullWidth
-                        variant="outlined"
-                        placeholder="Số giấy phép..."
-                        onChange={(e: any) => handleChange(e)('licenseNumber')}
-                    />
-                </Grid>
+                {
+                    router.pathname.split('/')[2] == 'nuoc-mat' || router.pathname.split('/')[2] == 'nuoc-duoi-dat' || router.pathname.split('/')[2] == 'xa-thai'
+                        ?
+                        <Grid item xs={12} md={3} py={0}>
+                            <TextField
+                                sx={{ p: 0 }}
+                                size="small"
+                                fullWidth
+                                variant="outlined"
+                                placeholder="Số giấy phép..."
+                                onChange={(e: any) => handleChange(e)('licenseNumber')}
+                            />
+                        </Grid>
+                        : ''
+                }
+
                 <Grid item xs={12} md={2} py={0}>
                     <FormControl size="small" fullWidth>
                         <InputLabel id="license-type-select">Cơ quan cấp phép</InputLabel>
