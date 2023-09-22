@@ -1,5 +1,5 @@
 import { FilterList, Replay, Search } from "@mui/icons-material";
-import { Button, FormControl, Grid, InputLabel, MenuItem, Select, SelectChangeEvent, Collapse, TextField, Toolbar, Typography, Autocomplete } from "@mui/material";
+import { Button, FormControl, Grid, InputLabel, MenuItem, Select, SelectChangeEvent, Collapse, TextField, Toolbar, Typography, Autocomplete, ListSubheader } from "@mui/material";
 import { ChangeEvent, FC, useEffect, useState } from "react";
 import fetch from "src/api/fetch";
 import CreateLicense from "../form";
@@ -18,6 +18,32 @@ const LicenseToolBar: FC<LicenseToolBarProps> = ({ onChange }) => {
     const [communes, setCommunes] = useState([]);
     const [subBasins, setSubBasins] = useState([]);
 
+    function getConstructionTypeId() {
+        const pathSegments = router.pathname.split('/');
+        const section = pathSegments[2];
+        const subsection = pathSegments[3];
+
+        switch (section) {
+            case "nuoc-mat":
+                return 1;
+            case "nuoc-duoi-dat":
+                switch (subsection) {
+                    case "khai-thac-su-dung":
+                        return 7;
+                    case "tham-do":
+                        return 8;
+                    case "hanh-nghe-khoan":
+                        return 9;
+                    default:
+                        return 0;
+                }
+            case "xa-thai":
+                return 3;
+            default:
+                return 0;
+        }
+    }
+
     const [paramsFilter, setParamsFilter] = useState({
         licenseNumber: null,
         licensingAuthorities: null,
@@ -25,7 +51,7 @@ const LicenseToolBar: FC<LicenseToolBarProps> = ({ onChange }) => {
         licenseValidity: null,
         businessId: 0,
         constructionId: 0,
-        constructionTypeId: router.pathname.split('/')[2] == "nuoc-mat" ? 1 : router.pathname.split('/')[2] == "nuoc-duoi-dat" ? 2 : router.pathname.split('/')[2] == "xa-thai" ? 3 : 0,
+        constructionTypeId: getConstructionTypeId(),
         districtId: 0,
         communeId: 0,
         subBasinId: 0,
@@ -83,7 +109,7 @@ const LicenseToolBar: FC<LicenseToolBarProps> = ({ onChange }) => {
             licenseValidity: null,
             businessId: 0,
             constructionId: 0,
-            constructionTypeId: router.pathname.split('/')[2] == "nuoc-mat" ? 1 : router.pathname.split('/')[2] == "nuoc-duoi-dat" ? 2 : router.pathname.split('/')[2] == "xa-thai" ? 3 : 0,
+            constructionTypeId: getConstructionTypeId(),
             districtId: 0,
             communeId: 0,
             subBasinId: 0,
@@ -94,39 +120,70 @@ const LicenseToolBar: FC<LicenseToolBarProps> = ({ onChange }) => {
     }
 
     useEffect(() => {
+        let isMounted = true;
+
         const getData = async () => {
             try {
                 // license type
                 const licTypesData = await fetch('LicenseTypes/list');
-                setLicenseTypes(licTypesData);
 
                 // constructiom type
                 const ConsTypesData = await fetch('ConstructionTypes/list');
-                setConsTypes(ConsTypesData.filter((item: any) => item.parentId === (router.pathname.split('/')[2] == 'nuoc-mat' ? 1 : router.pathname.split('/')[2] == 'nuoc-duoi-dat' ? 2 : 3)));
 
                 //businesses
                 const businessData = await fetch('Business/list');
-                setBusinesses(businessData);
 
                 // district
                 const districtsData = await fetch('Locations/list/distric/51');
-                setDistricts(districtsData);
 
                 if (paramsFilter.districtId > 0) {
                     // comunnes
                     const comunnesData = await fetch(`Locations/list/commune/get-by-distric/${paramsFilter.districtId}`);
-                    setCommunes(comunnesData);
+                    if (isMounted) {
+                        setCommunes(comunnesData);
+                    }
                 }
 
                 // subBasin
-                const subBasinsData = await fetch('Locations/list/distric/51');
-                setSubBasins(subBasinsData);
+                const subBasinsData = await fetch('SubBasin/list');
 
+                if (isMounted) {
+                    setLicenseTypes(licTypesData);
+                    setConsTypes(
+                        ConsTypesData.map((item: any) => {
+                            const section = router.pathname.split('/')[2];
+
+                            if (section === 'nuoc-mat') {
+                                if (item.parentId === 1) {
+                                    return item;
+                                }
+                            } else if (section === 'xa-thai') {
+                                if (item.parentId === 3) {
+                                    return item;
+                                }
+                            } else {
+                                const children = item.parentId === 0 ? ConsTypesData.filter((childItem: any) => childItem.parentId === item.id) : [];
+                                const res = { ...(item.parentId === 0 ? { ...item, children } : undefined) };
+
+                                return res;
+                            }
+                        })
+                    );
+
+                    setBusinesses(businessData);
+                    setDistricts(districtsData);
+                    setSubBasins(subBasinsData);
+                }
             } catch (error) {
-            } finally {
+                console.log(error);
             }
         };
+
         getData();
+
+        return () => {
+            isMounted = false;
+        };
     }, [paramsFilter.districtId, router.pathname]);
 
     return (
@@ -217,31 +274,47 @@ const LicenseToolBar: FC<LicenseToolBarProps> = ({ onChange }) => {
                         </Select>
                     </FormControl>
                 </Grid>
-                <Grid item xs={12} md={2} py={0}>
-                    <FormControl size="small" fullWidth>
-                        <InputLabel id="license-type-select">Loại công trình</InputLabel>
-                        <Select
-                            labelId="license-type-select"
-                            id="demo-select-small"
-                            value={paramsFilter.constructionTypeId > 3 ? paramsFilter.constructionTypeId : 0}
-                            label="Loại công trình"
-                            onChange={(e: any) => handleChange(e)('constructionTypeId')}
-                        >
-                            <MenuItem value={0}>
-                                Loại công trình
-                            </MenuItem>
-                            {consTypes.map((e: any, i: number) => (
-                                <MenuItem
-                                    key={i}
-                                    value={e.id}
+                {
+                    router.pathname.split('/')[2] !== 'nuoc-duoi-dat' ?
+                        <Grid item xs={12} md={2} py={0}>
+                            <FormControl size="small" fullWidth>
+                                <InputLabel id="license-type-select">Loại công trình</InputLabel>
+                                <Select
+                                    labelId="license-type-select"
+                                    id="demo-select-small"
+                                    value={paramsFilter.constructionTypeId > 3 ? paramsFilter.constructionTypeId : 0}
+                                    label="Loại công trình"
+                                    onChange={(e: any) => handleChange(e)('constructionTypeId')}
                                 >
-                                    {e.typeName}
-                                </MenuItem>
-                            ))}
+                                    <MenuItem value={0}>Loại công trình</MenuItem>
+                                    {
+                                        router.pathname.split('/')[2] !== 'nuoc-mat' || router.pathname.split('/')[2] !== 'xathai' ?
+                                            consTypes.filter((item: any) => item !== undefined).map((e: any, i: number) => [
+                                                <MenuItem key={i} value={e.id}>
+                                                    {e.typeName}
+                                                </MenuItem>
+                                            ])
+                                            :
+                                            consTypes
+                                                .filter((item: any) => item?.children)
+                                                .map((e: any, i: number) => [
+                                                    <ListSubheader key={`subheader-${i}`}>{e.typeName}</ListSubheader>,
+                                                    ...e.children.map((child: any, j: number) => (
+                                                        <MenuItem key={`child-${j}`} value={child.id}>
+                                                            {child.typeName}
+                                                        </MenuItem>
+                                                    )),
+                                                ])
+                                    }
+                                </Select>
 
-                        </Select>
-                    </FormControl>
-                </Grid>
+
+                            </FormControl>
+                        </Grid>
+                        :
+                        ''
+                }
+
                 <Grid item xs={12} md={12} >
                     <Collapse in={open}>
                         <fieldset>
@@ -347,9 +420,14 @@ const LicenseToolBar: FC<LicenseToolBarProps> = ({ onChange }) => {
                         Bộ lọc
                     </Button>
                 </Grid>
-                <Grid item xs={6} md={1.5} py={0}>
-                    <CreateLicense isEdit={false} setPostSuccess={handlePostSuccess} />
-                </Grid>
+                {
+                    router.pathname.split('/')[2] == "nuoc-mat" || router.pathname.split('/')[2] == "nuoc-duoi-dat" || router.pathname.split('/')[2] == "xa-thai" ?
+                        <Grid item xs={6} md={1.5} py={0}>
+                            <CreateLicense isEdit={false} setPostSuccess={handlePostSuccess} />
+                        </Grid>
+                        :
+                        ''
+                }
             </Grid>
         </Toolbar>
     );
