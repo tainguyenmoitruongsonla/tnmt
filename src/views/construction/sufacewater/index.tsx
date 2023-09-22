@@ -32,7 +32,7 @@ const SurfaceConstruction = () => {
       
       headerAlign: 'center',
       headerName: 'Tên công trình',
-      minWidth: 250,
+      minWidth: 350,
       renderCell: data => (
         <Typography className='btnShowFilePdf' onClick={() => zoomConstruction(ConverterCood(data.row.y, data.row.x))}>
           {data.row.constructionName}

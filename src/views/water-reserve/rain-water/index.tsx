@@ -1,4 +1,5 @@
 import {
+  Button,
   Grid,
   Paper,
   Table,
@@ -11,6 +12,7 @@ import {
 } from '@mui/material'
 import HeaderWaterReseve from '../header'
 import FooterWaterReseve from '../footer'
+import Action from '../action'
 
 const RainWater = () => {
   return (
@@ -21,7 +23,10 @@ const RainWater = () => {
           KIỂM KÊ TỔNG LƯỢNG NƯỚC MƯA
         </Typography>
       </Grid>
-      <Grid md={12} xs={12} pt={3}>
+      <Grid>
+        <Button variant='outlined'>Thêm mới</Button>
+      </Grid>
+      <Grid md={12} xs={12} >
         <Typography className='_flexEnd'>Đơn vị:mm</Typography>
         <TableContainer component={Paper}>
           <Table sx={{ minWidth: 650 }} aria-label='simple table'>
@@ -50,6 +55,9 @@ const RainWater = () => {
                 </TableCell>
                 <TableCell size='small' align='center' rowSpan={2}>
                   Cả năm
+                </TableCell>
+                <TableCell size='small' align='center' rowSpan={2}>
+                  Thao tác
                 </TableCell>
               </TableRow>
 
@@ -101,26 +109,69 @@ const RainWater = () => {
 
             <TableBody className='tableBody'>
               <TableRow>
-                <TableCell className="text-center  size='small' align-middle font-13">1</TableCell>
-                <TableCell className="text-center  size='small' align-middle font-13">Trà khúc</TableCell>
-                <TableCell className="text-center  size='small' align-middle font-13">1</TableCell>
-                <TableCell className="text-center  size='small' align-middle font-13">1</TableCell>
-                <TableCell className="text-center  size='small' align-middle font-13">1</TableCell>
-                <TableCell className="text-center  size='small' align-middle font-13">1</TableCell>
-                <TableCell className="text-center  size='small' align-middle font-13">1</TableCell>
-                <TableCell className="text-center  size='small' align-middle font-13">1</TableCell>
-                <TableCell className="text-center  size='small' align-middle font-13">1</TableCell>
-                <TableCell className="text-center  size='small' align-middle font-13">1</TableCell>
-                <TableCell className="text-center  size='small' align-middle font-13">1</TableCell>
-                <TableCell className="text-center  size='small' align-middle font-13">1</TableCell>
-                <TableCell className="text-center  size='small' align-middle font-13">1</TableCell>
-                <TableCell className="text-center  size='small' align-middle font-13">1</TableCell>
-                <TableCell className="text-center  size='small' align-middle font-13">1</TableCell>
-                <TableCell className="text-center  size='small' align-middle font-13">1</TableCell>
-                <TableCell className="text-center  size='small' align-middle font-13">1</TableCell>
-                <TableCell className="text-center  size='small' align-middle font-13">1</TableCell>
-                <TableCell className="text-center  size='small' align-middle font-13">1</TableCell>
-                <TableCell className="text-center  size='small' align-middle font-13">1</TableCell>
+                <TableCell align='center' className="size='small' font-13">
+                  1
+                </TableCell>
+                <TableCell align='center' className="size='small' font-13">
+                  Trà khúc
+                </TableCell>
+                <TableCell align='center' className="size='small' font-13">
+                  1
+                </TableCell>
+                <TableCell align='center' className="size='small' font-13">
+                  1
+                </TableCell>
+                <TableCell align='center' className="size='small' font-13">
+                  1
+                </TableCell>
+                <TableCell align='center' className="size='small' font-13">
+                  1
+                </TableCell>
+                <TableCell align='center' className="size='small' font-13">
+                  1
+                </TableCell>
+                <TableCell align='center' className="size='small' font-13">
+                  1
+                </TableCell>
+                <TableCell align='center' className="size='small' font-13">
+                  1
+                </TableCell>
+                <TableCell align='center' className="size='small' font-13">
+                  1
+                </TableCell>
+                <TableCell align='center' className="size='small' font-13">
+                  1
+                </TableCell>
+                <TableCell align='center' className="size='small' font-13">
+                  1
+                </TableCell>
+                <TableCell align='center' className="size='small' font-13">
+                  1
+                </TableCell>
+                <TableCell align='center' className="size='small' font-13">
+                  1
+                </TableCell>
+                <TableCell align='center' className="size='small' font-13">
+                  1
+                </TableCell>
+                <TableCell align='center' className="size='small' font-13">
+                  1
+                </TableCell>
+                <TableCell align='center' className="size='small' font-13">
+                  1
+                </TableCell>
+                <TableCell align='center' className="size='small' font-13">
+                  1
+                </TableCell>
+                <TableCell align='center' className="size='small' font-13">
+                  1
+                </TableCell>
+                <TableCell align='center' className="size='small' font-13">
+                  1
+                </TableCell>
+                <TableCell align='center' className=" size='small' font-13">
+                  <Action />
+                </TableCell>
               </TableRow>
             </TableBody>
           </Table>

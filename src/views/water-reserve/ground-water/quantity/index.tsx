@@ -1,4 +1,5 @@
 import {
+  Button,
   Grid,
   Paper,
   Table,
@@ -11,6 +12,7 @@ import {
 } from '@mui/material'
 import HeaderWaterReseve from '../../header'
 import FooterWaterReseve from '../../footer'
+import Action from '../../action'
 
 const GroundQuantity = () => {
   return (
@@ -20,6 +22,11 @@ const GroundQuantity = () => {
         <Typography pt={7} pb={4} className='font-weight-bold ' variant='h6'>
           KIỂM KÊ SỐ LƯỢNG NƯỚC DƯỚI ĐẤT
         </Typography>
+      </Grid>
+      <Grid >
+        <Button variant="outlined">
+          Thêm mới
+        </Button>
       </Grid>
       <Grid item md={12} xs={12} pt={3}>
         <TableContainer component={Paper}>
@@ -40,6 +47,9 @@ const GroundQuantity = () => {
                 </TableCell>
                 <TableCell size='small' align='center' rowSpan={2}>
                   Ghi chú
+                </TableCell>
+                <TableCell size='small' align='center' rowSpan={2}>
+                  Thao tác
                 </TableCell>
               </TableRow>
 
@@ -72,18 +82,22 @@ const GroundQuantity = () => {
                 <TableCell size='small' align='center'>
                   (6)
                 </TableCell>
+                <TableCell size='small' align='center'>
+                  (7)
+                </TableCell>
                
               </TableRow>
             </TableHead>
 
             <TableBody className='tableBody'>
               <TableRow>
-                <TableCell className="text-center  size='small' align-middle font-13">1</TableCell>
-                <TableCell className="text-center  size='small' align-middle font-13">Tầng chứa nước qp</TableCell>
-                <TableCell className="text-center  size='small' align-middle font-13">1</TableCell>
-                <TableCell className="text-center  size='small' align-middle font-13">1</TableCell>
-                <TableCell className="text-center  size='small' align-middle font-13">1</TableCell>
-                <TableCell className="text-center  size='small' align-middle font-13">1</TableCell>
+                <TableCell align='center' className=" size='small' font-13">1</TableCell>
+                <TableCell align='center' className=" size='small' font-13">Tầng chứa nước qp</TableCell>
+                <TableCell align='center' className=" size='small' font-13">1</TableCell>
+                <TableCell align='center' className=" size='small' font-13">1</TableCell>
+                <TableCell align='center' className=" size='small' font-13">1</TableCell>
+                <TableCell align='center' className=" size='small' font-13">1</TableCell>
+                <TableCell align='center' className=" size='small' font-13"><Action/></TableCell>
               </TableRow>
             </TableBody>
           </Table>

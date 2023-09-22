@@ -33,11 +33,11 @@ const GroundConstruction = () => {
  const columnsTable: GridColDef[] = [
   { field: 'id',  headerAlign: 'center', headerName: 'ID', minWidth: 90 },
   {
-    field: 'constructionName',  headerAlign: 'center', headerName: 'Tên công trình', minWidth: 250, renderCell: (data) => (<Typography
+    field: 'constructionName',  headerAlign: 'center', headerName: 'Tên công trình', minWidth: 350, renderCell: (data) => (<Typography
       className='btnShowFilePdf' onClick={() => zoomConstruction([data.row.lat, data.row.lng])}>{data.row.constructionName}</Typography>)
   },
-  { field: 'constructionLocation',  headerAlign: 'center', headerName: 'Ví trí công trình', minWidth: 150, },
-  { field: 'exploitPurpose',  headerAlign: 'center', headerName: 'Mục đích khai thác,sử dụng nước', minWidth: 150, },
+  { field: 'constructionLocation',  headerAlign: 'center', headerName: 'Ví trí công trình', minWidth: 350, },
+  { field: 'exploitPurpose',  headerAlign: 'center', headerName: 'Mục đích khai thác,sử dụng nước', minWidth:250, },
   { field: 'numberExploitWells',  headerAlign: 'center', headerName: 'Số giếng khai thác', minWidth: 150, },
   { field: 'constructionTime',  headerAlign: 'center', headerName: '	Năm xây dựng', minWidth: 100, },
   { field: 'startDate',  headerAlign: 'center', headerName: 'Năm vận hành', minWidth: 100, },
