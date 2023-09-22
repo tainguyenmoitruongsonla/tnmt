@@ -284,7 +284,7 @@ const SurfaceWaterLicense = () => {
     licenseValidity: null,
     businessId: 0,
     constructionId: 0,
-    constructionTypeId: 0,
+    constructionTypeId: router.pathname.split('/')[2] == "nuoc-mat" ? 1 : router.pathname.split('/')[2] == "nuoc-duoi-dat" ? 2 : router.pathname.split('/')[2] == "xa-thai" ? 3 : 0,
     districtId: 0,
     communeId: 0,
     subBasinId: 0,

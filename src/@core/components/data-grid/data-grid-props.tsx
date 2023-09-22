@@ -1,5 +1,4 @@
 export const dataGridProps = {
-  className: "mainTable",
   disableColumnMenu: true,
   showCellVerticalBorder: true,
   showColumnVerticalBorder: true,

@@ -9,6 +9,15 @@ interface LicenseToolBarProps {
     onChange: (data: any, postSuccess?: boolean | undefined) => void;
 }
 const LicenseToolBar: FC<LicenseToolBarProps> = ({ onChange }) => {
+    const [postSucceed, setPostSucceed] = useState(false);
+    const router = useRouter();
+    const [licenseTypes, setLicenseTypes] = useState([]);
+    const [consTypes, setConsTypes] = useState([])
+    const [businesses, setBusinesses] = useState([]);
+    const [districts, setDistricts] = useState([]);
+    const [communes, setCommunes] = useState([]);
+    const [subBasins, setSubBasins] = useState([]);
+
     const [paramsFilter, setParamsFilter] = useState({
         licenseNumber: null,
         licensingAuthorities: null,
@@ -16,19 +25,13 @@ const LicenseToolBar: FC<LicenseToolBarProps> = ({ onChange }) => {
         licenseValidity: null,
         businessId: 0,
         constructionId: 0,
-        constructionTypeId: 0,
+        constructionTypeId: router.pathname.split('/')[2] == "nuoc-mat" ? 1 : router.pathname.split('/')[2] == "nuoc-duoi-dat" ? 2 : router.pathname.split('/')[2] == "xa-thai" ? 3 : 0,
         districtId: 0,
         communeId: 0,
         subBasinId: 0,
         pageIndex: 0,
         pageSize: 0
     });
-
-    const [postSucceed, setPostSucceed] = useState(false);
-    const router = useRouter();
-    const [licenseTypes, setLicenseTypes] = useState([]);
-    const [consTypes, setConsTypes] = useState([])
-    const [businesses, setBusinesses] = useState([]);
 
     //Hiệu lục giấy phép
     const licenseValidity = [
@@ -73,20 +76,21 @@ const LicenseToolBar: FC<LicenseToolBarProps> = ({ onChange }) => {
     }
 
     const reloadData = () => {
-        onChange({
+        setParamsFilter({
             licenseNumber: null,
             licensingAuthorities: null,
             licenseTypeId: 0,
             licenseValidity: null,
             businessId: 0,
             constructionId: 0,
-            constructionTypeId: 0,
+            constructionTypeId: router.pathname.split('/')[2] == "nuoc-mat" ? 1 : router.pathname.split('/')[2] == "nuoc-duoi-dat" ? 2 : router.pathname.split('/')[2] == "xa-thai" ? 3 : 0,
             districtId: 0,
             communeId: 0,
             subBasinId: 0,
             pageIndex: 0,
             pageSize: 0
         });
+        onChange(paramsFilter);
     }
 
     useEffect(() => {
@@ -104,12 +108,26 @@ const LicenseToolBar: FC<LicenseToolBarProps> = ({ onChange }) => {
                 const businessData = await fetch('Business/list');
                 setBusinesses(businessData);
 
+                // district
+                const districtsData = await fetch('Locations/list/distric/51');
+                setDistricts(districtsData);
+
+                if (paramsFilter.districtId > 0) {
+                    // comunnes
+                    const comunnesData = await fetch(`Locations/list/commune/get-by-distric/${paramsFilter.districtId}`);
+                    setCommunes(comunnesData);
+                }
+
+                // subBasin
+                const subBasinsData = await fetch('Locations/list/distric/51');
+                setSubBasins(subBasinsData);
+
             } catch (error) {
             } finally {
             }
         };
         getData();
-    }, [router.pathname]);
+    }, [paramsFilter.districtId, router.pathname]);
 
     return (
         <Toolbar variant="dense">
@@ -120,7 +138,8 @@ const LicenseToolBar: FC<LicenseToolBarProps> = ({ onChange }) => {
                         size="small"
                         fullWidth
                         variant="outlined"
-                        placeholder="Tìm kiếm..."
+                        placeholder="Số giấy phép..."
+                        onChange={(e: any) => handleChange(e)('licenseNumber')}
                     />
                 </Grid>
                 <Grid item xs={12} md={2} py={0}>
@@ -204,7 +223,7 @@ const LicenseToolBar: FC<LicenseToolBarProps> = ({ onChange }) => {
                         <Select
                             labelId="license-type-select"
                             id="demo-select-small"
-                            value={paramsFilter.constructionTypeId || ''}
+                            value={paramsFilter.constructionTypeId > 3 ? paramsFilter.constructionTypeId : 0}
                             label="Loại công trình"
                             onChange={(e: any) => handleChange(e)('constructionTypeId')}
                         >
@@ -231,7 +250,7 @@ const LicenseToolBar: FC<LicenseToolBarProps> = ({ onChange }) => {
                                     Tìm kiếm nâng cao
                                 </Typography>
                             </legend>
-                            <Grid container>
+                            <Grid container spacing={2}>
                                 <Grid item xs={12} md={2} py={0}>
                                     <Autocomplete
                                         size="small"
@@ -247,6 +266,67 @@ const LicenseToolBar: FC<LicenseToolBarProps> = ({ onChange }) => {
                                             <TextField
                                                 {...params}
                                                 label="TC/Cá nhân được CP"
+                                                variant="outlined"
+                                            />
+                                        )}
+                                    />
+                                </Grid>
+                                <Grid item xs={12} md={2} py={0}>
+                                    <Autocomplete
+                                        size="small"
+                                        fullWidth
+                                        options={districts}
+                                        getOptionLabel={(option: any) => option.districtName}
+                                        value={districts.find((item: any) => item.districtId === paramsFilter.districtId) || null}
+                                        onChange={(_, newValue) => {
+                                            handleChange(newValue?.districtId)('districtId');
+                                        }}
+                                        clearOnEscape={true}
+                                        renderInput={(params) => (
+                                            <TextField
+                                                {...params}
+                                                label="Huyện"
+                                                variant="outlined"
+                                            />
+                                        )}
+                                    />
+                                </Grid>
+                                <Grid item xs={12} md={2} py={0}>
+                                    <Autocomplete
+                                        size="small"
+                                        disabled={paramsFilter.districtId <= 0}
+                                        fullWidth
+                                        options={communes}
+                                        getOptionLabel={(option: any) => option.communeName}
+                                        value={communes.find((item: any) => item.communeId === paramsFilter.communeId) || null}
+                                        onChange={(_, newValue) => {
+                                            handleChange(newValue?.communeId)('communeId');
+                                        }}
+                                        clearOnEscape={true}
+                                        renderInput={(params) => (
+                                            <TextField
+                                                {...params}
+                                                label="Xã"
+                                                variant="outlined"
+                                            />
+                                        )}
+                                    />
+                                </Grid>
+                                <Grid item xs={12} md={2} py={0}>
+                                    <Autocomplete
+                                        size="small"
+                                        fullWidth
+                                        options={subBasins}
+                                        getOptionLabel={(option: any) => option.name}
+                                        value={subBasins.find((item: any) => item.id === paramsFilter.subBasinId) || null}
+                                        onChange={(_, newValue) => {
+                                            handleChange(newValue?.id)('subBasinId');
+                                        }}
+                                        clearOnEscape={true}
+                                        renderInput={(params) => (
+                                            <TextField
+                                                {...params}
+                                                label="Tiểu vùng quy hoạch"
                                                 variant="outlined"
                                             />
                                         )}
