@@ -277,6 +277,29 @@ const SurfaceWaterLicense = () => {
     }
   ];
 
+  function getConstructionTypeId () {
+    if(router.pathname.split('/')[2] == "nuoc-mat"){
+      return 1;
+    }
+    else if(router.pathname.split('/')[2] == "nuoc-duoi-dat"){
+      if(router.pathname.split('/')[3] == "khai-thac-su-dung"){
+        return 7;
+      }
+      if(router.pathname.split('/')[3] == "tham-do"){
+        return 8;
+      }
+      if(router.pathname.split('/')[3] == "hanh-nghe-khoan"){
+        return 9;
+      }
+    }
+    else if (router.pathname.split('/')[2] == "xa-thai"){
+      return 3;
+    }
+    else{
+      return 0;
+    }
+  }
+
   const [paramsFilter, setParamsFilter] = useState({
     licenseNumber: null,
     licensingAuthorities: null,
@@ -284,7 +307,7 @@ const SurfaceWaterLicense = () => {
     licenseValidity: null,
     businessId: 0,
     constructionId: 0,
-    constructionTypeId: router.pathname.split('/')[2] == "nuoc-mat" ? 1 : router.pathname.split('/')[2] == "nuoc-duoi-dat" ? 2 : router.pathname.split('/')[2] == "xa-thai" ? 3 : 0,
+    constructionTypeId: getConstructionTypeId(),
     districtId: 0,
     communeId: 0,
     subBasinId: 0,

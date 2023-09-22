@@ -358,3 +358,46 @@ code[class*='language-'] {
 .italicText{
   font-style: italic;
 }
+
+/* table */
+.mainTable .sticky-col {
+  position: sticky !important;
+  background: #b0d3ff;
+  z-index: 1 !important;
+}
+
+.tableHead th,
+.tableHead {
+  background-color: rgb(21 83 143) !important;
+  color: #fff !important;
+}
+
+.tableHead tr th {
+  color: #fff !important;
+  border: 1px solid #fff;
+  white-space: nowrap;
+}
+
+.tableBody tr td {
+  border: 1px solid #dee2e6;
+  white-space: nowrap;
+}
+
+.tableHeadItem th,
+.tableHeadItem {
+  background-color: #fff !important;
+  border: 1px solid;
+}
+
+.tableBodyItem tr td {
+  border: 1px solid #dee2e6;
+  white-space: nowrap;
+}
+
+
+.start-col {
+  left: 0 !important;
+}
+
+.end-col {
+  right: 0 !important;}

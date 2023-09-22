@@ -1,7 +1,7 @@
 import { useRouter } from 'next/router';
 import { checkAccessPermission } from 'src/@core/layouts/checkAccessPermission';
 import Error401 from "src/pages/401";
-import ProbeGroundWaterLicense from 'src/views/license/probeground-water';
+import SurfaceWaterLicense from "src/views/license/surface-water";
 
 const ProbeGroundWater = () => {
     const router = useRouter();
@@ -11,7 +11,7 @@ const ProbeGroundWater = () => {
     const routeSegment = routePath.split('/')[1];
 
     // Use routeSegment in your conditional rendering
-    return checkAccessPermission(routeSegment, 'view') ? <ProbeGroundWaterLicense /> : <Error401 />;
+    return checkAccessPermission(routeSegment, 'view') ? <SurfaceWaterLicense /> : <Error401 />;
 }
 
 export default ProbeGroundWater;

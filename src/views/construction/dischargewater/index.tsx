@@ -29,12 +29,12 @@ const DischargeConstruction = () => {
   const columnsTable: GridColDef[] = [
     { field: 'id',  headerAlign: 'center', headerName: 'ID', minWidth: 90 },
     {
-      field: 'constructionName',  headerAlign: 'center', headerName: 'Tên công trình', minWidth: 250, renderCell: (data) => (<Typography
+      field: 'constructionName',  headerAlign: 'center', headerName: 'Tên công trình', minWidth: 350, renderCell: (data) => (<Typography
         className='btnShowFilePdf' onClick={() => zoomConstruction([data.row.lat, data.row.lng])}>{data.row.constructionName}</Typography>)
     },
-    { field: 'constructionLocation',  headerAlign: 'center', headerName: 'Vị trí công trình', minWidth: 150, },
-    { field: 'WasteDischargeLocation',  headerAlign: 'center', headerName: 'Ví trí xả thải', minWidth: 150, valueGetter: (data) => (`${data.row.x},${data.row.y}`) },
-    { field: 'dischargeWS',  headerAlign: 'center', headerName: 'Nguồn tiếp nhận nước thải', minWidth: 150, },
+    { field: 'constructionLocation',  headerAlign: 'center', headerName: 'Vị trí công trình', minWidth: 350, },
+    { field: 'WasteDischargeLocation',  headerAlign: 'center', headerName: 'Ví trí xả thải', minWidth: 250, valueGetter: (data) => (`${data.row.x},${data.row.y}`) },
+    { field: 'dischargeWS',  headerAlign: 'center', headerName: 'Nguồn tiếp nhận nước thải', minWidth: 250, },
 
     //coordinates
     { field: 'x',  headerAlign: 'center', headerName: 'X', minWidth: 150, },
@@ -71,7 +71,6 @@ const DischargeConstruction = () => {
     },
     {
       field: 'license.IssueDate',
-      
       headerAlign: 'center',
       headerName: 'Hiệu lực GP',
       minWidth: 150,
@@ -89,7 +88,6 @@ const DischargeConstruction = () => {
     },
     {
       field: 'license.SignDate',
-      
       headerAlign: 'center',
       headerName: 'Ngày ký',
       minWidth: 150,
