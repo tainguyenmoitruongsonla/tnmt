@@ -288,7 +288,7 @@ const LicenseToolBar: FC<LicenseToolBarProps> = ({ onChange }) => {
                                 >
                                     <MenuItem value={0}>Loại công trình</MenuItem>
                                     {
-                                        router.pathname.split('/')[2] !== 'nuoc-mat' || router.pathname.split('/')[2] !== 'xathai' ?
+                                        router.pathname.split('/')[2] == 'nuoc-mat' || router.pathname.split('/')[2] == 'xa-thai' ?
                                             consTypes.filter((item: any) => item !== undefined).map((e: any, i: number) => [
                                                 <MenuItem key={i} value={e.id}>
                                                     {e.typeName}
