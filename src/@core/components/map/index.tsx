@@ -98,45 +98,45 @@ export default function Map({ center, zoom, showLabel, mapData, loading }: any) 
 
 	return (
 		loading ? (
-            <Box sx={{ width: '100%', height: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                <BoxLoading />
-            </Box>
-        ) : (
-		<>
-			<MapContainer attributionControl={false} center={center} zoom={zoom} style={{ height: '100%' }}>
-				<LayersControl position='bottomright'>
-					<BaseLayer name='Bản đồ hành chính'>
-						<TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
-					</BaseLayer>
-					<BaseLayer name='Bản đồ đường'>
-						<BingLayer bingkey={bing_key} type="Road" />
-					</BaseLayer>
-					<BaseLayer name="Bản đồ vệ tinh 1">
-						<TileLayer url='https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}' />
-					</BaseLayer>
-					<BaseLayer checked name='Bản đồ vệ tinh 2'>
-						<BingLayer bingkey={bing_key} type="AerialWithLabels" />
-					</BaseLayer>
-				</LayersControl>
-				{mapData && mapData.map((data: any) => {
-					if (data.x !== null || data.y !== null) {
-						return (
-							<Marker icon={getIcon(data.constructionTypeSlug)} key={data.id} position={[ConverterCood(data.y, data.x)[0], ConverterCood(data.y, data.x)[1]]}>
-								{showLabel === true &&
-									<Tooltip direction="top" offset={[-10, -18]} opacity={1} permanent>{data.constructionName}</Tooltip>
-								}
-								<Popup >
-									<Typography sx={{ color: '#035291', textAlign: 'center', fontWeight: 'bold', margin: '10px 0 !important' }}>{data.constructionName}</Typography>
-									<MapPopup popupData={data} />
-								</Popup>
-							</Marker>
-						)
-					} else return null;
-				})}
-				<SetViewOnClick coords={center} zoom={zoom} />
-				{kml && <ReactLeafletKml kml={kml} />}
-			</MapContainer>
-		</>
+			<Box sx={{ width: '100%', height: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+				<BoxLoading />
+			</Box>
+		) : (
+			<>
+				<MapContainer attributionControl={false} center={center} zoom={zoom} style={{ height: '100%' }}>
+					<LayersControl position='bottomright'>
+						<BaseLayer name='Bản đồ hành chính'>
+							<TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
+						</BaseLayer>
+						<BaseLayer name='Bản đồ đường'>
+							<BingLayer bingkey={bing_key} type="Road" />
+						</BaseLayer>
+						<BaseLayer name="Bản đồ vệ tinh 1">
+							<TileLayer url='https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}' />
+						</BaseLayer>
+						<BaseLayer checked name='Bản đồ vệ tinh 2'>
+							<BingLayer bingkey={bing_key} type="AerialWithLabels" />
+						</BaseLayer>
+					</LayersControl>
+					{mapData && mapData.map((data: any) => {
+						if (data.x !== null || data.y !== null) {
+							return (
+								<Marker icon={getIcon(data.constructionTypeSlug || '')} key={data.id} position={[ConverterCood(data.y, data.x)[0], ConverterCood(data.y, data.x)[1]]}>
+									{showLabel === true &&
+										<Tooltip direction="top" offset={[-10, -18]} opacity={1} permanent>{data.constructionName}</Tooltip>
+									}
+									<Popup >
+										<Typography sx={{ color: '#035291', textAlign: 'center', fontWeight: 'bold', margin: '10px 0 !important' }}>{data.constructionName}</Typography>
+										<MapPopup popupData={data} />
+									</Popup>
+								</Marker>
+							)
+						} else return null;
+					})}
+					<SetViewOnClick coords={center} zoom={zoom} />
+					{kml && <ReactLeafletKml kml={kml} />}
+				</MapContainer>
+			</>
 		)
 	);
 }
