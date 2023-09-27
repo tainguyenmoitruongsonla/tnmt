@@ -122,20 +122,28 @@ const ConstructionToolBar: FC<ConstructionToolBarProps> = ({ onChange }) => {
                     setConsTypes(
                         ConsTypesData.map((item: any) => {
                             const section = router.pathname.split('/')[2];
+                            switch (section) {
+                                case 'nuoc-mat':
+                                    if (item.parentId === 1) {
+                                        return item;
+                                    }
+                                    break;
+                                case 'nuoc-duoi-dat':
+                                    if (item.parentId === 2) {
+                                        return item;
+                                    }
+                                    break;
+                                case 'xa-thai':
+                                    if (item.parentId === 3) {
+                                        return item;
+                                    }
+                                    break;
+                                default:
+                                    const children = item.parentId === 0 ? ConsTypesData.filter((childItem: any) => childItem.parentId === item.id) : [];
+                                    const res = { ...(item.parentId === 0 ? { ...item, children } : undefined) };
 
-                            if (section === 'nuoc-mat') {
-                                if (item.parentId === 1) {
-                                    return item;
-                                }
-                            } else if (section === 'xa-thai') {
-                                if (item.parentId === 3) {
-                                    return item;
-                                }
-                            } else {
-                                const children = item.parentId === 0 ? ConsTypesData.filter((childItem: any) => childItem.parentId === item.id) : [];
-                                const res = { ...(item.parentId === 0 ? { ...item, children } : undefined) };
-
-                                return res;
+                                    return res;
+                                    break;
                             }
                         })
                     );
@@ -168,45 +176,39 @@ const ConstructionToolBar: FC<ConstructionToolBarProps> = ({ onChange }) => {
                         onChange={(e: any) => handleChange(e)('constructionName')}
                     />
                 </Grid>
-                {
-                    router.pathname.split('/')[2] !== 'nuoc-duoi-dat' ?
-                        <Grid item xs={12} md={2} py={0}>
-                            <FormControl size="small" fullWidth>
-                                <InputLabel id="license-type-select">Loại công trình</InputLabel>
-                                <Select
-                                    labelId="license-type-select"
-                                    id="demo-select-small"
-                                    value={paramsFilter.constructionTypeId > 3 ? paramsFilter.constructionTypeId : 0}
-                                    label="Loại công trình"
-                                    onChange={(e: any) => handleChange(e)('constructionTypeId')}
-                                >
-                                    <MenuItem value={0}>Loại công trình</MenuItem>
-                                    {
-                                        router.pathname.split('/')[2] == 'nuoc-mat' || router.pathname.split('/')[2] == 'xa-thai' ?
-                                            consTypes.filter((item: any) => item !== undefined).map((e: any, i: number) => [
-                                                <MenuItem key={i} value={e.id}>
-                                                    {e.typeName}
+                <Grid item xs={12} md={2} py={0}>
+                    <FormControl size="small" fullWidth>
+                        <InputLabel id="license-type-select">Loại công trình</InputLabel>
+                        <Select
+                            labelId="license-type-select"
+                            id="demo-select-small"
+                            value={paramsFilter.constructionTypeId > 3 ? paramsFilter.constructionTypeId : 0}
+                            label="Loại công trình"
+                            onChange={(e: any) => handleChange(e)('constructionTypeId')}
+                        >
+                            <MenuItem value={0}>Loại công trình</MenuItem>
+                            {
+                                router.pathname.split('/')[2] == 'nuoc-mat' || router.pathname.split('/')[2] == 'nuoc-duoi-dat' || router.pathname.split('/')[2] == 'xa-thai' ?
+                                    consTypes.filter((item: any) => item !== undefined).map((e: any, i: number) => [
+                                        <MenuItem key={i} value={e.id}>
+                                            {e.typeName}
+                                        </MenuItem>
+                                    ])
+                                    :
+                                    consTypes
+                                        .filter((item: any) => item?.children)
+                                        .map((e: any, i: number) => [
+                                            <ListSubheader key={`subheader-${i}`}>{e.typeName}</ListSubheader>,
+                                            ...e.children.map((child: any, j: number) => (
+                                                <MenuItem key={`child-${j}`} value={child.id}>
+                                                    {child.typeName}
                                                 </MenuItem>
-                                            ])
-                                            :
-                                            consTypes
-                                                .filter((item: any) => item?.children)
-                                                .map((e: any, i: number) => [
-                                                    <ListSubheader key={`subheader-${i}`}>{e.typeName}</ListSubheader>,
-                                                    ...e.children.map((child: any, j: number) => (
-                                                        <MenuItem key={`child-${j}`} value={child.id}>
-                                                            {child.typeName}
-                                                        </MenuItem>
-                                                    )),
-                                                ])
-                                    }
-                                </Select>
-                            </FormControl>
-                        </Grid>
-                        :
-                        ''
-                }
-
+                                            )),
+                                        ])
+                            }
+                        </Select>
+                    </FormControl>
+                </Grid>
                 <Grid item xs={12} md={2} py={0}>
                     <Autocomplete
                         size="small"

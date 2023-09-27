@@ -353,7 +353,7 @@ const SurfaceConstruction = () => {
                         <div key={e.id}>
                             <ShowFilePDF
                                 name={e?.licenseNumber || ''}
-                                src={`/pdf/giay-pheps/${e.licensingAuthorities?.toLowerCase()}/${new Date(e?.signDate).getFullYear()}/`}
+                                src={`/pdf/giay-phep/${e.licensingAuthorities?.toLowerCase()}/${new Date(e?.signDate).getFullYear()}/`}
                                 fileName={e?.filePDF || ''}
                             />
                         </div>
@@ -371,7 +371,7 @@ const SurfaceConstruction = () => {
                 <div style={{ width: '100%' }}>
                     {params.row.licenses?.map((e: any) => (
                         <div key={e.id}>
-                            <Typography>{FormatDate(e.issueDate)}</Typography>
+                            {FormatDate(e.issueDate)}
                         </div>
                     ))}
                 </div>
@@ -386,7 +386,7 @@ const SurfaceConstruction = () => {
                 <div style={{ width: '100%' }}>
                     {params.row.licenses?.map((e: any) => (
                         <div key={e.id}>
-                            <Typography>{FormatDate(e.signDate)}</Typography>
+                            {FormatDate(e.signDate)}
                         </div>
                     ))}
                 </div>
@@ -401,14 +401,16 @@ const SurfaceConstruction = () => {
             minWidth: 150,
             renderCell: (params) => (
                 <div style={{ width: '100%' }}>
-                    {params.row.licenseFees?.map((e: any) => (
-                        <div key={e.id}>
-                            <ShowFilePDF
-                                name={e?.licenseFeeNumber || ''}
-                                src={`/pdf/tien-cap-quyen/${e.licensingAuthorities?.toLowerCase()}/${new Date(e?.signDate).getFullYear()}/`}
-                                fileName={e?.filePDF || ''}
-                            />
-                        </div>
+                    {params.row.licenses?.map((e: any) => (
+                        e?.licenseFees.map((e: any) => (
+                            <div key={e.id}>
+                                <ShowFilePDF
+                                    name={e?.licenseFeeNumber || ''}
+                                    src={`/pdf/tien-cap-quyen/${e.licensingAuthorities?.toLowerCase()}/${new Date(e?.signDate).getFullYear()}/`}
+                                    fileName={e?.filePDF || ''}
+                                />
+                            </div>
+                        ))
                     ))}
                 </div>
             ),
@@ -419,16 +421,20 @@ const SurfaceConstruction = () => {
             headerName: 'Tổng tiền cấp quyền (VNĐ)',
             minWidth: 150,
             type: 'number',
-            valueGetter: params => {
-                const licenseFees = params.row.licenseFees || []
-                let totalMoney = 0
-
-                licenseFees.forEach((e: any) => {
-                    totalMoney += parseFloat(e.totalMoney) || 0
-                })
-
-                return totalMoney
-            }
+            renderCell: (params) => (
+                <div style={{ width: '100%' }}>
+                    {params.row.licenses?.map((e: any) => (
+                        e?.licenseFees.map((e: any) => (
+                            <div key={e.id}>
+                                {e.totalMoney.toLocaleString('vi-VN', {
+                                    style: 'currency',
+                                    currency: 'VND',
+                                })}
+                            </div>
+                        ))
+                    ))}
+                </div>
+            ),
         },
 
         //Action
