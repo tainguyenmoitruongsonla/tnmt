@@ -1,7 +1,7 @@
 import * as React from 'react';
 
 // ** MUI Imports
-import { Box, Paper } from '@mui/material';
+import { Paper } from '@mui/material';
 import Grid from '@mui/material/Unstable_Grid2';
 
 // ** Icons Imports
@@ -17,6 +17,7 @@ const ManageLicense = () => {
     const [resData, setResData] = React.useState([]);
     const [resDataForChart, setResDataForChart] = React.useState([]);
     const [loading, setLoading] = React.useState(false)
+    const [resLoading, setResLoading] = React.useState(false)
 
     const [paramsFilter, setParamsFilter] = React.useState({
         licenseNumber: null,
@@ -44,12 +45,35 @@ const ManageLicense = () => {
     }, []);
 
     const getData = async () => {
-        setLoading(true);
+        setResLoading(true);
         fetchData('License/list', paramsFilter)
             .then((data) => {
                 if (isMounted.current) {
                     setResData(data);
-                    setResDataForChart(data)
+                }
+            })
+            .catch((error) => {
+                console.log(error);
+            })
+            .finally(() => {
+                if (isMounted.current) {
+                    setResLoading(false);
+                }
+            });
+    };
+
+    React.useEffect(() => {
+        getData();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
+
+
+    const getDataForChart = async () => {
+        setLoading(true);
+        fetchData('License/list', paramsFilter)
+            .then((data) => {
+                if (isMounted.current) {
+                    setResDataForChart(data);
                 }
             })
             .catch((error) => {
@@ -63,8 +87,7 @@ const ManageLicense = () => {
     };
 
     React.useEffect(() => {
-
-        getData()
+        getDataForChart();
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [paramsFilter]);
 
@@ -186,21 +209,15 @@ const ManageLicense = () => {
     };
 
     return (
-        loading ? (
-            <Box sx={{ width: '100%', height: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                <BoxLoading />
-            </Box>
-        ) : (
-            <Grid container rowSpacing={5} pt={3} px={2}>
-                <CountLicenseForManage data={dataForCount} />
-                <Grid xs={12} sm={12} md={12} sx={{ height: '55vh', overflow: 'hidden' }}>
-                    <Paper elevation={3}>
-                        <LicenseToolBar onChange={handleFilterChange} />
-                        <ApexChartLicense data={data} year={year} color={color} />
-                    </Paper>
-                </Grid>
-            </Grid >
-        )
+        <Grid container rowSpacing={5} pt={3} px={2}>
+            <CountLicenseForManage data={dataForCount} loading={resLoading} />
+            <Grid xs={12} sm={12} md={12} sx={{ height: '55vh', overflow: 'hidden' }}>
+                <Paper elevation={3}>
+                    <LicenseToolBar onChange={handleFilterChange} />
+                    {loading ? <BoxLoading /> : <ApexChartLicense data={data} year={year} color={color} />}
+                </Paper>
+            </Grid>
+        </Grid >
     )
 }
 
