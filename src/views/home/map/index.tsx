@@ -1,6 +1,6 @@
 import { Paper, Typography, Box } from "@mui/material"
-import React, { useState, useEffect } from 'react';
-import fetchData from 'src/api/fetch';
+import React, { useState, useEffect, useRef } from 'react';
+import fetchData from 'src/api/axios';
 
 import MapLegend from 'src/views/construction/MapLegend';
 
@@ -37,25 +37,45 @@ const HomeMap = () => {
         setInitConstype(data);
     };
 
+    const isMounted = useRef(true);
+
+    const getData = async () => {
+        setLoading(true);
+        fetchData('Construction/list', {})
+            .then((data) => {
+                if (isMounted.current) {
+                    const filteredData = data.filter((item: { [key: string]: any }) =>
+                        initConsType.some((keyword: any) =>
+                            item['constructionTypeSlug']?.toString().toLowerCase().includes(keyword.toLowerCase())
+                        )
+                    );
+                    setResData(filteredData);
+                }
+            })
+            .catch((error) => {
+                console.log(error);
+            })
+            .finally(() => {
+                setLoading(false);
+            });
+    };
+
+
     useEffect(() => {
-        const getData = async () => {
-            try {
-                setLoading(true)
-                const data = await fetchData('Construction/list');
-                const filteredData = data.filter((item: { [key: string]: any }) =>
-                    initConsType.some((keyword: any) =>
-                        item['constructionTypeSlug']?.toString().toLowerCase().includes(keyword.toLowerCase())
-                    )
-                );
-                setResData(filteredData);
-            } catch (error) {
-                setResData([]);
-            } finally {
-                setLoading(false)
-            }
+        isMounted.current = true
+
+        return () => {
+            isMounted.current = false;
         };
+    }, []);
+
+
+    useEffect(() => {
         getData();
-    }, [initConsType]);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
+
+
 
     return (
         <Paper elevation={3} sx={{ position: 'relative', height: 'calc(100vh - 170px)' }}>

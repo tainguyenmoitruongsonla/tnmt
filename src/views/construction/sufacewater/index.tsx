@@ -559,115 +559,7 @@ const SurfaceConstruction = () => {
     const [mapCenter, setMapCenter] = useState([15.012172, 108.676488])
     const [mapZoom, setMapZoom] = useState(9)
     const [showLabel, setShowLabel] = useState(false)
-
-    const columnVisibility = {
-        thuydien: [
-            'pumpNumber',
-            'flowDesigned',
-            'realityFlow',
-            'wateringAreaDesigned',
-            'realityWateringArea',
-            'averagePumpTime',
-            'minimumPumpTime',
-            'maximumPumpTime'
-        ],
-        hochua: [
-            'pumpNumber',
-            'flowDesigned',
-            'realityFlow',
-            'wateringAreaDesigned',
-            'realityWateringArea',
-            'averagePumpTime',
-            'minimumPumpTime',
-            'maximumPumpTime'
-        ],
-        trambom: [
-            'constructionLevel',
-            'basinArea',
-            'rainAvgForYears',
-            'flowAvgForYears',
-            'guaranteedPower',
-            'damHeight',
-            'damWidth',
-            'damElevation',
-            'maximumFlow',
-            'minimumFlow',
-            'guaranteedFlow',
-            'hmax',
-            'hmin',
-            'htt',
-            'deadWL',
-            'riseWL',
-            'designFloodLevel',
-            'checkFloodWL',
-            'totalCapacity',
-            'deadCapacity',
-            'usefulCapacity',
-            'flowDesigned',
-            'realityFlow'
-        ],
-        tramcapnuoc: [
-            'constructionLevel',
-            'basinArea',
-            'rainAvgForYears',
-            'flowAvgForYears',
-            'guaranteedPower',
-            'damHeight',
-            'damWidth',
-            'damElevation',
-            'maximumFlow',
-            'minimumFlow',
-            'guaranteedFlow',
-            'hmax',
-            'hmin',
-            'htt',
-            'deadWL',
-            'riseWL',
-            'designFloodLevel',
-            'checkFloodWL',
-            'totalCapacity',
-            'deadCapacity',
-            'usefulCapacity',
-            'pumpNumber',
-            'wateringAreaDesigned',
-            'realityWateringArea',
-            'averagePumpTime',
-            'minimumPumpTime',
-            'maximumPumpTime'
-        ],
-        CTkhac: [
-            'constructionLevel',
-            'basinArea',
-            'rainAvgForYears',
-            'flowAvgForYears',
-            'power',
-            'guaranteedPower',
-            'damHeight',
-            'damWidth',
-            'damElevation',
-            'maximumFlow',
-            'minimumFlow',
-            'guaranteedFlow',
-            'hmax',
-            'hmin',
-            'htt',
-            'deadWL',
-            'riseWL',
-            'designFloodLevel',
-            'checkFloodWL',
-            'totalCapacity',
-            'deadCapacity',
-            'usefulCapacity',
-            'pumpNumber',
-            'flowDesigned',
-            'realityFlow',
-            'wateringAreaDesigned',
-            'realityWateringArea',
-            'averagePumpTime',
-            'minimumPumpTime',
-            'maximumPumpTime'
-        ]
-    }
+    const [columnVisibility, setColumnVisibility] = useState<string[]>()
 
     const [postSuccess, setPostSuccess] = useState(false)
 
@@ -774,6 +666,122 @@ const SurfaceConstruction = () => {
 
 
     useEffect(() => {
+        switch (paramsFilter.constructionTypeId) {
+            case 1:
+                setColumnVisibility([]); break;
+            case 4:
+                setColumnVisibility([
+                    'pumpNumber',
+                    'flowDesigned',
+                    'realityFlow',
+                    'wateringAreaDesigned',
+                    'realityWateringArea',
+                    'averagePumpTime',
+                    'minimumPumpTime',
+                    'maximumPumpTime'
+                ]); break;
+            case 5:
+                setColumnVisibility([
+                    'pumpNumber',
+                    'flowDesigned',
+                    'realityFlow',
+                    'wateringAreaDesigned',
+                    'realityWateringArea',
+                    'averagePumpTime',
+                    'minimumPumpTime',
+                    'maximumPumpTime'
+                ]); break;
+            case 6:
+                setColumnVisibility([
+                    'constructionLevel',
+                    'basinArea',
+                    'rainAvgForYears',
+                    'flowAvgForYears',
+                    'guaranteedPower',
+                    'damHeight',
+                    'damWidth',
+                    'damElevation',
+                    'maximumFlow',
+                    'minimumFlow',
+                    'guaranteedFlow',
+                    'hmax',
+                    'hmin',
+                    'htt',
+                    'deadWL',
+                    'riseWL',
+                    'designFloodLevel',
+                    'checkFloodWL',
+                    'totalCapacity',
+                    'deadCapacity',
+                    'usefulCapacity',
+                    'flowDesigned',
+                    'realityFlow'
+                ]); break;
+            case 10:
+                setColumnVisibility([
+                    'constructionLevel',
+                    'basinArea',
+                    'rainAvgForYears',
+                    'flowAvgForYears',
+                    'guaranteedPower',
+                    'damHeight',
+                    'damWidth',
+                    'damElevation',
+                    'maximumFlow',
+                    'minimumFlow',
+                    'guaranteedFlow',
+                    'hmax',
+                    'hmin',
+                    'htt',
+                    'deadWL',
+                    'riseWL',
+                    'designFloodLevel',
+                    'checkFloodWL',
+                    'totalCapacity',
+                    'deadCapacity',
+                    'usefulCapacity',
+                    'pumpNumber',
+                    'wateringAreaDesigned',
+                    'realityWateringArea',
+                    'averagePumpTime',
+                    'minimumPumpTime',
+                    'maximumPumpTime'
+                ]); break;
+            default:
+                setColumnVisibility([
+                    'constructionLevel',
+                    'basinArea',
+                    'rainAvgForYears',
+                    'flowAvgForYears',
+                    'power',
+                    'guaranteedPower',
+                    'damHeight',
+                    'damWidth',
+                    'damElevation',
+                    'maximumFlow',
+                    'minimumFlow',
+                    'guaranteedFlow',
+                    'hmax',
+                    'hmin',
+                    'htt',
+                    'deadWL',
+                    'riseWL',
+                    'designFloodLevel',
+                    'checkFloodWL',
+                    'totalCapacity',
+                    'deadCapacity',
+                    'usefulCapacity',
+                    'pumpNumber',
+                    'flowDesigned',
+                    'realityFlow',
+                    'wateringAreaDesigned',
+                    'realityWateringArea',
+                    'averagePumpTime',
+                    'minimumPumpTime',
+                    'maximumPumpTime'
+                ]); break;
+        }
+
         getData();
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [postSuccess, paramsFilter]);

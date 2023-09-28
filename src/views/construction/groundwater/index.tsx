@@ -10,7 +10,7 @@ import { GridColDef, GridColumnGroupingModel } from '@mui/x-data-grid'
 import FormatDate from 'src/@core/components/format-date'
 
 import ShowFilePDF from 'src/@core/components/show-file-pdf'
-import DataGridComponent, { columnFillters } from 'src/@core/components/data-grid'
+import DataGridComponent from 'src/@core/components/data-grid'
 import { Delete } from '@mui/icons-material'
 import FormGroup from '@mui/material/FormGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
@@ -289,65 +289,6 @@ const GroundConstruction = () => {
         }
     ];
 
-    const columnFillter: columnFillters[] = [
-        {
-            label: 'Loại công trình',
-            value: 'constructionTypeSlug',
-            type: 'select',
-            options: [
-                { label: 'Khai thác', value: 'khaithac' },
-                { label: 'Thăm dò', value: 'thamdo' },
-                { label: 'Hành nghề khoan', value: 'hanhnghekhoan' },
-                { label: 'Trám lấp giếng', value: 'tramlapgieng' },
-                { label: 'Công trình khác', value: 'congtrinh_nuocduoidatkhac' },
-            ],
-        },
-
-        {
-            label: 'Cơ quan cấp phép',
-            value: 'licensingAuthorities',
-            type: 'select',
-            options: [
-                { label: 'BTNMT', value: 'BTNMT' },
-                { label: 'UBND Tỉnh', value: 'UBNDT' },
-            ],
-        },
-        {
-            label: 'Tiểu vùng quy hoạch',
-            value: 'basinId',
-            type: 'select',
-            options: [
-                { label: 'Tiểu vùng quy hoạch 1', value: 1 },
-                { label: 'Tiểu vùng quy hoạch 2', value: 2 },
-                { label: 'Tiểu vùng quy hoạch 3', value: 3 },
-                { label: '...', value: 4 },
-            ],
-        },
-        {
-            label: 'Huyện',
-            value: 'districtId',
-            type: 'select',
-            options: [
-                { label: 'Huyện 1', value: 1 },
-                { label: 'Huyện 2', value: 2 },
-                { label: 'Huyện 3', value: 3 },
-                { label: '...', value: 4 },
-            ],
-        },
-        {
-            label: ' Nhập tên công trình',
-            value: 'constructionName',
-            type: 'text',
-        },
-        {
-            label: ' Nhập số GP',
-            value: 'licenseName',
-            type: 'text',
-        },
-
-
-    ];
-
     const [mapCenter, setMapCenter] = useState([15.012172, 108.676488])
     const [mapZoom, setMapZoom] = useState(9)
     const [showLabel, setShowLabel] = useState(false)
@@ -492,7 +433,6 @@ const GroundConstruction = () => {
                         loading={loading}
                         columns={columnsTable}
                         columnGroupingModel={columnGroup}
-                        columnFillter={columnFillter}
                         actions={<CreateConstruction isEdit={false} setPostSuccess={handlePostSuccess} />}
                     />
                 </Paper>

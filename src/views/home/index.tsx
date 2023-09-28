@@ -8,58 +8,69 @@ import CountLicense from './count-license'
 import CountLicenseFee from './count-license-fee'
 import HomeMap from './map'
 import { useEffect, useState } from 'react'
-import fetchData from 'src/api/fetch'
+import fetch from 'src/api/fetch'
+import fetchData from 'src/api/axios'
 
 const Home = () => {
 
   const [lcFee, setLicFee] = useState({ btnmt: [], ubnd: [] })
+  const [licData, setLicData] = useState([]);
   const [lic, setLic] = useState({ total: 0, btnmt: 0, ubnd: 0 })
   const [loading, setLoading] = useState(false);
 
+  function getLicense() {
+    setLoading(true);
+
+    fetchData('License/list', {
+      licenseNumber: null,
+      licensingAuthorities: null,
+      licenseTypeId: 0,
+      licenseValidity: null,
+      businessId: 0,
+      constructionId: 0,
+      constructionTypeId: 0,
+      districtId: 0,
+      communeId: 0,
+      subBasinId: 0,
+      pageIndex: 0,
+      pageSize: 0
+    })
+      .then((data) => {
+        setLicData(data);
+      })
+      .catch((error) => {
+        console.log(error);
+      }).finally(() => {
+        setLoading(false);
+      })
+  }
+
+  const getData = async () => {
+    setLoading(true);
+    try {
+      //license fee
+      const BTNMT = await fetch('LicenseFee/list/minister');
+      const UBND = await fetch('LicenseFee/list/province');
+
+      setLicFee({ btnmt: BTNMT, ubnd: UBND });
+    } catch (error) {
+      console.error('Error fetching data:', error);
+      setLicFee({ btnmt: [], ubnd: [] });
+    } finally {
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
-    let isMounted = true; // A flag to check if the component is mounted
-
-    const getData = async () => {
-      setLoading(true);
-      try {
-        //license fee
-        const BTNMT = await fetchData('LicenseFee/list/minister');
-        const UBND = await fetchData('LicenseFee/list/province');
-
-        setLicFee({ btnmt: BTNMT, ubnd: UBND }); // Corrected syntax here
-
-        //license
-        const lic = await fetchData('License/list');
-        const licBTNMT = lic.filter((item: { [key: string]: any }) => item['licensingAuthorities'] === 'BTNMT');
-        const licUBND = lic.filter((item: { [key: string]: any }) => item['licensingAuthorities'] === 'UBNDT');
-
-        if (isMounted) {
-          // Only update the state if the component is still mounted
-          setLicFee({ btnmt: BTNMT, ubnd: UBND });
-          setLic({ total: lic.length, btnmt: licBTNMT.length, ubnd: licUBND.length });
-        }
-      } catch (error) {
-        console.error('Error fetching data:', error);
-        if (isMounted) {
-          // Only update the state if the component is still mounted
-          setLicFee({ btnmt: [], ubnd: [] });
-        }
-      } finally {
-        if (isMounted) {
-          // Only update the state if the component is still mounted
-          setLoading(false);
-        }
-      }
-    };
-
+    getLicense();
     getData();
 
-    // Cleanup function to cancel any asynchronous tasks when the component is unmounted
-    return () => {
-      isMounted = false;
-    };
-  }, []);
+    const licBTNMT = licData.filter((item: { [key: string]: any }) => item['licensingAuthorities'].toLowerCase() === 'btnmt');
+    const licUBND = licData.filter((item: { [key: string]: any }) => item['licensingAuthorities'].toLowerCase() === 'ubndt');
+
+    setLic({ total: licData.length, btnmt: licBTNMT.length, ubnd: licUBND.length });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
 
   return (
