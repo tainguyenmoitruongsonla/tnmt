@@ -1,4 +1,4 @@
-import * as React from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 // ** MUI Imports
 import { Paper } from '@mui/material';
@@ -13,13 +13,14 @@ import fetchData from 'src/api/axios';
 import BoxLoading from 'src/@core/components/box-loading';
 import LicenseToolBar from '../tool-bar';
 
-const ManageLicense = () => {
-    const [resData, setResData] = React.useState([]);
-    const [resDataForChart, setResDataForChart] = React.useState([]);
-    const [loading, setLoading] = React.useState(false)
-    const [resLoading, setResLoading] = React.useState(false)
 
-    const [paramsFilter, setParamsFilter] = React.useState({
+const ManageLicense = () => {
+    const [resData, setResData] = useState([]);
+    const [resDataForChart, setResDataForChart] = useState([]);
+    const [loading, setLoading] = useState(false)
+    const [resLoading, setResLoading] = useState(false)
+
+    const [paramsFilter, setParamsFilter] = useState({
         licenseNumber: null,
         licensingAuthorities: null,
         licenseTypeId: 0,
@@ -34,9 +35,9 @@ const ManageLicense = () => {
         pageSize: 0
     });
 
-    const isMounted = React.useRef(true);
+    const isMounted = useRef(true);
 
-    React.useEffect(() => {
+    useEffect(() => {
         isMounted.current = true
 
         return () => {
@@ -44,25 +45,24 @@ const ManageLicense = () => {
         };
     }, []);
 
-    const getData = async () => {
-        setResLoading(true);
-        fetchData('License/list', paramsFilter)
-            .then((data) => {
-                if (isMounted.current) {
-                    setResData(data);
-                }
-            })
-            .catch((error) => {
-                console.log(error);
-            })
-            .finally(() => {
-                if (isMounted.current) {
-                    setResLoading(false);
-                }
-            });
-    };
-
-    React.useEffect(() => {
+    useEffect(() => {
+        const getData = async () => {
+            setResLoading(true);
+            fetchData('License/list', paramsFilter)
+                .then((data) => {
+                    if (isMounted.current) {
+                        setResData(data);
+                    }
+                })
+                .catch((error) => {
+                    console.log(error);
+                })
+                .finally(() => {
+                    if (isMounted.current) {
+                        setResLoading(false);
+                    }
+                });
+        };
         getData();
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
@@ -86,7 +86,7 @@ const ManageLicense = () => {
             });
     };
 
-    React.useEffect(() => {
+    useEffect(() => {
         getDataForChart();
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [paramsFilter]);

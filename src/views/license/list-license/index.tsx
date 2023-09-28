@@ -19,7 +19,6 @@ import CreateLicense from '../form';
 import dynamic from 'next/dynamic';
 import fetchData from 'src/api/axios';
 import post from 'src/api/post';
-import ColumnFilters from '../column-filter';
 import { useRouter } from 'next/router';
 import dayjs from 'dayjs';
 import LicenseToolBar from '../tool-bar';
@@ -382,7 +381,6 @@ const ListLicenses = () => {
                         rows={resData}
                         columns={columnsTable}
                         columnGroupingModel={columnGroup}
-                        columnFillter={ColumnFilters()}
                         loading={loading}
                     />
                 </Paper>

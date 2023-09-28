@@ -7,7 +7,6 @@ interface DataGridComponentProps {
   columns: any;
   columnGroupingModel?: any;
   columnVisibility?: string[]; // Define columnVisibility as an array of strings
-  formFilter?: any;
   loading?: boolean;
   actions?: any;
 }

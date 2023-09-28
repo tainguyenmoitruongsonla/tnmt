@@ -9,7 +9,7 @@ import fetchData from 'src/api/fetch';
 import FormatDate from 'src/@core/components/format-date';
 import postData from 'src/api/post'
 import FormLicenseFee from 'src/views/license-fee/form'
-import DataGridComponent, { columnFillters } from 'src/@core/components/data-grid'
+import DataGridComponent from 'src/@core/components/data-grid'
 import { GridColDef } from '@mui/x-data-grid'
 import ShowFilePDF from 'src/@core/components/show-file-pdf';
 import { Delete } from '@mui/icons-material';
@@ -80,24 +80,6 @@ const LicenseFee = (props: LicenseFeeProps) => {
     },
   ]
 
-  const columnFillter: columnFillters[] = [
-    {
-      label: 'Số QĐ',
-      value: 'licenseFeeNumber',
-      type: 'text',
-    },
-    {
-      label: 'Năm',
-      value: 'signDate',
-      type: 'dateRange',
-      options: [
-        { label: '2021', value: 2021 },
-        { label: '2022', value: 2022 },
-        { label: '2023', value: 2023 },
-      ],
-    }
-  ]
-
   useEffect(() => {
     const getData = async () => {
       setLoading(true)
@@ -150,7 +132,6 @@ const LicenseFee = (props: LicenseFeeProps) => {
           <DataGridComponent
             rows={resData}
             columns={columns}
-            columnFillter={columnFillter}
             loading={loading}
             actions={
               <FormLicenseFee setPostSuccess={handlePostSuccess} isEdit={false} />
