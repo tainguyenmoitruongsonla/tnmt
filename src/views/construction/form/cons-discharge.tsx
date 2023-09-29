@@ -1,5 +1,5 @@
 import { Search } from '@mui/icons-material'
-import { Typography, Grid, Autocomplete, TextField, Button,CircularProgress } from '@mui/material'
+import { Typography, Grid, Autocomplete, TextField, Button, CircularProgress } from '@mui/material'
 import { useEffect, FC, useState, Fragment } from 'react'
 import fetchData from 'src/api/fetch'
 import { ConstructionState } from './construction-interface'
@@ -15,6 +15,7 @@ const DischargeWaterField: FC<ConsTypeFieldsetProps> = ({ data, onChange }) => {
   const [consSFData, setConsSFData] = useState<ConstructionState>({
     id: data?.id || 0,
     constructionTypeId: data?.constructionTypeId || 0,
+    constructionParentTypeId: data?.constructionParentTypeId || 3,
     provinceId: data?.provinceId || 51,
     districtId: data?.districtId || 0,
     communeId: data?.communeId || 0,
@@ -29,12 +30,12 @@ const DischargeWaterField: FC<ConsTypeFieldsetProps> = ({ data, onChange }) => {
     y: data?.y || null,
     startDate: data?.startDate || null,
     WasteDischargeLocation: data?.WasteDischargeLocation || null,
-    dischargeWS :data?.dischargeWS || null,
-    dischargeMethod:data?.dischargeMethod || null,
-    dischargeMode:data?.dischargeMode || null,
-    averageDischargeFlow:data?.averageDischargeFlow || null,
-    maximumWasteWaterFlow:data?.maximumWasteWaterFlow || null,
-    kqKf:data?.kqKf || null,
+    dischargeWS: data?.dischargeWS || null,
+    dischargeMethod: data?.dischargeMethod || null,
+    dischargeMode: data?.dischargeMode || null,
+    averageDischargeFlow: data?.averageDischargeFlow || null,
+    maximumWasteWaterFlow: data?.maximumWasteWaterFlow || null,
+    kqKf: data?.kqKf || null,
   })
 
   useEffect(() => {
@@ -57,10 +58,10 @@ const DischargeWaterField: FC<ConsTypeFieldsetProps> = ({ data, onChange }) => {
         const filteredData = consTypes.filter((item: any) => item.parentId === 3);
         setconsType(filteredData);
         console.log(consTypes);
-        
+
         //district
         const distric = await fetchData('Locations/list/distric/51');
-        setDistrict(distric);       
+        setDistrict(distric);
 
         //commune
         const commune = await fetchData(`Locations/list/commune/${consSFData?.districtId}`);
@@ -76,8 +77,8 @@ const DischargeWaterField: FC<ConsTypeFieldsetProps> = ({ data, onChange }) => {
   }, [consSFData?.districtId])
 
   const handleChange = (prop: keyof ConstructionState) => (value: any) => {
-    setConsSFData({ ...consSFData, [prop]: value })
-    onChange({ ...consSFData, [prop]: value })
+    setConsSFData({ ...consSFData, constructionParentTypeId: 3, [prop]: value })
+    onChange({ ...consSFData, constructionParentTypeId: 3, [prop]: value })
   }
 
   return (
@@ -90,7 +91,7 @@ const DischargeWaterField: FC<ConsTypeFieldsetProps> = ({ data, onChange }) => {
         </legend>
         <Grid container spacing={4}>
           <Grid item xs={12} md={3} sm={12} sx={{ my: 2 }}>
-          <Autocomplete
+            <Autocomplete
               disabled={loading}
               size='small'
               options={consType}
@@ -203,7 +204,7 @@ const DischargeWaterField: FC<ConsTypeFieldsetProps> = ({ data, onChange }) => {
             />
           </Grid>
           <Grid item xs={12} md={3} sm={12} sx={{ my: 2 }}>
-          <TextField
+            <TextField
               size='small'
               type='text'
               fullWidth
@@ -214,7 +215,7 @@ const DischargeWaterField: FC<ConsTypeFieldsetProps> = ({ data, onChange }) => {
             />
           </Grid>
           <Grid item xs={12} md={3} sm={12} sx={{ my: 2 }}>
-          <TextField
+            <TextField
               size='small'
               type='text'
               fullWidth
@@ -225,7 +226,7 @@ const DischargeWaterField: FC<ConsTypeFieldsetProps> = ({ data, onChange }) => {
             />
           </Grid>
           <Grid item xs={12} md={3} sm={12} sx={{ my: 2 }}>
-          <TextField
+            <TextField
               size='small'
               type='text'
               fullWidth
@@ -250,7 +251,7 @@ const DischargeWaterField: FC<ConsTypeFieldsetProps> = ({ data, onChange }) => {
             />
           </Grid>
           <Grid item xs={12} md={3} sm={12} sx={{ my: 2 }}>
-          <TextField
+            <TextField
               size='small'
               type='number'
               fullWidth
@@ -261,7 +262,7 @@ const DischargeWaterField: FC<ConsTypeFieldsetProps> = ({ data, onChange }) => {
             />
           </Grid>
           <Grid item xs={12} md={3} sm={12} sx={{ my: 2 }}>
-          <TextField
+            <TextField
               size='small'
               type='text'
               fullWidth
@@ -272,7 +273,7 @@ const DischargeWaterField: FC<ConsTypeFieldsetProps> = ({ data, onChange }) => {
             />
           </Grid>
           <Grid item xs={12} md={3} sm={12} sx={{ my: 2 }}>
-          <TextField
+            <TextField
               size='small'
               type='text'
               fullWidth
@@ -284,7 +285,7 @@ const DischargeWaterField: FC<ConsTypeFieldsetProps> = ({ data, onChange }) => {
           </Grid>
         </Grid>
 
-       
+
       </fieldset>
 
       {/*check thuydien va ho chua */}

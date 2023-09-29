@@ -1,5 +1,6 @@
 export interface ConstructionState {
   id: number
+  constructionParentTypeId?: number
   constructionTypeId?: number
   provinceId?: number
   districtId?: number
@@ -218,8 +219,8 @@ export interface ConstructionItemState {
   name?: string;
   x?: number;
   y?: number;
-  amountWaterExploited?:number | null;
-  miningMode?:number | null;
+  amountWaterExploited?: number | null;
+  miningMode?: number | null;
   waterDepthFrom?: number | null;
   waterDepthTo?: number | null
   staticWL?: number | null

@@ -11,6 +11,7 @@ interface ConsTypeFieldsetProps {
 const SurfaceWaterField: FC<ConsTypeFieldsetProps> = ({ data, onChange }) => {
   const [consSFData, setConsSFData] = useState<ConstructionState>({
     id: data?.id || 0,
+    constructionParentTypeId: data?.constructionParentTypeId || 1,
     constructionTypeId: data?.constructionTypeId || 0,
     provinceId: data?.provinceId || 51,
     districtId: data?.districtId || 0,
@@ -102,8 +103,8 @@ const SurfaceWaterField: FC<ConsTypeFieldsetProps> = ({ data, onChange }) => {
   }, [consSFData?.districtId])
 
   const handleChange = (prop: keyof ConstructionState) => (value: any) => {
-    setConsSFData({ ...consSFData, [prop]: value })
-    onChange({ ...consSFData, [prop]: value })
+    setConsSFData({ ...consSFData, constructionParentTypeId: 1, [prop]: value })
+    onChange({ ...consSFData, constructionParentTypeId: 1, [prop]: value })
   }
 
   return (
@@ -250,7 +251,7 @@ const SurfaceWaterField: FC<ConsTypeFieldsetProps> = ({ data, onChange }) => {
               label='Y (VN2000)'
             />
           </Grid>
-          
+
           <Grid item xs={12} md={3} sm={12} sx={{ my: 2 }}>
             <Autocomplete
               size='small'
@@ -289,7 +290,7 @@ const SurfaceWaterField: FC<ConsTypeFieldsetProps> = ({ data, onChange }) => {
         </Grid>
 
         <Grid container spacing={4}>
-         
+
           <Grid item xs={12} md={12} sm={12} sx={{ my: 2 }}>
             <TextField
               size='small'

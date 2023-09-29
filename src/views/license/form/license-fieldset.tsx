@@ -161,7 +161,7 @@ const LicenseFieldset: FC<LicenseFieldsetProps> = ({ data, onChange }) => {
                             getOptionLabel={(option: any) => option.title}
                             value={licensingType.find(option => option.value === licenseData.licensingTypeId) || null}
                             isOptionEqualToValue={(option: any) => option.value}
-                            onChange={(_, value) => handleChange('licensingTypeId')(value?.value || 0)}
+                            onChange={(_, value) => handleChange('licensingTypeId')(value?.value || 1)}
                             renderInput={(params) => (
                                 <TextField
                                     required
@@ -189,7 +189,7 @@ const LicenseFieldset: FC<LicenseFieldsetProps> = ({ data, onChange }) => {
                             getOptionLabel={(option: any) => option.title}
                             value={licensingAuthorities.find(option => option.value === licenseData.licensingAuthorities) || null}
                             isOptionEqualToValue={(option: any) => option.value}
-                            onChange={(_, value) => handleChange('licensingAuthorities')(value?.value || -1)}
+                            onChange={(_, value) => handleChange('licensingAuthorities')(value?.value || "UBNDT")}
                             renderInput={(params) => (
                                 <TextField
                                     required

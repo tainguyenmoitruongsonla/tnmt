@@ -40,7 +40,6 @@ const ListLicenses = () => {
     const [deleteConfirmAnchorEl, setDeleteConfirmAnchorEl] = useState<HTMLButtonElement | null>(null);
     const deleteConfirmOpen = Boolean(deleteConfirmAnchorEl);
 
-
     //delete
 
     const router = useRouter();
@@ -338,7 +337,7 @@ const ListLicenses = () => {
 
     useEffect(() => {
         isMounted.current = true
-        
+
         return () => {
             isMounted.current = false;
         };
@@ -361,13 +360,11 @@ const ListLicenses = () => {
         <Grid container spacing={3}>
             <Grid item xs={12} md={12}>
                 <Paper elevation={3} sx={{ py: 1, px: 3 }}>
-                    <Grid><Typography variant='overline'>Giấy phép/nước mặt</Typography></Grid>
+                    <Typography variant='overline'>Giấy phép/nước mặt</Typography>
                 </Paper>
             </Grid>
-            <Grid item xs={12} md={3}>
-                <Grid item xs={12} md={12} sx={{ height: '45vh' }}>
-                    <CountLicense data={resData} />
-                </Grid>
+            <Grid item xs={12} md={3} sx={{ height: '45vh' }}>
+                <CountLicense data={resData} />
             </Grid>
             <Grid item xs={12} md={9}>
                 <Paper elevation={3} sx={{ height: '45vh', p: 1 }}>

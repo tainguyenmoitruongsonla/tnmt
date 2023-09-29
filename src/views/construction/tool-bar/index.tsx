@@ -182,11 +182,11 @@ const ConstructionToolBar: FC<ConstructionToolBarProps> = ({ onChange }) => {
                         <Select
                             labelId="license-type-select"
                             id="demo-select-small"
-                            value={paramsFilter.constructionTypeId > 3 ? paramsFilter.constructionTypeId : 0}
+                            value={paramsFilter.constructionTypeId > 3 ? paramsFilter.constructionTypeId : getConstructionTypeId()}
                             label="Loại công trình"
                             onChange={(e: any) => handleChange(e)('constructionTypeId')}
                         >
-                            <MenuItem value={0}>Loại công trình</MenuItem>
+                            <MenuItem value={getConstructionTypeId()}>Loại công trình</MenuItem>
                             {
                                 router.pathname.split('/')[2] == 'nuoc-mat' || router.pathname.split('/')[2] == 'nuoc-duoi-dat' || router.pathname.split('/')[2] == 'xa-thai' ?
                                     consTypes.filter((item: any) => item !== undefined).map((e: any, i: number) => [

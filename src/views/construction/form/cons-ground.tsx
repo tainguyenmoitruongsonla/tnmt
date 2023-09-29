@@ -1,5 +1,5 @@
-import { Typography, Grid, Autocomplete, TextField, CircularProgress  } from '@mui/material'
-import { useEffect, FC, useState , Fragment} from 'react'
+import { Typography, Grid, Autocomplete, TextField, CircularProgress } from '@mui/material'
+import { useEffect, FC, useState, Fragment } from 'react'
 import fetchData from 'src/api/fetch'
 import { ConstructionState } from './construction-interface'
 
@@ -13,6 +13,7 @@ const GroundWaterField: FC<ConsTypeFieldsetProps> = ({ data, onChange }) => {
   const [consGroundData, setConsGroundData] = useState<ConstructionState>({
     id: data?.id || 0,
     constructionTypeId: data?.constructionTypeId || 0,
+    constructionParentTypeId: data?.constructionParentTypeId || 2,
     provinceId: data?.provinceId || 51,
     districtId: data?.districtId || 0,
     communeId: data?.communeId || 0,
@@ -89,8 +90,8 @@ const GroundWaterField: FC<ConsTypeFieldsetProps> = ({ data, onChange }) => {
   }, [consGroundData?.districtId])
 
   const handleChange = (prop: keyof ConstructionState) => (value: any) => {
-    setConsGroundData({ ...consGroundData, [prop]: value })
-    onChange({ ...consGroundData, [prop]: value })
+    setConsGroundData({ ...consGroundData, constructionParentTypeId: 2, [prop]: value })
+    onChange({ ...consGroundData, constructionParentTypeId: 2, [prop]: value })
   }
 
   return (
@@ -103,7 +104,7 @@ const GroundWaterField: FC<ConsTypeFieldsetProps> = ({ data, onChange }) => {
         </legend>
         <Grid container spacing={4}>
           <Grid item xs={12} md={3} sm={12} sx={{ my: 2 }}>
-          <Autocomplete
+            <Autocomplete
               disabled={loading}
               size='small'
               options={consType}
@@ -148,7 +149,7 @@ const GroundWaterField: FC<ConsTypeFieldsetProps> = ({ data, onChange }) => {
 
         <Grid container spacing={4}>
           <Grid item xs={12} md={3} sm={12} sx={{ my: 2 }}>
-          <Autocomplete
+            <Autocomplete
               disabled={loading}
               size='small'
               options={district}
@@ -168,7 +169,7 @@ const GroundWaterField: FC<ConsTypeFieldsetProps> = ({ data, onChange }) => {
             />
           </Grid>
           <Grid item xs={12} md={3} sm={12} sx={{ my: 2 }}>
-          <Autocomplete
+            <Autocomplete
               disabled={consGroundData?.districtId !== undefined && consGroundData.districtId == 0}
               size='small'
               options={commune}
@@ -260,7 +261,7 @@ const GroundWaterField: FC<ConsTypeFieldsetProps> = ({ data, onChange }) => {
               label='Mục đích khai thác,sử dụng nước'
             />
           </Grid>
-          
+
         </Grid>
       </fieldset>
 
