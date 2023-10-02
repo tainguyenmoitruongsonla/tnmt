@@ -29,9 +29,6 @@ const LicenseFee = (props: LicenseFeeProps) => {
   const [resData, setResData] = useState([]);
   const [loading, setLoading] = useState(false)
 
-  // Hooks
-  const router = useRouter();
-
   const columns: GridColDef[] = [
     { field: 'id', headerAlign: 'center', headerName: 'ID', minWidth: 90 },
     {
@@ -39,7 +36,7 @@ const LicenseFee = (props: LicenseFeeProps) => {
       renderCell: (data: any) => (
         <ShowFilePDF
           name={data.row.licenseFeeNumber || ''}
-          src={`pdf/tien-cap-quyen/${router.pathname.split('/')[2]}/${new Date(data.row.signDate).getFullYear()}/`}
+          src={`pdf/tien-cap-quyen/${data.row.licensingAuthorities}/${new Date(data.row.signDate).getFullYear()}/`}
           fileName={data.row.filePDF || ''}
         />
       ),
@@ -49,7 +46,7 @@ const LicenseFee = (props: LicenseFeeProps) => {
       field: 'supplementLicenseFee', headerAlign: 'center', headerName: 'Quyết định bổ sung', minWidth: 180, renderCell: (data: any) => (
         <ShowFilePDF
           name={data.row.supplementLicenseFee?.licenseFeeNumber || ''}
-          src={`pdf/tien-cap-quyen/${router.pathname.split('/')[2]}/${new Date(data.row.supplementLicenseFee?.signDate).getFullYear()}/`}
+          src={`pdf/tien-cap-quyen/${data.row.licensingAuthorities}/${new Date(data.row.supplementLicenseFee?.signDate).getFullYear()}/`}
           fileName={data.row.supplementLicenseFee?.filePDF || ''}
         />
       )

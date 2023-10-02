@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import apiUrl from 'src/api/config';
 import { pdfjs, Document, Page } from 'react-pdf';
-import { Typography } from '@mui/material';
+import { CircularProgress, Typography } from '@mui/material';
 import DialogControlShowPDF from '../dialog-control-show-pdf';
 
 interface ShowFilePDFProps {
@@ -65,7 +65,7 @@ const ShowFilePDF = ({ src, name, fileName }: ShowFilePDFProps) => {
     };
 
     const openPdfDialog = async (openDialogs: any) => {
-        openDialogs(fileUrl ? (
+        openDialogs(loading ? <CircularProgress size={20} /> : fileUrl ? (
             <Document file={fileUrl} loading={loading}>
                 {renderPages()}
             </Document>
