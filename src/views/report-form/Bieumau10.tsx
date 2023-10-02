@@ -19,6 +19,8 @@ import { useState, useEffect } from 'react'
 import fetchData from 'src/api/fetch'
 import React from 'react'
 import BoxLoading from 'src/@core/components/box-loading'
+import HeaderReport from './HeaderReport'
+import FooterReport from './FooterReport'
 
 
 
@@ -104,7 +106,7 @@ const FormContruction = () => {
 
       <Grid container>
         <Grid md={11}>
-          <Typography variant='h5'>Biểu mẫu số 10. Tổng lượng nước mặt trên các lưu vực sông</Typography>
+          <Typography variant='h5'>Biểu mẫu số 10. Số lượng công trình khai thác nước mặt, nước dưới đất phân theo mục đích sử dụng </Typography>
         </Grid>
         <Grid md={1}>
           <IconButton>
@@ -112,34 +114,14 @@ const FormContruction = () => {
           </IconButton>
         </Grid>
       </Grid>
-      <Grid className='_space_between' sx={{ mt: 5 }}>
-        <Grid className='_text_center'>
-          <Typography variant='h5'>UBND Tỉnh Sơn La</Typography>
-          <Typography className='font-weight-bold ' variant='h5'>
-            SỞ TÀI NGUYÊN VÀ MÔI TRƯỜNG
-          </Typography>
-          <Typography variant='h5'>
-            Số:
-            <TextField size='small' sx={{ width: '50px' }}></TextField>
-            /STNMT-TNN-KS&KTTV
-          </Typography>
-        </Grid>
-
-        <Grid className='_text_center'>
-          <Typography variant='h5'>CỘNG HOÀ XÃ HỘI CHỦ NGHĨA VIỆT NAM</Typography>
-          <Typography className='font-weight-bold ' variant='h5'>
-            Độc lập - Tự do - Hạnh phúc
-          </Typography>
-          <Typography variant='h6'>Sơn La, ngày 25 tháng 04 năm 2023</Typography>
-        </Grid>
-      </Grid>
+      <HeaderReport/>
 
       <Grid className='_text_center'>
         <Typography className='font-weight-bold ' variant='h4'>
           BÁO CÁO
         </Typography>
         <Typography className='font-weight-bold ' variant='h6'>
-          Số lượng trạm quan trắc khí tượng, thuỷ văn, tài nguyên nước, nước dưới đất
+        Số lượng công trình khai thác nước mặt, nước dưới đất phân theo mục đích sử dụng 
         </Typography>
         <Typography className='font-weight-bold ' variant='h6'>
           (Kỳ báo cáo: <TextField size='small' sx={{ width: '50px' }}></TextField>)
@@ -259,19 +241,7 @@ const FormContruction = () => {
         </TableContainer>
       </Grid>
           )}
-      <Grid className='_space_between' sx={{ mt: 5 }}>
-        <Grid>
-          <Typography>Nơi nhận</Typography>
-          <Typography>- Ban Giám đốc sở</Typography>
-          <Typography>- Lưu:VT; TNN, KS&KTTV; VP, 10b</Typography>
-        </Grid>
-
-        <Grid>
-          <Typography className='font-weight-bold' variant='h6'>
-            Người thống kê
-          </Typography>
-        </Grid>
-      </Grid>
+     <FooterReport/>
     </Paper>
   )
 }
