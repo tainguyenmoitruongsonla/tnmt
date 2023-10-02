@@ -3,9 +3,15 @@ import { Alert, Box, Button, ButtonGroup, IconButton, Popover, Tooltip } from "@
 import { useEffect, useRef, useState } from "react"
 import { deleteData } from "src/api/axios"
 
-const DeleteData = (props: any) => {
+interface DeleteDataProps {
+    url: string
+    data: any
+    setPostSuccess: (value: boolean) => void
+}
 
-    const { data, setPostSuccess } = props;
+const DeleteData = (props: DeleteDataProps) => {
+
+    const { url, data, setPostSuccess } = props;
 
     //delete
     const [deleteConfirmAnchorEl, setDeleteConfirmAnchorEl] = useState<HTMLButtonElement | null>(null)
@@ -30,7 +36,8 @@ const DeleteData = (props: any) => {
 
     const handleDeleteRowData = async (data: any) => {
         const dataId = data.id;
-        await deleteData('LicenseFee/delete', dataId);
+
+        await deleteData(`${url}/delete`, dataId);
 
         typeof setPostSuccess === 'function' ? setPostSuccess(true) : ''
     }
@@ -47,7 +54,7 @@ const DeleteData = (props: any) => {
     }, []);
 
     return (
-        <Tooltip title='Xóa thông tin tiền cấp quyền'>
+        <Tooltip title='Xóa bản ghi?'>
             <>
                 <IconButton aria-describedby={data.row?.id} onClick={DeleteRowData} data-row-id={data.row?.id}>
                     <Delete className='tableActionBtn deleteBtn' />

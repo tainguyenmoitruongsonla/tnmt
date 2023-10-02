@@ -2,8 +2,7 @@ import DialogsControl from 'src/@core/components/dialog-control';
 import { EditNote, PersonAddAlt, Save } from "@mui/icons-material";
 import { Grid, Button, TextField, DialogActions, IconButton, Typography, FormControlLabel, Checkbox, CircularProgress } from "@mui/material";
 import { ChangeEvent, useState } from 'react';
-
-import postData from 'src/api/post';
+import { saveData } from 'src/api/axios';
 
 interface State {
   id?: number,
@@ -37,7 +36,7 @@ const Form = ({ data, setPostSuccess, closeDialogs }: any) => {
 
       setSaving(true)
       try {
-        const res = await postData('Dashboard/save', values);
+        const res = await saveData('Dashboard/save', values);
         if (res) {
           // Reset form fields
           setValues({});

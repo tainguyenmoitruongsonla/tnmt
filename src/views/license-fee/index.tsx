@@ -1,18 +1,13 @@
 import { useState, useEffect } from 'react'
-
-// ** MUI Imports
 import { Grid, Typography, Paper, Box, Toolbar } from '@mui/material'
-
-// ** Icons Imports
-import fetchData from 'src/api/fetch';
-
 import FormatDate from 'src/@core/components/format-date';
 import FormLicenseFee from 'src/views/license-fee/form'
 import DataGridComponent from 'src/@core/components/data-grid'
 import { GridColDef } from '@mui/x-data-grid'
 import ShowFilePDF from 'src/@core/components/show-file-pdf';
 import { formatVndCost } from '../home/count-license-fee';
-import DeleteData from './delete-data';
+import DeleteData from 'src/@core/components/delete-data';
+import { getData } from 'src/api/axios';
 
 interface LicenseFeeProps {
   path: string
@@ -61,21 +56,21 @@ const LicenseFee = (props: LicenseFeeProps) => {
       renderCell: (data) => (
         <Box>
           <FormLicenseFee isEdit={true} data={data.row} setPostSuccess={handlePostSuccess} />
-          <DeleteData data={data} setPostSuccess={handlePostSuccess} />
+          <DeleteData url={'LicenseFee'} data={data} setPostSuccess={handlePostSuccess} />
         </Box>
       )
     },
   ]
 
   useEffect(() => {
-    const getData = async () => {
+    const getDataLicenseFee = async () => {
       setLoading(true)
       try {
         if (path === 'bo-cap') {
-          const data = await fetchData('LicenseFee/list/minister');
+          const data = await getData('LicenseFee/list/minister');
           setResData(data);
         } else if (path === 'tinh-cap') {
-          const data = await fetchData('LicenseFee/list/province');
+          const data = await getData('LicenseFee/list/province');
           setResData(data);
         }
       } catch (error) {
@@ -84,7 +79,7 @@ const LicenseFee = (props: LicenseFeeProps) => {
         setLoading(false)
       }
     };
-    getData();
+    getDataLicenseFee();
   }, [path, postSuccess]);
 
   // Calculate the total of resData.totalMoney

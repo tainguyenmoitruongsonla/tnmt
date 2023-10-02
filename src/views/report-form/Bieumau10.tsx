@@ -16,11 +16,11 @@ import {
 import DownloadIcon from '@mui/icons-material/Download'
 import DialogControlFullScreen from 'src/@core/components/dialog-control-full-screen'
 import { useState, useEffect } from 'react'
-import fetchData from 'src/api/fetch'
 import React from 'react'
 import BoxLoading from 'src/@core/components/box-loading'
 import HeaderReport from './HeaderReport'
 import FooterReport from './FooterReport'
+import { getData } from 'src/api/axios'
 
 
 
@@ -28,12 +28,12 @@ const FormContruction = () => {
   const [bieuMau10, setBieuMau10] = useState<any[]>([])
   const [loading, setLoading] = useState(false)
   useEffect(() => {
-    async function getData() {
+    async function getDataLocations() {
       try {
         setLoading(true)
-        const districtData = await fetchData('Locations/list/distric/51')
+        const districtData = await getData('Locations/list/distric/51')
 
-        const consData = await fetchData('Construction/list')
+        const consData = await getData('Construction/list')
 
         const newBieuMau10 = []; // tao mang moi de luu tru du lieu moi
 
@@ -50,11 +50,11 @@ const FormContruction = () => {
             'congtrinh_nuocmatkhac'
           ]
           const sufaceWaterItem = consData.filter((item: any) =>
-          licSurfaceWater.includes(item.constructionTypeSlug) &&
-          item.districtId?.toString() === row.districtId?.toString()
+            licSurfaceWater.includes(item.constructionTypeSlug) &&
+            item.districtId?.toString() === row.districtId?.toString()
           ).length
-        
-          const  sufaceWaterPrevPeriodItems = consData.filter(
+
+          const sufaceWaterPrevPeriodItems = consData.filter(
             (item: any) =>
               licSurfaceWater.includes(item.constructionTypeSlug) &&
               item.startDate < new Date().getFullYear() &&
@@ -65,7 +65,7 @@ const FormContruction = () => {
             (item: any) =>
               item.constructionTypeSlug === 'khaithac' && item.districtId?.toString() === row.districtId?.toString()
           ).length
-          
+
           const groundWaterPrevPeriodItems = consData.filter(
             (item: any) =>
               item.constructionTypeSlug === 'khaithac' &&
@@ -92,12 +92,12 @@ const FormContruction = () => {
       } catch (error) {
         console.error(error)
       }
-      finally{
+      finally {
         setLoading(false)
       }
     }
 
-    getData()
+    getDataLocations()
   }, [])
 
   return (
@@ -114,134 +114,134 @@ const FormContruction = () => {
           </IconButton>
         </Grid>
       </Grid>
-      <HeaderReport/>
+      <HeaderReport />
 
       <Grid className='_text_center'>
         <Typography className='font-weight-bold ' variant='h4'>
           BÁO CÁO
         </Typography>
         <Typography className='font-weight-bold ' variant='h6'>
-        Số lượng công trình khai thác nước mặt, nước dưới đất phân theo mục đích sử dụng 
+          Số lượng công trình khai thác nước mặt, nước dưới đất phân theo mục đích sử dụng
         </Typography>
         <Typography className='font-weight-bold ' variant='h6'>
           (Kỳ báo cáo: <TextField size='small' sx={{ width: '50px' }}></TextField>)
         </Typography>
       </Grid>
-      {loading? (
-              <BoxLoading />
-          ) : (
-            <Grid className='_text_center' sx={{ mt: 3 }}>
-        <TableContainer component={Paper}>
-          <Table sx={{ minWidth: 650 }} aria-label='simple table'>
-            <TableHead className='tableHead'>
-              <TableRow>
-                <TableCell size='small' align='center' rowSpan={4}>
-                  STT
-                </TableCell>
-                <TableCell size='small' align='center' rowSpan={2}>
-                  Huyện
-                </TableCell>
-                <TableCell size='small' align='center'  colSpan={3}>
-                  Tổng số công trình
-                </TableCell>
-                <TableCell size='small' align='center'  colSpan={3}>
-                Số lượng công trình khai thác nước mặt
-                </TableCell>
-                <TableCell size='small' align='center' colSpan={3}>
-                Số lượng công trình khai thác nước dưới đất
-                </TableCell>
-              </TableRow>
+      {loading ? (
+        <BoxLoading />
+      ) : (
+        <Grid className='_text_center' sx={{ mt: 3 }}>
+          <TableContainer component={Paper}>
+            <Table sx={{ minWidth: 650 }} aria-label='simple table'>
+              <TableHead className='tableHead'>
+                <TableRow>
+                  <TableCell size='small' align='center' rowSpan={4}>
+                    STT
+                  </TableCell>
+                  <TableCell size='small' align='center' rowSpan={2}>
+                    Huyện
+                  </TableCell>
+                  <TableCell size='small' align='center' colSpan={3}>
+                    Tổng số công trình
+                  </TableCell>
+                  <TableCell size='small' align='center' colSpan={3}>
+                    Số lượng công trình khai thác nước mặt
+                  </TableCell>
+                  <TableCell size='small' align='center' colSpan={3}>
+                    Số lượng công trình khai thác nước dưới đất
+                  </TableCell>
+                </TableRow>
 
-              <TableRow>
-                <TableCell size='small' align='center'>
-                  Lũy kế đến kỳ trước
-                </TableCell>
-                <TableCell size='small' align='center'>
-                  Lũy kế đến kỳ báo cáo
-                </TableCell>
-                <TableCell size='small' align='center'>
-                  Thay đổi
-                </TableCell>
+                <TableRow>
+                  <TableCell size='small' align='center'>
+                    Lũy kế đến kỳ trước
+                  </TableCell>
+                  <TableCell size='small' align='center'>
+                    Lũy kế đến kỳ báo cáo
+                  </TableCell>
+                  <TableCell size='small' align='center'>
+                    Thay đổi
+                  </TableCell>
 
-                <TableCell size='small' align='center'>
-                  Lũy kế đến kỳ trước
-                </TableCell>
-                <TableCell size='small' align='center'>
-                  Lũy kế đến kỳ báo cáo
-                </TableCell>
-                <TableCell size='small' align='center'>
-                  Thay đổi
-                </TableCell>
+                  <TableCell size='small' align='center'>
+                    Lũy kế đến kỳ trước
+                  </TableCell>
+                  <TableCell size='small' align='center'>
+                    Lũy kế đến kỳ báo cáo
+                  </TableCell>
+                  <TableCell size='small' align='center'>
+                    Thay đổi
+                  </TableCell>
 
-                <TableCell size='small' align='center'>
-                  Lũy kế đến kỳ trước
-                </TableCell>
-                <TableCell size='small' align='center'>
-                  Lũy kế đến kỳ báo cáo
-                </TableCell>
-                <TableCell size='small' align='center'>
-                  Thay đổi
-                </TableCell>
-              </TableRow>
+                  <TableCell size='small' align='center'>
+                    Lũy kế đến kỳ trước
+                  </TableCell>
+                  <TableCell size='small' align='center'>
+                    Lũy kế đến kỳ báo cáo
+                  </TableCell>
+                  <TableCell size='small' align='center'>
+                    Thay đổi
+                  </TableCell>
+                </TableRow>
 
-              <TableRow>
-                <TableCell size='small' align='center'>
-                  (1)&nbsp;
-                </TableCell>
-                <TableCell size='small' align='center'>
-                  (2)&nbsp;
-                </TableCell>
-                <TableCell size='small' align='center'>
-                  (3)
-                </TableCell>
+                <TableRow>
+                  <TableCell size='small' align='center'>
+                    (1)&nbsp;
+                  </TableCell>
+                  <TableCell size='small' align='center'>
+                    (2)&nbsp;
+                  </TableCell>
+                  <TableCell size='small' align='center'>
+                    (3)
+                  </TableCell>
 
-                <TableCell size='small' align='center'>
-                  (4)= (3)-(2)
-                </TableCell>
-                <TableCell size='small' align='center'>
-                  (5)&nbsp;
-                </TableCell>
-                <TableCell size='small' align='center'>
-                  (6)
-                </TableCell>
+                  <TableCell size='small' align='center'>
+                    (4)= (3)-(2)
+                  </TableCell>
+                  <TableCell size='small' align='center'>
+                    (5)&nbsp;
+                  </TableCell>
+                  <TableCell size='small' align='center'>
+                    (6)
+                  </TableCell>
 
-                <TableCell size='small' align='center'>
-                  (7)=(6)-(5)
-                </TableCell>
-                <TableCell size='small' align='center'>
-                  (8)&nbsp;
-                </TableCell>
-                <TableCell size='small' align='center'>
-                  (9)
-                </TableCell>
-                <TableCell size='small' align='center'>
-                (10)=(9)-(8)
-                </TableCell>
-              </TableRow>
-            </TableHead>
-               <TableBody className='tableBody'>
-               {bieuMau10.map((item, index) => (
-              <TableRow key={index}>
-                <TableCell className="text-center  size='small' align-middle font-13">{index + 1}</TableCell>
-                <TableCell className="text-center  size='small' align-middle font-13">{item.district}</TableCell>
-                <TableCell className="text-center  size='small' align-middle font-13">{item.allConsPrevPeriod}</TableCell>
-                <TableCell className="text-center  size='small' align-middle font-13">{item.allConsThisPeriod}</TableCell>
-                <TableCell className="text-center  size='small' align-middle font-13">{item.allConsChange}</TableCell>
-                <TableCell className="text-center  size='small' align-middle font-13">{item.surfaceWaterConsPrevPeriod}</TableCell>
-                <TableCell className="text-center  size='small' align-middle font-13">{item.surfaceWaterConsThisPeriod}</TableCell>
-                <TableCell className="text-center  size='small' align-middle font-13">{item.surfaceWaterConsChange}</TableCell>
-                <TableCell className="text-center  size='small' align-middle font-13">{item.exploitGrountWaterPrevPeriod}</TableCell>
-                <TableCell className="text-center  size='small' align-middle font-13">{item.exploitGrountWaterThisPeriod}</TableCell>
-                <TableCell className="text-center  size='small' align-middle font-13">{item.exploitGrountWaterChange}</TableCell>
-              </TableRow>
-            ))}
-          
-             </TableBody>
-          </Table>
-        </TableContainer>
-      </Grid>
-          )}
-     <FooterReport/>
+                  <TableCell size='small' align='center'>
+                    (7)=(6)-(5)
+                  </TableCell>
+                  <TableCell size='small' align='center'>
+                    (8)&nbsp;
+                  </TableCell>
+                  <TableCell size='small' align='center'>
+                    (9)
+                  </TableCell>
+                  <TableCell size='small' align='center'>
+                    (10)=(9)-(8)
+                  </TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody className='tableBody'>
+                {bieuMau10.map((item, index) => (
+                  <TableRow key={index}>
+                    <TableCell className="text-center  size='small' align-middle font-13">{index + 1}</TableCell>
+                    <TableCell className="text-center  size='small' align-middle font-13">{item.district}</TableCell>
+                    <TableCell className="text-center  size='small' align-middle font-13">{item.allConsPrevPeriod}</TableCell>
+                    <TableCell className="text-center  size='small' align-middle font-13">{item.allConsThisPeriod}</TableCell>
+                    <TableCell className="text-center  size='small' align-middle font-13">{item.allConsChange}</TableCell>
+                    <TableCell className="text-center  size='small' align-middle font-13">{item.surfaceWaterConsPrevPeriod}</TableCell>
+                    <TableCell className="text-center  size='small' align-middle font-13">{item.surfaceWaterConsThisPeriod}</TableCell>
+                    <TableCell className="text-center  size='small' align-middle font-13">{item.surfaceWaterConsChange}</TableCell>
+                    <TableCell className="text-center  size='small' align-middle font-13">{item.exploitGrountWaterPrevPeriod}</TableCell>
+                    <TableCell className="text-center  size='small' align-middle font-13">{item.exploitGrountWaterThisPeriod}</TableCell>
+                    <TableCell className="text-center  size='small' align-middle font-13">{item.exploitGrountWaterChange}</TableCell>
+                  </TableRow>
+                ))}
+
+              </TableBody>
+            </Table>
+          </TableContainer>
+        </Grid>
+      )}
+      <FooterReport />
     </Paper>
   )
 }

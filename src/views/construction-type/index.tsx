@@ -1,18 +1,10 @@
-//React Imports
 import React, { useState, useEffect } from 'react';
-
-//MUI Imports
-import { Box, Tooltip, IconButton, Paper } from '@mui/material';
+import { Box, Grid, Paper, Toolbar } from '@mui/material';
 import { GridColDef } from '@mui/x-data-grid';
-
-//Other Imports
-
-// import MapComponent from 'src/@core/components/map';
 import DataGridComponent from 'src/@core/components/data-grid';
-import { Delete } from '@mui/icons-material';
-import fetchData from 'src/api/fetch';
 import FormConstructionTypes from './form';
-import post from 'src/api/post';
+import DeleteData from 'src/@core/components/delete-data';
+import { getData } from 'src/api/axios';
 
 const ConstructionTypes = () => {
     const [resData, setResData] = useState([]);
@@ -25,36 +17,28 @@ const ConstructionTypes = () => {
 
     //Init columnTable
     const columnsTable: GridColDef[] = [
-        { field: 'id', flex: 1,  headerAlign: 'center', headerName: 'ID', minWidth: 90 },
-        { field: 'typeName', flex: 1,  headerAlign: 'center', headerName: 'Tên loại công trình', minWidth: 150 },
-        { field: 'typeSlug', flex: 1,  headerAlign: 'center', headerName: 'Mã loại công trình', minWidth: 150 },
-        { field: 'description', flex: 1,  headerAlign: 'center', headerName: 'Ghi chú', minWidth: 150 },
+        { field: 'id', flex: 1, headerAlign: 'center', headerName: 'ID', minWidth: 90 },
+        { field: 'typeName', flex: 1, headerAlign: 'center', headerName: 'Tên loại công trình', minWidth: 150 },
+        { field: 'typeSlug', flex: 1, headerAlign: 'center', headerName: 'Mã loại công trình', minWidth: 150 },
+        { field: 'description', flex: 1, headerAlign: 'center', headerName: 'Ghi chú', minWidth: 150 },
 
         //Action
         {
-            field: 'actions',  headerAlign: 'center', headerName: '#', minWidth: 120, sortable: false,
+            field: 'actions', headerAlign: 'center', headerName: '#', minWidth: 120, sortable: false,
             renderCell: (data) => (
                 <Box>
-                    <Tooltip title="Chỉnh sửa giấy phép">
-                        <IconButton>
-                            <FormConstructionTypes isEdit={true} data={data.row} setPostSuccess={handlePostSuccess} />
-                        </IconButton>
-                    </Tooltip>
-                    <Tooltip title="Xóa giấy phép">
-                        <IconButton onClick={() => DeleteRowData(data)}>
-                            <Delete className='tableActionBtn deleteBtn' />
-                        </IconButton>
-                    </Tooltip>
+                    <FormConstructionTypes isEdit={true} data={data.row} setPostSuccess={handlePostSuccess} />
+                    <DeleteData url={'ConstructionTypes'} data={data} setPostSuccess={handlePostSuccess} />
                 </Box>
             )
         },
     ];
 
     useEffect(() => {
-        const getData = async () => {
+        const getDataConstructionTypes = async () => {
             try {
                 setLoading(true);
-                const data = await fetchData('ConstructionTypes/list');
+                const data = await getData('ConstructionTypes/list');
                 setResData(data);
             } catch (error) {
                 setResData([]);
@@ -62,30 +46,18 @@ const ConstructionTypes = () => {
                 setLoading(false);
             }
         };
-        getData();
+        getDataConstructionTypes();
     }, [postSuccess]);
-
-    const DeleteRowData = async (data: any) => {
-        const confirmed = window.confirm(`Bạn muốn xóa:  ${data.row?.typeName} chứ?`);
-        if (!confirmed) {
-            return;
-        }
-
-        try {
-            setLoading(true);
-            const res = await post('ConstructionTypes/delete', data.row);
-            if (res) {
-                setResData(prevData => prevData.filter((item: any) => item.id !== data.row.id));
-            }
-        } catch (error) {
-            console.error(error);
-        } finally {
-            setLoading(false);
-        }
-    };
 
     return (
         <Paper elevation={3} sx={{ p: 0 }}>
+            <Toolbar variant="dense">
+                <Grid container justifyContent={'end'} >
+                    <Grid item>
+                        <FormConstructionTypes isEdit={false} setPostSuccess={handlePostSuccess} />
+                    </Grid>
+                </Grid>
+            </Toolbar>
             <DataGridComponent
                 rows={resData}
                 columns={columnsTable}

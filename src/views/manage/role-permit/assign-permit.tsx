@@ -4,9 +4,7 @@ import { Fragment, useEffect, useState } from 'react'
 
 import DialogsControlFullScreen from 'src/@core/components/dialog-control-full-screen'
 import TableComponent from 'src/@core/components/table'
-
-import fetchData from 'src/api/fetch'
-import postData from 'src/api/post'
+import { deleteData, getData, saveData } from 'src/api/axios'
 
 const Form = ({ data }: any) => {
 
@@ -20,10 +18,10 @@ const Form = ({ data }: any) => {
   };
 
   useEffect(() => {
-    const getData = async () => {
+    const getDataDashboard = async () => {
       try {
         setLoading(true)
-        const resData = await fetchData(`Dashboard/listbyrole/${data.name}`);
+        const resData = await getData(`Dashboard/listbyrole/${data.name}`);
         setResData(resData);
       } catch (error) {
         setResData([]);
@@ -33,13 +31,13 @@ const Form = ({ data }: any) => {
 
     };
 
-    getData();
+    getDataDashboard();
   }, [data.name, postSuccess]);
 
   const handleCheckPermit = (row: any, roleData: any) => async () => {
     const permitAccess = row.permitAccess;
 
-    const item = {
+    const item: any = {
       id: row.id ? row.id : 0,
       roleId: roleData.id,
       roleName: roleData.name,
@@ -51,9 +49,9 @@ const Form = ({ data }: any) => {
     try {
       setSwitchLoadingMap((prevState) => ({ ...prevState, [row.id]: true }));
       if (permitAccess === true) {
-        await postData('RoleDashboard/delete', item);
+        await deleteData('RoleDashboard/delete', item.id);
       } else {
-        await postData('RoleDashboard/save', item);
+        await saveData('RoleDashboard/save', item);
       }
     } catch (error) {
       console.error(error)

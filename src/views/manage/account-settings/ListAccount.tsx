@@ -1,16 +1,11 @@
-// ** React Imports
 import { useEffect, useState } from 'react';
-
-// ** MUI Imports
 import { IconButton, Box } from '@mui/material';
 import { Delete } from '@mui/icons-material';
-
-// ** Component Imports
 import SetRole from './AssignRole';
 import ChangePassword from './ChangePassword';
 import FormAccount from './FormAccount';
 import TableComponent from 'src/@core/components/table';
-import fetchData from 'src/api/fetch';
+import { getData } from 'src/api/axios';
 
 
 const ListAccount = () => {
@@ -18,7 +13,7 @@ const ListAccount = () => {
   const [postSuccess, setPostSuccess] = useState(false);
   const [resData, setResData] = useState([]);
   const [loading, setLoading] = useState(false);
-  
+
   const handlePostSuccess = () => {
     setPostSuccess(prevState => !prevState);
   };
@@ -33,10 +28,10 @@ const ListAccount = () => {
   ]
 
   useEffect(() => {
-    const getData = async () => {
+    const getDataUser = async () => {
       try {
         setLoading(true)
-        const data = await fetchData('User/list');
+        const data = await getData('User/list');
         setResData(data);
       } catch (error) {
         setResData([]);
@@ -44,7 +39,7 @@ const ListAccount = () => {
       setLoading(false)
     };
 
-    getData();
+    getDataUser();
   }, [postSuccess]);
 
   return (

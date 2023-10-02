@@ -1,15 +1,9 @@
-// ** React Imports
 import { useEffect, useState } from 'react';
-
-// ** MUI Imports
 import { IconButton, Box } from '@mui/material';
-
-// ** Component Imports
 import TableComponent from 'src/@core/components/table';
-import fetchData from 'src/api/fetch';
-
 import AssignPermit from './assign-permit';
 import AssignFunction from './assign-function';
+import { getData } from 'src/api/axios';
 
 const RolePermit = () => {
 
@@ -23,10 +17,10 @@ const RolePermit = () => {
   ]
 
   useEffect(() => {
-    const getData = async () => {
+    const getDataRole = async () => {
       try {
         setLoading(true)
-        const data = await fetchData('Role/list');
+        const data = await getData('Role/list');
         setResData(data);
       } catch (error) {
         setResData([]);
@@ -34,7 +28,7 @@ const RolePermit = () => {
       setLoading(false)
     };
 
-    getData();
+    getDataRole();
   }, []);
 
   return (

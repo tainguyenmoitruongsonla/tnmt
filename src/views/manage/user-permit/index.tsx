@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { IconButton, Box } from '@mui/material';
 import TableComponent from 'src/@core/components/table';
-import fetchData from 'src/api/fetch';
-
 import AssignPermit from './assign-permit';
 import AssignFunction from './assign-function';
+import { getData } from 'src/api/axios';
 
 const UserPermit = () => {
 
@@ -12,10 +11,10 @@ const UserPermit = () => {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    const getData = async () => {
+    const getDataUser = async () => {
       try {
         setLoading(true)
-        const data = await fetchData('User/list');
+        const data = await getData('User/list');
         setResData(data);
       } catch (error) {
         setResData([]);
@@ -24,7 +23,7 @@ const UserPermit = () => {
       }
     };
 
-    getData();
+    getDataUser();
   }, []);
 
   const columnsTable = [

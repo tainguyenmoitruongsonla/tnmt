@@ -1,18 +1,9 @@
-//  **  Imports React
 import React, { useState, useEffect, ChangeEvent } from 'react';
-
-// ** Imports MUI
 import { Grid, DialogActions, Typography, TextField, Table, TableHead, TableRow, TableCell, TableBody, Checkbox, Button, CircularProgress } from '@mui/material';
-
-// ** Imports Icons
 import { Save, ShieldTwoTone } from '@mui/icons-material';
-
-// ** Imports Component
 import DialogsControlFullScreen from 'src/@core/components/dialog-control-full-screen';
-import fetchData from 'src/api/fetch';
-import postData from 'src/api/post';
 import BoxLoading from 'src/@core/components/box-loading';
-
+import { getData, saveData } from 'src/api/axios';
 
 interface State {
   userId: string
@@ -31,10 +22,10 @@ const Form = ({ data, setPostSuccess, closeDialogs }: any) => {
   });
 
   useEffect(() => {
-    const getData = async () => {
+    const getDataRole = async () => {
       try {
         setFetching(true)
-        const data = await fetchData('Role/list');
+        const data = await getData('Role/list');
         setRoleData(data);
       } catch (error) {
         setRoleData([]);
@@ -42,7 +33,7 @@ const Form = ({ data, setPostSuccess, closeDialogs }: any) => {
       setFetching(false)
     };
 
-    getData();
+    getDataRole();
   }, []);
 
   const handleChange = (prop: keyof State, roleName: string) => (event: ChangeEvent<HTMLInputElement>) => {
@@ -60,7 +51,7 @@ const Form = ({ data, setPostSuccess, closeDialogs }: any) => {
     const handleApiCall = async () => {
       setSaving(true)
       try {
-        const res = await postData('Auth/assign-role', values);
+        const res = await saveData('Auth/assign-role', values);
         if (res) {
           // Reset form fields
           setValues({

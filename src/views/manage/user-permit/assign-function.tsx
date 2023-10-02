@@ -2,9 +2,7 @@ import { CircularProgress, Grid, Checkbox, Typography, FormControlLabel, Box } f
 import { useEffect, useState } from 'react'
 import DialogsControlFullScreen from 'src/@core/components/dialog-control-full-screen'
 import TableComponent from 'src/@core/components/table'
-
-import fetchData from 'src/api/fetch'
-import postData from 'src/api/post'
+import { deleteData, getData, saveData } from 'src/api/axios'
 
 type DialogsControlCallback = (content: React.ReactNode, title: React.ReactNode) => void;
 
@@ -55,10 +53,10 @@ const Form = ({ data }: any) => {
   ];
 
   useEffect(() => {
-    const getData = async () => {
+    const getDataUser = async () => {
       try {
         setLoading(true)
-        const rdash = await fetchData(`User/getuserinfo/${data.id}`);
+        const rdash = await getData(`User/getuserinfo/${data.id}`);
         setDashData(rdash.dashboards);
       } catch (error) {
         setDashData([]);
@@ -66,7 +64,7 @@ const Form = ({ data }: any) => {
         setLoading(false)
       }
     };
-    getData();
+    getDataUser();
 
   }, [data.id, postSuccess]);
 
@@ -74,7 +72,7 @@ const Form = ({ data }: any) => {
 
     const key = `${dash.id}-${f.id}`;
 
-    const item = {
+    const item: any = {
       id: 0,
       userId: userData.id,
       userName: userData.userName,
@@ -87,9 +85,9 @@ const Form = ({ data }: any) => {
     try {
       setSwitchLoadingMap((prevState: any) => ({ ...prevState, [key]: true, }));
       if (f.status == true) {
-        await postData('Permission/delete', item);
+        await deleteData('Permission/delete', item.id);
       } else {
-        await postData('Permission/save', item);
+        await saveData('Permission/save', item);
       }
     } catch (error) {
       console.error(error)

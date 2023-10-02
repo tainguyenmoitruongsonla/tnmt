@@ -1,14 +1,9 @@
-// ** React Imports
 import { useEffect, useState } from 'react';
-
-// ** Icons Imports
 import { Delete } from '@mui/icons-material';
-
-// ** MUI Imports
 import { IconButton, Box, Checkbox } from '@mui/material';
 import TableComponent from 'src/@core/components/table';
 import FormRoles from './FormRoles';
-import fetchData from 'src/api/fetch';
+import { getData } from 'src/api/axios';
 
 
 const ListRoles = () => {
@@ -28,10 +23,10 @@ const ListRoles = () => {
   ]
 
   useEffect(() => {
-    const getData = async () => {
+    const getDataRole = async () => {
       try {
         setLoading(true)
-        const data = await fetchData('Role/list');
+        const data = await getData('Role/list');
         setResData(data);
       } catch (error) {
         setResData([]);
@@ -40,7 +35,7 @@ const ListRoles = () => {
       }
     };
 
-    getData();
+    getDataRole();
   }, [postSuccess]);
 
   return (

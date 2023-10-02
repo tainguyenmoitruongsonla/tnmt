@@ -1,16 +1,10 @@
-//React Imports
 import React, { useState, useEffect } from 'react';
-
-//MUI Imports
 import { Box, Paper, TextField } from '@mui/material';
 import Grid from '@mui/material/Unstable_Grid2';
-
 import MapLegend from 'src/views/construction/MapLegend';
-
-
 import dynamic from 'next/dynamic';
-import fetchData from 'src/api/fetch';
 import proj4 from 'proj4';
+import { getData } from 'src/api/axios';
 
 const Map = dynamic(() => import("src/@core/components/map"), { ssr: false });
 
@@ -43,7 +37,7 @@ const Construction = () => {
         setInitConstype(data);
     };
 
-   
+
 
     const N_DEC_WGS84 = 8;
 
@@ -66,18 +60,18 @@ const Construction = () => {
         return result;
     }
     const [coodinate, setCoodinate] = useState({ x: 0, y: 0 });
-    
 
-    
+
+
     const handleChange = (prop: any) => (value: any) => {
         setCoodinate({ ...coodinate, [prop]: value })
     }
 
-     useEffect(() => {
+    useEffect(() => {
         console.log(converter(coodinate.x, coodinate.y));
-        const getData = async () => {
+        const getDataConstruction = async () => {
             try {
-                const data = await fetchData('Construction/list');
+                const data = await getData('Construction/list');
                 console.log(initConsType)
                 const filteredData = data.filter((item: { [key: string]: any }) =>
                     initConsType.some((keyword: any) =>
@@ -90,7 +84,7 @@ const Construction = () => {
             } finally {
             }
         };
-        getData();
+        getDataConstruction();
     }, [coodinate.x, coodinate.y, initConsType]);
 
     return (

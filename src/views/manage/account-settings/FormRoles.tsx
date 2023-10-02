@@ -1,16 +1,8 @@
-// ** React Imports
 import { useState, ChangeEvent } from 'react';
-
-// ** Icons Imports
 import { EditNote, PersonAddAlt, Save } from "@mui/icons-material";
-
-// ** MUI Imports
 import { Grid, Button, DialogActions, FormControlLabel, Checkbox, IconButton, Typography, TextField, CircularProgress } from "@mui/material";
-
-// ** Component Imports
 import DialogsControl from 'src/@core/components/dialog-control';
-import postApiData from 'src/api/post';
-
+import { saveData } from 'src/api/axios';
 
 interface State {
   id?: string,
@@ -42,7 +34,7 @@ const Form = ({ data, setPostSuccess, closeDialogs }: any) => {
 
       setSaving(true)
       try {
-        const res = await postApiData('Role/save', values);
+        const res = await saveData('Role/save', values);
         if (res) {
           // Reset form fields
           setValues({});

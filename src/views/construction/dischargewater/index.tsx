@@ -18,7 +18,7 @@ import { getData } from 'src/api/axios'
 import CreateConstruction from '../form'
 import ConstructionToolBar from '../tool-bar'
 import { useRouter } from 'next/router'
-import DeleteData from '../delete-data'
+import DeleteData from 'src/@core/components/delete-data'
 
 
 const Map = dynamic(() => import('src/@core/components/map'), { ssr: false })
@@ -156,7 +156,7 @@ const DischargeConstruction = () => {
             renderCell: data => (
                 <Box>
                     <CreateConstruction isEdit={true} data={data.row} setPostSuccess={handlePostSuccess} />
-                    <DeleteData data={data} setPostSuccess={handlePostSuccess} />
+                    <DeleteData url={'Construction'} data={data} setPostSuccess={handlePostSuccess} />
                 </Box>
             )
         }

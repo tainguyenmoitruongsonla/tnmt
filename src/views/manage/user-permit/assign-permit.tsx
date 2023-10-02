@@ -4,13 +4,10 @@ import { Fragment, useEffect, useState } from 'react'
 
 import DialogsControlFullScreen from 'src/@core/components/dialog-control-full-screen'
 import TableComponent from 'src/@core/components/table'
-
-import fetchData from 'src/api/fetch'
-import postData from 'src/api/post'
+import { deleteData, getData, saveData } from 'src/api/axios'
 
 const Form = ({ data }: any) => {
-
-  const userData = [data]; // Use the updated `values` state here
+  const userData = [data];
   const [resData, setResData] = useState([]);
   const [postSuccess, setPostSuccess] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -20,10 +17,10 @@ const Form = ({ data }: any) => {
   };
 
   useEffect(() => {
-    const getData = async () => {
+    const getDataDashboard = async () => {
       try {
         setLoading(true)
-        const resData = await fetchData(`Dashboard/listbyuser/${data.userName}`);
+        const resData = await getData(`Dashboard/listbyuser/${data.userName}`);
         setResData(resData);
       } catch (error) {
         setResData([]);
@@ -32,13 +29,13 @@ const Form = ({ data }: any) => {
       }
     };
 
-    getData();
+    getDataDashboard();
   }, [data.userName, postSuccess]);
 
   const handleCheckPermit = (row: any, userData: any) => async () => {
     const permitAccess = row.permitAccess;
 
-    const item = {
+    const item: any = {
       id: row.id ? row.id : 0,
       userId: userData.id,
       userName: userData.userName,
@@ -50,9 +47,9 @@ const Form = ({ data }: any) => {
     try {
       setSwitchLoadingMap((prevState) => ({ ...prevState, [row.id]: true }));
       if (permitAccess === true) {
-        await postData('UserDashboard/delete', item);
+        await deleteData('UserDashboard/delete', item.id);
       } else {
-        await postData('UserDashboard/save', item);
+        await saveData('UserDashboard/save', item);
       }
     } catch (error) {
       console.error(error)

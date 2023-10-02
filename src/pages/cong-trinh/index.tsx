@@ -1,15 +1,9 @@
-//React Imports
 import React, { useState, useEffect } from 'react';
-
-//MUI Imports
 import { Box, Paper } from '@mui/material';
 import Grid from '@mui/material/Unstable_Grid2';
-
 import MapLegend from 'src/views/construction/MapLegend';
-
-
 import dynamic from 'next/dynamic';
-import fetchData from 'src/api/fetch';
+import { getData } from 'src/api/axios';
 
 const Map = dynamic(() => import("src/@core/components/map"), { ssr: false });
 
@@ -44,10 +38,10 @@ const Construction = () => {
   };
 
   useEffect(() => {
-    const getData = async () => {
+    const getDataConstruction = async () => {
       try {
         setLoading(true)
-        const data = await fetchData('Construction/list');
+        const data = await getData('Construction/list');
         const filteredData = data.filter((item: { [key: string]: any }) =>
           initConsType.some((keyword: any) =>
             item['constructionTypeSlug']?.toString().toLowerCase().includes(keyword.toLowerCase())
@@ -60,16 +54,16 @@ const Construction = () => {
         setLoading(false)
       }
     };
-    getData();
+    getDataConstruction();
   }, [initConsType]);
 
-  
+
 
   return (
 
     <Grid xs={12} md={12} sx={{ height: 'calc(100vh - 82px)', overflow: 'hidden' }}>
       <Paper elevation={3} sx={{ height: '100%', position: 'relative' }}>
-        <Box className="map-legend" sx={{ background: 'white', zIndex: `${loading ? -1 : 999 }` }}>
+        <Box className="map-legend" sx={{ background: 'white', zIndex: `${loading ? -1 : 999}` }}>
           <MapLegend onChange={handleConsTypeChange} />
         </Box>
         <Map center={mapCenter} zoom={mapZoom} mapData={resData} loading={loading} />

@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
-import { Add, Edit, Save } from '@mui/icons-material';
-import { Button, CircularProgress, DialogActions, Grid } from '@mui/material';
+import { Add, EditNote, Save } from '@mui/icons-material';
+import { Button, CircularProgress, DialogActions, Grid, IconButton } from '@mui/material';
 
 import DialogsControl from 'src/@core/components/dialog-control';
 import BusinessFieldset from 'src/views/business/form/business-fieldset';
-import post from 'src/api/post';
+import { saveData } from 'src/api/axios';
 
 interface FormProps {
     data: any;
@@ -27,7 +27,7 @@ const Form: React.FC<FormProps> = ({ data, closeDialogs, setPostSuccess }) => {
         const handleApiCall = async () => {
             try {
                 setSaving(true)
-                const res = await post('Business/save', businessData);
+                const res = await saveData('Business/save', businessData);
                 if (res) {
                     // Reset form fields
                     setBusinessData({});
@@ -78,12 +78,14 @@ const FormBusiness: React.FC<FormBusinessProps> = ({ isEdit, data, setPostSucces
             {(openDialogs: (content: React.ReactNode, title: React.ReactNode) => void, closeDialogs: () => void) => (
                 <>
                     {isEdit ? (
-                        <Edit
-                            className='tableActionBtn'
-                            onClick={() =>
-                                openDialogs(<Form data={data} closeDialogs={closeDialogs} setPostSuccess={setPostSuccess} />, formTitle)
-                            }
-                        />
+                        <IconButton onClick={() =>
+                            openDialogs(<Form data={data} closeDialogs={closeDialogs} setPostSuccess={setPostSuccess} />, formTitle)
+                        }>
+                            <EditNote
+                                className='tableActionBtn'
+
+                            />
+                        </IconButton>
                     ) : (
                         <Button
                             size="small"

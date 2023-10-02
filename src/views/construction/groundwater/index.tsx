@@ -20,8 +20,8 @@ import { getData } from 'src/api/axios'
 
 import CreateConstruction from '../form'
 import ConstructionToolBar from '../tool-bar'
-import { useRouter } from 'next/router'
-import DeleteData from '../delete-data'
+import { useRouter } from 'next/router' 
+import DeleteData from 'src/@core/components/delete-data'
 
 
 
@@ -168,7 +168,7 @@ const GroundConstruction = () => {
             renderCell: (data) => (
                 <Box>
                     <CreateConstruction isEdit={true} data={data.row} setPostSuccess={handlePostSuccess} />
-                    <DeleteData data={data} setPostSuccess={handlePostSuccess} />
+                    <DeleteData url={'Construction'} data={data} setPostSuccess={handlePostSuccess} />
                 </Box>
             )
         },

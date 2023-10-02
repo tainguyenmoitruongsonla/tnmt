@@ -1,10 +1,9 @@
 import React, { useState } from 'react';
-import { Add, Edit, Save } from '@mui/icons-material';
-import { Button, CircularProgress, DialogActions, Grid } from '@mui/material';
-
+import { Add, EditNote, Save } from '@mui/icons-material';
+import { Button, CircularProgress, DialogActions, Grid, IconButton } from '@mui/material';
 import DialogsControl from 'src/@core/components/dialog-control';
-import post from 'src/api/post';
 import SubBasinFieldset from './subbasin-fieldset';
+import { saveData } from 'src/api/axios';
 
 interface FormProps {
     data: any;
@@ -27,7 +26,7 @@ const Form: React.FC<FormProps> = ({ data, closeDialogs, setPostSuccess }) => {
         const handleApiCall = async () => {
             try {
                 setSaving(true)
-                const res = await post('SubBasin/save', SubBasinData);
+                const res = await saveData('SubBasin/save', SubBasinData);
                 if (res) {
                     // Reset form fields
                     setSubBasinData({});
@@ -78,12 +77,11 @@ const FormSubBasin: React.FC<FormSubBasinProps> = ({ isEdit, data, setPostSucces
             {(openDialogs: (content: React.ReactNode, title: React.ReactNode) => void, closeDialogs: () => void) => (
                 <>
                     {isEdit ? (
-                        <Edit
-                            className='tableActionBtn'
-                            onClick={() =>
-                                openDialogs(<Form data={data} closeDialogs={closeDialogs} setPostSuccess={setPostSuccess} />, formTitle)
-                            }
-                        />
+                        <IconButton onClick={() =>
+                            openDialogs(<Form data={data} closeDialogs={closeDialogs} setPostSuccess={setPostSuccess} />, formTitle)
+                        }>
+                            <EditNote className='tableActionBtn' />
+                        </IconButton>
                     ) : (
                         <Button
                             size="small"

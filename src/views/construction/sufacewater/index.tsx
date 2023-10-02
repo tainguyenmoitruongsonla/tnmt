@@ -18,8 +18,8 @@ import { ConverterCood } from 'src/@core/components/map/convert-coord'
 import CreateConstruction from '../form'
 import { useRouter } from 'next/router'
 import ConstructionToolBar from '../tool-bar'
-import { getData } from 'src/api/axios'
-import DeleteData from '../delete-data'
+import { getData } from 'src/api/axios' 
+import DeleteData from 'src/@core/components/delete-data'
 
 const Map = dynamic(() => import('src/@core/components/map'), { ssr: false })
 
@@ -446,7 +446,7 @@ const SurfaceConstruction = () => {
             renderCell: data => (
                 <Box>
                     <CreateConstruction isEdit={true} data={data.row} setPostSuccess={handlePostSuccess} />
-                    <DeleteData data={data} setPostSuccess={handlePostSuccess} />
+                    <DeleteData url={'Construction'} data={data} setPostSuccess={handlePostSuccess} />
                 </Box>
             )
         }

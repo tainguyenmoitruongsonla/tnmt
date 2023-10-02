@@ -1,13 +1,9 @@
-// ** React Imports
 import { useEffect, useState } from 'react'
-
-// ** MUI Imports
 import { IconButton, Box, Checkbox } from '@mui/material';
 import { Delete } from '@mui/icons-material';
 import FormPages from './FormPages';
 import TableComponent from 'src/@core/components/table';
-
-import fetchData from 'src/api/fetch';
+import { getData } from 'src/api/axios';
 
 const ListPages = () => {
 
@@ -28,10 +24,10 @@ const ListPages = () => {
   ]
 
   useEffect(() => {
-    const getData = async () => {
+    const getDataDashboard = async () => {
       setLoading(true)
       try {
-        const data = await fetchData('Dashboard/list');
+        const data = await getData('Dashboard/list');
         setResData(data);
       } catch (error) {
         setResData([]);
@@ -39,7 +35,7 @@ const ListPages = () => {
         setLoading(false)
       }
     };
-    getData();
+    getDataDashboard();
   }, [postSuccess]);
 
   return (
