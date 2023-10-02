@@ -9,7 +9,7 @@ import Grid from '@mui/material/Unstable_Grid2';
 // ** Components Imports
 import CountLicenseForManage from 'src/views/license/count-license-for-manage';
 import ApexChartLicense from 'src/views/license/license-bar-chart';
-import fetchData from 'src/api/axios';
+import { getData } from 'src/api/axios';
 import BoxLoading from 'src/@core/components/box-loading';
 import LicenseToolBar from '../tool-bar';
 
@@ -46,9 +46,9 @@ const ManageLicense = () => {
     }, []);
 
     useEffect(() => {
-        const getData = async () => {
+        const getDataLicense = async () => {
             setResLoading(true);
-            fetchData('License/list', paramsFilter)
+            getData('License/list', paramsFilter)
                 .then((data) => {
                     if (isMounted.current) {
                         setResData(data);
@@ -63,14 +63,14 @@ const ManageLicense = () => {
                     }
                 });
         };
-        getData();
+        getDataLicense();
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
 
     const getDataForChart = async () => {
         setLoading(true);
-        fetchData('License/list', paramsFilter)
+        getData('License/list', paramsFilter)
             .then((data) => {
                 if (isMounted.current) {
                     setResDataForChart(data);
