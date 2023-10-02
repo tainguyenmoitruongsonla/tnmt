@@ -15,12 +15,11 @@ import FormGroup from '@mui/material/FormGroup'
 import FormControlLabel from '@mui/material/FormControlLabel'
 import Checkbox from '@mui/material/Checkbox'
 import dynamic from 'next/dynamic'
-import fetchData from 'src/api/axios'
-import post from 'src/api/post'
 import { ConverterCood } from 'src/@core/components/map/convert-coord'
 import CreateConstruction from '../form'
 import { useRouter } from 'next/router'
 import ConstructionToolBar from '../tool-bar'
+import { deleteData, getData } from 'src/api/axios'
 
 const Map = dynamic(() => import('src/@core/components/map'), { ssr: false })
 
@@ -595,18 +594,17 @@ const SurfaceConstruction = () => {
     }
 
     const handleDeleteRowData = async (data: any) => {
-        try {
-            setLoading(true)
-            const res = await post('Construction/delete', data)
-            if (res) {
-                setResData(prevData => prevData.filter((item: any) => item.id !== data.id))
-            }
-        } catch (error) {
-            console.error(error)
-        } finally {
-            setLoading(false)
-            setDeleteConfirmAnchorEl(null)
-        }
+        const dataId = data.id;
+        deleteData('Construction/delete', dataId)
+            .then((data) => {
+                if (isMounted.current) {
+                    setResData(prevData => prevData.filter((item: any) => item.id !== data.id))
+                }
+            })
+            .finally(() => {
+                setLoading(false);
+                setDeleteConfirmAnchorEl(null)
+            });
     }
 
     function getConstructionTypeId() {
@@ -638,22 +636,6 @@ const SurfaceConstruction = () => {
 
 
     const isMounted = useRef(true);
-
-    const getData = async () => {
-        setLoading(true);
-        fetchData('Construction/list', paramsFilter)
-            .then((data) => {
-                if (isMounted.current) {
-                    setResData(data);
-                }
-            })
-            .catch((error) => {
-                console.log(error);
-            })
-            .finally(() => {
-                setLoading(false);
-            });
-    };
 
 
     useEffect(() => {
@@ -782,8 +764,22 @@ const SurfaceConstruction = () => {
                 ]); break;
         }
 
-        getData();
-        // eslint-disable-next-line react-hooks/exhaustive-deps
+        const getDataConstructions = async () => {
+            setLoading(true);
+            getData('Construction/list', paramsFilter)
+                .then((data) => {
+                    if (isMounted.current) {
+                        setResData(data);
+                    }
+                })
+                .catch((error) => {
+                    console.log(error);
+                })
+                .finally(() => {
+                    setLoading(false);
+                });
+        };
+        getDataConstructions();
     }, [postSuccess, paramsFilter]);
 
     const handleFilterChange = (data: any, postSuccess: boolean | undefined) => {

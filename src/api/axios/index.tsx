@@ -1,13 +1,11 @@
 import axios from 'axios';
 import apiUrl from '../config';
+import { enqueueSnackbar } from 'notistack';
 
-async function fetchData(url: string, params: any) {
+export async function getData(url: string, params?: any) {
     try {
-        const response = await axios.get(`${apiUrl}/${url}`, {
-            params: params,
-        });
+        const response = await axios.get(`${apiUrl}/${url}`, { params });
 
-        // Kiểm tra xem yêu cầu thành công (status code 200)
         if (response.status === 200) {
             return response.data;
         } else {
@@ -19,5 +17,28 @@ async function fetchData(url: string, params: any) {
     }
 }
 
+export async function saveData(url: string, data: any) {
+    try {
+        const response = await axios.post(`${apiUrl}/${url}`, data);
+        enqueueSnackbar(response.data, { variant: 'success' });
 
-export default fetchData;
+        return response.data;
+    } catch (error) {
+        enqueueSnackbar('Lỗi lưu dữ liệu', { variant: 'error' });
+        console.error('Error posting data:', error);
+        throw error;
+    }
+}
+
+export async function deleteData(url: string, resourceId: any) {
+    try {
+        const response = await axios.post(`${apiUrl}/${url}/${resourceId}`);
+        enqueueSnackbar(response.data, { variant: 'success' });
+
+        return response.data;
+    } catch (error) {
+        enqueueSnackbar('Lỗi xóa dữ liệu', { variant: 'error' });
+        console.error('Error deleting data:', error);
+        throw error;
+    }
+}

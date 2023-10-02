@@ -1,6 +1,6 @@
 import { Paper, Typography, Box } from "@mui/material"
 import React, { useState, useEffect, useRef } from 'react';
-import fetchData from 'src/api/axios';
+import { getData } from 'src/api/axios'
 
 import MapLegend from 'src/views/construction/MapLegend';
 
@@ -39,9 +39,9 @@ const HomeMap = () => {
 
     const isMounted = useRef(true);
 
-    const getData = async () => {
+    const getDataConstruction = async () => {
         setLoading(true);
-        fetchData('Construction/list', {})
+        getData('Construction/list', {})
             .then((data) => {
                 if (isMounted.current) {
                     const filteredData = data.filter((item: { [key: string]: any }) =>
@@ -71,7 +71,7 @@ const HomeMap = () => {
 
 
     useEffect(() => {
-        getData();
+        getDataConstruction();
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
