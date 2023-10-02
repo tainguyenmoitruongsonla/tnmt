@@ -12,7 +12,6 @@ import DataGridComponent from 'src/@core/components/data-grid'
 import { GridColDef } from '@mui/x-data-grid'
 import ShowFilePDF from 'src/@core/components/show-file-pdf';
 import { formatVndCost } from '../home/count-license-fee';
-import { useRouter } from 'next/router';
 import DeleteData from './delete-data';
 
 interface LicenseFeeProps {
