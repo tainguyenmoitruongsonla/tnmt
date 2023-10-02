@@ -109,7 +109,7 @@ const FormLicense: FC<FormLicenseProps> = ({ data, closeDialogs, setPostSuccess 
         res = 'Cơ quan cấp phép *';
       } else if (!licenseData?.licensingTypeId) {
         res = 'Loại giấy phép *';
-      } else if (!fileUpload.licenseFile && fileUpload.licenseFile !== null) {
+      } else if (!licenseData?.licenseFile && !licenseData?.licenseFile !== null) {
         res = 'File giấy phép *';
       }
 

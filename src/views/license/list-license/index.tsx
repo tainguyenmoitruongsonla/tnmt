@@ -2,7 +2,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 
 //MUI Imports
-import { Box, Tooltip, IconButton, Typography, Paper, Popover, Alert, ButtonGroup, Button, Grid } from '@mui/material';
+import { Box, Typography, Paper, Grid } from '@mui/material';
 import { GridColDef, GridColumnGroupingModel } from '@mui/x-data-grid';
 
 //Other Imports
@@ -13,15 +13,14 @@ import CheckEffect from 'src/views/license/check-effect';
 import CountLicense from 'src/views/license/count-license';
 import ShowFilePDF from 'src/@core/components/show-file-pdf';
 import DataGridComponent from 'src/@core/components/data-grid';
-import { Delete } from '@mui/icons-material';
 import CreateLicense from '../form';
 
 import dynamic from 'next/dynamic';
-import fetchData from 'src/api/axios';
-import post from 'src/api/post';
 import { useRouter } from 'next/router';
 import dayjs from 'dayjs';
 import LicenseToolBar from '../tool-bar';
+import { getData } from 'src/api/axios';
+import DeleteData from '../delete-data';
 
 
 const Map = dynamic(() => import("src/@core/components/map"), { ssr: false });
@@ -35,49 +34,11 @@ const ListLicenses = () => {
         setPostSuccess(prevState => !prevState);
     };
     const [loading, setLoading] = useState(false);
-
     const [resData, setResData] = useState([]);
-    const [deleteConfirmAnchorEl, setDeleteConfirmAnchorEl] = useState<HTMLButtonElement | null>(null);
-    const deleteConfirmOpen = Boolean(deleteConfirmAnchorEl);
 
     //delete
 
     const router = useRouter();
-
-    const DeleteRowData = (event: React.MouseEvent<HTMLButtonElement>) => {
-        setDeleteConfirmAnchorEl(event.currentTarget);
-    };
-
-    const handleDeleteConfirm = () => {
-        if (deleteConfirmAnchorEl) {
-            const rowId = parseInt(deleteConfirmAnchorEl.getAttribute('data-row-id') || '', 10);
-            const rowToDelete = resData.find((row: any) => row.id === rowId);
-            if (rowToDelete) {
-                handleDeleteRowData(rowToDelete);
-            }
-        }
-
-        setDeleteConfirmAnchorEl(null);
-    };
-
-    const handleDeleteCancel = () => {
-        setDeleteConfirmAnchorEl(null);
-    };
-
-    const handleDeleteRowData = async (data: any) => {
-        try {
-            setLoading(true)
-            const res = await post('License/delete', data)
-            if (res) {
-                setResData(prevData => prevData.filter((item: any) => item.id !== data.id))
-            }
-        } catch (error) {
-            console.error(error)
-        } finally {
-            setLoading(false)
-            setDeleteConfirmAnchorEl(null)
-        }
-    }
 
     //Init columnTable
     const columnsTable: GridColDef[] = [
@@ -175,38 +136,7 @@ const ListLicenses = () => {
             renderCell: data => (
                 <Box>
                     <CreateLicense isEdit={true} data={data.row} setPostSuccess={handlePostSuccess} />
-
-                    <Tooltip title='Xóa thông tin giấy phép'>
-                        <>
-                            <IconButton aria-describedby={data.row.id} onClick={DeleteRowData} data-row-id={data.row.id} >
-                                <Delete className='tableActionBtn deleteBtn' />
-                            </IconButton>
-                            <Popover
-                                id={deleteConfirmOpen ? data.row.id : undefined}
-                                open={deleteConfirmOpen}
-                                anchorEl={deleteConfirmAnchorEl}
-                                onClose={handleDeleteCancel}
-                                anchorOrigin={{
-                                    vertical: 'bottom',
-                                    horizontal: 'left',
-                                }}
-                            >
-                                <Alert severity="warning">
-                                    Xóa bản ghi này ?
-                                    <Box sx={{ justifyContent: 'center', paddingTop: 4, width: '100%' }}>
-                                        <ButtonGroup variant="outlined" aria-label="outlined button group">
-                                            <Button size="small" onClick={handleDeleteConfirm}>
-                                                Đúng
-                                            </Button>
-                                            <Button color='error' size="small" onClick={handleDeleteCancel}>
-                                                Hủy
-                                            </Button>
-                                        </ButtonGroup>
-                                    </Box>
-                                </Alert>
-                            </Popover>
-                        </>
-                    </Tooltip>
+                    <DeleteData data={data} setPostSuccess={handlePostSuccess} />
                 </Box>
             )
         }
@@ -318,9 +248,9 @@ const ListLicenses = () => {
 
     const isMounted = useRef(true);
 
-    const getData = async () => {
+    const getDataLicense = async () => {
         setLoading(true);
-        fetchData('License/list', paramsFilter)
+        getData('License/list', paramsFilter)
             .then((data) => {
                 if (isMounted.current) {
                     setResData(data);
@@ -345,7 +275,7 @@ const ListLicenses = () => {
 
 
     useEffect(() => {
-        getData();
+        getDataLicense();
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [postSuccess, paramsFilter]);
 

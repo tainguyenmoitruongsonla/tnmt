@@ -3,8 +3,14 @@ import apiUrl from '../config';
 import { enqueueSnackbar } from 'notistack';
 
 export async function getData(url: string, params?: any) {
+    const token = localStorage.getItem('token');
     try {
-        const response = await axios.get(`${apiUrl}/${url}`, { params });
+        const response = await axios.get(`${apiUrl}/${url}`, {
+            params,
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        });
 
         if (response.status === 200) {
             return response.data;
@@ -18,9 +24,14 @@ export async function getData(url: string, params?: any) {
 }
 
 export async function saveData(url: string, data: any) {
+    const token = localStorage.getItem('token');
     try {
-        const response = await axios.post(`${apiUrl}/${url}`, data);
-        enqueueSnackbar(response.data, { variant: 'success' });
+        const response = await axios.post(`${apiUrl}/${url}`, data, {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        });
+        enqueueSnackbar(`${response.data.message}`, { variant: 'success' });
 
         return response.data;
     } catch (error) {
@@ -31,9 +42,14 @@ export async function saveData(url: string, data: any) {
 }
 
 export async function deleteData(url: string, resourceId: any) {
+    const token = localStorage.getItem('token');
     try {
-        const response = await axios.post(`${apiUrl}/${url}/${resourceId}`);
-        enqueueSnackbar(response.data, { variant: 'success' });
+        const response = await axios.post(`${apiUrl}/${url}/${resourceId}`, {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        });
+        enqueueSnackbar(`${response.data.message}`, { variant: 'success' });
 
         return response.data;
     } catch (error) {

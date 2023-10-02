@@ -2,7 +2,7 @@
 import React, { useState, useEffect, useRef } from 'react'
 
 //MUI Imports
-import { Box, Tooltip, IconButton, Typography, Paper, Popover, Alert, ButtonGroup, Button } from '@mui/material'
+import { Box, Typography, Paper } from '@mui/material'
 import Grid from '@mui/material/Unstable_Grid2'
 import { GridColDef, GridColumnGroupingModel } from '@mui/x-data-grid'
 
@@ -11,18 +11,17 @@ import FormatDate from 'src/@core/components/format-date'
 
 import ShowFilePDF from 'src/@core/components/show-file-pdf'
 import DataGridComponent from 'src/@core/components/data-grid'
-import { Delete } from '@mui/icons-material'
 import FormGroup from '@mui/material/FormGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
 
 import dynamic from 'next/dynamic'
-import fetchData from 'src/api/axios'
+import { getData } from 'src/api/axios'
 
-import post from 'src/api/post'
 import CreateConstruction from '../form'
 import ConstructionToolBar from '../tool-bar'
 import { useRouter } from 'next/router'
+import DeleteData from '../delete-data'
 
 
 
@@ -169,38 +168,7 @@ const GroundConstruction = () => {
             renderCell: (data) => (
                 <Box>
                     <CreateConstruction isEdit={true} data={data.row} setPostSuccess={handlePostSuccess} />
-
-                    <Tooltip title='Xóa thông tin công trình'>
-                        <>
-                            <IconButton aria-describedby={data.row.id} onClick={DeleteRowData} data-row-id={data.row.id} >
-                                <Delete className='tableActionBtn deleteBtn' />
-                            </IconButton>
-                            <Popover
-                                id={deleteConfirmOpen ? data.row.id : undefined}
-                                open={deleteConfirmOpen}
-                                anchorEl={deleteConfirmAnchorEl}
-                                onClose={handleDeleteCancel}
-                                anchorOrigin={{
-                                    vertical: 'bottom',
-                                    horizontal: 'left',
-                                }}
-                            >
-                                <Alert severity="warning">
-                                    Xóa bản ghi này ?
-                                    <Box sx={{ justifyContent: 'center', paddingTop: 4, width: '100%' }}>
-                                        <ButtonGroup variant="outlined" aria-label="outlined button group">
-                                            <Button size="small" onClick={handleDeleteConfirm}>
-                                                Đúng
-                                            </Button>
-                                            <Button color='error' size="small" onClick={handleDeleteCancel}>
-                                                Hủy
-                                            </Button>
-                                        </ButtonGroup>
-                                    </Box>
-                                </Alert>
-                            </Popover>
-                        </>
-                    </Tooltip>
+                    <DeleteData data={data} setPostSuccess={handlePostSuccess} />
                 </Box>
             )
         },
@@ -302,44 +270,6 @@ const GroundConstruction = () => {
         setPostSuccess(prevState => !prevState)
     }
 
-    //delete
-    const [deleteConfirmAnchorEl, setDeleteConfirmAnchorEl] = useState<HTMLButtonElement | null>(null);
-    const deleteConfirmOpen = Boolean(deleteConfirmAnchorEl);
-    const DeleteRowData = (event: React.MouseEvent<HTMLButtonElement>) => {
-        setDeleteConfirmAnchorEl(event.currentTarget);
-    };
-
-    const handleDeleteConfirm = () => {
-        if (deleteConfirmAnchorEl) {
-            const rowId = parseInt(deleteConfirmAnchorEl.getAttribute('data-row-id') || '', 10);
-            const rowToDelete = resData.find((row: any) => row.id === rowId);
-            if (rowToDelete) {
-                handleDeleteRowData(rowToDelete);
-            }
-        }
-
-        setDeleteConfirmAnchorEl(null);
-    };
-
-    const handleDeleteCancel = () => {
-        setDeleteConfirmAnchorEl(null);
-    };
-
-    const handleDeleteRowData = async (data: any) => {
-        try {
-            setLoading(true)
-            const res = await post('Construction/delete', data)
-            if (res) {
-                setResData(prevData => prevData.filter((item: any) => item.id !== data.id))
-            }
-        } catch (error) {
-            console.error(error)
-        } finally {
-            setLoading(false)
-            setDeleteConfirmAnchorEl(null)
-        }
-    }
-
     function getConstructionTypeId() {
         const pathSegments = router.pathname.split('/');
         const section = pathSegments[2];
@@ -370,9 +300,9 @@ const GroundConstruction = () => {
 
     const isMounted = useRef(true);
 
-    const getData = async () => {
+    const getDataConstruction = async () => {
         setLoading(true);
-        fetchData('Construction/list', paramsFilter)
+        getData('Construction/list', paramsFilter)
             .then((data) => {
                 if (isMounted.current) {
                     setResData(data);
@@ -397,7 +327,7 @@ const GroundConstruction = () => {
 
 
     useEffect(() => {
-        getData();
+        getDataConstruction();
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [postSuccess, paramsFilter]);
 

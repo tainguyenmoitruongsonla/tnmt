@@ -2,7 +2,7 @@
 import React, { useState, useEffect, useRef } from 'react'
 
 //MUI Imports
-import { Box, Tooltip, IconButton, Typography, Paper, Popover, Alert, ButtonGroup, Button } from '@mui/material'
+import { Box, Typography, Paper } from '@mui/material'
 import Grid from '@mui/material/Unstable_Grid2'
 import { GridColDef, GridColumnGroupingModel } from '@mui/x-data-grid'
 
@@ -10,7 +10,6 @@ import { GridColDef, GridColumnGroupingModel } from '@mui/x-data-grid'
 import FormatDate from 'src/@core/components/format-date'
 import ShowFilePDF from 'src/@core/components/show-file-pdf';
 import DataGridComponent from 'src/@core/components/data-grid'
-import { Delete } from '@mui/icons-material'
 import FormGroup from '@mui/material/FormGroup'
 import FormControlLabel from '@mui/material/FormControlLabel'
 import Checkbox from '@mui/material/Checkbox'
@@ -19,7 +18,8 @@ import { ConverterCood } from 'src/@core/components/map/convert-coord'
 import CreateConstruction from '../form'
 import { useRouter } from 'next/router'
 import ConstructionToolBar from '../tool-bar'
-import { deleteData, getData } from 'src/api/axios'
+import { getData } from 'src/api/axios'
+import DeleteData from '../delete-data'
 
 const Map = dynamic(() => import('src/@core/components/map'), { ssr: false })
 
@@ -446,37 +446,7 @@ const SurfaceConstruction = () => {
             renderCell: data => (
                 <Box>
                     <CreateConstruction isEdit={true} data={data.row} setPostSuccess={handlePostSuccess} />
-                    <Tooltip title='Xóa thông tin công trình'>
-                        <>
-                            <IconButton aria-describedby={data.row.id} onClick={DeleteRowData} data-row-id={data.row.id}>
-                                <Delete className='tableActionBtn deleteBtn' />
-                            </IconButton>
-                            <Popover
-                                id={deleteConfirmOpen ? data.row.id : undefined}
-                                open={deleteConfirmOpen}
-                                anchorEl={deleteConfirmAnchorEl}
-                                onClose={handleDeleteCancel}
-                                anchorOrigin={{
-                                    vertical: 'bottom',
-                                    horizontal: 'left'
-                                }}
-                            >
-                                <Alert severity='warning'>
-                                    Xóa bản ghi này ?
-                                    <Box sx={{ justifyContent: 'center', paddingTop: 4, width: '100%' }}>
-                                        <ButtonGroup variant='outlined' aria-label='outlined button group'>
-                                            <Button size='small' onClick={handleDeleteConfirm}>
-                                                Đúng
-                                            </Button>
-                                            <Button color='error' size='small' onClick={handleDeleteCancel}>
-                                                Hủy
-                                            </Button>
-                                        </ButtonGroup>
-                                    </Box>
-                                </Alert>
-                            </Popover>
-                        </>
-                    </Tooltip>
+                    <DeleteData data={data} setPostSuccess={handlePostSuccess} />
                 </Box>
             )
         }
@@ -570,42 +540,7 @@ const SurfaceConstruction = () => {
 
     const router = useRouter();
 
-    //delete
-    const [deleteConfirmAnchorEl, setDeleteConfirmAnchorEl] = useState<HTMLButtonElement | null>(null)
-    const deleteConfirmOpen = Boolean(deleteConfirmAnchorEl)
-    const DeleteRowData = (event: React.MouseEvent<HTMLButtonElement>) => {
-        setDeleteConfirmAnchorEl(event.currentTarget)
-    }
 
-    const handleDeleteConfirm = () => {
-        if (deleteConfirmAnchorEl) {
-            const rowId = parseInt(deleteConfirmAnchorEl.getAttribute('data-row-id') || '', 10)
-            const rowToDelete = resData.find((row: any) => row.id === rowId)
-            if (rowToDelete) {
-                handleDeleteRowData(rowToDelete)
-            }
-        }
-
-        setDeleteConfirmAnchorEl(null)
-    }
-
-    const handleDeleteCancel = () => {
-        setDeleteConfirmAnchorEl(null)
-    }
-
-    const handleDeleteRowData = async (data: any) => {
-        const dataId = data.id;
-        deleteData('Construction/delete', dataId)
-            .then((data) => {
-                if (isMounted.current) {
-                    setResData(prevData => prevData.filter((item: any) => item.id !== data.id))
-                }
-            })
-            .finally(() => {
-                setLoading(false);
-                setDeleteConfirmAnchorEl(null)
-            });
-    }
 
     function getConstructionTypeId() {
         const pathSegments = router.pathname.split('/');
