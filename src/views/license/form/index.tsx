@@ -13,8 +13,7 @@ import FormBusiness from 'src/views/business/form';
 
 
 // API Imports
-import post from 'src/api/post';
-import fetchData from 'src/api/fetch';
+import { getData, saveData, uploadFile } from 'src/api/axios';
 
 //Notistack Imports
 import { enqueueSnackbar } from 'notistack';
@@ -30,7 +29,6 @@ import GroundWaterField from 'src/views/construction/form/cons-ground';
 import DischargeWaterField from 'src/views/construction/form/cons-discharge';
 import ExploitItem from 'src/views/construction/form/exploit-item';
 import dayjs from 'dayjs';
-import upload from 'src/api/upload-file';
 
 const FormLicense: FC<FormLicenseProps> = ({ data, closeDialogs, setPostSuccess }) => {
 
@@ -120,116 +118,116 @@ const FormLicense: FC<FormLicenseProps> = ({ data, closeDialogs, setPostSuccess 
       return;
     }
 
-    const handleApiCall = async () => {
-      setSaving(true)
-      setFetching(true)
-      try {
-
-        const saveCons = await post('Construction/save', constructionData);
-
-        if (saveCons) {
-          consItemDataDetele.map(async (e: any) => {
-            await post('ConstructionDetail/delete', e);
-          })
-
-          consItemData.map(async (e: any) => {
-            await post('ConstructionDetail/save', e);
-          })
-
-          const newLic = {
-            ...licenseData,
-            businessId: business.id,
-            constructionId: saveCons.id,
-            licenseFile: `${licenseData.licenseNumber?.replace(/\//g, "_").toLowerCase()}.pdf`
-          }
-
-          const filePath = `pdf/giay-phep/${newLic?.licensingAuthorities?.toLowerCase()}/${router.pathname.split('/')[2]}/${dayjs(newLic?.signDate).year()}/${newLic?.licenseNumber?.replace(/\//g, "_").toLowerCase()}`;
-
-          const newLicenseFile = {
-            filePath: filePath,
-            fileName: newLic?.licenseFile,
-            file: fileUpload.licenseFile
-          }
-
-          const newLicenseRequestFile = {
-            filePath: filePath,
-            fileName: newLic?.licenseRequestFile,
-            file: fileUpload.licenseRequestFile
-          }
-
-          const newRelatedDocumentFile = {
-            filePath: filePath,
-            fileName: newLic?.relatedDocumentFile,
-            file: fileUpload.relatedDocumentFile
-          }
-
-          const saveLic = await post('License/save', newLic);
-
-          if (saveLic) {
-            if (newLicenseFile.fileName && newLicenseFile.fileName !== null && newLicenseFile.file && newLicenseFile.file !== null) {
-              await upload(newLicenseFile)
-            }
-            if (newLicenseRequestFile.fileName && newLicenseRequestFile.fileName !== null && newLicenseRequestFile.file && newLicenseRequestFile.file !== null) {
-              await upload(newLicenseRequestFile)
-            }
-            if (newRelatedDocumentFile.fileName && newRelatedDocumentFile.fileName !== null && newRelatedDocumentFile.file && newRelatedDocumentFile.file !== null) {
-              await upload(newRelatedDocumentFile)
-            }
-
-            licenseFeeDataRemove?.map(async (e: any) => {
-              const saveLicFee = await post('LicenseFee/delete', e)
-              if (saveLicFee) {
-                await post('LicenseLicenseFee/delete', { id: 0, licenseId: saveLic.id, licenseFeeId: e.id });
-              }
-            })
-
-            licenseFeeData?.map(async (e: any) => {
-              e.licensingAuthorities = newLic.licensingAuthorities;
-              const saveLicFee = await post('LicenseFee/save', e);
-              if (saveLicFee.id) {
-                const licFeeFile = {
-                  filePath: `pdf/tien-cap-quyen/${e.licensingAuthorities.toLowerCase()}/${dayjs(e.signDate)?.year()}`,
-                  fileName: e?.filePDF,
-                  file: e.fileUpload
-                }
-                if (licFeeFile.fileName && licFeeFile.fileName !== null && licFeeFile.file && licFeeFile.file !== null) {
-                  await upload(licFeeFile)
-                }
-
-                await post('LicenseLicenseFee/save', { id: 0, licenseId: saveLic.id, licenseFeeId: saveLicFee.id });
-              }
-            })
-          }
-
-          // Reset form fields
-          setConstructionData(emptyConstructionData);
-          setLicenseData(emptyLicenseData);
-          setLicenseFeeData([]);
-          setLicenseFeeDataRemove([])
-
-          typeof (setPostSuccess) === 'function' ? setPostSuccess(true) : '';
-        }
-      } catch (error) {
-      } finally {
-        setSaving(false)
-        setFetching(false)
-        closeDialogs();
-      }
-    };
-
     // Call the function
     handleApiCall();
+  };
+
+  const handleApiCall = async () => {
+    setSaving(true)
+    setFetching(true)
+    try {
+
+      const saveCons = await saveData('Construction/save', constructionData);
+
+      if (saveCons) {
+        consItemDataDetele.map(async (e: any) => {
+          await saveData('ConstructionDetail/delete', e);
+        })
+
+        consItemData.map(async (e: any) => {
+          await saveData('ConstructionDetail/save', e);
+        })
+
+        const newLic = {
+          ...licenseData,
+          businessId: business.id,
+          constructionId: saveCons.id,
+          licenseFile: `${licenseData.licenseNumber?.replace(/\//g, "_").toLowerCase()}.pdf`
+        }
+
+        const filePath = `pdf/giay-phep/${newLic?.licensingAuthorities?.toLowerCase()}/${router.pathname.split('/')[2]}/${dayjs(newLic?.signDate).year()}/${newLic?.licenseNumber?.replace(/\//g, "_").toLowerCase()}`;
+
+        const newLicenseFile = {
+          filePath: filePath,
+          fileName: newLic?.licenseFile,
+          file: fileUpload.licenseFile
+        }
+
+        const newLicenseRequestFile = {
+          filePath: filePath,
+          fileName: newLic?.licenseRequestFile,
+          file: fileUpload.licenseRequestFile
+        }
+
+        const newRelatedDocumentFile = {
+          filePath: filePath,
+          fileName: newLic?.relatedDocumentFile,
+          file: fileUpload.relatedDocumentFile
+        }
+
+        const saveLic = await saveData('License/save', newLic);
+
+        if (saveLic) {
+          if (newLicenseFile.fileName && newLicenseFile.fileName !== null && newLicenseFile.file && newLicenseFile.file !== null) {
+            await uploadFile(newLicenseFile)
+          }
+          if (newLicenseRequestFile.fileName && newLicenseRequestFile.fileName !== null && newLicenseRequestFile.file && newLicenseRequestFile.file !== null) {
+            await uploadFile(newLicenseRequestFile)
+          }
+          if (newRelatedDocumentFile.fileName && newRelatedDocumentFile.fileName !== null && newRelatedDocumentFile.file && newRelatedDocumentFile.file !== null) {
+            await uploadFile(newRelatedDocumentFile)
+          }
+
+          licenseFeeDataRemove?.map(async (e: any) => {
+            const saveLicFee = await saveData('LicenseFee/delete', e)
+            if (saveLicFee) {
+              await saveData('LicenseLicenseFee/delete', { id: 0, licenseId: saveLic.id, licenseFeeId: e.id });
+            }
+          })
+
+          licenseFeeData?.map(async (e: any) => {
+            e.licensingAuthorities = newLic.licensingAuthorities;
+            const saveLicFee = await saveData('LicenseFee/save', e);
+            if (saveLicFee.id) {
+              const licFeeFile = {
+                filePath: `pdf/tien-cap-quyen/${e.licensingAuthorities.toLowerCase()}/${dayjs(e.signDate)?.year()}`,
+                fileName: e?.filePDF,
+                file: e.fileUpload
+              }
+              if (licFeeFile.fileName && licFeeFile.fileName !== null && licFeeFile.file && licFeeFile.file !== null) {
+                await uploadFile(licFeeFile)
+              }
+
+              await saveData('LicenseLicenseFee/save', { id: 0, licenseId: saveLic.id, licenseFeeId: saveLicFee.id });
+            }
+          })
+        }
+
+        // Reset form fields
+        setConstructionData(emptyConstructionData);
+        setLicenseData(emptyLicenseData);
+        setLicenseFeeData([]);
+        setLicenseFeeDataRemove([])
+
+        typeof (setPostSuccess) === 'function' ? setPostSuccess(true) : '';
+      }
+    } catch (error) {
+    } finally {
+      setSaving(false)
+      setFetching(false)
+      closeDialogs();
+    }
   };
 
   useEffect(() => {
     let isMounted = true; // Flag to track component mount status
 
-    const getData = async () => {
+    const getDataBusiness = async () => {
       setFetching(true)
       try {
-        const data = await fetchData('Business/list');
+        const data = await getData('Business/list');
         if (licenseData?.businessId > 0) {
-          const singleBusiness = await fetchData(`Business/${licenseData?.businessId}`)
+          const singleBusiness = await getData(`Business/${licenseData?.businessId}`)
           setBusiness(singleBusiness)
         }
         if (isMounted) {
@@ -246,7 +244,7 @@ const FormLicense: FC<FormLicenseProps> = ({ data, closeDialogs, setPostSuccess 
       }
     };
 
-    getData();
+    getDataBusiness();
 
     return () => {
       isMounted = false; // Set the flag to false when unmounting

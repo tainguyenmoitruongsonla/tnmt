@@ -1,19 +1,15 @@
 import DialogsControl from 'src/@core/components/dialog-control';
 import { Add, CloudUpload, EditNote, Save } from "@mui/icons-material";
-import { Grid, Button, DialogActions, TextField, FormControlLabel, Checkbox, Autocomplete, CircularProgress } from "@mui/material";
+import { Grid, Button, DialogActions, TextField, FormControlLabel, Checkbox, Autocomplete, CircularProgress, IconButton } from "@mui/material";
 import { ChangeEvent, useEffect, useState } from 'react';
 
-import postData from 'src/api/post';
 import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers';
 import dayjs from 'dayjs';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { useRouter } from 'next/router';
-import fetchData from 'src/api/fetch';
-import upload from 'src/api/upload-file';
 import { LicenseFeeState, emptyLicenseFeeData } from './license-fee-interface';
 import { VisuallyHiddenInput } from 'src/@core/theme/VisuallyHiddenInput';
-
-
+import { getData, saveData, uploadFile } from 'src/api/axios';
 
 const Form = ({ data, setPostSuccess, closeDialogs }: any) => {
 
@@ -48,14 +44,14 @@ const Form = ({ data, setPostSuccess, closeDialogs }: any) => {
     };
 
     useEffect(() => {
-        const getData = async () => {
+        const getDataLicenseFees = async () => {
             setFetching(true)
             try {
                 if (router.pathname.split('/')[2] == 'bo-cap') {
-                    const data = await fetchData('LicenseFee/list/minister');
+                    const data = await getData('LicenseFee/list/minister');
                     setListLicFee(data);
                 } else {
-                    const data = await fetchData('LicenseFee/list/province');
+                    const data = await getData('LicenseFee/list/province');
                     setListLicFee(data);
                 }
             } catch (error) {
@@ -64,7 +60,7 @@ const Form = ({ data, setPostSuccess, closeDialogs }: any) => {
                 setFetching(false)
             }
         };
-        getData();
+        getDataLicenseFees();
     }, [router.pathname]);
 
     const handleSubmit = async (e: any) => {
@@ -94,9 +90,9 @@ const Form = ({ data, setPostSuccess, closeDialogs }: any) => {
 
             setSaving(true)
             try {
-                const res = await postData('LicenseFee/save', newVal);
+                const res = await saveData('LicenseFee/save', newVal);
                 if (res) {
-                    await upload(newFile)
+                    await uploadFile(newFile)
 
                     // Reset form fields
                     setValues(emptyLicenseFeeData);
@@ -154,7 +150,7 @@ const Form = ({ data, setPostSuccess, closeDialogs }: any) => {
                 ) : ''}
 
                 <Grid item xs={12} md={12} sx={{ my: 2 }}>
-                    <TextField size='small' type='text' fullWidth label='Số quyết định' placeholder='' value={values?.licenseFeeNumber} onChange={handleChange('licenseFeeNumber')} />
+                    <TextField size='small' type='text' fullWidth label='Số quyết định' placeholder='' value={values?.licenseFeeNumber || ''} onChange={handleChange('licenseFeeNumber')} />
                 </Grid>
                 <Grid item xs={12} md={12} sx={{ my: 2 }}>
                     <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -167,7 +163,7 @@ const Form = ({ data, setPostSuccess, closeDialogs }: any) => {
                     </LocalizationProvider>
                 </Grid>
                 <Grid item xs={12} md={12} sx={{ my: 2 }}>
-                    <TextField size='small' type='text' fullWidth label='Tổng tiền' placeholder='' value={values?.totalMoney} onChange={handleChange('totalMoney')} />
+                    <TextField size='small' type='text' fullWidth label='Tổng tiền' placeholder='' value={values?.totalMoney || 0} onChange={handleChange('totalMoney')} />
                 </Grid>
                 <Grid item xs={12} md={12} sx={{ my: 2 }}>
                     <Button
@@ -182,7 +178,7 @@ const Form = ({ data, setPostSuccess, closeDialogs }: any) => {
                     </Button>
                 </Grid>
                 <Grid item xs={12} md={12} sx={{ my: 2 }}>
-                    <TextField size='small' type='text' fullWidth label='Ghi chú' placeholder='' value={values?.description} onChange={handleChange('description')} />
+                    <TextField size='small' type='text' fullWidth label='Ghi chú' placeholder='' value={values?.description || ''} onChange={handleChange('description')} />
                 </Grid>
             </Grid>
             <DialogActions sx={{ p: 0 }}>
@@ -202,7 +198,10 @@ const FormLicenseFee = ({ data, isEdit, setPostSuccess }: any) => {
                 <>
                     {
                         isEdit ? (
-                            <EditNote className='tableActionBtn' onClick={() => openDialogs(<Form data={data} setPostSuccess={setPostSuccess} isEdit={isEdit} closeDialogs={closeDialogs} />, formTitle)} />
+                            <IconButton onClick={() => openDialogs(<Form data={data} setPostSuccess={setPostSuccess} isEdit={isEdit} closeDialogs={closeDialogs} />, formTitle)}>
+                                <EditNote className='tableActionBtn' />
+                            </IconButton>
+
                         ) : (
                             <Button
                                 size="small" startIcon={<Add />}

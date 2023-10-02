@@ -7,18 +7,18 @@ import { Typography, Grid, TextField, Autocomplete, CircularProgress, Button, Ta
 import dayjs from 'dayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { DatePicker } from '@mui/x-date-pickers';
-
-//API Imports
-import fetchData from 'src/api/fetch';
+import { DatePicker } from '@mui/x-date-pickers'
 
 //Interface Imports
 import { LicenseFieldsetProps, LicenseState } from './license-interface';
 import { CloudUpload } from '@mui/icons-material';
 import { VisuallyHiddenInput } from 'src/@core/theme/VisuallyHiddenInput';
+import { getData } from 'src/api/axios';
+import { useRouter } from 'next/router';
 
 const LicenseFieldset: FC<LicenseFieldsetProps> = ({ data, onChange }) => {
 
+    const router = useRouter();
     const [listLic, setListLic] = useState([])
     const [oldLic, setOldLic] = useState<any>([])
     const [fetching, setFetching] = useState(false)
@@ -40,23 +40,56 @@ const LicenseFieldset: FC<LicenseFieldsetProps> = ({ data, onChange }) => {
         licenseRequestFile: data?.licenseRequestFile || '',
     });
 
-    const getData = async () => {
-        try {
-            setFetching(true)
-            const dataLic = await fetchData('License/list')
-            const newData = dataLic.filter((item: { [key: string]: any }) =>
-                ['thuydien', 'hochua', 'trambom', 'tramcapnuoc', 'dapthuyloi', 'cong', 'nhamaynuoc', 'congtrinh_nuocmatkhac'].some(keyword =>
-                    item['constructionTypeSlug']?.toString().toLowerCase().includes(keyword.toLowerCase())
-                )
-            );
-            setListLic(newData);
-        } catch (error) {
-            setListLic([]);
-        } finally {
-            setFetching(false)
-        }
-    };
+    function getConstructionTypeId() {
+        const pathSegments = router.pathname.split('/');
+        const section = pathSegments[2];
+        const subsection = pathSegments[3];
 
+        switch (section) {
+            case "nuoc-mat":
+                return 1;
+            case "nuoc-duoi-dat":
+                switch (subsection) {
+                    case "khai-thac-su-dung":
+                        return 7;
+                    case "tham-do":
+                        return 8;
+                    case "hanh-nghe-khoan":
+                        return 9;
+                    default:
+                        return 0;
+                }
+            case "xa-thai":
+                return 3;
+            default:
+                return 0;
+        }
+    }
+
+
+    const getDataForSelect = async () => {
+        const paramsFilter = {
+            licenseNumber: null,
+            licensingAuthorities: null,
+            licenseTypeId: 0,
+            licenseValidity: null,
+            businessId: 0,
+            constructionId: 0,
+            constructionTypeId: getConstructionTypeId(),
+            districtId: 0,
+            communeId: 0,
+            subBasinId: 0,
+            pageIndex: 0,
+            pageSize: 0
+        };
+        setFetching(true)
+        await getData('License/list', paramsFilter).then((data) => {
+            setListLic(data);
+        }).finally(() => {
+            setFetching(false)
+        })
+    }; 
+    
     const licensingType = [
         { title: 'Cấp mới giấy phép', value: 1 },
         { title: 'Cấp lại giấy phép', value: 2 },
@@ -71,7 +104,8 @@ const LicenseFieldset: FC<LicenseFieldsetProps> = ({ data, onChange }) => {
     ];
 
     useEffect(() => {
-        getData();
+        getDataForSelect();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     const handleChange = (prop: keyof LicenseState) => (value: any) => {

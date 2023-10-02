@@ -58,3 +58,45 @@ export async function deleteData(url: string, resourceId: any) {
         throw error;
     }
 }
+
+export async function uploadFile(postData: any) {
+    const token = localStorage.getItem('authToken');
+
+    if (!token) {
+        enqueueSnackbar('Lỗi authToken', { variant: 'error' });
+
+        return false;
+    }
+
+    try {
+        const formData = new FormData();
+        formData.append('filePath', postData.filePath);
+        formData.append('fileName', `${postData.fileName}`);
+        formData.append('file', postData.file);
+
+        const response = await axios.post(`${apiUrl}/upload`, formData, {
+            headers: {
+                Authorization: `Bearer ${token}`,
+                'Content-Type': 'multipart/form-data',
+            },
+        });
+
+        if (response.status === 200) {
+            enqueueSnackbar('File upload thành công', { variant: 'success' });
+
+            const resData = response.data;
+
+            return resData?.id || true;
+        } else {
+            enqueueSnackbar('File upload thất bại', { variant: 'error' });
+            console.error('Error:', response);
+
+            return false;
+        }
+    } catch (error) {
+        enqueueSnackbar('File upload thất bại', { variant: 'error' });
+        console.error('Error:', error);
+
+        return false;
+    }
+}

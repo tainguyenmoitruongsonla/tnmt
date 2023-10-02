@@ -1,8 +1,8 @@
 import { Search } from '@mui/icons-material'
 import { Typography, Grid, Autocomplete, TextField, Button, CircularProgress } from '@mui/material'
 import { useEffect, FC, useState, Fragment } from 'react'
-import fetchData from 'src/api/fetch'
 import { ConstructionState } from './construction-interface'
+import { getData } from 'src/api/axios'
 
 
 
@@ -49,22 +49,22 @@ const DischargeWaterField: FC<ConsTypeFieldsetProps> = ({ data, onChange }) => {
   const [commune, setCommune] = useState<any>([])
   const [loading, setLoading] = useState<boolean>(false)
   useEffect(() => {
-    const getData = async () => {
+    const getDataForSelect = async () => {
       try {
         setLoading(true)
 
         //constructionType
-        const consTypes = await fetchData('ConstructionTypes/list');
+        const consTypes = await getData('ConstructionTypes/list');
         const filteredData = consTypes.filter((item: any) => item.parentId === 3);
         setconsType(filteredData);
         console.log(consTypes);
 
         //district
-        const distric = await fetchData('Locations/list/distric/51');
+        const distric = await getData('Locations/list/distric/51');
         setDistrict(distric);
 
         //commune
-        const commune = await fetchData(`Locations/list/commune/${consSFData?.districtId}`);
+        const commune = await getData(`Locations/list/commune/${consSFData?.districtId}`);
         setCommune(commune);
 
       } catch (error) {
@@ -73,7 +73,7 @@ const DischargeWaterField: FC<ConsTypeFieldsetProps> = ({ data, onChange }) => {
         setLoading(false)
       }
     }
-    getData()
+    getDataForSelect()
   }, [consSFData?.districtId])
 
   const handleChange = (prop: keyof ConstructionState) => (value: any) => {

@@ -1,7 +1,7 @@
 import { Typography, Grid, Autocomplete, TextField, CircularProgress } from '@mui/material'
 import { useEffect, FC, useState, Fragment } from 'react'
-import fetchData from 'src/api/fetch'
 import { ConstructionState } from './construction-interface'
+import { getData } from 'src/api/axios'
 
 
 interface ConsTypeFieldsetProps {
@@ -58,21 +58,21 @@ const GroundWaterField: FC<ConsTypeFieldsetProps> = ({ data, onChange }) => {
   const [commune, setCommune] = useState<any>([])
   const [loading, setLoading] = useState<boolean>(false)
   useEffect(() => {
-    const getData = async () => {
+    const getDataForSelect = async () => {
       try {
         setLoading(true)
 
         //constructionType
-        const consTypes = await fetchData('ConstructionTypes/list');
+        const consTypes = await getData('ConstructionTypes/list');
         const filteredData = consTypes.filter((item: any) => item.parentId === 2);
         setconsType(filteredData);
 
         //district
-        const distric = await fetchData('Locations/list/distric/51');
+        const distric = await getData('Locations/list/distric/51');
         setDistrict(distric);
 
         //commune
-        const communes = await fetchData(`Locations/list/commune`);
+        const communes = await getData(`Locations/list/commune`);
         const communeFiltered = communes.filter((item: any) => item.districtId == consGroundData?.districtId?.toString())
         setCommune(communeFiltered);
 
@@ -84,7 +84,7 @@ const GroundWaterField: FC<ConsTypeFieldsetProps> = ({ data, onChange }) => {
       }
     }
 
-    getData()
+    getDataForSelect()
     setCommune([]);
 
   }, [consGroundData?.districtId])

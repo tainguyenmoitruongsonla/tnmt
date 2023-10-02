@@ -1,9 +1,9 @@
 import { FilterList, Replay, Search } from "@mui/icons-material";
 import { Button, FormControl, Grid, InputLabel, MenuItem, Select, SelectChangeEvent, Collapse, TextField, Toolbar, Typography, Autocomplete, ListSubheader } from "@mui/material";
-import { ChangeEvent, FC, useEffect, useState } from "react";
-import fetch from "src/api/fetch";
+import { ChangeEvent, FC, useEffect, useState } from "react"
 import CreateLicense from "../form";
 import { useRouter } from "next/router";
+import { getData } from "src/api/axios";
 
 interface ConstructionToolBarProps {
     onChange: (data: any, postSuccess?: boolean | undefined) => void;
@@ -98,21 +98,21 @@ const ConstructionToolBar: FC<ConstructionToolBarProps> = ({ onChange }) => {
     useEffect(() => {
         let isMounted = true;
 
-        const getData = async () => {
+        const getDataForSelect = async () => {
             try {
 
                 // constructiom type
-                const ConsTypesData = await fetch('ConstructionTypes/list');
+                const ConsTypesData = await getData('ConstructionTypes/list');
 
                 //businesses
-                const businessData = await fetch('Business/list');
+                const businessData = await getData('Business/list');
 
                 // district
-                const districtsData = await fetch('Locations/list/distric/51');
+                const districtsData = await getData('Locations/list/distric/51');
 
                 if (paramsFilter.districtId > 0) {
                     // comunnes
-                    const comunnesData = await fetch(`Locations/list/commune/get-by-distric/${paramsFilter.districtId}`);
+                    const comunnesData = await getData(`Locations/list/commune/get-by-distric/${paramsFilter.districtId}`);
                     if (isMounted) {
                         setCommunes(comunnesData);
                     }
@@ -156,7 +156,7 @@ const ConstructionToolBar: FC<ConstructionToolBarProps> = ({ onChange }) => {
             }
         };
 
-        getData();
+        getDataForSelect();
 
         return () => {
             isMounted = false;
