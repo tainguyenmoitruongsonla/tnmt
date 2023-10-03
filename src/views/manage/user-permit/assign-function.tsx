@@ -2,7 +2,7 @@ import { CircularProgress, Grid, Checkbox, Typography, FormControlLabel, Box } f
 import { useEffect, useState } from 'react'
 import DialogsControlFullScreen from 'src/@core/components/dialog-control-full-screen'
 import TableComponent from 'src/@core/components/table'
-import { deleteData, getData, saveData } from 'src/api/axios'
+import { getData, saveData } from 'src/api/axios'
 
 type DialogsControlCallback = (content: React.ReactNode, title: React.ReactNode) => void;
 
@@ -85,7 +85,7 @@ const Form = ({ data }: any) => {
     try {
       setSwitchLoadingMap((prevState: any) => ({ ...prevState, [key]: true, }));
       if (f.status == true) {
-        await deleteData('Permission/delete', item.id);
+        await saveData('Permission/delete', item);
       } else {
         await saveData('Permission/save', item);
       }

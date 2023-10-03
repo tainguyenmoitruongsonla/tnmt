@@ -4,7 +4,7 @@ import { Fragment, useEffect, useState } from 'react'
 
 import DialogsControlFullScreen from 'src/@core/components/dialog-control-full-screen'
 import TableComponent from 'src/@core/components/table'
-import { deleteData, getData, saveData } from 'src/api/axios'
+import { getData, saveData } from 'src/api/axios'
 
 const Form = ({ data }: any) => {
 
@@ -49,7 +49,7 @@ const Form = ({ data }: any) => {
     try {
       setSwitchLoadingMap((prevState) => ({ ...prevState, [row.id]: true }));
       if (permitAccess === true) {
-        await deleteData('RoleDashboard/delete', item.id);
+        await saveData('RoleDashboard/delete', item);
       } else {
         await saveData('RoleDashboard/save', item);
       }
