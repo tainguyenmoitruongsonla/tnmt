@@ -204,17 +204,55 @@ const navigation = (): VerticalNavItemsType => {
         {
           icon: CircleOutline,
           title: 'SL,CL nước',
-          path: '/thong-tin-du-lieu/so-luong-chat-luong-nuoc'
+          children: [
+            {
+              icon: CircleOutline,
+              title: 'Số lượng nước',
+              path: '/thong-tin-du-lieu/so-luong-nuoc'
+            },
+            {
+              icon: CircleOutline,
+              title: 'Chất lượng nước',
+              path: '/thong-tin-du-lieu/chat-luong-nuoc'
+            }
+          ]
         },
         {
           icon: CircleOutline,
           title: 'SL điều tra',
-          path: '/thong-tin-du-lieu/so-lieu-dieu-tra'
+          children: [
+            {
+              icon: CircleOutline,
+              title: 'Điều tra nước dưới đất',
+              path: '#'
+            },
+            {
+              icon: CircleOutline,
+              title: 'Vùng hạn chế KTNDĐ',
+              path: '#'
+            }
+          ]
         },
         {
           icon: CircleOutline,
           title: 'KTSD TNN',
-          path: '/thong-tin-du-lieu/du-lieu-ktsd-tnnn'
+          children: [
+            {
+              icon: CircleOutline,
+              title: 'Danh mục CTKTSDN',
+              path: '/thong-tin-du-lieu/danh-muc-ctktsdn'
+            },
+            {
+              icon: CircleOutline,
+              title: 'KTSD nước mặt ',
+              path: '/thong-tin-du-lieu/ktsd-nuoc-duoi-dat'
+            },
+            {
+              icon: CircleOutline,
+              title: 'KTSD nước dưới đất ',
+              path: '#'
+            }
+          ]
         },
         {
           icon: CircleOutline,
