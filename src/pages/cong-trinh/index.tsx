@@ -7,7 +7,6 @@ import FormControlLabel from '@mui/material/FormControlLabel'
 import Checkbox from '@mui/material/Checkbox'
 import dynamic from 'next/dynamic';
 import { getData } from 'src/api/axios';
-import { Padding } from '@mui/icons-material';
 
 const Map = dynamic(() => import("src/@core/components/map"), { ssr: false });
 
