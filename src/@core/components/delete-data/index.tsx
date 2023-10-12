@@ -37,7 +37,7 @@ const DeleteData = (props: DeleteDataProps) => {
     const handleDeleteRowData = async (data: any) => {
         const dataId = data.id;
 
-        await deleteData(`${url}/delete`, dataId);
+        await deleteData(`${url}/xoa`, dataId);
 
         typeof setPostSuccess === 'function' ? setPostSuccess(true) : ''
     }
