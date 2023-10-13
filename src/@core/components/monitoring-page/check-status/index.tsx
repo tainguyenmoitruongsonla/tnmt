@@ -9,7 +9,7 @@ const DisplayOperatingStatus = ({ data }: any) => {
           licenseStatusComponent = <div className="license_status hsd-danger">Không có số liệu</div>;
         } 
     else {
-      licenseStatusComponent = <div className="license_status hsd-danger">Đang vận hành</div>;
+      licenseStatusComponent = <div className="license_status hsd-success">Đang vận hành</div>;
     }
     
     return <>{licenseStatusComponent}</>;

@@ -11,6 +11,7 @@ interface TableColumn {
   showId?: number[];
   colspan?: number;
   rowspan?: number;
+  align: "left" | "center" | "right" | "justify" | "inherit" | undefined;
   children?: TableColumn[];
   format?: (value: any) => string | React.ReactNode;
   elm?: React.ReactNode;
@@ -112,7 +113,7 @@ const TableComponent: FC<TableProps> = (props: TableProps) => {
 
                         if (parentId === "#") {
                           return (
-                            <TableCell sx={{ py: 0 }} key={`${columnIndex}-${childIndex}`} size='small'>
+                            <TableCell sx={{ py: 0 }} key={`${columnIndex}-${childIndex}`} align={childColumn.align} size='small'>
                               {childColumn.id === "actions" ? actions && actions(row)
                                 : (
                                   typeof childColumn.elm === 'function'
@@ -125,7 +126,7 @@ const TableComponent: FC<TableProps> = (props: TableProps) => {
                           )
                         } else {
                           return (
-                            <TableCell sx={{ py: 0 }} key={`${columnIndex}-${childIndex}`} size='small'>
+                            <TableCell sx={{ py: 0 }} key={`${columnIndex}-${childIndex}`} align={childColumn.align} size='small'>
                               {Array.isArray(rowValue) ? (
                                 rowValue.map((e, k) => (
                                   <span key={k}>
@@ -176,7 +177,7 @@ const TableComponent: FC<TableProps> = (props: TableProps) => {
                       });
                     } else {
                       return (
-                        <TableCell sx={{ py: 0 }} {...(column.id === "actions" ? { width: 120 } : {})} key={`${columnIndex}`} size='small'>
+                        <TableCell sx={{ py: 0 }} {...(column.id === "actions" ? { width: 120 } : {})} key={`${columnIndex}`} align={column.align} size='small'>
                           {column.id === "actions" ? actions && actions(row)
                             : column.id === "stt"
                               ? (index + 1)

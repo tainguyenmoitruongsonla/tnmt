@@ -20,6 +20,7 @@ import { useRouter } from 'next/router'
 import ConstructionToolBar from '../tool-bar'
 import { getData } from 'src/api/axios' 
 import DeleteData from 'src/@core/components/delete-data'
+import { getConstructionTypeId } from 'src/@core/components/get-construction-type'
 
 const Map = dynamic(() => import('src/@core/components/map'), { ssr: false })
 
@@ -537,26 +538,6 @@ const SurfaceConstruction = () => {
     }
     const [resData, setResData] = useState([])
     const [loading, setLoading] = useState(false)
-
-    const router = useRouter();
-
-
-
-    function getConstructionTypeId() {
-        const pathSegments = router.pathname.split('/');
-        const section = pathSegments[2];
-
-        switch (section) {
-            case "nuoc-mat":
-                return 1;
-            case "nuoc-duoi-dat":
-                return 2;
-            case "xa-thai":
-                return 3;
-            default:
-                return 0;
-        }
-    }
 
     const [paramsFilter, setParamsFilter] = useState({
         constructionName: '',

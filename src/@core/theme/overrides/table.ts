@@ -14,7 +14,7 @@ const Table = (theme: Theme) => {
     MuiTableHead: {
       styleOverrides: {
         root: {
-          textTransform: 'uppercase',
+          textTransform: 'unset',
           '& .MuiTableCell-head': {
             fontSize: '0.75rem',
             fontWeight: 600,
@@ -28,7 +28,7 @@ const Table = (theme: Theme) => {
         root: {
           '& .MuiTableCell-body': {
             letterSpacing: '0.25px',
-            color: theme.palette.text.secondary,
+            color: theme.palette.text.primary,
             '&:not(.MuiTableCell-sizeSmall):not(.MuiTableCell-paddingCheckbox):not(.MuiTableCell-paddingNone)': {
               paddingTop: theme.spacing(3.5),
               paddingBottom: theme.spacing(3.5)
@@ -54,7 +54,6 @@ const Table = (theme: Theme) => {
         root: {
           borderBottom: `1px solid ${theme.palette.divider}`,
           '& .MuiButton-root': {
-            textTransform: 'uppercase',
             color: theme.palette.text.secondary
           }
         },

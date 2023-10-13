@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 
 // ** MUI Imports
 import { Grid, Box, Button, Card, CardContent, IconButton, Tooltip, Typography, Autocomplete, TextField } from '@mui/material';
@@ -13,6 +13,10 @@ import sufacemonitoringData from 'src/api/monitoringsystem/nuocmat';
 import DisplayOperatingStatus from 'src/@core/components/monitoring-page/check-status';
 
 import dynamic from 'next/dynamic';
+import { getData } from 'src/api/axios';
+import MonitoringSystemToolBar from '../tool-bar';
+import { useRouter } from 'next/router'
+import { calculateMonitoringData } from 'src/@core/components/calculate-monitoring-data';
 
 const Map = dynamic(() => import("src/@core/components/map"), { ssr: false });
 
@@ -30,37 +34,38 @@ const licensingAuthorities = [
   { title: "UBND Tỉnh", value: 'UBNDT' },
 ];
 
-
 // id of columnsTable is parameter to bind ex: get LicseFk.BasinId: id: 'License_Fk.BasinId'
 const columnsTable = [
   { id: 'stt', label: 'STT', rowspan: 2, },
-  { id: 'ConstructionName', label: 'Tên công trình', rowspan: 2, },
-  { id: '#', label: 'Trạng thái vận hành', rowspan: 2, elm: (row: any) => (<DisplayOperatingStatus data={row} />) },
-  { id: 'DownstreamWLPre', label: (<span>Mực nước <br /> hạ lưu (m)</span>), showId: [1, 4, 5], rowspan: 2, },
-  { id: 'CapacityPre', label: (<span>Dung tích hồ  <br /> (triệu m<sup>3</sup>)</span>), showId: [1, 4, 5], rowspan: 2, },
+  { id: 'tenCT', label: 'Tên công trình', rowspan: 2, },
+  { id: 'loi', label: 'Trạng thái vận hành', rowspan: 2, elm: (row: any) => (<DisplayOperatingStatus data={row} />)},
+  { id: 'hHaLuuTT', label: (<span>Mực nước <br /> hạ lưu (m)</span>), showId: [1, 4, 5], rowspan: 2, align: 'center' },
+  { id: 'dungTichTT', label: (<span>Dung tích hồ  <br /> (triệu m<sup>3</sup>)</span>), showId: [1, 4, 5], rowspan: 2, align: 'center' },
   {
     id: '#', label: 'Mưc nước thượng lưu hồ (m)', showId: [1, 4, 5], children: [
-      { id: 'UpstreamWL', label: 'Ngưỡng tràn', },
-      { id: 'UpstreamWLPres', label: 'Thực tế ', },
-      { id: '', label: 'Chênh lệch (+/-)', },
+      { id: 'hThuongLuu', label: 'Ngưỡng tràn', elm: (row: any) => (<span>{row.thongso?.hThuongLuu}</span>), align: 'center'},
+      { id: 'hThuongLuuTT', label: 'Thực tế ', align: 'center'},
+      { id: '', label: 'Chênh lệch (+/-)', elm: (row: any) => (calculateMonitoringData(row.thongso?.hThuongLuu,  row.hThuongLuuTT)), align: 'center'},
     ]
   },
   {
-    id: '#', label: 'Lưu lượng xả qua tràn  (m3/s)', showId: [1, 4, 5], children: [
-      { id: 'MaximumDischargeFlowPre', label: 'Thực tế' },
+    id: '#', label: (<span>Lưu lượng <br />xả qua tràn  (m3/s)</span>), showId: [1, 4, 5], children: [
+      { id: 'qXaTran', label: 'Ngưỡng tràn', elm: (row: any) => (<span>{row.thongso?.hThuongLuu}</span>), align: 'center'},
+      { id: 'qXaTranTT', label: 'Thực tế', elm: (row: any) => (<span>{row.thongso?.qXaTran}</span>), align: 'center'},
+      { id: '', label: 'Chênh lệch (+/-)', elm: (row: any) => (calculateMonitoringData(row.thongso?.qXaTran,  row.qXaTranTT)), align: 'center'},
     ]
   },
   {
     id: '#', label: 'Lưu lượng lớn nhất (m3/s)', colspan: 8, children: [
-      { id: 'MaximumFlow', label: 'Ngưỡng tràn', },
-      { id: 'MaximumFlowPre', label: 'Thực tế ', },
+      { id: 'qMaxNM', label: 'Ngưỡng tràn', },
+      { id: 'qMaxTT', label: 'Thực tế ', },
       { id: '', label: 'Chênh lệch (+/-)', },
     ]
   },
   {
     id: '#', label: 'Lưu lượng xả duy trì DCTT (m3/s) ', showId: [1, 4, 5], colspan: 8, children: [
-      { id: 'MinimumFlow', label: 'Ngưỡng tràn', },
-      { id: 'MinimumFlowPre', label: 'Thực tế ', },
+      { id: 'qTT', label: 'Ngưỡng tràn', },
+      { id: 'qMinTT', label: 'Thực tế ', },
       { id: '', label: 'Chênh lệch (+/-)', },
     ]
   },
@@ -97,13 +102,74 @@ const SurfaceWaterMonitoring = () => {
 
   const [data, setData] = useState<any[]>([]);
   const [columns, setColumns] = useState<any[]>([]);
+  const [loading, setLoading] = useState(false)
 
+  const isMounted = useRef(true);
+    useEffect(() => {
+        isMounted.current = true
+
+        return () => {
+            isMounted.current = false;
+        };
+    }, []);
+    
   useEffect(() => {
-    setData(sufacemonitoringData);
+    const getDataConstructions = async () => {
+      setLoading(true);
+      getData('CongTrinh/danh-sach', paramsFilter)
+          .then((data) => {console.log(data);
+              if (isMounted.current) {
+                setData(data);
+              }
+          })
+          .catch((error) => {
+              console.log(error);
+          })
+          .finally(() => {
+              setLoading(false);
+          });
+    };
+    getDataConstructions();
+
     setColumns(columnsTable);
 
     // fetchData();
   }, []);
+
+  const router = useRouter();
+
+  const getConstructionTypeId = () => {
+    const pathSegments = router.pathname.split('/');
+    const section = pathSegments[2];
+
+    switch (section) {
+        case "nuoc-mat":
+            return 1;
+        case "nuoc-duoi-dat":
+            return 2;
+        case "xa-thai":
+            return 3;
+        default:
+            return 0;
+    }
+  }
+
+  const [paramsFilter, setParamsFilter] = useState({
+    tenct: null,
+    loai_ct: getConstructionTypeId(),
+    huyen: 0,
+    xa: 0,
+    song: 0,
+    luuvuc: 0,
+    tieu_luuvuc: 0,
+    tang_chuanuoc: 0,
+    tochuc_canhan: 0,
+    nguonnuoc_kt: null,
+});
+
+  const handleFilterChange = (data: any, postSuccess: boolean | undefined) => {
+    setParamsFilter(data);
+  };
 
   const EditLicense = (row: any) => {
     console.log('Edit: ' + row.LicenseNumber)
@@ -125,7 +191,7 @@ const SurfaceWaterMonitoring = () => {
       <Grid item xs={12} sm={5} md={3}>
         <Typography>Tổng số bản ghi đã tìm thấy:132</Typography>
       </Grid>
-      <Grid item xs={12} sm={7} md={9}>
+      {/* <Grid item xs={12} sm={7} md={9}>
         <Grid className='_search _row'>
           <Grid item xs={12} sm={2} md={2}>
             <Autocomplete
@@ -184,9 +250,10 @@ const SurfaceWaterMonitoring = () => {
             <Button size='small' startIcon={<SearchIcon />} variant="outlined">Tìm kiếm</Button>
           </Grid>
         </Grid>
-      </Grid>
+      </Grid> */}
       <Grid item xs={12} sm={12} md={12}>
-        <TableComponent columns={columns} data={data} show={TypeOfConsId}
+        <MonitoringSystemToolBar onChange={handleFilterChange} />
+        <TableComponent loading={loading} columns={columns} data={data} show={TypeOfConsId} pagination={true}
           actions={(row: any) => (
             <Box>
               <Tooltip title="Chỉnh sửa giấy phép">
