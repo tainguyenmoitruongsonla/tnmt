@@ -41,15 +41,15 @@ const HomeMap = () => {
 
     const getDataConstruction = async () => {
         setLoading(true);
-        getData('Construction/list', {})
+        getData('CongTrinh/danh-sach', {})
             .then((data) => {
                 if (isMounted.current) {
-                    const filteredData = data.filter((item: { [key: string]: any }) =>
-                        initConsType.some((keyword: any) =>
-                            item['constructionTypeSlug']?.toString().toLowerCase().includes(keyword.toLowerCase())
-                        )
-                    );
-                    setResData(filteredData);
+                    // const filteredData = data.filter((item: { [key: string]: any }) =>
+                    //     initConsType.some((keyword: any) =>
+                    //         item['constructionTypeSlug']?.toString().toLowerCase().includes(keyword.toLowerCase())
+                    //     )
+                    // );
+                    setResData(data);
                 }
             })
             .catch((error) => {

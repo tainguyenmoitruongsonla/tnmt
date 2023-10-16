@@ -17,8 +17,9 @@ const Home = () => {
     const getDataLicenseFees = async () => {
         setLoading(true);
         try {
-            const btnmtData = await getData('LicenseFee/list/minister');
-            const ubndData = await getData('LicenseFee/list/province');
+            const btnmtData = await getData('tien-cap-quyen/danh-sach/bo-cap');
+            const ubndData = await getData('tien-cap-quyen/danh-sach/tinh-cap');
+
             if (isMounted.current) {
                 setLicFee({ btnmt: btnmtData, ubnd: ubndData });
             }
@@ -31,11 +32,9 @@ const Home = () => {
 
     const getDataLicenses = async () => {
         try {
-            const data = await getData('License/list-for-count');
+            const data = await getData('giay-phep/dem-theo-co-quan-cp');
             if (isMounted.current) {
-                const licBTNMT = data.filter((item: any) => item['licensingAuthorities'].toLowerCase() === 'btnmt');
-                const licUBND = data.filter((item: any) => item['licensingAuthorities'].toLowerCase() === 'ubndt');
-                setLic({ total: data.length, btnmt: licBTNMT.length, ubnd: licUBND.length });
+                setLic({ total: data.total, btnmt: data.btnmt, ubnd: data.ubndt });
             }
         } catch (error) {
             console.error(error);

@@ -15,8 +15,8 @@ export function formatVndCost(cost: number): string {
 const CountLicenseFee = ({ data, loading }: any) => {
 
   // Calculate the total of resData.totalMoney
-  const costBTNMT = data?.btnmt.reduce((sum: any, item: any) => sum + (item.totalMoney || 0), 0);
-  const costUBND = data?.ubnd.reduce((sum: any, item: any) => sum + (item.totalMoney || 0), 0);
+  const costBTNMT = data?.btnmt.reduce((sum: any, item: any) => sum + (item.tongTienCQ || 0), 0);
+  const costUBND = data?.ubnd.reduce((sum: any, item: any) => sum + (item.tongTienCQ || 0), 0);
 
   const totalMoneySum = costBTNMT + costUBND;
 
