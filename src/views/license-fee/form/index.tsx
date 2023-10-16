@@ -48,10 +48,10 @@ const Form = ({ data, setPostSuccess, closeDialogs }: any) => {
             setFetching(true)
             try {
                 if (router.pathname.split('/')[2] == 'bo-cap') {
-                    const data = await getData('LicenseFee/list/minister');
+                    const data = await getData('tien-cap-quyen/danh-sach/bo-cap');
                     setListLicFee(data);
                 } else {
-                    const data = await getData('LicenseFee/list/province');
+                    const data = await getData('tien-cap-quyen/danh-sach/tinh-cap');
                     setListLicFee(data);
                 }
             } catch (error) {
@@ -90,7 +90,7 @@ const Form = ({ data, setPostSuccess, closeDialogs }: any) => {
 
             setSaving(true)
             try {
-                const res = await saveData('LicenseFee/save', newVal);
+                const res = await saveData('tien-cap-quyen/luu', newVal);
                 if (res) {
                     await uploadFile(newFile)
 

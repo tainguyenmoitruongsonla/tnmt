@@ -41,7 +41,7 @@ const HomeMap = () => {
 
     const getDataConstruction = async () => {
         setLoading(true);
-        getData('CongTrinh/danh-sach', {})
+        getData('cong-trinh/danh-sach', {})
             .then((data) => {
                 if (isMounted.current) {
                     // const filteredData = data.filter((item: { [key: string]: any }) =>

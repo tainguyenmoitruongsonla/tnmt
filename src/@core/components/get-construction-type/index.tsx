@@ -1,8 +1,7 @@
 import { useRouter } from "next/router";
 
-const router = useRouter();
-
 export function getConstructionTypeId() {
+    const router = useRouter();
     const pathSegments = router.pathname.split('/');
     const section = pathSegments[2];
 

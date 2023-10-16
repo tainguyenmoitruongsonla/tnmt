@@ -2,8 +2,8 @@ export const dataGridProps = {
   disableColumnMenu: true,
   showCellVerticalBorder: true,
   showColumnVerticalBorder: true,
-  rowHeight: 45,
-  columnHeaderHeight: 45,
+  rowHeight: 55,
+  columnHeaderHeight: 55,
   experimentalFeatures: {
     'columnGrouping': true
   },

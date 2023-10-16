@@ -48,7 +48,7 @@ const ManageLicense = () => {
     useEffect(() => {
         const getDataLicense = async () => {
             setResLoading(true);
-            getData('License/list', paramsFilter)
+            getData('giay-phep/danh-sach', paramsFilter)
                 .then((data) => {
                     if (isMounted.current) {
                         setResData(data);
@@ -70,7 +70,7 @@ const ManageLicense = () => {
 
     const getDataForChart = async () => {
         setLoading(true);
-        getData('License/list', paramsFilter)
+        getData('giay-phep/danh-sach', paramsFilter)
             .then((data) => {
                 if (isMounted.current) {
                     setResDataForChart(data);

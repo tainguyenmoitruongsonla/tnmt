@@ -38,7 +38,7 @@ const LicenseTypes = () => {
         const getDataLicenseTypes = async () => {
             try {
                 setLoading(true);
-                const data = await getData('LicenseTypes/list');
+                const data = await getData('loai-gp/danh-sach');
                 setResData(data);
             } catch (error) {
                 setResData([]);

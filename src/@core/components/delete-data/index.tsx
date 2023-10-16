@@ -13,7 +13,7 @@ const DeleteData = (props: DeleteDataProps) => {
 
     const { url, data, setPostSuccess } = props;
 
-    //delete
+    //xoa
     const [deleteConfirmAnchorEl, setDeleteConfirmAnchorEl] = useState<HTMLButtonElement | null>(null)
     const deleteConfirmOpen = Boolean(deleteConfirmAnchorEl)
     const DeleteRowData = (event: React.MouseEvent<HTMLButtonElement>) => {

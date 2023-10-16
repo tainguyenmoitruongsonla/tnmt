@@ -83,7 +83,7 @@ const LicenseFieldset: FC<LicenseFieldsetProps> = ({ data, onChange }) => {
             pageSize: 0
         };
         setFetching(true)
-        await getData('License/list', paramsFilter).then((data) => {
+        await getData('giay-phep/danh-sach', paramsFilter).then((data) => {
             setListLic(data);
         }).finally(() => {
             setFetching(false)

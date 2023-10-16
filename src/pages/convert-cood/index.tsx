@@ -71,7 +71,7 @@ const Construction = () => {
         console.log(converter(coodinate.x, coodinate.y));
         const getDataConstruction = async () => {
             try {
-                const data = await getData('Construction/list');
+                const data = await getData('cong-trinh/danh-sach');
                 console.log(initConsType)
                 const filteredData = data.filter((item: { [key: string]: any }) =>
                     initConsType.some((keyword: any) =>

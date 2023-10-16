@@ -18,9 +18,10 @@ import { ConverterCood } from 'src/@core/components/map/convert-coord'
 import CreateConstruction from '../form'
 import { useRouter } from 'next/router'
 import ConstructionToolBar from '../tool-bar'
-import { getData } from 'src/api/axios' 
+import { getData } from 'src/api/axios'
 import DeleteData from 'src/@core/components/delete-data'
 import { getConstructionTypeId } from 'src/@core/components/get-construction-type'
+import CheckEffect from 'src/views/license/check-effect'
 
 const Map = dynamic(() => import('src/@core/components/map'), { ssr: false })
 
@@ -349,11 +350,11 @@ const SurfaceConstruction = () => {
             minWidth: 150,
             renderCell: (params) => (
                 <div style={{ width: '100%' }}>
-                    {params.row.licenses.map((e: any) => (
+                    {params.row.giayphep.map((e: any) => (
                         <div key={e.id}>
                             <ShowFilePDF
-                                name={e?.licenseNumber || ''}
-                                src={`/pdf/giay-phep/${e.licensingAuthorities?.toLowerCase()}/${new Date(e?.signDate).getFullYear()}/`}
+                                name={e?.soGP || ''}
+                                src={`/pdf/giay-phep/${e.coQuanCapPhep?.toLowerCase()}/${new Date(e?.ngayKy).getFullYear()}/`}
                                 fileName={e?.filePDF || ''}
                             />
                         </div>
@@ -369,9 +370,9 @@ const SurfaceConstruction = () => {
             minWidth: 150,
             renderCell: params => (
                 <div style={{ width: '100%' }}>
-                    {params.row.licenses?.map((e: any) => (
+                    {params.row.giayphep?.map((e: any) => (
                         <div key={e.id}>
-                            {FormatDate(e.issueDate)}
+                            <CheckEffect data={e} />
                         </div>
                     ))}
                 </div>
@@ -384,9 +385,9 @@ const SurfaceConstruction = () => {
             minWidth: 150,
             renderCell: params => (
                 <div style={{ width: '100%' }}>
-                    {params.row.licenses?.map((e: any) => (
+                    {params.row.giayphep?.map((e: any) => (
                         <div key={e.id}>
-                            {FormatDate(e.signDate)}
+                            {FormatDate(e.ngayKy)}
                         </div>
                     ))}
                 </div>
@@ -401,11 +402,11 @@ const SurfaceConstruction = () => {
             minWidth: 150,
             renderCell: (params) => (
                 <div style={{ width: '100%' }}>
-                    {params.row.licenses?.map((e: any) => (
-                        e?.licenseFees.map((e: any) => (
+                    {params.row.giayphep?.map((e: any) => (
+                        e?.tiencq.map((e: any) => (
                             <div key={e.id}>
                                 <ShowFilePDF
-                                    name={e?.licenseFeeNumber || ''}
+                                    name={e?.soQDTCQ || ''}
                                     src={`/pdf/tien-cap-quyen/${e.licensingAuthorities?.toLowerCase()}/${new Date(e?.signDate).getFullYear()}/`}
                                     fileName={e?.filePDF || ''}
                                 />
@@ -423,10 +424,10 @@ const SurfaceConstruction = () => {
             type: 'number',
             renderCell: (params) => (
                 <div style={{ width: '100%' }}>
-                    {params.row.licenses?.map((e: any) => (
-                        e?.licenseFees.map((e: any) => (
+                    {params.row.giayphep?.map((e: any) => (
+                        e?.tiencq.map((e: any) => (
                             <div key={e.id}>
-                                {e.totalMoney.toLocaleString('vi-VN', {
+                                {e.tongTienCQ.toLocaleString('vi-VN', {
                                     style: 'currency',
                                     currency: 'VND',
                                 })}
@@ -540,14 +541,16 @@ const SurfaceConstruction = () => {
     const [loading, setLoading] = useState(false)
 
     const [paramsFilter, setParamsFilter] = useState({
-        constructionName: '',
-        exploitedWS: '',
-        constructionTypeId: getConstructionTypeId(),
-        businessId: 0,
-        districtId: 0,
-        communeId: 0,
-        pageIndex: 0,
-        pageSize: 0
+        tenct: '',
+        loai_ct: getConstructionTypeId(),
+        huyen: 0,
+        xa: 0,
+        song: 0,
+        luuvuc: 0,
+        tieu_luuvuc: 0,
+        tang_chuanuoc: 0,
+        tochuc_canhan: 0,
+        nguonnuoc_kt: ''
     });
 
 
@@ -564,7 +567,7 @@ const SurfaceConstruction = () => {
 
 
     useEffect(() => {
-        switch (paramsFilter.constructionTypeId) {
+        switch (paramsFilter.loai_ct) {
             case 1:
                 setColumnVisibility([]); break;
             case 4:
@@ -682,7 +685,7 @@ const SurfaceConstruction = () => {
 
         const getDataConstructions = async () => {
             setLoading(true);
-            getData('Construction/list', paramsFilter)
+            getData('cong-trinh/danh-sach', paramsFilter)
                 .then((data) => {
                     if (isMounted.current) {
                         setResData(data);

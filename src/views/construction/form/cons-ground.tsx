@@ -63,16 +63,16 @@ const GroundWaterField: FC<ConsTypeFieldsetProps> = ({ data, onChange }) => {
         setLoading(true)
 
         //constructionType
-        const consTypes = await getData('ConstructionTypes/list');
+        const consTypes = await getData('loai-ct/danh-sach');
         const filteredData = consTypes.filter((item: any) => item.parentId === 2);
         setconsType(filteredData);
 
         //district
-        const distric = await getData('Locations/list/distric/51');
+        const distric = await getData('hanh-chinh/huyen/danh-sach');
         setDistrict(distric);
 
         //commune
-        const communes = await getData(`Locations/list/commune`);
+        const communes = await getData(`hanh-chinh/danh-sach/xa`);
         const communeFiltered = communes.filter((item: any) => item.districtId == consGroundData?.districtId?.toString())
         setCommune(communeFiltered);
 

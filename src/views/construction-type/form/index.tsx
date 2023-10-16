@@ -26,7 +26,7 @@ const Form: React.FC<FormProps> = ({ data, closeDialogs, setPostSuccess }) => {
         const handleApiCall = async () => {
             try {
                 setSaving(true)
-                const res = await saveData('ConstructionTypes/save', constructionTypesData);
+                const res = await saveData('ConstructionTypes/luu', constructionTypesData);
                 if (res) {
                     // Reset form fields
                     setConstructionTypesData({});

@@ -38,7 +38,7 @@ const ConstructionTypes = () => {
         const getDataConstructionTypes = async () => {
             try {
                 setLoading(true);
-                const data = await getData('ConstructionTypes/list');
+                const data = await getData('loai-ct/danh-sach');
                 setResData(data);
             } catch (error) {
                 setResData([]);

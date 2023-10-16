@@ -116,7 +116,7 @@ const SurfaceWaterMonitoring = () => {
   useEffect(() => {
     const getDataConstructions = async () => {
       setLoading(true);
-      getData('CongTrinh/danh-sach', paramsFilter)
+      getData('cong-trinh/danh-sach', paramsFilter)
           .then((data) => {console.log(data);
               if (isMounted.current) {
                 setData(data);

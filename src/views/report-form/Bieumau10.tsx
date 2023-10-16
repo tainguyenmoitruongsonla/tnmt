@@ -31,9 +31,9 @@ const FormContruction = () => {
     async function getDataLocations() {
       try {
         setLoading(true)
-        const districtData = await getData('Locations/list/distric/51')
+        const districtData = await getData('hanh-chinh/huyen/danh-sach')
 
-        const consData = await getData('Construction/list')
+        const consData = await getData('cong-trinh/danh-sach')
 
         const newBieuMau10 = []; // tao mang moi de luu tru du lieu moi
 

@@ -67,10 +67,10 @@ const LicenseFee = (props: LicenseFeeProps) => {
       setLoading(true)
       try {
         if (path === 'bo-cap') {
-          const data = await getData('LicenseFee/list/minister');
+          const data = await getData('tien-cap-quyen/danh-sach/bo-cap');
           setResData(data);
         } else if (path === 'tinh-cap') {
-          const data = await getData('LicenseFee/list/province');
+          const data = await getData('tien-cap-quyen/danh-sach/tinh-cap');
           setResData(data);
         }
       } catch (error) {

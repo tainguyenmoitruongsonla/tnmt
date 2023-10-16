@@ -33,7 +33,7 @@ const ConstructionToolBar: FC<ConstructionToolBarProps> = ({ onChange }) => {
                     case "hanh-nghe-khoan":
                         return 9;
                     default:
-                        return 0;
+                        return 2;
                 }
             case "xa-thai":
                 return 3;
@@ -43,18 +43,19 @@ const ConstructionToolBar: FC<ConstructionToolBarProps> = ({ onChange }) => {
     }
 
     const [paramsFilter, setParamsFilter] = useState({
-        constructionName: '',
-        exploitedWS: '',
-        constructionTypeId: getConstructionTypeId(),
-        businessId: 0,
-        districtId: 0,
-        communeId: 0,
-        pageIndex: 0,
-        pageSize: 0
+        tenct: '',
+        loai_ct: getConstructionTypeId(),
+        huyen: 0,
+        xa: 0,
+        song: 0,
+        luuvuc: 0,
+        tieu_luuvuc: 0,
+        tang_chuanuoc: 0,
+        tochuc_canhan: 0,
+        nguonnuoc_kt: ''
     });
 
     const [open, setOpen] = useState(false);
-
 
     //Actions on page
     const handleOpenAdvanceSearch = () => {
@@ -69,7 +70,6 @@ const ConstructionToolBar: FC<ConstructionToolBarProps> = ({ onChange }) => {
                 setParamsFilter({ ...paramsFilter, [column]: event });
             }
         }
-
     };
 
     const handlePostSuccess = () => {
@@ -78,19 +78,22 @@ const ConstructionToolBar: FC<ConstructionToolBarProps> = ({ onChange }) => {
     };
 
     const applyFilterChange = () => {
+        console.log(paramsFilter)
         onChange(paramsFilter);
     }
 
     const reloadData = () => {
         setParamsFilter({
-            constructionName: '',
-            exploitedWS: '',
-            constructionTypeId: getConstructionTypeId(),
-            businessId: 0,
-            districtId: 0,
-            communeId: 0,
-            pageIndex: 0,
-            pageSize: 0
+            tenct: '',
+            loai_ct: getConstructionTypeId(),
+            huyen: 0,
+            xa: 0,
+            song: 0,
+            luuvuc: 0,
+            tieu_luuvuc: 0,
+            tang_chuanuoc: 0,
+            tochuc_canhan: 0,
+            nguonnuoc_kt: ''
         });
         onChange(paramsFilter);
     }
@@ -102,17 +105,17 @@ const ConstructionToolBar: FC<ConstructionToolBarProps> = ({ onChange }) => {
             try {
 
                 // constructiom type
-                const ConsTypesData = await getData('ConstructionTypes/list');
+                const ConsTypesData = await getData('loai-ct/danh-sach');
 
                 //businesses
-                const businessData = await getData('Business/list');
+                const businessData = await getData('to-chuc-ca-nhan/danh-sach');
 
                 // district
-                const districtsData = await getData('Locations/list/distric/51');
+                const districtsData = await getData('hanh-chinh/huyen/danh-sach');
 
-                if (paramsFilter.districtId > 0) {
+                if (paramsFilter.huyen > 0) {
                     // comunnes
-                    const comunnesData = await getData(`Locations/list/commune/get-by-distric/${paramsFilter.districtId}`);
+                    const comunnesData = await getData(`hanh-chinh/xa/danh-sach/${paramsFilter.huyen}`);
                     if (isMounted) {
                         setCommunes(comunnesData);
                     }
@@ -124,23 +127,23 @@ const ConstructionToolBar: FC<ConstructionToolBarProps> = ({ onChange }) => {
                             const section = router.pathname.split('/')[2];
                             switch (section) {
                                 case 'nuoc-mat':
-                                    if (item.parentId === 1) {
+                                    if (item.idCha === 1) {
                                         return item;
                                     }
                                     break;
                                 case 'nuoc-duoi-dat':
-                                    if (item.parentId === 2) {
+                                    if (item.idCha === 2) {
                                         return item;
                                     }
                                     break;
                                 case 'xa-thai':
-                                    if (item.parentId === 3) {
+                                    if (item.idCha === 3) {
                                         return item;
                                     }
                                     break;
                                 default:
-                                    const children = item.parentId === 0 ? ConsTypesData.filter((childItem: any) => childItem.parentId === item.id) : [];
-                                    const res = { ...(item.parentId === 0 ? { ...item, children } : undefined) };
+                                    const children = item.idCha === 0 ? ConsTypesData.filter((childItem: any) => childItem.idCha === item.id) : [];
+                                    const res = { ...(item.idCha === 0 ? { ...item, children } : undefined) };
 
                                     return res;
                                     break;
@@ -161,7 +164,7 @@ const ConstructionToolBar: FC<ConstructionToolBarProps> = ({ onChange }) => {
         return () => {
             isMounted = false;
         };
-    }, [paramsFilter.districtId, router.pathname]);
+    }, [paramsFilter.huyen, router.pathname]);
 
     return (
         <Toolbar variant="dense">
@@ -182,26 +185,26 @@ const ConstructionToolBar: FC<ConstructionToolBarProps> = ({ onChange }) => {
                         <Select
                             labelId="license-type-select"
                             id="demo-select-small"
-                            value={paramsFilter.constructionTypeId > 3 ? paramsFilter.constructionTypeId : getConstructionTypeId()}
+                            value={paramsFilter.loai_ct > 3 ? paramsFilter.loai_ct : getConstructionTypeId()}
                             label="Loại công trình"
-                            onChange={(e: any) => handleChange(e)('constructionTypeId')}
+                            onChange={(e: any) => handleChange(e)('loai_ct')}
                         >
                             <MenuItem value={getConstructionTypeId()}>Loại công trình</MenuItem>
                             {
                                 router.pathname.split('/')[2] == 'nuoc-mat' || router.pathname.split('/')[2] == 'nuoc-duoi-dat' || router.pathname.split('/')[2] == 'xa-thai' ?
                                     consTypes.filter((item: any) => item !== undefined).map((e: any, i: number) => [
                                         <MenuItem key={i} value={e.id}>
-                                            {e.typeName}
+                                            {e.tenLoaiCT}
                                         </MenuItem>
                                     ])
                                     :
                                     consTypes
                                         .filter((item: any) => item?.children)
                                         .map((e: any, i: number) => [
-                                            <ListSubheader key={`subheader-${i}`}>{e.typeName}</ListSubheader>,
+                                            <ListSubheader key={`subheader-${i}`}>{e.tenLoaiCT}</ListSubheader>,
                                             ...e.children.map((child: any, j: number) => (
                                                 <MenuItem key={`child-${j}`} value={child.id}>
-                                                    {child.typeName}
+                                                    {child.tenLoaiCT}
                                                 </MenuItem>
                                             )),
                                         ])
@@ -214,10 +217,10 @@ const ConstructionToolBar: FC<ConstructionToolBarProps> = ({ onChange }) => {
                         size="small"
                         fullWidth
                         options={businesses}
-                        getOptionLabel={(option: any) => option.name}
-                        value={businesses.find((item: any) => item.id === paramsFilter.businessId) || null}
+                        getOptionLabel={(option: any) => option.tenTCCN}
+                        value={businesses.find((item: any) => item.id === paramsFilter.tochuc_canhan) || null}
                         onChange={(_, newValue) => {
-                            handleChange(newValue?.id)('businessId');
+                            handleChange(newValue?.id)('tochuc_canhan');
                         }}
                         clearOnEscape={true}
                         renderInput={(params) => (
@@ -244,10 +247,10 @@ const ConstructionToolBar: FC<ConstructionToolBarProps> = ({ onChange }) => {
                                         size="small"
                                         fullWidth
                                         options={districts}
-                                        getOptionLabel={(option: any) => option.districtName}
-                                        value={districts.find((item: any) => item.districtId === paramsFilter.districtId) || null}
+                                        getOptionLabel={(option: any) => option.tenHuyen}
+                                        value={districts.find((item: any) => item.idHuyen === paramsFilter.huyen) || null}
                                         onChange={(_, newValue) => {
-                                            handleChange(newValue?.districtId)('districtId');
+                                            handleChange(newValue?.idHuyen)('huyen');
                                         }}
                                         clearOnEscape={true}
                                         renderInput={(params) => (
@@ -262,13 +265,13 @@ const ConstructionToolBar: FC<ConstructionToolBarProps> = ({ onChange }) => {
                                 <Grid item xs={12} md={2} py={0}>
                                     <Autocomplete
                                         size="small"
-                                        disabled={paramsFilter.districtId <= 0}
+                                        disabled={paramsFilter.huyen <= 0}
                                         fullWidth
                                         options={communes}
-                                        getOptionLabel={(option: any) => option.communeName}
-                                        value={communes.find((item: any) => item.communeId === paramsFilter.communeId) || null}
+                                        getOptionLabel={(option: any) => option.tenXa}
+                                        value={communes.find((item: any) => item.idXa === paramsFilter.xa) || null}
                                         onChange={(_, newValue) => {
-                                            handleChange(newValue?.communeId)('communeId');
+                                            handleChange(newValue?.idXa)('xa');
                                         }}
                                         clearOnEscape={true}
                                         renderInput={(params) => (
@@ -287,7 +290,7 @@ const ConstructionToolBar: FC<ConstructionToolBarProps> = ({ onChange }) => {
                                         fullWidth
                                         variant="outlined"
                                         placeholder="Nguồn nước khai thác..."
-                                        onChange={(e: any) => handleChange(e)('exploitedWS')}
+                                        onChange={(e: any) => handleChange(e)('nguonnuoc_kt')}
                                     />
                                 </Grid>
                             </Grid>

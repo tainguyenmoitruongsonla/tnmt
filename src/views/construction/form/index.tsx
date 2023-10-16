@@ -43,19 +43,19 @@ const FormConstruction: React.FC<FormConstructionProps> = ({ data, closeDialogs,
     const handleApiCall = async () => {
       try {
         setSaving(true)
-        const res = await saveData('Construction/save', consSFData)
+        const res = await saveData('cong-trinh/luu', consSFData)
 
         if (res) {
           // Reset form fields
           setConsSFData({})
 
           consItemDataDetele.map(async (e: any) => {
-            await deleteData('ConstructionDetail/delete', e)
+            await deleteData('hang-muc-ct/xoa', e)
           })
 
           consItemData.map(async (e: any) => {
             e.constructionId = res.id
-            await saveData('ConstructionDetail/save', e)
+            await saveData('hang-muc-ct/luu', e)
           })
 
           typeof setPostSuccess === 'function' ? setPostSuccess(true) : ''

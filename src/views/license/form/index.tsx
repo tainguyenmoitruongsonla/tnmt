@@ -127,15 +127,15 @@ const FormLicense: FC<FormLicenseProps> = ({ data, closeDialogs, setPostSuccess 
     setFetching(true)
     try {
 
-      const saveCons = await saveData('Construction/save', constructionData);
+      const saveCons = await saveData('cong-trinh/luu', constructionData);
 
       if (saveCons) {
         consItemDataDetele.map(async (e: any) => {
-          await saveData('ConstructionDetail/delete', e);
+          await saveData('hang-muc-ct/xoa', e);
         })
 
         consItemData.map(async (e: any) => {
-          await saveData('ConstructionDetail/save', e);
+          await saveData('hang-muc-ct/luu', e);
         })
 
         const newLic = {
@@ -165,7 +165,7 @@ const FormLicense: FC<FormLicenseProps> = ({ data, closeDialogs, setPostSuccess 
           file: fileUpload.relatedDocumentFile
         }
 
-        const saveLic = await saveData('License/save', newLic);
+        const saveLic = await saveData('giay-phep/luu', newLic);
 
         if (saveLic) {
           if (newLicenseFile.fileName && newLicenseFile.fileName !== null && newLicenseFile.file && newLicenseFile.file !== null) {
@@ -179,15 +179,15 @@ const FormLicense: FC<FormLicenseProps> = ({ data, closeDialogs, setPostSuccess 
           }
 
           licenseFeeDataRemove?.map(async (e: any) => {
-            const saveLicFee = await saveData('LicenseFee/delete', e)
+            const saveLicFee = await saveData('tien-cap-quyen/xoa', e)
             if (saveLicFee) {
-              await saveData('LicenseLicenseFee/delete', { id: 0, licenseId: saveLic.id, licenseFeeId: e.id });
+              await saveData('GP_TCQ/xoa', { id: 0, licenseId: saveLic.id, licenseFeeId: e.id });
             }
           })
 
           licenseFeeData?.map(async (e: any) => {
             e.licensingAuthorities = newLic.licensingAuthorities;
-            const saveLicFee = await saveData('LicenseFee/save', e);
+            const saveLicFee = await saveData('tien-cap-quyen/luu', e);
             if (saveLicFee.id) {
               const licFeeFile = {
                 filePath: `pdf/tien-cap-quyen/${e.licensingAuthorities.toLowerCase()}/${dayjs(e.signDate)?.year()}`,
@@ -198,7 +198,7 @@ const FormLicense: FC<FormLicenseProps> = ({ data, closeDialogs, setPostSuccess 
                 await uploadFile(licFeeFile)
               }
 
-              await saveData('LicenseLicenseFee/save', { id: 0, licenseId: saveLic.id, licenseFeeId: saveLicFee.id });
+              await saveData('GP_TCQ/luu', { id: 0, licenseId: saveLic.id, licenseFeeId: saveLicFee.id });
             }
           })
         }
@@ -225,9 +225,9 @@ const FormLicense: FC<FormLicenseProps> = ({ data, closeDialogs, setPostSuccess 
     const getDataBusiness = async () => {
       setFetching(true)
       try {
-        const data = await getData('Business/list');
+        const data = await getData('to-chuc-ca-nhan/danh-sach');
         if (licenseData?.businessId > 0) {
-          const singleBusiness = await getData(`Business/${licenseData?.businessId}`)
+          const singleBusiness = await getData(`to-chuc-ca-nhan/${licenseData?.businessId}`)
           setBusiness(singleBusiness)
         }
         if (isMounted) {

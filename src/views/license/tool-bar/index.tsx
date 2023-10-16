@@ -125,20 +125,20 @@ const LicenseToolBar: FC<LicenseToolBarProps> = ({ onChange }) => {
         const getDataForSeeleect = async () => {
             try {
                 // license type
-                const licTypesData = await getData('LicenseTypes/list');
+                const licTypesData = await getData('loai-gp/danh-sach');
 
                 // constructiom type
-                const ConsTypesData = await getData('ConstructionTypes/list');
+                const ConsTypesData = await getData('loai-ct/danh-sach');
 
                 //businesses
-                const businessData = await getData('Business/list');
+                const businessData = await getData('to-chuc-ca-nhan/danh-sach');
 
                 // district
-                const districtsData = await getData('Locations/list/distric/51');
+                const districtsData = await getData('hanh-chinh/huyen/danh-sach');
 
                 if (paramsFilter.districtId > 0) {
                     // comunnes
-                    const comunnesData = await getData(`Locations/list/commune/get-by-distric/${paramsFilter.districtId}`);
+                    const comunnesData = await getData(`hanh-chinh/xa/danh-sach/${paramsFilter.districtId}`);
                     if (isMounted) {
                         setCommunes(comunnesData);
                     }

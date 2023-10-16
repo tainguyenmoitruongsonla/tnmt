@@ -26,7 +26,7 @@ const Form: React.FC<FormProps> = ({ data, closeDialogs, setPostSuccess }) => {
         const handleApiCall = async () => {
             try {
                 setSaving(true)
-                const res = await saveData('LicenseTypes/save', licenseTypesData);
+                const res = await saveData('loai-gp/luu', licenseTypesData);
                 if (res) {
                     // Reset form fields
                     setLicenseTypesData({});

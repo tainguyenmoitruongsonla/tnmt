@@ -108,14 +108,14 @@ const MonitoringSystemToolBar: FC<MonitoringSystemToolBarProps> = ({ onChange })
                 const ConsTypesData = await getData('LoaiCongTrinh/danh-sach');
 
                 //businesses
-                const businessData = await getData('Business/list');
+                const businessData = await getData('to-chuc-ca-nhan/danh-sach');
 
                 // district
-                const districtsData = await getData('Locations/list/distric/51');
+                const districtsData = await getData('hanh-chinh/huyen/danh-sach');
 
                 if (paramsFilter.huyen > 0) {
                     // comunnes
-                    const comunnesData = await getData(`Locations/list/commune/get-by-distric/${paramsFilter.huyen}`);
+                    const comunnesData = await getData(`hanh-chinh/xa/danh-sach/${paramsFilter.huyen}`);
                     if (isMounted) {
                         setCommunes(comunnesData);
                     }

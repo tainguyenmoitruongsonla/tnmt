@@ -27,7 +27,7 @@ const Form: React.FC<FormProps> = ({ data, closeDialogs, setPostSuccess }) => {
         const handleApiCall = async () => {
             try {
                 setSaving(true)
-                const res = await saveData('Business/save', businessData);
+                const res = await saveData('to-chuc-ca-nhan/luu', businessData);
                 if (res) {
                     // Reset form fields
                     setBusinessData({});

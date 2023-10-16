@@ -36,7 +36,7 @@ const ListLicenses = () => {
     const [loading, setLoading] = useState(false);
     const [resData, setResData] = useState([]);
 
-    //delete
+    //xoa
 
     const router = useRouter();
 
@@ -250,7 +250,7 @@ const ListLicenses = () => {
 
     const getDataLicense = async () => {
         setLoading(true);
-        getData('License/list', paramsFilter)
+        getData('giay-phep/danh-sach', paramsFilter)
             .then((data) => {
                 if (isMounted.current) {
                     setResData(data);

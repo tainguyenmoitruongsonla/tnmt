@@ -302,7 +302,7 @@ const GroundConstruction = () => {
 
     const getDataConstruction = async () => {
         setLoading(true);
-        getData('Construction/list', paramsFilter)
+        getData('cong-trinh/danh-sach', paramsFilter)
             .then((data) => {
                 if (isMounted.current) {
                     setResData(data);

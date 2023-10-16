@@ -40,7 +40,7 @@ const Business = () => {
         const getDataBusiness = async () => {
             try {
                 setLoading(true);
-                const data = await getData('Business/list');
+                const data = await getData('to-chuc-ca-nhan/danh-sach');
                 setResData(data);
             } catch (error) {
                 setResData([]);

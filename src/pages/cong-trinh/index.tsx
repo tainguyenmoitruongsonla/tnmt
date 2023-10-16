@@ -45,7 +45,7 @@ const Construction = () => {
     const getDataConstruction = async () => {
       try {
         setLoading(true)
-        const data = await getData('Construction/list');
+        const data = await getData('cong-trinh/danh-sach');
         const filteredData = data.filter((item: { [key: string]: any }) =>
           initConsType.some((keyword: any) =>
             item['constructionTypeSlug']?.toString().toLowerCase().includes(keyword.toLowerCase())

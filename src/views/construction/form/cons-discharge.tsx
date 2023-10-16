@@ -54,17 +54,17 @@ const DischargeWaterField: FC<ConsTypeFieldsetProps> = ({ data, onChange }) => {
         setLoading(true)
 
         //constructionType
-        const consTypes = await getData('ConstructionTypes/list');
+        const consTypes = await getData('loai-ct/danh-sach');
         const filteredData = consTypes.filter((item: any) => item.parentId === 3);
         setconsType(filteredData);
         console.log(consTypes);
 
         //district
-        const distric = await getData('Locations/list/distric/51');
+        const distric = await getData('hanh-chinh/huyen/danh-sach');
         setDistrict(distric);
 
         //commune
-        const commune = await getData(`Locations/list/commune/${consSFData?.districtId}`);
+        const commune = await getData(`hanh-chinh/danh-sach/xa/${consSFData?.districtId}`);
         setCommune(commune);
 
       } catch (error) {
