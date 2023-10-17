@@ -15,89 +15,50 @@ import {
 } from '@mui/material'
 import DownloadIcon from '@mui/icons-material/Download'
 import DialogControlFullScreen from 'src/@core/components/dialog-control-full-screen'
-import { useState, useEffect } from 'react'
-import React from 'react'
-import BoxLoading from 'src/@core/components/box-loading'
 import HeaderReport from './HeaderReport'
+import FooterReport from './FooterReport'
 import { getData } from 'src/api/axios'
+import { useEffect, useState } from 'react'
+import BoxLoading from 'src/@core/components/box-loading'
+import CreateReport2 from './Bieumau2/CreateReport2'
+import DeleteData from 'src/@core/components/delete-data'
+import { CalculateReportData } from './CalculateData'
 
-
-
+interface Report1 {
+  id: number
+  luuVucSong: string
+  tongCongTrinhKyTruoc: number
+  tongCongTrinhKyBaoCao: number
+  congTrinhNuocMatKyTruoc: number
+  congTrinhNuocMatKyBaoCao: number
+  congTrinhNDDKyTruoc: number
+  congTrinhNDDKyBaoCao: number
+  ghiChu: string
+}
 const FormContruction = () => {
-  const [bieuMau9, setBieuMau9] = useState<any[]>([])
+  const [data, setData] = useState<Report1[]>([])
   const [loading, setLoading] = useState(false)
+  const [postSuccess, setPostSuccess] = useState(false)
+  const handlePostSuccess = () => {
+    setPostSuccess(prevState => !prevState)
+  }
   useEffect(() => {
-    async function getDataLocations() {
-      try {
-        setLoading(true)
-        const districtData = await getData('hanh-chinh/huyen/danh-sach')
-
-        const consData = await getData('cong-trinh/danh-sach')
-
-        const newBieuMau9 = []; // tao mang moi de luu tru du lieu moi
-
-        for (const row of districtData) {
-          // Lấy dữ liệu về nuocmat
-          const licSurfaceWater = [
-            'thuydien',
-            'hochua',
-            'trambom',
-            'tramcapnuoc',
-            'dapthuyloi',
-            'cong',
-            'nhamaynuoc',
-            'congtrinh_nuocmatkhac'
-          ]
-          const sufaceWaterItem = consData.filter((item: any) =>
-            licSurfaceWater.includes(item.constructionTypeSlug) &&
-            item.districtId?.toString() === row.districtId?.toString()
-          ).length
-
-          const sufaceWaterPrevPeriodItems = consData.filter(
-            (item: any) =>
-              licSurfaceWater.includes(item.constructionTypeSlug) &&
-              item.startDate < new Date().getFullYear() &&
-              item.districtId?.toString() === row.districtId?.toString()
-          ).length
-
-          const groundWaterItems = consData.filter(
-            (item: any) =>
-              item.constructionTypeSlug === 'khaithac' && item.districtId?.toString() === row.districtId?.toString()
-          ).length
-
-          const groundWaterPrevPeriodItems = consData.filter(
-            (item: any) =>
-              item.constructionTypeSlug === 'khaithac' &&
-              item.startDate < new Date().getFullYear() &&
-              item.districtId?.toString() === row.districtId?.toString()
-          ).length
-
-          const itemBieuMau9: any = {
-            district: row.districtName,
-            allConsPrevPeriod: 0,
-            allConsThisPeriod: 0,
-            allConsChange: 0,
-            surfaceWaterConsPrevPeriod: sufaceWaterPrevPeriodItems,
-            surfaceWaterConsThisPeriod: sufaceWaterItem,
-            surfaceWaterConsChange: (sufaceWaterItem - sufaceWaterPrevPeriodItems),
-            exploitGrountWaterPrevPeriod: groundWaterPrevPeriodItems,
-            exploitGrountWaterThisPeriod: groundWaterItems,
-            exploitGrountWaterChange: (groundWaterItems - groundWaterPrevPeriodItems)
-          }
-          newBieuMau9.push(itemBieuMau9);
-        }
-        setBieuMau9(newBieuMau9)
-
-      } catch (error) {
-        console.error(error)
-      }
-      finally {
-        setLoading(false)
-      }
+    async function getDataReport1() {
+      setLoading(true)
+      await getData('BieuMauSoChin/danhsach')
+        .then(data => {
+          setData(data)
+        })
+        .catch(error => {
+          console.log(error)
+        })
+        .finally(() => {
+          setLoading(false)
+        })
     }
 
-    getDataLocations()
-  }, [])
+    getDataReport1()
+  }, [postSuccess])
 
   return (
     <Paper sx={{ p: 8 }}>
@@ -148,6 +109,9 @@ const FormContruction = () => {
                   </TableCell>
                   <TableCell size='small' align='center' colSpan={3}>
                     Số lượng công trình khai thác nước dưới đất
+                  </TableCell>
+                  <TableCell size='small' align='center' rowSpan={4}>
+                    Thao tác
                   </TableCell>
                 </TableRow>
 
@@ -219,40 +183,51 @@ const FormContruction = () => {
                 </TableRow>
               </TableHead>
               <TableBody className='tableBody'>
-                {bieuMau9.map((item, index) => (
+                {data.map((item, index) => (
                   <TableRow key={index}>
-                    <TableCell className="text-center  size='small' align-middle font-13">{index + 1}</TableCell>
-                    <TableCell className="text-center  size='small' align-middle font-13">{item.district}</TableCell>
-                    <TableCell className="text-center  size='small' align-middle font-13">{item.allConsPrevPeriod}</TableCell>
-                    <TableCell className="text-center  size='small' align-middle font-13">{item.allConsThisPeriod}</TableCell>
-                    <TableCell className="text-center  size='small' align-middle font-13">{item.allConsChange}</TableCell>
-                    <TableCell className="text-center  size='small' align-middle font-13">{item.surfaceWaterConsPrevPeriod}</TableCell>
-                    <TableCell className="text-center  size='small' align-middle font-13">{item.surfaceWaterConsThisPeriod}</TableCell>
-                    <TableCell className="text-center  size='small' align-middle font-13">{item.surfaceWaterConsChange}</TableCell>
-                    <TableCell className="text-center  size='small' align-middle font-13">{item.exploitGrountWaterPrevPeriod}</TableCell>
-                    <TableCell className="text-center  size='small' align-middle font-13">{item.exploitGrountWaterThisPeriod}</TableCell>
-                    <TableCell className="text-center  size='small' align-middle font-13">{item.exploitGrountWaterChange}</TableCell>
+                    <TableCell align='center' className="size='small' align-middle font-13">{index + 1}</TableCell>
+                    <TableCell  className="size='small' align-middle font-13">{item.luuVucSong}</TableCell>
+                    <TableCell align='center' className="size='small' align-middle font-13">
+                      {item.tongCongTrinhKyTruoc}
+                    </TableCell>
+                    <TableCell align='center' className="size='small' align-middle font-13">
+                      {item.tongCongTrinhKyBaoCao}
+                    </TableCell>
+                    <TableCell align='center' className="  size='small' align-middle font-13">
+                      {CalculateReportData(item.tongCongTrinhKyBaoCao, item.tongCongTrinhKyTruoc)}
+                    </TableCell>
+                    <TableCell align='center' className="size='small' align-middle font-13">
+                      {item.congTrinhNuocMatKyTruoc}
+                    </TableCell>
+                    <TableCell align='center' className="size='small' align-middle font-13">
+                      {item.congTrinhNuocMatKyBaoCao}
+                    </TableCell>
+                    <TableCell align='center' className="  size='small' align-middle font-13">
+                      {CalculateReportData(item.congTrinhNuocMatKyBaoCao, item.congTrinhNuocMatKyTruoc)}
+                    </TableCell>
+                    <TableCell align='center' className="size='small' align-middle font-13">
+                      {item.congTrinhNDDKyTruoc}
+                    </TableCell>
+                    <TableCell align='center' className="size='small' align-middle font-13">
+                      {item.congTrinhNDDKyBaoCao}
+                    </TableCell>
+                    <TableCell align='center' className="  size='small' align-middle font-13">
+                      {CalculateReportData(item.congTrinhNDDKyBaoCao, item.congTrinhNDDKyTruoc)}
+                    </TableCell>
+                    <TableCell align='center' className="  size='small' align-middle font-13">
+                      <Box>
+                        <CreateReport2 isEdit={true} data={item} setPostSuccess={handlePostSuccess} />
+                        <DeleteData url={'BieuMauSoHai'} data={item} setPostSuccess={handlePostSuccess} />
+                      </Box>
+                    </TableCell>
                   </TableRow>
                 ))}
-
               </TableBody>
             </Table>
           </TableContainer>
         </Grid>
       )}
-      <Grid className='_space_between' sx={{ mt: 5 }}>
-        <Grid>
-          <Typography>Nơi nhận</Typography>
-          <Typography>- Ban Giám đốc sở</Typography>
-          <Typography>- Lưu:VT; TNN, KS&KTTV; VP, 10b</Typography>
-        </Grid>
-
-        <Grid>
-          <Typography className='font-weight-bold' variant='h6'>
-            Người thống kê
-          </Typography>
-        </Grid>
-      </Grid>
+      <FooterReport />
     </Paper>
   )
 }

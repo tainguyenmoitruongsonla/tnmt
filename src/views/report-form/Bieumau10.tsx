@@ -15,92 +15,52 @@ import {
 } from '@mui/material'
 import DownloadIcon from '@mui/icons-material/Download'
 import DialogControlFullScreen from 'src/@core/components/dialog-control-full-screen'
-import { useState, useEffect } from 'react'
-import React from 'react'
-import BoxLoading from 'src/@core/components/box-loading'
-import HeaderReport from './HeaderReport'
-import FooterReport from './FooterReport'
+import HeaderReport from './HeaderReport';
+import FooterReport from './FooterReport';
 import { getData } from 'src/api/axios'
+import { useEffect, useState } from 'react'
+import BoxLoading from 'src/@core/components/box-loading'
+import CreateReport2 from './Bieumau2/CreateReport2'
+import DeleteData from 'src/@core/components/delete-data'
 
-
-
+interface Report10 {
+  id: number
+  luuVucSong: string
+  tongCongTrinh: number
+  ctTuoiNuocMat: number
+  ctTuoiNuocDuoiDat: number
+  ctThuyDien: number
+  ctMucDichKhacNuocMat: number
+  ctMucDichKhacNuocDuoiDat: number
+  ghiChu:string
+}
 const FormContruction = () => {
-  const [bieuMau10, setBieuMau10] = useState<any[]>([])
+  const [data, setData] = useState<Report10[]>([])
   const [loading, setLoading] = useState(false)
+  const [postSuccess, setPostSuccess] = useState(false);
+    const handlePostSuccess = () => {
+        setPostSuccess(prevState => !prevState);
+    };
   useEffect(() => {
-    async function getDataLocations() {
-      try {
-        setLoading(true)
-        const districtData = await getData('hanh-chinh/huyen/danh-sach')
-
-        const consData = await getData('cong-trinh/danh-sach')
-
-        const newBieuMau10 = []; // tao mang moi de luu tru du lieu moi
-
-        for (const row of districtData) {
-          // Lấy dữ liệu về nuocmat
-          const licSurfaceWater = [
-            'thuydien',
-            'hochua',
-            'trambom',
-            'tramcapnuoc',
-            'dapthuyloi',
-            'cong',
-            'nhamaynuoc',
-            'congtrinh_nuocmatkhac'
-          ]
-          const sufaceWaterItem = consData.filter((item: any) =>
-            licSurfaceWater.includes(item.constructionTypeSlug) &&
-            item.districtId?.toString() === row.districtId?.toString()
-          ).length
-
-          const sufaceWaterPrevPeriodItems = consData.filter(
-            (item: any) =>
-              licSurfaceWater.includes(item.constructionTypeSlug) &&
-              item.startDate < new Date().getFullYear() &&
-              item.districtId?.toString() === row.districtId?.toString()
-          ).length
-
-          const groundWaterItems = consData.filter(
-            (item: any) =>
-              item.constructionTypeSlug === 'khaithac' && item.districtId?.toString() === row.districtId?.toString()
-          ).length
-
-          const groundWaterPrevPeriodItems = consData.filter(
-            (item: any) =>
-              item.constructionTypeSlug === 'khaithac' &&
-              item.startDate < new Date().getFullYear() &&
-              item.districtId?.toString() === row.districtId?.toString()
-          ).length
-
-          const itemBieuMau10: any = {
-            district: row.districtName,
-            allConsPrevPeriod: 0,
-            allConsThisPeriod: 0,
-            allConsChange: 0,
-            surfaceWaterConsPrevPeriod: sufaceWaterPrevPeriodItems,
-            surfaceWaterConsThisPeriod: sufaceWaterItem,
-            surfaceWaterConsChange: (sufaceWaterItem - sufaceWaterPrevPeriodItems),
-            exploitGrountWaterPrevPeriod: groundWaterPrevPeriodItems,
-            exploitGrountWaterThisPeriod: groundWaterItems,
-            exploitGrountWaterChange: (groundWaterItems - groundWaterPrevPeriodItems)
-          }
-          newBieuMau10.push(itemBieuMau10);
-        }
-        setBieuMau10(newBieuMau10)
-
-      } catch (error) {
-        console.error(error)
-      }
-      finally {
-        setLoading(false)
-      }
+    async function getDataReport1() {
+      setLoading(true)
+      await getData('BieuMauSoMuoi/danhsach')
+        .then(data => {
+          setData(data)
+        })
+        .catch(error => {
+          console.log(error)
+        })
+        .finally(() => {
+          setLoading(false)
+        })
     }
 
-    getDataLocations()
-  }, [])
+    getDataReport1()
+  }, [postSuccess])
 
   return (
+
     <Paper sx={{ p: 8 }}>
       {/* dautrang */}
 
@@ -138,49 +98,45 @@ const FormContruction = () => {
                   <TableCell size='small' align='center' rowSpan={4}>
                     STT
                   </TableCell>
-                  <TableCell size='small' align='center' rowSpan={2}>
-                    Huyện
+                  <TableCell size='small' align='center' rowSpan={3}>
+                    Lưu vực/sông/ <br/>
+                    Vùng/Tỉnh
                   </TableCell>
-                  <TableCell size='small' align='center' colSpan={3}>
+                  <TableCell size='small' align='center' rowSpan={3}>
                     Tổng số công trình
                   </TableCell>
-                  <TableCell size='small' align='center' colSpan={3}>
-                    Số lượng công trình khai thác nước mặt
+                  <TableCell size='small' align='center' colSpan={5}>
+                    Số lượng công trình 
                   </TableCell>
-                  <TableCell size='small' align='center' colSpan={3}>
-                    Số lượng công trình khai thác nước dưới đất
+                  <TableCell size='small' align='center' rowSpan={4}>
+                    Thao tác
                   </TableCell>
                 </TableRow>
 
                 <TableRow>
-                  <TableCell size='small' align='center'>
-                    Lũy kế đến kỳ trước
+                  <TableCell size='small' align='center' colSpan={2}>
+                   Tưới
                   </TableCell>
-                  <TableCell size='small' align='center'>
-                    Lũy kế đến kỳ báo cáo
+                  <TableCell size='small' align='center' rowSpan={2}>
+                    Thủy điện
                   </TableCell>
-                  <TableCell size='small' align='center'>
-                    Thay đổi
+                  <TableCell size='small' align='center' colSpan={2}>
+                    Mục đích khác
                   </TableCell>
+                </TableRow>
 
-                  <TableCell size='small' align='center'>
-                    Lũy kế đến kỳ trước
+                <TableRow>
+                  <TableCell size='small' align='center' >
+                   Nguồn nước mặt
                   </TableCell>
-                  <TableCell size='small' align='center'>
-                    Lũy kế đến kỳ báo cáo
+                  <TableCell size='small' align='center' >
+                   Nguồn nước dưới đất
                   </TableCell>
-                  <TableCell size='small' align='center'>
-                    Thay đổi
+                  <TableCell size='small' align='center' >
+                   Nguồn nước mặt
                   </TableCell>
-
-                  <TableCell size='small' align='center'>
-                    Lũy kế đến kỳ trước
-                  </TableCell>
-                  <TableCell size='small' align='center'>
-                    Lũy kế đến kỳ báo cáo
-                  </TableCell>
-                  <TableCell size='small' align='center'>
-                    Thay đổi
+                  <TableCell size='small' align='center' >
+                   Nguồn nước dưới đất
                   </TableCell>
                 </TableRow>
 
@@ -206,36 +162,41 @@ const FormContruction = () => {
                   </TableCell>
 
                   <TableCell size='small' align='center'>
-                    (7)=(6)-(5)
-                  </TableCell>
-                  <TableCell size='small' align='center'>
-                    (8)&nbsp;
-                  </TableCell>
-                  <TableCell size='small' align='center'>
-                    (9)
-                  </TableCell>
-                  <TableCell size='small' align='center'>
-                    (10)=(9)-(8)
+                    (7)
                   </TableCell>
                 </TableRow>
               </TableHead>
               <TableBody className='tableBody'>
-                {bieuMau10.map((item, index) => (
+                {data.map((item, index) => (
                   <TableRow key={index}>
-                    <TableCell className="text-center  size='small' align-middle font-13">{index + 1}</TableCell>
-                    <TableCell className="text-center  size='small' align-middle font-13">{item.district}</TableCell>
-                    <TableCell className="text-center  size='small' align-middle font-13">{item.allConsPrevPeriod}</TableCell>
-                    <TableCell className="text-center  size='small' align-middle font-13">{item.allConsThisPeriod}</TableCell>
-                    <TableCell className="text-center  size='small' align-middle font-13">{item.allConsChange}</TableCell>
-                    <TableCell className="text-center  size='small' align-middle font-13">{item.surfaceWaterConsPrevPeriod}</TableCell>
-                    <TableCell className="text-center  size='small' align-middle font-13">{item.surfaceWaterConsThisPeriod}</TableCell>
-                    <TableCell className="text-center  size='small' align-middle font-13">{item.surfaceWaterConsChange}</TableCell>
-                    <TableCell className="text-center  size='small' align-middle font-13">{item.exploitGrountWaterPrevPeriod}</TableCell>
-                    <TableCell className="text-center  size='small' align-middle font-13">{item.exploitGrountWaterThisPeriod}</TableCell>
-                    <TableCell className="text-center  size='small' align-middle font-13">{item.exploitGrountWaterChange}</TableCell>
+                    <TableCell align='center' className="size='small' align-middle font-13">{index + 1}</TableCell>
+                    <TableCell  className="size='small' align-middle font-13">{item.luuVucSong}</TableCell>
+                    <TableCell align='center' className="size='small' align-middle font-13">
+                      {item.tongCongTrinh}
+                    </TableCell>
+                    <TableCell align='center' className="size='small' align-middle font-13">
+                      {item.ctTuoiNuocMat}
+                    </TableCell>
+                    <TableCell align='center' className="size='small' align-middle font-13">
+                      {item.ctTuoiNuocDuoiDat}
+                    </TableCell>
+                    <TableCell align='center' className="size='small' align-middle font-13">
+                      {item.ctThuyDien}
+                    </TableCell>
+                    <TableCell align='center' className="size='small' align-middle font-13">
+                      {item.ctMucDichKhacNuocMat}
+                    </TableCell>
+                    <TableCell align='center' className="size='small' align-middle font-13">
+                      {item.ctMucDichKhacNuocDuoiDat}
+                    </TableCell>
+                    <TableCell align='center' className="  size='small' align-middle font-13">
+                      <Box>
+                        <CreateReport2 isEdit={true} data={item} setPostSuccess={handlePostSuccess} />
+                        <DeleteData url={'BieuMauSoHai'} data={item} setPostSuccess={handlePostSuccess} />
+                      </Box>
+                    </TableCell>
                   </TableRow>
                 ))}
-
               </TableBody>
             </Table>
           </TableContainer>
