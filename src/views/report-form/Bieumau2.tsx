@@ -62,7 +62,6 @@ const FormContruction = () => {
 
     getDataReport2()
   }, [postSuccess])
-console.log(postSuccess);
 
   return (
     <Paper sx={{ p: 8 }}>

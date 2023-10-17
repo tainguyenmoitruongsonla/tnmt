@@ -17,8 +17,53 @@ import DownloadIcon from '@mui/icons-material/Download';
 import DialogControlFullScreen from 'src/@core/components/dialog-control-full-screen'
 import HeaderReport from './HeaderReport';
 import FooterReport from './FooterReport';
+import { getData } from 'src/api/axios'
+import { useEffect, useState } from 'react'
+import BoxLoading from 'src/@core/components/box-loading'
+import CreateReport2 from './Bieumau2/CreateReport2'
+import DeleteData from 'src/@core/components/delete-data'
+import { CalculateReportData } from './CalculateData';
 
+interface Report1 {
+  id: number
+  luuVucSong: string
+  tongTramQuanTracKyTruoc: number
+  tongTramQuanTracBaoCao: number
+  tramKhiTuongKyTruoc: number
+  tramKhiTuongBaoCao: number
+  tramThuyVanKyTruoc: number
+  tramThuyVanKyBaoCao: number
+  tramTNNKyTruoc: number
+  tramTNNKyBaoCao: number
+  tramQuanTracKyTruoc: number
+  tramQuanTracKyBaoCao: number
+  ghiChu:string
+}
 const FormContruction = () => {
+  const [data, setData] = useState<Report1[]>([])
+  const [loading, setLoading] = useState(false)
+  const [postSuccess, setPostSuccess] = useState(false);
+    const handlePostSuccess = () => {
+        setPostSuccess(prevState => !prevState);
+    };
+  useEffect(() => {
+    async function getDataReport1() {
+      setLoading(true)
+      await getData('BieuMauSoMot/danhsach')
+        .then(data => {
+          setData(data)
+        })
+        .catch(error => {
+          console.log(error)
+        })
+        .finally(() => {
+          setLoading(false)
+        })
+    }
+
+    getDataReport1()
+  }, [postSuccess])
+
   return (
     <Paper sx={{ p: 8 }}>
       {/* dautrang */}
@@ -48,8 +93,10 @@ const FormContruction = () => {
           (Kỳ báo cáo: <TextField size='small' sx={{ width: '50px' }}></TextField>)
         </Typography>
       </Grid>
-
-      <Grid className='_text_center' sx={{ mt: 3 }}>
+      {loading ? (
+        <BoxLoading />
+      ) : (
+        <Grid className='_text_center' sx={{ mt: 3 }}>
         <TableContainer component={Paper}>
           <Table sx={{ minWidth: 650 }} aria-label='simple table'>
             <TableHead className='tableHead'>
@@ -65,6 +112,9 @@ const FormContruction = () => {
                 </TableCell>
                 <TableCell size='small' align='center' colSpan={12}>
                   Loại trạm
+                </TableCell>
+                <TableCell size='small' align='center' rowSpan={5}>
+                  Thao Tác
                 </TableCell>
               </TableRow>
 
@@ -247,29 +297,41 @@ const FormContruction = () => {
             </TableHead>
 
             <TableBody className='tableBody'>
-              <TableRow>
-                <TableCell className="text-center  size='small' align-middle font-13">1</TableCell>
-                <TableCell className="text-center  size='small' align-middle font-13">1</TableCell>
-                <TableCell className="text-center  size='small' align-middle font-13">1</TableCell>
-                <TableCell className="text-center  size='small' align-middle font-13">1</TableCell>
-                <TableCell className="text-center  size='small' align-middle font-13">1</TableCell>
-                <TableCell className="text-center  size='small' align-middle font-13">1</TableCell>
-                <TableCell className="text-center  size='small' align-middle font-13">1</TableCell>
-                <TableCell className="text-center  size='small' align-middle font-13">1</TableCell>
-                <TableCell className="text-center  size='small' align-middle font-13">1</TableCell>
-                <TableCell className="text-center  size='small' align-middle font-13">1</TableCell>
-                <TableCell className="text-center  size='small' align-middle font-13">1</TableCell>
-                <TableCell className="text-center  size='small' align-middle font-13">1</TableCell>
-                <TableCell className="text-center  size='small' align-middle font-13">1</TableCell>
-                <TableCell className="text-center  size='small' align-middle font-13">1</TableCell>
-                <TableCell className="text-center  size='small' align-middle font-13">1</TableCell>
-                <TableCell className="text-center  size='small' align-middle font-13">1</TableCell>
-                <TableCell className="text-center  size='small' align-middle font-13">1</TableCell>
+            {data.map((item, index) => (
+              <TableRow key={item.id}>
+                <TableCell align='center' className="  size='small' align-middle font-13">{index + 1}</TableCell>
+                <TableCell className="  size='small' align-middle font-13">{item.luuVucSong}</TableCell>
+                <TableCell align='center' className="  size='small' align-middle font-13">{item.tongTramQuanTracKyTruoc}</TableCell>
+                <TableCell align='center' className="  size='small' align-middle font-13">{item.tongTramQuanTracBaoCao}</TableCell>
+                <TableCell align='center' className="  size='small' align-middle font-13">{CalculateReportData(item.tongTramQuanTracBaoCao,item.tongTramQuanTracKyTruoc)}</TableCell>
+                <TableCell align='center' className="  size='small' align-middle font-13">{item.tramKhiTuongKyTruoc}</TableCell>
+                <TableCell align='center' className="  size='small' align-middle font-13">{item.tramKhiTuongBaoCao}</TableCell>
+                <TableCell align='center' className="  size='small' align-middle font-13">{CalculateReportData(item.tramKhiTuongBaoCao,item.tramKhiTuongKyTruoc)}</TableCell>
+                <TableCell align='center' className="  size='small' align-middle font-13">{item.tramThuyVanKyTruoc}</TableCell>
+                <TableCell align='center' className="  size='small' align-middle font-13">{item.tramThuyVanKyBaoCao}</TableCell>
+                <TableCell align='center' className="  size='small' align-middle font-13">{CalculateReportData(item.tramThuyVanKyBaoCao,item.tramThuyVanKyTruoc)}</TableCell>
+                <TableCell align='center' className="  size='small' align-middle font-13">{item.tramTNNKyTruoc}</TableCell>
+                <TableCell align='center' className="  size='small' align-middle font-13">{item.tramTNNKyBaoCao}</TableCell>
+                <TableCell align='center' className="  size='small' align-middle font-13">{CalculateReportData(item.tramTNNKyBaoCao,item.tramTNNKyTruoc)}</TableCell>
+                <TableCell align='center' className="  size='small' align-middle font-13">{item.tramQuanTracKyTruoc}</TableCell>
+                <TableCell align='center' className="  size='small' align-middle font-13">{item.tramQuanTracKyBaoCao}</TableCell>
+                <TableCell align='center' className="  size='small' align-middle font-13">{CalculateReportData(item.tramQuanTracKyBaoCao,item.tramQuanTracKyTruoc)}</TableCell>
+                <TableCell align='center' className="  size='small' align-middle font-13">
+                    <Box>
+                    <CreateReport2 isEdit={true} data={item} setPostSuccess={handlePostSuccess} />
+                    <DeleteData url={'BieuMauSoHai'} data={item} setPostSuccess={handlePostSuccess} />
+
+                </Box>
+                    </TableCell>
               </TableRow>
+            ))}
+              
             </TableBody>
           </Table>
         </TableContainer>
       </Grid>
+      )}
+     
   
       <FooterReport/>
     </Paper>
