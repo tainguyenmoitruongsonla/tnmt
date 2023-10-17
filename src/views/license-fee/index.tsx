@@ -26,16 +26,16 @@ const LicenseFee = (props: LicenseFeeProps) => {
   const columns: GridColDef[] = [
     { field: 'id', headerAlign: 'center', headerName: 'ID', minWidth: 90 },
     {
-      field: 'licenseFeeNumber', headerAlign: 'center', headerName: 'Quyết định cấp quyền', minWidth: 180,
+      field: 'soQDTCQ', headerAlign: 'center', headerName: 'Quyết định cấp quyền', minWidth: 180,
       renderCell: (data: any) => (
         <ShowFilePDF
-          name={data.row.licenseFeeNumber || ''}
-          src={`pdf/tien-cap-quyen/${data.row.licensingAuthorities}/${new Date(data.row.signDate).getFullYear()}/`}
+          name={data.row.soQDTCQ || ''}
+          src={`pdf/tien-cap-quyen/${data.row.licensingAuthorities}/${new Date(data.row.ngayKy).getFullYear()}/`}
           fileName={data.row.filePDF || ''}
         />
       ),
     },
-    { field: 'signDate', headerAlign: 'center', headerName: 'Ngày ký', minWidth: 180, renderCell: (data: any) => FormatDate(data.row.signDate) },
+    { field: 'ngayKy', headerAlign: 'center', headerName: 'Ngày ký', minWidth: 180, renderCell: (data: any) => FormatDate(data.row.ngayKy) },
     {
       field: 'supplementLicenseFee', headerAlign: 'center', headerName: 'Quyết định bổ sung', minWidth: 180, renderCell: (data: any) => (
         <ShowFilePDF
@@ -45,10 +45,46 @@ const LicenseFee = (props: LicenseFeeProps) => {
         />
       )
     },
-    { field: 'totalMoney', headerAlign: 'center', headerName: 'Tổng số tiền cấp quyền(VNĐ)', minWidth: 180, type: 'number' },
-    { field: 'description', headerAlign: 'center', flex: 1, minWidth: 280, headerName: 'Ghi chú' },
-    { field: 'LicenseNumber', headerAlign: 'center', headerName: 'Giấy phép', minWidth: 180 },
-    { field: 'ConstructionName', headerAlign: 'center', headerName: 'Công trình', minWidth: 180 },
+    { field: 'tongTienCQ', headerAlign: 'center', headerName: 'Tổng số tiền cấp quyền(VNĐ)', minWidth: 180, type: 'number' },
+    { field: 'ghiChu', headerAlign: 'center', flex: 1, minWidth: 280, headerName: 'Ghi chú' },
+    //license
+    {
+      field: 'license.LicenseNumber',
+      headerAlign: 'center',
+      headerName: 'Giấy phép',
+      minWidth: 150,
+      renderCell: (params) => (
+        <div style={{ width: '100%' }}>
+          {params.row.giayphep.map((e: any) => (
+            <div key={e.id}>
+              <ShowFilePDF
+                name={e?.soGP || ''}
+                src={`/pdf/giay-phep/${e.coQuanCapPhep?.toLowerCase()}/${new Date(e?.ngayKy).getFullYear()}/`}
+                fileName={e?.filePDF || ''}
+              />
+            </div>
+          ))}
+        </div>
+      ),
+
+    },
+    //construction
+    {
+      field: 'construction.LicenseNumber',
+      headerAlign: 'center',
+      headerName: 'Công trình',
+      minWidth: 150,
+      renderCell: (params) => (
+        <div style={{ width: '100%' }}>
+          {params.row.congtrinh.map((e: any) => (
+            <div key={e.id}>
+              {e.tenCT}
+            </div>
+          ))}
+        </div>
+      ),
+
+    },
 
     //Action
     {
@@ -56,7 +92,7 @@ const LicenseFee = (props: LicenseFeeProps) => {
       renderCell: (data) => (
         <Box>
           <FormLicenseFee isEdit={true} data={data.row} setPostSuccess={handlePostSuccess} />
-          <DeleteData url={'LicenseFee'} data={data} setPostSuccess={handlePostSuccess} />
+          <DeleteData url={'tien-cap-quyen'} data={data} setPostSuccess={handlePostSuccess} />
         </Box>
       )
     },
@@ -84,6 +120,8 @@ const LicenseFee = (props: LicenseFeeProps) => {
 
   // Calculate the total of resData.totalMoney
   const totalMoneySum = resData.reduce((sum, item: any) => sum + (item.totalMoney || 0), 0);
+
+  console.log(resData)
 
   return (
     <Grid container spacing={3}>
