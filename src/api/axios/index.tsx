@@ -44,7 +44,7 @@ export async function saveData(url: string, data: any) {
 export async function deleteData(url: string, resourceId: any) {
     const token = localStorage.getItem('authToken');
     try {
-        const response = await axios.post(`${apiUrl}/${url}/${resourceId}`, {
+        const response = await axios.get(`${apiUrl}/${url}/${resourceId}`, {
             headers: {
                 Authorization: `Bearer ${token}`,
             },
