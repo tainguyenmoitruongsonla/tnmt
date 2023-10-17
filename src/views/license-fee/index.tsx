@@ -30,18 +30,18 @@ const LicenseFee = (props: LicenseFeeProps) => {
       renderCell: (data: any) => (
         <ShowFilePDF
           name={data.row.soQDTCQ || ''}
-          src={`pdf/tien-cap-quyen/${data.row.licensingAuthorities}/${new Date(data.row.ngayKy).getFullYear()}/`}
+          src={`pdf/tien-cap-quyen/${data.row.coQuanCP}/${new Date(data.row.ngayKy).getFullYear()}/`}
           fileName={data.row.filePDF || ''}
         />
       ),
     },
     { field: 'ngayKy', headerAlign: 'center', headerName: 'Ngày ký', minWidth: 180, renderCell: (data: any) => FormatDate(data.row.ngayKy) },
     {
-      field: 'supplementLicenseFee', headerAlign: 'center', headerName: 'Quyết định bổ sung', minWidth: 180, renderCell: (data: any) => (
+      field: 'qd_bosung', headerAlign: 'center', headerName: 'Quyết định bổ sung', minWidth: 180, renderCell: (data: any) => (
         <ShowFilePDF
-          name={data.row.supplementLicenseFee?.licenseFeeNumber || ''}
-          src={`pdf/tien-cap-quyen/${data.row.licensingAuthorities}/${new Date(data.row.supplementLicenseFee?.signDate).getFullYear()}/`}
-          fileName={data.row.supplementLicenseFee?.filePDF || ''}
+          name={data.row.qd_bosung?.soQDTCQ || ''}
+          src={`pdf/tien-cap-quyen/${data.row.coQuanCP}/${new Date(data.row.qd_bosung?.ngayKy).getFullYear()}/`}
+          fileName={data.row.qd_bosung?.filePDF || ''}
         />
       )
     },
@@ -49,7 +49,7 @@ const LicenseFee = (props: LicenseFeeProps) => {
     { field: 'ghiChu', headerAlign: 'center', flex: 1, minWidth: 280, headerName: 'Ghi chú' },
     //license
     {
-      field: 'license.LicenseNumber',
+      field: 'so_gp',
       headerAlign: 'center',
       headerName: 'Giấy phép',
       minWidth: 150,
@@ -70,7 +70,7 @@ const LicenseFee = (props: LicenseFeeProps) => {
     },
     //construction
     {
-      field: 'construction.LicenseNumber',
+      field: 'ten_ct',
       headerAlign: 'center',
       headerName: 'Công trình',
       minWidth: 150,
@@ -138,7 +138,6 @@ const LicenseFee = (props: LicenseFeeProps) => {
       </Grid>
       <Grid item xs={12} sm={12} md={12}>
         <Paper elevation={3} sx={{ p: 0, height: '100%' }}>
-
           <Toolbar variant="dense">
             <Grid container justifyContent={'end'} >
               <Grid item>
