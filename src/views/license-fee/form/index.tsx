@@ -15,12 +15,12 @@ const Form = ({ data, setPostSuccess, closeDialogs }: any) => {
 
     const [values, setValues] = useState<LicenseFeeState>({
         id: data?.id || 0,
-        childrenId: data?.childrenId || 0,
-        licenseFeeNumber: data?.licenseFeeNumber || null,
-        signDate: dayjs(data?.signDate) || null,
-        totalMoney: data?.totalMoney || null,
+        idCon: data?.idCon || 0,
+        soQDTCQ: data?.soQDTCQ || null,
+        ngayKy: dayjs(data?.ngayKy) || null,
+        tongTienCQ: data?.tongTienCQ || null,
         filePDF: data?.filePDF || null,
-        description: data?.description || null,
+        ghiChu: data?.ghiChu || null,
     });
 
     const [fileUpload, setFileUpload] = useState<any>()
@@ -67,23 +67,23 @@ const Form = ({ data, setPostSuccess, closeDialogs }: any) => {
         e.preventDefault();
 
         const handleApiCall = async () => {
-            let licAuthorities: string;
+            let coquan_cp: string;
 
             if (router.pathname.split('/')[2] == 'bo-cap') {
-                licAuthorities = 'BTNMT';
+                coquan_cp = 'BTNMT';
             } else {
-                licAuthorities = 'UBNDT';
+                coquan_cp = 'UBNDT';
             }
 
             const newVal = {
                 ...values,
-                licensingAuthorities: licAuthorities,
-                signDate: values.signDate?.toDate(),
-                filePDF: `${values.licenseFeeNumber?.replace(/\//g, "_").toLowerCase()}.pdf`
+                coQuanCP: coquan_cp,
+                ngayKy: values.ngayKy?.toDate(),
+                filePDF: `${values.soQDTCQ?.replace(/\//g, "_").toLowerCase()}.pdf`
             }
 
             const newFile = {
-                filePath: `pdf/tien-cap-quyen/${licAuthorities.toLowerCase()}/${newVal.signDate?.getFullYear()}`,
+                filePath: `pdf/tien-cap-quyen/${coquan_cp.toLowerCase()}/${newVal.ngayKy?.getFullYear()}`,
                 fileName: newVal.filePDF,
                 file: fileUpload
             }
@@ -132,10 +132,10 @@ const Form = ({ data, setPostSuccess, closeDialogs }: any) => {
                             <CircularProgress size={20} />
                         ) : (
                             <Autocomplete
-                                onChange={(e: any, v: any) => setValues({ ...values, childrenId: v.id })}
+                                onChange={(e: any, v: any) => setValues({ ...values, idCon: v.id })}
                                 size="small"
                                 options={listLicFee}
-                                getOptionLabel={(option: any) => option.licenseFeeNumber}
+                                getOptionLabel={(option: any) => option.soQDTCQ}
                                 renderInput={(params) => (
                                     <TextField
                                         {...params}
@@ -150,20 +150,20 @@ const Form = ({ data, setPostSuccess, closeDialogs }: any) => {
                 ) : ''}
 
                 <Grid item xs={12} md={12} sx={{ my: 2 }}>
-                    <TextField size='small' type='text' fullWidth label='Số quyết định' placeholder='' value={values?.licenseFeeNumber || ''} onChange={handleChange('licenseFeeNumber')} />
+                    <TextField size='small' type='text' fullWidth label='Số quyết định' placeholder='' value={values?.soQDTCQ || ''} onChange={handleChange('soQDTCQ')} />
                 </Grid>
                 <Grid item xs={12} md={12} sx={{ my: 2 }}>
                     <LocalizationProvider dateAdapter={AdapterDayjs}>
                         <DatePicker
                             label="Ngày ký"
-                            value={values.signDate || null}
-                            onChange={(newSignDate: any) => setValues({ ...values, signDate: newSignDate })}
+                            value={values.ngayKy || null}
+                            onChange={(newngayKy: any) => setValues({ ...values, ngayKy: newngayKy })}
                             slotProps={{ textField: { size: 'small', fullWidth: true } }}
                             format="DD/MM/YYYY" />
                     </LocalizationProvider>
                 </Grid>
                 <Grid item xs={12} md={12} sx={{ my: 2 }}>
-                    <TextField size='small' type='text' fullWidth label='Tổng tiền' placeholder='' value={values?.totalMoney || 0} onChange={handleChange('totalMoney')} />
+                    <TextField size='small' type='text' fullWidth label='Tổng tiền' placeholder='' value={values?.tongTienCQ || 0} onChange={handleChange('tongTienCQ')} />
                 </Grid>
                 <Grid item xs={12} md={12} sx={{ my: 2 }}>
                     <Button
@@ -178,7 +178,7 @@ const Form = ({ data, setPostSuccess, closeDialogs }: any) => {
                     </Button>
                 </Grid>
                 <Grid item xs={12} md={12} sx={{ my: 2 }}>
-                    <TextField size='small' type='text' fullWidth label='Ghi chú' placeholder='' value={values?.description || ''} onChange={handleChange('description')} />
+                    <TextField size='small' type='text' fullWidth label='Ghi chú' placeholder='' value={values?.ghiChu || ''} onChange={handleChange('ghiChu')} />
                 </Grid>
             </Grid>
             <DialogActions sx={{ p: 0 }}>

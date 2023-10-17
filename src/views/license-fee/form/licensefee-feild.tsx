@@ -16,12 +16,12 @@ const LicenseFeeFeild: FC<LicenseFeeFieldsetProps> = ({ data, onChange }) => {
 
     const initialLicenseFees: LicenseFeeState[] = data ? data.map((e: LicenseFeeState) => ({
         id: e.id,
-        childrenId: e.childrenId,
-        licenseFeeNumber: e.licenseFeeNumber,
-        signDate: dayjs(e?.signDate),
-        totalMoney: e.totalMoney,
+        idCon: e.idCon,
+        soQDTCQ: e.soQDTCQ,
+        ngayKy: dayjs(e?.ngayKy),
+        tongTienCQ: e.tongTienCQ,
         filePDF: e.filePDF,
-        description: e.description,
+        ghiChu: e.ghiChu,
     })) : [];
 
 
@@ -31,12 +31,12 @@ const LicenseFeeFeild: FC<LicenseFeeFieldsetProps> = ({ data, onChange }) => {
     const addLicenseFee = () => {
         const newItem: LicenseFeeState = {
             id: 0,
-            childrenId: 0,
-            licenseFeeNumber: '',
-            signDate: null,
-            totalMoney: 0,
+            idCon: 0,
+            soQDTCQ: '',
+            ngayKy: null,
+            tongTienCQ: 0,
             filePDF: null,
-            description: null,
+            ghiChu: null,
             fileUpload: null,
         };
         setLicenseFees((prevItems) => [...prevItems, newItem]);
@@ -88,7 +88,7 @@ const LicenseFeeFeild: FC<LicenseFeeFieldsetProps> = ({ data, onChange }) => {
             newLicenseFees[index] = {
                 ...newLicenseFees[index],
                 [prop]: value,
-                filePDF: `${newLicenseFees[index].licenseFeeNumber?.replace(/\//g, "_").toLowerCase()}.pdf`,
+                filePDF: `${newLicenseFees[index].soQDTCQ?.replace(/\//g, "_").toLowerCase()}.pdf`,
             };
             onChange(newLicenseFees, itemDelete);
 
@@ -102,7 +102,7 @@ const LicenseFeeFeild: FC<LicenseFeeFieldsetProps> = ({ data, onChange }) => {
             const newFileUpload = [...prevLicenseFees];
             newFileUpload[index] = {
                 ...newFileUpload[index],
-                filePDF: `${newFileUpload[index].licenseFeeNumber?.replace(/\//g, "_").toLowerCase()}.pdf`,
+                filePDF: `${newFileUpload[index].soQDTCQ?.replace(/\//g, "_").toLowerCase()}.pdf`,
                 fileUpload: file,
             };
             onChange(newFileUpload, itemDelete);
@@ -145,15 +145,15 @@ const LicenseFeeFeild: FC<LicenseFeeFieldsetProps> = ({ data, onChange }) => {
                                         type='text'
                                         fullWidth
                                         placeholder=''
-                                        value={item.licenseFeeNumber}
-                                        onChange={(event) => handleChange(index, 'licenseFeeNumber')(event.target.value)}
+                                        value={item.soQDTCQ}
+                                        onChange={(event) => handleChange(index, 'soQDTCQ')(event.target.value)}
                                     />
                                 </TableCell>
                                 <TableCell>
                                     <LocalizationProvider dateAdapter={AdapterDayjs}>
                                         <DatePicker
-                                            value={dayjs(item.signDate)}
-                                            onChange={(newSignDate: any) => handleChange(index, 'signDate')(newSignDate.toDate())}
+                                            value={dayjs(item.ngayKy)}
+                                            onChange={(newngayKy: any) => handleChange(index, 'ngayKy')(newngayKy.toDate())}
                                             slotProps={{ textField: { size: 'small', fullWidth: true } }}
                                             format="DD/MM/YYYY" />
                                     </LocalizationProvider>
@@ -164,8 +164,8 @@ const LicenseFeeFeild: FC<LicenseFeeFieldsetProps> = ({ data, onChange }) => {
                                         type='text'
                                         fullWidth
                                         placeholder=''
-                                        value={item.totalMoney}
-                                        onChange={(event) => handleChange(index, 'totalMoney')(event.target.value)}
+                                        value={item.tongTienCQ}
+                                        onChange={(event) => handleChange(index, 'tongTienCQ')(event.target.value)}
                                     />
                                 </TableCell>
                                 <TableCell>
@@ -184,14 +184,14 @@ const LicenseFeeFeild: FC<LicenseFeeFieldsetProps> = ({ data, onChange }) => {
                                 <TableCell size='small' align='center'>
                                     <>
                                         <IconButton
-                                            aria-describedby={`${item.licenseFeeNumber}-${index}`}
+                                            aria-describedby={`${item.soQDTCQ}-${index}`}
                                             onClick={(event) => DeleteRowData(event, index)} // Pass the index here
-                                            data-row-id={`${item.licenseFeeNumber}-${index}`}
+                                            data-row-id={`${item.soQDTCQ}-${index}`}
                                         >
                                             <Delete className='tableActionBtn deleteBtn' />
                                         </IconButton>
                                         <Popover
-                                            id={deleteConfirmOpen ? `${item.licenseFeeNumber}-${index}` : undefined}
+                                            id={deleteConfirmOpen ? `${item.soQDTCQ}-${index}` : undefined}
                                             open={deleteConfirmOpen}
                                             anchorEl={deleteConfirmAnchorEl}
                                             onClose={handleDeleteCancel}

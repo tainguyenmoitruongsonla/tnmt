@@ -2,22 +2,22 @@ import { Dayjs } from "dayjs";
 
 export interface LicenseFeeState {
     id?: number,
-    childrenId?: number,
-    licenseFeeNumber?: string | null,
-    signDate?: Dayjs | null,
-    totalMoney?: number | undefined,
+    idCon?: number,
+    soQDTCQ?: string | null,
+    ngayKy?: Dayjs | null,
+    tongTienCQ?: number | undefined,
     filePDF?: string | null,
-    description?: string | null,
+    ghiChu?: string | null,
     fileUpload?: File | null | undefined,
 }
 
 export const emptyLicenseFeeData = {
     id: 0,
-    childrenId: 0,
-    licenseFeeNumber: '',
-    signDate: null,
-    totalMoney: 0,
+    idCon: 0,
+    soQDTCQ: '',
+    ngayKy: null,
+    tongTienCQ: 0,
     filePDF: null,
-    description: null,
+    ghiChu: null,
     fileUpload: null,
 }
