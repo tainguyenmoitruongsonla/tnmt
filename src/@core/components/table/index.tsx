@@ -11,7 +11,7 @@ interface TableColumn {
   showId?: number[];
   colspan?: number;
   rowspan?: number;
-  align: "left" | "center" | "right" | "justify" | "inherit" | undefined;
+  align?: "left" | "center" | "right" | "justify" | "inherit" | undefined;
   children?: TableColumn[];
   format?: (value: any) => string | React.ReactNode;
   elm?: React.ReactNode;
