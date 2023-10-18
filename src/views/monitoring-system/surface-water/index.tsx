@@ -1,15 +1,13 @@
 import { useState, useEffect, useRef } from 'react'
 
 // ** MUI Imports
-import { Grid, Box, Button, Card, CardContent, IconButton, Tooltip, Typography, Autocomplete, TextField } from '@mui/material';
+import { Grid, Box, Card, CardContent, IconButton, Tooltip, Typography } from '@mui/material';
 
 // ** Icons Imports
-import SearchIcon from '@mui/icons-material/Search';
 import { EditNote, Delete } from "@mui/icons-material";
 
 // ** Components Imports
 import TableComponent from 'src/@core/components/table';
-import sufacemonitoringData from 'src/api/monitoringsystem/nuocmat';
 import DisplayOperatingStatus from 'src/@core/components/monitoring-page/check-status';
 
 import dynamic from 'next/dynamic';
@@ -20,19 +18,19 @@ import { calculateMonitoringData } from 'src/@core/components/calculate-monitori
 
 const Map = dynamic(() => import("src/@core/components/map"), { ssr: false });
 
-const constructionType = [
-  { title: "Chọn loại CT", value: 1 },
-  { title: "Thủy điện", value: 4 },
-  { title: "Hồ chứa", value: 5 },
-  { title: "Trạm bơm", value: 6 },
-  { title: "Cống", value: 13 },
-  { title: "Trạm cấp nước", value: 11 },
-];
+// const constructionType = [
+//   { title: "Chọn loại CT", value: 1 },
+//   { title: "Thủy điện", value: 4 },
+//   { title: "Hồ chứa", value: 5 },
+//   { title: "Trạm bơm", value: 6 },
+//   { title: "Cống", value: 13 },
+//   { title: "Trạm cấp nước", value: 11 },
+// ];
 
-const licensingAuthorities = [
-  { title: "BTNMT", value: 'BTNMT' },
-  { title: "UBND Tỉnh", value: 'UBNDT' },
-];
+// const licensingAuthorities = [
+//   { title: "BTNMT", value: 'BTNMT' },
+//   { title: "UBND Tỉnh", value: 'UBNDT' },
+// ];
 
 // id of columnsTable is parameter to bind ex: get LicseFk.BasinId: id: 'License_Fk.BasinId'
 const columnsTable = [
@@ -97,11 +95,12 @@ const SurfaceWaterMonitoring = () => {
   const [mapCenter] = useState([15.012172, 108.676488]);
   const [mapZoom] = useState(9);
 
-  const [TypeOfConsId, setTypeOfConsId] = useState([1]);
-  const handleChange = (e: any) => {
-    const val = (e == undefined || e == null ? 1 : e.value)
-    setTypeOfConsId(val)
-  }
+  const [TypeOfConsId] = useState([1]);
+  
+  // const handleChange = (e: any) => {
+  //   const val = (e == undefined || e == null ? 1 : e.value)
+  //   setTypeOfConsId(val)
+  // }
 
   const [data, setData] = useState<any[]>([]);
   const [columns, setColumns] = useState<any[]>([]);
@@ -139,6 +138,7 @@ const SurfaceWaterMonitoring = () => {
     setColumns(columnsTable);
 
     // fetchData();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const router = useRouter();
@@ -172,7 +172,7 @@ const SurfaceWaterMonitoring = () => {
     nguonnuoc_kt: null,
 });
 
-  const handleFilterChange = (data: any, postSuccess: boolean | undefined) => {
+  const handleFilterChange = (data: any) => {
     setParamsFilter(data);
   };
 

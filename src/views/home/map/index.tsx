@@ -30,6 +30,8 @@ const HomeMap = () => {
         "congtrinh_xathaikhac"
     ])
 
+    console.log(initConsType)
+
     const [resData, setResData] = useState([]);
     const [loading, setLoading] = useState<boolean>(false)
 

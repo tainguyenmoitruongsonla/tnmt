@@ -47,6 +47,7 @@ const LicenseFee = (props: LicenseFeeProps) => {
     },
     { field: 'tongTienCQ', headerAlign: 'center', headerName: 'Tổng số tiền cấp quyền(VNĐ)', minWidth: 180, type: 'number' },
     { field: 'ghiChu', headerAlign: 'center', flex: 1, minWidth: 280, headerName: 'Ghi chú' },
+
     //license
     {
       field: 'so_gp',
@@ -68,6 +69,7 @@ const LicenseFee = (props: LicenseFeeProps) => {
       ),
 
     },
+    
     //construction
     {
       field: 'ten_ct',

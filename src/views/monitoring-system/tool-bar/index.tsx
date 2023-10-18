@@ -8,7 +8,8 @@ interface MonitoringSystemToolBarProps {
     onChange: (data: any, postSuccess?: boolean | undefined) => void;
 }
 const MonitoringSystemToolBar: FC<MonitoringSystemToolBarProps> = ({ onChange }) => {
-    const [postSucceed, setPostSucceed] = useState(false);
+    
+    // const [postSucceed, setPostSucceed] = useState(false);
     const router = useRouter();
     const [consTypes, setConsTypes] = useState([])
     const [businesses, setBusinesses] = useState([]);
@@ -73,10 +74,10 @@ const MonitoringSystemToolBar: FC<MonitoringSystemToolBarProps> = ({ onChange })
 
     };
 
-    const handlePostSuccess = () => {
-        setPostSucceed(prevState => !prevState);
-        onChange(paramsFilter, postSucceed);
-    };
+    // const handlePostSuccess = () => {
+    //     setPostSucceed(prevState => !prevState);
+    //     onChange(paramsFilter, postSucceed);
+    // };
 
     const applyFilterChange = () => {
         onChange(paramsFilter);
