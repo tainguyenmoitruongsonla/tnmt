@@ -42,35 +42,38 @@ const columnsTable = [
   { id: 'hHaLuuTT', label: (<span>Mực nước <br /> hạ lưu (m)</span>), showId: [1, 4, 5], rowspan: 2, align: 'center' },
   { id: 'dungTichTT', label: (<span>Dung tích hồ  <br /> (triệu m<sup>3</sup>)</span>), showId: [1, 4, 5], rowspan: 2, align: 'center' },
   {
-    id: '#', label: 'Mưc nước thượng lưu hồ (m)', showId: [1, 4, 5], children: [
+    id: '#', label: 'Mực nước thượng lưu hồ (m)', showId: [1, 4, 5], children: [
       { id: 'hThuongLuu', label: 'Ngưỡng tràn', elm: (row: any) => (<span>{row.thongso?.hThuongLuu}</span>), align: 'center'},
       { id: 'hThuongLuuTT', label: 'Thực tế ', align: 'center'},
       { id: '', label: 'Chênh lệch (+/-)', elm: (row: any) => (calculateMonitoringData(row.thongso?.hThuongLuu,  row.hThuongLuuTT)), align: 'center'},
     ]
   },
   {
+    id: '#', label: 'Lưu lượng xả nhà máy (m3/s)', showId: [1, 4, 5], children: [
+      { id: 'qmaxNM', label: 'Ngưỡng tràn', elm: (row: any) => (<span>{row.thongso?.qmaxNM}</span>), align: 'center'},
+      { id: 'qMaxTT', label: 'Thực tế', align: 'center'},
+      { id: '', label: 'Chênh lệch (+/-)', elm: (row: any) => (calculateMonitoringData(row.thongso?.qmaxNM,  row.qMaxTT)), align: 'center'},
+    ]
+  },
+  {
     id: '#', label: (<span>Lưu lượng <br />xả qua tràn  (m3/s)</span>), showId: [1, 4, 5], children: [
-      { id: 'qXaTran', label: 'Ngưỡng tràn', elm: (row: any) => (<span>{row.thongso?.hThuongLuu}</span>), align: 'center'},
-      { id: 'qXaTranTT', label: 'Thực tế', elm: (row: any) => (<span>{row.thongso?.qXaTran}</span>), align: 'center'},
+      { id: 'qXaTran', label: 'Ngưỡng tràn', elm: (row: any) => (<span>{row.thongso?.qXaTran}</span>), align: 'center'},
+      { id: 'qXaTranTT', label: 'Thực tế', align: 'center'},
       { id: '', label: 'Chênh lệch (+/-)', elm: (row: any) => (calculateMonitoringData(row.thongso?.qXaTran,  row.qXaTranTT)), align: 'center'},
     ]
   },
   {
-    id: '#', label: 'Lưu lượng lớn nhất (m3/s)', colspan: 8, children: [
-      { id: 'qMaxNM', label: 'Ngưỡng tràn', },
-      { id: 'qMaxTT', label: 'Thực tế ', },
-      { id: '', label: 'Chênh lệch (+/-)', },
-    ]
-  },
-  {
     id: '#', label: 'Lưu lượng xả duy trì DCTT (m3/s) ', showId: [1, 4, 5], colspan: 8, children: [
-      { id: 'qTT', label: 'Ngưỡng tràn', },
+      { id: 'qtt', label: 'Ngưỡng tràn',  elm: (row: any) => (<span>{row.thongso?.qtt}</span>), align: 'center'},
       { id: 'qMinTT', label: 'Thực tế ', },
-      { id: '', label: 'Chênh lệch (+/-)', },
+      { id: '', label: 'Chênh lệch (+/-)', elm: (row: any) => (calculateMonitoringData(row.thongso?.qtt,  row.qMinTT)), align: 'center'},
     ]
   },
   {
-    id: '#', label: 'Lưu lượng về hạ du (m3/s) ', showId: [1, 4], colspan: 8, children: [
+    id: '#', label: 'Lưu lượng về hạ du (m3/s) ', showId: [1, 4], rowspan: 2,
+  },
+  {
+    id: '#', label: 'Lưu lượng khai thác (m3/s) ', showId: [1, 4], colspan: 8, children: [
       { id: '', label: 'Ngưỡng tràn', },
       { id: '', label: 'Thực tế ', },
       { id: '', label: 'Chênh lệch (+/-)', },
@@ -103,6 +106,7 @@ const SurfaceWaterMonitoring = () => {
   const [data, setData] = useState<any[]>([]);
   const [columns, setColumns] = useState<any[]>([]);
   const [loading, setLoading] = useState(false)
+  const [total, setTotal] = useState(0)
 
   const isMounted = useRef(true);
     useEffect(() => {
@@ -120,6 +124,7 @@ const SurfaceWaterMonitoring = () => {
           .then((data) => {console.log(data);
               if (isMounted.current) {
                 setData(data);
+                setTotal(data.length);
               }
           })
           .catch((error) => {
@@ -189,7 +194,7 @@ const SurfaceWaterMonitoring = () => {
         </Card>
       </Grid>
       <Grid item xs={12} sm={5} md={3}>
-        <Typography>Tổng số bản ghi đã tìm thấy:132</Typography>
+        <Typography>Tổng số bản ghi đã tìm thấy: {total}</Typography>
       </Grid>
       {/* <Grid item xs={12} sm={7} md={9}>
         <Grid className='_search _row'>
