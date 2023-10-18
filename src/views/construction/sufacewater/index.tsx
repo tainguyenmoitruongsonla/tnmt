@@ -19,8 +19,6 @@ import { useRouter } from 'next/router'
 import ConstructionToolBar from '../tool-bar'
 import { getData } from 'src/api/axios'
 import DeleteData from 'src/@core/components/delete-data'
-import { getConstructionTypeId } from 'src/@core/components/get-construction-type'
-import CheckEffect from 'src/views/license/check-effect'
 
 const Map = dynamic(() => import('src/@core/components/map'), { ssr: false })
 
@@ -99,14 +97,14 @@ const SurfaceConstruction = () => {
       renderCell: data => <span>{data.row.thongso?.capCT}</span>
     },
     {
-      field: 'FLuuVuc',
+      field: 'dienTichLuuVuc',
       headerAlign: 'center',
       headerName: 'F lưu vực (km2)',
       minWidth: 150,
       renderCell: data => <span>{data.row.thongso?.dienTichLuuVuc}</span>
     },
     {
-      field: 'XTNNam',
+      field: 'muaTrungBinhNam',
       headerAlign: 'center',
       renderHeader: () => (
         <span>
@@ -117,7 +115,7 @@ const SurfaceConstruction = () => {
       renderCell: data => <span>{data.row.thongso?.muaTrungBinhNam}</span>
     },
     {
-      field: 'flowAvgForYears',
+      field: 'qTrungBinhNam',
       headerAlign: 'center',
       renderHeader: () => (
         <span>
@@ -128,42 +126,42 @@ const SurfaceConstruction = () => {
       renderCell: data => <span>{data.row.thongso?.qTrungBinhNam}</span>
     },
     {
-      field: 'power',
+      field: 'congSuatLM',
       headerAlign: 'center',
       headerName: 'CS lắp máy(MW)',
       minWidth: 150,
       renderCell: data => <span>{data.row.thongso?.congSuatLM}</span>
     },
     {
-      field: 'guaranteedPower',
+      field: 'congSuatDamBao',
       headerAlign: 'center',
       headerName: 'CS đảm bảo (MW)',
       minWidth: 150,
       renderCell: data => <span>{data.row.thongso?.congSuatDamBao}</span>
     },
     {
-      field: 'damHeight',
+      field: 'chieuCaoDap',
       headerAlign: 'center',
       headerName: 'Chiều cao đập (m)',
       minWidth: 150,
       renderCell: data => <span>{data.row.thongso?.chieuCaoDap}</span>
     },
     {
-      field: 'damWidth',
+      field: 'chieuDaiDap',
       headerAlign: 'center',
       headerName: 'Chiều dài đập (m)',
       minWidth: 150,
       renderCell: data => <span>{data.row.thongso?.chieuDaiDap}</span>
     },
     {
-      field: 'damElevation',
+      field: 'caoTrinhDap',
       headerAlign: 'center',
       headerName: 'Cao trình đập (m)',
       minWidth: 150,
       renderCell: data => <span>{data.row.thongso?.caoTrinhDap}</span>
     },
     {
-      field: 'maximumFlow',
+      field: 'qmaxNM',
       headerAlign: 'center',
       renderHeader: () => (
         <span>
@@ -174,7 +172,7 @@ const SurfaceConstruction = () => {
       renderCell: data => <span>{data.row.thongso?.qmaxNM}</span>
     },
     {
-      field: 'minimumFlow',
+      field: 'qtt',
       headerAlign: 'center',
       renderHeader: () => (
         <span>
@@ -185,7 +183,7 @@ const SurfaceConstruction = () => {
       renderCell: data => <span>{data.row.thongso?.qtt}</span>
     },
     {
-      field: 'guaranteedFlow',
+      field: 'qDamBao',
       headerAlign: 'center',
       renderHeader: () => (
         <span>
@@ -218,7 +216,7 @@ const SurfaceConstruction = () => {
       renderCell: data => <span>{data.row.thongso?.hmin}</span>
     },
     {
-      field: 'htt',
+      field: 'htoiThieu',
       headerAlign: 'center',
       renderHeader: () => (
         <span>
@@ -229,21 +227,21 @@ const SurfaceConstruction = () => {
       renderCell: data => <span>{data.row.thongso?.htoiThieu}</span>
     },
     {
-      field: 'deadWL',
+      field: 'mnc',
       headerAlign: 'center',
       headerName: 'MNC(m)',
       minWidth: 150,
       renderCell: data => <span>{data.row.thongso?.mnc}</span>
     },
     {
-      field: 'riseWL',
+      field: 'mndbt',
       headerAlign: 'center',
       headerName: 'MNDBT(m)',
       minWidth: 150,
       renderCell: data => <span>{data.row.thongso?.mndbt}</span>
     },
     {
-      field: 'designFloodLevel',
+      field: 'mnltk',
       headerAlign: 'center',
       headerName: 'MNLTK(m)',
       minWidth: 150,
@@ -254,7 +252,7 @@ const SurfaceConstruction = () => {
       )
     },
     {
-      field: 'checkFloodWL',
+      field: 'mnlkt',
       headerAlign: 'center',
       headerName: 'MNLKT(m)',
       minWidth: 150,
@@ -265,7 +263,7 @@ const SurfaceConstruction = () => {
       )
     },
     {
-      field: 'totalCapacity',
+      field: 'dungTichToanBo',
       headerAlign: 'center',
       renderHeader: () => (
         <span>
@@ -280,7 +278,7 @@ const SurfaceConstruction = () => {
       )
     },
     {
-      field: 'deadCapacity',
+      field: 'dungTichChet',
       headerAlign: 'center',
       renderHeader: () => (
         <span>
@@ -295,7 +293,7 @@ const SurfaceConstruction = () => {
       )
     },
     {
-      field: 'usefulCapacity',
+      field: 'dungTichHuuIch',
       headerAlign: 'center',
       renderHeader: () => (
         <span>
@@ -311,7 +309,7 @@ const SurfaceConstruction = () => {
     },
 
     {
-      field: 'pumpNumber',
+      field: 'soLuongMayBom',
       headerAlign: 'center',
       headerName: 'Số máy bơm',
       minWidth: 150,
@@ -322,7 +320,7 @@ const SurfaceConstruction = () => {
       )
     },
     {
-      field: 'flowDesigned',
+      field: 'qThietKe',
       headerAlign: 'center',
       renderHeader: () => (
         <span>
@@ -337,7 +335,7 @@ const SurfaceConstruction = () => {
       )
     },
     {
-      field: 'realityFlow',
+      field: 'qThucTe',
       headerAlign: 'center',
       renderHeader: () => (
         <span>
@@ -352,7 +350,7 @@ const SurfaceConstruction = () => {
       )
     },
     {
-      field: 'wateringAreaDesigned',
+      field: 'dienTichTuoiThietKe',
       headerAlign: 'center',
       renderHeader: () => (
         <span>
@@ -367,7 +365,7 @@ const SurfaceConstruction = () => {
       )
     },
     {
-      field: 'realityWateringArea',
+      field: 'dienTichTuoiThucTe',
       headerAlign: 'center',
       renderHeader: () => (
         <span>
@@ -382,7 +380,7 @@ const SurfaceConstruction = () => {
       )
     },
     {
-      field: 'averagePumpTime',
+      field: 'thoiGianBomTB',
       headerAlign: 'center',
       renderHeader: () => (
         <span>
@@ -397,7 +395,7 @@ const SurfaceConstruction = () => {
       )
     },
     {
-      field: 'minimumPumpTime',
+      field: 'thoiGianBomNhoNhat',
       headerAlign: 'center',
       renderHeader: () => (
         <span>
@@ -412,7 +410,7 @@ const SurfaceConstruction = () => {
       )
     },
     {
-      field: 'maximumPumpTime',
+      field: 'thoiGianBomLonNhat',
       headerAlign: 'center',
       renderHeader: () => (
         <span>
@@ -429,7 +427,7 @@ const SurfaceConstruction = () => {
 
     //license
     {
-      field: 'license.LicenseNumber',
+      field: 'so_gp',
       headerAlign: 'center',
       headerName: 'Số GP',
       minWidth: 150,
@@ -448,7 +446,7 @@ const SurfaceConstruction = () => {
       )
     },
     {
-      field: 'license.SignDate',
+      field: 'ngaycap_gp',
       headerAlign: 'center',
       headerName: 'Thời hạn',
       minWidth: 150,
@@ -465,19 +463,19 @@ const SurfaceConstruction = () => {
 
     //licenseFee
     {
-      field: 'licenseFees.licenseFeeNumber',
+      field: 'qd_tcq',
       headerAlign: 'center',
       headerName: 'Số QĐ',
       minWidth: 150,
       renderCell: params => (
         <div style={{ width: '100%' }}>
-          {params.row.licenses?.map((e: any) =>
-            e?.licenseFees.map((e: any) => (
+          {params.row.giayphep?.map((e: any) =>
+            e?.tiencq.map((e: any) => (
               <div key={e.id}>
                 <ShowFilePDF
-                  name={e?.licenseFeeNumber || ''}
-                  src={`/pdf/tien-cap-quyen/${e.licensingAuthorities?.toLowerCase()}/${new Date(
-                    e?.signDate
+                  name={e?.soQDTCQ || ''}
+                  src={`/pdf/tien-cap-quyen/${e.coQuanCP?.toLowerCase()}/${new Date(
+                    e?.ngayKy
                   ).getFullYear()}/`}
                   fileName={e?.filePDF || ''}
                 />
@@ -488,17 +486,17 @@ const SurfaceConstruction = () => {
       )
     },
     {
-      field: 'licenseFees.TotalMoney',
+      field: 'tong_tcq',
       headerAlign: 'center',
       headerName: 'Tổng tiền cấp quyền (VNĐ)',
       minWidth: 150,
       type: 'number',
       renderCell: params => (
         <div style={{ width: '100%' }}>
-          {params.row.licenses?.map((e: any) =>
-            e?.licenseFees.map((e: any) => (
+          {params.row.giayphep?.map((e: any) =>
+            e?.tiencq.map((e: any) => (
               <div key={e.id}>
-                {e.totalMoney.toLocaleString('vi-VN', {
+                {e.tongTienCQ.toLocaleString('vi-VN', {
                   style: 'currency',
                   currency: 'VND'
                 })}
@@ -519,7 +517,7 @@ const SurfaceConstruction = () => {
       renderCell: data => (
         <Box>
           <CreateConstruction isEdit={true} data={data.row} setPostSuccess={handlePostSuccess} />
-          <DeleteData url={'Construction'} data={data} setPostSuccess={handlePostSuccess} />
+          <DeleteData url={'cong-trinh'} data={data} setPostSuccess={handlePostSuccess} />
         </Box>
       )
     }
@@ -549,47 +547,47 @@ const SurfaceConstruction = () => {
       headerAlign: 'center',
       children: [
         { field: 'capCT' },
-        { field: 'FLuuVuc' },
-        { field: 'XTNNam' },
-        { field: 'flowAvgForYears' },
-        { field: 'power' },
-        { field: 'guaranteedPower' },
-        { field: 'damHeight' },
-        { field: 'damWidth' },
-        { field: 'damElevation' },
-        { field: 'maximumFlow' },
-        { field: 'minimumFlow' },
-        { field: 'guaranteedFlow' },
+        { field: 'dienTichLuuVuc' },
+        { field: 'muaTrungBinhNam' },
+        { field: 'qTrungBinhNam' },
+        { field: 'congSuatLM' },
+        { field: 'congSuatDamBao' },
+        { field: 'chieuCaoDap' },
+        { field: 'chieuDaiDap' },
+        { field: 'caoTrinhDap' },
+        { field: 'qmaxNM' },
+        { field: 'qtt' },
+        { field: 'qDamBao' },
         { field: 'hmax' },
         { field: 'hmin' },
-        { field: 'htt' },
-        { field: 'deadWL' },
-        { field: 'riseWL' },
-        { field: 'designFloodLevel' },
-        { field: 'checkFloodWL' },
-        { field: 'totalCapacity' },
-        { field: 'deadCapacity' },
-        { field: 'usefulCapacity' },
-        { field: 'pumpNumber' },
-        { field: 'flowDesigned' },
-        { field: 'realityFlow' },
-        { field: 'wateringAreaDesigned' },
-        { field: 'realityWateringArea' },
-        { field: 'averagePumpTime' },
-        { field: 'minimumPumpTime' },
-        { field: 'maximumPumpTime' }
+        { field: 'htoiThieu' },
+        { field: 'mnc' },
+        { field: 'mndbt' },
+        { field: 'mnltk' },
+        { field: 'mnlkt' },
+        { field: 'dungTichToanBo' },
+        { field: 'dungTichChet' },
+        { field: 'dungTichHuuIch' },
+        { field: 'soLuongMayBom' },
+        { field: 'qThietKe' },
+        { field: 'qThucTe' },
+        { field: 'dienTichTuoiThietKe' },
+        { field: 'dienTichTuoiThucTe' },
+        { field: 'thoiGianBomTB' },
+        { field: 'thoiGianBomNhoNhat' },
+        { field: 'thoiGianBomLonNhat' }
       ]
     },
     {
       groupId: 'Thông tin giấy phép',
       headerAlign: 'center',
-      children: [{ field: 'license.LicenseNumber' }, { field: 'license.SignDate' }, { field: 'license.IssueDate' }]
+      children: [{ field: 'so_gp' }, { field: 'ngaycap_gp' }, { field: 'hieuluc_gp' }]
     },
 
     {
       groupId: 'Tiền cấp quyền',
       headerAlign: 'center',
-      children: [{ field: 'licenseFees.licenseFeeNumber' }, { field: 'licenseFees.TotalMoney' }]
+      children: [{ field: 'qd_tcq' }, { field: 'tong_tcq' }]
     },
     {
       groupId: ' ',
@@ -659,125 +657,125 @@ const SurfaceConstruction = () => {
         break
       case 4:
         setColumnVisibility([
-          'pumpNumber',
-          'flowDesigned',
-          'realityFlow',
-          'wateringAreaDesigned',
-          'realityWateringArea',
-          'averagePumpTime',
-          'minimumPumpTime',
-          'maximumPumpTime'
+          'soLuongMayBom',
+          'qThietKe',
+          'qThucTe',
+          'dienTichTuoiThietKe',
+          'dienTichTuoiThucTe',
+          'thoiGianBomTB',
+          'thoiGianBomNhoNhat',
+          'thoiGianBomLonNhat'
         ])
         break
       case 5:
         setColumnVisibility([
-          'pumpNumber',
-          'flowDesigned',
-          'realityFlow',
-          'wateringAreaDesigned',
-          'realityWateringArea',
-          'averagePumpTime',
-          'minimumPumpTime',
-          'maximumPumpTime'
+          'soLuongMayBom',
+          'qThietKe',
+          'qThucTe',
+          'dienTichTuoiThietKe',
+          'dienTichTuoiThucTe',
+          'thoiGianBomTB',
+          'thoiGianBomNhoNhat',
+          'thoiGianBomLonNhat'
         ])
         break
       case 6:
         setColumnVisibility([
           'capCT',
-          'FLuuVuc',
-          'XTNNam',
-          'flowAvgForYears',
-          'guaranteedPower',
-          'damHeight',
-          'damWidth',
-          'damElevation',
-          'maximumFlow',
-          'minimumFlow',
-          'guaranteedFlow',
+          'dienTichLuuVuc',
+          'muaTrungBinhNam',
+          'qTrungBinhNam',
+          'congSuatDamBao',
+          'chieuCaoDap',
+          'chieuDaiDap',
+          'caoTrinhDap',
+          'qmaxNM',
+          'qtt',
+          'qDamBao',
           'hmax',
           'hmin',
-          'htt',
-          'deadWL',
-          'riseWL',
-          'designFloodLevel',
-          'checkFloodWL',
-          'totalCapacity',
-          'deadCapacity',
-          'usefulCapacity',
-          'flowDesigned',
-          'realityFlow'
+          'htoiThieu',
+          'mnc',
+          'mndbt',
+          'mnltk',
+          'mnlkt',
+          'dungTichToanBo',
+          'dungTichChet',
+          'dungTichHuuIch',
+          'qThietKe',
+          'qThucTe'
         ])
         break
       case 10:
         setColumnVisibility([
           'capCT',
-          'FLuuVuc',
-          'XTNNam',
-          'flowAvgForYears',
-          'guaranteedPower',
-          'damHeight',
-          'damWidth',
-          'damElevation',
-          'maximumFlow',
-          'minimumFlow',
-          'guaranteedFlow',
+          'dienTichLuuVuc',
+          'muaTrungBinhNam',
+          'qTrungBinhNam',
+          'congSuatDamBao',
+          'chieuCaoDap',
+          'chieuDaiDap',
+          'caoTrinhDap',
+          'qmaxNM',
+          'qtt',
+          'qDamBao',
           'hmax',
           'hmin',
-          'htt',
-          'deadWL',
-          'riseWL',
-          'designFloodLevel',
-          'checkFloodWL',
-          'totalCapacity',
-          'deadCapacity',
-          'usefulCapacity',
-          'pumpNumber',
-          'wateringAreaDesigned',
-          'realityWateringArea',
-          'averagePumpTime',
-          'minimumPumpTime',
-          'maximumPumpTime'
+          'htoiThieu',
+          'mnc',
+          'mndbt',
+          'mnltk',
+          'mnlkt',
+          'dungTichToanBo',
+          'dungTichChet',
+          'dungTichHuuIch',
+          'soLuongMayBom',
+          'dienTichTuoiThietKe',
+          'dienTichTuoiThucTe',
+          'thoiGianBomTB',
+          'thoiGianBomNhoNhat',
+          'thoiGianBomLonNhat'
         ])
         break
       default:
         setColumnVisibility([
           'capCT',
-          'FLuuVuc',
-          'XTNNam',
-          'flowAvgForYears',
-          'power',
-          'guaranteedPower',
-          'damHeight',
-          'damWidth',
-          'damElevation',
-          'maximumFlow',
-          'minimumFlow',
-          'guaranteedFlow',
+          'dienTichLuuVuc',
+          'muaTrungBinhNam',
+          'qTrungBinhNam',
+          'congSuatLM',
+          'congSuatDamBao',
+          'chieuCaoDap',
+          'chieuDaiDap',
+          'caoTrinhDap',
+          'qmaxNM',
+          'qtt',
+          'qDamBao',
           'hmax',
           'hmin',
-          'htt',
-          'deadWL',
-          'riseWL',
-          'designFloodLevel',
-          'checkFloodWL',
-          'totalCapacity',
-          'deadCapacity',
-          'usefulCapacity',
-          'pumpNumber',
-          'flowDesigned',
-          'realityFlow',
-          'wateringAreaDesigned',
-          'realityWateringArea',
-          'averagePumpTime',
-          'minimumPumpTime',
-          'maximumPumpTime'
+          'htoiThieu',
+          'mnc',
+          'mndbt',
+          'mnltk',
+          'mnlkt',
+          'dungTichToanBo',
+          'dungTichChet',
+          'dungTichHuuIch',
+          'soLuongMayBom',
+          'qThietKe',
+          'qThucTe',
+          'dienTichTuoiThietKe',
+          'dienTichTuoiThucTe',
+          'thoiGianBomTB',
+          'thoiGianBomNhoNhat',
+          'thoiGianBomLonNhat'
         ])
         break
     }
 
     const getDataConstructions = async () => {
       setLoading(true)
-      getData('CongTrinh/danh-sach', paramsFilter)
+      getData('cong-trinh/danh-sach', paramsFilter)
         .then(data => {
           if (isMounted.current) {
             setResData(data)
