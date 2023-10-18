@@ -4,6 +4,9 @@ import { ChangeEvent, FC, useEffect, useState } from "react";
 import CreateLicense from "../form";
 import { useRouter } from "next/router";
 import { getData } from "src/api/axios";
+import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import dayjs from "dayjs";
 
 interface LicenseToolBarProps {
     onChange: (data: any, postSuccess?: boolean | undefined) => void;
@@ -45,22 +48,23 @@ const LicenseToolBar: FC<LicenseToolBarProps> = ({ onChange }) => {
     }
 
     const [paramsFilter, setParamsFilter] = useState({
-        licenseNumber: null,
-        licensingAuthorities: null,
-        licenseTypeId: 0,
-        licenseValidity: null,
-        businessId: 0,
-        constructionId: 0,
-        constructionTypeId: getConstructionTypeId(),
-        districtId: 0,
-        communeId: 0,
-        subBasinId: 0,
-        pageIndex: 0,
-        pageSize: 0
+        so_gp: null,
+        cong_trinh: 0,
+        coquan_cp: null,
+        loaihinh_cp: 0,
+        hieuluc_gp: null,
+        loai_ct: getConstructionTypeId(),
+        tang_chuanuoc: 0,
+        huyen: 0,
+        xa: 0,
+        tieuvung_qh: 0,
+        tochuc_canhan: 0,
+        tu_nam: new Date().getFullYear() - 5,
+        den_nam: new Date().getFullYear(),
     });
 
     //Hiệu lục giấy phép
-    const licenseValidity = [
+    const hieuluc_gp = [
         { label: 'Còn hiệu lực', value: 'con-hieu-luc' },
         { label: 'Hết hiệu lực', value: 'het-hieu-luc' },
         { label: 'Sáp hết hiệu lực', value: 'sap-het-hieu-luc' },
@@ -68,13 +72,12 @@ const LicenseToolBar: FC<LicenseToolBarProps> = ({ onChange }) => {
     ]
 
     //Cơ quan cấp phép
-    const licensingAuthorities = [
+    const coquan_cp = [
         { label: 'Bộ TNMT', value: 'btnmt' },
         { label: 'UBND Tỉnh', value: 'ubndt' }
     ]
 
     const [open, setOpen] = useState(false);
-
 
     //Actions on page
     const handleOpenAdvanceSearch = () => {
@@ -82,6 +85,7 @@ const LicenseToolBar: FC<LicenseToolBarProps> = ({ onChange }) => {
     };
 
     const handleChange = (event: SelectChangeEvent | ChangeEvent<HTMLInputElement> | null) => (column: string) => {
+        console.log(event)
         if (event) {
             if (event?.target) {
                 setParamsFilter({ ...paramsFilter, [column]: event.target.value });
@@ -103,18 +107,19 @@ const LicenseToolBar: FC<LicenseToolBarProps> = ({ onChange }) => {
 
     const reloadData = () => {
         setParamsFilter({
-            licenseNumber: null,
-            licensingAuthorities: null,
-            licenseTypeId: 0,
-            licenseValidity: null,
-            businessId: 0,
-            constructionId: 0,
-            constructionTypeId: getConstructionTypeId(),
-            districtId: 0,
-            communeId: 0,
-            subBasinId: 0,
-            pageIndex: 0,
-            pageSize: 0
+            so_gp: null,
+            cong_trinh: 0,
+            coquan_cp: null,
+            loaihinh_cp: 0,
+            hieuluc_gp: null,
+            loai_ct: getConstructionTypeId(),
+            tang_chuanuoc: 0,
+            huyen: 0,
+            xa: 0,
+            tieuvung_qh: 0,
+            tochuc_canhan: 0,
+            tu_nam: new Date().getFullYear() - 5,
+            den_nam: new Date().getFullYear(),
         });
         onChange(paramsFilter);
     }
@@ -122,56 +127,56 @@ const LicenseToolBar: FC<LicenseToolBarProps> = ({ onChange }) => {
     useEffect(() => {
         let isMounted = true;
 
-        const getDataForSeeleect = async () => {
+        const getDataForSelect = async () => {
             try {
                 // license type
-                const licTypesData = await getData('loai-gp/danh-sach');
+                const loaihinh_cp = await getData('loai-gp/danh-sach');
 
                 // constructiom type
-                const ConsTypesData = await getData('loai-ct/danh-sach');
+                const loai_ct = await getData('loai-ct/danh-sach');
 
                 //businesses
-                const businessData = await getData('to-chuc-ca-nhan/danh-sach');
+                const tochuc_canhan = await getData('to-chuc-ca-nhan/danh-sach');
 
                 // district
-                const districtsData = await getData('hanh-chinh/huyen/danh-sach');
+                const huyen = await getData('hanh-chinh/huyen/danh-sach');
 
-                if (paramsFilter.districtId > 0) {
+                if (paramsFilter.huyen > 0) {
                     // comunnes
-                    const comunnesData = await getData(`hanh-chinh/xa/danh-sach/${paramsFilter.districtId}`);
+                    const xa = await getData(`hanh-chinh/xa/danh-sach/${paramsFilter.huyen}`);
                     if (isMounted) {
-                        setCommunes(comunnesData);
+                        setCommunes(xa);
                     }
                 }
 
                 // subBasin
-                const subBasinsData = await getData('SubBasin/list');
+                const subBasinsData = await getData('TieuVungLuuVuc/danh-sach');
 
                 if (isMounted) {
-                    setLicenseTypes(licTypesData);
+                    setLicenseTypes(loaihinh_cp);
                     setConsTypes(
-                        ConsTypesData.map((item: any) => {
+                        loai_ct.map((item: any) => {
                             const section = router.pathname.split('/')[2];
 
                             if (section === 'nuoc-mat') {
-                                if (item.parentId === 1) {
+                                if (item.idCha === 1) {
                                     return item;
                                 }
                             } else if (section === 'xa-thai') {
-                                if (item.parentId === 3) {
+                                if (item.idCha === 3) {
                                     return item;
                                 }
                             } else {
-                                const children = item.parentId === 0 ? ConsTypesData.filter((childItem: any) => childItem.parentId === item.id) : [];
-                                const res = { ...(item.parentId === 0 ? { ...item, children } : undefined) };
+                                const children = item.idCha === 0 ? loai_ct.filter((childItem: any) => childItem.idCha === item.id) : [];
+                                const res = { ...(item.idCha === 0 ? { ...item, children } : undefined) };
 
                                 return res;
                             }
                         })
                     );
 
-                    setBusinesses(businessData);
-                    setDistricts(districtsData);
+                    setBusinesses(tochuc_canhan);
+                    setDistricts(huyen);
                     setSubBasins(subBasinsData);
                 }
             } catch (error) {
@@ -179,12 +184,12 @@ const LicenseToolBar: FC<LicenseToolBarProps> = ({ onChange }) => {
             }
         };
 
-        getDataForSeeleect();
+        getDataForSelect();
 
         return () => {
             isMounted = false;
         };
-    }, [paramsFilter.districtId, router.pathname]);
+    }, [paramsFilter.huyen, router.pathname]);
 
     return (
         <Toolbar variant="dense">
@@ -211,14 +216,14 @@ const LicenseToolBar: FC<LicenseToolBarProps> = ({ onChange }) => {
                         <Select
                             labelId="license-type-select"
                             id="demo-select-small"
-                            value={paramsFilter.licensingAuthorities || ''}
+                            value={paramsFilter.coquan_cp || ''}
                             label="Cơ quan cấp phép"
-                            onChange={(e: any) => handleChange(e)('licensingAuthorities')}
+                            onChange={(e: any) => handleChange(e)('coquan_cp')}
                         >
                             <MenuItem value="">
                                 Cơ quan cấp phép
                             </MenuItem>
-                            {licensingAuthorities.map((e: any, i: number) => (
+                            {coquan_cp.map((e: any, i: number) => (
                                 <MenuItem
                                     key={i}
                                     value={e.value}
@@ -236,9 +241,9 @@ const LicenseToolBar: FC<LicenseToolBarProps> = ({ onChange }) => {
                         <Select
                             labelId="license-type-select"
                             id="demo-select-small"
-                            value={paramsFilter.licenseTypeId || ''}
+                            value={paramsFilter.loaihinh_cp || ''}
                             label="Loại hình cấp phép"
-                            onChange={(e: any) => handleChange(e)('licenseTypeId')}
+                            onChange={(e: any) => handleChange(e)('loaihinh_cp')}
                         >
                             <MenuItem value={0}>
                                 Loại hình cấp phép
@@ -248,7 +253,7 @@ const LicenseToolBar: FC<LicenseToolBarProps> = ({ onChange }) => {
                                     key={i}
                                     value={e.id}
                                 >
-                                    {e.typeName}
+                                    {e.tenLoaiGP}
                                 </MenuItem>
                             ))}
 
@@ -261,14 +266,14 @@ const LicenseToolBar: FC<LicenseToolBarProps> = ({ onChange }) => {
                         <Select
                             labelId="license-type-select"
                             id="demo-select-small"
-                            value={paramsFilter.licenseValidity || ''}
+                            value={paramsFilter.hieuluc_gp || ''}
                             label="Hiệu  lực giấy phép"
-                            onChange={(e: any) => handleChange(e)('licenseValidity')}
+                            onChange={(e: any) => handleChange(e)('hieuluc_gp')}
                         >
                             <MenuItem value="">
                                 Hiệu  lực giấy phép
                             </MenuItem>
-                            {licenseValidity.map((e: any, i: number) => (
+                            {hieuluc_gp.map((e: any, i: number) => (
                                 <MenuItem
                                     key={i}
                                     value={e.value}
@@ -288,33 +293,31 @@ const LicenseToolBar: FC<LicenseToolBarProps> = ({ onChange }) => {
                                 <Select
                                     labelId="license-type-select"
                                     id="demo-select-small"
-                                    value={paramsFilter.constructionTypeId > 3 ? paramsFilter.constructionTypeId : getConstructionTypeId()}
+                                    value={paramsFilter.loai_ct > 3 ? paramsFilter.loai_ct : getConstructionTypeId()}
                                     label="Loại công trình"
-                                    onChange={(e: any) => handleChange(e)('constructionTypeId')}
+                                    onChange={(e: any) => handleChange(e)('loai_ct')}
                                 >
                                     <MenuItem value={getConstructionTypeId()}>Loại công trình</MenuItem>
                                     {
                                         router.pathname.split('/')[2] == 'nuoc-mat' || router.pathname.split('/')[2] == 'xa-thai' ?
                                             consTypes.filter((item: any) => item !== undefined).map((e: any, i: number) => [
                                                 <MenuItem key={i} value={e.id}>
-                                                    {e.typeName}
+                                                    {e.tenLoaiCT}
                                                 </MenuItem>
                                             ])
                                             :
                                             consTypes
                                                 .filter((item: any) => item?.children)
                                                 .map((e: any, i: number) => [
-                                                    <ListSubheader key={`subheader-${i}`}>{e.typeName}</ListSubheader>,
+                                                    <ListSubheader key={`subheader-${i}`}>{e.tenLoaiCT}</ListSubheader>,
                                                     ...e.children.map((child: any, j: number) => (
                                                         <MenuItem key={`child-${j}`} value={child.id}>
-                                                            {child.typeName}
+                                                            {child.tenLoaiCT}
                                                         </MenuItem>
                                                     )),
                                                 ])
                                     }
                                 </Select>
-
-
                             </FormControl>
                         </Grid>
                         :
@@ -335,10 +338,10 @@ const LicenseToolBar: FC<LicenseToolBarProps> = ({ onChange }) => {
                                         size="small"
                                         fullWidth
                                         options={businesses}
-                                        getOptionLabel={(option: any) => option.name}
-                                        value={businesses.find((item: any) => item.id === paramsFilter.businessId) || null}
+                                        getOptionLabel={(option: any) => option.tenTCCN}
+                                        value={businesses.find((item: any) => item.id === paramsFilter.tochuc_canhan) || null}
                                         onChange={(_, newValue) => {
-                                            handleChange(newValue?.id)('businessId');
+                                            handleChange(newValue?.id)('tochuc_canhan');
                                         }}
                                         clearOnEscape={true}
                                         renderInput={(params) => (
@@ -355,10 +358,10 @@ const LicenseToolBar: FC<LicenseToolBarProps> = ({ onChange }) => {
                                         size="small"
                                         fullWidth
                                         options={districts}
-                                        getOptionLabel={(option: any) => option.districtName}
-                                        value={districts.find((item: any) => item.districtId === paramsFilter.districtId) || null}
+                                        getOptionLabel={(option: any) => option.tenHuyen}
+                                        value={districts.find((item: any) => item.idHuyen === paramsFilter.huyen) || null}
                                         onChange={(_, newValue) => {
-                                            handleChange(newValue?.districtId)('districtId');
+                                            handleChange(newValue?.idHuyen)('huyen');
                                         }}
                                         clearOnEscape={true}
                                         renderInput={(params) => (
@@ -373,13 +376,13 @@ const LicenseToolBar: FC<LicenseToolBarProps> = ({ onChange }) => {
                                 <Grid item xs={12} md={2} py={0}>
                                     <Autocomplete
                                         size="small"
-                                        disabled={paramsFilter.districtId <= 0}
+                                        disabled={paramsFilter.huyen <= 0}
                                         fullWidth
                                         options={communes}
-                                        getOptionLabel={(option: any) => option.communeName}
-                                        value={communes.find((item: any) => item.communeId === paramsFilter.communeId) || null}
+                                        getOptionLabel={(option: any) => option.tenXa}
+                                        value={communes.find((item: any) => item.idXa === paramsFilter.xa) || null}
                                         onChange={(_, newValue) => {
-                                            handleChange(newValue?.communeId)('communeId');
+                                            handleChange(newValue?.idXa)('xa');
                                         }}
                                         clearOnEscape={true}
                                         renderInput={(params) => (
@@ -396,10 +399,10 @@ const LicenseToolBar: FC<LicenseToolBarProps> = ({ onChange }) => {
                                         size="small"
                                         fullWidth
                                         options={subBasins}
-                                        getOptionLabel={(option: any) => option.name}
-                                        value={subBasins.find((item: any) => item.id === paramsFilter.subBasinId) || null}
+                                        getOptionLabel={(option: any) => option.tieuVungQuyHoach}
+                                        value={subBasins.find((item: any) => item.id === paramsFilter.tieuvung_qh) || null}
                                         onChange={(_, newValue) => {
-                                            handleChange(newValue?.id)('subBasinId');
+                                            handleChange(newValue?.id)('tieuvung_qh');
                                         }}
                                         clearOnEscape={true}
                                         renderInput={(params) => (
@@ -410,6 +413,28 @@ const LicenseToolBar: FC<LicenseToolBarProps> = ({ onChange }) => {
                                             />
                                         )}
                                     />
+                                </Grid>
+                                <Grid item xs={12} md={2} py={0}>
+                                    <LocalizationProvider dateAdapter={AdapterDayjs}>
+                                        <DatePicker
+                                            label='Từ năm'
+                                            views={["year"]}
+                                            value={dayjs(new Date(paramsFilter.tu_nam, 1, 1))}
+                                            onChange={(newVal: any) => handleChange(newVal.year())('tu_nam')}
+                                            slotProps={{ textField: { size: 'small', fullWidth: true, required: true } }}
+                                        />
+                                    </LocalizationProvider>
+                                </Grid>
+                                <Grid item xs={12} md={2} py={0}>
+                                    <LocalizationProvider dateAdapter={AdapterDayjs}>
+                                        <DatePicker
+                                            label='Đến năm'
+                                            views={["year"]}
+                                            value={dayjs(new Date(paramsFilter.den_nam, 1, 1))}
+                                            onChange={(newVal: any) => handleChange(newVal.year())('den_nam')}
+                                            slotProps={{ textField: { size: 'small', fullWidth: true, required: true } }}
+                                        />
+                                    </LocalizationProvider>
                                 </Grid>
                             </Grid>
                         </fieldset >

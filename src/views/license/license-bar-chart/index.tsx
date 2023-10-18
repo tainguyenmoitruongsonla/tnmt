@@ -2,8 +2,8 @@ import { ApexOptions } from 'apexcharts';
 import { useEffect, useState } from 'react';
 import ReactApexcharts from 'src/@core/components/react-apexcharts';
 
-interface ApexChartLicenseProps {
-  data: any;
+export interface ApexChartLicenseProps {
+  series: any;
   year: any;
   color: any;
 }
@@ -44,10 +44,8 @@ const addStackedTotalsAnnotations = (series: any, year: any, setAnnotations: (an
   setAnnotations(newAnnotations);
 };
 
-const ApexChartLicense: React.FC<ApexChartLicenseProps> = ({ data, year, color }) => {
+const ApexChartLicense: React.FC<ApexChartLicenseProps> = ({ series, year, color }) => {
   const [annotations, setAnnotations] = useState<Annotation[]>([]);
-
-  const series = data;
 
   useEffect(() => {
     // Call the annotation function here after the series data is fetched and set
@@ -74,7 +72,7 @@ const ApexChartLicense: React.FC<ApexChartLicenseProps> = ({ data, year, color }
     },
     chart: {
       type: 'bar',
-      height: 333,
+      height: 444 ,
       width: '100%',
       stacked: true,
       events: {

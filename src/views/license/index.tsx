@@ -13,12 +13,12 @@ import CheckEffect from 'src/views/license/check-effect';
 import CountLicense from 'src/views/license/count-license';
 import ShowFilePDF from 'src/@core/components/show-file-pdf';
 import DataGridComponent from 'src/@core/components/data-grid';
-import CreateLicense from '../form';
+import CreateLicense from './form';
 
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
 import dayjs from 'dayjs';
-import LicenseToolBar from '../tool-bar';
+import LicenseToolBar from './tool-bar';
 import { getData } from 'src/api/axios';
 import DeleteData from 'src/@core/components/delete-data';
 

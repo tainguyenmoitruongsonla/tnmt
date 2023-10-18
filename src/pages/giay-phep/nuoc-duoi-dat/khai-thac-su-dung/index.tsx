@@ -1,7 +1,7 @@
 import { useRouter } from 'next/router';
 import { checkAccessPermission } from 'src/@core/layouts/checkAccessPermission';
 import Error401 from "src/pages/401";
-import ListLicenses from "src/views/license/list-license";
+import ListLicenses from "src/views/license";
 
 const ExploitGroundwater = () => {
     const router = useRouter();
