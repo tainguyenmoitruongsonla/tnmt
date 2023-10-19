@@ -15,6 +15,7 @@ import { CloudUpload } from '@mui/icons-material';
 import { VisuallyHiddenInput } from 'src/@core/theme/VisuallyHiddenInput';
 import { getData } from 'src/api/axios';
 import { useRouter } from 'next/router';
+import GetConstructionTypeId from 'src/@core/components/get-construction-type';
 
 const LicenseFieldset: FC<LicenseFieldsetProps> = ({ data, onChange }) => {
 
@@ -40,32 +41,6 @@ const LicenseFieldset: FC<LicenseFieldsetProps> = ({ data, onChange }) => {
         licenseRequestFile: data?.licenseRequestFile || '',
     });
 
-    function getConstructionTypeId() {
-        const pathSegments = router.pathname.split('/');
-        const section = pathSegments[2];
-        const subsection = pathSegments[3];
-
-        switch (section) {
-            case "nuoc-mat":
-                return 1;
-            case "nuoc-duoi-dat":
-                switch (subsection) {
-                    case "khai-thac-su-dung":
-                        return 7;
-                    case "tham-do":
-                        return 8;
-                    case "hanh-nghe-khoan":
-                        return 9;
-                    default:
-                        return 0;
-                }
-            case "xa-thai":
-                return 3;
-            default:
-                return 0;
-        }
-    }
-
 
     const getDataForSelect = async () => {
         const paramsFilter = {
@@ -75,7 +50,7 @@ const LicenseFieldset: FC<LicenseFieldsetProps> = ({ data, onChange }) => {
             licenseValidity: null,
             businessId: 0,
             constructionId: 0,
-            constructionTypeId: getConstructionTypeId(),
+            constructionTypeId: GetConstructionTypeId(router),
             districtId: 0,
             communeId: 0,
             subBasinId: 0,

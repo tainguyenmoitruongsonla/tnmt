@@ -1,8 +1,10 @@
-import React, { FC, Fragment, useState } from 'react';
+import React, { FC, Fragment, useEffect, useState } from 'react';
 import Checkbox from '@mui/material/Checkbox';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import List from '@mui/material/List';
 import { Box, Typography } from '@mui/material';
+import GetConstructionTypeId from 'src/@core/components/get-construction-type';
+import { useRouter } from 'next/router';
 
 const MapLegendChild = ({ nodes, checkedItems, onCheck, findItemChildren }: any) => {
 
@@ -52,39 +54,88 @@ interface MapLegendProps {
 
 const MapLegend: FC<MapLegendProps> = ({ onChange }) => {
 
-    const consType = [
-        {
-            id: "nuocmat", label: "NƯỚC MẶT", children: [
-                { label: "Thủy điện", id: "thuydien" },
-                { label: "Hồ chứa", id: "hochua" },
-                { label: "Trạm bơm", id: "trambom" },
-                { label: "Trạm cấp nước", id: "tramcapnuoc" },
-                { label: "Cống", id: "cong" },
-                { label: "Nhà máy nước", id: "nhamaynuoc" }
-            ]
-        },
-        {
-            id: "nuocduoidat", label: "NƯỚC DƯỚI ĐẤT", children: [
-                { label: "Khai thác", id: "khaithac" },
-                { label: "Thăm dò", id: "thamdo" },
-                { label: "Công trình khác", id: "congtrinh_nuocduoidatkhac" },
-            ]
-        },
-        {
-            id: "xathai", label: "XẢ THẢI", children: [
-                { label: "Khu / Cụm CN", id: "khu_cumcn_taptrung" },
-                { label: "SX tiểu thủ CN", id: "sx_tieuthu_cn" },
-                { label: "Công trình khác", id: "congtrinh_xathaikhac" },
-            ]
-        }
-    ];
-
-    const initialItems = ['nuocmat', 'thuydien', 'hochua', 'trambom', 'tramcapnuoc', 'cong', 'nhamaynuoc', 'nuocduoidat', 'khaithac', 'thamdo', 'congtrinh_nuocduoidatkhac', 'xathai', 'khu_cumcn_taptrung', 'sx_tieuthu_cn', 'congtrinh_xathaikhac'];
-
+    const [consType, setConsType] = useState<any>([]);
+    const [initialItems, setInitialItems] = useState<any>(['nuocmat', 'thuydien', 'hochua', 'trambom', 'tramcapnuoc', 'cong', 'nhamaynuoc', 'nuocduoidat', 'khaithac', 'thamdo', 'congtrinh_nuocduoidatkhac', 'xathai', 'khu_cumcn_taptrung', 'sx_tieuthu_cn', 'congtrinh_xathaikhac']);
     const [checkedItems, setCheckedItems] = useState(initialItems);
 
+    const router = useRouter();
+
+    useEffect(() => {
+        switch (GetConstructionTypeId(router)) {
+            case 1:
+                setConsType([
+                    {
+                        id: "nuocmat", label: "NƯỚC MẶT", children: [
+                            { label: "Thủy điện", id: "thuydien" },
+                            { label: "Hồ chứa", id: "hochua" },
+                            { label: "Trạm bơm", id: "trambom" },
+                            { label: "Trạm cấp nước", id: "tramcapnuoc" },
+                            { label: "Cống lấy nước", id: "cong" },
+                            { label: "Nhà máy nước", id: "nhamaynuoc" }
+                        ]
+                    }
+                ]);
+                setInitialItems(['nuocmat', 'thuydien', 'hochua', 'trambom', 'tramcapnuoc', 'cong', 'nhamaynuoc'])
+                break;
+            case 2:
+                setConsType([
+                    {
+                        id: "nuocduoidat", label: "NƯỚC DƯỚI ĐẤT", children: [
+                            { label: "Khai thác", id: "khaithac" },
+                            { label: "Thăm dò", id: "thamdo" },
+                            { label: "Công trình khác", id: "congtrinh_nuocduoidatkhac" },
+                        ]
+                    }
+                ]);
+                setInitialItems(['nuocduoidat', 'khaithac', 'thamdo', 'congtrinh_nuocduoidatkhac'])
+                break;
+            case 3:
+                setConsType([
+                    {
+                        id: "xathai", label: "XẢ THẢI", children: [
+                            { label: "Khu / Cụm CN", id: "khu_cumcn_taptrung" },
+                            { label: "SX tiểu thủ CN", id: "sx_tieuthu_cn" },
+                            { label: "Công trình khác", id: "congtrinh_xathaikhac" },
+                        ]
+                    }
+                ]);
+                setInitialItems(['xathai', 'khu_cumcn_taptrung', 'sx_tieuthu_cn', 'congtrinh_xathaikhac'])
+                break;
+            default:
+                setConsType([
+                    {
+                        id: "nuocmat", label: "NƯỚC MẶT", children: [
+                            { label: "Thủy điện", id: "thuydien" },
+                            { label: "Hồ chứa", id: "hochua" },
+                            { label: "Trạm bơm", id: "trambom" },
+                            { label: "Trạm cấp nước", id: "tramcapnuoc" },
+                            { label: "Cống lấy nước", id: "cong" },
+                            { label: "Nhà máy nước", id: "nhamaynuoc" }
+                        ]
+                    },
+                    {
+                        id: "nuocduoidat", label: "NƯỚC DƯỚI ĐẤT", children: [
+                            { label: "Khai thác", id: "khaithac" },
+                            { label: "Thăm dò", id: "thamdo" },
+                            { label: "Công trình khác", id: "congtrinh_nuocduoidatkhac" },
+                        ]
+                    },
+                    {
+                        id: "xathai", label: "XẢ THẢI", children: [
+                            { label: "Khu / Cụm CN", id: "khu_cumcn_taptrung" },
+                            { label: "SX tiểu thủ CN", id: "sx_tieuthu_cn" },
+                            { label: "Công trình khác", id: "congtrinh_xathaikhac" },
+                        ]
+                    }
+                ]);
+                setInitialItems(['nuocmat', 'thuydien', 'hochua', 'trambom', 'tramcapnuoc', 'cong', 'nhamaynuoc', 'nuocduoidat', 'khaithac', 'thamdo', 'congtrinh_nuocduoidatkhac', 'xathai', 'khu_cumcn_taptrung', 'sx_tieuthu_cn', 'congtrinh_xathaikhac']);
+                break;
+        }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [])
+
     const findItemChildren = (parentId: any) => {
-        const parentItem = consType.find((item) => item.id === parentId);
+        const parentItem = consType.find((item: any) => item.id === parentId);
         if (!parentItem) return [];
 
         const childrenIds: any = [];
@@ -122,7 +173,7 @@ const MapLegend: FC<MapLegendProps> = ({ onChange }) => {
     };
 
     onChange(checkedItems);
-    
+
     const renderTree = (nodes: any) => (
         <Fragment>
             {nodes.map((node: any) => {

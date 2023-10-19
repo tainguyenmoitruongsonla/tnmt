@@ -19,6 +19,8 @@ import CreateConstruction from '../form'
 import ConstructionToolBar from '../tool-bar'
 import { useRouter } from 'next/router'
 import DeleteData from 'src/@core/components/delete-data'
+import MapLegend from '../MapLegend'
+import GetConstructionTypeId from 'src/@core/components/get-construction-type'
 
 const Map = dynamic(() => import('src/@core/components/map'), { ssr: false })
 
@@ -115,88 +117,88 @@ const GroundConstruction = () => {
     { field: 'exploitAquifer', headerAlign: 'center', headerName: 'Tầng chứa nước KT', minWidth: 150 },
     { field: 'lowWL', headerAlign: 'center', headerName: 'Mực nước hạ thấp', minWidth: 150 },
 
-     //license
-     {
-        field: 'so_gp',
-        headerAlign: 'center',
-        headerName: 'Số GP',
-        minWidth: 150,
-        renderCell: params => (
-          <div style={{ width: '100%' }}>
-            {params.row.giayphep?.map((e: any) => (
+    //license
+    {
+      field: 'so_gp',
+      headerAlign: 'center',
+      headerName: 'Số GP',
+      minWidth: 150,
+      renderCell: params => (
+        <div style={{ width: '100%' }}>
+          {params.row.giayphep?.map((e: any) => (
+            <div key={e.id}>
+              <ShowFilePDF
+                name={e?.soGP || ''}
+                src={`/pdf/giay-phep/${e.coQuanCapPhep?.toLowerCase()}/${new Date(e?.ngayKy).getFullYear()}/`}
+                fileName={e?.filePDF || ''}
+              />
+            </div>
+          ))}
+        </div>
+      )
+    },
+    {
+      field: 'ngaycap_gp',
+      headerAlign: 'center',
+      headerName: 'Thời hạn',
+      minWidth: 150,
+      renderCell: params => (
+        <div style={{ width: '100%' }}>
+          {params.row.giayphep?.map((e: any) => (
+            <div key={e.id}>
+              {e.thoiHan}
+            </div>
+          ))}
+        </div>
+      )
+    },
+
+    //licenseFee
+    {
+      field: 'qd_tcq',
+      headerAlign: 'center',
+      headerName: 'Số QĐ',
+      minWidth: 150,
+      renderCell: params => (
+        <div style={{ width: '100%' }}>
+          {params.row.giayphep?.map((e: any) =>
+            e?.tiencq.map((e: any) => (
               <div key={e.id}>
                 <ShowFilePDF
-                  name={e?.soGP || ''}
-                  src={`/pdf/giay-phep/${e.coQuanCapPhep?.toLowerCase()}/${new Date(e?.ngayKy).getFullYear()}/`}
+                  name={e?.soQDTCQ || ''}
+                  src={`/pdf/tien-cap-quyen/${e.coQuanCP?.toLowerCase()}/${new Date(
+                    e?.ngayKy
+                  ).getFullYear()}/`}
                   fileName={e?.filePDF || ''}
                 />
               </div>
-            ))}
-          </div>
-        )
-      },
-      {
-        field: 'ngaycap_gp',
-        headerAlign: 'center',
-        headerName: 'Thời hạn',
-        minWidth: 150,
-        renderCell: params => (
-          <div style={{ width: '100%' }}>
-            {params.row.giayphep?.map((e: any) => (
+            ))
+          )}
+        </div>
+      )
+    },
+    {
+      field: 'tong_tcq',
+      headerAlign: 'center',
+      headerName: 'Tổng tiền cấp quyền (VNĐ)',
+      minWidth: 150,
+      type: 'number',
+      renderCell: params => (
+        <div style={{ width: '100%' }}>
+          {params.row.giayphep?.map((e: any) =>
+            e?.tiencq.map((e: any) => (
               <div key={e.id}>
-                {e.thoiHan}
+                {e.tongTienCQ.toLocaleString('vi-VN', {
+                  style: 'currency',
+                  currency: 'VND'
+                })}
               </div>
-            ))}
-          </div>
-        )
-      },
-  
-      //licenseFee
-      {
-        field: 'qd_tcq',
-        headerAlign: 'center',
-        headerName: 'Số QĐ',
-        minWidth: 150,
-        renderCell: params => (
-          <div style={{ width: '100%' }}>
-            {params.row.giayphep?.map((e: any) =>
-              e?.tiencq.map((e: any) => (
-                <div key={e.id}>
-                  <ShowFilePDF
-                    name={e?.soQDTCQ || ''}
-                    src={`/pdf/tien-cap-quyen/${e.coQuanCP?.toLowerCase()}/${new Date(
-                      e?.ngayKy
-                    ).getFullYear()}/`}
-                    fileName={e?.filePDF || ''}
-                  />
-                </div>
-              ))
-            )}
-          </div>
-        )
-      },
-      {
-        field: 'tong_tcq',
-        headerAlign: 'center',
-        headerName: 'Tổng tiền cấp quyền (VNĐ)',
-        minWidth: 150,
-        type: 'number',
-        renderCell: params => (
-          <div style={{ width: '100%' }}>
-            {params.row.giayphep?.map((e: any) =>
-              e?.tiencq.map((e: any) => (
-                <div key={e.id}>
-                  {e.tongTienCQ.toLocaleString('vi-VN', {
-                    style: 'currency',
-                    currency: 'VND'
-                  })}
-                </div>
-              ))
-            )}
-          </div>
-        )
-      },
-  
+            ))
+          )}
+        </div>
+      )
+    },
+
     //Action
     {
       field: 'actions',
@@ -257,16 +259,16 @@ const GroundConstruction = () => {
       ]
     },
     {
-        groupId: 'Thông tin giấy phép',
-        headerAlign: 'center',
-        children: [{ field: 'so_gp' }, { field: 'ngaycap_gp' }, { field: 'hieuluc_gp' }]
-      },
-  
-      {
-        groupId: 'Tiền cấp quyền',
-        headerAlign: 'center',
-        children: [{ field: 'qd_tcq' }, { field: 'tong_tcq' }]
-      },
+      groupId: 'Thông tin giấy phép',
+      headerAlign: 'center',
+      children: [{ field: 'so_gp' }, { field: 'ngaycap_gp' }, { field: 'hieuluc_gp' }]
+    },
+
+    {
+      groupId: 'Tiền cấp quyền',
+      headerAlign: 'center',
+      children: [{ field: 'qd_tcq' }, { field: 'tong_tcq' }]
+    },
 
     {
       groupId: ' ',
@@ -279,6 +281,7 @@ const GroundConstruction = () => {
   const [mapZoom, setMapZoom] = useState(9)
   const [showLabel, setShowLabel] = useState(false)
   const [resData, setResData] = useState([])
+  const [dataFiltered, setDataFiltered] = useState([]);
   const [loading, setLoading] = useState(false)
   const router = useRouter()
 
@@ -288,25 +291,9 @@ const GroundConstruction = () => {
     setPostSuccess(prevState => !prevState)
   }
 
-  function getConstructionTypeId() {
-    const pathSegments = router.pathname.split('/')
-    const section = pathSegments[2]
-
-    switch (section) {
-      case 'nuoc-mat':
-        return 1
-      case 'nuoc-duoi-dat':
-        return 2
-      case 'xa-thai':
-        return 3
-      default:
-        return 0
-    }
-  }
-
   const [paramsFilter, setParamsFilter] = useState({
     tenct: null,
-    loai_ct: getConstructionTypeId(),
+    loai_ct: GetConstructionTypeId(router),
     huyen: 0,
     xa: 0,
     song: 0,
@@ -317,23 +304,11 @@ const GroundConstruction = () => {
     nguonnuoc_kt: null
   })
 
-  const isMounted = useRef(true)
+  const [initConsType, setInitConstype] = useState<any>([
+    'nuocduoidat', 'khaithac', 'thamdo', 'congtrinh_nuocduoidatkhac'
+  ])
 
-  const getDataConstruction = async () => {
-    setLoading(true)
-    getData('cong-trinh/danh-sach', paramsFilter)
-      .then(data => {
-        if (isMounted.current) {
-          setResData(data)
-        }
-      })
-      .catch(error => {
-        console.log(error)
-      })
-      .finally(() => {
-        setLoading(false)
-      })
-  }
+  const isMounted = useRef(true)
 
   useEffect(() => {
     isMounted.current = true
@@ -344,9 +319,33 @@ const GroundConstruction = () => {
   }, [])
 
   useEffect(() => {
+    const getDataConstruction = async () => {
+      setLoading(true)
+      getData('cong-trinh/danh-sach', paramsFilter)
+        .then(data => {
+          if (isMounted.current) {
+            setResData(data)
+          }
+        })
+        .catch(error => {
+          console.log(error)
+        })
+        .finally(() => {
+          setLoading(false)
+        })
+    }
     getDataConstruction()
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [postSuccess, paramsFilter])
+
+  useEffect(() => {
+    const filteredData = resData.filter((item: { [key: string]: any }) =>
+      initConsType.some((keyword: any) =>
+        item['loaiCT']?.['maLoaiCT']?.toString().toLowerCase().includes(keyword.toLowerCase())
+      )
+    );
+    setDataFiltered(filteredData)
+  }, [initConsType, resData]);
 
   const handleFilterChange = (data: any, postSuccess: boolean | undefined) => {
     setParamsFilter(data)
@@ -360,6 +359,10 @@ const GroundConstruction = () => {
     setMapZoom(13)
   }
 
+  const handleConsTypeChange = (data: any) => {
+    setInitConstype(data);
+  };
+
   return (
     <Grid container spacing={2}>
       <Grid xs={12} md={12} sx={{ height: '55vh', overflow: 'hidden' }}>
@@ -371,15 +374,16 @@ const GroundConstruction = () => {
                 label='Hiển thị tên công trình'
               />
             </FormGroup>
+            <MapLegend onChange={handleConsTypeChange} />
           </Box>
-          <Map center={mapCenter} zoom={mapZoom} showLabel={showLabel} mapMarkerData={resData} />
+          <Map center={mapCenter} zoom={mapZoom} showLabel={showLabel} mapMarkerData={dataFiltered} />
         </Paper>
       </Grid>
       <Grid xs={12} md={12}>
         <Paper elevation={3} sx={{ p: 0, height: '100%' }}>
           <ConstructionToolBar onChange={handleFilterChange} />
           <DataGridComponent
-            rows={resData}
+            rows={dataFiltered}
             loading={loading}
             columns={columnsTable}
             columnGroupingModel={columnGroup}

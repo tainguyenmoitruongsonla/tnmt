@@ -7,6 +7,7 @@ import { getData } from "src/api/axios";
 import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import dayjs from "dayjs";
+import GetConstructionTypeId from "src/@core/components/get-construction-type";
 
 interface LicenseToolBarProps {
     onChange: (data: any, postSuccess?: boolean | undefined) => void;
@@ -20,40 +21,14 @@ const LicenseToolBar: FC<LicenseToolBarProps> = ({ onChange }) => {
     const [districts, setDistricts] = useState([]);
     const [communes, setCommunes] = useState([]);
     const [subBasins, setSubBasins] = useState([]);
-
-    function getConstructionTypeId() {
-        const pathSegments = router.pathname.split('/');
-        const section = pathSegments[2];
-        const subsection = pathSegments[3];
-
-        switch (section) {
-            case "nuoc-mat":
-                return 1;
-            case "nuoc-duoi-dat":
-                switch (subsection) {
-                    case "khai-thac-su-dung":
-                        return 7;
-                    case "tham-do":
-                        return 8;
-                    case "hanh-nghe-khoan":
-                        return 9;
-                    default:
-                        return 0;
-                }
-            case "xa-thai":
-                return 3;
-            default:
-                return 0;
-        }
-    }
-
+    
     const [paramsFilter, setParamsFilter] = useState({
         so_gp: null,
         cong_trinh: 0,
         coquan_cp: null,
         loaihinh_cp: 0,
         hieuluc_gp: null,
-        loai_ct: getConstructionTypeId(),
+        loai_ct: GetConstructionTypeId(router),
         tang_chuanuoc: 0,
         huyen: 0,
         xa: 0,
@@ -112,7 +87,7 @@ const LicenseToolBar: FC<LicenseToolBarProps> = ({ onChange }) => {
             coquan_cp: null,
             loaihinh_cp: 0,
             hieuluc_gp: null,
-            loai_ct: getConstructionTypeId(),
+            loai_ct: GetConstructionTypeId(router),
             tang_chuanuoc: 0,
             huyen: 0,
             xa: 0,
@@ -293,11 +268,11 @@ const LicenseToolBar: FC<LicenseToolBarProps> = ({ onChange }) => {
                                 <Select
                                     labelId="license-type-select"
                                     id="demo-select-small"
-                                    value={paramsFilter.loai_ct > 3 ? paramsFilter.loai_ct : getConstructionTypeId()}
+                                    value={paramsFilter.loai_ct > 3 ? paramsFilter.loai_ct : GetConstructionTypeId(router)}
                                     label="Loại công trình"
                                     onChange={(e: any) => handleChange(e)('loai_ct')}
                                 >
-                                    <MenuItem value={getConstructionTypeId()}>Loại công trình</MenuItem>
+                                    <MenuItem value={GetConstructionTypeId(router)}>Loại công trình</MenuItem>
                                     {
                                         router.pathname.split('/')[2] == 'nuoc-mat' || router.pathname.split('/')[2] == 'xa-thai' ?
                                             consTypes.filter((item: any) => item !== undefined).map((e: any, i: number) => [

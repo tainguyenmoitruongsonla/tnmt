@@ -21,6 +21,7 @@ import dayjs from 'dayjs';
 import LicenseToolBar from './tool-bar';
 import { getData } from 'src/api/axios';
 import DeleteData from 'src/@core/components/delete-data';
+import GetConstructionTypeId from 'src/@core/components/get-construction-type';
 
 
 const Map = dynamic(() => import("src/@core/components/map"), { ssr: false });
@@ -204,32 +205,6 @@ const ListLicenses = () => {
         }
     ];
 
-    function getConstructionTypeId() {
-        const pathSegments = router.pathname.split('/');
-        const section = pathSegments[2];
-        const subsection = pathSegments[3];
-
-        switch (section) {
-            case "nuoc-mat":
-                return 1;
-            case "nuoc-duoi-dat":
-                switch (subsection) {
-                    case "khai-thac-su-dung":
-                        return 7;
-                    case "tham-do":
-                        return 8;
-                    case "hanh-nghe-khoan":
-                        return 9;
-                    default:
-                        return 0;
-                }
-            case "xa-thai":
-                return 3;
-            default:
-                return 0;
-        }
-    }
-
     const [paramsFilter, setParamsFilter] = useState({
         licenseNumber: null,
         licensingAuthorities: null,
@@ -237,7 +212,7 @@ const ListLicenses = () => {
         licenseValidity: null,
         businessId: 0,
         constructionId: 0,
-        constructionTypeId: getConstructionTypeId(),
+        constructionTypeId: GetConstructionTypeId(router),
         districtId: 0,
         communeId: 0,
         subBasinId: 0,

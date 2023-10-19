@@ -15,6 +15,7 @@ import { getData } from 'src/api/axios';
 import MonitoringSystemToolBar from '../tool-bar';
 import { useRouter } from 'next/router'
 import { calculateMonitoringData } from 'src/@core/components/calculate-monitoring-data';
+import GetConstructionTypeId from 'src/@core/components/get-construction-type';
 
 const Map = dynamic(() => import("src/@core/components/map"), { ssr: false });
 
@@ -143,25 +144,9 @@ const SurfaceWaterMonitoring = () => {
 
   const router = useRouter();
 
-  const getConstructionTypeId = () => {
-    const pathSegments = router.pathname.split('/');
-    const section = pathSegments[2];
-
-    switch (section) {
-        case "nuoc-mat":
-            return 1;
-        case "nuoc-duoi-dat":
-            return 2;
-        case "xa-thai":
-            return 3;
-        default:
-            return 0;
-    }
-  }
-
   const [paramsFilter, setParamsFilter] = useState({
     tenct: null,
-    loai_ct: getConstructionTypeId(),
+    loai_ct: GetConstructionTypeId(router),
     huyen: 0,
     xa: 0,
     song: 0,

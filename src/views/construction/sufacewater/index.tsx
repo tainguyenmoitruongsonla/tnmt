@@ -19,6 +19,8 @@ import { useRouter } from 'next/router'
 import ConstructionToolBar from '../tool-bar'
 import { getData } from 'src/api/axios'
 import DeleteData from 'src/@core/components/delete-data'
+import MapLegend from '../MapLegend'
+import GetConstructionTypeId from 'src/@core/components/get-construction-type'
 
 const Map = dynamic(() => import('src/@core/components/map'), { ssr: false })
 
@@ -246,9 +248,9 @@ const SurfaceConstruction = () => {
       headerName: 'MNLTK(m)',
       minWidth: 150,
       renderCell: data => (
-          <span>
-              {data.row.thongso?.mnltk}
-          </span>
+        <span>
+          {data.row.thongso?.mnltk}
+        </span>
       )
     },
     {
@@ -257,9 +259,9 @@ const SurfaceConstruction = () => {
       headerName: 'MNLKT(m)',
       minWidth: 150,
       renderCell: data => (
-          <span>
-              {data.row.thongso?.mnlkt}
-          </span>
+        <span>
+          {data.row.thongso?.mnlkt}
+        </span>
       )
     },
     {
@@ -272,9 +274,9 @@ const SurfaceConstruction = () => {
       ),
       minWidth: 150,
       renderCell: data => (
-          <span>
-              {data.row.thongso?.dungTichToanBo}
-          </span>
+        <span>
+          {data.row.thongso?.dungTichToanBo}
+        </span>
       )
     },
     {
@@ -287,9 +289,9 @@ const SurfaceConstruction = () => {
       ),
       minWidth: 150,
       renderCell: data => (
-          <span>
-              {data.row.thongso?.dungTichChet}
-          </span>
+        <span>
+          {data.row.thongso?.dungTichChet}
+        </span>
       )
     },
     {
@@ -302,9 +304,9 @@ const SurfaceConstruction = () => {
       ),
       minWidth: 150,
       renderCell: data => (
-          <span>
-              {data.row.thongso?.dungTichHuuIch}
-          </span>
+        <span>
+          {data.row.thongso?.dungTichHuuIch}
+        </span>
       )
     },
 
@@ -314,9 +316,9 @@ const SurfaceConstruction = () => {
       headerName: 'Số máy bơm',
       minWidth: 150,
       renderCell: data => (
-          <span>
-              {data.row.thongso?.soLuongMayBom}
-          </span>
+        <span>
+          {data.row.thongso?.soLuongMayBom}
+        </span>
       )
     },
     {
@@ -329,9 +331,9 @@ const SurfaceConstruction = () => {
       ),
       minWidth: 150,
       renderCell: data => (
-          <span>
-              {data.row.thongso?.qThietKe}
-          </span>
+        <span>
+          {data.row.thongso?.qThietKe}
+        </span>
       )
     },
     {
@@ -344,9 +346,9 @@ const SurfaceConstruction = () => {
       ),
       minWidth: 150,
       renderCell: data => (
-          <span>
-              {data.row.thongso?.qThucTe}
-          </span>
+        <span>
+          {data.row.thongso?.qThucTe}
+        </span>
       )
     },
     {
@@ -359,9 +361,9 @@ const SurfaceConstruction = () => {
       ),
       minWidth: 150,
       renderCell: data => (
-          <span>
-              {data.row.thongso?.dienTichTuoiThietKe}
-          </span>
+        <span>
+          {data.row.thongso?.dienTichTuoiThietKe}
+        </span>
       )
     },
     {
@@ -374,9 +376,9 @@ const SurfaceConstruction = () => {
       ),
       minWidth: 150,
       renderCell: data => (
-          <span>
-              {data.row.thongso?.dienTichTuoiThucTe}
-          </span>
+        <span>
+          {data.row.thongso?.dienTichTuoiThucTe}
+        </span>
       )
     },
     {
@@ -389,9 +391,9 @@ const SurfaceConstruction = () => {
       ),
       minWidth: 150,
       renderCell: data => (
-          <span>
-              {data.row.thongso?.thoiGianBomTB}
-          </span>
+        <span>
+          {data.row.thongso?.thoiGianBomTB}
+        </span>
       )
     },
     {
@@ -404,9 +406,9 @@ const SurfaceConstruction = () => {
       ),
       minWidth: 150,
       renderCell: data => (
-          <span>
-              {data.row.thongso?.thoiGianBomNhoNhat}
-          </span>
+        <span>
+          {data.row.thongso?.thoiGianBomNhoNhat}
+        </span>
       )
     },
     {
@@ -419,9 +421,9 @@ const SurfaceConstruction = () => {
       ),
       minWidth: 150,
       renderCell: data => (
-          <span>
-              {data.row.thongso?.thoiGianBomLonNhat}
-          </span>
+        <span>
+          {data.row.thongso?.thoiGianBomLonNhat}
+        </span>
       )
     },
 
@@ -606,30 +608,15 @@ const SurfaceConstruction = () => {
   const handlePostSuccess = () => {
     setPostSuccess(prevState => !prevState)
   }
-  const [resData, setResData] = useState([])
+  const [resData, setResData] = useState([]);
+  const [dataFiltered, setDataFiltered] = useState([]);
   const [loading, setLoading] = useState(false)
 
   const router = useRouter()
 
-  function getConstructionTypeId() {
-    const pathSegments = router.pathname.split('/')
-    const section = pathSegments[2]
-
-    switch (section) {
-      case 'nuoc-mat':
-        return 1
-      case 'nuoc-duoi-dat':
-        return 2
-      case 'xa-thai':
-        return 3
-      default:
-        return 0
-    }
-  }
-
   const [paramsFilter, setParamsFilter] = useState({
     tenct: null,
-    loai_ct: getConstructionTypeId(),
+    loai_ct: GetConstructionTypeId(router),
     huyen: 0,
     xa: 0,
     song: 0,
@@ -639,6 +626,16 @@ const SurfaceConstruction = () => {
     tochuc_canhan: 0,
     nguonnuoc_kt: null
   })
+
+  const [initConsType, setInitConstype] = useState<any>([
+    "nuocmat",
+    "thuydien",
+    "hochua",
+    "trambom",
+    "tramcapnuoc",
+    "conglaynuoc",
+    "nhamaynuoc"
+  ])
 
   const isMounted = useRef(true)
 
@@ -792,6 +789,15 @@ const SurfaceConstruction = () => {
     getDataConstructions()
   }, [postSuccess, paramsFilter])
 
+  useEffect(() => {
+    const filteredData = resData.filter((item: { [key: string]: any }) =>
+      initConsType.some((keyword: any) =>
+        item['loaiCT']?.['maLoaiCT']?.toString().toLowerCase().includes(keyword.toLowerCase())
+      )
+    );
+    setDataFiltered(filteredData)
+  }, [initConsType, resData]);
+
   const handleFilterChange = (data: any, postSuccess: boolean | undefined) => {
     setParamsFilter(data)
     if (postSuccess !== undefined) {
@@ -804,6 +810,10 @@ const SurfaceConstruction = () => {
     setMapZoom(13)
   }
 
+  const handleConsTypeChange = (data: any) => {
+    setInitConstype(data);
+  };
+
   return (
     <Grid container spacing={2}>
       <Grid xs={12} md={12} sx={{ height: '55vh', overflow: 'hidden' }}>
@@ -815,15 +825,16 @@ const SurfaceConstruction = () => {
                 label='Hiển thị tên công trình'
               />
             </FormGroup>
+            <MapLegend onChange={handleConsTypeChange} />
           </Box>
-          <Map center={mapCenter} zoom={mapZoom} showLabel={showLabel} mapData={resData} loading={false} />
+          <Map center={mapCenter} zoom={mapZoom} showLabel={showLabel} mapData={dataFiltered} loading={false} />
         </Paper>
       </Grid>
       <Grid xs={12} md={12}>
         <Paper elevation={3} sx={{ p: 0, height: '100%' }}>
           <ConstructionToolBar onChange={handleFilterChange} />
           <DataGridComponent
-            rows={resData}
+            rows={dataFiltered}
             loading={loading}
             columns={columnsTable}
             columnGroupingModel={columnGroup}

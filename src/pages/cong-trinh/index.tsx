@@ -34,6 +34,7 @@ const Construction = () => {
   ])
 
   const [resData, setResData] = useState([]);
+  const [dataFiltered, setDataFiltered] = useState([]);
   const [loading, setLoading] = useState<boolean>(false)
   const [showLabel, setShowLabel] = useState(false)
 
@@ -46,12 +47,7 @@ const Construction = () => {
       try {
         setLoading(true)
         const data = await getData('cong-trinh/danh-sach');
-        const filteredData = data.filter((item: { [key: string]: any }) =>
-          initConsType.some((keyword: any) =>
-            item['constructionTypeSlug']?.toString().toLowerCase().includes(keyword.toLowerCase())
-          )
-        );
-        setResData(filteredData);
+        setResData(data);
       } catch (error) {
         setResData([]);
       } finally {
@@ -59,9 +55,17 @@ const Construction = () => {
       }
     };
     getDataConstruction();
+  }, []);
+
+  useEffect(() => {
+    const filteredData = resData.filter((item: { [key: string]: any }) =>
+      initConsType.some((keyword: any) =>
+        item['loaiCT']?.['maLoaiCT']?.toString().toLowerCase().includes(keyword.toLowerCase())
+      )
+    );
+    setDataFiltered(filteredData)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [initConsType]);
-
-
 
   return (
 
@@ -69,14 +73,14 @@ const Construction = () => {
       <Paper elevation={3} sx={{ height: '100%', position: 'relative' }}>
         <Box className="map-legend" sx={{ background: 'white', zIndex: `${loading ? -1 : 999}` }}>
           <FormGroup>
-              <FormControlLabel
-                  sx={{ px: 1 }}
-                  control={<Checkbox onClick={() => setShowLabel(!showLabel)} />}
-                  label='Hiển thị tên công trình'/>
+            <FormControlLabel
+              sx={{ px: 1 }}
+              control={<Checkbox onClick={() => setShowLabel(!showLabel)} />}
+              label='Hiển thị tên công trình' />
           </FormGroup>
           <MapLegend onChange={handleConsTypeChange} />
         </Box>
-        <Map center={mapCenter} zoom={mapZoom} showLabel={showLabel} mapData={resData} loading={loading} />
+        <Map center={mapCenter} zoom={mapZoom} showLabel={showLabel} mapData={dataFiltered} loading={loading} />
       </Paper>
     </Grid>
   );

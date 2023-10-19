@@ -343,6 +343,8 @@ code[class*='language-'] {
 .map-legend {
   position: absolute;
   z-index: 999;
+  height: 400px;
+  overflow-y: scroll;
   right: 15px;
   top: 45px;
 }
@@ -356,7 +358,7 @@ code[class*='language-'] {
   margin: auto;
 }
 
-.italicText{
+.italicText {
   font-style: italic;
 }
 
@@ -401,4 +403,5 @@ code[class*='language-'] {
 }
 
 .end-col {
-  right: 0 !important;}
+  right: 0 !important;
+}

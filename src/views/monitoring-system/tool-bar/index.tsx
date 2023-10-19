@@ -3,6 +3,7 @@ import { Button, FormControl, Grid, InputLabel, MenuItem, Select, SelectChangeEv
 import { ChangeEvent, FC, useEffect, useState } from "react"
 import { useRouter } from "next/router";
 import { getData } from "src/api/axios";
+import GetConstructionTypeId from "src/@core/components/get-construction-type";
 
 interface MonitoringSystemToolBarProps {
     onChange: (data: any, postSuccess?: boolean | undefined) => void;
@@ -15,32 +16,7 @@ const MonitoringSystemToolBar: FC<MonitoringSystemToolBarProps> = ({ onChange })
     const [businesses, setBusinesses] = useState([]);
     const [districts, setDistricts] = useState([]);
     const [communes, setCommunes] = useState([]);
-
-    function getConstructionTypeId() {
-        const pathSegments = router.pathname.split('/');
-        const section = pathSegments[2];
-        const subsection = pathSegments[3];
-
-        switch (section) {
-            case "nuoc-mat":
-                return 1;
-            case "nuoc-duoi-dat":
-                switch (subsection) {
-                    case "khai-thac-su-dung":
-                        return 7;
-                    case "tham-do":
-                        return 8;
-                    case "hanh-nghe-khoan":
-                        return 9;
-                    default:
-                        return 0;
-                }
-            case "xa-thai":
-                return 3;
-            default:
-                return 0;
-        }
-    }
+    
 
     const [paramsFilter, setParamsFilter] = useState({
         tenct: null,
@@ -186,11 +162,11 @@ const MonitoringSystemToolBar: FC<MonitoringSystemToolBarProps> = ({ onChange })
                         <Select
                             labelId="license-type-select"
                             id="demo-select-small"
-                            value={paramsFilter.loai_ct > 3 ? paramsFilter.loai_ct : getConstructionTypeId()}
+                            value={paramsFilter.loai_ct > 3 ? paramsFilter.loai_ct : GetConstructionTypeId(router)}
                             label="Loại công trình"
                             onChange={(e: any) => handleChange(e)('loai_ct')}
                         >
-                            <MenuItem value={getConstructionTypeId()}>Loại công trình</MenuItem>
+                            <MenuItem value={GetConstructionTypeId(router)}>Loại công trình</MenuItem>
                             {
                                 router.pathname.split('/')[2] == 'nuoc-mat' || router.pathname.split('/')[2] == 'nuoc-duoi-dat' || router.pathname.split('/')[2] == 'xa-thai' ?
                                     consTypes.filter((item: any) => item !== undefined).map((e: any, i: number) => [

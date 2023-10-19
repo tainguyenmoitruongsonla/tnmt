@@ -19,6 +19,8 @@ import CreateConstruction from '../form'
 import ConstructionToolBar from '../tool-bar'
 import { useRouter } from 'next/router'
 import DeleteData from 'src/@core/components/delete-data'
+import MapLegend from '../MapLegend'
+import GetConstructionTypeId from 'src/@core/components/get-construction-type'
 
 
 const Map = dynamic(() => import('src/@core/components/map'), { ssr: false })
@@ -232,6 +234,7 @@ const DischargeConstruction = () => {
     const [mapZoom, setMapZoom] = useState(9)
     const [showLabel, setShowLabel] = useState(false)
     const [resData, setResData] = useState([])
+    const [dataFiltered, setDataFiltered] = useState([]);
     const [loading, setLoading] = useState(false)
     const router = useRouter();
 
@@ -241,52 +244,24 @@ const DischargeConstruction = () => {
         setPostSuccess(prevState => !prevState)
     }
 
-    function getConstructionTypeId() {
-        const pathSegments = router.pathname.split('/');
-        const section = pathSegments[2];
-
-        switch (section) {
-            case "nuoc-mat":
-                return 1;
-            case "nuoc-duoi-dat":
-                return 2;
-            case "xa-thai":
-                return 3;
-            default:
-                return 0;
-        }
-    }
-
     const [paramsFilter, setParamsFilter] = useState({
-        constructionName: '',
-        exploitedWS: '',
-        constructionTypeId: getConstructionTypeId(),
-        businessId: 0,
-        districtId: 0,
-        communeId: 0,
-        pageIndex: 0,
-        pageSize: 0
-    });
+        tenct: null,
+        loai_ct: GetConstructionTypeId(router),
+        huyen: 0,
+        xa: 0,
+        song: 0,
+        luuvuc: 0,
+        tieu_luuvuc: 0,
+        tang_chuanuoc: 0,
+        tochuc_canhan: 0,
+        nguonnuoc_kt: null
+    })
 
+    const [initConsType, setInitConstype] = useState<any>([
+        'xathai', 'khu_cumcn_taptrung', 'sx_tieuthu_cn', 'congtrinh_xathaikhac'
+    ])
 
     const isMounted = useRef(true);
-
-    const getDataConstruction = async () => {
-        setLoading(true);
-        getData('cong-trinh/danh-sach', paramsFilter)
-            .then((data) => {
-                if (isMounted.current) {
-                    setResData(data);
-                }
-            })
-            .catch((error) => {
-                console.log(error);
-            })
-            .finally(() => {
-                setLoading(false);
-            });
-    };
-
 
     useEffect(() => {
         isMounted.current = true
@@ -298,9 +273,32 @@ const DischargeConstruction = () => {
 
 
     useEffect(() => {
+        const getDataConstruction = async () => {
+            setLoading(true);
+            getData('cong-trinh/danh-sach', paramsFilter)
+                .then((data) => {
+                    if (isMounted.current) {
+                        setResData(data);
+                    }
+                })
+                .catch((error) => {
+                    console.log(error);
+                })
+                .finally(() => {
+                    setLoading(false);
+                });
+        };
         getDataConstruction();
-        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [postSuccess, paramsFilter]);
+
+    useEffect(() => {
+        const filteredData = resData.filter((item: { [key: string]: any }) =>
+            initConsType.some((keyword: any) =>
+                item['loaiCT']?.['maLoaiCT']?.toString().toLowerCase().includes(keyword.toLowerCase())
+            )
+        );
+        setDataFiltered(filteredData)
+    }, [initConsType, resData]);
 
     const handleFilterChange = (data: any, postSuccess: boolean | undefined) => {
         setParamsFilter(data);
@@ -314,6 +312,10 @@ const DischargeConstruction = () => {
         setMapZoom(13)
     }
 
+    const handleConsTypeChange = (data: any) => {
+        setInitConstype(data);
+    };
+
     return (
         <Grid container spacing={2}>
             <Grid xs={12} md={12} sx={{ height: '55vh', overflow: 'hidden' }}>
@@ -322,15 +324,16 @@ const DischargeConstruction = () => {
                         <FormGroup>
                             <FormControlLabel control={<Checkbox onClick={() => setShowLabel(!showLabel)} />} label="Hiển thị tên công trình" />
                         </FormGroup>
+                        <MapLegend onChange={handleConsTypeChange} />
                     </Box>
-                    <Map center={mapCenter} zoom={mapZoom} showLabel={showLabel} mapMarkerData={resData} />
+                    <Map center={mapCenter} zoom={mapZoom} showLabel={showLabel} mapMarkerData={dataFiltered} />
                 </Paper>
             </Grid>
             <Grid xs={12} md={12}>
                 <Paper elevation={3} sx={{ p: 0, height: '100%' }}>
                     <ConstructionToolBar onChange={handleFilterChange} />
                     <DataGridComponent
-                        rows={resData}
+                        rows={dataFiltered}
                         loading={loading}
                         columns={columnsTable}
                         columnGroupingModel={columnGroup}
