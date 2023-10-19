@@ -30,9 +30,8 @@ const HomeMap = () => {
         "congtrinh_xathaikhac"
     ])
 
-    console.log(initConsType)
-
     const [resData, setResData] = useState([]);
+    const [dataFiltered, setDataFiltered] = useState([]);
     const [loading, setLoading] = useState<boolean>(false)
 
     const handleConsTypeChange = (data: any) => {
@@ -46,11 +45,6 @@ const HomeMap = () => {
         getData('cong-trinh/danh-sach', {})
             .then((data) => {
                 if (isMounted.current) {
-                    // const filteredData = data.filter((item: { [key: string]: any }) =>
-                    //     initConsType.some((keyword: any) =>
-                    //         item['constructionTypeSlug']?.toString().toLowerCase().includes(keyword.toLowerCase())
-                    //     )
-                    // );
                     setResData(data);
                 }
             })
@@ -77,6 +71,16 @@ const HomeMap = () => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
+    useEffect(() => {
+        const filteredData = resData?.filter((item: { [key: string]: any }) =>
+            initConsType.some((keyword: any) =>
+                item['loaiCT']?.['maLoaiCT']?.toString().toLowerCase().includes(keyword.toLowerCase())
+            )
+        );
+        setDataFiltered(filteredData);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [initConsType]);
+
 
 
     return (
@@ -87,7 +91,7 @@ const HomeMap = () => {
             <Box className="map-legend" sx={{ background: 'white', zIndex: `${loading ? -1 : 999}` }}>
                 <MapLegend onChange={handleConsTypeChange} />
             </Box>
-            <Map center={mapCenter} zoom={mapZoom} mapData={resData} loading={loading} />
+            <Map center={mapCenter} zoom={mapZoom} mapData={dataFiltered} loading={loading} />
         </Paper>
     )
 }

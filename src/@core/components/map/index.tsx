@@ -121,12 +121,12 @@ export default function Map({ center, zoom, showLabel, mapData, loading }: any) 
 					{mapData && mapData.map((data: any) => {
 						if (data.x !== null || data.y !== null) {
 							return (
-								<Marker icon={getIcon(data.constructionTypeSlug || '')} key={data.id} position={[ConverterCood(data.y, data.x)[0], ConverterCood(data.y, data.x)[1]]}>
+								<Marker icon={getIcon(data.loaiCT?.maLoaiCT || '')} key={data.id} position={[ConverterCood(data.y, data.x)[0], ConverterCood(data.y, data.x)[1]]}>
 									{showLabel === true &&
-										<Tooltip direction="top" offset={[-10, -18]} opacity={1} permanent>{data.constructionName}</Tooltip>
+										<Tooltip direction="top" offset={[-10, -18]} opacity={1} permanent>{data.tenCT}</Tooltip>
 									}
 									<Popup >
-										<Typography sx={{ color: '#035291', textAlign: 'center', fontWeight: 'bold', margin: '10px 0 !important' }}>{data.constructionName}</Typography>
+										<Typography sx={{ color: '#035291', textAlign: 'center', fontWeight: 'bold', margin: '10px 0 !important' }}>{data.tenCT}</Typography>
 										<MapPopup popupData={data} />
 									</Popup>
 								</Marker>
