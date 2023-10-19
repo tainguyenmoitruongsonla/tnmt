@@ -776,11 +776,10 @@ const SurfaceConstruction = () => {
         .then(data => {
           if (isMounted.current) {
             setResData(data)
-            console.log(data)
           }
         })
         .catch(error => {
-          console.log(error)
+          console.error(error)
         })
         .finally(() => {
           setLoading(false)
