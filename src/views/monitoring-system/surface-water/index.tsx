@@ -191,7 +191,7 @@ const SurfaceWaterMonitoring = () => {
   }
 
   useEffect(() => {
-    const filteredData = resData.filter((item: { [key: string]: any }) =>
+    const filteredData: any = resData.filter((item: { [key: string]: any }) =>
       initConsType.some((keyword: any) =>
         item['loaiCT']?.['maLoaiCT']?.toString().toLowerCase().includes(keyword.toLowerCase())
       )

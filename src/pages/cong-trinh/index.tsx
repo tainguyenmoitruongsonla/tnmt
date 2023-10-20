@@ -65,7 +65,7 @@ const Construction = () => {
     );
     setDataFiltered(filteredData)
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [initConsType]);
+  }, [initConsType, resData]);
 
   return (
 
