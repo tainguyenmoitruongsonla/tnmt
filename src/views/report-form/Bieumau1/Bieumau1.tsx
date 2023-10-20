@@ -15,32 +15,18 @@ import {
 } from '@mui/material'
 import DownloadIcon from '@mui/icons-material/Download';
 import DialogControlFullScreen from 'src/@core/components/dialog-control-full-screen'
-import HeaderReport from './HeaderReport';
-import FooterReport from './FooterReport';
+import HeaderReport from '../HeaderReport';
+import FooterReport from '../FooterReport';
 import { getData } from 'src/api/axios'
 import { useEffect, useState } from 'react'
 import BoxLoading from 'src/@core/components/box-loading'
-import CreateReport2 from './Bieumau2/CreateReport2'
 import DeleteData from 'src/@core/components/delete-data'
-import { CalculateReportData } from './CalculateData';
+import { CalculateReportData } from '../CalculateData';
+import CreateReport1 from './Createform';
+import { Report1State } from './Report1InterFace';
 
-interface Report1 {
-  id: number
-  luuVucSong: string
-  tongTramQuanTracKyTruoc: number
-  tongTramQuanTracBaoCao: number
-  tramKhiTuongKyTruoc: number
-  tramKhiTuongBaoCao: number
-  tramThuyVanKyTruoc: number
-  tramThuyVanKyBaoCao: number
-  tramTNNKyTruoc: number
-  tramTNNKyBaoCao: number
-  tramQuanTracKyTruoc: number
-  tramQuanTracKyBaoCao: number
-  ghiChu:string
-}
 const FormContruction = () => {
-  const [data, setData] = useState<Report1[]>([])
+  const [data, setData] = useState<Report1State[]>([])
   const [loading, setLoading] = useState(false)
   const [postSuccess, setPostSuccess] = useState(false);
     const handlePostSuccess = () => {
@@ -93,6 +79,7 @@ const FormContruction = () => {
           (Kỳ báo cáo: <TextField size='small' sx={{ width: '50px' }}></TextField>)
         </Typography>
       </Grid>
+      <CreateReport1 isEdit={false} setPostSuccess={handlePostSuccess}/>
       {loading ? (
         <BoxLoading />
       ) : (
@@ -318,8 +305,8 @@ const FormContruction = () => {
                 <TableCell align='center' className="  size='small' align-middle font-13">{CalculateReportData(item.tramQuanTracKyBaoCao,item.tramQuanTracKyTruoc)}</TableCell>
                 <TableCell align='center' className="  size='small' align-middle font-13">
                     <Box>
-                    <CreateReport2 isEdit={true} data={item} setPostSuccess={handlePostSuccess} />
-                    <DeleteData url={'BieuMauSoHai'} data={item} setPostSuccess={handlePostSuccess} />
+                    <CreateReport1 isEdit={true} data={item} setPostSuccess={handlePostSuccess} />
+                    <DeleteData url={'BieuMauSoMot'} data={item} setPostSuccess={handlePostSuccess} />
 
                 </Box>
                     </TableCell>

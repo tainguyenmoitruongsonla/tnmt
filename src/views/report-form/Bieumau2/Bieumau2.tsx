@@ -15,12 +15,12 @@ import {
 } from '@mui/material'
 import DownloadIcon from '@mui/icons-material/Download'
 import DialogControlFullScreen from 'src/@core/components/dialog-control-full-screen'
-import HeaderReport from './HeaderReport'
-import FooterReport from './FooterReport'
+import HeaderReport from '../HeaderReport'
+import FooterReport from '../FooterReport'
 import { getData } from 'src/api/axios'
 import { useEffect, useState } from 'react'
 import BoxLoading from 'src/@core/components/box-loading'
-import CreateReport2 from './Bieumau2/CreateReport2'
+import CreateReport2 from './CreateReport2'
 import DeleteData from 'src/@core/components/delete-data'
 
 interface Report2 {

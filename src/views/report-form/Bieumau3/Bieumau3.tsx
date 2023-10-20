@@ -15,13 +15,13 @@ import {
 } from '@mui/material'
 import DownloadIcon from '@mui/icons-material/Download'
 import DialogControlFullScreen from 'src/@core/components/dialog-control-full-screen'
-import HeaderReport from './HeaderReport'
-import FooterReport from './FooterReport'
+import HeaderReport from '../HeaderReport'
+import FooterReport from '../FooterReport'
 import { getData } from 'src/api/axios'
 import { useEffect, useState } from 'react'
 import BoxLoading from 'src/@core/components/box-loading'
 import DeleteData from 'src/@core/components/delete-data'
-import { Report3State } from './Bieumau3/Report3Interface'
+import { Report3State } from './Report3Interface'
 
 const FormContruction = () => {
   const [data, setData] = useState<Report3State[]>([])
