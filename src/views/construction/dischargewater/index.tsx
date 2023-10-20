@@ -258,7 +258,7 @@ const DischargeConstruction = () => {
     })
 
     const [initConsType, setInitConstype] = useState<any>([
-        'xathai', 'khu_cumcn_taptrung', 'sx_tieuthu_cn', 'congtrinh_xathaikhac'
+        'xathai', 'khu_cumcn_taptrung', 'sx_tieuthu_cn', 'sx_kd_dichvu', 'cs_benhvien', 'khudancu_langnghe', 'channuoi_ntts', 'congtrinhkhac_xt'
     ])
 
     const isMounted = useRef(true);

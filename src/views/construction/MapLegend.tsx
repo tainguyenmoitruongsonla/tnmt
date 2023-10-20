@@ -99,7 +99,7 @@ const MapLegend: FC<MapLegendProps> = ({ onChange }) => {
                         ]
                     }
                 ]);
-                setInitialItems(['xathai', 'khu_cumcn_taptrung', 'sx_tieuthu_cn', 'congtrinh_xathaikhac'])
+                setInitialItems(['xathai', 'khu_cumcn_taptrung', 'sx_tieuthu_cn', 'sx_kd_dichvu', 'cs_benhvien', 'khudancu_langnghe', 'channuoi_ntts', 'congtrinhkhac_xt'])
                 break;
             default:
                 setConsType([
@@ -128,10 +128,10 @@ const MapLegend: FC<MapLegendProps> = ({ onChange }) => {
                         ]
                     }
                 ]);
-                setInitialItems(['nuocmat', 'thuydien', 'hochua', 'trambom', 'tramcapnuoc', 'cong', 'nhamaynuoc', 'nuocduoidat', 'khaithac', 'thamdo', 'congtrinh_nuocduoidatkhac', 'xathai', 'khu_cumcn_taptrung', 'sx_tieuthu_cn', 'congtrinh_xathaikhac']);
+                setInitialItems(['nuocmat', 'thuydien', 'hochua', 'trambom', 'tramcapnuoc', 'cong', 'nhamaynuoc', 'nuocduoidat', 'khaithac', 'thamdo', 'congtrinhkhac_ndd', 'xathai', 'khu_cumcn_taptrung', 'sx_tieuthu_cn', 'sx_kd_dichvu', 'cs_benhvien', 'khudancu_langnghe', 'channuoi_ntts', 'congtrinhkhac_xt']);
                 break;
         }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
     const findItemChildren = (parentId: any) => {
