@@ -2,16 +2,13 @@
 import React, { useState, useEffect, useRef } from 'react'
 
 //MUI Imports
-import { Box, Typography, Paper } from '@mui/material'
+import { Box, Typography, Paper, FormGroup, FormControlLabel, Checkbox } from '@mui/material'
 import Grid from '@mui/material/Unstable_Grid2'
 import { GridColDef, GridColumnGroupingModel } from '@mui/x-data-grid'
 
 //Other Imports
 import ShowFilePDF from 'src/@core/components/show-file-pdf'
 import DataGridComponent from 'src/@core/components/data-grid'
-import FormGroup from '@mui/material/FormGroup'
-import FormControlLabel from '@mui/material/FormControlLabel'
-import Checkbox from '@mui/material/Checkbox'
 import dynamic from 'next/dynamic'
 import { ConverterCood } from 'src/@core/components/map/convert-coord'
 import CreateConstruction from '../form'

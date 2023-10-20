@@ -343,10 +343,11 @@ code[class*='language-'] {
 .map-legend {
   position: absolute;
   z-index: 999;
-  height: 400px;
-  overflow-y: scroll;
+  height: fit-content;
+  overflow-y: auto;
   right: 15px;
   top: 45px;
+  padding: 10px 0;
 }
 
 .leaflet-popup-content {
