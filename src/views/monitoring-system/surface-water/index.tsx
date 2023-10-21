@@ -91,7 +91,7 @@ const SurfaceWaterMonitoring = () => {
       ]
     },
     {
-      id: '#', label: 'Lưu lượng về hạ du (m3/s) ', showId: [1, 4], rowspan: 2,
+      id: '#', label: 'Lưu lượng về hạ du (m3/s) ', showId: [1, 4], rowspan: 2, elm: (row: any) => (calculateSumFlow(row.qMaxTT, row.qXaTranTT, row.qMinTT)), align: 'center' 
     },
     {
       id: '#', label: 'Lưu lượng khai thác (m3/s) ', showId: [1, 4], colspan: 8, children: [
@@ -113,6 +113,13 @@ const SurfaceWaterMonitoring = () => {
     },
     { id: 'actions', label: 'Thao tác', rowspan: 2 },
   ];
+
+  const calculateSumFlow = (value1:any, value2:any, value3:any) => {
+    value1 = value1 == null ? 0 : value1
+    value2 = value2 == null ? 0 : value2
+    value3 = value3 == null ? 0 : value3
+    return parseFloat(value1).toFixed(2) + parseFloat(value2).toFixed(2) + parseFloat(value3).toFixed(2)
+  }
 
   const zoomConstruction = (coords: any) => {
     setMapCenter(coords)
