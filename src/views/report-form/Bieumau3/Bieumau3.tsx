@@ -22,6 +22,7 @@ import { useEffect, useState } from 'react'
 import BoxLoading from 'src/@core/components/box-loading'
 import DeleteData from 'src/@core/components/delete-data'
 import { Report3State } from './Report3Interface'
+import CreateReport3 from './CreateForm3'
 
 const FormContruction = () => {
   const [data, setData] = useState<Report3State[]>([])
@@ -74,6 +75,7 @@ const FormContruction = () => {
           (Kỳ báo cáo: <TextField size='small' sx={{ width: '50px' }}></TextField>)
         </Typography>
       </Grid>
+      <CreateReport3 isEdit={false} setPostSuccess={handlePostSuccess}/>
       {loading ? (
         <BoxLoading />
       ) : (
@@ -192,6 +194,7 @@ const FormContruction = () => {
                     <TableCell className="text-center  size='small' align-middle font-13">{item.luongMuaNam}</TableCell>
                     <TableCell className="text-center  size='small' align-middle font-13">
                       <Box>
+                      <CreateReport3 isEdit={true} data={item} setPostSuccess={handlePostSuccess} />
                         <DeleteData url={'BieuMauSoHai'} data={item} setPostSuccess={handlePostSuccess} />
                       </Box>
                     </TableCell>
