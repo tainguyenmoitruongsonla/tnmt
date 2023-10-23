@@ -281,18 +281,7 @@ const navigation = (): VerticalNavItemsType => {
             {
               title: 'Danh mục NNNT',
               icon: CircleOutline,
-              children: [
-                {
-                  icon: CircleOutline,
-                  title: 'Sông, suối',
-                  path: '/thong-tin-du-lieu/danh-muc-nguon-nuoc-song-suoi'
-                },
-                {
-                  icon: CircleOutline,
-                  title: 'Ao, hồ',
-                  path: '/thong-tin-du-lieu/danh-muc-nguon-nuoc-ao-ho'
-                }
-              ]
+              path: '/thong-tin-du-lieu/danh-muc-mnnt'
             },
           ]
         },

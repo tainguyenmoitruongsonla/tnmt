@@ -15,13 +15,13 @@ import {
 } from '@mui/material'
 import DownloadIcon from '@mui/icons-material/Download'
 import DialogControlFullScreen from 'src/@core/components/dialog-control-full-screen'
-import HeaderReport from './HeaderReport'
-import FooterReport from './FooterReport'
+import HeaderReport from '../HeaderReport'
+import FooterReport from '../FooterReport'
 import { getData } from 'src/api/axios'
 import { useEffect, useState } from 'react'
 import BoxLoading from 'src/@core/components/box-loading'
-import CreateReport2 from './Bieumau2/CreateReport2'
 import DeleteData from 'src/@core/components/delete-data'
+import CreateReport5 from './CreateForm5'
 
 interface Report5 {
   id: number
@@ -79,7 +79,6 @@ const FormContruction = () => {
         </Grid>
       </Grid>
       <HeaderReport />
-
       <Grid className='_text_center'>
         <Typography className='font-weight-bold ' variant='h4'>
           BÁO CÁO
@@ -91,6 +90,7 @@ const FormContruction = () => {
           (Kỳ báo cáo: <TextField size='small' sx={{ width: '50px' }}></TextField>)
         </Typography>
       </Grid>
+      <CreateReport5 isEdit={false}  setPostSuccess={handlePostSuccess} />
       {loading ? (
         <BoxLoading />
       ) : (
@@ -180,8 +180,8 @@ const FormContruction = () => {
                   <TableCell align='center' className="size='small' align-middle font-13">{item.ghiChu}</TableCell>
                   <TableCell align='center' className="  size='small' align-middle font-13">
                     <Box>
-                    <CreateReport2 isEdit={true} data={item} setPostSuccess={handlePostSuccess} />
-                    <DeleteData url={'BieuMauSoHai'} data={item} setPostSuccess={handlePostSuccess} />
+                    <CreateReport5 isEdit={true} data={item} setPostSuccess={handlePostSuccess} />
+                    <DeleteData url={'BieuMauSoNam'} data={item} setPostSuccess={handlePostSuccess} />
 
                 </Box>
                     </TableCell>
