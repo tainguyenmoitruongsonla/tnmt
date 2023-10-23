@@ -15,32 +15,18 @@ import {
 } from '@mui/material'
 import DownloadIcon from '@mui/icons-material/Download'
 import DialogControlFullScreen from 'src/@core/components/dialog-control-full-screen'
-import HeaderReport from './HeaderReport'
-import FooterReport from './FooterReport'
+import HeaderReport from '../HeaderReport'
+import FooterReport from '../FooterReport'
 import { getData } from 'src/api/axios'
 import { useEffect, useState } from 'react'
 import BoxLoading from 'src/@core/components/box-loading'
-import CreateReport2 from './Bieumau2/CreateReport2'
 import DeleteData from 'src/@core/components/delete-data'
-import { CalculateReportData } from './CalculateData'
-
-interface Report4 {
-  id: number
-  luuVucSong: string
-  dongChayTBNam: number
-  dongChayKyTruoc: number
-  dongChayKyBaoCao: number
-  dongChayMuaLuTB: number
-  dongChayMuaLuKyTruoc: number
-  dongChayMuaLuKyBaoCao: number
-  dongChayMuaCanTB: number
-  dongChayMuaCanKyTruoc: number
-  dongChayMuaCanKyBaoCao: number
-  ghiChu: string
-}
+import { CalculateReportData } from '../CalculateData'
+import { Report4State } from './Report4Interface'
+import CreateReport4 from './CreateForm4'
 
 const FormContruction = () => {
-  const [data, setData] = useState<Report4[]>([])
+  const [data, setData] = useState<Report4State[]>([])
   const [loading, setLoading] = useState(false)
   const [postSuccess, setPostSuccess] = useState(false)
   const handlePostSuccess = () => {
@@ -90,6 +76,7 @@ const FormContruction = () => {
           (Kỳ báo cáo: <TextField size='small' sx={{ width: '50px' }}></TextField>)
         </Typography>
       </Grid>
+      <CreateReport4 isEdit={false} setPostSuccess={handlePostSuccess} />
       {loading ? (
         <BoxLoading />
       ) : (
@@ -251,8 +238,8 @@ const FormContruction = () => {
                     </TableCell>
                     <TableCell align='center' className="  size='small' align-middle font-13">
                       <Box>
-                        <CreateReport2 isEdit={true} data={item} setPostSuccess={handlePostSuccess} />
-                        <DeleteData url={'BieuMauSoHai'} data={item} setPostSuccess={handlePostSuccess} />
+                        <CreateReport4 isEdit={true} data={item} setPostSuccess={handlePostSuccess} />
+                        <DeleteData url={'BieuMauSoBon'} data={item} setPostSuccess={handlePostSuccess} />
                       </Box>
                     </TableCell>
                   </TableRow>

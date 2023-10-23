@@ -195,7 +195,7 @@ const FormContruction = () => {
                     <TableCell className="text-center  size='small' align-middle font-13">
                       <Box>
                       <CreateReport3 isEdit={true} data={item} setPostSuccess={handlePostSuccess} />
-                        <DeleteData url={'BieuMauSoHai'} data={item} setPostSuccess={handlePostSuccess} />
+                        <DeleteData url={'BieuMauSoBa'} data={item} setPostSuccess={handlePostSuccess} />
                       </Box>
                     </TableCell>
                   </TableRow>
