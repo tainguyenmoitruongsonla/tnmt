@@ -3,7 +3,6 @@ import {
   Grid,
   TextField,
   Typography,
-  Link,
   Box,
   IconButton,
   TableContainer,
@@ -14,44 +13,20 @@ import {
   TableBody
 } from '@mui/material'
 import DownloadIcon from '@mui/icons-material/Download'
-import DialogControlFullScreen from 'src/@core/components/dialog-control-full-screen'
 import HeaderReport from '../HeaderReport'
 import FooterReport from '../FooterReport'
 import { getData } from 'src/api/axios'
 import { useEffect, useState } from 'react'
 import BoxLoading from 'src/@core/components/box-loading'
-// import CreateReport2 from './RainWater/CreateReport2'
-import DeleteData from 'src/@core/components/delete-data'
-
-interface RainWaterData {
-  id: number
-  tenTram: string,
-  tenXa: string,
-  tenHuyen: string,
-  ngayBatDau: number,
-  ngayKetThuc: number,
-  thang1: number,
-  thang2: number,
-  thang3: number,
-  thang4: number,
-  thang5: number,
-  thang6: number,
-  thang7: number,
-  thang8: number,
-  thang9: number,
-  thang10: number,
-  thang11: number,
-  thang12: number,
-}
 
 const RainWater = () => {
-
   const [data, setData] = useState<any[]>([])
   const [loading, setLoading] = useState(false)
-  const [postSuccess, setPostSuccess] = useState(false);
-    const handlePostSuccess = () => {
-        setPostSuccess(prevState => !prevState);
-    };
+
+  // const [postSuccess, setPostSuccess] = useState(false);
+  //   const handlePostSuccess = () => {
+  //       setPostSuccess(prevState => !prevState);
+  //   };
   useEffect(() => {
     async function getDataRainWater() {
       setLoading(true)
@@ -68,7 +43,7 @@ const RainWater = () => {
     }
 
     getDataRainWater()
-  }, [postSuccess])
+  }, [])
   console.log(data);
   
 
@@ -239,7 +214,7 @@ const RainWater = () => {
 
               <TableBody className='tableBody'>
                 {data.map((item, index) => (
-                  <TableRow >
+                  <TableRow key={item.id}>
                     <TableCell className="text-center  size='small' align-middle font-13">{index + 1}</TableCell>
                     <TableCell className="text-center  size='small' align-middle font-13">{item.tram?.tenTram}</TableCell>
                     <TableCell className="text-center  size='small' align-middle font-13">{item.tram?.ngayBatDau}</TableCell>

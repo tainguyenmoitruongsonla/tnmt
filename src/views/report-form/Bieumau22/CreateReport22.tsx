@@ -3,7 +3,8 @@ import { EditNote, PersonAddAlt, Save } from '@mui/icons-material'
 import { Grid, Button, DialogActions, IconButton, Typography, TextField, CircularProgress } from '@mui/material'
 import DialogsControl from 'src/@core/components/dialog-control'
 import { saveData } from 'src/api/axios'
-import { Report9State } from './Report9InterFace'
+import { Report9State } from './Repor22InterFace'
+
 
 const Form = ({ data, setPostSuccess, closeDialogs }: any) => {
   const [report2Data, setreport2Data] = useState<Report9State>({

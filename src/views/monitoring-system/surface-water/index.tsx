@@ -118,6 +118,7 @@ const SurfaceWaterMonitoring = () => {
     value1 = value1 == null ? 0 : value1
     value2 = value2 == null ? 0 : value2
     value3 = value3 == null ? 0 : value3
+    
     return parseFloat(value1).toFixed(2) + parseFloat(value2).toFixed(2) + parseFloat(value3).toFixed(2)
   }
 
