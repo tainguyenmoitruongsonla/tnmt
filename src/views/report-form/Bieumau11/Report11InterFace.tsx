@@ -1,12 +1,14 @@
-export interface Report9State {
+export interface Report11State {
     id: number
     luuVucSong: string
-    tongCongTrinhKyTruoc: number
-    tongCongTrinhKyBaoCao: number
-    congTrinhNuocMatKyTruoc: number
-    congTrinhNuocMatKyBaoCao: number
-    congTrinhNDDKyTruoc: number
-    congTrinhNDDKyBaoCao: number
+    tongSoCongTrinh: number
+    congTrinhHoChua: number
+    congTrinhDapDang: number
+    congTrinhCong: number
+    congTrinhTramBom: number
+    congTrinhKhacNuocMat: number
+    congTrinhGieng: number
+    congTrinhKhacNDD: number
     ghiChu: string
   }
   

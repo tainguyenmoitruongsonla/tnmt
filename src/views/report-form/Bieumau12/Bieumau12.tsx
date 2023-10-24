@@ -17,9 +17,40 @@ import DownloadIcon from '@mui/icons-material/Download';
 import DialogControlFullScreen from 'src/@core/components/dialog-control-full-screen'
 import FooterReport from '../FooterReport'
 import HeaderReport from '../HeaderReport'
+import { getData } from 'src/api/axios'
+import { useEffect, useState } from 'react'
+import BoxLoading from 'src/@core/components/box-loading'
+import DeleteData from 'src/@core/components/delete-data'
+import { Report12State } from './Report12InterFace';
+import CreateReport12 from './CreateReport12';
 
 const FormContruction = () => {
+  const [data, setData] = useState<Report12State[]>([])
+  const [loading, setLoading] = useState(false)
+  const [postSuccess, setPostSuccess] = useState(false);
+    const handlePostSuccess = () => {
+        setPostSuccess(prevState => !prevState);
+    };
+  useEffect(() => {
+    async function getDataReport1() {
+      setLoading(true)
+      await getData('BieuMauSoMuoiHai/danhsach')
+        .then(data => {
+          setData(data)
+        })
+        .catch(error => {
+          console.log(error)
+        })
+        .finally(() => {
+          setLoading(false)
+        })
+    }
+
+    getDataReport1()
+  }, [postSuccess])
+
   return (
+
     <Paper sx={{ p: 8 }}>
       {/* dautrang */}
       <Grid container>
@@ -47,8 +78,11 @@ const FormContruction = () => {
           (Kỳ báo cáo: <TextField size='small' sx={{ width: '50px' }}></TextField>)
         </Typography>
       </Grid>
-
-      <Grid className='_text_center' sx={{ mt: 3 }}>
+      <CreateReport12 isEdit={false} setPostSuccess={handlePostSuccess} />
+      {loading ?(
+        <BoxLoading />
+      ):(
+<Grid className='_text_center' sx={{ mt: 3 }}>
         <TableContainer component={Paper}>
           <Table sx={{ minWidth: 650 }} aria-label='simple table'>
             <TableHead className='tableHead'>
@@ -64,6 +98,9 @@ const FormContruction = () => {
                 </TableCell>
                 <TableCell size='small' align='center' colSpan={5}>
                   Lượng nước khai thác, sử dụng đã được cấp phép <br /> phân theo mục đích khai thác và theo nguồn nước
+                </TableCell>
+                <TableCell size='small' align='center' rowSpan={4}>
+                  Thao tác
                 </TableCell>
               </TableRow>
 
@@ -124,20 +161,42 @@ const FormContruction = () => {
             </TableHead>
 
             <TableBody className='tableBody'>
-              <TableRow>
-                <TableCell className="text-center  size='small' align-middle font-13">1</TableCell>
-                <TableCell className="text-center  size='small' align-middle font-13">1</TableCell>
-                <TableCell className="text-center  size='small' align-middle font-13">1</TableCell>
-                <TableCell className="text-center  size='small' align-middle font-13">1</TableCell>
-                <TableCell className="text-center  size='small' align-middle font-13">1</TableCell>
-                <TableCell className="text-center  size='small' align-middle font-13">1</TableCell>
-                <TableCell className="text-center  size='small' align-middle font-13">1</TableCell>
-                <TableCell className="text-center  size='small' align-middle font-13">1</TableCell>
-              </TableRow>
-            </TableBody>
+                {data.map((item, index) => (
+                  <TableRow key={index}>
+                    <TableCell align='center' className="size='small' align-middle font-13">{index + 1}</TableCell>
+                    <TableCell  className="size='small' align-middle font-13">{item.luuVucSong}</TableCell>
+                    <TableCell align='center' className="size='small' align-middle font-13">
+                      {item.tongSoCongTrinh}
+                    </TableCell>
+                    <TableCell align='center' className="size='small' align-middle font-13">
+                      {item.tuoiNguonNuocMat}
+                    </TableCell>
+                    <TableCell align='center' className="size='small' align-middle font-13">
+                      {item.tuoiNguonNuocDuoiDat}
+                    </TableCell>
+                    <TableCell align='center' className="size='small' align-middle font-13">
+                      {item.khaiThacThuyDien}
+                    </TableCell>
+                    <TableCell align='center' className="size='small' align-middle font-13">
+                      {item.mucDichKhacNguonNuocMat}
+                    </TableCell>
+                    <TableCell align='center' className="size='small' align-middle font-13">
+                      {item.mucDichKhacNguonNuocDD}
+                    </TableCell>
+                    <TableCell align='center' className="  size='small' align-middle font-13">
+                      <Box>
+                        <CreateReport12 isEdit={true} data={item} setPostSuccess={handlePostSuccess} />
+                        <DeleteData url={'BieuMauSoMuoiHai'} data={item} setPostSuccess={handlePostSuccess} />
+                      </Box>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
           </Table>
         </TableContainer>
       </Grid>
+      )}
+      
       <FooterReport />
     </Paper>
   )

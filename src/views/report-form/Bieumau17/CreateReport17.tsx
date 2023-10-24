@@ -3,23 +3,25 @@ import { EditNote, PersonAddAlt, Save } from '@mui/icons-material'
 import { Grid, Button, DialogActions, IconButton, Typography, TextField, CircularProgress } from '@mui/material'
 import DialogsControl from 'src/@core/components/dialog-control'
 import { saveData } from 'src/api/axios'
-import { Report9State } from './Report9InterFace'
+import { Report17State } from './Report17InterFace'
 
 const Form = ({ data, setPostSuccess, closeDialogs }: any) => {
-  const [report2Data, setreport2Data] = useState<Report9State>({
+  const [report2Data, setreport2Data] = useState<Report17State>({
     id: data?.id || 0,
-    luuVucSong: data?.luuVucSong || '',
-    tongCongTrinhKyTruoc: data?.tongCongTrinhKyTruoc || 0,
-    tongCongTrinhKyBaoCao: data?.tongCongTrinhKyBaoCao || 0,
-    congTrinhNuocMatKyTruoc: data?.congTrinhNuocMatKyTruoc || 0,
-    congTrinhNuocMatKyBaoCao: data?.congTrinhNuocMatKyBaoCao || 0,
-    congTrinhNDDKyTruoc: data?.congTrinhNDDKyTruoc || 0,
-    congTrinhNDDKyBaoCao: data?.congTrinhNDDKyBaoCao || 0,
-    ghiChu:data?.ghiChu || ''
+    tinh: data?.tinh || '',
+    tongCTPheDuyetTCQKyTruoc: data?.tongCTPheDuyetTCQKyTruoc || 0,
+    tongCTPheDuyetTCQKyBaoCao: data?.tongCTPheDuyetTCQKyBaoCao || 0,
+    tongCTPheDuyetTCQBoKyTruoc: data?.tongCTPheDuyetTCQBoKyTruoc || 0,
+    tongCTPheDuyetTCQBoKyBaoCao: data?.tongCTPheDuyetTCQBoKyBaoCao || 0,
+    tongCTPheDuyetTCQDiaPhuongKyTruoc: data?.tongCTPheDuyetTCQDiaPhuongKyTruoc || 0,
+    tongCTPheDuyetTCQDiaPhuongKyBaoCao: data?.tongCTPheDuyetTCQDiaPhuongKyBaoCao || 0,
+    tongTCQpKyTruoc: data?.tongTCQpKyTruoc || 0,
+    tongTCQKyBaoCao: data?.tongTCQKyBaoCao || 0,
+    ghiChu: data?.ghiChu || ''
   })
 
   const [saving, setSaving] = useState(false)
-  const handleChange = (prop: keyof Report9State) => (value: any) => {
+  const handleChange = (prop: keyof Report17State) => (value: any) => {
     setreport2Data({ ...report2Data, [prop]: value })
   }
 
@@ -29,19 +31,21 @@ const Form = ({ data, setPostSuccess, closeDialogs }: any) => {
     const handleApiCall = async () => {
       setSaving(true)
       try {
-        const res = await saveData('BieuMauSoChin/luu', report2Data)
+        const res = await saveData('BieuMauSoMuoiBay/luu', report2Data)
         if (res) {
           // Reset form fields
           setreport2Data({
             id: 0,
-            luuVucSong: '',
-            tongCongTrinhKyTruoc: 0,
-            tongCongTrinhKyBaoCao: 0,
-            congTrinhNuocMatKyTruoc: 0,
-            congTrinhNuocMatKyBaoCao: 0,
-            congTrinhNDDKyTruoc: 0,
-            congTrinhNDDKyBaoCao: 0,
-           ghiChu:''
+            tinh: '',
+            tongCTPheDuyetTCQKyTruoc: 0,
+            tongCTPheDuyetTCQKyBaoCao: 0,
+            tongCTPheDuyetTCQBoKyTruoc: 0,
+            tongCTPheDuyetTCQBoKyBaoCao: 0,
+            tongCTPheDuyetTCQDiaPhuongKyTruoc: 0,
+            tongCTPheDuyetTCQDiaPhuongKyBaoCao: 0,
+            tongTCQpKyTruoc: 0,
+            tongTCQKyBaoCao: 0,
+            ghiChu: ''
           })
 
           typeof setPostSuccess === 'function' ? setPostSuccess(true) : ''
@@ -61,15 +65,17 @@ const Form = ({ data, setPostSuccess, closeDialogs }: any) => {
 
   const handleClose = () => {
     setreport2Data({
-        id: 0,
-        luuVucSong: '',
-        tongCongTrinhKyTruoc: 0,
-        tongCongTrinhKyBaoCao: 0,
-        congTrinhNuocMatKyTruoc: 0,
-        congTrinhNuocMatKyBaoCao: 0,
-        congTrinhNDDKyTruoc: 0,
-        congTrinhNDDKyBaoCao: 0,
-       ghiChu:''
+      id: 0,
+      tinh: '',
+      tongCTPheDuyetTCQKyTruoc: 0,
+      tongCTPheDuyetTCQKyBaoCao: 0,
+      tongCTPheDuyetTCQBoKyTruoc: 0,
+      tongCTPheDuyetTCQBoKyBaoCao: 0,
+      tongCTPheDuyetTCQDiaPhuongKyTruoc: 0,
+      tongCTPheDuyetTCQDiaPhuongKyBaoCao: 0,
+      tongTCQpKyTruoc: 0,
+      tongTCQKyBaoCao: 0,
+      ghiChu: ''
     })
 
     closeDialogs()
@@ -82,78 +88,100 @@ const Form = ({ data, setPostSuccess, closeDialogs }: any) => {
           <TextField
             size='small'
             type='text'
-            label='Lưu vực sông'
+            label='Tỉnh'
             fullWidth
             placeholder=''
-            value={report2Data.luuVucSong || ''}
-            onChange={event => handleChange('luuVucSong')(event.target.value)}
+            value={report2Data.tinh || ''}
+            onChange={event => handleChange('tinh')(event.target.value)}
           />
         </Grid>
-        
+
         <Grid item xs={12} md={6} sm={12}>
           <TextField
             size='small'
             type='text'
-            label='Tổng công trình kỳ trước'
+            label='Tổng công trình phê duyệt TCQ kỳ trước'
             fullWidth
             placeholder=''
-            value={report2Data.tongCongTrinhKyTruoc || ''}
-            onChange={event => handleChange('tongCongTrinhKyTruoc')(event.target.value)}
-          />
-        </Grid>
-        <Grid item xs={12} md={6} sm={12}>
-          <TextField
-            size='small'
-            type='text'
-            label='Tổng công trình kỳ báo cáo'
-            fullWidth
-            placeholder=''
-            value={report2Data.tongCongTrinhKyBaoCao || ''}
-            onChange={event => handleChange('tongCongTrinhKyBaoCao')(event.target.value)}
+            value={report2Data.tongCTPheDuyetTCQKyTruoc || ''}
+            onChange={event => handleChange('tongCTPheDuyetTCQKyTruoc')(event.target.value)}
           />
         </Grid>
         <Grid item xs={12} md={6} sm={12}>
           <TextField
             size='small'
             type='text'
-            label='Công trình nước mặt kỳ trước'
+            label='Tổng công trình phê duyệt TCQ kỳ báo cáo'
             fullWidth
             placeholder=''
-            value={report2Data.congTrinhNuocMatKyTruoc || ''}
-            onChange={event => handleChange('congTrinhNuocMatKyTruoc')(event.target.value)}
+            value={report2Data.tongCTPheDuyetTCQKyBaoCao || ''}
+            onChange={event => handleChange('tongCTPheDuyetTCQKyBaoCao')(event.target.value)}
           />
         </Grid>
         <Grid item xs={12} md={6} sm={12}>
           <TextField
             size='small'
             type='text'
-            label='Công trình nước mặt kỳ trước báo cáo'
+            label='Tổng công trình bộ phê duyệt TCQ kỳ trước'
             fullWidth
             placeholder=''
-            value={report2Data.congTrinhNuocMatKyBaoCao || ''}
-            onChange={event => handleChange('congTrinhNuocMatKyBaoCao')(event.target.value)}
+            value={report2Data.tongCTPheDuyetTCQBoKyTruoc || ''}
+            onChange={event => handleChange('tongCTPheDuyetTCQBoKyTruoc')(event.target.value)}
           />
         </Grid>
         <Grid item xs={12} md={6} sm={12}>
           <TextField
             size='small'
             type='text'
-            label='Công trình nước dưới đất kỳ trước'
+            label='Tổng công trình bộ phê duyệt TCQ kỳ báo cáo'
             fullWidth
             placeholder=''
-            value={report2Data.congTrinhNDDKyTruoc || ''}
-            onChange={event => handleChange('congTrinhNDDKyTruoc')(event.target.value)}
+            value={report2Data.tongCTPheDuyetTCQBoKyBaoCao || ''}
+            onChange={event => handleChange('tongCTPheDuyetTCQBoKyBaoCao')(event.target.value)}
           />
         </Grid>
         <Grid item xs={12} md={6} sm={12}>
           <TextField
             size='small'
             type='text'
-            label='Công trình nước dưới đất kỳ báo cáo'
+            label='Tổng công trình địa phương phê duyệt TCQ kỳ trước'
             fullWidth
             placeholder=''
-            value={report2Data.congTrinhNDDKyBaoCao || ''}
-            onChange={event => handleChange('congTrinhNDDKyBaoCao')(event.target.value)}
+            value={report2Data.tongCTPheDuyetTCQDiaPhuongKyTruoc || ''}
+            onChange={event => handleChange('tongCTPheDuyetTCQDiaPhuongKyTruoc')(event.target.value)}
+          />
+        </Grid>
+        <Grid item xs={12} md={6} sm={12}>
+          <TextField
+            size='small'
+            type='text'
+            label='Tổng công trình địa phương phê duyệt TCQ kỳ báo cáo'
+            fullWidth
+            placeholder=''
+            value={report2Data.tongCTPheDuyetTCQDiaPhuongKyBaoCao || ''}
+            onChange={event => handleChange('tongCTPheDuyetTCQDiaPhuongKyBaoCao')(event.target.value)}
+          />
+        </Grid>
+        <Grid item xs={12} md={6} sm={12}>
+          <TextField
+            size='small'
+            type='text'
+            label='Tổng số TCQ phê duyệt TCQ kỳ trước'
+            fullWidth
+            placeholder=''
+            value={report2Data.tongTCQpKyTruoc || ''}
+            onChange={event => handleChange('tongTCQpKyTruoc')(event.target.value)}
+          />
+        </Grid>
+        <Grid item xs={12} md={6} sm={12}>
+          <TextField
+            size='small'
+            type='text'
+            label='Tổng số TCQ phê duyệt TCQ kỳ báo cáo'
+            fullWidth
+            placeholder=''
+            value={report2Data.tongTCQKyBaoCao || ''}
+            onChange={event => handleChange('tongTCQKyBaoCao')(event.target.value)}
           />
         </Grid>
         <Grid item xs={12} md={12} sm={12} sx={{ my: 2 }}>
@@ -182,8 +210,8 @@ const Form = ({ data, setPostSuccess, closeDialogs }: any) => {
   )
 }
 
-const CreateReport9 = ({ data, setPostSuccess, isEdit }: any) => {
-  const formTitle = isEdit ? 'Thay đổi thông tin tài khoản' : 'Thêm tài khoản mới'
+const CreateReport17 = ({ data, setPostSuccess, isEdit }: any) => {
+  const formTitle = isEdit ? 'Thay đổi thông tin biểu mẫu' : 'Thêm biểu mẫu mới'
 
   return (
     <DialogsControl>
@@ -213,4 +241,4 @@ const CreateReport9 = ({ data, setPostSuccess, isEdit }: any) => {
   )
 }
 
-export default CreateReport9
+export default CreateReport17

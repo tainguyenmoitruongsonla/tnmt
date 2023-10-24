@@ -3,23 +3,23 @@ import { EditNote, PersonAddAlt, Save } from '@mui/icons-material'
 import { Grid, Button, DialogActions, IconButton, Typography, TextField, CircularProgress } from '@mui/material'
 import DialogsControl from 'src/@core/components/dialog-control'
 import { saveData } from 'src/api/axios'
-import { Report9State } from './Report9InterFace'
+import { Report16State } from './Report16InterFace'
 
 const Form = ({ data, setPostSuccess, closeDialogs }: any) => {
-  const [report2Data, setreport2Data] = useState<Report9State>({
+  const [report2Data, setreport2Data] = useState<Report16State>({
     id: data?.id || 0,
-    luuVucSong: data?.luuVucSong || '',
-    tongCongTrinhKyTruoc: data?.tongCongTrinhKyTruoc || 0,
-    tongCongTrinhKyBaoCao: data?.tongCongTrinhKyBaoCao || 0,
-    congTrinhNuocMatKyTruoc: data?.congTrinhNuocMatKyTruoc || 0,
-    congTrinhNuocMatKyBaoCao: data?.congTrinhNuocMatKyBaoCao || 0,
-    congTrinhNDDKyTruoc: data?.congTrinhNDDKyTruoc || 0,
-    congTrinhNDDKyBaoCao: data?.congTrinhNDDKyBaoCao || 0,
+    loaiGiayPhep: data?.loaiGiayPhep || '',
+    tongGPCapKyTruoc: data?.tongGPCapKyTruoc || 0,
+    tongGPCapKyBaoCao: data?.tongGPCapKyBaoCao || 0,
+    tongGPBoCapKyTruoc: data?.tongGPBoCapKyTruoc || 0,
+    tongGPBoCapKyBaoCao: data?.tongGPBoCapKyBaoCao || 0,
+    tongGPDiaPhuongCapKyTruoc: data?.tongGPDiaPhuongCapKyTruoc || 0,
+    tongGPDiaPhuongCapBaoCao: data?.tongGPDiaPhuongCapBaoCao || 0,
     ghiChu:data?.ghiChu || ''
   })
 
   const [saving, setSaving] = useState(false)
-  const handleChange = (prop: keyof Report9State) => (value: any) => {
+  const handleChange = (prop: keyof Report16State) => (value: any) => {
     setreport2Data({ ...report2Data, [prop]: value })
   }
 
@@ -29,18 +29,18 @@ const Form = ({ data, setPostSuccess, closeDialogs }: any) => {
     const handleApiCall = async () => {
       setSaving(true)
       try {
-        const res = await saveData('BieuMauSoChin/luu', report2Data)
+        const res = await saveData('BieuMauSoMuoiSau/luu', report2Data)
         if (res) {
           // Reset form fields
           setreport2Data({
             id: 0,
-            luuVucSong: '',
-            tongCongTrinhKyTruoc: 0,
-            tongCongTrinhKyBaoCao: 0,
-            congTrinhNuocMatKyTruoc: 0,
-            congTrinhNuocMatKyBaoCao: 0,
-            congTrinhNDDKyTruoc: 0,
-            congTrinhNDDKyBaoCao: 0,
+            loaiGiayPhep: '',
+            tongGPCapKyTruoc: 0,
+            tongGPCapKyBaoCao: 0,
+            tongGPBoCapKyTruoc: 0,
+            tongGPBoCapKyBaoCao: 0,
+            tongGPDiaPhuongCapKyTruoc: 0,
+            tongGPDiaPhuongCapBaoCao: 0,
            ghiChu:''
           })
 
@@ -62,13 +62,13 @@ const Form = ({ data, setPostSuccess, closeDialogs }: any) => {
   const handleClose = () => {
     setreport2Data({
         id: 0,
-        luuVucSong: '',
-        tongCongTrinhKyTruoc: 0,
-        tongCongTrinhKyBaoCao: 0,
-        congTrinhNuocMatKyTruoc: 0,
-        congTrinhNuocMatKyBaoCao: 0,
-        congTrinhNDDKyTruoc: 0,
-        congTrinhNDDKyBaoCao: 0,
+        loaiGiayPhep: '',
+        tongGPCapKyTruoc: 0,
+        tongGPCapKyBaoCao: 0,
+        tongGPBoCapKyTruoc: 0,
+        tongGPBoCapKyBaoCao: 0,
+        tongGPDiaPhuongCapKyTruoc: 0,
+        tongGPDiaPhuongCapBaoCao: 0,
        ghiChu:''
     })
 
@@ -82,11 +82,11 @@ const Form = ({ data, setPostSuccess, closeDialogs }: any) => {
           <TextField
             size='small'
             type='text'
-            label='Lưu vực sông'
+            label='Loại giấy phép'
             fullWidth
             placeholder=''
-            value={report2Data.luuVucSong || ''}
-            onChange={event => handleChange('luuVucSong')(event.target.value)}
+            value={report2Data.loaiGiayPhep || ''}
+            onChange={event => handleChange('loaiGiayPhep')(event.target.value)}
           />
         </Grid>
         
@@ -94,66 +94,66 @@ const Form = ({ data, setPostSuccess, closeDialogs }: any) => {
           <TextField
             size='small'
             type='text'
-            label='Tổng công trình kỳ trước'
+            label='Tổng giấy phép cấp kỳ trước'
             fullWidth
             placeholder=''
-            value={report2Data.tongCongTrinhKyTruoc || ''}
-            onChange={event => handleChange('tongCongTrinhKyTruoc')(event.target.value)}
+            value={report2Data.tongGPCapKyTruoc || ''}
+            onChange={event => handleChange('tongGPCapKyTruoc')(event.target.value)}
           />
         </Grid>
         <Grid item xs={12} md={6} sm={12}>
           <TextField
             size='small'
             type='text'
-            label='Tổng công trình kỳ báo cáo'
+            label='Tổng giấy phép kỳ báo cáo'
             fullWidth
             placeholder=''
-            value={report2Data.tongCongTrinhKyBaoCao || ''}
-            onChange={event => handleChange('tongCongTrinhKyBaoCao')(event.target.value)}
+            value={report2Data.tongGPCapKyBaoCao || ''}
+            onChange={event => handleChange('tongGPCapKyBaoCao')(event.target.value)}
           />
         </Grid>
         <Grid item xs={12} md={6} sm={12}>
           <TextField
             size='small'
             type='text'
-            label='Công trình nước mặt kỳ trước'
+            label='Tổng giấy phép bộ cấp kỳ trước'
             fullWidth
             placeholder=''
-            value={report2Data.congTrinhNuocMatKyTruoc || ''}
-            onChange={event => handleChange('congTrinhNuocMatKyTruoc')(event.target.value)}
+            value={report2Data.tongGPBoCapKyTruoc || ''}
+            onChange={event => handleChange('tongGPBoCapKyTruoc')(event.target.value)}
           />
         </Grid>
         <Grid item xs={12} md={6} sm={12}>
           <TextField
             size='small'
             type='text'
-            label='Công trình nước mặt kỳ trước báo cáo'
+            label='Tổng giấy phép bộ cấp  kỳ báo cáo'
             fullWidth
             placeholder=''
-            value={report2Data.congTrinhNuocMatKyBaoCao || ''}
-            onChange={event => handleChange('congTrinhNuocMatKyBaoCao')(event.target.value)}
+            value={report2Data.tongGPBoCapKyBaoCao || ''}
+            onChange={event => handleChange('tongGPBoCapKyBaoCao')(event.target.value)}
           />
         </Grid>
         <Grid item xs={12} md={6} sm={12}>
           <TextField
             size='small'
             type='text'
-            label='Công trình nước dưới đất kỳ trước'
+            label='Tổng giấy phép địa phương cấp  kỳ trước'
             fullWidth
             placeholder=''
-            value={report2Data.congTrinhNDDKyTruoc || ''}
-            onChange={event => handleChange('congTrinhNDDKyTruoc')(event.target.value)}
+            value={report2Data.tongGPDiaPhuongCapKyTruoc || ''}
+            onChange={event => handleChange('tongGPDiaPhuongCapKyTruoc')(event.target.value)}
           />
         </Grid>
         <Grid item xs={12} md={6} sm={12}>
           <TextField
             size='small'
             type='text'
-            label='Công trình nước dưới đất kỳ báo cáo'
+            label='Tổng giấy phép địa phương cấp kỳ báo cáo'
             fullWidth
             placeholder=''
-            value={report2Data.congTrinhNDDKyBaoCao || ''}
-            onChange={event => handleChange('congTrinhNDDKyBaoCao')(event.target.value)}
+            value={report2Data.tongGPDiaPhuongCapBaoCao || ''}
+            onChange={event => handleChange('tongGPDiaPhuongCapBaoCao')(event.target.value)}
           />
         </Grid>
         <Grid item xs={12} md={12} sm={12} sx={{ my: 2 }}>
@@ -182,7 +182,7 @@ const Form = ({ data, setPostSuccess, closeDialogs }: any) => {
   )
 }
 
-const CreateReport9 = ({ data, setPostSuccess, isEdit }: any) => {
+const CreateReport16 = ({ data, setPostSuccess, isEdit }: any) => {
   const formTitle = isEdit ? 'Thay đổi thông tin tài khoản' : 'Thêm tài khoản mới'
 
   return (
@@ -213,4 +213,4 @@ const CreateReport9 = ({ data, setPostSuccess, isEdit }: any) => {
   )
 }
 
-export default CreateReport9
+export default CreateReport16

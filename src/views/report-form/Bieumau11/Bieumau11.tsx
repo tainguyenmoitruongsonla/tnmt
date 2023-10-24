@@ -15,91 +15,39 @@ import {
 } from '@mui/material'
 import DownloadIcon from '@mui/icons-material/Download'
 import DialogControlFullScreen from 'src/@core/components/dialog-control-full-screen'
-import { useState, useEffect } from 'react'
-import React from 'react'
-import BoxLoading from 'src/@core/components/box-loading'
-import HeaderReport from '../HeaderReport'
-import FooterReport from '../FooterReport'
+import HeaderReport from '../HeaderReport';
+import FooterReport from '../FooterReport';
 import { getData } from 'src/api/axios'
+import { useEffect, useState } from 'react'
+import BoxLoading from 'src/@core/components/box-loading'
+import DeleteData from 'src/@core/components/delete-data'
+import CreateReport11 from './CreateReport11';
+import { Report11State } from './Report11InterFace';
 
 const FormContruction = () => {
-  const [bieuMa11, setBieuMa11] = useState<any[]>([])
+  const [data, setData] = useState<Report11State[]>([])
   const [loading, setLoading] = useState(false)
+  const [postSuccess, setPostSuccess] = useState(false);
+    const handlePostSuccess = () => {
+        setPostSuccess(prevState => !prevState);
+    };
   useEffect(() => {
-    async function getDataLocations() {
-      try {
-        setLoading(true)
-        const districtData = await getData('hanh-chinh/huyen/danh-sach')
-
-        const consData = await getData('cong-trinh/danh-sach')
-
-        const newBieuMa11 = []; // tao mang moi de luu tru du lieu moi
-
-        for (const row of districtData) {
-          // Lấy dữ liệu về nuocmat
-
-          const hydroelectricItems = consData.filter(
-            (item: any) =>
-              item.constructionTypeSlug === 'thuydien' && item.districtId?.toString() === row.districtId?.toString()
-          ).length
-          const reservoirItems = consData.filter(
-            (item: any) =>
-              item.constructionTypeSlug === 'hochua' && item.districtId?.toString() === row.districtId?.toString()
-          ).length
-          const irrigationDamItems = consData.filter(
-            (item: any) =>
-              item.constructionTypeSlug === 'dapthuyloi' && item.districtId?.toString() === row.districtId?.toString()
-          ).length
-          const drainItems = consData.filter(
-            (item: any) =>
-              item.constructionTypeSlug === 'cong' && item.districtId?.toString() === row.districtId?.toString()
-          ).length
-          const pumpStationItems = consData.filter(
-            (item: any) =>
-              item.constructionTypeSlug === 'trambom' && item.districtId?.toString() === row.districtId?.toString()
-          ).length
-          const conSufaceOther = consData.filter(
-            (item: any) =>
-              item.constructionTypeSlug === 'congtrinh_nuocmatkhac' && item.districtId?.toString() === row.districtId?.toString()
-          ).length
-
-          const drilledWellItems = consData.filter(
-            (item: any) =>
-              item.constructionTypeSlug === 'khaithac' && item.districtId?.toString() === row.districtId?.toString()
-          ).length
-          const conGroundOther = consData.filter(
-            (item: any) =>
-              item.constructionTypeSlug === 'congtrinh_nuocduoidatkhac' && item.districtId?.toString() === row.districtId?.toString()
-          ).length
-
-
-          const itemBieuMa11: any = {
-            district: row.districtName,
-            allCons: 0,
-            hydroelectric: hydroelectricItems,
-            reservoir: reservoirItems,
-            irrigationDam: irrigationDamItems,
-            drain: drainItems,
-            pumpStation: pumpStationItems,
-            conSuface: conSufaceOther,
-            drilledWell: drilledWellItems,
-            conGround: conGroundOther,
-
-          }
-          newBieuMa11.push(itemBieuMa11);
-        }
-        setBieuMa11(newBieuMa11)
-
-      } catch (error) {
-        console.error(error)
-      }
-      finally {
-        setLoading(false)
-      }
+    async function getDataReport1() {
+      setLoading(true)
+      await getData('BieuMauSoMuoiMot/danhsach')
+        .then(data => {
+          setData(data)
+        })
+        .catch(error => {
+          console.log(error)
+        })
+        .finally(() => {
+          setLoading(false)
+        })
     }
 
-    getDataLocations()
-  }, [])
+    getDataReport1()
+  }, [postSuccess])
 
   return (
     <Paper sx={{ p: 8 }}>
@@ -127,6 +75,7 @@ const FormContruction = () => {
           (Kỳ báo cáo: <TextField size='small' sx={{ width: '50px' }}></TextField>)
         </Typography>
       </Grid>
+      <CreateReport11 isEdit={false} setPostSuccess={handlePostSuccess} />
       {loading ? (
         <BoxLoading />
       ) : (
@@ -139,18 +88,21 @@ const FormContruction = () => {
                     STT
                   </TableCell>
                   <TableCell size='small' align='center' rowSpan={3}>
-                    Huyện
+                    Lưu vực sông/Vùng/Tỉnh
                   </TableCell>
                   <TableCell size='small' align='center' rowSpan={3}>
                     Tổng số công trình
                   </TableCell>
-                  <TableCell size='small' align='center' colSpan={8}>
+                  <TableCell size='small' align='center' colSpan={7}>
                     Số lượng công trình phân loại theo loại hình
+                  </TableCell>
+                  <TableCell size='small' align='center' rowSpan={4}>
+                    Thao tác
                   </TableCell>
                 </TableRow>
 
                 <TableRow>
-                  <TableCell size='small' align='center' colSpan={6}>
+                  <TableCell size='small' align='center' colSpan={5}>
                     Khai thác nước mặt
                   </TableCell>
                   <TableCell size='small' align='center' colSpan={2}>
@@ -160,10 +112,7 @@ const FormContruction = () => {
 
                 <TableRow>
                   <TableCell size='small' align='center' >
-                    Hồ chứa thủy điện
-                  </TableCell>
-                  <TableCell size='small' align='center' >
-                    Hồ chứa thủy lợi
+                    Hồ chứa
                   </TableCell>
                   <TableCell size='small' align='center' >
                     Đập dâng
@@ -216,25 +165,27 @@ const FormContruction = () => {
                   <TableCell size='small' align='center'>
                     (9)
                   </TableCell>
-                  <TableCell size='small' align='center'>
-                    (10)
-                  </TableCell>
                 </TableRow>
               </TableHead>
               <TableBody className='tableBody'>
-                {bieuMa11.map((item, index) => (
+                {data.map((item, index) => (
                   <TableRow key={index}>
-                    <TableCell className="text-center  size='small' align-middle font-13">{index + 1}</TableCell>
-                    <TableCell className="text-center  size='small' align-middle font-13">{item.district}</TableCell>
-                    <TableCell className="text-center  size='small' align-middle font-13">{item.allCons}</TableCell>
-                    <TableCell className="text-center  size='small' align-middle font-13">{item.hydroelectric}</TableCell>
-                    <TableCell className="text-center  size='small' align-middle font-13">{item.reservoir}</TableCell>
-                    <TableCell className="text-center  size='small' align-middle font-13">{item.irrigationDam}</TableCell>
-                    <TableCell className="text-center  size='small' align-middle font-13">{item.drain}</TableCell>
-                    <TableCell className="text-center  size='small' align-middle font-13">{item.pumpStation}</TableCell>
-                    <TableCell className="text-center  size='small' align-middle font-13">{item.conSuface}</TableCell>
-                    <TableCell className="text-center  size='small' align-middle font-13">{item.drilledWell}</TableCell>
-                    <TableCell className="text-center  size='small' align-middle font-13">{item.conGround}</TableCell>
+                    <TableCell align='center' className="size='small' align-middle font-13">{index + 1}</TableCell>
+                    <TableCell align='center' className="size='small' align-middle font-13">{item.luuVucSong}</TableCell>
+                    <TableCell align='center' className="size='small' align-middle font-13">{item.tongSoCongTrinh}</TableCell>
+                    <TableCell align='center' className="size='small' align-middle font-13">{item.congTrinhHoChua}</TableCell>
+                    <TableCell align='center' className="size='small' align-middle font-13">{item.congTrinhDapDang}</TableCell>
+                    <TableCell align='center' className="size='small' align-middle font-13">{item.congTrinhCong}</TableCell>
+                    <TableCell align='center' className="size='small' align-middle font-13">{item.congTrinhTramBom}</TableCell>
+                    <TableCell align='center' className="size='small' align-middle font-13">{item.congTrinhKhacNuocMat}</TableCell>
+                    <TableCell align='center' className="size='small' align-middle font-13">{item.congTrinhGieng}</TableCell>
+                    <TableCell align='center' className="size='small' align-middle font-13">{item.congTrinhKhacNDD}</TableCell>
+                    <TableCell align='center' className="  size='small' align-middle font-13">
+                      <Box>
+                        <CreateReport11 isEdit={true} data={item} setPostSuccess={handlePostSuccess} />
+                        <DeleteData url={'BieuMauSoMuoiMot'} data={item} setPostSuccess={handlePostSuccess} />
+                      </Box>
+                    </TableCell>
                   </TableRow>
                 ))}
 

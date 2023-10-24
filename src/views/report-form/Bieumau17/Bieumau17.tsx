@@ -13,12 +13,43 @@ import {
   TableHead,
   TableRow
 } from '@mui/material'
-import DownloadIcon from '@mui/icons-material/Download';
+import DownloadIcon from '@mui/icons-material/Download'
 import DialogControlFullScreen from 'src/@core/components/dialog-control-full-screen'
 import HeaderReport from '../HeaderReport'
 import FooterReport from '../FooterReport'
+import { getData } from 'src/api/axios'
+import { useEffect, useState } from 'react'
+import BoxLoading from 'src/@core/components/box-loading'
+import DeleteData from 'src/@core/components/delete-data'
+import { Report17State } from './Report17InterFace'
+import CreateReport17 from './CreateReport17'
+import { CalculateReportData } from '../CalculateData'
 
 const FormContruction = () => {
+  const [data, setData] = useState<Report17State[]>([])
+  const [loading, setLoading] = useState(false)
+  const [postSuccess, setPostSuccess] = useState(false)
+  const handlePostSuccess = () => {
+    setPostSuccess(prevState => !prevState)
+  }
+  useEffect(() => {
+    async function getDataReport1() {
+      setLoading(true)
+      await getData('BieuMauSoMuoiBay/danhsach')
+        .then(data => {
+          setData(data)
+        })
+        .catch(error => {
+          console.log(error)
+        })
+        .finally(() => {
+          setLoading(false)
+        })
+    }
+
+    getDataReport1()
+  }, [postSuccess])
+
   return (
     <Paper sx={{ p: 8 }}>
       {/* dautrang */}
@@ -47,142 +78,184 @@ const FormContruction = () => {
           (Kỳ báo cáo: <TextField size='small' sx={{ width: '50px' }}></TextField>)
         </Typography>
       </Grid>
+      <CreateReport17 isEdit={false} setPostSuccess={handlePostSuccess} />
 
-      <Grid className='_text_center' sx={{ mt: 3 }}>
-        <TableContainer component={Paper}>
-          <Table sx={{ minWidth: 650 }} aria-label='simple table'>
-            <TableHead className='tableHead'>
-              <TableRow>
-                <TableCell size='small' align='center' rowSpan={4}>
-                  STT
-                </TableCell>
-                <TableCell size='small' align='center' rowSpan={4}>
-                  Tỉnh
-                </TableCell>
-                <TableCell size='small' align='center' rowSpan={2} colSpan={3}>
-                  Tổng số công trình đã <br /> phê duyệt tiền cấp quyền
-                </TableCell>
-                <TableCell size='small' align='center'  colSpan={6}>
-                Tổng số công trình đã phê duyệt tiền <br/> cấp quyền phân theo thẩm quyền
-                </TableCell>
-                <TableCell size='small' align='center' rowSpan={2} colSpan={3}>
-                Tổng số tiền cấp quyền <br/>đã phê duyệt(tỷ đồng)
-                </TableCell>
-              </TableRow>
+      {loading ? (
+        <BoxLoading />
+      ) : (
+        <Grid className='_text_center' sx={{ mt: 3 }}>
+          <TableContainer component={Paper}>
+            <Table sx={{ minWidth: 650 }} aria-label='simple table'>
+              <TableHead className='tableHead'>
+                <TableRow>
+                  <TableCell size='small' align='center' rowSpan={4}>
+                    STT
+                  </TableCell>
+                  <TableCell size='small' align='center' rowSpan={4}>
+                    Tỉnh
+                  </TableCell>
+                  <TableCell size='small' align='center' rowSpan={2} colSpan={3}>
+                    Tổng số công trình đã <br /> phê duyệt tiền cấp quyền
+                  </TableCell>
+                  <TableCell size='small' align='center' colSpan={6}>
+                    Tổng số công trình đã phê duyệt tiền <br /> cấp quyền phân theo thẩm quyền
+                  </TableCell>
+                  <TableCell size='small' align='center' rowSpan={2} colSpan={3}>
+                    Tổng số tiền cấp quyền <br />
+                    đã phê duyệt(tỷ đồng)
+                  </TableCell>
+                  <TableCell size='small' align='center' rowSpan={4}>
+                    Thao tác
+                  </TableCell>
+                </TableRow>
 
-              <TableRow>
-                <TableCell size='small' align='center' colSpan={3}>
-                Bộ TNMT phê duyệt
-                </TableCell>
-                <TableCell size='small' align='center' colSpan={3}>
-                Địa phương phê duyệt
-                </TableCell>
-              </TableRow>
+                <TableRow>
+                  <TableCell size='small' align='center' colSpan={3}>
+                    Bộ TNMT phê duyệt
+                  </TableCell>
+                  <TableCell size='small' align='center' colSpan={3}>
+                    Địa phương phê duyệt
+                  </TableCell>
+                </TableRow>
 
-              <TableRow>
-                <TableCell size='small' align='center'>
-                  Lũy kế đến kỳ trước
-                </TableCell>
-                <TableCell size='small' align='center'>
-                  Lũy kế đến kỳ báo cáo
-                </TableCell>
-                <TableCell size='small' align='center'>
-                  Thay đổi
-                </TableCell>
+                <TableRow>
+                  <TableCell size='small' align='center'>
+                    Lũy kế đến kỳ trước
+                  </TableCell>
+                  <TableCell size='small' align='center'>
+                    Lũy kế đến kỳ báo cáo
+                  </TableCell>
+                  <TableCell size='small' align='center'>
+                    Thay đổi
+                  </TableCell>
 
-                <TableCell size='small' align='center'>
-                  Lũy kế đến kỳ trước
-                </TableCell>
-                <TableCell size='small' align='center'>
-                  Lũy kế đến kỳ báo cáo
-                </TableCell>
-                <TableCell size='small' align='center'>
-                  Thay đổi
-                </TableCell>
+                  <TableCell size='small' align='center'>
+                    Lũy kế đến kỳ trước
+                  </TableCell>
+                  <TableCell size='small' align='center'>
+                    Lũy kế đến kỳ báo cáo
+                  </TableCell>
+                  <TableCell size='small' align='center'>
+                    Thay đổi
+                  </TableCell>
 
-                <TableCell size='small' align='center'>
-                  Lũy kế đến kỳ trước
-                </TableCell>
-                <TableCell size='small' align='center'>
-                  Lũy kế đến kỳ báo cáo
-                </TableCell>
-                <TableCell size='small' align='center'>
-                  Thay đổi
-                </TableCell>
-                <TableCell size='small' align='center'>
-                  Lũy kế đến kỳ trước
-                </TableCell>
-                <TableCell size='small' align='center'>
-                  Lũy kế đến kỳ báo cáo
-                </TableCell>
-                <TableCell size='small' align='center'>
-                  Thay đổi
-                </TableCell>
-              </TableRow>
+                  <TableCell size='small' align='center'>
+                    Lũy kế đến kỳ trước
+                  </TableCell>
+                  <TableCell size='small' align='center'>
+                    Lũy kế đến kỳ báo cáo
+                  </TableCell>
+                  <TableCell size='small' align='center'>
+                    Thay đổi
+                  </TableCell>
+                  <TableCell size='small' align='center'>
+                    Lũy kế đến kỳ trước
+                  </TableCell>
+                  <TableCell size='small' align='center'>
+                    Lũy kế đến kỳ báo cáo
+                  </TableCell>
+                  <TableCell size='small' align='center'>
+                    Thay đổi
+                  </TableCell>
+                </TableRow>
 
-              <TableRow>
-                <TableCell size='small' align='center'>
-                  (1)&nbsp;
-                </TableCell>
-                <TableCell size='small' align='center'>
-                  (2)&nbsp;
-                </TableCell>
-                <TableCell size='small' align='center'>
-                  (3)= (2)-(1)
-                </TableCell>
+                <TableRow>
+                  <TableCell size='small' align='center'>
+                    (1)&nbsp;
+                  </TableCell>
+                  <TableCell size='small' align='center'>
+                    (2)&nbsp;
+                  </TableCell>
+                  <TableCell size='small' align='center'>
+                    (3)= (2)-(1)
+                  </TableCell>
 
-                <TableCell size='small' align='center'>
-                  (4)&nbsp;
-                </TableCell>
-                <TableCell size='small' align='center'>
-                  (5)&nbsp;
-                </TableCell>
-                <TableCell size='small' align='center'>
-                  (6)=(5)-(4)
-                </TableCell>
+                  <TableCell size='small' align='center'>
+                    (4)&nbsp;
+                  </TableCell>
+                  <TableCell size='small' align='center'>
+                    (5)&nbsp;
+                  </TableCell>
+                  <TableCell size='small' align='center'>
+                    (6)=(5)-(4)
+                  </TableCell>
 
-                <TableCell size='small' align='center'>
-                  (7)&nbsp;
-                </TableCell>
-                <TableCell size='small' align='center'>
-                  (8)&nbsp;
-                </TableCell>
-                <TableCell size='small' align='center'>
-                  (9)=(8)-(7)
-                </TableCell>
+                  <TableCell size='small' align='center'>
+                    (7)&nbsp;
+                  </TableCell>
+                  <TableCell size='small' align='center'>
+                    (8)&nbsp;
+                  </TableCell>
+                  <TableCell size='small' align='center'>
+                    (9)=(8)-(7)
+                  </TableCell>
 
-                <TableCell size='small' align='center'>
-                  (10)&nbsp;
-                </TableCell>
-                <TableCell size='small' align='center'>
-                  (11)&nbsp;
-                </TableCell>
-                <TableCell size='small' align='center'>
-                  (12)=(11)-(10)
-                </TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody className='tableBody'>
-              <TableRow>
-                <TableCell className="text-center  size='small' align-middle font-13">1</TableCell>
-                <TableCell className="text-center  size='small' align-middle font-13">1</TableCell>
-                <TableCell className="text-center  size='small' align-middle font-13">1</TableCell>
-                <TableCell className="text-center  size='small' align-middle font-13">1</TableCell>
-                <TableCell className="text-center  size='small' align-middle font-13">1</TableCell>
-                <TableCell className="text-center  size='small' align-middle font-13">1</TableCell>
-                <TableCell className="text-center  size='small' align-middle font-13">1</TableCell>
-                <TableCell className="text-center  size='small' align-middle font-13">1</TableCell>
-                <TableCell className="text-center  size='small' align-middle font-13">1</TableCell>
-                <TableCell className="text-center  size='small' align-middle font-13">1</TableCell>
-                <TableCell className="text-center  size='small' align-middle font-13">1</TableCell>
-                <TableCell className="text-center  size='small' align-middle font-13">1</TableCell>
-                <TableCell className="text-center  size='small' align-middle font-13">1</TableCell>
-                <TableCell className="text-center  size='small' align-middle font-13">1</TableCell>
-              </TableRow>
-            </TableBody>
-          </Table>
-        </TableContainer>
-      </Grid>
+                  <TableCell size='small' align='center'>
+                    (10)&nbsp;
+                  </TableCell>
+                  <TableCell size='small' align='center'>
+                    (11)&nbsp;
+                  </TableCell>
+                  <TableCell size='small' align='center'>
+                    (12)=(11)-(10)
+                  </TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody className='tableBody'>
+                {data.map((item, index) => (
+                  <TableRow key={index}>
+                    <TableCell align='center' className="size='small' align-middle font-13">{index + 1}</TableCell>
+                    <TableCell  className="size='small' align-middle font-13">{item.tinh}</TableCell>
+                    <TableCell align='center' className="size='small' align-middle font-13">
+                      {item.tongCTPheDuyetTCQKyTruoc}
+                    </TableCell>
+                    <TableCell align='center' className="size='small' align-middle font-13">
+                      {item.tongCTPheDuyetTCQKyBaoCao}
+                    </TableCell>
+                    <TableCell align='center' className="  size='small' align-middle font-13">
+                      {CalculateReportData(item.tongCTPheDuyetTCQKyBaoCao, item.tongCTPheDuyetTCQKyTruoc)}
+                    </TableCell>
+                    <TableCell align='center' className="size='small' align-middle font-13">
+                      {item.tongCTPheDuyetTCQBoKyTruoc}
+                    </TableCell>
+                    <TableCell align='center' className="size='small' align-middle font-13">
+                      {item.tongCTPheDuyetTCQBoKyBaoCao}
+                    </TableCell>
+                    <TableCell align='center' className="  size='small' align-middle font-13">
+                      {CalculateReportData(item.tongCTPheDuyetTCQBoKyBaoCao, item.tongCTPheDuyetTCQBoKyTruoc)}
+                    </TableCell>
+                    <TableCell align='center' className="size='small' align-middle font-13">
+                      {item.tongCTPheDuyetTCQDiaPhuongKyTruoc}
+                    </TableCell>
+                    <TableCell align='center' className="size='small' align-middle font-13">
+                      {item.tongCTPheDuyetTCQDiaPhuongKyBaoCao}
+                    </TableCell>
+                    <TableCell align='center' className="  size='small' align-middle font-13">
+                      {CalculateReportData(item.tongCTPheDuyetTCQDiaPhuongKyBaoCao, item.tongCTPheDuyetTCQDiaPhuongKyTruoc)}
+                    </TableCell>
+                    <TableCell align='center' className="size='small' align-middle font-13">
+                      {item.tongTCQpKyTruoc}
+                    </TableCell>
+                    <TableCell align='center' className="size='small' align-middle font-13">
+                      {item.tongTCQKyBaoCao}
+                    </TableCell>
+                    <TableCell align='center' className="  size='small' align-middle font-13">
+                      {CalculateReportData(item.tongTCQKyBaoCao, item.tongTCQpKyTruoc)}
+                    </TableCell>
+                    <TableCell align='center' className="  size='small' align-middle font-13">
+                      <Box>
+                        <CreateReport17 isEdit={true} data={item} setPostSuccess={handlePostSuccess} />
+                        <DeleteData url={'BieuMauSoMuoiBay'} data={item} setPostSuccess={handlePostSuccess} />
+                      </Box>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
+        </Grid>
+      )}
+
       <FooterReport />
     </Paper>
   )
