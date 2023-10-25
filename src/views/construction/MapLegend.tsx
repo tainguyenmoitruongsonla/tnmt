@@ -55,7 +55,7 @@ interface MapLegendProps {
 const MapLegend: FC<MapLegendProps> = ({ onChange }) => {
 
     const [consType, setConsType] = useState<any>([]);
-    const [initialItems, setInitialItems] = useState<any>(['nuocmat', 'thuydien', 'hochua', 'trambom', 'tramcapnuoc', 'cong', 'nhamaynuoc', 'nuocduoidat', 'khaithac', 'thamdo', 'congtrinh_nuocduoidatkhac', 'xathai', 'khu_cumcn_taptrung', 'sx_tieuthu_cn', 'congtrinh_xathaikhac']);
+    const [initialItems, setInitialItems] = useState<any>(['nuocmat', 'thuydien', 'hochua', 'trambom', 'tramcapnuoc', 'cong', 'nhamaynuoc', 'nuocduoidat', 'khaithac', 'thamdo', 'congtrinhkhac_ndd', 'xathai', 'khu_cumcn_taptrung', 'sx_tieuthu_cn', 'congtrinh_xathaikhac']);
     const [checkedItems, setCheckedItems] = useState(initialItems);
 
     const router = useRouter();
@@ -83,11 +83,11 @@ const MapLegend: FC<MapLegendProps> = ({ onChange }) => {
                         id: "nuocduoidat", label: "NƯỚC DƯỚI ĐẤT", children: [
                             { label: "Khai thác", id: "khaithac" },
                             { label: "Thăm dò", id: "thamdo" },
-                            { label: "Công trình khác", id: "congtrinh_nuocduoidatkhac" },
+                            { label: "Công trình khác", id: "congtrinhkhac_ndd" },
                         ]
                     }
                 ]);
-                setInitialItems(['nuocduoidat', 'khaithac', 'thamdo', 'congtrinh_nuocduoidatkhac'])
+                setInitialItems(['nuocduoidat', 'khaithac', 'thamdo', 'congtrinhkhac_ndd'])
                 break;
             case 3:
                 setConsType([
@@ -117,7 +117,7 @@ const MapLegend: FC<MapLegendProps> = ({ onChange }) => {
                         id: "nuocduoidat", label: "NƯỚC DƯỚI ĐẤT", children: [
                             { label: "Khai thác", id: "khaithac" },
                             { label: "Thăm dò", id: "thamdo" },
-                            { label: "Công trình khác", id: "congtrinh_nuocduoidatkhac" },
+                            { label: "Công trình khác", id: "congtrinhkhac_ndd" },
                         ]
                     },
                     {

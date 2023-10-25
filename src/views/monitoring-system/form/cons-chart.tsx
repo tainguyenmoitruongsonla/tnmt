@@ -29,11 +29,17 @@ const MonitoringSFChart = () => {
         stroke: {
           curve: 'straight'
         },
+        legend: {
+          tooltipHoverFormatter: function (val, opts) {
+              return val + ' - ' + opts.w.globals.series[opts.seriesIndex][opts.dataPointIndex] + ''
+          },
+        },
         title: {
           text: 'Thuỷ điện Huy Măng',
           align: 'center'
         },
         grid: {
+          borderColor: '#f1f1f1',
           row: {
             colors: ['#f3f3f3', 'transparent'], // takes an array which will be repeated on columns
             opacity: 0.5
@@ -41,7 +47,28 @@ const MonitoringSFChart = () => {
         },
         xaxis: {
           categories: ['24/10/2023 15:15:00', '24/10/2023 15:20:00', '24/10/2023 15:25:05', '24/10/2023 15:30:05', '24/10/2023 15:35:05'],
-        }
+        },
+        markers: {
+          size: 0,
+          hover: {
+              sizeOffset: 6 
+          }
+        },
+        tooltip: {
+            enabled: true,
+            onDatasetHover: {
+              highlightDataSeries: true,
+            },
+            y: [
+                {
+                    title: {
+                        formatter: function (val) {
+                            return val;
+                        }
+                    }
+                },
+            ]
+        },
     };
 
     const series = [{

@@ -19,27 +19,13 @@ import ViewMonitoringSystemData from '../form';
 
 const Map = dynamic(() => import("src/@core/components/map"), { ssr: false });
 
-// const constructionType = [
-//   { title: "Chọn loại CT", value: 1 },
-//   { title: "Thủy điện", value: 4 },
-//   { title: "Hồ chứa", value: 5 },
-//   { title: "Trạm bơm", value: 6 },
-//   { title: "Cống", value: 13 },
-//   { title: "Trạm cấp nước", value: 11 },
-// ];
-
-// const licensingAuthorities = [
-//   { title: "BTNMT", value: 'BTNMT' },
-//   { title: "UBND Tỉnh", value: 'UBNDT' },
-// ];
-
-
 const SurfaceWaterMonitoring = () => {
+  const router = useRouter();
   const [mapCenter, setMapCenter] = useState([15.012172, 108.676488]);
   const [mapZoom, setMapZoom] = useState(9);
   const [showLabel, setShowLabel] = useState(false)
 
-  const [TypeOfConsId] = useState([1]);
+  const [TypeOfConsId] = useState([GetConstructionTypeId(router)]);
 
   const [resData, setResData] = useState<any[]>([]);
   const [columns, setColumns] = useState<any[]>([]);
@@ -144,7 +130,6 @@ const SurfaceWaterMonitoring = () => {
         .then((data) => {
           if (isMounted.current) {
             setResData(data);
-            setTotal(data.length);
           }
         })
         .catch((error) => {
@@ -161,8 +146,6 @@ const SurfaceWaterMonitoring = () => {
     // fetchData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
-  const router = useRouter();
 
   const [paramsFilter, setParamsFilter] = useState({
     tenct: null,
@@ -197,7 +180,8 @@ const SurfaceWaterMonitoring = () => {
         item['loaiCT']?.['maLoaiCT']?.toString().toLowerCase().includes(keyword.toLowerCase())
       )
     );
-    setDataFiltered(filteredData)
+    setDataFiltered(filteredData);
+    setTotal(filteredData.length);
   }, [initConsType, resData]);
 
   const handleConsTypeChange = (data: any) => {
@@ -225,7 +209,7 @@ const SurfaceWaterMonitoring = () => {
       </Grid>
       <Grid item xs={12} sm={12} md={12}>
         <MonitoringSystemToolBar onChange={handleFilterChange} />
-        <TableComponent loading={loading} columns={columns} data={resData} show={TypeOfConsId} pagination={true}
+        <TableComponent loading={loading} columns={columns} data={dataFiltered} show={TypeOfConsId} pagination={true}
           actions={() => (
             <Box>
               <ViewMonitoringSystemData />
