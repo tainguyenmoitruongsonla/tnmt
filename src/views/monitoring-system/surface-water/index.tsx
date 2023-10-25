@@ -1,10 +1,7 @@
 import { useState, useEffect, useRef } from 'react'
 
 // ** MUI Imports
-import { Grid, Box, Paper, IconButton, Tooltip, Typography, FormGroup, FormControlLabel, Checkbox } from '@mui/material';
-
-// ** Icons Imports
-import { EditNote, Delete } from "@mui/icons-material";
+import { Grid, Box, Paper,Typography, FormGroup, FormControlLabel, Checkbox } from '@mui/material';
 
 // ** Components Imports
 import TableComponent from 'src/@core/components/table';
@@ -194,14 +191,6 @@ const SurfaceWaterMonitoring = () => {
     setParamsFilter(data);
   };
 
-  const EditLicense = (row: any) => {
-    console.log('Edit: ' + row.LicenseNumber)
-  }
-
-  const DeleteLicense = (row: any) => {
-    console.log('Delete: ' + row.LicenseNumber)
-  }
-
   useEffect(() => {
     const filteredData: any = resData.filter((item: { [key: string]: any }) =>
       initConsType.some((keyword: any) =>
@@ -237,7 +226,7 @@ const SurfaceWaterMonitoring = () => {
       <Grid item xs={12} sm={12} md={12}>
         <MonitoringSystemToolBar onChange={handleFilterChange} />
         <TableComponent loading={loading} columns={columns} data={resData} show={TypeOfConsId} pagination={true}
-          actions={(row: any) => (
+          actions={() => (
             <Box>
               <ViewMonitoringSystemData />
             </Box>

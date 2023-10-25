@@ -1,32 +1,16 @@
 import React, { useState, SyntheticEvent } from 'react'
 import { Assessment } from '@mui/icons-material'
-import { Button, DialogActions, Grid, IconButton, Tooltip, Box, Tab } from '@mui/material'
+import { Grid, IconButton, Tooltip, Box, Tab } from '@mui/material'
 import DialogsControlFullScreen from 'src/@core/components/dialog-control-full-screen'
-import { useRouter } from 'next/router'
 import { TabContext, TabList, TabPanel } from "@mui/lab"
 import MonitoringSFData from './cons-data'
 import MonitoringSFChart from './cons-chart'
-// import { deleteData, saveData } from 'src/api/axios'
 
 interface FormMonitoringSystemProps {
     data: any
-    closeDialogs: () => void
-    setPostSuccess?: (value: boolean) => void
 }
 
-const FormMonitoringSystem: React.FC<FormMonitoringSystemProps> = ({ data, closeDialogs, setPostSuccess }) => {
-
-    //Construction
-    const [consSFData, setConsSFData] = useState<any>(data)
-    const [saving, setSaving] = useState(false);
-
-
-    //Hooks
-    const route = useRouter()
-
-    const handleClose = () => {
-        closeDialogs()
-    }
+const FormMonitoringSystem: React.FC<FormMonitoringSystemProps> = () => {
     const [value, setValue] = useState('1');
 
     const handleChangeTab = (event: SyntheticEvent, newValue: string) => {
@@ -51,23 +35,21 @@ const FormMonitoringSystem: React.FC<FormMonitoringSystemProps> = ({ data, close
 }
 
 interface MonitoringSystemProps {
-    isEdit: boolean
     data?: any
-    setPostSuccess?: (value: boolean) => void
 }
 
-const ViewMonitoringSystemData: React.FC<MonitoringSystemProps> = ({ data, setPostSuccess }) => {
+const ViewMonitoringSystemData: React.FC<MonitoringSystemProps> = ({ data }) => {
     const formTitle = 'Thông tin số liệu giám sát vận hành'
 
     return (
         <DialogsControlFullScreen>
-            {(openDialogs: (content: React.ReactNode, title: React.ReactNode) => void, closeDialogs: () => void) => (
+            {(openDialogs: (content: React.ReactNode, title: React.ReactNode) => void) => (
                 <>
                     {<Tooltip title='Xem chi tiết'>
                             <IconButton
                                 onClick={() =>
                                     openDialogs(
-                                        <FormMonitoringSystem data={data} closeDialogs={closeDialogs} setPostSuccess={setPostSuccess} />,
+                                        <FormMonitoringSystem data={data} />,
                                         formTitle
                                     )
                                 }
