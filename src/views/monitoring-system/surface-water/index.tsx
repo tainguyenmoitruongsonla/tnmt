@@ -18,6 +18,7 @@ import { calculateMonitoringData } from 'src/@core/components/calculate-monitori
 import GetConstructionTypeId from 'src/@core/components/get-construction-type';
 import { ConverterCood } from 'src/@core/components/map/convert-coord'
 import MapLegend from 'src/views/construction/MapLegend';
+import ViewMonitoringSystemData from '../form';
 
 const Map = dynamic(() => import("src/@core/components/map"), { ssr: false });
 
@@ -115,11 +116,14 @@ const SurfaceWaterMonitoring = () => {
   ];
 
   const calculateSumFlow = (value1:any, value2:any, value3:any) => {
-    value1 = value1 == null ? 0 : value1
-    value2 = value2 == null ? 0 : value2
-    value3 = value3 == null ? 0 : value3
-    
-    return parseFloat(value1).toFixed(2) + parseFloat(value2).toFixed(2) + parseFloat(value3).toFixed(2)
+    let result = 0;
+    if(value1 == null || value2 == null || value3 == null){
+      return <span>-</span>
+    } else {
+      result += parseFloat(value1) + parseFloat(value2) + parseFloat(value3);
+
+      return result;
+    }
   }
 
   const zoomConstruction = (coords: any) => {
@@ -230,81 +234,12 @@ const SurfaceWaterMonitoring = () => {
       <Grid item xs={12} sm={5} md={3}>
         <Typography>Tổng số bản ghi đã tìm thấy: {total}</Typography>
       </Grid>
-      {/* <Grid item xs={12} sm={7} md={9}>
-        <Grid className='_search _row'>
-          <Grid item xs={12} sm={2} md={2}>
-            <Autocomplete
-              onChange={(e: any, v: any) => handleChange(v)}
-              size="small"
-              options={constructionType}
-              getOptionLabel={(option: any) => option.title}
-              renderInput={(params) => (
-                <TextField
-                  {...params}
-                  variant='standard'
-                  fullWidth
-
-                  label="Chọn loại hình CP"
-                />
-              )}
-            />
-          </Grid>
-          <Grid item xs={12} sm={2} md={2}>
-            <Autocomplete
-              onChange={(e: any, v: any) => handleChange(v)}
-              size="small"
-              options={constructionType}
-              getOptionLabel={(option: any) => option.title}
-              renderInput={(params) => (
-                <TextField
-                  {...params}
-                  variant='standard'
-                  fullWidth
-
-                  label="Chọn trạng thái kết nối"
-                />
-              )}
-            />
-          </Grid>
-          <Grid item xs={12} sm={2} md={2}>
-            <Autocomplete
-              size="small"
-              options={licensingAuthorities}
-              getOptionLabel={(option: any) => option.title}
-              renderInput={(params) => (
-                <TextField
-                  {...params}
-                  variant='standard'
-                  fullWidth
-
-                  label="Chọn cơ quan CP"
-                />
-              )}
-            />
-          </Grid>
-          <Grid item xs={12} sm={4} md={4}>
-            <TextField size='small' type='text' label='Nhập tên CT' fullWidth placeholder='' defaultValue='' />
-          </Grid>
-          <Grid item xs={12} sm={2} md={2}>
-            <Button size='small' startIcon={<SearchIcon />} variant="outlined">Tìm kiếm</Button>
-          </Grid>
-        </Grid>
-      </Grid> */}
       <Grid item xs={12} sm={12} md={12}>
         <MonitoringSystemToolBar onChange={handleFilterChange} />
         <TableComponent loading={loading} columns={columns} data={resData} show={TypeOfConsId} pagination={true}
           actions={(row: any) => (
             <Box>
-              <Tooltip title="Chỉnh sửa giấy phép">
-                <IconButton onClick={() => EditLicense(row)}>
-                  <EditNote className='tableActionBtn' />
-                </IconButton>
-              </Tooltip>
-              <Tooltip title="Xóa giấy phép">
-                <IconButton onClick={() => DeleteLicense(row)}>
-                  <Delete className='tableActionBtn deleteBtn' />
-                </IconButton>
-              </Tooltip>
+              <ViewMonitoringSystemData />
             </Box>
           )
 
