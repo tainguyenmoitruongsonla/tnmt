@@ -3,23 +3,29 @@ import { EditNote, PersonAddAlt, Save } from '@mui/icons-material'
 import { Grid, Button, DialogActions, IconButton, Typography, TextField, CircularProgress } from '@mui/material'
 import DialogsControl from 'src/@core/components/dialog-control'
 import { saveData } from 'src/api/axios'
-import { Report9State } from './Report14InterFace'
+import { Report14State } from './Report14InterFace'
 
 const Form = ({ data, setPostSuccess, closeDialogs }: any) => {
-  const [report2Data, setreport2Data] = useState<Report9State>({
+  const [report2Data, setreport2Data] = useState<Report14State>({
     id: data?.id || 0,
-    luuVucSong: data?.luuVucSong || '',
-    tongCongTrinhKyTruoc: data?.tongCongTrinhKyTruoc || 0,
-    tongCongTrinhKyBaoCao: data?.tongCongTrinhKyBaoCao || 0,
-    congTrinhNuocMatKyTruoc: data?.congTrinhNuocMatKyTruoc || 0,
-    congTrinhNuocMatKyBaoCao: data?.congTrinhNuocMatKyBaoCao || 0,
-    congTrinhNDDKyTruoc: data?.congTrinhNDDKyTruoc || 0,
-    congTrinhNDDKyBaoCao: data?.congTrinhNDDKyBaoCao || 0,
-    ghiChu:data?.ghiChu || ''
+    viTriQuanTrac: data?.viTriQuanTrac || '',
+    pHlonNhat: data?.pHlonNhat || 0,
+    phNhoNhat: data?.phNhoNhat || 0,
+    doCungLonNhat: data?.doCungLonNhat || 0,
+    doCungNhoNhat: data?.doCungNhoNhat || 0,
+    amoniLonNhat: data?.amoniLonNhat || 0,
+    amoniNhoNhat: data?.amoniNhoNhat || 0,
+    nitratLonNhat: data?.nitratLonNhat || 0,
+    nitratNhoNhat: data?.nitratNhoNhat || 0,
+    sulfatLonNhat: data?.sulfatLonNhat || 0,
+    sulfatNhoNhat: data?.sulfatNhoNhat || 0,
+    asenLonNhat: data?.asenLonNhat || 0,
+    asenNhoNhat: data?.asenNhoNhat || 0,
+    ghiChu: data?.ghiChu || ''
   })
 
   const [saving, setSaving] = useState(false)
-  const handleChange = (prop: keyof Report9State) => (value: any) => {
+  const handleChange = (prop: keyof Report14State) => (value: any) => {
     setreport2Data({ ...report2Data, [prop]: value })
   }
 
@@ -34,14 +40,20 @@ const Form = ({ data, setPostSuccess, closeDialogs }: any) => {
           // Reset form fields
           setreport2Data({
             id: 0,
-            luuVucSong: '',
-            tongCongTrinhKyTruoc: 0,
-            tongCongTrinhKyBaoCao: 0,
-            congTrinhNuocMatKyTruoc: 0,
-            congTrinhNuocMatKyBaoCao: 0,
-            congTrinhNDDKyTruoc: 0,
-            congTrinhNDDKyBaoCao: 0,
-           ghiChu:''
+            viTriQuanTrac: '',
+            pHlonNhat: 0,
+            phNhoNhat: 0,
+            doCungLonNhat: 0,
+            doCungNhoNhat: 0,
+            amoniLonNhat: 0,
+            amoniNhoNhat: 0,
+            nitratLonNhat: 0,
+            nitratNhoNhat: 0,
+            sulfatLonNhat: 0,
+            sulfatNhoNhat: 0,
+            asenLonNhat: 0,
+            asenNhoNhat: 0,
+            ghiChu: ''
           })
 
           typeof setPostSuccess === 'function' ? setPostSuccess(true) : ''
@@ -61,15 +73,21 @@ const Form = ({ data, setPostSuccess, closeDialogs }: any) => {
 
   const handleClose = () => {
     setreport2Data({
-        id: 0,
-        luuVucSong: '',
-        tongCongTrinhKyTruoc: 0,
-        tongCongTrinhKyBaoCao: 0,
-        congTrinhNuocMatKyTruoc: 0,
-        congTrinhNuocMatKyBaoCao: 0,
-        congTrinhNDDKyTruoc: 0,
-        congTrinhNDDKyBaoCao: 0,
-       ghiChu:''
+      id: 0,
+      viTriQuanTrac: '',
+      pHlonNhat: 0,
+      phNhoNhat: 0,
+      doCungLonNhat: 0,
+      doCungNhoNhat: 0,
+      amoniLonNhat: 0,
+      amoniNhoNhat: 0,
+      nitratLonNhat: 0,
+      nitratNhoNhat: 0,
+      sulfatLonNhat: 0,
+      sulfatNhoNhat: 0,
+      asenLonNhat: 0,
+      asenNhoNhat: 0,
+      ghiChu: ''
     })
 
     closeDialogs()
@@ -82,78 +100,144 @@ const Form = ({ data, setPostSuccess, closeDialogs }: any) => {
           <TextField
             size='small'
             type='text'
-            label='Lưu vực sông'
+            label='Vị trí quan trắc'
             fullWidth
             placeholder=''
-            value={report2Data.luuVucSong || ''}
-            onChange={event => handleChange('luuVucSong')(event.target.value)}
+            value={report2Data.viTriQuanTrac || ''}
+            onChange={event => handleChange('viTriQuanTrac')(event.target.value)}
           />
         </Grid>
-        
+
         <Grid item xs={12} md={6} sm={12}>
           <TextField
             size='small'
             type='text'
-            label='Tổng công trình kỳ trước'
+            label='Nồng độ PH lớn nhất'
             fullWidth
             placeholder=''
-            value={report2Data.tongCongTrinhKyTruoc || ''}
-            onChange={event => handleChange('tongCongTrinhKyTruoc')(event.target.value)}
-          />
-        </Grid>
-        <Grid item xs={12} md={6} sm={12}>
-          <TextField
-            size='small'
-            type='text'
-            label='Tổng công trình kỳ báo cáo'
-            fullWidth
-            placeholder=''
-            value={report2Data.tongCongTrinhKyBaoCao || ''}
-            onChange={event => handleChange('tongCongTrinhKyBaoCao')(event.target.value)}
+            value={report2Data.pHlonNhat || ''}
+            onChange={event => handleChange('pHlonNhat')(event.target.value)}
           />
         </Grid>
         <Grid item xs={12} md={6} sm={12}>
           <TextField
             size='small'
             type='text'
-            label='Công trình nước mặt kỳ trước'
+            label='Nồng độ PH nhỏ nhất'
             fullWidth
             placeholder=''
-            value={report2Data.congTrinhNuocMatKyTruoc || ''}
-            onChange={event => handleChange('congTrinhNuocMatKyTruoc')(event.target.value)}
+            value={report2Data.phNhoNhat || ''}
+            onChange={event => handleChange('phNhoNhat')(event.target.value)}
           />
         </Grid>
         <Grid item xs={12} md={6} sm={12}>
           <TextField
             size='small'
             type='text'
-            label='Công trình nước mặt kỳ trước báo cáo'
+            label='Độ cứng(tính theo CaCo3) lớn nhất'
             fullWidth
             placeholder=''
-            value={report2Data.congTrinhNuocMatKyBaoCao || ''}
-            onChange={event => handleChange('congTrinhNuocMatKyBaoCao')(event.target.value)}
+            value={report2Data.doCungLonNhat || ''}
+            onChange={event => handleChange('doCungLonNhat')(event.target.value)}
           />
         </Grid>
         <Grid item xs={12} md={6} sm={12}>
           <TextField
             size='small'
             type='text'
-            label='Công trình nước dưới đất kỳ trước'
+            label='Độ cứng(tính theo CaCo3) nhỏ nhất'
             fullWidth
             placeholder=''
-            value={report2Data.congTrinhNDDKyTruoc || ''}
-            onChange={event => handleChange('congTrinhNDDKyTruoc')(event.target.value)}
+            value={report2Data.doCungNhoNhat || ''}
+            onChange={event => handleChange('doCungNhoNhat')(event.target.value)}
           />
         </Grid>
         <Grid item xs={12} md={6} sm={12}>
           <TextField
             size='small'
             type='text'
-            label='Công trình nước dưới đất kỳ báo cáo'
+            label='Amoni NH4+(tính theo N) lớn nhất'
             fullWidth
             placeholder=''
-            value={report2Data.congTrinhNDDKyBaoCao || ''}
-            onChange={event => handleChange('congTrinhNDDKyBaoCao')(event.target.value)}
+            value={report2Data.amoniLonNhat || ''}
+            onChange={event => handleChange('amoniLonNhat')(event.target.value)}
+          />
+        </Grid>
+        <Grid item xs={12} md={6} sm={12}>
+          <TextField
+            size='small'
+            type='text'
+            label='Amoni NH4+(tính theo N) nhỏ nhất'
+            fullWidth
+            placeholder=''
+            value={report2Data.amoniNhoNhat || ''}
+            onChange={event => handleChange('amoniNhoNhat')(event.target.value)}
+          />
+        </Grid>
+        <Grid item xs={12} md={6} sm={12}>
+          <TextField
+            size='small'
+            type='text'
+            label='Nitrat(N03-) lớn nhất'
+            fullWidth
+            placeholder=''
+            value={report2Data.nitratLonNhat || ''}
+            onChange={event => handleChange('nitratLonNhat')(event.target.value)}
+          />
+        </Grid>
+        <Grid item xs={12} md={6} sm={12}>
+          <TextField
+            size='small'
+            type='text'
+            label='Nitrat(N03) nhỏ nhất'
+            fullWidth
+            placeholder=''
+            value={report2Data.nitratNhoNhat || ''}
+            onChange={event => handleChange('nitratNhoNhat')(event.target.value)}
+          />
+        </Grid>
+        <Grid item xs={12} md={6} sm={12}>
+          <TextField
+            size='small'
+            type='text'
+            label='Sulfat lớn nhất'
+            fullWidth
+            placeholder=''
+            value={report2Data.sulfatLonNhat || ''}
+            onChange={event => handleChange('sulfatLonNhat')(event.target.value)}
+          />
+        </Grid>
+        <Grid item xs={12} md={6} sm={12}>
+          <TextField
+            size='small'
+            type='text'
+            label='Sulfat nhỏ nhất'
+            fullWidth
+            placeholder=''
+            value={report2Data.sulfatNhoNhat || ''}
+            onChange={event => handleChange('sulfatNhoNhat')(event.target.value)}
+          />
+        </Grid>
+        <Grid item xs={12} md={6} sm={12}>
+          <TextField
+            size='small'
+            type='text'
+            label='Asen lớn nhất'
+            fullWidth
+            placeholder=''
+            value={report2Data.asenLonNhat || ''}
+            onChange={event => handleChange('asenLonNhat')(event.target.value)}
+          />
+        </Grid>
+        <Grid item xs={12} md={6} sm={12}>
+          <TextField
+            size='small'
+            type='text'
+            label='Asen nhỏ nhất'
+            fullWidth
+            placeholder=''
+            value={report2Data.asenNhoNhat || ''}
+            onChange={event => handleChange('asenNhoNhat')(event.target.value)}
           />
         </Grid>
         <Grid item xs={12} md={12} sm={12} sx={{ my: 2 }}>
@@ -182,7 +266,7 @@ const Form = ({ data, setPostSuccess, closeDialogs }: any) => {
   )
 }
 
-const CreateReport9 = ({ data, setPostSuccess, isEdit }: any) => {
+const CreateReport14 = ({ data, setPostSuccess, isEdit }: any) => {
   const formTitle = isEdit ? 'Thay đổi thông tin tài khoản' : 'Thêm tài khoản mới'
 
   return (
@@ -213,4 +297,4 @@ const CreateReport9 = ({ data, setPostSuccess, isEdit }: any) => {
   )
 }
 
-export default CreateReport9
+export default CreateReport14
