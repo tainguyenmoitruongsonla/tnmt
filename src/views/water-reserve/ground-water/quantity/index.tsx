@@ -10,14 +10,14 @@ import {
   TableRow,
   Typography
 } from '@mui/material'
-import HeaderWaterReseve from '../../header'
-import FooterWaterReseve from '../../footer'
+import Header from '../../Header'
+import Footer from '../../Footer'
 import Action from '../../action'
 
 const GroundQuantity = () => {
   return (
     <Grid container>
-      <HeaderWaterReseve />
+      <Header />
       <Grid item md={12} xs={12} textAlign={'center'} textTransform={'uppercase'}>
         <Typography pt={7} pb={4} className='font-weight-bold ' variant='h6'>
           KIỂM KÊ SỐ LƯỢNG NƯỚC DƯỚI ĐẤT
@@ -103,7 +103,7 @@ const GroundQuantity = () => {
           </Table>
         </TableContainer>
       </Grid>
-      <FooterWaterReseve />
+      <Footer />
     </Grid>
   )
 }

@@ -13,8 +13,8 @@ import {
   TableBody
 } from '@mui/material'
 import DownloadIcon from '@mui/icons-material/Download'
-import HeaderReport from '../HeaderReport'
-import FooterReport from '../FooterReport'
+import Header from '../Header'
+import Footer from '../Footer'
 import { getData } from 'src/api/axios'
 import { useEffect, useState } from 'react'
 import BoxLoading from 'src/@core/components/box-loading'
@@ -44,7 +44,6 @@ const RainWater = () => {
 
     getDataRainWater()
   }, [])
-  console.log(data);
   
 
   return (
@@ -61,7 +60,7 @@ const RainWater = () => {
         </Grid>
       </Grid>
 
-      <HeaderReport />
+      <Header />
 
       <Grid className='_text_center'>
         <Typography className='font-weight-bold ' variant='h4'>
@@ -248,7 +247,7 @@ const RainWater = () => {
         </Grid>
       )}
 
-      <FooterReport />
+      <Footer />
     </Paper>
   )
 }

@@ -1,21 +1,20 @@
 import { Typography, Grid } from '@mui/material'
 
-const FooterWaterReseve = () => {
+const Footer = () => {
   return (
-    <Grid className='_space_between' container sx={{mt:5}}>
-      <Grid className='_text_center' item xs={4}>
-        <Typography>
-          Người lập biểu
-        </Typography>
+    <Grid className='_space_between' sx={{ mt: 5 }}>
+      <Grid>
+        <Typography>Nơi nhận</Typography>
+        <Typography>- Ban Giám đốc sở</Typography>
+        <Typography>- Lưu:VT; TNN, KS&KTTV; VP, 10b</Typography>
       </Grid>
 
-      <Grid className='_text_center' item xs={4}>
-        <Typography>Người kiểm tra</Typography>
-      </Grid>
-      <Grid className='_text_center' item xs={4}>
-        <Typography>Sở Tài nguyên và Môi trường</Typography>
+      <Grid>
+        <Typography className='font-weight-bold' variant='h6'>
+          Người thống kê
+        </Typography>
       </Grid>
     </Grid>
   )
 }
-export default FooterWaterReseve
+export default Footer
