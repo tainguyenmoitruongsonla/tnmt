@@ -1,7 +1,6 @@
 import Paper from '@mui/material/Paper'
 import {
   Grid,
-  TextField,
   Typography,
   Box,
   IconButton,
@@ -19,7 +18,7 @@ import { getData } from 'src/api/axios'
 import { useEffect, useState } from 'react'
 import BoxLoading from 'src/@core/components/box-loading'
 
-const SurfaceWaterQuantity = () => {
+const LakeQuantity = () => {
   const [data, setData] = useState<any[]>([])
   const [loading, setLoading] = useState(false)
 
@@ -28,7 +27,7 @@ const SurfaceWaterQuantity = () => {
   //       setPostSuccess(prevState => !prevState);
   //   };
   useEffect(() => {
-    async function getDataSurfaceWaterQuantity() {
+    async function getDataLakeQuantity() {
       setLoading(true)
       await getData('NM_SoLuong/danh-sach')
         .then(data => {
@@ -42,7 +41,7 @@ const SurfaceWaterQuantity = () => {
         })
     }
 
-    getDataSurfaceWaterQuantity()
+    getDataLakeQuantity()
   }, [])
   console.log(data);
   
@@ -195,4 +194,4 @@ const SurfaceWaterQuantity = () => {
   )
 }
 
-export default SurfaceWaterQuantity
+export default LakeQuantity

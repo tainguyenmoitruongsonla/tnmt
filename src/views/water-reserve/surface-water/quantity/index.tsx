@@ -1,9 +1,8 @@
 import { TabContext, TabList, TabPanel } from "@mui/lab"
 import { Box, Tab } from "@mui/material"
 import { SyntheticEvent, useState } from "react";
-import RiverSFReserve from "./river";
-import LakeSFReserve from "./lake";
-import RiverSFReserve from 
+import LakeQuantity from "./lake";
+import RiverQuantity from "./river";
 
 const QuantitySFWater = () => {
     const [value, setValue] = useState('1');
@@ -20,8 +19,8 @@ const QuantitySFWater = () => {
                     <Tab label="Ao,hồ,đầm,phá" value="2" />
                 </TabList>
             </Box>
-            <TabPanel value="1"><RiverSFReserve /></TabPanel>
-            <TabPanel value="2"><LakeSFReserve /></TabPanel>
+            <TabPanel value="1"><LakeQuantity /></TabPanel>
+            <TabPanel value="2"><RiverQuantity /></TabPanel>
            
         </TabContext>
     )

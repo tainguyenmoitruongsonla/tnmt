@@ -12,13 +12,13 @@ import {
   TableBody
 } from '@mui/material'
 import DownloadIcon from '@mui/icons-material/Download'
-import Header from '../../Header'
-import Footer from '../../Footer'
+import Header from '../../header'
+import Footer from '../../footer'
 import { getData } from 'src/api/axios'
 import { useEffect, useState } from 'react'
 import BoxLoading from 'src/@core/components/box-loading'
 
-const SurfaceWaterQuantity = () => {
+const RiverQuantity = () => {
   const [data, setData] = useState<any[]>([])
   const [loading, setLoading] = useState(false)
 
@@ -27,7 +27,7 @@ const SurfaceWaterQuantity = () => {
   //       setPostSuccess(prevState => !prevState);
   //   };
   useEffect(() => {
-    async function getDataSurfaceWaterQuantity() {
+    async function getDataRiverQuantity() {
       setLoading(true)
       await getData('NM_SoLuong/danh-sach')
         .then(data => {
@@ -41,7 +41,7 @@ const SurfaceWaterQuantity = () => {
         })
     }
 
-    getDataSurfaceWaterQuantity()
+    getDataRiverQuantity()
   }, [])
   console.log(data);
   
@@ -218,4 +218,4 @@ const SurfaceWaterQuantity = () => {
   )
 }
 
-export default SurfaceWaterQuantity
+export default RiverQuantity
