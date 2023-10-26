@@ -1,4 +1,4 @@
-import ExploitSFWater from "src/views/data-information/Exploit-Suface"
+import ExploitSFWater from "src/views/data-information/exploit-suface"
 
 const ExploitSufacePages = () => <ExploitSFWater />
 
