@@ -3,10 +3,6 @@ import { useState, useEffect, useRef } from 'react'
 // ** MUI Imports
 import { Grid, Box, Paper,Typography, FormGroup, FormControlLabel, Checkbox } from '@mui/material';
 
-// ** Icons Imports
-import SearchIcon from '@mui/icons-material/Search';
-import { EditNote, Delete } from "@mui/icons-material";
-
 // ** Components Imports
 import TableComponent from 'src/@core/components/table';
 import DisplayOperatingStatus from 'src/@core/components/monitoring-page/check-status';
@@ -46,6 +42,7 @@ const GroundwaterMonitoring = () => {
           {row.tenCT}
         </Typography>)
     },
+    { id: '#', label: 'Trạng thái vận hành', rowspan: 2, elm: (row: any) => (<DisplayOperatingStatus data={row} />) },
     {
       id: '#', label: 'Lưu lượng khai thác của từng giếng khoan', children: [
         { id: 'MaximumFlow', label: 'Yêu cầu', },
@@ -78,7 +75,6 @@ const GroundwaterMonitoring = () => {
         { id: 'NH4', label: 'NH4+', },
       ]
     },
-    { id: '#', label: 'Trạng thái vận hành', rowspan: 2, elm: (row: any) => (<DisplayOperatingStatus data={row} />) },
 
     { id: 'actions', label: 'Thao tác', rowspan: 2 },
   ];
@@ -181,7 +177,7 @@ const GroundwaterMonitoring = () => {
       </Grid>
       <Grid item xs={12} sm={12} md={12}>
         <MonitoringSystemToolBar onChange={handleFilterChange} />
-        <TableComponent loading={loading} columns={columns} data={resData} show={TypeOfConsId} pagination={true}
+        <TableComponent loading={loading} columns={columns} data={dataFiltered} show={TypeOfConsId} pagination={true}
           actions={() => (
             <Box>
               <ViewMonitoringSystemData />
