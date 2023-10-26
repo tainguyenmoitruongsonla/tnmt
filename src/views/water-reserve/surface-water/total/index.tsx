@@ -1,7 +1,7 @@
 import { TabContext, TabList, TabPanel } from "@mui/lab"
 import { Box, Tab } from "@mui/material"
 import { SyntheticEvent, useState } from "react";
-import TotalBasin from "./TotalBasin";
+import TotalBasin from "./total-basin";
 
 
 const TotalSFWater = () => {

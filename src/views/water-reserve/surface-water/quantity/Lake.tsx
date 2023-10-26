@@ -13,8 +13,8 @@ import {
   TableBody
 } from '@mui/material'
 import DownloadIcon from '@mui/icons-material/Download'
-import Header from '../../Header'
-import Footer from '../../Footer'
+import Header from '../../header'
+import Footer from '../../footer'
 import { getData } from 'src/api/axios'
 import { useEffect, useState } from 'react'
 import BoxLoading from 'src/@core/components/box-loading'
