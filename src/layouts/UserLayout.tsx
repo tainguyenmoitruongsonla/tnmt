@@ -47,7 +47,7 @@ const UserLayout = ({ children }: Props) => {
               <br />
               <span> Viện Thủy văn Môi trường & Biến đổi khí hậu - Trường Đại Học Thuỷ Lợi</span>
               <br />
-              <span> 02438522027 - ihecc.dangnt@gmail.com</span>
+              <span> 02438522027 - tvmtbdkh@gmail.com</span>
             </span>
           </p>
         </span>
