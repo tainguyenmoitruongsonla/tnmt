@@ -55,7 +55,7 @@ interface MapLegendProps {
 const MapLegend: FC<MapLegendProps> = ({ onChange }) => {
 
     const [consType, setConsType] = useState<any>([]);
-    const [initialItems, setInitialItems] = useState<any>(['nuocmat', 'thuydien', 'hochua', 'trambom', 'tramcapnuoc', 'cong', 'nhamaynuoc', 'nuocduoidat', 'khaithac', 'thamdo', 'congtrinhkhac_ndd', 'xathai', 'khu_cumcn_taptrung', 'sx_tieuthu_cn', 'congtrinh_xathaikhac']);
+    const [initialItems, setInitialItems] = useState<any>(['nuocmat', 'thuydien', 'hochua', 'trambom', 'tramcapnuoc', 'cong', 'nhamaynuoc', 'nuocduoidat', 'khaithac', 'thamdo', 'congtrinhkhac_ndd', 'xathai', 'khu_cumcn_taptrung', 'sx_tieuthu_cn', 'sx_kd_dichvu', 'cs_benhvien', 'khudancu_langnghe', 'channuoi_ntts', 'congtrinhkhac_xt']);
     const [checkedItems, setCheckedItems] = useState(initialItems);
 
     const router = useRouter();
@@ -95,7 +95,11 @@ const MapLegend: FC<MapLegendProps> = ({ onChange }) => {
                         id: "xathai", label: "XẢ THẢI", children: [
                             { label: "Khu / Cụm CN", id: "khu_cumcn_taptrung" },
                             { label: "SX tiểu thủ CN", id: "sx_tieuthu_cn" },
-                            { label: "Công trình khác", id: "congtrinh_xathaikhac" },
+                            { label: "SX KD dịch vụ", id: "sx_kd_dichvu" },
+                            { label: "CS bệnh viện", id: "cs_benhvien" },
+                            { label: "Khu dân cư / Làng nghề", id: "khudancu_langnghe" },
+                            { label: "Chăn nuôi / NTTS", id: "channuoi_ntts" },
+                            { label: "Công trình khác", id: "congtrinhkhac_xt" },
                         ]
                     }
                 ]);
@@ -124,7 +128,11 @@ const MapLegend: FC<MapLegendProps> = ({ onChange }) => {
                         id: "xathai", label: "XẢ THẢI", children: [
                             { label: "Khu / Cụm CN", id: "khu_cumcn_taptrung" },
                             { label: "SX tiểu thủ CN", id: "sx_tieuthu_cn" },
-                            { label: "Công trình khác", id: "congtrinh_xathaikhac" },
+                            { label: "SX KD dịch vụ", id: "sx_kd_dichvu" },
+                            { label: "CS bệnh viện", id: "cs_benhvien" },
+                            { label: "Khu dân cư / Làng nghề", id: "khudancu_langnghe" },
+                            { label: "Chăn nuôi / NTTS", id: "channuoi_ntts" },
+                            { label: "Công trình khác", id: "congtrinhkhac_xt" },
                         ]
                     }
                 ]);

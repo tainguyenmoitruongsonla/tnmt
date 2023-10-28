@@ -63,11 +63,23 @@ const getIcon = (type: any) => {
 			case 'khu_cumcn_taptrung':
 				return createIcon('/images/icon/khu_cumcn_taptrung.png');
 				break;
+			case 'cs_benhvien':
+				return createIcon('/images/icon/cs_benhvien.png');
+				break;
 			case 'sx_tieuthu_cn':
 				return createIcon('/images/icon/sx_tieuthu_cn.png');
 				break;
-			case 'congtrinh_xathaikhac':
-				return createIcon('/images/icon/congtrinh_xathaikhac.png');
+			case 'sx_kd_dichvu':
+				return createIcon('/images/icon/sx_kd_dichvu.png');
+				break;
+			case 'khudancu_langnghe':
+				return createIcon('/images/icon/khudancu_langnghe.png');
+				break;
+			case 'channuoi_ntts':
+				return createIcon('/images/icon/channuoi_ntts.png');
+				break;
+			case 'congtrinhkhac_xt':
+				return createIcon('/images/icon/congtrinhkhac_xt.png');
 				break;
 			case 'khaithac_nuocbien':
 				return createIcon('/images/icon/khaithac_nuocbien.png');

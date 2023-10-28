@@ -27,7 +27,7 @@ const HomeMap = () => {
         "xathai",
         "khu_cumcn_taptrung",
         "sx_tieuthu_cn",
-        "congtrinh_xathaikhac"
+        "congtrinhkhac_xt"
     ])
 
     const [resData, setResData] = useState([]);
