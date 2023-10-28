@@ -42,7 +42,13 @@ const UserLayout = ({ children }: Props) => {
       <Box sx={{ mx: 'auto', borderTop: '1px solid #4b545c' }}>
         <span>
           <p className='design--team'>
-            <span><i>Đơn vị phát triển</i> <br /> <span> Viện Thủy văn Môi trường và Biến đổi khí hậu</span></span>
+            <span>
+              <i>Đơn vị phát triển</i>
+              <br />
+              <span> Viện Thủy văn Môi trường & Biến đổi khí hậu - Trường Đại Học Thuỷ Lợi</span>
+              <br />
+              <span> 02438522027 - ihecc.dangnt@gmail.com</span>
+            </span>
           </p>
         </span>
       </Box>
