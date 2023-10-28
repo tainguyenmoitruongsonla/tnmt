@@ -79,12 +79,12 @@ const Form = ({ data, setPostSuccess, closeDialogs }: any) => {
                 ...values,
                 coQuanCP: coquan_cp,
                 ngayKy: values.ngayKy?.toDate(),
-                filePDF: `${values.soQDTCQ?.replace(/\//g, "_").toLowerCase()}.pdf`
+                filePDF: `pdf/tien-cap-quyen/${coquan_cp.toLowerCase()}/${values.ngayKy?.year()}/${values.soQDTCQ?.replace(/\//g, "_").toLowerCase()}.pdf`
             }
 
             const newFile = {
                 filePath: `pdf/tien-cap-quyen/${coquan_cp.toLowerCase()}/${newVal.ngayKy?.getFullYear()}`,
-                fileName: newVal.filePDF,
+                fileName: `${values.soQDTCQ?.replace(/\//g, "_").toLowerCase()}.pdf`,
                 file: fileUpload
             }
 

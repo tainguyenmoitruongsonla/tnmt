@@ -1,37 +1,39 @@
 import { Dayjs } from "dayjs";
 
 export interface LicenseState {
-    id: number;
-    childId: number;
-    licensingTypeId: number;
-    businessId: number;
-    licenseName: string | null;
-    licenseNumber: string | null;
-    signDate: Dayjs | null;
-    issueDate: Dayjs | null;
-    expriteDate: Dayjs | null;
-    duration: string | null;
-    licensingAuthorities: string | null;
-    licenseFile: string | null;
-    relatedDocumentFile: string | null;
-    licenseRequestFile: string | null;
+    id?: number | null;
+    idCon?: number | null;
+    idLoaiGP?: number | null;
+    idTCCN?: number | null;
+    idCT?: number | null;
+    tenGP: string | null;
+    soGP: string | null;
+    ngayKy: Dayjs | null;
+    ngayCoHieuLuc: Dayjs | null;
+    ngayHetHieuLuc: Dayjs | null;
+    thoiHan: string | null;
+    coQuanCapPhep: string | null;
+    fileGiayPhep: string | null;
+    fileGiayToLienQuan: string | null;
+    fileDonXinCP: string | null;
 }
 
 export const emptyLicenseData = {
     id: 0,
-    childId: 0,
-    licensingTypeId: 0,
-    businessId: 0,
-    licenseName: null,
-    licenseNumber: null,
-    signDate: null,
-    issueDate: null,
-    expriteDate: null,
-    duration: null,
-    licensingAuthorities: null,
-    licenseFile: null,
-    relatedDocumentFile: null,
-    licenseRequestFile: null,
+    idCon: null,
+    idLoaiGP: null,
+    idTCCN: null,
+    idCT: null,
+    tenGP: null,
+    soGP: null,
+    ngayKy: null,
+    ngayCoHieuLuc: null,
+    ngayHetHieuLuc: null,
+    thoiHan: null,
+    coQuanCapPhep: null,
+    fileGiayPhep: null,
+    fileGiayToLienQuan: null,
+    fileDonXinCP: null,
 }
 
 export interface FormLicenseProps {

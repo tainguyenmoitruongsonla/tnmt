@@ -17,7 +17,6 @@ import CreateLicense from './form';
 
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
-import dayjs from 'dayjs';
 import LicenseToolBar from './tool-bar';
 import { getData } from 'src/api/axios';
 import DeleteData from 'src/@core/components/delete-data';
@@ -43,59 +42,56 @@ const ListLicenses = () => {
 
     //Init columnTable
     const columnsTable: GridColDef[] = [
-        { field: 'id', headerAlign: 'center', headerName: 'ID', minWidth: 90 },
+        { field: 'id', headerAlign: 'center', sortable: false, headerName: 'ID', minWidth: 90 },
         {
-            field: 'licenseNumber', headerAlign: 'center', headerName: 'Số GP', minWidth: 150, renderCell: (data) => (
-                <ShowFilePDF name={data.row.licenseNumber}
-                    src={`pdf/giay-phep/${data.row?.licensingAuthorities?.toLowerCase()}/${router.pathname.split('/')[2]}/${dayjs(data.row?.signDate).year()}/${data.row?.licenseNumber?.replace(/\//g, "_").toLowerCase()}`}
-                    fileName={data.row.licenseFile}
+            field: 'soGP', headerAlign: 'center', sortable: false, headerName: 'Số GP', minWidth: 150, renderCell: (data) => (
+                <ShowFilePDF name={data.row.soGP}
+                    src={data.row.fileGiayPhep}
                 />)
         },
-        { field: 'effect', headerAlign: 'center', headerName: 'Hiệu lực GP', minWidth: 150, renderCell: (data) => (<CheckEffect data={data.row} />) },
-        { field: 'signDate', headerAlign: 'center', headerName: 'Ngày ký', minWidth: 150, renderCell: (data) => (FormatDate(data.row.signDate)) },
-        { field: 'issueDate', headerAlign: 'center', headerName: 'Ngày có hiệu lực', minWidth: 150, renderCell: (data) => (FormatDate(data.row.issueDate)) },
-        { field: 'expriteDate', headerAlign: 'center', headerName: 'Ngày hểt hiệu lực', minWidth: 150, renderCell: (data) => (FormatDate(data.row.expriteDate)) },
-        { field: 'licenseTypeName', headerAlign: 'center', headerName: 'Loại hình', minWidth: 200 },
+        { field: 'hieuluc_gp', headerAlign: 'center', sortable: false, headerName: 'Hiệu lực GP', minWidth: 150, renderCell: (data) => (<CheckEffect data={data.row} />) },
+        { field: 'ngayKy', headerAlign: 'center', sortable: false, headerName: 'Ngày ký', minWidth: 150, renderCell: (data) => (FormatDate(data.row.ngayKy)) },
+        { field: 'ngayCoHieuLuc', headerAlign: 'center', sortable: false, headerName: 'Ngày có hiệu lực', minWidth: 150, renderCell: (data) => (FormatDate(data.row.ngayCoHieuLuc)) },
+        { field: 'ngayHetHieuLuc', headerAlign: 'center', sortable: false, headerName: 'Ngày hểt hiệu lực', minWidth: 150, renderCell: (data) => (FormatDate(data.row.ngayHetHieuLuc)) },
+        { field: 'loaiGP', headerAlign: 'center', sortable: false, headerName: 'Loại hình', minWidth: 200, renderCell: (data) => (data.row.loaiGP.tenLoaiGP) },
 
-        //business
-        { field: 'business.name', headerAlign: 'center', headerName: 'Tên', minWidth: 400, valueGetter: (data) => (`${data.row.business?.name || ''}`) },
-        { field: 'business.address', headerAlign: 'center', headerName: 'Địa chỉ', minWidth: 400, valueGetter: (data) => (`${data.row.business?.address || ''}`) },
+        //tochuc_canhan
+        { field: 'tochuc_canhan.name', headerAlign: 'center', sortable: false, headerName: 'Tên', minWidth: 400, valueGetter: (data) => (`${data.row.tochuc_canhan?.tenTCCN}`) },
+        { field: 'tochuc_canhan.address', headerAlign: 'center', sortable: false, headerName: 'Địa chỉ', minWidth: 400, valueGetter: (data) => (`${data.row.tochuc_canhan?.diaChi}`) },
 
-        //oldLicense
+        //giayphep_cu
         {
-            field: 'oldLicense.licenseNumber', headerAlign: 'center', headerName: 'Số GP', minWidth: 150, renderCell: (data) => (
-                <ShowFilePDF name={data.row.oldLicense?.licenseNumber}
-                    src={`pdf/giay-phep/${data.row.oldLicense?.licensingAuthorities?.toLowerCase()}/${router.pathname.split('/')[2]}/${dayjs(data.row.oldLicense?.signDate).year()}/${data.row.oldLicense?.licenseNumber?.replace(/\//g, "_").toLowerCase()}`}
-                    fileName={data.row.oldLicense?.licenseFile}
+            field: 'giayphep_cu.soGP', headerAlign: 'center', sortable: false, headerName: 'Số GP', minWidth: 150, renderCell: (data) => (
+                <ShowFilePDF name={data.row.giayphep_cu?.soGP}
+                    src={data.row.giayphep_cu?.fileGiayPhep}
                 />
             )
         },
-        { field: 'oldLicense.signDate', headerAlign: 'center', headerName: 'Ngày ký', minWidth: 150, renderCell: (data) => (FormatDate(data.row.oldLicense?.signDate)), },
+        { field: 'giayphep_cu.ngayKy', headerAlign: 'center', sortable: false, headerName: 'Ngày ký', minWidth: 150, renderCell: (data) => (FormatDate(data.row.giayphep_cu?.ngayKy)), },
 
-        //Construction
-        { field: 'construction.constructionName', headerAlign: 'center', headerName: 'Tên Công trình', minWidth: 300, valueGetter: (data) => (`${data.row.construction?.constructionName || ''}`) },
-        { field: 'construction.constructionLocation', headerAlign: 'center', headerName: 'Địa điểm Công trình', minWidth: 400, valueGetter: (data) => (`${data.row.construction?.constructionLocation || ''}`) },
-        { field: 'construction.constructionTypeName', headerAlign: 'center', headerName: 'Loại hình Công trình', minWidth: 200, valueGetter: (data) => (`${data.row.construction?.constructionTypeName || ''}`) },
-        { field: 'construction.communeName', headerAlign: 'center', headerName: 'Xã', minWidth: 200, valueGetter: (data) => (`${data.row.construction?.communeName || ''}`) },
-        { field: 'construction.districtName', headerAlign: 'center', headerName: 'Huyện', minWidth: 200, valueGetter: (data) => (`${data.row.construction?.districtName || ''}`) },
-        { field: 'construction.exploitedWS', headerAlign: 'center', headerName: 'Nguồn nước khai thác', minWidth: 200, valueGetter: (data) => (`${data.row.construction?.exploitedWS || ''}`) },
-        { field: 'construction.riverName', headerAlign: 'center', headerName: 'Lưu vực', minWidth: 150, valueGetter: (data) => (`${data.row.construction?.riverName || ''}`) },
-        { field: 'construction.basinName', headerAlign: 'center', headerName: 'Tiểu vùng quy hoạch', minWidth: 250, valueGetter: (data) => (`${data.row.construction?.basinName || ''}`) },
+        //congtrinh
+        { field: 'congtrinh.tenCT', headerAlign: 'center', sortable: false, headerName: 'Tên Công trình', minWidth: 300, valueGetter: (data) => (`${data.row.congtrinh?.tenCT}`) },
+        { field: 'congtrinh.viTriCT', headerAlign: 'center', sortable: false, headerName: 'Địa điểm Công trình', minWidth: 400, valueGetter: (data) => (`${data.row.congtrinh?.viTriCT}`) },
+        { field: 'congtrinh.loaiCT', headerAlign: 'center', sortable: false, headerName: 'Loại hình Công trình', minWidth: 200, valueGetter: (data) => (`${data.row.congtrinh?.loaiCT?.tenLoaiCT}`) },
+        { field: 'congtrinh.tenXa', headerAlign: 'center', sortable: false, headerName: 'Xã', minWidth: 200, valueGetter: (data) => (`${data.row.congtrinh?.donvi_hanhchinh?.tenXa}`) },
+        { field: 'congtrinh.tenHuyen', headerAlign: 'center', sortable: false, headerName: 'Huyện', minWidth: 200, valueGetter: (data) => (`${data.row.congtrinh?.donvi_hanhchinh?.tenHuyen}`) },
+        { field: 'congtrinh.nguonNuocKT', headerAlign: 'center', sortable: false, headerName: 'Nguồn nước khai thác', minWidth: 200, valueGetter: (data) => (`${data.row.congtrinh?.nguonNuocKT}`) },
+        { field: 'congtrinh.riverName', headerAlign: 'center', sortable: false, headerName: 'Lưu vực', minWidth: 150, valueGetter: (data) => (`${data.row.congtrinh?.riverName}`) },
+        { field: 'congtrinh.basinName', headerAlign: 'center', sortable: false, headerName: 'Tiểu vùng quy hoạch', minWidth: 250, valueGetter: (data) => (`${data.row.congtrinh?.basinName}`) },
 
         //licenseFee
         {
-            field: 'licenseFees.licenseFeeNumber',
+            field: 'tiencq.soQDTCQ',
             headerAlign: 'center',
-            headerName: 'Số QĐ',
+            sortable: false, headerName: 'Số QĐ',
             minWidth: 150,
             renderCell: (params) => (
                 <div style={{ width: '100%' }}>
-                    {params.row.licenseFees.map((e: any) => (
+                    {params.row.tiencq.map((e: any) => (
                         <div key={e.id}>
                             <ShowFilePDF
-                                name={e?.licenseFeeNumber || ''}
-                                src={`/pdf/tien-cap-quyen/${e.licensingAuthorities?.toLowerCase()}/${new Date(e?.signDate).getFullYear()}/`}
-                                fileName={e?.filePDF || ''}
+                                name={e?.soQDTCQ}
+                                src={e?.filePDF}
                             />
                         </div>
                     ))}
@@ -103,37 +99,37 @@ const ListLicenses = () => {
             ),
         },
         {
-            field: 'licenseFees.signDate',
+            field: 'tiencq.ngayKy',
 
             headerAlign: 'center',
-            headerName: 'Ngày ký',
+            sortable: false, headerName: 'Ngày ký',
             minWidth: 150,
             renderCell: (params) => (
                 <div style={{ width: '100%' }}>
-                    {params.row.licenseFees.map((e: any) => (
+                    {params.row.tiencq.map((e: any) => (
                         <div key={e.id}>
-                            {FormatDate(e.signDate)}
+                            {FormatDate(e.ngayKy)}
                         </div>
                     ))}
                 </div>
             ),
         },
         {
-            field: 'licenseFees.TotalMoney', headerAlign: 'center', headerName: 'Tổng tiền cấp quyền (VNĐ)', minWidth: 150, type: 'number', valueGetter: (params) => {
-                const licenseFees = params.row.licenseFees || [];
-                let totalMoney = 0;
+            field: 'tiencq.tongTienCQ', headerAlign: 'center', sortable: false, headerName: 'Tổng tiền cấp quyền (VNĐ)', minWidth: 150, type: 'number', valueGetter: (params) => {
+                const tiencq = params.row.tiencq || [];
+                let tongTienCQ = 0;
 
-                licenseFees.forEach((e: any) => {
-                    totalMoney += parseFloat(e.totalMoney) || 0;
+                tiencq.forEach((e: any) => {
+                    tongTienCQ += parseFloat(e.tongTienCQ) || 0;
                 });
 
-                return totalMoney == 0 ? '' : totalMoney;
+                return tongTienCQ == 0 ? '' : tongTienCQ;
             },
         },
 
         //Action
         {
-            field: 'actions', headerAlign: 'center', headerName: '#', minWidth: 120, sortable: false,
+            field: 'actions', headerAlign: 'center', sortable: false, headerName: '#', minWidth: 120,
             renderCell: data => (
                 <Box>
                     <CreateLicense isEdit={true} data={data.row} setPostSuccess={handlePostSuccess} />
@@ -149,51 +145,51 @@ const ListLicenses = () => {
             groupId: 'Thông tin GP',
             headerAlign: 'center',
             children: [
-                { field: 'licenseNumber' },
-                { field: 'effect' },
-                { field: 'signDate' },
-                { field: 'issueDate' },
-                { field: 'expriteDate' },
-                { field: 'licenseTypeName' },
+                { field: 'soGP' },
+                { field: 'hieuluc_gp' },
+                { field: 'ngayKy' },
+                { field: 'ngayCoHieuLuc' },
+                { field: 'ngayHetHieuLuc' },
+                { field: 'loaiGP' },
             ],
         },
         {
             groupId: 'Cơ quan/cá nhân được CP',
             headerAlign: 'center',
             children: [
-                { field: 'business.name' },
-                { field: 'business.address' }
+                { field: 'tochuc_canhan.name' },
+                { field: 'tochuc_canhan.address' }
             ],
         },
         {
             groupId: 'Thông tin GP cũ',
             headerAlign: 'center',
             children: [
-                { field: 'oldLicense.licenseNumber' },
-                { field: 'oldLicense.signDate' }
+                { field: 'giayphep_cu.soGP' },
+                { field: 'giayphep_cu.ngayKy' }
             ]
         },
         {
             groupId: 'Thông tin CT',
             headerAlign: 'center',
             children: [
-                { field: 'construction.constructionName' },
-                { field: 'construction.constructionLocation' },
-                { field: 'construction.constructionTypeName' },
-                { field: 'construction.communeName' },
-                { field: 'construction.districtName' },
-                { field: 'construction.exploitedWS' },
-                { field: 'construction.riverName' },
-                { field: 'construction.basinName' },
+                { field: 'congtrinh.tenCT' },
+                { field: 'congtrinh.viTriCT' },
+                { field: 'congtrinh.loaiCT' },
+                { field: 'congtrinh.tenXa' },
+                { field: 'congtrinh.tenHuyen' },
+                { field: 'congtrinh.nguonNuocKT' },
+                { field: 'congtrinh.riverName' },
+                { field: 'congtrinh.basinName' },
             ],
         },
         {
             groupId: 'Tiền cấp quyền',
             headerAlign: 'center',
             children: [
-                { field: 'licenseFees.licenseFeeNumber' },
-                { field: 'licenseFees.signDate' },
-                { field: 'licenseFees.TotalMoney' }
+                { field: 'tiencq.soQDTCQ' },
+                { field: 'tiencq.ngayKy' },
+                { field: 'tiencq.tongTienCQ' }
             ],
         },
         {
@@ -206,18 +202,19 @@ const ListLicenses = () => {
     ];
 
     const [paramsFilter, setParamsFilter] = useState({
-        licenseNumber: null,
-        licensingAuthorities: null,
-        licenseTypeId: 0,
-        licenseValidity: null,
-        businessId: 0,
-        constructionId: 0,
-        constructionTypeId: GetConstructionTypeId(router),
-        districtId: 0,
-        communeId: 0,
-        subBasinId: 0,
-        pageIndex: 0,
-        pageSize: 0
+        so_gp: null,
+        cong_trinh: 0,
+        coquan_cp: null,
+        loaihinh_cp: 0,
+        hieuluc_gp: null,
+        loai_ct: GetConstructionTypeId(router),
+        tang_chuanuoc: 0,
+        huyen: 0,
+        xa: 0,
+        tieuvung_qh: 0,
+        tochuc_canhan: 0,
+        tu_nam: 0,
+        den_nam: 0,
     });
 
 

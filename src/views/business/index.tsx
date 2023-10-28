@@ -18,9 +18,9 @@ const Business = () => {
     //Init columnTable
     const columnsTable: GridColDef[] = [
         { field: 'id', flex: 1, headerAlign: 'center', headerName: 'ID', minWidth: 90 },
-        { field: 'name', flex: 1, headerAlign: 'center', headerName: 'Tên doanh nghiệp', minWidth: 150 },
-        { field: 'address', flex: 1, headerAlign: 'center', headerName: 'Địa chỉ', minWidth: 150 },
-        { field: 'phone', flex: 1, headerAlign: 'center', headerName: 'Số điện thoại', minWidth: 150 },
+        { field: 'tenTCCN', flex: 1, headerAlign: 'center', headerName: 'Tên doanh nghiệp', minWidth: 150 },
+        { field: 'diaChi', flex: 1, headerAlign: 'center', headerName: 'Địa chỉ', minWidth: 150 },
+        { field: 'sdt', flex: 1, headerAlign: 'center', headerName: 'Số điện thoại', minWidth: 150 },
         { field: 'fax', flex: 1, headerAlign: 'center', headerName: 'Số Fax', minWidth: 150 },
         { field: 'email', flex: 1, headerAlign: 'center', headerName: 'Địa chỉ Email', minWidth: 150 },
 

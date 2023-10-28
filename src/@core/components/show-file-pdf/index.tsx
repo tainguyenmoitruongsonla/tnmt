@@ -5,12 +5,11 @@ import { CircularProgress, Typography } from '@mui/material';
 import DialogControlShowPDF from '../dialog-control-show-pdf';
 
 interface ShowFilePDFProps {
-    src: string
-    name: string
-    fileName: string
+    src: string | null
+    name: string | null
 }
 
-const ShowFilePDF = ({ src, name, fileName }: ShowFilePDFProps) => {
+const ShowFilePDF = ({ src, name }: ShowFilePDFProps) => {
     const [fileUrl, setFileUrl] = useState<any>(null);
     const [numPages, setNumPages] = useState(0);
     const [loading, setLoading] = useState(false)
@@ -18,16 +17,19 @@ const ShowFilePDF = ({ src, name, fileName }: ShowFilePDFProps) => {
     useEffect(() => {
         pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.min.js`;
 
-        if (fileName && fileName !== null) {
+        if (src && src !== null) {
             handleReadFile();
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     const handleReadFile = async () => {
+        const fileName = src?.split('/').slice(-1).pop();
+        const filePath = src?.split('/').slice(0, -1).join('/');
+
         try {
             setLoading(true)
-            const response = await fetch(`${apiUrl}/readfile?FilePath=${src}&FileName=${fileName}`);
+            const response = await fetch(`${apiUrl}/readfile?FilePath=${filePath}&FileName=${fileName}`);
 
             if (!response.ok) {
                 throw new Error('File not found');

@@ -161,9 +161,8 @@ const GroundConstruction = () => {
           {params.row.giayphep?.map((e: any) => (
             <div key={e.id}>
               <ShowFilePDF
-                name={e?.soGP || ''}
-                src={`/pdf/giay-phep/${e.coQuanCapPhep?.toLowerCase()}/${new Date(e?.ngayKy).getFullYear()}/`}
-                fileName={e?.filePDF || ''}
+                name={e?.soGP}
+                src={e?.fileGiayPhep}
               />
             </div>
           ))}
@@ -196,9 +195,8 @@ const GroundConstruction = () => {
             e?.tiencq.map((e: any) => (
               <div key={e.id}>
                 <ShowFilePDF
-                  name={e?.soQDTCQ || ''}
-                  src={`/pdf/tien-cap-quyen/${e.coQuanCP?.toLowerCase()}/${new Date(e?.ngayKy).getFullYear()}/`}
-                  fileName={e?.filePDF || ''}
+                  name={e?.soQDTCQ}
+                  src={e?.filePDF}
                 />
               </div>
             ))

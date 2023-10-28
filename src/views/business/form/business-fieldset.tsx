@@ -7,30 +7,30 @@ interface BusinessProps {
 }
 
 interface BusinessState {
-    id: number;
-    name: string;
-    address: string;
-    identifierCode: string;
-    phone: string;
-    fax: string;
-    email: string;
-    director: string;
-    authorityPerson: string;
-    legalRepresentative: string;
+    id: number | null
+    tenTCCN: string | null
+    diaChi: string | null
+    maSoThue: string | null
+    sdt: string | null
+    fax: string | null
+    email: string | null
+    giamDoc: string | null
+    nguoiDuocUyQuyen: string | null
+    nguoiDaiDienPhapLuat: string | null
 }
 
 const Business: React.FC<BusinessProps> = ({ data, onChange }) => {
     const [businessData, setBusinessData] = useState<BusinessState>({
-        id: data?.id || 0,
-        name: data?.name || '',
-        address: data?.address || '',
-        identifierCode: data?.identifierCode || '',
-        phone: data?.phone || '',
-        fax: data?.fax || '',
-        email: data?.email || '',
-        director: data?.director || '',
-        authorityPerson: data?.authorityPerson || '',
-        legalRepresentative: data?.legalRepresentative || '',
+        id: null,
+        tenTCCN: null,
+        diaChi: null,
+        maSoThue: null,
+        sdt: null,
+        fax: null,
+        email: null,
+        giamDoc: null,
+        nguoiDuocUyQuyen: null,
+        nguoiDaiDienPhapLuat: null,
     });
 
     // Sử dụng useEffect để cập nhật dữ liệu khi prop data thay đổi
@@ -49,19 +49,19 @@ const Business: React.FC<BusinessProps> = ({ data, onChange }) => {
     return (
         <Grid container spacing={4} rowSpacing={1}>
             <Grid item xs={12} md={12} sm={12} sx={{ my: 2 }}>
-                <TextField size='small' type='text' label='Tên doanh nghiệp' fullWidth required placeholder='' defaultValue={businessData?.name} onChange={handleChange('name')} />
+                <TextField size='small' type='text' label='Tên doanh nghiệp' fullWidth required placeholder='' defaultValue={businessData?.tenTCCN} onChange={handleChange('tenTCCN')} />
             </Grid>
             <Grid item xs={12} md={12} sm={12} sx={{ my: 2 }}>
-                <TextField size='small' type='text' label='Địa chỉ' fullWidth required defaultValue={businessData?.address} onChange={handleChange('address')} />
+                <TextField size='small' type='text' label='Địa chỉ' fullWidth required defaultValue={businessData?.diaChi} onChange={handleChange('diaChi')} />
             </Grid>
             <Grid item xs={12} md={12} sm={12} sx={{ my: 2 }}>
-                <TextField size='small' type='text' label='Giám đốc' fullWidth placeholder='' defaultValue={businessData?.director} onChange={handleChange('director')} />
+                <TextField size='small' type='text' label='Giám đốc' fullWidth placeholder='' defaultValue={businessData?.giamDoc} onChange={handleChange('giamDoc')} />
             </Grid>
             <Grid item xs={12} md={12} sm={12} sx={{ my: 2 }}>
-                <TextField size='small' type='text' label='Đại diện pháp lý' fullWidth placeholder='' defaultValue={businessData?.legalRepresentative} onChange={handleChange('legalRepresentative')} />
+                <TextField size='small' type='text' label='Đại diện pháp lý' fullWidth placeholder='' defaultValue={businessData?.nguoiDaiDienPhapLuat} onChange={handleChange('nguoiDaiDienPhapLuat')} />
             </Grid>
             <Grid item xs={12} md={12} sm={12} sx={{ my: 2 }}>
-                <TextField size='small' type='text' label='Số điện thoại' fullWidth placeholder='' defaultValue={businessData?.phone} onChange={handleChange('phone')} />
+                <TextField size='small' type='text' label='Số điện thoại' fullWidth placeholder='' defaultValue={businessData?.sdt} onChange={handleChange('sdt')} />
             </Grid>
             <Grid item xs={12} md={12} sm={12} sx={{ my: 2 }}>
                 <TextField size='small' type='text' label='Số Fax' fullWidth placeholder='' defaultValue={businessData?.fax} onChange={handleChange('fax')} />
@@ -70,7 +70,7 @@ const Business: React.FC<BusinessProps> = ({ data, onChange }) => {
                 <TextField size='small' type='text' label='Email' fullWidth placeholder='' defaultValue={businessData?.email} onChange={handleChange('email')} />
             </Grid>
             <Grid item xs={12} md={12} sm={12} sx={{ my: 2 }}>
-                <TextField size='small' type='text' label='Mã số thuế' fullWidth placeholder='' defaultValue={businessData?.identifierCode} onChange={handleChange('identifierCode')} />
+                <TextField size='small' type='text' label='Mã số thuế' fullWidth placeholder='' defaultValue={businessData?.maSoThue} onChange={handleChange('maSoThue')} />
             </Grid>
         </Grid>
 

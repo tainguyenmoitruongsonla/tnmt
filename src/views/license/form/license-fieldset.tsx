@@ -23,39 +23,40 @@ const LicenseFieldset: FC<LicenseFieldsetProps> = ({ data, onChange }) => {
     const [listLic, setListLic] = useState([])
     const [oldLic, setOldLic] = useState<any>([])
     const [fetching, setFetching] = useState(false)
-    const [fileUpload, setFileUpload] = useState<any>({ licenseFile: null, relatedDocumentFile: null, licenseRequestFile: null })
-    const [licenseData, setLicenseData] = useState<LicenseState>({
+    const [fileUpload, setFileUpload] = useState<any>({ fileGiayPhep: null, fileGiayToLienQuan: null, fileDonXinCP: null })
+    const [giayphep, setGiayphep] = useState<LicenseState>({
         id: data?.id || 0,
-        childId: data?.childId || 0,
-        licensingTypeId: data?.licensingTypeId || 0,
-        businessId: data?.businessId || '',
-        licenseName: data?.licenseName || '',
-        licenseNumber: data?.licenseNumber || '',
-        signDate: data?.signDate || null,
-        issueDate: data?.issueDate || null,
-        expriteDate: data?.expriteDate || null,
-        duration: data?.duration || '',
-        licenseFile: data?.licenseFile || '',
-        licensingAuthorities: data?.licensingAuthorities || '',
-        relatedDocumentFile: data?.relatedDocumentFile || '',
-        licenseRequestFile: data?.licenseRequestFile || '',
+        idCon: data?.idCon || null,
+        idLoaiGP: data?.idLoaiGP || null,
+        idTCCN: data?.idTCCN || null,
+        tenGP: data?.tenGP || null,
+        soGP: data?.soGP || null,
+        ngayKy: data?.ngayKy || null,
+        ngayCoHieuLuc: data?.ngayCoHieuLuc || null,
+        ngayHetHieuLuc: data?.ngayHetHieuLuc || null,
+        thoiHan: data?.thoiHan || null,
+        fileGiayPhep: data?.fileGiayPhep || null,
+        coQuanCapPhep: data?.coQuanCapPhep || null,
+        fileGiayToLienQuan: data?.fileGiayToLienQuan || null,
+        fileDonXinCP: data?.fileDonXinCP || null,
     });
 
 
     const getDataForSelect = async () => {
         const paramsFilter = {
-            licenseNumber: null,
-            licensingAuthorities: null,
-            licenseTypeId: 0,
-            licenseValidity: null,
-            businessId: 0,
-            constructionId: 0,
-            constructionTypeId: GetConstructionTypeId(router),
-            districtId: 0,
-            communeId: 0,
-            subBasinId: 0,
-            pageIndex: 0,
-            pageSize: 0
+            so_gp: null,
+            cong_trinh: 0,
+            coquan_cp: null,
+            loaihinh_cp: 0,
+            hieuluc_gp: null,
+            loai_ct: GetConstructionTypeId(router),
+            tang_chuanuoc: 0,
+            huyen: 0,
+            xa: 0,
+            tieuvung_qh: 0,
+            tochuc_canhan: 0,
+            tu_nam: 0,
+            den_nam: 0,
         };
         setFetching(true)
         await getData('giay-phep/danh-sach', paramsFilter).then((data) => {
@@ -63,9 +64,9 @@ const LicenseFieldset: FC<LicenseFieldsetProps> = ({ data, onChange }) => {
         }).finally(() => {
             setFetching(false)
         })
-    }; 
-    
-    const licensingType = [
+    };
+
+    const loaiGP = [
         { title: 'Cấp mới giấy phép', value: 1 },
         { title: 'Cấp lại giấy phép', value: 2 },
         { title: 'Gia hạn giấy phép', value: 3 },
@@ -73,7 +74,7 @@ const LicenseFieldset: FC<LicenseFieldsetProps> = ({ data, onChange }) => {
         { title: 'Thu hồi giấy phép', value: 5 },
     ];
 
-    const licensingAuthorities = [
+    const coQuanCapPhep = [
         { title: 'BTNMT', value: 'BTNMT' },
         { title: 'UBND Tỉnh', value: 'UBNDT' },
     ];
@@ -84,8 +85,8 @@ const LicenseFieldset: FC<LicenseFieldsetProps> = ({ data, onChange }) => {
     }, []);
 
     const handleChange = (prop: keyof LicenseState) => (value: any) => {
-        setLicenseData({ ...licenseData, [prop]: value });
-        onChange({ ...licenseData, [prop]: value }, fileUpload);
+        setGiayphep({ ...giayphep, [prop]: value });
+        onChange({ ...giayphep, [prop]: value }, fileUpload);
     };
 
     const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>, fileType: string) => {
@@ -94,21 +95,21 @@ const LicenseFieldset: FC<LicenseFieldsetProps> = ({ data, onChange }) => {
         // Find the index of the file type in the array and update it
         const updatedFileUpload = { ...fileUpload };
         switch (fileType) {
-            case 'licenseFile':
-                updatedFileUpload.licenseFile = file;
+            case 'fileGiayPhep':
+                updatedFileUpload.fileGiayPhep = file;
                 break;
-            case 'licenseRequestFile':
-                updatedFileUpload.licenseRequestFile = file;
+            case 'fileDonXinCP':
+                updatedFileUpload.fileDonXinCP = file;
                 break;
-            case 'relatedDocumentFile':
-                updatedFileUpload.relatedDocumentFile = file;
+            case 'fileGiayToLienQuan':
+                updatedFileUpload.fileGiayToLienQuan = file;
                 break;
             default:
                 break;
         }
 
         setFileUpload(updatedFileUpload);
-        onChange(licenseData, updatedFileUpload);
+        onChange(giayphep, updatedFileUpload);
     };
 
     return (
@@ -128,16 +129,16 @@ const LicenseFieldset: FC<LicenseFieldsetProps> = ({ data, onChange }) => {
                             label='Số giấy phép'
                             fullWidth
                             placeholder=''
-                            value={licenseData.licenseNumber}
-                            onChange={(event) => handleChange('licenseNumber')(event.target.value)}
+                            value={giayphep.soGP}
+                            onChange={(event) => handleChange('soGP')(event.target.value)}
                         />
                     </Grid>
                     <Grid item xs={12} md={6} sm={12} sx={{ my: 2 }}>
                         <LocalizationProvider dateAdapter={AdapterDayjs}>
                             <DatePicker
                                 label='Ngày ký'
-                                value={dayjs(licenseData.signDate)}
-                                onChange={(newSignDate: any) => handleChange('signDate')(newSignDate.toDate())}
+                                value={dayjs(giayphep.ngayKy)}
+                                onChange={(newngayKy: any) => handleChange('ngayKy')(newngayKy.toDate())}
                                 slotProps={{ textField: { size: 'small', fullWidth: true, required: true } }}
                                 format='DD/MM/YYYY'
                             />
@@ -150,15 +151,15 @@ const LicenseFieldset: FC<LicenseFieldsetProps> = ({ data, onChange }) => {
                             label='Tên văn bản'
                             fullWidth
                             placeholder=''
-                            value={licenseData.licenseName}
-                            onChange={(event) => handleChange('licenseName')(event.target.value)} />
+                            value={giayphep.tenGP}
+                            onChange={(event) => handleChange('tenGP')(event.target.value)} />
                     </Grid>
                     <Grid item xs={12} md={6} sm={12} sx={{ my: 2 }}>
                         <LocalizationProvider dateAdapter={AdapterDayjs}>
                             <DatePicker
                                 label="Ngày có hiệu lực"
-                                value={dayjs(licenseData.issueDate)}
-                                onChange={(newIssueDate: any) => handleChange('issueDate')(newIssueDate.toDate())}
+                                value={dayjs(giayphep.ngayCoHieuLuc)}
+                                onChange={(newngayCoHieuLuc: any) => handleChange('ngayCoHieuLuc')(newngayCoHieuLuc.toDate())}
                                 slotProps={{ textField: { size: 'small', fullWidth: true, required: true } }}
                                 format="DD/MM/YYYY" />
                         </LocalizationProvider>
@@ -166,11 +167,11 @@ const LicenseFieldset: FC<LicenseFieldsetProps> = ({ data, onChange }) => {
                     <Grid item xs={12} md={6} sm={12} sx={{ my: 2 }}>
                         <Autocomplete
                             size="small"
-                            options={licensingType}
+                            options={loaiGP}
                             getOptionLabel={(option: any) => option.title}
-                            value={licensingType.find(option => option.value === licenseData.licensingTypeId) || null}
+                            value={loaiGP.find(option => option.value === giayphep.idLoaiGP) || null}
                             isOptionEqualToValue={(option: any) => option.value}
-                            onChange={(_, value) => handleChange('licensingTypeId')(value?.value || 1)}
+                            onChange={(_, value) => handleChange('idLoaiGP')(value?.value || 1)}
                             renderInput={(params) => (
                                 <TextField
                                     required
@@ -188,17 +189,17 @@ const LicenseFieldset: FC<LicenseFieldsetProps> = ({ data, onChange }) => {
                             label='Thời hạn giấy phép'
                             fullWidth
                             placeholder=''
-                            value={licenseData.duration}
-                            onChange={(event) => handleChange('duration')(event.target.value)} />
+                            value={giayphep.thoiHan}
+                            onChange={(event) => handleChange('thoiHan')(event.target.value)} />
                     </Grid>
                     <Grid item xs={12} md={6} sm={12} sx={{ my: 2 }}>
                         <Autocomplete
                             size="small"
-                            options={licensingAuthorities}
+                            options={coQuanCapPhep}
                             getOptionLabel={(option: any) => option.title}
-                            value={licensingAuthorities.find(option => option.value === licenseData.licensingAuthorities) || null}
+                            value={coQuanCapPhep.find(option => option.value === giayphep.coQuanCapPhep) || null}
                             isOptionEqualToValue={(option: any) => option.value}
-                            onChange={(_, value) => handleChange('licensingAuthorities')(value?.value || "UBNDT")}
+                            onChange={(_, value) => handleChange('coQuanCapPhep')(value?.value || "UBNDT")}
                             renderInput={(params) => (
                                 <TextField
                                     required
@@ -212,30 +213,30 @@ const LicenseFieldset: FC<LicenseFieldsetProps> = ({ data, onChange }) => {
                     <Grid item xs={12} md={6} sm={12} sx={{ my: 2 }}>
                         <LocalizationProvider dateAdapter={AdapterDayjs}>
                             <DatePicker label="Ngày hết hiệu lực"
-                                value={dayjs(licenseData.expriteDate)}
-                                onChange={(newExpriteDate: any) => handleChange('expriteDate')(newExpriteDate.toDate())}
+                                value={dayjs(giayphep.ngayHetHieuLuc)}
+                                onChange={(newngayHetHieuLuc: any) => handleChange('ngayHetHieuLuc')(newngayHetHieuLuc.toDate())}
                                 slotProps={{
                                     textField: {
                                         size: 'small',
                                         fullWidth: true,
-                                        required: licenseData.licensingTypeId == 5 ? false : true
+                                        required: giayphep.idLoaiGP == 5 ? false : true
                                     }
                                 }}
                                 format="DD/MM/YYYY" />
                         </LocalizationProvider>
                     </Grid>
 
-                    {licenseData.licensingTypeId > 1 && licenseData.licensingTypeId <= 5 ?
+                    {giayphep.idLoaiGP && giayphep.idLoaiGP > 1 && giayphep.idLoaiGP <= 5 ?
                         fetching ? (<CircularProgress size={20} />) : (
                             <Grid container spacing={4} rowSpacing={1} ml={0} >
                                 <Grid item xs={12} md={6} sm={12} sx={{ my: 2 }} >
                                     <Autocomplete
                                         size="small"
                                         options={listLic}
-                                        getOptionLabel={(option: any) => option.licenseNumber}
+                                        getOptionLabel={(option: any) => option.soGP}
                                         isOptionEqualToValue={(option: any) => option.id}
-                                        value={listLic.find((option: any) => option.id === licenseData.childId) || null}
-                                        onChange={(_, value) => { handleChange('childId')(value?.id || 0); setOldLic(value || []) }}
+                                        value={listLic.find((option: any) => option.id === giayphep.idCon) || null}
+                                        onChange={(_, value) => { handleChange('idCon')(value?.id || 0); setOldLic(value || []) }}
                                         renderInput={(params) => (
                                             <TextField
                                                 required
@@ -251,7 +252,7 @@ const LicenseFieldset: FC<LicenseFieldsetProps> = ({ data, onChange }) => {
                                         <DatePicker
                                             disabled
                                             label='Ngày ký giấy phép cũ'
-                                            value={dayjs(oldLic.signDate) || null}
+                                            value={dayjs(oldLic.ngayKy) || null}
                                             slotProps={{ textField: { size: 'small', fullWidth: true, required: true } }}
                                             format='DD/MM/YYYY'
                                         />
@@ -285,55 +286,55 @@ const LicenseFieldset: FC<LicenseFieldsetProps> = ({ data, onChange }) => {
                         <TableBody>
                             <TableRow>
                                 <TableCell align='center'>
-                                    {fileUpload.licenseFile && (<Typography mb={3}>{fileUpload.licenseFile?.name}</Typography>)}
+                                    {fileUpload.fileGiayPhep && (<Typography mb={3}>{fileUpload.fileGiayPhep?.name}</Typography>)}
                                     <Button
                                         className="uploadBtn"
                                         component="label"
                                         variant="contained"
                                         startIcon={<CloudUpload />}
-                                        href={`#licenseFile`}
+                                        href={`#fileGiayPhep`}
                                     >
                                         Upload file
                                         <VisuallyHiddenInput
                                             type="file"
-                                            id='licenseFile'
-                                            onChange={(event) => handleFileChange(event, 'licenseFile')} // Pass the file type
+                                            id='fileGiayPhep'
+                                            onChange={(event) => handleFileChange(event, 'fileGiayPhep')} // Pass the file type
                                             accept=".pdf"
                                         />
                                     </Button>
                                 </TableCell>
                                 <TableCell align='center'>
-                                    {fileUpload.licenseRequestFile && (<Typography mb={3}>{fileUpload.licenseRequestFile?.name}</Typography>)}
+                                    {fileUpload.fileDonXinCP && (<Typography mb={3}>{fileUpload.fileDonXinCP?.name}</Typography>)}
                                     <Button
                                         className="uploadBtn"
                                         component="label"
                                         variant="contained"
                                         startIcon={<CloudUpload />}
-                                        href={`#licenseRequestFile`}
+                                        href={`#fileDonXinCP`}
                                     >
                                         Upload file
                                         <VisuallyHiddenInput
                                             type="file"
-                                            id='licenseRequestFile'
-                                            onChange={(event) => handleFileChange(event, 'licenseRequestFile')} // Pass the file type
+                                            id='fileDonXinCP'
+                                            onChange={(event) => handleFileChange(event, 'fileDonXinCP')} // Pass the file type
                                             accept=".pdf"
                                         />
                                     </Button>
                                 </TableCell>
                                 <TableCell align='center'>
-                                    {fileUpload.relatedDocumentFile && (<Typography mb={3}>{fileUpload.relatedDocumentFile?.name}</Typography>)}
+                                    {fileUpload.fileGiayToLienQuan && (<Typography mb={3}>{fileUpload.fileGiayToLienQuan?.name}</Typography>)}
                                     <Button
                                         className="uploadBtn"
                                         component="label"
                                         variant="contained"
                                         startIcon={<CloudUpload />}
-                                        href={`#relatedDocumentFile`}
+                                        href={`#fileGiayToLienQuan`}
                                     >
                                         Upload file
                                         <VisuallyHiddenInput
                                             type="file"
-                                            id='relatedDocumentFile'
-                                            onChange={(event) => handleFileChange(event, 'relatedDocumentFile')} // Pass the file type
+                                            id='fileGiayToLienQuan'
+                                            onChange={(event) => handleFileChange(event, 'fileGiayToLienQuan')} // Pass the file type
                                             accept=".pdf"
                                         />
                                     </Button>

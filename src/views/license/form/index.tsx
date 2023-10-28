@@ -37,7 +37,7 @@ const FormLicense: FC<FormLicenseProps> = ({ data, closeDialogs, setPostSuccess 
 
   //Business
   const [listBusiness, setListBusiness] = useState<any>([]);
-  const [business, setBusiness] = useState<any>({});
+  const [business, setBusiness] = useState<any>(data?.tochuc_canhan || {});
   const [fileUpload, setFileUpload] = useState<any>({})
   const [saveBusinessSuccess, setBusinessSuccess] = useState<boolean>(false)
   const handleSaveBusinessSuccess = () => {
@@ -45,22 +45,23 @@ const FormLicense: FC<FormLicenseProps> = ({ data, closeDialogs, setPostSuccess 
   };
 
   //License
-  const [licenseData, setLicenseData] = useState<LicenseState>(data);
+  const [giayphep, setgiayphep] = useState<LicenseState>(data);
 
   const handleLicenseChange = (data: any, fileupload: any) => {
     setFileUpload(fileupload)
-    setLicenseData(data);
+    setgiayphep(data);
   };
 
   //Construction
-  const [constructionData, setConstructionData] = useState<ConstructionState>(data?.construction || {});
+  const [congtrinh, setcongtrinh] = useState<ConstructionState>(data?.construction || {});
   const handleConstructionChange = (data: any) => {
-    setConstructionData(data);
+    setcongtrinh(data);
   };
 
   //Construction
   const [consItemData, setConsItemData] = useState<ConstructionItemState[]>(data?.construction?.constructionItems || []);
   const [consItemDataDetele, setConsItemDataDelete] = useState<any>();
+  console.log(consItemDataDetele)
 
   const handleconsItemChange = (dataSave: any, dataDelete: any) => {
     setConsItemDataDelete(dataDelete)
@@ -68,8 +69,8 @@ const FormLicense: FC<FormLicenseProps> = ({ data, closeDialogs, setPostSuccess 
   };
 
   //licenseFee
-  const [licenseFeeData, setLicenseFeeData] = useState<LicenseFeeState[]>(data?.licenseFees || []);
-  const [licenseFeeDataRemove, setLicenseFeeDataRemove] = useState<LicenseFeeState[]>([]);
+  const [tiencp, settiencp] = useState<LicenseFeeState[]>(data?.licenseFees || []);
+  const [tiencpRemove, settiencpRemove] = useState<LicenseFeeState[]>([]);
 
   //Hooks
   const router = useRouter()
@@ -77,37 +78,37 @@ const FormLicense: FC<FormLicenseProps> = ({ data, closeDialogs, setPostSuccess 
 
   const handleLicenseFeeChange = (dataSave: any, dataDelete: any) => {
     // Handle the updated license data here
-    setLicenseFeeData(dataSave);
-    setLicenseFeeDataRemove(dataDelete)
+    settiencp(dataSave);
+    settiencpRemove(dataDelete)
   };
 
   const handleSubmit = (event: FormEvent) => {
     event.preventDefault();
 
     if (
-      !licenseData?.businessId && licenseData?.businessId > 0 ||
-      !licenseData?.licenseNumber ||
-      !licenseData?.signDate ||
-      !licenseData?.issueDate ||
-      !licenseData?.licensingAuthorities ||
-      !licenseData?.licensingTypeId ||
-      !fileUpload.licenseFile && fileUpload.licenseFile !== null
+      !business?.id ||
+      !giayphep?.soGP ||
+      !giayphep?.ngayKy ||
+      !giayphep?.ngayCoHieuLuc ||
+      !giayphep?.coQuanCapPhep ||
+      !giayphep?.idLoaiGP ||
+      !fileUpload.fileGiayPhep && fileUpload.fileGiayPhep
     ) {
       let res: string | undefined = undefined;
 
-      if (!licenseData?.businessId && licenseData?.businessId > 0) {
+      if (!business?.id) {
         res = 'Chủ giấy phép*';
-      } else if (!licenseData?.licenseNumber) {
+      } else if (!giayphep?.soGP) {
         res = 'Số giấy phép*';
-      } else if (!licenseData?.signDate) {
+      } else if (!giayphep?.ngayKy) {
         res = 'Ngày ký giấy phép*';
-      } else if (!licenseData?.issueDate) {
+      } else if (!giayphep?.ngayCoHieuLuc) {
         res = 'Ngày có hiệu lực *';
-      } else if (!licenseData?.licensingAuthorities) {
+      } else if (!giayphep?.coQuanCapPhep) {
         res = 'Cơ quan cấp phép *';
-      } else if (!licenseData?.licensingTypeId) {
+      } else if (!giayphep?.idLoaiGP) {
         res = 'Loại giấy phép *';
-      } else if (!licenseData?.licenseFile && !licenseData?.licenseFile !== null) {
+      } else if (!giayphep?.fileGiayPhep && !giayphep?.fileGiayPhep) {
         res = 'File giấy phép *';
       }
 
@@ -127,7 +128,7 @@ const FormLicense: FC<FormLicenseProps> = ({ data, closeDialogs, setPostSuccess 
     setFetching(true)
     try {
 
-      const saveCons = await saveData('cong-trinh/luu', constructionData);
+      const saveCons = await saveData('cong-trinh/luu', congtrinh);
 
       if (saveCons) {
         consItemDataDetele.map(async (e: any) => {
@@ -138,76 +139,77 @@ const FormLicense: FC<FormLicenseProps> = ({ data, closeDialogs, setPostSuccess 
           await saveData('hang-muc-ct/luu', e);
         })
 
-        const newLic = {
-          ...licenseData,
-          businessId: business.id,
-          constructionId: saveCons.id,
-          licenseFile: `${licenseData.licenseNumber?.replace(/\//g, "_").toLowerCase()}.pdf`
+        const filePath = `pdf/giay-phep/${giayphep?.coQuanCapPhep?.toLowerCase()}/${router.pathname.split('/')[2]}/${dayjs(giayphep?.ngayKy).year()}/${giayphep?.soGP?.replace(/\//g, "_").toLowerCase()}`;
+
+        const newfileGiayPhep = {
+          filePath: filePath,
+          fileName: giayphep?.fileGiayPhep,
+          file: fileUpload.fileGiayPhep
         }
 
-        const filePath = `pdf/giay-phep/${newLic?.licensingAuthorities?.toLowerCase()}/${router.pathname.split('/')[2]}/${dayjs(newLic?.signDate).year()}/${newLic?.licenseNumber?.replace(/\//g, "_").toLowerCase()}`;
-
-        const newLicenseFile = {
+        const newfileDonXinCP = {
           filePath: filePath,
-          fileName: newLic?.licenseFile,
-          file: fileUpload.licenseFile
+          fileName: giayphep?.fileDonXinCP,
+          file: fileUpload.fileDonXinCP
         }
 
-        const newLicenseRequestFile = {
+        const newfileGiayToLienQuan = {
           filePath: filePath,
-          fileName: newLic?.licenseRequestFile,
-          file: fileUpload.licenseRequestFile
+          fileName: giayphep?.fileGiayToLienQuan,
+          file: fileUpload.fileGiayToLienQuan
         }
 
-        const newRelatedDocumentFile = {
-          filePath: filePath,
-          fileName: newLic?.relatedDocumentFile,
-          file: fileUpload.relatedDocumentFile
+        const newLic: LicenseState = {
+          ...giayphep,
+          idTCCN: business.id,
+          idCT: saveCons.id,
+          fileGiayPhep: `${filePath}/${giayphep?.soGP?.replace(/\//g, "_").toLowerCase()}.pdf`
         }
 
         const saveLic = await saveData('giay-phep/luu', newLic);
 
         if (saveLic) {
-          if (newLicenseFile.fileName && newLicenseFile.fileName !== null && newLicenseFile.file && newLicenseFile.file !== null) {
-            await uploadFile(newLicenseFile)
+          if (newfileGiayPhep?.fileName && newfileGiayPhep?.fileName !== null && newfileGiayPhep?.file && newfileGiayPhep?.file !== null) {
+            await uploadFile(newfileGiayPhep)
           }
-          if (newLicenseRequestFile.fileName && newLicenseRequestFile.fileName !== null && newLicenseRequestFile.file && newLicenseRequestFile.file !== null) {
-            await uploadFile(newLicenseRequestFile)
+          if (newfileDonXinCP.fileName && newfileDonXinCP.fileName !== null && newfileDonXinCP.file && newfileDonXinCP.file !== null) {
+            await uploadFile(newfileDonXinCP)
           }
-          if (newRelatedDocumentFile.fileName && newRelatedDocumentFile.fileName !== null && newRelatedDocumentFile.file && newRelatedDocumentFile.file !== null) {
-            await uploadFile(newRelatedDocumentFile)
+          if (newfileGiayToLienQuan.fileName && newfileGiayToLienQuan.fileName !== null && newfileGiayToLienQuan.file && newfileGiayToLienQuan.file !== null) {
+            await uploadFile(newfileGiayToLienQuan)
           }
 
-          licenseFeeDataRemove?.map(async (e: any) => {
+          tiencpRemove?.map(async (e: any) => {
             const saveLicFee = await saveData('tien-cap-quyen/xoa', e)
             if (saveLicFee) {
-              await saveData('GP_TCQ/xoa', { id: 0, licenseId: saveLic.id, licenseFeeId: e.id });
+              await saveData('GP_TCQ/xoa', { id: 0, idGP: saveLic.id, idTCQ: e.id });
             }
           })
 
-          licenseFeeData?.map(async (e: any) => {
-            e.licensingAuthorities = newLic.licensingAuthorities;
+          tiencp?.map(async (e: any) => {
+            e.coQuanCapPhep = giayphep?.coQuanCapPhep;
             const saveLicFee = await saveData('tien-cap-quyen/luu', e);
             if (saveLicFee.id) {
-              const licFeeFile = {
-                filePath: `pdf/tien-cap-quyen/${e.licensingAuthorities.toLowerCase()}/${dayjs(e.signDate)?.year()}`,
+              const fileTCQ = {
+                filePath: `pdf/tien-cap-quyen/${e.coQuanCapPhep.toLowerCase()}/${dayjs(e.ngayKy)?.year()}`,
                 fileName: e?.filePDF,
                 file: e.fileUpload
               }
-              if (licFeeFile.fileName && licFeeFile.fileName !== null && licFeeFile.file && licFeeFile.file !== null) {
-                await uploadFile(licFeeFile)
+              if (fileTCQ.fileName && fileTCQ.fileName !== null && fileTCQ.file && fileTCQ.file !== null) {
+                await uploadFile(fileTCQ)
               }
 
-              await saveData('GP_TCQ/luu', { id: 0, licenseId: saveLic.id, licenseFeeId: saveLicFee.id });
+              await saveData('GP_TCQ/luu', { id: 0, idGP: saveLic.id, idTCQ: saveLicFee.id });
             }
           })
+
         }
 
         // Reset form fields
-        setConstructionData(emptyConstructionData);
-        setLicenseData(emptyLicenseData);
-        setLicenseFeeData([]);
-        setLicenseFeeDataRemove([])
+        setcongtrinh(emptyConstructionData);
+        setgiayphep(emptyLicenseData);
+        settiencp([]);
+        settiencpRemove([])
 
         typeof (setPostSuccess) === 'function' ? setPostSuccess(true) : '';
       }
@@ -226,8 +228,8 @@ const FormLicense: FC<FormLicenseProps> = ({ data, closeDialogs, setPostSuccess 
       setFetching(true)
       try {
         const data = await getData('to-chuc-ca-nhan/danh-sach');
-        if (licenseData?.businessId > 0) {
-          const singleBusiness = await getData(`to-chuc-ca-nhan/${licenseData?.businessId}`)
+        if (giayphep?.idTCCN && giayphep?.idTCCN > 0) {
+          const singleBusiness = await getData(`to-chuc-ca-nhan/${giayphep?.idTCCN}`)
           setBusiness(singleBusiness)
         }
         if (isMounted) {
@@ -249,7 +251,8 @@ const FormLicense: FC<FormLicenseProps> = ({ data, closeDialogs, setPostSuccess 
     return () => {
       isMounted = false; // Set the flag to false when unmounting
     };
-  }, [fileUpload.licenseFile, licenseData?.businessId, licenseData?.licenseFile, licenseData?.signDate, router.pathname, saveBusinessSuccess]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [saveBusinessSuccess]);
 
   const handleClose = () => {
     closeDialogs();
@@ -269,8 +272,8 @@ const FormLicense: FC<FormLicenseProps> = ({ data, closeDialogs, setPostSuccess 
                   <Autocomplete
                     size="small"
                     options={listBusiness}
-                    getOptionLabel={(option: any) => option.name}
-                    defaultValue={listBusiness?.find((option: any) => option.id === licenseData?.businessId) || null}
+                    getOptionLabel={(option: any) => option.tenTCCN}
+                    defaultValue={listBusiness?.find((option: any) => option.id === business?.id) || null}
                     isOptionEqualToValue={(option: any, value: any) => option.id === value.id}
                     onChange={(event, value) => setBusiness(value)}
                     renderInput={(params: any) => (
@@ -291,7 +294,7 @@ const FormLicense: FC<FormLicenseProps> = ({ data, closeDialogs, setPostSuccess 
                     type='text'
                     fullWidth
                     placeholder=''
-                    value={business?.address || ''} />
+                    value={business?.diaChi || ''} />
                 </Grid>
                 <Grid item xs={12} md={2} sm={12} alignContent={'center'}>
                   <FormBusiness isEdit={false} setPostSuccess={handleSaveBusinessSuccess} />
@@ -304,23 +307,23 @@ const FormLicense: FC<FormLicenseProps> = ({ data, closeDialogs, setPostSuccess 
           <LicenseFieldset data={data} onChange={handleLicenseChange} />
         </Grid>
         <Grid item xs={12}>
-          <LicenseFeeFeild data={licenseFeeData} onChange={handleLicenseFeeChange} />
+          <LicenseFeeFeild data={tiencp} onChange={handleLicenseFeeChange} />
         </Grid>
         <Grid item xs={12}>
           {
             router.pathname.split('/')[2] == 'nuoc-mat' ?
-              <SurfaceWaterField data={constructionData} onChange={handleConstructionChange} />
+              <SurfaceWaterField data={congtrinh} onChange={handleConstructionChange} />
               :
               router.pathname.split('/')[2] == 'nuoc-duoi-dat' ?
-                <GroundWaterField data={constructionData} onChange={handleConstructionChange} />
+                <GroundWaterField data={congtrinh} onChange={handleConstructionChange} />
                 :
                 router.pathname.split('/')[2] == 'xa-thai' ?
-                  <DischargeWaterField data={constructionData} onChange={handleConstructionChange} />
+                  <DischargeWaterField data={congtrinh} onChange={handleConstructionChange} />
                   : ''
           }
 
         </Grid>
-        {constructionData?.constructionTypeId === 7 ? (
+        {congtrinh?.constructionTypeId === 7 ? (
           <Grid item xs={12}>
             <ExploitItem data={consItemData} onChange={handleconsItemChange} />
           </Grid>

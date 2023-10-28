@@ -29,9 +29,8 @@ const LicenseFee = (props: LicenseFeeProps) => {
       field: 'soQDTCQ', headerAlign: 'center', headerName: 'Quyết định cấp quyền', minWidth: 180,
       renderCell: (data: any) => (
         <ShowFilePDF
-          name={data.row.soQDTCQ || ''}
-          src={`pdf/tien-cap-quyen/${data.row.coQuanCP.toLowerCase()}/${new Date(data.row.ngayKy).getFullYear()}/`}
-          fileName={data.row.filePDF || ''}
+          name={data.row.soQDTCQ}
+          src={data.row.filePDF}
         />
       ),
     },
@@ -39,9 +38,8 @@ const LicenseFee = (props: LicenseFeeProps) => {
     {
       field: 'qd_bosung', headerAlign: 'center', headerName: 'Quyết định bổ sung', minWidth: 180, renderCell: (data: any) => (
         <ShowFilePDF
-          name={data.row.qd_bosung?.soQDTCQ || ''}
-          src={`pdf/tien-cap-quyen/${data.row.coQuanCP.toLowerCase()}/${new Date(data.row.qd_bosung?.ngayKy).getFullYear()}/`}
-          fileName={data.row.qd_bosung?.filePDF || ''}
+          name={data.row.qd_bosung?.soQDTCQ}
+          src={data.row.qd_bosung?.filePDF}
         />
       )
     },
@@ -59,9 +57,8 @@ const LicenseFee = (props: LicenseFeeProps) => {
           {params.row.giayphep.map((e: any) => (
             <div key={e.id}>
               <ShowFilePDF
-                name={e?.soGP || ''}
-                src={`/pdf/giay-phep/${e.coQuanCapPhep?.toLowerCase()}/${new Date(e?.ngayKy).getFullYear()}/`}
-                fileName={e?.filePDF || ''}
+                name={e?.soGP}
+                src={e?.fileGiayPhep}
               />
             </div>
           ))}
