@@ -55,7 +55,7 @@ const GroundConstruction = () => {
       field: 'thoiGianHNK',
       headerAlign: 'center',
       headerName: 'Thời gian hành nghề khoan',
-      minWidth: 150,
+      minWidth: 150
     },
 
     //coordinates
@@ -87,7 +87,8 @@ const GroundConstruction = () => {
           Q<sub>khai thác</sub> (m<sup>3</sup>/ng.đêm)
         </span>
       ),
-      minWidth: 150
+      minWidth: 150,
+      renderCell: data => <span>{data.row.thongso?.qKhaiThac}</span>
     },
     {
       field: 'wellWL',
@@ -98,7 +99,8 @@ const GroundConstruction = () => {
           H<sub>giếng khai thác</sub>
         </span>
       ),
-      minWidth: 150
+      minWidth: 150,
+      renderCell: data => <span>{data.row.thongso?.hGiengKT}</span>
     },
     {
       field: 'monitoringWellWL',
@@ -109,13 +111,44 @@ const GroundConstruction = () => {
           H<sub>giếng quan trắc</sub>
         </span>
       ),
-      minWidth: 150
+      minWidth: 150,
+      renderCell: data => <span>{data.row.thongso?.hgieng}</span>
     },
-    { field: 'exploitMethod', headerAlign: 'center', headerName: 'Chế độ KT (giờ/ng.đêm)', minWidth: 150 },
-    { field: 'staticWL', headerAlign: 'center', headerName: 'Chiều sâu MN tĩnh(m)', minWidth: 150 },
-    { field: 'dynamicWL', headerAlign: 'center', headerName: 'Chiều sâu MN động max(m)', minWidth: 150 },
-    { field: 'exploitAquifer', headerAlign: 'center', headerName: 'Tầng chứa nước KT', minWidth: 150 },
-    { field: 'lowWL', headerAlign: 'center', headerName: 'Mực nước hạ thấp', minWidth: 150 },
+    {
+      field: 'exploitMethod',
+      headerAlign: 'center',
+      headerName: 'Chế độ KT (giờ/ng.đêm)',
+      minWidth: 150,
+      renderCell: data => <span>{data.row?.cheDoKT}</span>
+    },
+    {
+      field: 'staticWL',
+      headerAlign: 'center',
+      headerName: 'Chiều sâu MN tĩnh(m)',
+      minWidth: 150,
+      renderCell: data => <span>{data.row.thongso?.mucNuocTinh}</span>
+    },
+    {
+      field: 'dynamicWL',
+      headerAlign: 'center',
+      headerName: 'Chiều sâu MN động max(m)',
+      minWidth: 150,
+      renderCell: data => <span>{data.row.thongso?.mucNuocDong}</span>
+    },
+    {
+      field: 'exploitAquifer',
+      headerAlign: 'center',
+      headerName: 'Tầng chứa nước KT',
+      minWidth: 150,
+      renderCell: data => <span>{data.row.thongso?.tangChuaNuocKT}</span>
+    },
+    {
+      field: 'lowWL',
+      headerAlign: 'center',
+      headerName: 'Mực nước hạ thấp',
+      minWidth: 150,
+      renderCell: data => <span>{data.row.thongso?.hHaThap}</span>
+    },
 
     //license
     {
@@ -145,9 +178,7 @@ const GroundConstruction = () => {
       renderCell: params => (
         <div style={{ width: '100%' }}>
           {params.row.giayphep?.map((e: any) => (
-            <div key={e.id}>
-              {e.thoiHan}
-            </div>
+            <div key={e.id}>{e.thoiHan}</div>
           ))}
         </div>
       )
@@ -166,9 +197,7 @@ const GroundConstruction = () => {
               <div key={e.id}>
                 <ShowFilePDF
                   name={e?.soQDTCQ || ''}
-                  src={`/pdf/tien-cap-quyen/${e.coQuanCP?.toLowerCase()}/${new Date(
-                    e?.ngayKy
-                  ).getFullYear()}/`}
+                  src={`/pdf/tien-cap-quyen/${e.coQuanCP?.toLowerCase()}/${new Date(e?.ngayKy).getFullYear()}/`}
                   fileName={e?.filePDF || ''}
                 />
               </div>
@@ -228,7 +257,7 @@ const GroundConstruction = () => {
         { field: 'soLuongGiengKT' },
         { field: 'thoiGianHNK' },
         { field: 'namBatDauVanHanh' },
-        { field: 'sohieu' },
+        { field: 'sohieu' }
       ]
     },
     {
@@ -281,7 +310,7 @@ const GroundConstruction = () => {
   const [mapZoom, setMapZoom] = useState(9)
   const [showLabel, setShowLabel] = useState(false)
   const [resData, setResData] = useState([])
-  const [dataFiltered, setDataFiltered] = useState([]);
+  const [dataFiltered, setDataFiltered] = useState([])
   const [loading, setLoading] = useState(false)
   const router = useRouter()
 
@@ -305,7 +334,10 @@ const GroundConstruction = () => {
   })
 
   const [initConsType, setInitConstype] = useState<any>([
-    'nuocduoidat', 'khaithac', 'thamdo', 'congtrinh_nuocduoidatkhac'
+    'nuocduoidat',
+    'khaithac',
+    'thamdo',
+    'congtrinh_nuocduoidatkhac'
   ])
 
   const isMounted = useRef(true)
@@ -326,7 +358,9 @@ const GroundConstruction = () => {
           if (isMounted.current) {
             setResData(data)
           }
+          console.log(data)
         })
+
         .catch(error => {
           console.error(error)
         })
@@ -343,9 +377,9 @@ const GroundConstruction = () => {
       initConsType.some((keyword: any) =>
         item['loaiCT']?.['maLoaiCT']?.toString().toLowerCase().includes(keyword.toLowerCase())
       )
-    );
+    )
     setDataFiltered(filteredData)
-  }, [initConsType, resData]);
+  }, [initConsType, resData])
 
   const handleFilterChange = (data: any, postSuccess: boolean | undefined) => {
     setParamsFilter(data)
@@ -360,8 +394,8 @@ const GroundConstruction = () => {
   }
 
   const handleConsTypeChange = (data: any) => {
-    setInitConstype(data);
-  };
+    setInitConstype(data)
+  }
 
   return (
     <Grid container spacing={2}>
