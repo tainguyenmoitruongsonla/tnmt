@@ -262,7 +262,18 @@ const navigation = (): VerticalNavItemsType => {
         {
           icon: CircleOutline,
           title: 'HSKT Trạm',
-          path: '/thong-tin-du-lieu/hskt-tram'
+          children: [
+            {
+              title: 'Nước mặt',
+              icon: CircleOutline,
+              path: '/thong-tin-du-lieu/hskt-tram/nuoc-mat'
+            },
+            {
+              title: 'Nước dưới đất',
+              icon: CircleOutline,
+              path: '/thong-tin-du-lieu/hskt-tram/nuoc-duoi-dat'
+            },
+          ]
         },
         {
           title: 'DM nguồn nước',
