@@ -265,14 +265,9 @@ const navigation = (): VerticalNavItemsType => {
           path: '/thong-tin-du-lieu/hskt-tram'
         },
         {
-          title: 'DM lưu vực sông',
+          title: 'DM nguồn nước',
           icon: CircleOutline,
           children: [
-            {
-              title: 'Tiểu vùng QH',
-              icon: CircleOutline,
-              path: '/thong-tin-du-lieu/tieu-vung-quy-hoach'
-            },
             {
               title: 'Hành lang BVNN',
               icon: CircleOutline,

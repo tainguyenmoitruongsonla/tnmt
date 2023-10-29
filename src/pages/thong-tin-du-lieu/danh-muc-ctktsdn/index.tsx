@@ -1,4 +1,4 @@
-import CategoryOfCons from "src/views/data-information/category-construction"
+import CategoryOfCons from "src/views/data-information/category-mnnt"
 
 const QuaityPages = () => <CategoryOfCons />
 
