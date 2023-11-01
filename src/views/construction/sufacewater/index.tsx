@@ -60,7 +60,7 @@ const SurfaceConstruction = () => {
       field: 'phuongThucKT',
       headerAlign: 'center',
       headerName: 'Phương thức khai thác',
-      minWidth: 300
+      minWidth: 400
     },
     {
       field: 'cheDoKT',

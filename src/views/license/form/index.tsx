@@ -27,7 +27,6 @@ import { useRouter } from 'next/router';
 import SurfaceWaterField from 'src/views/construction/form/cons-suface';
 import GroundWaterField from 'src/views/construction/form/cons-ground';
 import DischargeWaterField from 'src/views/construction/form/cons-discharge';
-import ExploitItem from 'src/views/construction/form/exploit-item';
 import dayjs from 'dayjs';
 
 const FormLicense: FC<FormLicenseProps> = ({ data, closeDialogs, setPostSuccess }) => {
@@ -323,15 +322,9 @@ const FormLicense: FC<FormLicenseProps> = ({ data, closeDialogs, setPostSuccess 
           }
 
         </Grid>
-        {congtrinh?.constructionTypeId === 7 ? (
-          <Grid item xs={12}>
-            <ExploitItem data={consItemData} onChange={handleconsItemChange} />
-          </Grid>
-        ) : (
-          <Grid item xs={12}>
+        <Grid item xs={12}>
             <ConstructionItem data={consItemData} onChange={handleconsItemChange} />
           </Grid>
-        )}
       </Grid>
       <DialogActions sx={{ p: 0, mt: 5 }}>
         <Button size='small' onClick={handleClose} className='btn cancleBtn'>

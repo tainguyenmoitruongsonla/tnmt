@@ -12,8 +12,8 @@ const ConstructionItem: FC<ConstructionItemFieldProps> = ({ data, onChange }) =>
   const initialLicenseFees: ConstructionItemState[] = data
     ? data.map((e: ConstructionItemState) => ({
         id: e.id,
-        constructionId: e.constructionId,
-        name: e.name,
+        idCT: e.idCT,
+        tenHangMuc: e.tenHangMuc,
         x: e.x,
         y: e.y,
        
@@ -26,8 +26,8 @@ const ConstructionItem: FC<ConstructionItemFieldProps> = ({ data, onChange }) =>
   const addConstructionItem = () => {
     const newItem: ConstructionItemState = {
       id: 0,
-      constructionId: 0,
-      name: '',
+      idCT: 0,
+      tenHangMuc: '',
       x: 0,
       y: 0,
       
@@ -129,8 +129,8 @@ const ConstructionItem: FC<ConstructionItemFieldProps> = ({ data, onChange }) =>
                     fullWidth
                     placeholder='Tên hạng mục'
                     size='small'
-                    value={item.name}
-                    onChange={event => handleChange(index, 'name')(event.target.value)}
+                    value={item.tenHangMuc}
+                    onChange={event => handleChange(index, 'tenHangMuc')(event.target.value)}
                   />
                 </TableCell>
                 <TableCell>
@@ -156,14 +156,14 @@ const ConstructionItem: FC<ConstructionItemFieldProps> = ({ data, onChange }) =>
                 <TableCell size='small' align='center'>
                   <>
                     <IconButton
-                      aria-describedby={`${item.name}-${index}`}
+                      aria-describedby={`${item.tenHangMuc}-${index}`}
                       onClick={(event) => DeleteRowData(event, index)} // Pass the index here
-                      data-row-id={`${item.name}-${index}`}
+                      data-row-id={`${item.tenHangMuc}-${index}`}
                     >
                       <Delete className='tableActionBtn deleteBtn' />
                     </IconButton>
                     <Popover
-                      id={deleteConfirmOpen ? `${item.name}-${index}` : undefined}
+                      id={deleteConfirmOpen ? `${item.tenHangMuc}-${index}` : undefined}
                       open={deleteConfirmOpen}
                       anchorEl={deleteConfirmAnchorEl}
                       onClose={handleDeleteCancel}

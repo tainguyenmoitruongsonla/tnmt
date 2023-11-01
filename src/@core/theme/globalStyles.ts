@@ -37,7 +37,6 @@ const GlobalStyles = (theme: Theme) => {
 
     '&.MuiDataGrid-cell': {
       color: '#2f2f2f',
-      whiteSpace: 'normal !important'
     },
 
     '#nprogress': {
