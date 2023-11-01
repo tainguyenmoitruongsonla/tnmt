@@ -5,7 +5,6 @@ import DialogsControlFullScreen from 'src/@core/components/dialog-control-full-s
 import ConstructionItem from './cons-item'
 import { useRouter } from 'next/router'
 import GroundWaterField from './cons-ground'
-import ExploitItem from './exploit-item'
 import SurfaceWaterField from './cons-suface'
 import DischargeWaterField from './cons-discharge'
 import { deleteData, saveData } from 'src/api/axios'
@@ -20,6 +19,10 @@ const FormConstruction: React.FC<FormConstructionProps> = ({ data, closeDialogs,
 
   //Construction
   const [consSFData, setConsSFData] = useState<any>(data)
+  console.log(consSFData);
+  
+
+  // const [consSpecData, setConsSpecData] = useState<any>(data)
   const [saving, setSaving] = useState(false);
   const handleConsSFChange = (data: any) => {
     setConsSFData(data)
@@ -27,6 +30,7 @@ const FormConstruction: React.FC<FormConstructionProps> = ({ data, closeDialogs,
 
   //ConstructionItem
   const [consItemData, setConsItemData] = useState<any>(data?.constructionItems)
+  console.log(consItemData);
   const [consItemDataDetele, setConsItemDataDelete] = useState<any>()
 
   //Hooks
@@ -48,6 +52,9 @@ const FormConstruction: React.FC<FormConstructionProps> = ({ data, closeDialogs,
         if (res) {
           // Reset form fields
           setConsSFData({})
+
+          // setConsSpecData({})
+          // await saveData('cong-trinh/luu', {...consSpecData, idCT: res.id})
 
           consItemDataDetele.map(async (e: any) => {
             await deleteData('hang-muc-ct/xoa', e)
@@ -97,15 +104,9 @@ const FormConstruction: React.FC<FormConstructionProps> = ({ data, closeDialogs,
             ''
           )}
         </Grid>
-        {consSFData?.constructionTypeId === 7 ? (
-          <Grid item xs={12}>
-            <ExploitItem data={consItemData} onChange={handleconsItemChange} />
-          </Grid>
-        ) : (
-          <Grid item xs={12}>
+        <Grid item xs={12}>
             <ConstructionItem data={consItemData} onChange={handleconsItemChange} />
           </Grid>
-        )}
       </Grid>
 
       <DialogActions sx={{ p: 0, mt: 5 }}>
@@ -149,6 +150,7 @@ const CreateConstruction: React.FC<CreateConstructionProps> = ({ isEdit, data, s
             </Tooltip>
           ) : (
             <Button
+            variant='outlined'
               size='small'
               startIcon={<Add />}
               onClick={() =>

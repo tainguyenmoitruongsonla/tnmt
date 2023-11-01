@@ -28,10 +28,11 @@ const Map = dynamic(() => import('src/@core/components/map'), { ssr: false })
 const DischargeConstruction = () => {
   //Init columnTable
   const columnsTable: GridColDef[] = [
-    { field: 'id', headerAlign: 'center', headerName: 'ID', minWidth: 90 },
+    { field: 'id', headerAlign: 'center', sortable: false, headerName: 'ID', minWidth: 90 },
     {
       field: 'tenCT',
       headerAlign: 'center',
+      sortable: false,
       headerName: 'Tên công trình',
       minWidth: 350,
       renderCell: data => (
@@ -40,22 +41,29 @@ const DischargeConstruction = () => {
         </Typography>
       )
     },
-    { field: 'viTriCT', headerAlign: 'center', headerName: 'Vị trí công trình', minWidth: 350 },
-    { field: 'viTriXT', headerAlign: 'center', headerName: 'Ví trí xả thải', minWidth: 250 },
-    { field: 'nguonNuocXT', headerAlign: 'center', headerName: 'Nguồn tiếp nhận nước thải', minWidth: 250 },
+    { field: 'viTriCT', headerAlign: 'center', sortable: false, headerName: 'Vị trí công trình', minWidth: 350 },
+    { field: 'viTriXT', headerAlign: 'center', sortable: false, headerName: 'Ví trí xả thải', minWidth: 250 },
+    {
+      field: 'nguonNuocXT',
+      headerAlign: 'center',
+      sortable: false,
+      headerName: 'Nguồn tiếp nhận nước thải',
+      minWidth: 250
+    },
 
     //coordinates
-    { field: 'x', headerAlign: 'center', headerName: 'X', minWidth: 150 },
-    { field: 'y', headerAlign: 'center', headerName: 'Y', minWidth: 150 },
+    { field: 'x', headerAlign: 'center', sortable: false, headerName: 'X', minWidth: 150 },
+    { field: 'y', headerAlign: 'center', sortable: false, headerName: 'Y', minWidth: 150 },
 
     //constructionDetails
     {
       field: 'phuongThucXT',
       headerAlign: 'center',
+      sortable: false,
       headerName: 'Phương thức xả nước thải',
-      minWidth: 150,
+      minWidth: 150
     },
-    { field: 'cHeDoXT', headerAlign: 'center', headerName: 'Chế độ xả nước thải', minWidth: 150 },
+    { field: 'cHeDoXT', headerAlign: 'center', sortable: false, headerName: 'Chế độ xả nước thải', minWidth: 150 },
     {
       field: 'qXaThaiTB',
       headerAlign: 'center',
@@ -81,96 +89,93 @@ const DischargeConstruction = () => {
     {
       field: 'kqKf',
       headerAlign: 'center',
+      sortable: false,
       headerName: 'Chất lượng nước thải (hệ số Kq và Kf)',
       minWidth: 150,
       renderCell: data => <span>{data.row.thongso?.kqKf}</span>
     },
 
-        //license
-        {
-            field: 'so_gp',
-            headerAlign: 'center',
-            headerName: 'Số GP',
-            minWidth: 150,
-            renderCell: params => (
-                <div style={{ width: '100%' }}>
-                    {params.row.giayphep?.map((e: any) => (
-                        <div key={e.id}>
-                            <ShowFilePDF
-                                name={e?.soGP}
-                                src={e?.fileGiayPhep}
-                            />
-                        </div>
-                    ))}
-                </div>
-            )
-        },
-        {
-            field: 'ngaycap_gp',
-            headerAlign: 'center',
-            headerName: 'Thời hạn',
-            minWidth: 150,
-            renderCell: params => (
-                <div style={{ width: '100%' }}>
-                    {params.row.giayphep?.map((e: any) => (
-                        <div key={e.id}>
-                            {e.thoiHan}
-                        </div>
-                    ))}
-                </div>
-            )
-        },
+    //license
+    {
+      field: 'so_gp',
+      headerAlign: 'center',
+      sortable: false,
+      headerName: 'Số GP',
+      minWidth: 150,
+      renderCell: params => (
+        <div style={{ width: '100%' }}>
+          {params.row.giayphep?.map((e: any) => (
+            <div key={e.id}>
+              <ShowFilePDF name={e?.soGP} src={e?.fileGiayPhep} />
+            </div>
+          ))}
+        </div>
+      )
+    },
+    {
+      field: 'ngaycap_gp',
+      headerAlign: 'center',
+      sortable: false,
+      headerName: 'Thời hạn',
+      minWidth: 150,
+      renderCell: params => (
+        <div style={{ width: '100%' }}>
+          {params.row.giayphep?.map((e: any) => (
+            <div key={e.id}>{e.thoiHan}</div>
+          ))}
+        </div>
+      )
+    },
 
-        //licenseFee
-        {
-            field: 'qd_tcq',
-            headerAlign: 'center',
-            headerName: 'Số QĐ',
-            minWidth: 150,
-            renderCell: params => (
-                <div style={{ width: '100%' }}>
-                    {params.row.giayphep?.map((e: any) =>
-                        e?.tiencq.map((e: any) => (
-                            <div key={e.id}>
-                                <ShowFilePDF
-                                    name={e?.soQDTCQ}
-                                    src={e?.filePDF}
-                                />
-                            </div>
-                        ))
-                    )}
-                </div>
-            )
-        },
-        {
-            field: 'tong_tcq',
-            headerAlign: 'center',
-            headerName: 'Tổng tiền cấp quyền (VNĐ)',
-            minWidth: 150,
-            type: 'number',
-            renderCell: params => (
-                <div style={{ width: '100%' }}>
-                    {params.row.giayphep?.map((e: any) =>
-                        e?.tiencq.map((e: any) => (
-                            <div key={e.id}>
-                                {e.tongTienCQ.toLocaleString('vi-VN', {
-                                    style: 'currency',
-                                    currency: 'VND'
-                                })}
-                            </div>
-                        ))
-                    )}
-                </div>
-            )
-        },
+    //licenseFee
+    {
+      field: 'qd_tcq',
+      headerAlign: 'center',
+      sortable: false,
+      headerName: 'Số QĐ',
+      minWidth: 150,
+      renderCell: params => (
+        <div style={{ width: '100%' }}>
+          {params.row.giayphep?.map((e: any) =>
+            e?.tiencq.map((e: any) => (
+              <div key={e.id}>
+                <ShowFilePDF name={e?.soQDTCQ} src={e?.filePDF} />
+              </div>
+            ))
+          )}
+        </div>
+      )
+    },
+    {
+      field: 'tong_tcq',
+      headerAlign: 'center',
+      sortable: false,
+      headerName: 'Tổng tiền cấp quyền (VNĐ)',
+      minWidth: 150,
+      type: 'number',
+      renderCell: params => (
+        <div style={{ width: '100%' }}>
+          {params.row.giayphep?.map((e: any) =>
+            e?.tiencq.map((e: any) => (
+              <div key={e.id}>
+                {e.tongTienCQ.toLocaleString('vi-VN', {
+                  style: 'currency',
+                  currency: 'VND'
+                })}
+              </div>
+            ))
+          )}
+        </div>
+      )
+    },
 
     //Action
     {
       field: 'actions',
       headerAlign: 'center',
+      sortable: false,
       headerName: '#',
       minWidth: 120,
-      sortable: false,
       renderCell: data => (
         <Box>
           <CreateConstruction isEdit={true} data={data.row} setPostSuccess={handlePostSuccess} />

@@ -1,230 +1,158 @@
 export interface ConstructionState {
-  id: number
-  constructionParentTypeId?: number
-  constructionTypeId?: number
-  provinceId?: number
-  districtId?: number
-  communeId?: number
-  riverId?: number
-  basinId?: number
-  subBasinId?: number
-  aquiferId?: number
-  constructionName?: string | null
-  constructionCode?: string | null
-  constructionLocation?: string | null
+  id?: number | null
+  idLoaiCT?: number | null
+  idXa?: string | null
+  idHuyen?: string | null
+  idSong?: number | null
+  idLuuVuc?: number | null
+  idTieuLuuVuc?: number | null
+  idTangChuaNuoc?: number | null
+  taiKhoan?: string | null
+  tenCT?: string | null
+  maCT?: string | null
+  viTriCT?: string | null
   x?: number | null
   y?: number | null
-  startDate?: number | null
-  exploitedWS?: string | null
-  exploitMode?: string | null
-  exploitMethod?: string | null
-  exploitPurpose?: string | null
-  dischargeMethod?: string | null
-  dischargeMode?: string | null
-  dischargeWS?: string | null
-  dischargeFlow?: number | null
-  maximumDischargeFlow?: number | null
-  exploitMaxFlow?: number | null
-  maximumFlow?: number | null
-  minimumFlow?: number | null
-  maximumWasteWaterFlow?: number | null
-  ower?: number | null
-  pumpCapacity?: number | null
-  overflowFlow?: number | null
-  riseWL?: number | null
-  deadWL?: number | null
-  preFlootMaxWL?: number | null
-  flootWL?: number | null
-  upstreamWL?: number | null
-  downstreamWL?: number | null
-  deadCapacity?: number | null
-  usefulCapacity?: number | null
-  totalCapacity?: number | null
-  damHeight?: number | null
-  damWidth?: number | null
-  drainElevation?: number | null
-  drainLength?: number | null
-  drainDiameter?: number | null
-  drainSize?: number | null
-  pumpNumber?: number | null
-  pumpDesignFlow?: number | null
-  pumpMaxFlow?: number | null
-  suctionTankWL?: number | null
-  waterSupplyFlow?: number | null
-  exploitDuration?: string | null
-  drillingDuration?: string | null
-  drillingPurpose?: string | null
-  explorationPurposes?: string | null
-  drillingScale?: string | null
-  constructionTime?: string | null
-  designFloodLevel?: number | null
-  checkFloodWL?: number | null
-  numberExploitWells?: number | null
-  amountWaterExploited?: number | null
-  numberMonitoringWells?: number | null
-  description?: string | null
-  wellNumber?: string | null
-  monitoringWellWL?: number | null
-  wellWL?: number | null
-  waterDepthFrom?: number | null
-  waterDepthTo?: number | null
-  lowWL?: number | null
-  staticWL?: number | null
-  dynamicWL?: number | null
-  volumeOfExplorationItems?: string | null
-  waterExtractionFlowDesign?: number | null
-  waterExtractionFlowReality?: number | null
-  WasteDischargeLocation?: string | null
-  realityWateringArea?: number | null
-  wateringAreaDesigned?: number | null
-  guaranteedFlow?: number | null
-  hmax?: number | null
-  hmin?: number | null
-  htt?: number | null
-  realityFlow?: number | null
-  flowDesigned?: number | null
-  flowAvgForYears?: number | null
-  rainAvgForYears?: number | null
-  basinArea?: number | null
-  averageDischargeFlow?: number | null
-  smallPlanningArea?: string | null
-  guaranteedPower?: number | null
-  constructionLevel?: string | null
-  kqKf?: string | null
-  damElevation?: number | null
-  averagePumpTime?: string | null
-  maximumPumpTime?: string | null
-  minimumPumpTime?: string | null
-  maximumDischargeFlowPre?: number | null
-  capacityPre?: number | null
-  downstreamWLPre?: number | null
-  upstreamWLPre?: number | null
-  minimumFlowPre?: number | null
-  maximumFlowPre?: number | null
-  power?: number | null
-  exploitAquifer?: number | null
-  probeAquifer?: number | null
+  namBatDauVanHanh?: number | null
+  nguonNuocKT?: string | null
+  cheDoKT?: string | null
+  mucDichhKT?: string | null
+  phuongThucKT?: string | null
+  phuongThucXT?: string | null
+  cHeDoXT?: string | null
+  nguonNuocXT?: string | null
+  thoiGianKT?: string | null
+  thoiGianHNK?: string | null
+  mucDichHNK?: string | null
+  mucDichhTD?: string | null
+  quyMoHNK?: string | null
+  thoiGianXD?: string | null
+  soLuongGiengKT?: number | null
+  soLuongGiengQT?: number | null
+  chuThich?: string | null
+  soLuongGieng?: number | null
+  khoiLuongCacHangMucTD?: number | null
+  qktThietKe?: number | null
+  qktThucTe?: number | null
+  viTriXT?: string | null
+}
+
+export interface ConstructionSpecState {
+  id?:number | null
+  idCT?:number | null
+  idHangMucCT?:number | null
+  capCT?:number | null
+  dienTichLuuVuc?:number | null
+  muaTrungBinhNam?:number | null
+  qTrungBinhNam?:number | null
+  congSuatLM?:number | null
+  congSuatDamBao?:number | null
+  chieuCaoDap?:number | null
+  chieuDaiDap?:number | null
+  caoTrinhDap?:number | null
+  qmaxNM?:number | null
+  qtt?:number | null
+  qDamBao?:number | null
+  hmax?:number | null
+  hmin?:number | null
+  htoiThieu?:number | null
+  mnc?:number | null
+  mndbt?:number | null
+  mnltk?:number | null
+  mnlkt?:number | null
+  dungTichToanBo?:number | null
+  dungTichChet?:number | null
+  dungTichHuuIch?:number | null
+  caoTrinhCong?:number | null
+  chieuDaiCong?:number | null
+  chieuRongCong?:number | null
+  kichThuocCong?:number | null
+  soLuongMayBom?:number | null
+  qThietKe?:number | null
+  qThucTe?:number | null
+  dienTichTuoiThietKe?:number | null
+  dienTichTuoiThucTe?:number | null
+  thoiGianBomTB?:number | null
+  thoiGianBomNhoNhat?:number | null
+  thoiGianBomLonNhat?:number | null
+  chieuSauDoanThuNuocTu?:number | null
+  chieuSauDoanThuNuocDen?:number | null
+  qktCapNuocSinhHoat?:number | null
+  hgieng?:number | null
+  hGiengKT?:number | null
+  phuongThucKT?:number | null
+  mucNuocTinh?:number | null
+  mucNuocDong?:number | null
+  tangChuaNuocKT?:number | null
+  hHaThap?:number | null
+  luongNuocKT?:number | null
+  hDatOngLocTu?:number | null
+  hDatOngLocDen?:number | null
+  qktLonNhat?:number | null
+  congSuatBom?:number | null
+  qXaThaiTB?:number | null
+  qXaThaiLonNhat?:number | null
+  kqKf?:number | null
+  qXaTran?:number | null
+  qLonNhatTruocLu?:number | null
+  hlu?:number | null
+  hThuongLuu?:number | null
+  hHaLuu?:number | null
+  qBomThietKe?:number | null
+  qBomLonNhat?:number | null
+  hBeHut?:number | null
+  qXaThai?:number | null
+  qMaxXaThai?:number | null
+  qKhaiThac?:number | null
+  qMaxKT?:number | null
 }
 
 export const emptyConstructionData: ConstructionState = {
   id: 0,
-  constructionTypeId: 0,
-  provinceId: 0,
-  districtId: 0,
-  communeId: 0,
-  riverId: 0,
-  basinId: 0,
-  subBasinId: 0,
-  aquiferId: 0,
-  constructionName: null,
-  constructionCode: null,
-  constructionLocation: null,
+  idLoaiCT: null,
+  idXa: null,
+  idHuyen: null,
+  idSong: null,
+  idLuuVuc: null,
+  idTieuLuuVuc: null,
+  idTangChuaNuoc: null,
+  taiKhoan: null,
+  tenCT: null,
+  maCT: null,
+  viTriCT: null,
   x: null,
   y: null,
-  startDate: null,
-  exploitedWS: null,
-  exploitMode: null,
-  exploitMethod: null,
-  exploitPurpose: null,
-  dischargeMethod: null,
-  dischargeMode: null,
-  dischargeWS: null,
-  dischargeFlow: null,
-  maximumDischargeFlow: null,
-  exploitMaxFlow: null,
-  maximumFlow: null,
-  minimumFlow: null,
-  maximumWasteWaterFlow: null,
-  ower: null,
-  pumpCapacity: null,
-  overflowFlow: null,
-  riseWL: null,
-  deadWL: null,
-  preFlootMaxWL: null,
-  flootWL: null,
-  upstreamWL: null,
-  downstreamWL: null,
-  deadCapacity: null,
-  usefulCapacity: null,
-  totalCapacity: null,
-  damHeight: null,
-  damWidth: null,
-  drainElevation: null,
-  drainLength: null,
-  drainDiameter: null,
-  drainSize: null,
-  pumpNumber: null,
-  pumpDesignFlow: null,
-  pumpMaxFlow: null,
-  suctionTankWL: null,
-  waterSupplyFlow: null,
-  exploitDuration: null,
-  drillingDuration: null,
-  drillingPurpose: null,
-  explorationPurposes: null,
-  drillingScale: null,
-  constructionTime: null,
-  designFloodLevel: null,
-  checkFloodWL: null,
-  amountWaterExploited: null,
-  description: null,
-  wellNumber: null,
-  monitoringWellWL: null,
-  wellWL: null,
-  waterDepthFrom: null,
-  waterDepthTo: null,
-  lowWL: null,
-  staticWL: null,
-  dynamicWL: null,
-  volumeOfExplorationItems: null,
-  waterExtractionFlowDesign: null,
-  waterExtractionFlowReality: null,
-  WasteDischargeLocation: null,
-  realityWateringArea: null,
-  wateringAreaDesigned: null,
-  guaranteedFlow: null,
-  hmax: null,
-  hmin: null,
-  htt: null,
-  realityFlow: null,
-  flowDesigned: null,
-  flowAvgForYears: null,
-  rainAvgForYears: null,
-  basinArea: null,
-  averageDischargeFlow: null,
-  smallPlanningArea: null,
-  guaranteedPower: null,
-  constructionLevel: null,
-  kqKf: null,
-  damElevation: null,
-  averagePumpTime: null,
-  maximumPumpTime: null,
-  minimumPumpTime: null,
-  maximumDischargeFlowPre: null,
-  capacityPre: null,
-  downstreamWLPre: null,
-  upstreamWLPre: null,
-  minimumFlowPre: null,
-  maximumFlowPre: null,
-  power: null,
-  exploitAquifer: null,
-  probeAquifer: null,
-};
-
+  namBatDauVanHanh: null,
+  nguonNuocKT: null,
+  cheDoKT: null,
+  mucDichhKT: null,
+  phuongThucKT: null,
+  phuongThucXT: null,
+  cHeDoXT: null,
+  nguonNuocXT: null,
+  thoiGianKT: null,
+  thoiGianHNK: null,
+  mucDichHNK: null,
+  mucDichhTD: null,
+  quyMoHNK: null,
+  thoiGianXD: null,
+  soLuongGiengKT: null,
+  soLuongGiengQT: null,
+  chuThich: null,
+  soLuongGieng: null,
+  khoiLuongCacHangMucTD: null,
+  qktThietKe: null,
+  qktThucTe: null,
+  viTriXT: null,
+}
 
 // Construction Items State
 export interface ConstructionItemState {
-  id?: number;
-  constructionId?: number;
-  name?: string;
-  x?: number;
-  y?: number;
-  amountWaterExploited?: number | null;
-  miningMode?: number | null;
-  waterDepthFrom?: number | null;
-  waterDepthTo?: number | null
-  staticWL?: number | null
-  dynamicWL?: number | null
-  depthFilterTubeFrom?: number | null
-  depthFilterTubeTo?: number | null
+  id?: number
+  idCT?: number
+  idTangChuaNuoc?: number
+  tenHangMuc?: string
+  viTriHangMuc?: string
+  x?: number
+  y?: number
 }

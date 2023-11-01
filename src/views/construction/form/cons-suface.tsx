@@ -1,70 +1,121 @@
 import { Typography, Grid, Autocomplete, TextField, CircularProgress } from '@mui/material'
 import { useEffect, FC, useState, Fragment } from 'react'
-import { ConstructionState } from './construction-interface'
+import { ConstructionSpecState, ConstructionState } from './construction-interface'
 import { getData } from 'src/api/axios'
 
 interface ConsTypeFieldsetProps {
   data?: any // Thêm prop data để truyền dữ liệu từ ngoài vào
-  onChange: (data: ConstructionState) => void
+  onChange: (data: any) => void
 }
 
 const SurfaceWaterField: FC<ConsTypeFieldsetProps> = ({ data, onChange }) => {
   const [consSFData, setConsSFData] = useState<ConstructionState>({
-    id: data?.id || 0,
-    constructionParentTypeId: data?.constructionParentTypeId || 1,
-    constructionTypeId: data?.constructionTypeId || 0,
-    provinceId: data?.provinceId || 51,
-    districtId: data?.districtId || 0,
-    communeId: data?.communeId || 0,
-    riverId: data?.riverId || 0,
-    basinId: data?.basinId || 0,
-    subBasinId: data?.subBasinId || 0,
-    aquiferId: data?.aquiferId || 0,
-    constructionName: data?.constructionName || '',
-    constructionCode: data?.constructionCode || '',
-    constructionLocation: data?.constructionLocation || '',
+    id: data?.id || null,
+    idLoaiCT: data?.idLoaiCT || null,
+    idXa: data?.idXa || null,
+    idHuyen: data?.idHuyen || null,
+    idSong: data?.idSong || null,
+    idLuuVuc: data?.idLuuVuc || null,
+    idTieuLuuVuc: data?.idTieuLuuVuc || null,
+    idTangChuaNuoc: data?.idTangChuaNuoc || null,
+    taiKhoan: data?.taiKhoan || null,
+    tenCT: data?.tenCT || null,
+    maCT: data?.maCT || null,
+    viTriCT: data?.viTriCT || null,
     x: data?.x || null,
     y: data?.y || null,
-    startDate: data?.startDate || null,
-    constructionTime: data?.constructionTime || '',
-    smallPlanningArea: data?.smallPlanningArea || '',
-    exploitedWS: data?.exploitedWS || '',
-    exploitMethod: data?.exploitMethod || '',
-    exploitMode: data?.exploitMode || '',
-    constructionLevel: data?.constructionLevel || '',
-    basinArea: data?.basinArea || null,
-    rainAvgForYears: data?.rainAvgForYears || null,
-    flowAvgForYears: data?.flowAvgForYears || null,
-    power: data?.power || null,
-    guaranteedPower: data?.guaranteedPower || null,
-    damHeight: data?.damHeight || null,
-    maximumFlow: data?.maximumFlow || null,
-    minimumFlow: data?.minimumFlow || null,
-    guaranteedFlow: data?.guaranteedFlow || null,
-    hmax: data?.hmax || null,
-    hmin: data?.hmin || null,
-    htt: data?.htt || null,
-    deadWL: data?.deadWL || null,
-    riseWL: data?.riseWL || null,
-    designFloodLevel: data?.designFloodLevel || null,
-    checkFloodWL: data?.checkFloodWL || null,
-    totalCapacity: data?.totalCapacity || null,
-    deadCapacity: data?.deadCapacity || null,
-    usefulCapacity: data?.usefulCapacity || null,
-    pumpNumber: data?.pumpNumber || null,
-    wateringAreaDesigned: data?.wateringAreaDesigned || null,
-    realityWateringArea: data?.realityWateringArea || null,
-    flowDesigned: data?.flowDesigned || null,
-    realityFlow: data?.realityFlow || null,
-    pumpDesignFlow: data?.pumpDesignFlow || null,
-    pumpMaxFlow: data?.pumpMaxFlow || null,
-    suctionTankWL: data?.suctionTankWL || null,
-    drainElevation: data?.drainElevation || null,
-    drainLength: data?.drainLength || null,
-    drainDiameter: data?.drainDiameter || null,
-    drainSize: data?.drainSize || null
+    namBatDauVanHanh: data?.namBatDauVanHanh || null,
+    nguonNuocKT: data?.nguonNuocKT || null,
+    cheDoKT: data?.cheDoKT || null,
+    mucDichhKT: data?.mucDichhKT || null,
+    phuongThucKT: data?.phuongThucKT || null,
+    phuongThucXT: data?.phuongThucXT || null,
+    cHeDoXT: data?.cHeDoXT || null,
+    nguonNuocXT: data?.nguonNuocXT || null,
+    thoiGianKT: data?.thoiGianKT || null,
+    thoiGianHNK: data?.thoiGianHNK || null,
+    mucDichHNK: data?.mucDichHNK || null,
+    mucDichhTD: data?.mucDichhTD || null,
+    quyMoHNK: data?.quyMoHNK || null,
+    thoiGianXD: data?.thoiGianXD || null,
+    soLuongGiengKT: data?.soLuongGiengKT || null,
+    soLuongGiengQT: data?.soLuongGiengQT || null,
+    chuThich: data?.chuThich || null,
+    soLuongGieng: data?.soLuongGieng || null,
+    khoiLuongCacHangMucTD: data?.khoiLuongCacHangMucTD || null,
+    qktThietKe: data?.qktThietKe || null,
+    qktThucTe: data?.qktThucTe || null,
+    viTriXT: data?.viTriXT || null
   })
-
+  const [consSpec, setConsSpec] = useState<ConstructionSpecState>({
+    id: data?.thongso?.id || 0,
+    idCT: data?.thongso?.idCT || 0,
+    idHangMucCT: data?.thongso?.idHangMucCT || 0,
+    capCT: data?.thongso?.capCT || 0,
+    dienTichLuuVuc: data?.thongso?.dienTichLuuVuc || 0,
+    muaTrungBinhNam: data?.thongso?.muaTrungBinhNam || 0,
+    qTrungBinhNam: data?.thongso?.qTrungBinhNam || 0,
+    congSuatLM: data?.thongso?.congSuatLM || 0,
+    congSuatDamBao: data?.thongso?.congSuatDamBao || 0,
+    chieuCaoDap: data?.thongso?.chieuCaoDap || 0,
+    chieuDaiDap: data?.thongso?.chieuDaiDap || 0,
+    caoTrinhDap: data?.thongso?.caoTrinhDap || 0,
+    qmaxNM: data?.thongso?.qmaxNM || 0,
+    qtt: data?.thongso?.qtt || 0,
+    qDamBao: data?.thongso?.qDamBao || 0,
+    hmax: data?.thongso?.hmax || 0,
+    hmin: data?.thongso?.hmin || 0,
+    htoiThieu: data?.thongso?.htoiThieu || 0,
+    mnc: data?.thongso?.mnc || 0,
+    mndbt: data?.thongso?.mndbt || 0,
+    mnltk: data?.thongso?.mnltk || 0,
+    mnlkt: data?.thongso?.mnlkt || 0,
+    dungTichToanBo: data?.thongso?.dungTichToanBo || 0,
+    dungTichChet: data?.thongso?.dungTichChet || 0,
+    dungTichHuuIch: data?.thongso?.dungTichHuuIch || 0,
+    caoTrinhCong: data?.thongso?.caoTrinhCong || 0,
+    chieuDaiCong: data?.thongso?.chieuDaiCong || 0,
+    chieuRongCong: data?.thongso?.chieuRongCong || 0,
+    kichThuocCong: data?.thongso?.kichThuocCong || 0,
+    soLuongMayBom: data?.thongso?.soLuongMayBom || 0,
+    qThietKe: data?.thongso?.qThietKe || 0,
+    qThucTe: data?.thongso?.qThucTe || 0,
+    dienTichTuoiThietKe: data?.thongso?.dienTichTuoiThietKe || 0,
+    dienTichTuoiThucTe: data?.thongso?.dienTichTuoiThucTe || 0,
+    thoiGianBomTB: data?.thongso?.thoiGianBomTB || 0,
+    thoiGianBomNhoNhat: data?.thongso?.thoiGianBomNhoNhat || 0,
+    thoiGianBomLonNhat: data?.thongso?.thoiGianBomLonNhat || 0,
+    chieuSauDoanThuNuocTu: data?.thongso?.chieuSauDoanThuNuocTu || 0,
+    chieuSauDoanThuNuocDen: data?.thongso?.chieuSauDoanThuNuocDen || 0,
+    qktCapNuocSinhHoat: data?.thongso?.qktCapNuocSinhHoat || 0,
+    hgieng: data?.thongso?.hgieng || 0,
+    hGiengKT: data?.thongso?.hGiengKT || 0,
+    phuongThucKT: data?.thongso?.phuongThucKT || 0,
+    mucNuocTinh: data?.thongso?.mucNuocTinh || 0,
+    mucNuocDong: data?.thongso?.mucNuocDong || 0,
+    tangChuaNuocKT: data?.thongso?.tangChuaNuocKT || 0,
+    hHaThap: data?.thongso?.hHaThap || 0,
+    luongNuocKT: data?.thongso?.luongNuocKT || 0,
+    hDatOngLocTu: data?.thongso?.hDatOngLocTu || 0,
+    hDatOngLocDen: data?.thongso?.hDatOngLocDen || 0,
+    qktLonNhat: data?.thongso?.qktLonNhat || 0,
+    congSuatBom: data?.thongso?.congSuatBom || 0,
+    qXaThaiTB: data?.thongso?.qXaThaiTB || 0,
+    qXaThaiLonNhat: data?.thongso?.qXaThaiLonNhat || 0,
+    kqKf: data?.thongso?.kqKf || 0,
+    qXaTran: data?.thongso?.qXaTran || 0,
+    qLonNhatTruocLu: data?.thongso?.qLonNhatTruocLu || 0,
+    hlu: data?.thongso?.hlu || 0,
+    hThuongLuu: data?.thongso?.hThuongLuu || 0,
+    hHaLuu: data?.thongso?.hHaLuu || 0,
+    qBomThietKe: data?.thongso?.qBomThietKe || 0,
+    qBomLonNhat: data?.thongso?.qBomLonNhat || 0,
+    hBeHut: data?.thongso?.hBeHut || 0,
+    qXaThai: data?.thongso?.qXaThai || 0,
+    qMaxXaThai: data?.thongso?.qMaxXaThai || 0,
+    qKhaiThac: data?.thongso?.qKhaiThac || 0,
+    qMaxKT: 0
+  })
   const [consType, setconsType] = useState<any>([])
   const [district, setDistrict] = useState<any>([])
   const [commune, setCommune] = useState<any>([])
@@ -76,21 +127,19 @@ const SurfaceWaterField: FC<ConsTypeFieldsetProps> = ({ data, onChange }) => {
         setLoading(true)
 
         //constructionType
-        const consTypes = await getData('loai-ct/danh-sach');
-        const filteredData = consTypes.filter((item: any) => item.parentId === 1);
-        setconsType(filteredData);
+        const consTypes = await getData('loai-ct/danh-sach')
+        const filteredData = consTypes.filter((item: any) => item.idCha === 1)
+        setconsType(filteredData)
 
         //district
-        const distric = await getData('hanh-chinh/huyen/danh-sach');
-        setDistrict(distric);
+        const distric = await getData('hanh-chinh/huyen/danh-sach')
+        setDistrict(distric)
 
         //commune
-        const communes = await getData(`hanh-chinh/danh-sach/xa`);
-        const communeFiltered = communes.filter((item: any) => item.districtId == consSFData?.districtId?.toString())
-        setCommune(communeFiltered);
-
+        const communes = await getData(`hanh-chinh/xa/danh-sach`)
+        const communeFiltered = communes.filter((item: any) => item.idHuyen == consSFData?.idHuyen?.toString())
+        setCommune(communeFiltered)
       } catch (error) {
-
         //console.log(error)
       } finally {
         setLoading(false)
@@ -98,13 +147,17 @@ const SurfaceWaterField: FC<ConsTypeFieldsetProps> = ({ data, onChange }) => {
     }
 
     getDataForSelect()
-    setCommune([]);
+    setCommune([])
+  }, [consSFData?.idHuyen])
 
-  }, [consSFData?.districtId])
-
-  const handleChange = (prop: keyof ConstructionState) => (value: any) => {
-    setConsSFData({ ...consSFData, constructionParentTypeId: 1, [prop]: value })
-    onChange({ ...consSFData, constructionParentTypeId: 1, [prop]: value })
+  const handleChange = (prop: keyof ConstructionState | keyof ConstructionSpecState) => (value: any) => {
+    setConsSFData({ ...consSFData, [prop]: value })
+    setConsSpec({ ...consSpec, [prop]: value })
+    const dataChange = {
+      consSFData:consSFData,
+      consSpec:consSpec
+    }
+    onChange({ ...dataChange, [prop]: value })
   }
 
   return (
@@ -121,19 +174,27 @@ const SurfaceWaterField: FC<ConsTypeFieldsetProps> = ({ data, onChange }) => {
               disabled={loading}
               size='small'
               options={consType}
-              getOptionLabel={(option: any) => option.typeName}
-              value={consType.find((option: any) => option.id === consSFData.constructionTypeId) || null}
+              getOptionLabel={(option: any) => option.tenLoaiCT}
+              value={consType.find((option: any) => option.id === consSFData.idLoaiCT) || null}
               isOptionEqualToValue={(option: any) => option.id}
-              onChange={(_, value) => handleChange('constructionTypeId')(value?.id || 0)}
-              renderInput={params => <TextField required {...params} fullWidth label='Chọn loại hình công trình' InputProps={{
-                ...params.InputProps,
-                endAdornment: (
-                  <Fragment>
-                    {loading && <CircularProgress color='primary' size={20} />}
-                    {params.InputProps.endAdornment}
-                  </Fragment>
-                ),
-              }} />}
+              onChange={(_, value) => handleChange('idLoaiCT')(value?.id || 0)}
+              renderInput={params => (
+                <TextField
+                  required
+                  {...params}
+                  fullWidth
+                  label='Chọn loại hình công trình'
+                  InputProps={{
+                    ...params.InputProps,
+                    endAdornment: (
+                      <Fragment>
+                        {loading && <CircularProgress color='primary' size={20} />}
+                        {params.InputProps.endAdornment}
+                      </Fragment>
+                    )
+                  }}
+                />
+              )}
             />
           </Grid>
 
@@ -144,8 +205,8 @@ const SurfaceWaterField: FC<ConsTypeFieldsetProps> = ({ data, onChange }) => {
               label='Tên công trình'
               fullWidth
               placeholder=''
-              value={consSFData.constructionName || ''}
-              onChange={event => handleChange('constructionName')(event.target.value)}
+              value={consSFData.tenCT || ''}
+              onChange={event => handleChange('tenCT')(event.target.value)}
             />
           </Grid>
           <Grid item xs={12} md={6} sm={12} sx={{ my: 2 }}>
@@ -156,8 +217,8 @@ const SurfaceWaterField: FC<ConsTypeFieldsetProps> = ({ data, onChange }) => {
               label='Địa điểm công trình'
               multiline
               maxRows={4}
-              value={consSFData.constructionLocation || ''}
-              onChange={event => handleChange('constructionLocation')(event.target.value)}
+              value={consSFData.viTriCT || ''}
+              onChange={event => handleChange('viTriCT')(event.target.value)}
             />
           </Grid>
         </Grid>
@@ -168,40 +229,56 @@ const SurfaceWaterField: FC<ConsTypeFieldsetProps> = ({ data, onChange }) => {
               disabled={loading}
               size='small'
               options={district}
-              getOptionLabel={(option: any) => option.districtName}
-              value={district.find((option: any) => option.districtId === consSFData.districtId?.toString()) || null}
-              isOptionEqualToValue={(option: any) => option.districtId}
-              onChange={(_, value) => handleChange('districtId')(value?.districtId || 0)}
-              renderInput={params => <TextField required {...params} fullWidth label='Chọn Quận/Huyện' InputProps={{
-                ...params.InputProps,
-                endAdornment: (
-                  <Fragment>
-                    {loading && <CircularProgress color='primary' size={20} />}
-                    {params.InputProps.endAdornment}
-                  </Fragment>
-                ),
-              }} />}
+              getOptionLabel={(option: any) => option.tenHuyen}
+              value={district.find((option: any) => option.idHuyen === consSFData.idHuyen?.toString()) || null}
+              isOptionEqualToValue={(option: any) => option.idHuyen}
+              onChange={(_, value) => handleChange('idHuyen')(value?.idHuyen || 0)}
+              renderInput={params => (
+                <TextField
+                  required
+                  {...params}
+                  fullWidth
+                  label='Chọn Quận/Huyện'
+                  InputProps={{
+                    ...params.InputProps,
+                    endAdornment: (
+                      <Fragment>
+                        {loading && <CircularProgress color='primary' size={20} />}
+                        {params.InputProps.endAdornment}
+                      </Fragment>
+                    )
+                  }}
+                />
+              )}
             />
           </Grid>
 
           <Grid item xs={12} md={3} sm={12} sx={{ my: 2 }}>
             <Autocomplete
-              disabled={consSFData?.districtId !== undefined && consSFData.districtId == 0}
+              disabled={consSFData?.idHuyen !== undefined && consSFData.idHuyen == null}
               size='small'
               options={commune}
-              getOptionLabel={(option: any) => option.communeName}
-              value={commune.find((option: any) => option.communeId === consSFData.communeId?.toString()) || null}
-              isOptionEqualToValue={(option: any) => option.communeId}
-              onChange={(_, value) => handleChange('communeId')(value?.communeId || 0)}
-              renderInput={params => <TextField {...params} variant='outlined' fullWidth label='Chọn Xã/phường' InputProps={{
-                ...params.InputProps,
-                endAdornment: (
-                  <Fragment>
-                    {loading && <CircularProgress color='primary' size={20} />}
-                    {params.InputProps.endAdornment}
-                  </Fragment>
-                ),
-              }} />}
+              getOptionLabel={(option: any) => option.tenXa}
+              value={commune.find((option: any) => option.idXa === consSFData.idXa?.toString()) || null}
+              isOptionEqualToValue={(option: any) => option.idXa}
+              onChange={(_, value) => handleChange('idXa')(value?.idXa || 0)}
+              renderInput={params => (
+                <TextField
+                  {...params}
+                  variant='outlined'
+                  fullWidth
+                  label='Chọn Xã/phường'
+                  InputProps={{
+                    ...params.InputProps,
+                    endAdornment: (
+                      <Fragment>
+                        {loading && <CircularProgress color='primary' size={20} />}
+                        {params.InputProps.endAdornment}
+                      </Fragment>
+                    )
+                  }}
+                />
+              )}
             />
           </Grid>
           <Grid item xs={12} md={3} sm={12} sx={{ my: 2 }}>
@@ -211,8 +288,8 @@ const SurfaceWaterField: FC<ConsTypeFieldsetProps> = ({ data, onChange }) => {
               fullWidth
               label='Năm vận hành'
               placeholder=''
-              value={consSFData.startDate || ''}
-              onChange={event => handleChange('startDate')(event.target.value)}
+              value={consSFData.namBatDauVanHanh || ''}
+              onChange={event => handleChange('namBatDauVanHanh')(event.target.value)}
             />
           </Grid>
           <Grid item xs={12} md={3} sm={12} sx={{ my: 2 }}>
@@ -222,8 +299,8 @@ const SurfaceWaterField: FC<ConsTypeFieldsetProps> = ({ data, onChange }) => {
               fullWidth
               placeholder=''
               label='Năm xây dựng'
-              value={consSFData.constructionTime || ''}
-              onChange={event => handleChange('constructionTime')(event.target.value)}
+              value={consSFData.thoiGianXD || ''}
+              onChange={event => handleChange('thoiGianXD')(event.target.value)}
             />
           </Grid>
         </Grid>
@@ -257,18 +334,25 @@ const SurfaceWaterField: FC<ConsTypeFieldsetProps> = ({ data, onChange }) => {
               size='small'
               options={consType}
               getOptionLabel={(option: any) => option.label}
-              value={consType.find((option: any) => option.value === consSFData.constructionTypeId) || null}
+              value={consType.find((option: any) => option.value === consSFData.idLoaiCT) || null}
               isOptionEqualToValue={(option: any) => option.id}
-              onChange={(_, value) => handleChange('constructionTypeId')(value?.id || 0)}
-              renderInput={params => <TextField  {...params} fullWidth label='Chọn tiểu vùng quy hoạch' InputProps={{
-                ...params.InputProps,
-                endAdornment: (
-                  <Fragment>
-                    {loading && <CircularProgress color='primary' size={20} />}
-                    {params.InputProps.endAdornment}
-                  </Fragment>
-                ),
-              }} />}
+              onChange={(_, value) => handleChange('idLoaiCT')(value?.id || 0)}
+              renderInput={params => (
+                <TextField
+                  {...params}
+                  fullWidth
+                  label='Chọn tiểu vùng quy hoạch'
+                  InputProps={{
+                    ...params.InputProps,
+                    endAdornment: (
+                      <Fragment>
+                        {loading && <CircularProgress color='primary' size={20} />}
+                        {params.InputProps.endAdornment}
+                      </Fragment>
+                    )
+                  }}
+                />
+              )}
             />
           </Grid>
           <Grid item xs={12} md={3} sm={12} sx={{ my: 2 }}>
@@ -276,21 +360,28 @@ const SurfaceWaterField: FC<ConsTypeFieldsetProps> = ({ data, onChange }) => {
               size='small'
               options={consType}
               getOptionLabel={(option: any) => option.title}
-              renderInput={params => <TextField {...params} variant='outlined' fullWidth label='Chọn lưu vực sông' InputProps={{
-                ...params.InputProps,
-                endAdornment: (
-                  <Fragment>
-                    {loading && <CircularProgress color='primary' size={20} />}
-                    {params.InputProps.endAdornment}
-                  </Fragment>
-                ),
-              }} />}
+              renderInput={params => (
+                <TextField
+                  {...params}
+                  variant='outlined'
+                  fullWidth
+                  label='Chọn lưu vực sông'
+                  InputProps={{
+                    ...params.InputProps,
+                    endAdornment: (
+                      <Fragment>
+                        {loading && <CircularProgress color='primary' size={20} />}
+                        {params.InputProps.endAdornment}
+                      </Fragment>
+                    )
+                  }}
+                />
+              )}
             />
           </Grid>
         </Grid>
 
         <Grid container spacing={4}>
-
           <Grid item xs={12} md={12} sm={12} sx={{ my: 2 }}>
             <TextField
               size='small'
@@ -299,8 +390,8 @@ const SurfaceWaterField: FC<ConsTypeFieldsetProps> = ({ data, onChange }) => {
               placeholder=''
               multiline
               maxRows={4}
-              value={consSFData.exploitedWS || ''}
-              onChange={event => handleChange('exploitedWS')(event.target.value)}
+              value={consSFData.nguonNuocKT || ''}
+              onChange={event => handleChange('nguonNuocKT')(event.target.value)}
               label='Nguồn nước khai thác'
             />
           </Grid>
@@ -315,8 +406,8 @@ const SurfaceWaterField: FC<ConsTypeFieldsetProps> = ({ data, onChange }) => {
               placeholder=''
               multiline
               maxRows={4}
-              value={consSFData.exploitMethod || ''}
-              onChange={event => handleChange('exploitMethod')(event.target.value)}
+              value={consSFData.phuongThucKT || ''}
+              onChange={event => handleChange('phuongThucKT')(event.target.value)}
               label='Phương thức khai thác'
             />
           </Grid>
@@ -328,8 +419,8 @@ const SurfaceWaterField: FC<ConsTypeFieldsetProps> = ({ data, onChange }) => {
               type='text'
               fullWidth
               placeholder=''
-              value={consSFData.exploitMode || ''}
-              onChange={event => handleChange('exploitMode')(event.target.value)}
+              value={consSFData.cheDoKT || ''}
+              onChange={event => handleChange('cheDoKT')(event.target.value)}
               label='Chế độ khai thác'
             />
           </Grid>
@@ -337,7 +428,7 @@ const SurfaceWaterField: FC<ConsTypeFieldsetProps> = ({ data, onChange }) => {
       </fieldset>
 
       {/*check thuydien va ho chua */}
-      {consSFData?.constructionTypeId === 4 || consSFData?.constructionTypeId === 5 ? (
+      {consSFData?.idLoaiCT === 4 || consSFData?.idLoaiCT === 5 ? (
         <Grid item xs={12}>
           <fieldset>
             <legend>
@@ -353,8 +444,8 @@ const SurfaceWaterField: FC<ConsTypeFieldsetProps> = ({ data, onChange }) => {
                   label='Cấp công trình'
                   fullWidth
                   placeholder=''
-                  value={consSFData.constructionLevel || ''}
-                  onChange={event => handleChange('constructionLevel')(event.target.value)}
+                  value={consSpec.capCT|| ''}
+                  onChange={event => handleChange('capCT')(event.target.value)}
                 />
               </Grid>
               <Grid item xs={12} md={3} sm={12} sx={{ my: 2 }}>
@@ -364,8 +455,8 @@ const SurfaceWaterField: FC<ConsTypeFieldsetProps> = ({ data, onChange }) => {
                   label='Diện tích lưu vực'
                   fullWidth
                   placeholder=''
-                  value={consSFData.basinArea || ''}
-                  onChange={event => handleChange('basinArea')(event.target.value)}
+                  value={consSpec.dienTichLuuVuc || ''}
+                  onChange={event => handleChange('dienTichLuuVuc')(event.target.value)}
                 />
               </Grid>
               <Grid item xs={12} md={3} sm={12} sx={{ my: 2 }}>
@@ -375,8 +466,8 @@ const SurfaceWaterField: FC<ConsTypeFieldsetProps> = ({ data, onChange }) => {
                   label='Lượng mưa trung bình nhiều năm'
                   fullWidth
                   placeholder=''
-                  value={consSFData.rainAvgForYears || ''}
-                  onChange={event => handleChange('rainAvgForYears')(event.target.value)}
+                  value={consSpec.muaTrungBinhNam || ''}
+                  onChange={event => handleChange('muaTrungBinhNam')(event.target.value)}
                 />
               </Grid>
               <Grid item xs={12} md={3} sm={12} sx={{ my: 2 }}>
@@ -386,8 +477,8 @@ const SurfaceWaterField: FC<ConsTypeFieldsetProps> = ({ data, onChange }) => {
                   label='Lưu lượng trung bình nhiều năm'
                   fullWidth
                   placeholder=''
-                  value={consSFData.flowAvgForYears || ''}
-                  onChange={event => handleChange('flowAvgForYears')(event.target.value)}
+                  value={consSpec.qTrungBinhNam || ''}
+                  onChange={event => handleChange('qTrungBinhNam')(event.target.value)}
                 />
               </Grid>
             </Grid>
@@ -400,8 +491,8 @@ const SurfaceWaterField: FC<ConsTypeFieldsetProps> = ({ data, onChange }) => {
                   label='Công suất'
                   fullWidth
                   placeholder=''
-                  value={consSFData.power || ''}
-                  onChange={event => handleChange('power')(event.target.value)}
+                  value={consSpec.congSuatLM || ''}
+                  onChange={event => handleChange('congSuatLM')(event.target.value)}
                 />
               </Grid>
               <Grid item xs={12} md={3} sm={12} sx={{ my: 2 }}>
@@ -411,8 +502,8 @@ const SurfaceWaterField: FC<ConsTypeFieldsetProps> = ({ data, onChange }) => {
                   label='Công suất đảm bảo'
                   fullWidth
                   placeholder=''
-                  value={consSFData.guaranteedPower || ''}
-                  onChange={event => handleChange('guaranteedPower')(event.target.value)}
+                  value={consSpec.congSuatDamBao || ''}
+                  onChange={event => handleChange('congSuatDamBao')(event.target.value)}
                 />
               </Grid>
               <Grid item xs={12} md={3} sm={12} sx={{ my: 2 }}>
@@ -422,8 +513,8 @@ const SurfaceWaterField: FC<ConsTypeFieldsetProps> = ({ data, onChange }) => {
                   label='Chiều cao đập'
                   fullWidth
                   placeholder=''
-                  value={consSFData.damHeight || ''}
-                  onChange={event => handleChange('damHeight')(event.target.value)}
+                  value={consSpec.chieuCaoDap || ''}
+                  onChange={event => handleChange('chieuCaoDap')(event.target.value)}
                 />
               </Grid>
               <Grid item xs={12} md={3} sm={12} sx={{ my: 2 }}>
@@ -433,8 +524,8 @@ const SurfaceWaterField: FC<ConsTypeFieldsetProps> = ({ data, onChange }) => {
                   label='Lưu lượng tối đa'
                   fullWidth
                   placeholder=''
-                  value={consSFData.maximumFlow || ''}
-                  onChange={event => handleChange('maximumFlow')(event.target.value)}
+                  value={consSpec.qmaxNM || ''}
+                  onChange={event => handleChange('qmaxNM')(event.target.value)}
                 />
               </Grid>
             </Grid>
@@ -447,8 +538,8 @@ const SurfaceWaterField: FC<ConsTypeFieldsetProps> = ({ data, onChange }) => {
                   label='Lưu lượng tối thiểu'
                   fullWidth
                   placeholder=''
-                  value={consSFData.minimumFlow || ''}
-                  onChange={event => handleChange('minimumFlow')(event.target.value)}
+                  value={consSpec.qtt || ''}
+                  onChange={event => handleChange('qtt')(event.target.value)}
                 />
               </Grid>
               <Grid item xs={12} md={3} sm={12} sx={{ my: 2 }}>
@@ -458,18 +549,18 @@ const SurfaceWaterField: FC<ConsTypeFieldsetProps> = ({ data, onChange }) => {
                   label='Lưu lượng đảm bảo'
                   fullWidth
                   placeholder=''
-                  value={consSFData.guaranteedFlow || ''}
-                  onChange={event => handleChange('guaranteedFlow')(event.target.value)}
+                  value={consSpec.qDamBao || ''}
+                  onChange={event => handleChange('qDamBao')(event.target.value)}
                 />
               </Grid>
               <Grid item xs={12} md={3} sm={12} sx={{ my: 2 }}>
                 <TextField
                   size='small'
                   type='text'
-                  label='Hmax'
+                  label='hmax'
                   fullWidth
                   placeholder=''
-                  value={consSFData.hmax || ''}
+                  value={consSpec.hmax || ''}
                   onChange={event => handleChange('hmax')(event.target.value)}
                 />
               </Grid>
@@ -480,7 +571,7 @@ const SurfaceWaterField: FC<ConsTypeFieldsetProps> = ({ data, onChange }) => {
                   label='Hmin'
                   fullWidth
                   placeholder=''
-                  value={consSFData.hmin || ''}
+                  value={consSpec.hmin || ''}
                   onChange={event => handleChange('hmin')(event.target.value)}
                 />
               </Grid>
@@ -494,8 +585,8 @@ const SurfaceWaterField: FC<ConsTypeFieldsetProps> = ({ data, onChange }) => {
                   label='Htt'
                   fullWidth
                   placeholder=''
-                  value={consSFData.htt || ''}
-                  onChange={event => handleChange('htt')(event.target.value)}
+                  value={consSpec.htoiThieu || ''}
+                  onChange={event => handleChange('htoiThieu')(event.target.value)}
                 />
               </Grid>
 
@@ -506,8 +597,8 @@ const SurfaceWaterField: FC<ConsTypeFieldsetProps> = ({ data, onChange }) => {
                   label='Dung tích toàn bộ'
                   fullWidth
                   placeholder=''
-                  value={consSFData.totalCapacity || ''}
-                  onChange={event => handleChange('totalCapacity')(event.target.value)}
+                  value={consSpec.dungTichToanBo || ''}
+                  onChange={event => handleChange('dungTichToanBo')(event.target.value)}
                 />
               </Grid>
               <Grid item xs={12} md={3} sm={12} sx={{ my: 2 }}>
@@ -517,8 +608,8 @@ const SurfaceWaterField: FC<ConsTypeFieldsetProps> = ({ data, onChange }) => {
                   label='Dung tích chết'
                   fullWidth
                   placeholder=''
-                  value={consSFData.deadCapacity || ''}
-                  onChange={event => handleChange('deadCapacity')(event.target.value)}
+                  value={consSpec.dungTichChet || ''}
+                  onChange={event => handleChange('dungTichChet')(event.target.value)}
                 />
               </Grid>
               <Grid item xs={12} md={3} sm={12} sx={{ my: 2 }}>
@@ -528,12 +619,12 @@ const SurfaceWaterField: FC<ConsTypeFieldsetProps> = ({ data, onChange }) => {
                   label='Dung tích hữu ích'
                   fullWidth
                   placeholder=''
-                  value={consSFData.usefulCapacity || ''}
-                  onChange={event => handleChange('usefulCapacity')(event.target.value)}
+                  value={consSpec.dungTichHuuIch || ''}
+                  onChange={event => handleChange('dungTichHuuIch')(event.target.value)}
                 />
               </Grid>
             </Grid>
-            {consSFData?.constructionTypeId === 4 ? (
+            {consSFData?.idLoaiCT === 4 ? (
               <Grid item xs={12}>
                 <Grid container spacing={4}>
                   <Grid item xs={12} md={3} sm={12} sx={{ my: 2 }}>
@@ -543,8 +634,8 @@ const SurfaceWaterField: FC<ConsTypeFieldsetProps> = ({ data, onChange }) => {
                       label='Mực nước chết'
                       fullWidth
                       placeholder=''
-                      value={consSFData.deadWL || ''}
-                      onChange={event => handleChange('deadWL')(event.target.value)}
+                      value={consSpec.mnc || ''}
+                      onChange={event => handleChange('mnc')(event.target.value)}
                     />
                   </Grid>
                   <Grid item xs={12} md={3} sm={12} sx={{ my: 2 }}>
@@ -554,8 +645,8 @@ const SurfaceWaterField: FC<ConsTypeFieldsetProps> = ({ data, onChange }) => {
                       label='Mực nước dâng bình thường'
                       fullWidth
                       placeholder=''
-                      value={consSFData.riseWL || ''}
-                      onChange={event => handleChange('riseWL')(event.target.value)}
+                      value={consSpec.mndbt || ''}
+                      onChange={event => handleChange('mndbt')(event.target.value)}
                     />
                   </Grid>
                   <Grid item xs={12} md={3} sm={12} sx={{ my: 2 }}>
@@ -565,8 +656,8 @@ const SurfaceWaterField: FC<ConsTypeFieldsetProps> = ({ data, onChange }) => {
                       label='Mực nước lũ thiết kế'
                       fullWidth
                       placeholder=''
-                      value={consSFData.designFloodLevel || ''}
-                      onChange={event => handleChange('designFloodLevel')(event.target.value)}
+                      value={consSpec.mnltk || ''}
+                      onChange={event => handleChange('mnltk')(event.target.value)}
                     />
                   </Grid>
                   <Grid item xs={12} md={3} sm={12} sx={{ my: 2 }}>
@@ -576,8 +667,8 @@ const SurfaceWaterField: FC<ConsTypeFieldsetProps> = ({ data, onChange }) => {
                       label='Mực nước lũ kiểm tra'
                       fullWidth
                       placeholder=''
-                      value={consSFData.checkFloodWL || ''}
-                      onChange={event => handleChange('checkFloodWL')(event.target.value)}
+                      value={consSpec.mnlkt || ''}
+                      onChange={event => handleChange('mnlkt')(event.target.value)}
                     />
                   </Grid>
                 </Grid>
@@ -592,7 +683,7 @@ const SurfaceWaterField: FC<ConsTypeFieldsetProps> = ({ data, onChange }) => {
       )}
 
       {/* check form tram bom */}
-      {consSFData?.constructionTypeId === 6 ? (
+      {consSFData?.idLoaiCT === 6 ? (
         <fieldset>
           <legend>
             <Typography variant={'subtitle1'} className='legend__title'>
@@ -607,8 +698,8 @@ const SurfaceWaterField: FC<ConsTypeFieldsetProps> = ({ data, onChange }) => {
                 label='Số máy bơm'
                 fullWidth
                 placeholder=''
-                value={consSFData.pumpNumber || ''}
-                onChange={event => handleChange('pumpNumber')(event.target.value)}
+                value={consSpec.soLuongMayBom || ''}
+                onChange={event => handleChange('soLuongMayBom')(event.target.value)}
               />
             </Grid>
             <Grid item xs={12} md={3} sm={12} sx={{ my: 2 }}>
@@ -618,8 +709,8 @@ const SurfaceWaterField: FC<ConsTypeFieldsetProps> = ({ data, onChange }) => {
                 label='Diện tích tưới thiết kế'
                 fullWidth
                 placeholder=''
-                value={consSFData.wateringAreaDesigned || ''}
-                onChange={event => handleChange('wateringAreaDesigned')(event.target.value)}
+                value={consSpec.dienTichTuoiThietKe || ''}
+                onChange={event => handleChange('dienTichTuoiThietKe')(event.target.value)}
               />
             </Grid>
             <Grid item xs={12} md={3} sm={12} sx={{ my: 2 }}>
@@ -629,8 +720,8 @@ const SurfaceWaterField: FC<ConsTypeFieldsetProps> = ({ data, onChange }) => {
                 label='Lượng mưa tưới thực tế'
                 fullWidth
                 placeholder=''
-                value={consSFData.realityWateringArea || ''}
-                onChange={event => handleChange('realityWateringArea')(event.target.value)}
+                value={consSpec.dienTichTuoiThucTe || ''}
+                onChange={event => handleChange('dienTichTuoiThucTe')(event.target.value)}
               />
             </Grid>
             <Grid item xs={12} md={3} sm={12} sx={{ my: 2 }}>
@@ -640,8 +731,8 @@ const SurfaceWaterField: FC<ConsTypeFieldsetProps> = ({ data, onChange }) => {
                 label='Lưu lượng thiết kế'
                 fullWidth
                 placeholder=''
-                value={consSFData.flowDesigned || ''}
-                onChange={event => handleChange('flowDesigned')(event.target.value)}
+                value={consSpec.qThietKe || ''}
+                onChange={event => handleChange('qThietKe')(event.target.value)}
               />
             </Grid>
           </Grid>
@@ -654,8 +745,8 @@ const SurfaceWaterField: FC<ConsTypeFieldsetProps> = ({ data, onChange }) => {
                 label='Lưu lượng thực tế'
                 fullWidth
                 placeholder=''
-                value={consSFData.realityFlow || ''}
-                onChange={event => handleChange('realityFlow')(event.target.value)}
+                value={consSpec.qThucTe || ''}
+                onChange={event => handleChange('qThucTe')(event.target.value)}
               />
             </Grid>
             <Grid item xs={12} md={3} sm={12} sx={{ my: 2 }}>
@@ -669,8 +760,8 @@ const SurfaceWaterField: FC<ConsTypeFieldsetProps> = ({ data, onChange }) => {
                 }
                 fullWidth
                 placeholder=''
-                value={consSFData.pumpDesignFlow || ''}
-                onChange={event => handleChange('pumpDesignFlow')(event.target.value)}
+                value={consSpec.qBomThietKe || ''}
+                onChange={event => handleChange('qBomThietKe')(event.target.value)}
               />
             </Grid>
             <Grid item xs={12} md={3} sm={12} sx={{ my: 2 }}>
@@ -684,8 +775,8 @@ const SurfaceWaterField: FC<ConsTypeFieldsetProps> = ({ data, onChange }) => {
                 }
                 fullWidth
                 placeholder=''
-                value={consSFData.pumpMaxFlow || ''}
-                onChange={event => handleChange('pumpMaxFlow')(event.target.value)}
+                value={consSpec.qBomLonNhat || ''}
+                onChange={event => handleChange('qBomLonNhat')(event.target.value)}
               />
             </Grid>
             <Grid item xs={12} md={3} sm={12} sx={{ my: 2 }}>
@@ -695,8 +786,8 @@ const SurfaceWaterField: FC<ConsTypeFieldsetProps> = ({ data, onChange }) => {
                 label='Mực nước bể hút'
                 fullWidth
                 placeholder=''
-                value={consSFData.suctionTankWL || ''}
-                onChange={event => handleChange('suctionTankWL')(event.target.value)}
+                value={consSpec.hBeHut || ''}
+                onChange={event => handleChange('hBeHut')(event.target.value)}
               />
             </Grid>
           </Grid>
@@ -707,7 +798,7 @@ const SurfaceWaterField: FC<ConsTypeFieldsetProps> = ({ data, onChange }) => {
 
       {/* check form cong */}
 
-      {consSFData?.constructionTypeId === 12 ? (
+      {consSFData?.idLoaiCT === 12 ? (
         <fieldset>
           <legend>
             <Typography variant={'subtitle1'} className='legend__title'>
@@ -722,8 +813,8 @@ const SurfaceWaterField: FC<ConsTypeFieldsetProps> = ({ data, onChange }) => {
                 label='Cao trình cống'
                 fullWidth
                 placeholder=''
-                value={consSFData.drainElevation || ''}
-                onChange={event => handleChange('drainElevation')(event.target.value)}
+                value={consSpec.caoTrinhCong || ''}
+                onChange={event => handleChange('caoTrinhCong')(event.target.value)}
               />
             </Grid>
             <Grid item xs={12} md={3} sm={12} sx={{ my: 2 }}>
@@ -733,8 +824,8 @@ const SurfaceWaterField: FC<ConsTypeFieldsetProps> = ({ data, onChange }) => {
                 label='Chiều dài cống'
                 fullWidth
                 placeholder=''
-                value={consSFData.drainLength || ''}
-                onChange={event => handleChange('drainLength')(event.target.value)}
+                value={consSpec.chieuDaiCong || ''}
+                onChange={event => handleChange('chieuDaiCong')(event.target.value)}
               />
             </Grid>
             <Grid item xs={12} md={3} sm={12} sx={{ my: 2 }}>
@@ -744,8 +835,8 @@ const SurfaceWaterField: FC<ConsTypeFieldsetProps> = ({ data, onChange }) => {
                 label='Đường kính (m)'
                 fullWidth
                 placeholder=''
-                value={consSFData.drainDiameter || ''}
-                onChange={event => handleChange('drainDiameter')(event.target.value)}
+                value={consSpec.chieuRongCong || ''}
+                onChange={event => handleChange('chieuRongCong')(event.target.value)}
               />
             </Grid>
             <Grid item xs={12} md={3} sm={12} sx={{ my: 2 }}>
@@ -755,8 +846,8 @@ const SurfaceWaterField: FC<ConsTypeFieldsetProps> = ({ data, onChange }) => {
                 label='Kích thước(rộng*cao)'
                 fullWidth
                 placeholder=''
-                value={consSFData.drainSize || ''}
-                onChange={event => handleChange('drainSize')(event.target.value)}
+                value={consSpec.kichThuocCong || ''}
+                onChange={event => handleChange('kichThuocCong')(event.target.value)}
               />
             </Grid>
           </Grid>
