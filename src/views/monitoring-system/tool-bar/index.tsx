@@ -82,7 +82,7 @@ const MonitoringSystemToolBar: FC<MonitoringSystemToolBarProps> = ({ onChange })
             try {
 
                 // constructiom type
-                const ConsTypesData = await getData('LoaiCongTrinh/danh-sach');
+                const ConsTypesData = await getData('loai-ct/danh-sach');
 
                 //businesses
                 const businessData = await getData('to-chuc-ca-nhan/danh-sach');

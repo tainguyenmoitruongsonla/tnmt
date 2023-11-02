@@ -56,7 +56,7 @@ const SurfaceWaterMonitoring = () => {
     {
       id: '#', label: 'Lưu lượng xả nhà máy (m3/s)', showId: [1, 4, 5], children: [
         { id: 'qmaxNM', label: 'Ngưỡng tràn', elm: (row: any) => (<span>{row.thongso?.qmaxNM}</span>), align: 'center' },
-        { id: 'qMaxTT', label: 'Thực tế', align: 'center' },
+        { id: 'qXaMax', label: 'Thực tế', align: 'center' },
         { id: '', label: 'Chênh lệch (+/-)', elm: (row: any) => (calculateMonitoringData(row.thongso?.qmaxNM, row.qMaxTT)), align: 'center' },
       ]
     },
@@ -126,8 +126,8 @@ const SurfaceWaterMonitoring = () => {
   useEffect(() => {
     const getDataConstructions = async () => {
       setLoading(true);
-      getData('cong-trinh/danh-sach', paramsFilter)
-        .then((data) => {
+      getData('GiamSatSoLieu/danhsach', paramsFilter)
+        .then((data) => {console.log(data);
           if (isMounted.current) {
             setResData(data);
           }
@@ -149,15 +149,8 @@ const SurfaceWaterMonitoring = () => {
 
   const [paramsFilter, setParamsFilter] = useState({
     tenct: null,
-    loai_ct: GetConstructionTypeId(router),
-    huyen: 0,
-    xa: 0,
-    song: 0,
-    luuvuc: 0,
-    tieu_luuvuc: 0,
-    tang_chuanuoc: 0,
+    loaict: GetConstructionTypeId(router),
     tochuc_canhan: 0,
-    nguonnuoc_kt: null,
   });
 
   const [initConsType, setInitConstype] = useState<any>([
