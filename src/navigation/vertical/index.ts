@@ -307,13 +307,65 @@ const navigation = (): VerticalNavItemsType => {
       children: [
         {
           icon: CircleOutline,
-          title: 'Nguồn nước sông',
-          path: '#'
+          title: 'Nguồn nước sông,suối',
+          children: [
+            {
+              title: 'CLN theo QCVN ',
+              icon: CircleOutline,
+              path: '/kn-tiep-nhan-nuoc-thai/nguon-nuoc-song/cln'
+            },
+            {
+              title: 'Thông tin nguồn thải',
+              icon: CircleOutline,
+              path: '/kn-tiep-nhan-nuoc-thai/nguon-nuoc-song/tt-nguon-thai'
+            },
+            {
+              title: 'Thông tin nguồn TNNT ',
+              icon: CircleOutline,
+              path: '/kn-tiep-nhan-nuoc-thai/nguon-nuoc-song/tt-nhan-nuoc-thai'
+            },
+            {
+              title: 'Khả năng TNNT sông,suối',
+              icon: CircleOutline,
+              path: '#'
+            },
+            {
+              title: 'Tính dự báo KNTNNT sông,suối',
+              icon: CircleOutline,
+              path: '#'
+            },
+          ]
         },
         {
           icon: CircleOutline,
-          title: 'Nguồn nước hồ',
-          path: '#'
+          title: 'Nguồn nước ao,hồ',
+          children: [
+            {
+              title: 'Thông số CLN theo QCVN',
+              icon: CircleOutline,
+              path: '/kn-tiep-nhan-nuoc-thai/nguon-nuoc-ao/cln'
+            },
+            {
+              title: 'Thông tin nguồn thải ao,hồ',
+              icon: CircleOutline,
+              path: '#'
+            },
+            {
+              title: 'Thông tin ao,hồ',
+              icon: CircleOutline,
+              path: '#'
+            },
+            {
+              title: 'Khả năng TNNT ao,hồ',
+              icon: CircleOutline,
+              path: '#'
+            },
+            {
+              title: 'Tính dự báo KNTNNT ao,hồ',
+              icon: CircleOutline,
+              path: '#'
+            },
+          ]
         }
       ]
     },

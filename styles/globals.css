@@ -383,7 +383,7 @@ code[class*='language-'] {
 }
 
 .tableBody tr td {
-  border: 1px solid #dee2e6;
+  border: 1px solid #dee2e6 !important;
   white-space: nowrap;
 }
 
