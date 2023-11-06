@@ -202,7 +202,7 @@ const SurfaceWaterMonitoring = () => {
       </Grid>
       <Grid item xs={12} sm={12} md={12}>
         <MonitoringSystemToolBar onChange={handleFilterChange} />
-        <TableComponent loading={loading} columns={columns} data={dataFiltered} show={TypeOfConsId} pagination={true}
+        <TableComponent loading={loading} columns={columns} rows={dataFiltered} show={TypeOfConsId} pagination={true}
           actions={() => (
             <Box>
               <ViewMonitoringSystemData />

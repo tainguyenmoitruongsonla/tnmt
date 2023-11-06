@@ -72,7 +72,7 @@ const ManageRequestDetails = () => {
             </Grid>
          </Grid>
       <Grid item xs={12} sm={12} md={12}>
-        <TableComponent columns={columns} data={data} 
+        <TableComponent columns={columns} rows={data} 
           actions={(row: any) => (
             <Box>
               <Tooltip title="Chỉnh sửa giấy phép">

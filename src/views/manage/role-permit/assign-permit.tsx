@@ -107,11 +107,11 @@ const Form = ({ data }: any) => {
     <>
       <Grid container>
         <Grid item xs={12} pb={10}>
-          <TableComponent columns={roleInfoColumn} loading={loading} data={roleData} />
+          <TableComponent columns={roleInfoColumn} loading={loading} rows={roleData} />
         </Grid>
       </Grid>
 
-      <TableComponent columns={permitColumn} loading={loading} data={resData} pagination />
+      <TableComponent columns={permitColumn} loading={loading} rows={resData} pagination />
     </>
   );
 }

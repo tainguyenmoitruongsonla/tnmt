@@ -30,7 +30,7 @@ const RequestTableDetails = () => {
       <legend>
         <Typography variant={'subtitle1'} className='legend__title'>Tài khoản kết nối đến công trình</Typography>
       </legend>
-      <TableComponent columns={columns} data={data}/>
+      <TableComponent columns={columns} rows={data}/>
     </fieldset>)
     
   

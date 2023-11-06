@@ -1,11 +1,7 @@
 import { useState, useEffect, useRef } from 'react'
 
 // ** MUI Imports
-import { Grid, Box, Button, Card, CardContent, IconButton, Tooltip, Typography, Autocomplete, TextField, Paper, FormGroup, FormControlLabel, Checkbox } from '@mui/material';
-
-// ** Icons Imports
-import SearchIcon from '@mui/icons-material/Search';
-import { EditNote, Delete } from "@mui/icons-material";
+import { Grid, Box, Typography, Paper, FormGroup, FormControlLabel, Checkbox } from '@mui/material';
 
 // ** Components Imports
 import MonitoringSystemToolBar from '../tool-bar';
@@ -162,7 +158,7 @@ const DischargewaterMeasuresing = () => {
       </Grid>
       <Grid item xs={12} sm={12} md={12}>
         <MonitoringSystemToolBar onChange={handleFilterChange} />
-        <TableComponent loading={loading} columns={columns} data={dataFiltered} show={TypeOfConsId} pagination={true} />
+        <TableComponent loading={loading} columns={columns} rows={dataFiltered} show={TypeOfConsId} pagination={true} />
       </Grid>
     </Grid>
   )
