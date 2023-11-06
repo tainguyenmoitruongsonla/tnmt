@@ -13,7 +13,7 @@ const loginApi = async (username: string, password: string) => {
         if (response.ok) {
             const token = await response.json();
 
-            localStorage.setItem('authToken', token);
+            sessionStorage.setItem('authToken', token);
 
             return true;
         } else {

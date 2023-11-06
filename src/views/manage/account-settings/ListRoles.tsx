@@ -40,7 +40,7 @@ const ListRoles = () => {
 
   return (
     <>
-      <TableComponent columns={columnsTable} data={resData} loading={loading}
+      <TableComponent columns={columnsTable} rows={resData} loading={loading}
         actions={(row: any) => (
           <Box display="flex" justifyContent="center">
             <IconButton aria-label="edit">

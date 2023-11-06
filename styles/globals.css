@@ -343,7 +343,7 @@ code[class*='language-'] {
 .map-legend {
   position: absolute;
   z-index: 999;
-  height: fit-content;
+  height: 444px;
   overflow-y: auto;
   right: 15px;
   top: 45px;
@@ -366,7 +366,7 @@ code[class*='language-'] {
 /* table */
 .mainTable .sticky-col {
   position: sticky !important;
-  background: #b0d3ff;
+  background: #d8eaff;
   z-index: 1 !important;
 }
 
@@ -383,7 +383,8 @@ code[class*='language-'] {
 }
 
 .tableBody tr td {
-  border: 1px solid #dee2e6 !important;
+  font-size: 13px;
+  border: 1px solid #dee2e6;
   white-space: nowrap;
 }
 

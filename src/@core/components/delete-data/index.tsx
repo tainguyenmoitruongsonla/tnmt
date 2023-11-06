@@ -56,11 +56,11 @@ const DeleteData = (props: DeleteDataProps) => {
     return (
         <Tooltip title='Xóa bản ghi?'>
             <>
-                <IconButton aria-describedby={data.row?.id} onClick={DeleteRowData} data-row-id={data.row?.id}>
+                <IconButton aria-describedby={data?.id} onClick={DeleteRowData} data-row-id={data?.id}>
                     <Delete className='tableActionBtn deleteBtn' />
                 </IconButton>
                 <Popover
-                    id={deleteConfirmOpen ? data.row?.id : undefined}
+                    id={deleteConfirmOpen ? data?.id : undefined}
                     open={deleteConfirmOpen}
                     anchorEl={deleteConfirmAnchorEl}
                     onClose={handleDeleteCancel}

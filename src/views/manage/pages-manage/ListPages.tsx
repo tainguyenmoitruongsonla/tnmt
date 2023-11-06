@@ -39,7 +39,7 @@ const ListPages = () => {
   }, [postSuccess]);
 
   return (
-    <TableComponent columns={columnsTable} data={resData} pagination loading={loading}
+    <TableComponent columns={columnsTable} rows={resData} pagination loading={loading}
       actions={(row: any) => (
         <Box>
           <IconButton aria-label="edit">

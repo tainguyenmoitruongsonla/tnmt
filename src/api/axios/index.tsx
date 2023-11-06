@@ -3,7 +3,7 @@ import apiUrl from '../config';
 import { enqueueSnackbar } from 'notistack';
 
 export async function getData(url: string, params?: any) {
-    const token = localStorage.getItem('authToken');
+    const token = sessionStorage.getItem('authToken');
     try {
         const response = await axios.get(`${apiUrl}/${url}`, {
             params,
@@ -24,7 +24,7 @@ export async function getData(url: string, params?: any) {
 }
 
 export async function saveData(url: string, data: any) {
-    const token = localStorage.getItem('authToken');
+    const token = sessionStorage.getItem('authToken');
     try {
         const response = await axios.post(`${apiUrl}/${url}`, data, {
             headers: {
@@ -42,7 +42,7 @@ export async function saveData(url: string, data: any) {
 }
 
 export async function deleteData(url: string, resourceId: any) {
-    const token = localStorage.getItem('authToken');
+    const token = sessionStorage.getItem('authToken');
     try {
         const response = await axios.get(`${apiUrl}/${url}/${resourceId}`, {
             headers: {
@@ -60,7 +60,7 @@ export async function deleteData(url: string, resourceId: any) {
 }
 
 export async function uploadFile(postData: any) {
-    const token = localStorage.getItem('authToken');
+    const token = sessionStorage.getItem('authToken');
 
     if (!token) {
         enqueueSnackbar('Lỗi authToken', { variant: 'error' });

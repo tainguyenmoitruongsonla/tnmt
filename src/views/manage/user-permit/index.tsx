@@ -36,7 +36,7 @@ const UserPermit = () => {
     <div>
       <TableComponent
         columns={columnsTable}
-        data={resData}
+        rows={resData}
         loading={loading}
         actions={(row: any) => (
           <Box>

@@ -6,9 +6,9 @@ interface DecodedToken {
 
 export const checkAccessPermission = (linkControl: string | undefined, action: string | undefined) => {
 
-    if (typeof localStorage !== 'undefined') {
+    if (typeof sessionStorage !== 'undefined') {
 
-        const token = localStorage.getItem('authToken') || '';
+        const token = sessionStorage.getItem('authToken') || '';
 
         if (token) {
             const decodedToken = jwt_decode(token) as DecodedToken;

@@ -5,19 +5,19 @@ import { FC, useState, ChangeEvent } from 'react'
 import { Table, TableHead, TableRow, TableCell, TableBody, TableContainer, Paper, TablePagination } from '@mui/material';
 import BoxLoading from '../box-loading';
 
-interface TableColumn {
+export interface TableColumn {
   id: string;
   label?: string | React.ReactNode;
   showId?: number[];
   colspan?: number;
   rowspan?: number;
+  minWidth?: number;
   align?: "left" | "center" | "right" | "justify" | "inherit" | undefined;
   children?: TableColumn[];
   format?: (value: any) => string | React.ReactNode;
   elm?: React.ReactNode;
+  pinned?: "left" | "right" | undefined;
 }
-
-export type TableColumns = TableColumn;
 
 interface Data {
   [key: string]: any;
@@ -25,7 +25,7 @@ interface Data {
 
 interface TableProps {
   columns: TableColumn[];
-  data: Data[];
+  rows: Data[];
   show?: number[];
   pagination?: boolean;
   loading?: boolean;
@@ -34,7 +34,7 @@ interface TableProps {
 
 const TableComponent: FC<TableProps> = (props: TableProps) => {
 
-  const { columns, data, show, pagination, loading, actions } = props;
+  const { columns, rows, show, pagination, loading, actions } = props;
 
   const tableColumns: TableColumn[] = [];
   for (let i = 0; i < columns.length; i++) {
@@ -57,9 +57,6 @@ const TableComponent: FC<TableProps> = (props: TableProps) => {
       tableColumns.push(updatedColumn);
     }
   }
-
-
-  const rowsData = data;
 
   // ** States
   const [page, setPage] = useState<number>(0)
@@ -85,7 +82,7 @@ const TableComponent: FC<TableProps> = (props: TableProps) => {
             <TableHead className='tableHead'>
               <TableRow>
                 {tableColumns.map((column, index) => (
-                  <TableCell size='small' align='center' key={index} rowSpan={column.rowspan} colSpan={column.colspan}>
+                  <TableCell className={` ${column.pinned ? "sticky-col" : ""} ${column.pinned === "left" ? "start-col" : ""} ${column.pinned === "right" ? "end-col" : ""} `} size='small' align='center' key={index} rowSpan={column.rowspan} colSpan={column.colspan} sx={{ minWidth: column.minWidth }}>
                     {column.id === 'actions' ? (typeof column.elm === 'function' ? column.elm() : column.label) : column.label}
                   </TableCell>
                 ))}
@@ -103,7 +100,7 @@ const TableComponent: FC<TableProps> = (props: TableProps) => {
               </TableRow>
             </TableHead>
             <TableBody className='tableBody'>
-              {rowsData?.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row, index) => (
+              {rows?.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row, index) => (
                 <TableRow key={index}>
                   {tableColumns.map((column, columnIndex) => {
                     if (column.children) {
@@ -113,7 +110,7 @@ const TableComponent: FC<TableProps> = (props: TableProps) => {
 
                         if (parentId === "#") {
                           return (
-                            <TableCell sx={{ py: 0 }} key={`${columnIndex}-${childIndex}`} align={childColumn.align} size='small'>
+                            <TableCell className={` ${column.pinned ? "sticky-col" : ""} ${column.pinned === "left" ? "start-col" : ""} ${column.pinned === "right" ? "end-col" : ""} `} sx={{ py: 0, minWidth: childColumn.minWidth }} key={`${columnIndex}-${childIndex}`} align={childColumn.align} size='small'>
                               {childColumn.id === "actions" ? actions && actions(row)
                                 : (
                                   typeof childColumn.elm === 'function'
@@ -126,40 +123,31 @@ const TableComponent: FC<TableProps> = (props: TableProps) => {
                           )
                         } else {
                           return (
-                            <TableCell sx={{ py: 0 }} key={`${columnIndex}-${childIndex}`} align={childColumn.align} size='small'>
+                            <TableCell className={` ${column.pinned ? "sticky-col" : ""} ${column.pinned === "left" ? "start-col" : ""} ${column.pinned === "right" ? "end-col" : ""} `} sx={{ py: 0, minWidth: childColumn.minWidth }} key={`${columnIndex}-${childIndex}`} align={childColumn.align} size='small'>
                               {Array.isArray(rowValue) ? (
-                                rowValue.map((e, k) => (
-                                  <span key={k}>
-                                    {typeof rowValue === 'object' && rowValue !== null && Object.keys(rowValue).length > 0 ? (
-                                      rowValue.map((e, k) => (
-                                        <span key={k}>
-                                          {Object.keys(rowValue).length > 1 ? (
-                                            <p>
-                                              {typeof childColumn.elm === 'function'
-                                                ? childColumn.elm(row)
-                                                : (childColumn.format
-                                                  ? childColumn.format(e[childColumn.id])
-                                                  : e[childColumn.id])
-                                              }
-                                            </p>
-                                          ) : (
-                                            typeof childColumn.elm === 'function'
-                                              ? childColumn.elm(row)
-                                              : (childColumn.format
-                                                ? childColumn.format(e[childColumn.id])
+                                <div>
+                                  {typeof rowValue === 'object' && rowValue !== null && Object.keys(rowValue).length > 0 ? (
+                                    rowValue.map((e, k) => (
+                                      <div key={k}>
+                                        {Object.keys(rowValue).length > 1 ? (
+                                          <p>
+                                            {typeof childColumn.elm === 'function' ? childColumn.elm(e)
+                                              : (childColumn.format ? childColumn.format(e[childColumn.id])
                                                 : e[childColumn.id])
-                                          )}
-                                        </span>
-                                      ))
-                                    ) : (
-                                      typeof childColumn.elm === 'function'
-                                        ? childColumn.elm(row)
-                                        : (childColumn.format
-                                          ? childColumn.format(e[childColumn.id])
-                                          : e[childColumn.id])
-                                    )}
-                                  </span>
-                                ))
+                                            }
+                                          </p>
+                                        ) : (
+                                          typeof childColumn.elm === 'function'
+                                            ? childColumn.elm(e)
+                                            : (childColumn.format
+                                              ? childColumn.format(e[childColumn.id])
+                                              : e[childColumn.id])
+                                        )}
+                                      </div>
+                                    ))
+                                  ) : (rowValue)
+                                  }
+                                </div>
                               ) : (
                                 typeof rowValue === 'object' && rowValue !== null && Object.keys(rowValue).length > 0 ? (
                                   typeof childColumn.elm === 'function'
@@ -167,9 +155,7 @@ const TableComponent: FC<TableProps> = (props: TableProps) => {
                                     : childColumn.format
                                       ? childColumn.format(rowValue[childColumn.id])
                                       : rowValue[childColumn.id]
-                                ) : (
-                                  rowValue
-                                )
+                                ) : (rowValue)
                               )}
                             </TableCell>
                           )
@@ -177,7 +163,7 @@ const TableComponent: FC<TableProps> = (props: TableProps) => {
                       });
                     } else {
                       return (
-                        <TableCell sx={{ py: 0 }} {...(column.id === "actions" ? { width: 120 } : {})} key={`${columnIndex}`} align={column.align} size='small'>
+                        <TableCell className={` ${column.pinned ? "sticky-col" : ""} ${column.pinned === "left" ? "start-col" : ""} ${column.pinned === "right" ? "end-col" : ""} `} sx={{ py: 0, minWidth: column.minWidth }} {...(column.id === "actions" ? { width: 120 } : {})} key={`${columnIndex}`} align={column.align} size='small'>
                           {column.id === "actions" ? actions && actions(row)
                             : column.id === "stt"
                               ? (index + 1)
@@ -203,7 +189,7 @@ const TableComponent: FC<TableProps> = (props: TableProps) => {
           <TablePagination
             rowsPerPageOptions={[10, 25, 50]}
             component='div'
-            count={data?.length}
+            count={rows?.length}
             rowsPerPage={rowsPerPage}
             page={page}
             onPageChange={handleChangePage}

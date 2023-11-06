@@ -64,7 +64,7 @@ const App = (props: ExtendedAppProps) => {
   useEffect(() => {
     if (typeof window !== 'undefined') {
       // Kiểm tra trạng thái đăng nhập ở đây
-      const loggedIn = localStorage.getItem('authToken');
+      const loggedIn = sessionStorage.getItem('authToken');
       if (!loggedIn && router.pathname !== '/pages/login') {
         router.push('/pages/login')
       }

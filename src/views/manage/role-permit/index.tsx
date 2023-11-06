@@ -33,7 +33,7 @@ const RolePermit = () => {
 
   return (
     <div>
-      <TableComponent columns={columnsTable} data={resData} loading={loading}
+      <TableComponent columns={columnsTable} rows={resData} loading={loading}
         actions={(row: any) => (
           <Box>
             <IconButton>

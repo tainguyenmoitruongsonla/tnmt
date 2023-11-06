@@ -54,14 +54,14 @@ const UserDropdown = () => {
   }
 
   const handleLogout = () => {
-    localStorage.clear();
+    sessionStorage.clear();
     router.push('/pages/login')
   }
 
   useEffect(() => {
-    if (typeof localStorage !== 'undefined') {
+    if (typeof sessionStorage !== 'undefined') {
 
-      const token = localStorage.getItem('authToken') || '';
+      const token = sessionStorage.getItem('authToken') || '';
 
       if (token) {
         const decodedToken = jwt_decode(token) as DecodedToken;
