@@ -61,7 +61,7 @@ const ListLicenses = () => {
         {
             id: "congtrinh", label: "Công trình", align: 'left', children: [
                 { id: "tenCT", label: "Tên", rowspan: 2, align: 'left' },
-                { id: "viTriCT", label: "Địa điểm", rowspan: 2, align: 'left', elm: (row: any) => (`${row.donvi_hanhchinh?.tenXa}, ${row.donvi_hanhchinh?.tenHuyen}, Tỉnh Quảng Ngãi`) },
+                { id: "viTriCT", label: "Địa điểm", rowspan: 2, align: 'left', elm: (row: any) => (row.donvi_hanhchinh?.tenXa && row.donvi_hanhchinh?.tenXa != null ? `${row.donvi_hanhchinh?.tenXa}, ${row.donvi_hanhchinh?.tenHuyen}, Tỉnh Quảng Ngãi` : "") },
                 { id: "loaiCT", label: "Loại công trình", rowspan: 2, align: 'left', elm: (row: any) => (row.loaiCT?.tenLoaiCT) },
                 { id: "nguonNuocKT", label: "Nguồn nước khai thác", rowspan: 2, align: 'left' },
                 { id: "luuvuc", label: "Lưu vực", rowspan: 2, align: 'left' },
@@ -71,15 +71,9 @@ const ListLicenses = () => {
         },
         {
             id: "tiencq", label: "Tiền cấp quyền", align: 'left', children: [
-                {
-                    id: "soQDTCQ", label: "Số QĐ", rowspan: 2, align: 'left', elm: (row: any) => (<ShowFilePDF name={row?.soQDTCQ} src={row?.filePDF} />)
-                },
-                {
-                    id: "ngayKy", label: "Ngày ký", rowspan: 2, align: 'left', elm: (row: any) => (FormatDate(row.ngayKy))
-                },
-                {
-                    id: "tongTienCQ", label: "Tổng tiền", rowspan: 2, align: 'left',
-                },
+                { id: "soQDTCQ", label: "Số QĐ", rowspan: 2, align: 'left', elm: (row: any) => (<ShowFilePDF name={row?.soQDTCQ} src={row?.filePDF} />) },
+                { id: "ngayKy", label: "Ngày ký", rowspan: 2, align: 'left', elm: (row: any) => (FormatDate(row.ngayKy)) },
+                { id: "tongTienCQ", label: "Tổng tiền", rowspan: 2, align: 'left', },
             ]
         },
         { id: "actions", label: "#", rowspan: 2, align: 'center', pinned: "right" },
@@ -101,7 +95,6 @@ const ListLicenses = () => {
         den_nam: 0,
     });
 
-
     const isMounted = useRef(true);
 
     const getDataLicense = async () => {
@@ -120,7 +113,6 @@ const ListLicenses = () => {
             });
     };
 
-
     useEffect(() => {
         isMounted.current = true
 
@@ -128,7 +120,6 @@ const ListLicenses = () => {
             isMounted.current = false;
         };
     }, []);
-
 
     useEffect(() => {
         getDataLicense();
