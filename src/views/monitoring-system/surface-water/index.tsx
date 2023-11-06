@@ -4,7 +4,7 @@ import { useState, useEffect, useRef } from 'react'
 import { Grid, Box, Paper,Typography, FormGroup, FormControlLabel, Checkbox } from '@mui/material';
 
 // ** Components Imports
-import TableComponent from 'src/@core/components/table';
+import TableComponent, { TableColumn } from 'src/@core/components/table';
 import DisplayOperatingStatus from 'src/@core/components/monitoring-page/check-status';
 
 import dynamic from 'next/dynamic';
@@ -28,17 +28,16 @@ const SurfaceWaterMonitoring = () => {
   const [TypeOfConsId] = useState([GetConstructionTypeId(router)]);
 
   const [resData, setResData] = useState<any[]>([]);
-  const [columns, setColumns] = useState<any[]>([]);
   const [loading, setLoading] = useState(false)
   const [total, setTotal] = useState(0)
 
   const [dataFiltered, setDataFiltered] = useState([]);
 
   // id of columnsTable is parameter to bind ex: get LicseFk.BasinId: id: 'License_Fk.BasinId'
-  const columnsTable = [
+  const columnsTable : TableColumn[] = [
     { id: 'stt', label: 'STT', rowspan: 2, },
     {
-      id: 'tenCT', label: 'Tên công trình', rowspan: 2, elm: (row: any) => (
+      id: 'tenCT', label: 'Tên công trình', rowspan: 2, pinned: "left", elm: (row: any) => (
         <Typography className='btnShowFilePdf' onClick={() => zoomConstruction(ConverterCood(row.y, row.x))}>
           {row.tenCT}
         </Typography>)
@@ -141,8 +140,6 @@ const SurfaceWaterMonitoring = () => {
     };
     getDataConstructions();
 
-    setColumns(columnsTable);
-
     // fetchData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -185,7 +182,7 @@ const SurfaceWaterMonitoring = () => {
     <Grid container spacing={4}>
       <Grid item xs={12} sm={12} md={12} sx={{ height: '55vh', overflow: 'hidden' }}>
         <Paper elevation={3} sx={{ height: '100%', position: 'relative' }}>
-          <Box className='map-legend' sx={{ background: 'white', pl: 2 }}>
+          <Box className='map-legend' sx={{ background: 'white', pl: 2, height: 'auto' }}>
             <FormGroup>
               <FormControlLabel
                 control={<Checkbox onClick={() => setShowLabel(!showLabel)} />}
@@ -202,7 +199,7 @@ const SurfaceWaterMonitoring = () => {
       </Grid>
       <Grid item xs={12} sm={12} md={12}>
         <MonitoringSystemToolBar onChange={handleFilterChange} />
-        <TableComponent loading={loading} columns={columns} rows={dataFiltered} show={TypeOfConsId} pagination={true}
+        <TableComponent loading={loading} columns={columnsTable} rows={dataFiltered} show={TypeOfConsId} pagination={true}
           actions={() => (
             <Box>
               <ViewMonitoringSystemData />
