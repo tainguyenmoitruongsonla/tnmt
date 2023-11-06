@@ -6,7 +6,6 @@ import CreateReport4 from "./CreateForm4"
 
 const Report4Table = ({ data, handlePostSuccess  }: any) => {
 
-
   return (
     <Grid className='_text_center' sx={{ mt: 3 }}>
     <TableContainer component={Paper}>
