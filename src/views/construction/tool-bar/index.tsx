@@ -53,7 +53,6 @@ const ConstructionToolBar: FC<ConstructionToolBarProps> = ({ onChange }) => {
     };
 
     const applyFilterChange = () => {
-        console.log(paramsFilter)
         onChange(paramsFilter);
     }
 

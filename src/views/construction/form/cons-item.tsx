@@ -16,7 +16,6 @@ const ConstructionItem: FC<ConstructionItemFieldProps> = ({ data, onChange }) =>
         tenHangMuc: e.tenHangMuc,
         x: e.x,
         y: e.y,
-       
       }))
     : []
 
@@ -30,7 +29,6 @@ const ConstructionItem: FC<ConstructionItemFieldProps> = ({ data, onChange }) =>
       tenHangMuc: '',
       x: 0,
       y: 0,
-      
     }
     setConstructionItems(prevItems => [...prevItems, newItem])
   }

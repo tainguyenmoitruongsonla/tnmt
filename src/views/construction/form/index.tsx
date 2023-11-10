@@ -8,6 +8,7 @@ import GroundWaterField from './cons-ground'
 import SurfaceWaterField from './cons-suface'
 import DischargeWaterField from './cons-discharge'
 import { deleteData, saveData } from 'src/api/axios'
+import { ConstructionItemState, ConstructionSpecState, ConstructionState, emptyConstructionData, emptyConstructionSpec } from './construction-interface'
 
 interface FormConstructionProps {
   data: any
@@ -18,20 +19,18 @@ interface FormConstructionProps {
 const FormConstruction: React.FC<FormConstructionProps> = ({ data, closeDialogs, setPostSuccess }) => {
 
   //Construction
-  const [consSFData, setConsSFData] = useState<any>(data)
-  console.log(consSFData);
-  
-
-  // const [consSpecData, setConsSpecData] = useState<any>(data)
-  const [saving, setSaving] = useState(false);
-  const handleConsSFChange = (data: any) => {
-    setConsSFData(data)
-  }
+  const [consData, setConsData] = useState<ConstructionState>(data)
+  const [consSpec, setConsSpec] = useState<ConstructionSpecState>(data)
 
   //ConstructionItem
-  const [consItemData, setConsItemData] = useState<any>(data?.constructionItems)
-  console.log(consItemData);
+  const [consItemData, setConsItemData] = useState<ConstructionItemState[]>(data?.hangmuc)
+  const [consItemSpec, setConsItemSpec] = useState<ConstructionSpecState>(data?.hangmuc?.thongso)
   const [consItemDataDetele, setConsItemDataDelete] = useState<any>()
+  const [saving, setSaving] = useState(false);
+  const handleConsChange = (data: any) => {
+    setConsData(data.consData)
+    setConsSpec(data.consSpec)
+  }
 
   //Hooks
   const route = useRouter()
@@ -39,6 +38,7 @@ const FormConstruction: React.FC<FormConstructionProps> = ({ data, closeDialogs,
   const handleconsItemChange = (dataSave: any, dataDelete: any) => {
     setConsItemDataDelete(dataDelete)
     setConsItemData(dataSave)
+    setConsItemSpec(emptyConstructionSpec)
   }
 
   const handleSubmit = async (e: any) => {
@@ -47,25 +47,26 @@ const FormConstruction: React.FC<FormConstructionProps> = ({ data, closeDialogs,
     const handleApiCall = async () => {
       try {
         setSaving(true)
-        const res = await saveData('cong-trinh/luu', consSFData)
+        const res = await saveData('cong-trinh/luu', consData)
 
         if (res) {
-          // Reset form fields
-          setConsSFData({})
-
-          // setConsSpecData({})
-          // await saveData('cong-trinh/luu', {...consSpecData, idCT: res.id})
+          await saveData('thong-so-ct/luu', { ...consSpec, idCT: res.id, idHangMucCT: null })
 
           consItemDataDetele.map(async (e: any) => {
             await deleteData('hang-muc-ct/xoa', e)
           })
 
           consItemData.map(async (e: any) => {
-            e.constructionId = res.id
-            await saveData('hang-muc-ct/luu', e)
+            e.idCT = res.id
+            const consItemRes = await saveData('hang-muc-ct/luu', e)
+            if (consItemSpec && consItemRes) {
+              await saveData('thong-so-ct/luu', { ...consItemSpec, idCT: null, idHangMucCT: consItemRes.id })
+            }
           })
 
           typeof setPostSuccess === 'function' ? setPostSuccess(true) : ''
+
+          setConsData(emptyConstructionData);
           closeDialogs()
         }
       }
@@ -82,10 +83,7 @@ const FormConstruction: React.FC<FormConstructionProps> = ({ data, closeDialogs,
   }
 
   const handleClose = () => {
-    setConsSFData({
-      consData: consSFData,
-      consItem: consItemData
-    })
+    setConsData(emptyConstructionData)
 
     closeDialogs()
   }
@@ -95,18 +93,18 @@ const FormConstruction: React.FC<FormConstructionProps> = ({ data, closeDialogs,
       <Grid container gap={3}>
         <Grid item xs={12}>
           {route.pathname.split('/')[2] == 'nuoc-mat' ? (
-            <SurfaceWaterField data={consSFData} onChange={handleConsSFChange} />
+            <SurfaceWaterField data={consData} onChange={handleConsChange} />
           ) : route.pathname.split('/')[2] == 'nuoc-duoi-dat' ? (
-            <GroundWaterField data={consSFData} onChange={handleConsSFChange} />
+            <GroundWaterField data={consData} onChange={handleConsChange} />
           ) : route.pathname.split('/')[2] == 'xa-thai' ? (
-            <DischargeWaterField data={consSFData} onChange={handleConsSFChange} />
+            <DischargeWaterField data={consData} onChange={handleConsChange} />
           ) : (
             ''
           )}
         </Grid>
         <Grid item xs={12}>
-            <ConstructionItem data={consItemData} onChange={handleconsItemChange} />
-          </Grid>
+          <ConstructionItem data={consItemData} onChange={handleconsItemChange} />
+        </Grid>
       </Grid>
 
       <DialogActions sx={{ p: 0, mt: 5 }}>
@@ -150,7 +148,7 @@ const CreateConstruction: React.FC<CreateConstructionProps> = ({ isEdit, data, s
             </Tooltip>
           ) : (
             <Button
-            variant='outlined'
+              variant='outlined'
               size='small'
               startIcon={<Add />}
               onClick={() =>

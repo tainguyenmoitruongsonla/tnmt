@@ -9,7 +9,7 @@ interface ConsTypeFieldsetProps {
 }
 
 const SurfaceWaterField: FC<ConsTypeFieldsetProps> = ({ data, onChange }) => {
-  const [consSFData, setConsSFData] = useState<ConstructionState>({
+  const [consData, setConsData] = useState<ConstructionState>({
     id: data?.id || null,
     idLoaiCT: data?.idLoaiCT || null,
     idXa: data?.idXa || null,
@@ -24,6 +24,7 @@ const SurfaceWaterField: FC<ConsTypeFieldsetProps> = ({ data, onChange }) => {
     viTriCT: data?.viTriCT || null,
     x: data?.x || null,
     y: data?.y || null,
+    capCT: data?.capCT || null,
     namBatDauVanHanh: data?.namBatDauVanHanh || null,
     nguonNuocKT: data?.nguonNuocKT || null,
     cheDoKT: data?.cheDoKT || null,
@@ -48,73 +49,72 @@ const SurfaceWaterField: FC<ConsTypeFieldsetProps> = ({ data, onChange }) => {
     viTriXT: data?.viTriXT || null
   })
   const [consSpec, setConsSpec] = useState<ConstructionSpecState>({
-    id: data?.thongso?.id || 0,
-    idCT: data?.thongso?.idCT || 0,
-    idHangMucCT: data?.thongso?.idHangMucCT || 0,
-    capCT: data?.thongso?.capCT || 0,
-    dienTichLuuVuc: data?.thongso?.dienTichLuuVuc || 0,
-    muaTrungBinhNam: data?.thongso?.muaTrungBinhNam || 0,
-    qTrungBinhNam: data?.thongso?.qTrungBinhNam || 0,
-    congSuatLM: data?.thongso?.congSuatLM || 0,
-    congSuatDamBao: data?.thongso?.congSuatDamBao || 0,
-    chieuCaoDap: data?.thongso?.chieuCaoDap || 0,
-    chieuDaiDap: data?.thongso?.chieuDaiDap || 0,
-    caoTrinhDap: data?.thongso?.caoTrinhDap || 0,
-    qmaxNM: data?.thongso?.qmaxNM || 0,
-    qtt: data?.thongso?.qtt || 0,
-    qDamBao: data?.thongso?.qDamBao || 0,
-    hmax: data?.thongso?.hmax || 0,
-    hmin: data?.thongso?.hmin || 0,
-    htoiThieu: data?.thongso?.htoiThieu || 0,
-    mnc: data?.thongso?.mnc || 0,
-    mndbt: data?.thongso?.mndbt || 0,
-    mnltk: data?.thongso?.mnltk || 0,
-    mnlkt: data?.thongso?.mnlkt || 0,
-    dungTichToanBo: data?.thongso?.dungTichToanBo || 0,
-    dungTichChet: data?.thongso?.dungTichChet || 0,
-    dungTichHuuIch: data?.thongso?.dungTichHuuIch || 0,
-    caoTrinhCong: data?.thongso?.caoTrinhCong || 0,
-    chieuDaiCong: data?.thongso?.chieuDaiCong || 0,
-    chieuRongCong: data?.thongso?.chieuRongCong || 0,
-    kichThuocCong: data?.thongso?.kichThuocCong || 0,
-    soLuongMayBom: data?.thongso?.soLuongMayBom || 0,
-    qThietKe: data?.thongso?.qThietKe || 0,
-    qThucTe: data?.thongso?.qThucTe || 0,
-    dienTichTuoiThietKe: data?.thongso?.dienTichTuoiThietKe || 0,
-    dienTichTuoiThucTe: data?.thongso?.dienTichTuoiThucTe || 0,
-    thoiGianBomTB: data?.thongso?.thoiGianBomTB || 0,
-    thoiGianBomNhoNhat: data?.thongso?.thoiGianBomNhoNhat || 0,
-    thoiGianBomLonNhat: data?.thongso?.thoiGianBomLonNhat || 0,
-    chieuSauDoanThuNuocTu: data?.thongso?.chieuSauDoanThuNuocTu || 0,
-    chieuSauDoanThuNuocDen: data?.thongso?.chieuSauDoanThuNuocDen || 0,
-    qktCapNuocSinhHoat: data?.thongso?.qktCapNuocSinhHoat || 0,
-    hgieng: data?.thongso?.hgieng || 0,
-    hGiengKT: data?.thongso?.hGiengKT || 0,
-    phuongThucKT: data?.thongso?.phuongThucKT || 0,
-    mucNuocTinh: data?.thongso?.mucNuocTinh || 0,
-    mucNuocDong: data?.thongso?.mucNuocDong || 0,
-    tangChuaNuocKT: data?.thongso?.tangChuaNuocKT || 0,
-    hHaThap: data?.thongso?.hHaThap || 0,
-    luongNuocKT: data?.thongso?.luongNuocKT || 0,
-    hDatOngLocTu: data?.thongso?.hDatOngLocTu || 0,
-    hDatOngLocDen: data?.thongso?.hDatOngLocDen || 0,
-    qktLonNhat: data?.thongso?.qktLonNhat || 0,
-    congSuatBom: data?.thongso?.congSuatBom || 0,
-    qXaThaiTB: data?.thongso?.qXaThaiTB || 0,
-    qXaThaiLonNhat: data?.thongso?.qXaThaiLonNhat || 0,
-    kqKf: data?.thongso?.kqKf || 0,
-    qXaTran: data?.thongso?.qXaTran || 0,
-    qLonNhatTruocLu: data?.thongso?.qLonNhatTruocLu || 0,
-    hlu: data?.thongso?.hlu || 0,
-    hThuongLuu: data?.thongso?.hThuongLuu || 0,
-    hHaLuu: data?.thongso?.hHaLuu || 0,
-    qBomThietKe: data?.thongso?.qBomThietKe || 0,
-    qBomLonNhat: data?.thongso?.qBomLonNhat || 0,
-    hBeHut: data?.thongso?.hBeHut || 0,
-    qXaThai: data?.thongso?.qXaThai || 0,
-    qMaxXaThai: data?.thongso?.qMaxXaThai || 0,
-    qKhaiThac: data?.thongso?.qKhaiThac || 0,
-    qMaxKT: 0
+    id: data?.thongso?.id || null,
+    idCT: data?.thongso?.idCT || null,
+    idHangMucCT: data?.thongso?.idHangMucCT || null,
+    dienTichLuuVuc: data?.thongso?.dienTichLuuVuc || null,
+    muaTrungBinhNam: data?.thongso?.muaTrungBinhNam || null,
+    qTrungBinhNam: data?.thongso?.qTrungBinhNam || null,
+    congSuatLM: data?.thongso?.congSuatLM || null,
+    congSuatDamBao: data?.thongso?.congSuatDamBao || null,
+    chieuCaoDap: data?.thongso?.chieuCaoDap || null,
+    chieuDaiDap: data?.thongso?.chieuDaiDap || null,
+    caoTrinhDap: data?.thongso?.caoTrinhDap || null,
+    qmaxNM: data?.thongso?.qmaxNM || null,
+    qtt: data?.thongso?.qtt || null,
+    qDamBao: data?.thongso?.qDamBao || null,
+    hmax: data?.thongso?.hmax || null,
+    hmin: data?.thongso?.hmin || null,
+    htoiThieu: data?.thongso?.htoiThieu || null,
+    mnc: data?.thongso?.mnc || null,
+    mndbt: data?.thongso?.mndbt || null,
+    mnltk: data?.thongso?.mnltk || null,
+    mnlkt: data?.thongso?.mnlkt || null,
+    dungTichToanBo: data?.thongso?.dungTichToanBo || null,
+    dungTichChet: data?.thongso?.dungTichChet || null,
+    dungTichHuuIch: data?.thongso?.dungTichHuuIch || null,
+    caoTrinhCong: data?.thongso?.caoTrinhCong || null,
+    chieuDaiCong: data?.thongso?.chieuDaiCong || null,
+    chieuRongCong: data?.thongso?.chieuRongCong || null,
+    kichThuocCong: data?.thongso?.kichThuocCong || null,
+    soLuongMayBom: data?.thongso?.soLuongMayBom || null,
+    qThietKe: data?.thongso?.qThietKe || null,
+    qThucTe: data?.thongso?.qThucTe || null,
+    dienTichTuoiThietKe: data?.thongso?.dienTichTuoiThietKe || null,
+    dienTichTuoiThucTe: data?.thongso?.dienTichTuoiThucTe || null,
+    thoiGianBomTB: data?.thongso?.thoiGianBomTB || null,
+    thoiGianBomNhoNhat: data?.thongso?.thoiGianBomNhoNhat || null,
+    thoiGianBomLonNhat: data?.thongso?.thoiGianBomLonNhat || null,
+    chieuSauDoanThuNuocTu: data?.thongso?.chieuSauDoanThuNuocTu || null,
+    chieuSauDoanThuNuocDen: data?.thongso?.chieuSauDoanThuNuocDen || null,
+    qktCapNuocSinhHoat: data?.thongso?.qktCapNuocSinhHoat || null,
+    hgieng: data?.thongso?.hgieng || null,
+    hGiengKT: data?.thongso?.hGiengKT || null,
+    phuongThucKT: data?.thongso?.phuongThucKT || null,
+    mucNuocTinh: data?.thongso?.mucNuocTinh || null,
+    mucNuocDong: data?.thongso?.mucNuocDong || null,
+    tangChuaNuocKT: data?.thongso?.tangChuaNuocKT || null,
+    hHaThap: data?.thongso?.hHaThap || null,
+    luongNuocKT: data?.thongso?.luongNuocKT || null,
+    hDatOngLocTu: data?.thongso?.hDatOngLocTu || null,
+    hDatOngLocDen: data?.thongso?.hDatOngLocDen || null,
+    qktLonNhat: data?.thongso?.qktLonNhat || null,
+    congSuatBom: data?.thongso?.congSuatBom || null,
+    qXaThaiTB: data?.thongso?.qXaThaiTB || null,
+    qXaThaiLonNhat: data?.thongso?.qXaThaiLonNhat || null,
+    kqKf: data?.thongso?.kqKf || null,
+    qXaTran: data?.thongso?.qXaTran || null,
+    qLonNhatTruocLu: data?.thongso?.qLonNhatTruocLu || null,
+    hlu: data?.thongso?.hlu || null,
+    hThuongLuu: data?.thongso?.hThuongLuu || null,
+    hHaLuu: data?.thongso?.hHaLuu || null,
+    qBomThietKe: data?.thongso?.qBomThietKe || null,
+    qBomLonNhat: data?.thongso?.qBomLonNhat || null,
+    hBeHut: data?.thongso?.hBeHut || null,
+    qXaThai: data?.thongso?.qXaThai || null,
+    qMaxXaThai: data?.thongso?.qMaxXaThai || null,
+    qKhaiThac: data?.thongso?.qKhaiThac || null,
+    qMaxKT: null
   })
   const [consType, setconsType] = useState<any>([])
   const [district, setDistrict] = useState<any>([])
@@ -137,7 +137,7 @@ const SurfaceWaterField: FC<ConsTypeFieldsetProps> = ({ data, onChange }) => {
 
         //commune
         const communes = await getData(`hanh-chinh/xa/danh-sach`)
-        const communeFiltered = communes.filter((item: any) => item.idHuyen == consSFData?.idHuyen?.toString())
+        const communeFiltered = communes.filter((item: any) => item.idHuyen == consData?.idHuyen?.toString())
         setCommune(communeFiltered)
       } catch (error) {
         //console.log(error)
@@ -148,16 +148,16 @@ const SurfaceWaterField: FC<ConsTypeFieldsetProps> = ({ data, onChange }) => {
 
     getDataForSelect()
     setCommune([])
-  }, [consSFData?.idHuyen])
+  }, [consData?.idHuyen])
 
   const handleChange = (prop: keyof ConstructionState | keyof ConstructionSpecState) => (value: any) => {
-    setConsSFData({ ...consSFData, [prop]: value })
-    setConsSpec({ ...consSpec, [prop]: value })
-    const dataChange = {
-      consSFData:consSFData,
-      consSpec:consSpec
+    if (prop in consData) {
+      setConsData({ ...consData, [prop]: value });
+      onChange({ ...consData, [prop]: value })
+    } else {
+      setConsSpec({ ...consSpec, [prop]: value });
+      onChange({ consData: { ...consData, [prop]: value }, consSpec: { ...consSpec, [prop]: value } })
     }
-    onChange({ ...dataChange, [prop]: value })
   }
 
   return (
@@ -175,7 +175,7 @@ const SurfaceWaterField: FC<ConsTypeFieldsetProps> = ({ data, onChange }) => {
               size='small'
               options={consType}
               getOptionLabel={(option: any) => option.tenLoaiCT}
-              value={consType.find((option: any) => option.id === consSFData.idLoaiCT) || null}
+              value={consType.find((option: any) => option.id === consData.idLoaiCT) || null}
               isOptionEqualToValue={(option: any) => option.id}
               onChange={(_, value) => handleChange('idLoaiCT')(value?.id || 0)}
               renderInput={params => (
@@ -205,7 +205,7 @@ const SurfaceWaterField: FC<ConsTypeFieldsetProps> = ({ data, onChange }) => {
               label='Tên công trình'
               fullWidth
               placeholder=''
-              value={consSFData.tenCT || ''}
+              value={consData.tenCT || ''}
               onChange={event => handleChange('tenCT')(event.target.value)}
             />
           </Grid>
@@ -217,7 +217,7 @@ const SurfaceWaterField: FC<ConsTypeFieldsetProps> = ({ data, onChange }) => {
               label='Địa điểm công trình'
               multiline
               maxRows={4}
-              value={consSFData.viTriCT || ''}
+              value={consData.viTriCT || ''}
               onChange={event => handleChange('viTriCT')(event.target.value)}
             />
           </Grid>
@@ -230,7 +230,7 @@ const SurfaceWaterField: FC<ConsTypeFieldsetProps> = ({ data, onChange }) => {
               size='small'
               options={district}
               getOptionLabel={(option: any) => option.tenHuyen}
-              value={district.find((option: any) => option.idHuyen === consSFData.idHuyen?.toString()) || null}
+              value={district.find((option: any) => option.idHuyen === consData.idHuyen?.toString()) || null}
               isOptionEqualToValue={(option: any) => option.idHuyen}
               onChange={(_, value) => handleChange('idHuyen')(value?.idHuyen || 0)}
               renderInput={params => (
@@ -255,11 +255,11 @@ const SurfaceWaterField: FC<ConsTypeFieldsetProps> = ({ data, onChange }) => {
 
           <Grid item xs={12} md={3} sm={12} sx={{ my: 2 }}>
             <Autocomplete
-              disabled={consSFData?.idHuyen !== undefined && consSFData.idHuyen == null}
+              disabled={consData?.idHuyen !== undefined && consData.idHuyen == null}
               size='small'
               options={commune}
               getOptionLabel={(option: any) => option.tenXa}
-              value={commune.find((option: any) => option.idXa === consSFData.idXa?.toString()) || null}
+              value={commune.find((option: any) => option.idXa === consData.idXa?.toString()) || null}
               isOptionEqualToValue={(option: any) => option.idXa}
               onChange={(_, value) => handleChange('idXa')(value?.idXa || 0)}
               renderInput={params => (
@@ -288,7 +288,7 @@ const SurfaceWaterField: FC<ConsTypeFieldsetProps> = ({ data, onChange }) => {
               fullWidth
               label='Năm vận hành'
               placeholder=''
-              value={consSFData.namBatDauVanHanh || ''}
+              value={consData.namBatDauVanHanh || ''}
               onChange={event => handleChange('namBatDauVanHanh')(event.target.value)}
             />
           </Grid>
@@ -299,7 +299,7 @@ const SurfaceWaterField: FC<ConsTypeFieldsetProps> = ({ data, onChange }) => {
               fullWidth
               placeholder=''
               label='Năm xây dựng'
-              value={consSFData.thoiGianXD || ''}
+              value={consData.thoiGianXD || ''}
               onChange={event => handleChange('thoiGianXD')(event.target.value)}
             />
           </Grid>
@@ -313,7 +313,7 @@ const SurfaceWaterField: FC<ConsTypeFieldsetProps> = ({ data, onChange }) => {
               fullWidth
               placeholder=''
               label='X (VN2000)'
-              value={consSFData.x || ''}
+              value={consData.x || ''}
               onChange={event => handleChange('x')(event.target.value)}
             />
           </Grid>
@@ -323,7 +323,7 @@ const SurfaceWaterField: FC<ConsTypeFieldsetProps> = ({ data, onChange }) => {
               type='text'
               fullWidth
               placeholder=''
-              value={consSFData.y || ''}
+              value={consData.y || ''}
               onChange={event => handleChange('y')(event.target.value)}
               label='Y (VN2000)'
             />
@@ -334,7 +334,7 @@ const SurfaceWaterField: FC<ConsTypeFieldsetProps> = ({ data, onChange }) => {
               size='small'
               options={consType}
               getOptionLabel={(option: any) => option.label}
-              value={consType.find((option: any) => option.value === consSFData.idLoaiCT) || null}
+              value={consType.find((option: any) => option.value === consData.idLoaiCT) || null}
               isOptionEqualToValue={(option: any) => option.id}
               onChange={(_, value) => handleChange('idLoaiCT')(value?.id || 0)}
               renderInput={params => (
@@ -390,7 +390,7 @@ const SurfaceWaterField: FC<ConsTypeFieldsetProps> = ({ data, onChange }) => {
               placeholder=''
               multiline
               maxRows={4}
-              value={consSFData.nguonNuocKT || ''}
+              value={consData.nguonNuocKT || ''}
               onChange={event => handleChange('nguonNuocKT')(event.target.value)}
               label='Nguồn nước khai thác'
             />
@@ -406,7 +406,7 @@ const SurfaceWaterField: FC<ConsTypeFieldsetProps> = ({ data, onChange }) => {
               placeholder=''
               multiline
               maxRows={4}
-              value={consSFData.phuongThucKT || ''}
+              value={consData.phuongThucKT || ''}
               onChange={event => handleChange('phuongThucKT')(event.target.value)}
               label='Phương thức khai thác'
             />
@@ -419,7 +419,7 @@ const SurfaceWaterField: FC<ConsTypeFieldsetProps> = ({ data, onChange }) => {
               type='text'
               fullWidth
               placeholder=''
-              value={consSFData.cheDoKT || ''}
+              value={consData.cheDoKT || ''}
               onChange={event => handleChange('cheDoKT')(event.target.value)}
               label='Chế độ khai thác'
             />
@@ -428,7 +428,7 @@ const SurfaceWaterField: FC<ConsTypeFieldsetProps> = ({ data, onChange }) => {
       </fieldset>
 
       {/*check thuydien va ho chua */}
-      {consSFData?.idLoaiCT === 4 || consSFData?.idLoaiCT === 5 ? (
+      {consData?.idLoaiCT === 4 || consData?.idLoaiCT === 5 ? (
         <Grid item xs={12}>
           <fieldset>
             <legend>
@@ -444,7 +444,7 @@ const SurfaceWaterField: FC<ConsTypeFieldsetProps> = ({ data, onChange }) => {
                   label='Cấp công trình'
                   fullWidth
                   placeholder=''
-                  value={consSpec.capCT|| ''}
+                  value={consData.capCT || ''}
                   onChange={event => handleChange('capCT')(event.target.value)}
                 />
               </Grid>
@@ -624,7 +624,7 @@ const SurfaceWaterField: FC<ConsTypeFieldsetProps> = ({ data, onChange }) => {
                 />
               </Grid>
             </Grid>
-            {consSFData?.idLoaiCT === 4 ? (
+            {consData?.idLoaiCT === 4 ? (
               <Grid item xs={12}>
                 <Grid container spacing={4}>
                   <Grid item xs={12} md={3} sm={12} sx={{ my: 2 }}>
@@ -683,7 +683,7 @@ const SurfaceWaterField: FC<ConsTypeFieldsetProps> = ({ data, onChange }) => {
       )}
 
       {/* check form tram bom */}
-      {consSFData?.idLoaiCT === 6 ? (
+      {consData?.idLoaiCT === 6 ? (
         <fieldset>
           <legend>
             <Typography variant={'subtitle1'} className='legend__title'>
@@ -798,7 +798,7 @@ const SurfaceWaterField: FC<ConsTypeFieldsetProps> = ({ data, onChange }) => {
 
       {/* check form cong */}
 
-      {consSFData?.idLoaiCT === 12 ? (
+      {consData?.idLoaiCT === 12 ? (
         <fieldset>
           <legend>
             <Typography variant={'subtitle1'} className='legend__title'>
