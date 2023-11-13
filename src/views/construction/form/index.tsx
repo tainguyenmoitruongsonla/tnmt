@@ -8,7 +8,14 @@ import GroundWaterField from './cons-ground'
 import SurfaceWaterField from './cons-suface'
 import DischargeWaterField from './cons-discharge'
 import { deleteData, saveData } from 'src/api/axios'
-import { ConstructionItemState, ConstructionSpecState, ConstructionState, emptyConstructionData, emptyConstructionSpec } from './construction-interface'
+import {
+  ConstructionItemState,
+  ConstructionSpecState,
+  ConstructionState,
+  emptyConstructionData,
+  emptyConstructionSpec
+} from './construction-interface'
+import ConstructionExploit from './cons-exploit'
 
 interface FormConstructionProps {
   data: any
@@ -17,16 +24,17 @@ interface FormConstructionProps {
 }
 
 const FormConstruction: React.FC<FormConstructionProps> = ({ data, closeDialogs, setPostSuccess }) => {
-
   //Construction
   const [consData, setConsData] = useState<ConstructionState>(data)
+  console.log(data);
+  
   const [consSpec, setConsSpec] = useState<ConstructionSpecState>(data)
 
   //ConstructionItem
   const [consItemData, setConsItemData] = useState<ConstructionItemState[]>(data?.hangmuc)
   const [consItemSpec, setConsItemSpec] = useState<ConstructionSpecState>(data?.hangmuc?.thongso)
   const [consItemDataDetele, setConsItemDataDelete] = useState<any>()
-  const [saving, setSaving] = useState(false);
+  const [saving, setSaving] = useState(false)
   const handleConsChange = (data: any) => {
     setConsData(data.consData)
     setConsSpec(data.consSpec)
@@ -66,17 +74,15 @@ const FormConstruction: React.FC<FormConstructionProps> = ({ data, closeDialogs,
 
           typeof setPostSuccess === 'function' ? setPostSuccess(true) : ''
 
-          setConsData(emptyConstructionData);
+          setConsData(emptyConstructionData)
           closeDialogs()
         }
-      }
-      catch (error) {
+      } catch (error) {
       } finally {
         setSaving(false)
-        closeDialogs();
+        closeDialogs()
       }
-    };
-
+    }
 
     // Call the function
     handleApiCall()
@@ -102,9 +108,16 @@ const FormConstruction: React.FC<FormConstructionProps> = ({ data, closeDialogs,
             ''
           )}
         </Grid>
-        <Grid item xs={12}>
-          <ConstructionItem data={consItemData} onChange={handleconsItemChange} />
-        </Grid>
+
+        {consData?.idLoaiCT === 7 ? (
+          <Grid item xs={12}>
+            <ConstructionExploit />
+          </Grid>
+        ) : (
+          <Grid item xs={12}>
+            <ConstructionItem data={consItemData} onChange={handleconsItemChange} />
+          </Grid>
+        )}
       </Grid>
 
       <DialogActions sx={{ p: 0, mt: 5 }}>

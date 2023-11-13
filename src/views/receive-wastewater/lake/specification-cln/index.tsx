@@ -43,34 +43,8 @@ const SpecCLN = () => {
   getDataReport1();
 }, [route.pathname, postSuccess]);
 
-  {route.pathname.split('/')[2] == 'nguon-nuoc-ao' ? (
-    <Grid xs={12} md={12}>
-      <Typography textAlign={'center'} variant='h6'>
-        QUY CHUẨN QUỐC GIA VỀ CHẤT LƯỢNG NƯỚC MẶT CHO AO,HỒ
-      </Typography>
-      <Typography sx={{ mt: 5 }} textAlign={'center'}>
-        Giá trị giới hạn các thông số trong nước mặt phục vụ cho việc phân loại chất lượng nước ao,hồ,
-        <br />
-        đầm và bảo vệ môi trường sông dưới nước
-      </Typography>
-    </Grid>
-  ) : route.pathname.split('/')[2] == 'nguon-nuoc-song' ? (
-    <Grid xs={12} md={12}>
-      <Typography textAlign={'center'} variant='h6'>
-        QUY CHUẨN QUỐC GIA VỀ CHẤT LƯỢNG NƯỚC MẶT CHO SÔNG, SUỐI
-      </Typography>
-      <Typography sx={{ mt: 5 }} textAlign={'center'}>
-        Giá trị giới hạn các thông số trong nước mặt phục vụ cho việc phân loại chất lượng nước sông,suối,
-        <br />
-        kênh,mương,khe,rạch và bảo vệ môi trường sông dưới nước
-      </Typography>
-    </Grid>
-  ) : (
-    ''
-  )}
-
   return (
-    <Grid container spacing={2}>
+    <Grid container spacing={2} >
       {route.pathname.split('/')[2] == 'nguon-nuoc-ao' ? (
         <Grid xs={12} md={12}>
           <Typography textAlign={'center'} variant='h6'>

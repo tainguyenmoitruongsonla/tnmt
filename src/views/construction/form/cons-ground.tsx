@@ -9,7 +9,7 @@ interface ConsTypeFieldsetProps {
 }
 
 const GroundWaterField: FC<ConsTypeFieldsetProps> = ({ data, onChange }) => {
-  const [consGroundData, setConsGroundData] = useState<ConstructionState>({
+  const [consSFData, setConsSFData] = useState<ConstructionState>({
     id: data?.id || null,
     idLoaiCT: data?.idLoaiCT || null,
     idXa: data?.idXa || null,
@@ -137,7 +137,7 @@ const GroundWaterField: FC<ConsTypeFieldsetProps> = ({ data, onChange }) => {
 
         //commune
         const communes = await getData(`hanh-chinh/xa/danh-sach`)
-        const communeFiltered = communes.filter((item: any) => item.idHuyen == consGroundData?.idHuyen?.toString())
+        const communeFiltered = communes.filter((item: any) => item.idHuyen == consSFData?.idHuyen?.toString())
         setCommune(communeFiltered)
       } catch (error) {
         //console.log(error)
@@ -148,13 +148,13 @@ const GroundWaterField: FC<ConsTypeFieldsetProps> = ({ data, onChange }) => {
 
     getDataForSelect()
     setCommune([])
-  }, [consGroundData?.idHuyen])
+  }, [consSFData?.idHuyen])
 
   const handleChange = (prop: keyof ConstructionState | keyof ConstructionSpecState) => (value: any) => {
-    setConsGroundData({ ...consGroundData, [prop]: value })
+    setConsSFData({ ...consSFData, [prop]: value })
     setConsSpec({ ...consSpec, [prop]: value })
     const dataChange = {
-      consGroundData: consGroundData,
+      consSFData: consSFData,
       consSpec: consSpec
     }
     onChange({ ...dataChange, [prop]: value })
@@ -175,7 +175,7 @@ const GroundWaterField: FC<ConsTypeFieldsetProps> = ({ data, onChange }) => {
               size='small'
               options={consType}
               getOptionLabel={(option: any) => option.tenLoaiCT}
-              value={consType.find((option: any) => option.id === consGroundData.idLoaiCT) || null}
+              value={consType.find((option: any) => option.id === consSFData.idLoaiCT) || null}
               isOptionEqualToValue={(option: any) => option.id}
               onChange={(_, value) => handleChange('idLoaiCT')(value?.id || 0)}
               renderInput={params => <TextField required {...params} fullWidth label='Chọn loại hình công trình' InputProps={{
@@ -196,7 +196,7 @@ const GroundWaterField: FC<ConsTypeFieldsetProps> = ({ data, onChange }) => {
               label='Tên công trình'
               fullWidth
               placeholder=''
-              defaultValue={consGroundData.tenCT}
+              defaultValue={consSFData.tenCT}
               onChange={event => handleChange('tenCT')(event.target.value)}
             />
           </Grid>
@@ -207,7 +207,7 @@ const GroundWaterField: FC<ConsTypeFieldsetProps> = ({ data, onChange }) => {
               variant='outlined'
               fullWidth
               label='Địa điểm công trình'
-              defaultValue={consGroundData.viTriCT}
+              defaultValue={consSFData.viTriCT}
               onChange={event => handleChange('viTriCT')(event.target.value)}
             />
           </Grid>
@@ -220,7 +220,7 @@ const GroundWaterField: FC<ConsTypeFieldsetProps> = ({ data, onChange }) => {
               size='small'
               options={district}
               getOptionLabel={(option: any) => option.tenHuyen}
-              value={district.find((option: any) => option.idHuyen === consGroundData.idHuyen?.toString()) || null}
+              value={district.find((option: any) => option.idHuyen === consSFData.idHuyen?.toString()) || null}
               isOptionEqualToValue={(option: any) => option.idHuyen}
               onChange={(_, value) => handleChange('idHuyen')(value?.idHuyen || 0)}
               renderInput={params => (
@@ -244,11 +244,11 @@ const GroundWaterField: FC<ConsTypeFieldsetProps> = ({ data, onChange }) => {
           </Grid>
           <Grid item xs={12} md={3} sm={12} sx={{ my: 2 }}>
             <Autocomplete
-              disabled={consGroundData?.idHuyen !== undefined && consGroundData.idHuyen == null}
+              disabled={consSFData?.idHuyen !== undefined && consSFData.idHuyen == null}
               size='small'
               options={commune}
               getOptionLabel={(option: any) => option.tenXa}
-              value={commune.find((option: any) => option.idXa === consGroundData.idXa?.toString()) || null}
+              value={commune.find((option: any) => option.idXa === consSFData.idXa?.toString()) || null}
               isOptionEqualToValue={(option: any) => option.idXa}
               onChange={(_, value) => handleChange('idXa')(value?.idXa || 0)}
               renderInput={params => (
@@ -277,7 +277,7 @@ const GroundWaterField: FC<ConsTypeFieldsetProps> = ({ data, onChange }) => {
               fullWidth
               label='Năm vận hành'
               placeholder=''
-              defaultValue={consGroundData.namBatDauVanHanh}
+              defaultValue={consSFData.namBatDauVanHanh}
               onChange={event => handleChange('namBatDauVanHanh')(event.target.value)}
             />
           </Grid>
@@ -291,7 +291,7 @@ const GroundWaterField: FC<ConsTypeFieldsetProps> = ({ data, onChange }) => {
               fullWidth
               placeholder=''
               label='X(VN2000'
-              defaultValue={consGroundData.x}
+              defaultValue={consSFData.x}
               onChange={event => handleChange('x')(event.target.value)}
             />
           </Grid>
@@ -301,7 +301,7 @@ const GroundWaterField: FC<ConsTypeFieldsetProps> = ({ data, onChange }) => {
               type='text'
               fullWidth
               placeholder=''
-              defaultValue={consGroundData.y}
+              defaultValue={consSFData.y}
               onChange={event => handleChange('y')(event.target.value)}
               label='Y (VN2000)'
             />
@@ -312,7 +312,7 @@ const GroundWaterField: FC<ConsTypeFieldsetProps> = ({ data, onChange }) => {
               type='text'
               fullWidth
               placeholder=''
-              defaultValue={consGroundData.thoiGianHNK}
+              defaultValue={consSFData.thoiGianHNK}
               multiline
               onChange={event => handleChange('thoiGianHNK')(event.target.value)}
               label='Thời gian hành nghề'
@@ -327,7 +327,7 @@ const GroundWaterField: FC<ConsTypeFieldsetProps> = ({ data, onChange }) => {
               type='text'
               fullWidth
               placeholder=''
-              defaultValue={consGroundData.mucDichhTD}
+              defaultValue={consSFData.mucDichhTD}
               onChange={event => handleChange('mucDichhTD')(event.target.value)}
               label='Mục đích khai thác,sử dụng nước'
             />
@@ -337,7 +337,7 @@ const GroundWaterField: FC<ConsTypeFieldsetProps> = ({ data, onChange }) => {
       </fieldset>
 
       {/*check thuydien va ho chua */}
-      {consGroundData?.idLoaiCT === 7 ? (
+      {consSFData?.idLoaiCT === 7 ? (
         <Grid item xs={12}>
           <fieldset>
             <legend>
@@ -353,7 +353,7 @@ const GroundWaterField: FC<ConsTypeFieldsetProps> = ({ data, onChange }) => {
                   label='Số giếng khai thác'
                   fullWidth
                   placeholder=''
-                  defaultValue={consGroundData.mucDichhTD}
+                  defaultValue={consSFData.mucDichhTD}
                   onChange={event => handleChange('mucDichhTD')(event.target.value)}
                 />
               </Grid>
@@ -375,7 +375,7 @@ const GroundWaterField: FC<ConsTypeFieldsetProps> = ({ data, onChange }) => {
                   label='Số hiệu'
                   fullWidth
                   placeholder=''
-                  defaultValue={consGroundData.soLuongGieng}
+                  defaultValue={consSFData.soLuongGieng}
                   onChange={event => handleChange('soLuongGieng')(event.target.value)}
                 />
               </Grid>
@@ -484,7 +484,7 @@ const GroundWaterField: FC<ConsTypeFieldsetProps> = ({ data, onChange }) => {
       )}
 
       {/* check form tram bom */}
-      {consGroundData?.idLoaiCT === 8 ? (
+      {consSFData?.idLoaiCT === 8 ? (
         <fieldset>
           <legend>
             <Typography variant={'subtitle1'} className='legend__title'>
@@ -510,7 +510,7 @@ const GroundWaterField: FC<ConsTypeFieldsetProps> = ({ data, onChange }) => {
                 label='Chế độ khai thác(giờ/ngày đêm)'
                 fullWidth
                 placeholder=''
-                defaultValue={consGroundData.cheDoKT}
+                defaultValue={consSFData.cheDoKT}
                 onChange={event => handleChange('cheDoKT')(event.target.value)}
               />
             </Grid>
@@ -521,7 +521,7 @@ const GroundWaterField: FC<ConsTypeFieldsetProps> = ({ data, onChange }) => {
                 label='Thời gian thi công'
                 fullWidth
                 placeholder=''
-                defaultValue={consGroundData.thoiGianXD}
+                defaultValue={consSFData.thoiGianXD}
                 onChange={event => handleChange('thoiGianXD')(event.target.value)}
               />
             </Grid>
@@ -535,7 +535,7 @@ const GroundWaterField: FC<ConsTypeFieldsetProps> = ({ data, onChange }) => {
                 label='Tầng chứa nước thăm dò'
                 fullWidth
                 placeholder=''
-                defaultValue={consGroundData.quyMoHNK}
+                defaultValue={consSFData.quyMoHNK}
                 onChange={event => handleChange('quyMoHNK')(event.target.value)}
               />
             </Grid>
@@ -546,7 +546,7 @@ const GroundWaterField: FC<ConsTypeFieldsetProps> = ({ data, onChange }) => {
                 label='Khối lượng các hạng mục thăm dò'
                 fullWidth
                 placeholder=''
-                defaultValue={consGroundData.khoiLuongCacHangMucTD}
+                defaultValue={consSFData.khoiLuongCacHangMucTD}
                 onChange={event => handleChange('khoiLuongCacHangMucTD')(event.target.value)}
               />
             </Grid>
@@ -558,7 +558,7 @@ const GroundWaterField: FC<ConsTypeFieldsetProps> = ({ data, onChange }) => {
 
       {/* check form cong */}
 
-      {consGroundData?.idLoaiCT === 9 ? (
+      {consSFData?.idLoaiCT === 9 ? (
         <fieldset>
           <legend>
             <Typography variant={'subtitle1'} className='legend__title'>
@@ -573,7 +573,7 @@ const GroundWaterField: FC<ConsTypeFieldsetProps> = ({ data, onChange }) => {
                 label='Quy mô khoan thăm dò'
                 fullWidth
                 placeholder=''
-                defaultValue={consGroundData.quyMoHNK}
+                defaultValue={consSFData.quyMoHNK}
                 onChange={event => handleChange('quyMoHNK')(event.target.value)}
               />
             </Grid>
@@ -584,7 +584,7 @@ const GroundWaterField: FC<ConsTypeFieldsetProps> = ({ data, onChange }) => {
                 label='Tầng chứa nước thăm dò'
                 fullWidth
                 placeholder=''
-                defaultValue={consGroundData.quyMoHNK}
+                defaultValue={consSFData.quyMoHNK}
                 onChange={event => handleChange('quyMoHNK')(event.target.value)}
               />
             </Grid>
@@ -595,7 +595,7 @@ const GroundWaterField: FC<ConsTypeFieldsetProps> = ({ data, onChange }) => {
                 label='Thời gian thi công'
                 fullWidth
                 placeholder=''
-                defaultValue={consGroundData.thoiGianXD}
+                defaultValue={consSFData.thoiGianXD}
                 onChange={event => handleChange('thoiGianXD')(event.target.value)}
               />
             </Grid>

@@ -356,7 +356,6 @@ const GroundConstruction = () => {
           if (isMounted.current) {
             setResData(data)
           }
-          console.log(data)
         })
 
         .catch(error => {
