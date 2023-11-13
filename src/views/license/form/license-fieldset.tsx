@@ -265,7 +265,7 @@ const LicenseFieldset: FC<LicenseFieldsetProps> = ({ data, onChange }) => {
             <fieldset>
                 <legend>
                     <Typography variant={'subtitle1'} className='legend__title'>
-                        FILE GIẤY PHÉP
+                        TÀI LIỆU ĐÍNH KÈM
                     </Typography>
                 </legend>
                 <Grid container>
@@ -273,13 +273,13 @@ const LicenseFieldset: FC<LicenseFieldsetProps> = ({ data, onChange }) => {
                         <TableHead>
                             <TableRow>
                                 <TableCell align='center'>
-                                    File giấy phép
+                                    Giấy phép
                                 </TableCell>
                                 <TableCell align='center'>
                                     Đơn xin cấp phép
                                 </TableCell>
                                 <TableCell align='center'>
-                                    Giấy tờ khác có liên quan
+                                    Tài liệu liên quan
                                 </TableCell>
                             </TableRow>
                         </TableHead>

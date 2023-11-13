@@ -8,13 +8,7 @@ import GroundWaterField from './cons-ground'
 import SurfaceWaterField from './cons-suface'
 import DischargeWaterField from './cons-discharge'
 import { deleteData, saveData } from 'src/api/axios'
-import {
-  ConstructionItemState,
-  ConstructionSpecState,
-  ConstructionState,
-  emptyConstructionData,
-  emptyConstructionSpec
-} from './construction-interface'
+import { ConstructionItemState, ConstructionSpecState, ConstructionState, emptyConstructionData } from './construction-interface'
 import ConstructionExploit from './cons-exploit'
 
 interface FormConstructionProps {
@@ -26,13 +20,10 @@ interface FormConstructionProps {
 const FormConstruction: React.FC<FormConstructionProps> = ({ data, closeDialogs, setPostSuccess }) => {
   //Construction
   const [consData, setConsData] = useState<ConstructionState>(data)
-  console.log(data);
-  
   const [consSpec, setConsSpec] = useState<ConstructionSpecState>(data)
 
   //ConstructionItem
   const [consItemData, setConsItemData] = useState<ConstructionItemState[]>(data?.hangmuc)
-  const [consItemSpec, setConsItemSpec] = useState<ConstructionSpecState>(data?.hangmuc?.thongso)
   const [consItemDataDetele, setConsItemDataDelete] = useState<any>()
   const [saving, setSaving] = useState(false)
   const handleConsChange = (data: any) => {
@@ -46,7 +37,6 @@ const FormConstruction: React.FC<FormConstructionProps> = ({ data, closeDialogs,
   const handleconsItemChange = (dataSave: any, dataDelete: any) => {
     setConsItemDataDelete(dataDelete)
     setConsItemData(dataSave)
-    setConsItemSpec(emptyConstructionSpec)
   }
 
   const handleSubmit = async (e: any) => {
@@ -66,10 +56,7 @@ const FormConstruction: React.FC<FormConstructionProps> = ({ data, closeDialogs,
 
           consItemData.map(async (e: any) => {
             e.idCT = res.id
-            const consItemRes = await saveData('hang-muc-ct/luu', e)
-            if (consItemSpec && consItemRes) {
-              await saveData('thong-so-ct/luu', { ...consItemSpec, idCT: null, idHangMucCT: consItemRes.id })
-            }
+            await saveData('hang-muc-ct/luu', e)
           })
 
           typeof setPostSuccess === 'function' ? setPostSuccess(true) : ''
@@ -94,6 +81,8 @@ const FormConstruction: React.FC<FormConstructionProps> = ({ data, closeDialogs,
     closeDialogs()
   }
 
+  console.log(consData)
+  
   return (
     <form onSubmit={handleSubmit}>
       <Grid container gap={3}>
@@ -108,7 +97,6 @@ const FormConstruction: React.FC<FormConstructionProps> = ({ data, closeDialogs,
             ''
           )}
         </Grid>
-
         {consData?.idLoaiCT === 7 ? (
           <Grid item xs={12}>
             <ConstructionExploit />

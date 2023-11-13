@@ -1,7 +1,11 @@
-import { Typography, Grid, Autocomplete, TextField, CircularProgress } from '@mui/material'
+import { Typography, Grid, Autocomplete, TextField, CircularProgress, Button } from '@mui/material'
 import { useEffect, FC, useState, Fragment } from 'react'
-import { ConstructionSpecState, ConstructionState } from './construction-interface'
+import { ConstructionSpecState, ConstructionState, emptyConstructionData, emptyConstructionSpec } from './construction-interface'
 import { getData } from 'src/api/axios'
+import { useRouter } from 'next/router'
+import GetConstructionTypeId from 'src/@core/components/get-construction-type'
+import { Add } from '@mui/icons-material'
+import { createConsCode } from 'src/@core/components/createConsCode'
 
 interface ConsTypeFieldsetProps {
   data?: any // Thêm prop data để truyền dữ liệu từ ngoài vào
@@ -9,6 +13,7 @@ interface ConsTypeFieldsetProps {
 }
 
 const SurfaceWaterField: FC<ConsTypeFieldsetProps> = ({ data, onChange }) => {
+
   const [consData, setConsData] = useState<ConstructionState>({
     id: data?.id || null,
     idLoaiCT: data?.idLoaiCT || null,
@@ -120,6 +125,11 @@ const SurfaceWaterField: FC<ConsTypeFieldsetProps> = ({ data, onChange }) => {
   const [district, setDistrict] = useState<any>([])
   const [commune, setCommune] = useState<any>([])
   const [loading, setLoading] = useState<boolean>(false)
+  const [showDataCons, setShowDataCons] = useState<boolean>(false)
+  const [ds_congtrinh, setDSCongtrinh] = useState<any>([])
+
+  const router = useRouter();
+  const isLicensepage = router.pathname.split('/')[1] == "giay-phep";
 
   useEffect(() => {
     const getDataForSelect = async () => {
@@ -130,6 +140,21 @@ const SurfaceWaterField: FC<ConsTypeFieldsetProps> = ({ data, onChange }) => {
         const consTypes = await getData('loai-ct/danh-sach')
         const filteredData = consTypes.filter((item: any) => item.idCha === 1)
         setconsType(filteredData)
+
+        //cons
+        const congtrinh = await getData('cong-trinh/danh-sach', {
+          tenct: null,
+          loai_ct: consData?.idLoaiCT !== null ? consData?.idLoaiCT : GetConstructionTypeId(router),
+          huyen: 0,
+          xa: 0,
+          song: 0,
+          luuvuc: 0,
+          tieu_luuvuc: 0,
+          tang_chuanuoc: 0,
+          tochuc_canhan: 0,
+          nguonnuoc_kt: null
+        })
+        setDSCongtrinh(congtrinh)
 
         //district
         const distric = await getData('hanh-chinh/huyen/danh-sach')
@@ -148,16 +173,46 @@ const SurfaceWaterField: FC<ConsTypeFieldsetProps> = ({ data, onChange }) => {
 
     getDataForSelect()
     setCommune([])
-  }, [consData?.idHuyen])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [consData?.idHuyen, consData?.idLoaiCT])
 
   const handleChange = (prop: keyof ConstructionState | keyof ConstructionSpecState) => (value: any) => {
     if (prop in consData) {
-      setConsData({ ...consData, [prop]: value });
-      onChange({ ...consData, [prop]: value })
+      setConsData((prevData) => {
+        let mact = null;
+        if (prop === 'tenCT') {
+          mact = createConsCode({ ...prevData, [prop]: value });
+        }
+        const updatedData = { ...prevData, maCT: mact, [prop]: value };
+        onChange(updatedData);
+
+        return updatedData;
+      });
     } else {
-      setConsSpec({ ...consSpec, [prop]: value });
-      onChange({ consData: { ...consData, [prop]: value }, consSpec: { ...consSpec, [prop]: value } })
+      setConsSpec((prevSpec) => {
+        const updatedSpec = { ...prevSpec, [prop]: value };
+        onChange({
+          consData: { ...consData, [prop]: value },
+          consSpec: updatedSpec,
+        });
+
+        return updatedSpec;
+      });
     }
+  }
+
+
+  const handleSetCons = (data: any) => {
+    const cons: ConstructionState = data;
+    setShowDataCons(true)
+    setConsData(cons || emptyConstructionData)
+    setConsSpec(data.thongso || emptyConstructionSpec);
+    onChange({ consData: { ...cons }, consSpec: { ...data.thongso } })
+  }
+
+  const handleAddNewCons = () => {
+    setShowDataCons(true)
+    setConsData(emptyConstructionData)
   }
 
   return (
@@ -197,48 +252,21 @@ const SurfaceWaterField: FC<ConsTypeFieldsetProps> = ({ data, onChange }) => {
               )}
             />
           </Grid>
-
-          <Grid item xs={12} md={3} sm={12} sx={{ my: 2 }}>
-            <TextField
-              size='small'
-              type='text'
-              label='Tên công trình'
-              fullWidth
-              placeholder=''
-              value={consData.tenCT || ''}
-              onChange={event => handleChange('tenCT')(event.target.value)}
-            />
-          </Grid>
-          <Grid item xs={12} md={6} sm={12} sx={{ my: 2 }}>
-            <TextField
-              size='small'
-              variant='outlined'
-              fullWidth
-              label='Địa điểm công trình'
-              multiline
-              maxRows={4}
-              value={consData.viTriCT || ''}
-              onChange={event => handleChange('viTriCT')(event.target.value)}
-            />
-          </Grid>
-        </Grid>
-
-        <Grid container spacing={4}>
           <Grid item xs={12} md={3} sm={12} sx={{ my: 2 }}>
             <Autocomplete
               disabled={loading}
               size='small'
-              options={district}
-              getOptionLabel={(option: any) => option.tenHuyen}
-              value={district.find((option: any) => option.idHuyen === consData.idHuyen?.toString()) || null}
-              isOptionEqualToValue={(option: any) => option.idHuyen}
-              onChange={(_, value) => handleChange('idHuyen')(value?.idHuyen || 0)}
+              options={ds_congtrinh}
+              getOptionLabel={(option: any) => option.tenCT}
+              value={ds_congtrinh.find((option: any) => option.tenCT.toLowerCase() === consData.tenCT?.toLowerCase()) || null}
+              isOptionEqualToValue={(option: any) => option.tenCT}
+              onChange={(_, value) => handleSetCons(value || emptyConstructionData)}
               renderInput={params => (
                 <TextField
                   required
                   {...params}
                   fullWidth
-                  label='Chọn Quận/Huyện'
+                  label='Chọn công trình'
                   InputProps={{
                     ...params.InputProps,
                     endAdornment: (
@@ -252,136 +280,227 @@ const SurfaceWaterField: FC<ConsTypeFieldsetProps> = ({ data, onChange }) => {
               )}
             />
           </Grid>
-
-          <Grid item xs={12} md={3} sm={12} sx={{ my: 2 }}>
-            <Autocomplete
-              disabled={consData?.idHuyen !== undefined && consData.idHuyen == null}
-              size='small'
-              options={commune}
-              getOptionLabel={(option: any) => option.tenXa}
-              value={commune.find((option: any) => option.idXa === consData.idXa?.toString()) || null}
-              isOptionEqualToValue={(option: any) => option.idXa}
-              onChange={(_, value) => handleChange('idXa')(value?.idXa || 0)}
-              renderInput={params => (
+          {
+            isLicensepage ?
+              <Grid item xs={12} md={3} sm={12} sx={{ my: 2 }}>
+                <Button
+                  variant='outlined'
+                  size='small'
+                  startIcon={<Add />}
+                  onClick={handleAddNewCons}
+                >
+                  Thêm mới công trình
+                </Button>
+              </Grid>
+              : ""
+          }
+        </Grid>
+        {
+          showDataCons ?
+            <Grid container spacing={4}>
+              <Grid item xs={12} md={3} sm={12} sx={{ my: 2 }}>
                 <TextField
-                  {...params}
+                  size='small'
+                  type='text'
+                  label='Tên công trình'
+                  fullWidth
+                  placeholder=''
+                  value={consData.tenCT || ''}
+                  onChange={event => handleChange('tenCT')(event.target.value)}
+                />
+              </Grid>
+              <Grid item xs={12} md={3} sm={12} sx={{ my: 2 }}>
+                <TextField
+                  size='small'
+                  type='text'
+                  label='Ký hiệu công trình'
+                  fullWidth
+                  placeholder=''
+                  disabled
+                  value={consData.maCT || ''}
+                  onChange={event => handleChange('maCT')(event.target.value)}
+                />
+              </Grid>
+              <Grid item xs={12} md={6} sm={12} sx={{ my: 2 }}>
+                <TextField
+                  size='small'
                   variant='outlined'
                   fullWidth
-                  label='Chọn Xã/phường'
-                  InputProps={{
-                    ...params.InputProps,
-                    endAdornment: (
-                      <Fragment>
-                        {loading && <CircularProgress color='primary' size={20} />}
-                        {params.InputProps.endAdornment}
-                      </Fragment>
-                    )
-                  }}
+                  label='Địa điểm công trình'
+                  multiline
+                  maxRows={4}
+                  value={consData.viTriCT || ''}
+                  onChange={event => handleChange('viTriCT')(event.target.value)}
                 />
-              )}
-            />
-          </Grid>
-          <Grid item xs={12} md={3} sm={12} sx={{ my: 2 }}>
-            <TextField
-              size='small'
-              variant='outlined'
-              fullWidth
-              label='Năm vận hành'
-              placeholder=''
-              value={consData.namBatDauVanHanh || ''}
-              onChange={event => handleChange('namBatDauVanHanh')(event.target.value)}
-            />
-          </Grid>
-          <Grid item xs={12} md={3} sm={12} sx={{ my: 2 }}>
-            <TextField
-              size='small'
-              type='text'
-              fullWidth
-              placeholder=''
-              label='Năm xây dựng'
-              value={consData.thoiGianXD || ''}
-              onChange={event => handleChange('thoiGianXD')(event.target.value)}
-            />
-          </Grid>
-        </Grid>
+              </Grid>
+            </Grid> : ""
+        }
 
-        <Grid container spacing={4}>
-          <Grid item xs={12} md={3} sm={12} sx={{ my: 2 }}>
-            <TextField
-              size='small'
-              type='text'
-              fullWidth
-              placeholder=''
-              label='X (VN2000)'
-              value={consData.x || ''}
-              onChange={event => handleChange('x')(event.target.value)}
-            />
-          </Grid>
-          <Grid item xs={12} md={3} sm={12} sx={{ my: 2 }}>
-            <TextField
-              size='small'
-              type='text'
-              fullWidth
-              placeholder=''
-              value={consData.y || ''}
-              onChange={event => handleChange('y')(event.target.value)}
-              label='Y (VN2000)'
-            />
-          </Grid>
+        {showDataCons ?
+          <Grid container spacing={4}>
+            <Grid item xs={12} md={3} sm={12} sx={{ my: 2 }}>
+              <Autocomplete
+                disabled={loading}
+                size='small'
+                options={district}
+                getOptionLabel={(option: any) => option.tenHuyen}
+                value={district.find((option: any) => option.idHuyen === consData.idHuyen?.toString()) || null}
+                isOptionEqualToValue={(option: any) => option.idHuyen}
+                onChange={(_, value) => handleChange('idHuyen')(value?.idHuyen || 0)}
+                renderInput={params => (
+                  <TextField
+                    required
+                    {...params}
+                    fullWidth
+                    label='Chọn Quận/Huyện'
+                    InputProps={{
+                      ...params.InputProps,
+                      endAdornment: (
+                        <Fragment>
+                          {loading && <CircularProgress color='primary' size={20} />}
+                          {params.InputProps.endAdornment}
+                        </Fragment>
+                      )
+                    }}
+                  />
+                )}
+              />
+            </Grid>
 
-          <Grid item xs={12} md={3} sm={12} sx={{ my: 2 }}>
-            <Autocomplete
-              size='small'
-              options={consType}
-              getOptionLabel={(option: any) => option.label}
-              value={consType.find((option: any) => option.value === consData.idLoaiCT) || null}
-              isOptionEqualToValue={(option: any) => option.id}
-              onChange={(_, value) => handleChange('idLoaiCT')(value?.id || 0)}
-              renderInput={params => (
-                <TextField
-                  {...params}
-                  fullWidth
-                  label='Chọn tiểu vùng quy hoạch'
-                  InputProps={{
-                    ...params.InputProps,
-                    endAdornment: (
-                      <Fragment>
-                        {loading && <CircularProgress color='primary' size={20} />}
-                        {params.InputProps.endAdornment}
-                      </Fragment>
-                    )
-                  }}
-                />
-              )}
-            />
+            <Grid item xs={12} md={3} sm={12} sx={{ my: 2 }}>
+              <Autocomplete
+                disabled={consData?.idHuyen !== undefined && consData.idHuyen == null}
+                size='small'
+                options={commune}
+                getOptionLabel={(option: any) => option.tenXa}
+                value={commune.find((option: any) => option.idXa === consData.idXa?.toString()) || null}
+                isOptionEqualToValue={(option: any) => option.idXa}
+                onChange={(_, value) => handleChange('idXa')(value?.idXa || 0)}
+                renderInput={params => (
+                  <TextField
+                    {...params}
+                    variant='outlined'
+                    fullWidth
+                    label='Chọn Xã/phường'
+                    InputProps={{
+                      ...params.InputProps,
+                      endAdornment: (
+                        <Fragment>
+                          {loading && <CircularProgress color='primary' size={20} />}
+                          {params.InputProps.endAdornment}
+                        </Fragment>
+                      )
+                    }}
+                  />
+                )}
+              />
+            </Grid>
+            <Grid item xs={12} md={3} sm={12} sx={{ my: 2 }}>
+              <TextField
+                size='small'
+                variant='outlined'
+                fullWidth
+                label='Năm vận hành'
+                placeholder=''
+                value={consData.namBatDauVanHanh || ''}
+                onChange={event => handleChange('namBatDauVanHanh')(event.target.value)}
+              />
+            </Grid>
+            <Grid item xs={12} md={3} sm={12} sx={{ my: 2 }}>
+              <TextField
+                size='small'
+                type='text'
+                fullWidth
+                placeholder=''
+                label='Năm xây dựng'
+                value={consData.thoiGianXD || ''}
+                onChange={event => handleChange('thoiGianXD')(event.target.value)}
+              />
+            </Grid>
           </Grid>
-          <Grid item xs={12} md={3} sm={12} sx={{ my: 2 }}>
-            <Autocomplete
-              size='small'
-              options={consType}
-              getOptionLabel={(option: any) => option.title}
-              renderInput={params => (
-                <TextField
-                  {...params}
-                  variant='outlined'
-                  fullWidth
-                  label='Chọn lưu vực sông'
-                  InputProps={{
-                    ...params.InputProps,
-                    endAdornment: (
-                      <Fragment>
-                        {loading && <CircularProgress color='primary' size={20} />}
-                        {params.InputProps.endAdornment}
-                      </Fragment>
-                    )
-                  }}
-                />
-              )}
-            />
-          </Grid>
-        </Grid>
+          : ""
+        }
 
-        <Grid container spacing={4}>
+        {showDataCons ?
+          <Grid container spacing={4}>
+            <Grid item xs={12} md={3} sm={12} sx={{ my: 2 }}>
+              <TextField
+                size='small'
+                type='text'
+                fullWidth
+                placeholder=''
+                label='X (VN2000)'
+                value={consData.x || ''}
+                onChange={event => handleChange('x')(event.target.value)}
+              />
+            </Grid>
+            <Grid item xs={12} md={3} sm={12} sx={{ my: 2 }}>
+              <TextField
+                size='small'
+                type='text'
+                fullWidth
+                placeholder=''
+                value={consData.y || ''}
+                onChange={event => handleChange('y')(event.target.value)}
+                label='Y (VN2000)'
+              />
+            </Grid>
+
+            <Grid item xs={12} md={3} sm={12} sx={{ my: 2 }}>
+              <Autocomplete
+                size='small'
+                options={consType}
+                getOptionLabel={(option: any) => option.label}
+                value={consType.find((option: any) => option.value === consData.idLoaiCT) || null}
+                isOptionEqualToValue={(option: any) => option.id}
+                onChange={(_, value) => handleChange('idLoaiCT')(value?.id || 0)}
+                renderInput={params => (
+                  <TextField
+                    {...params}
+                    fullWidth
+                    label='Chọn tiểu vùng quy hoạch'
+                    InputProps={{
+                      ...params.InputProps,
+                      endAdornment: (
+                        <Fragment>
+                          {loading && <CircularProgress color='primary' size={20} />}
+                          {params.InputProps.endAdornment}
+                        </Fragment>
+                      )
+                    }}
+                  />
+                )}
+              />
+            </Grid>
+            <Grid item xs={12} md={3} sm={12} sx={{ my: 2 }}>
+              <Autocomplete
+                size='small'
+                options={consType}
+                getOptionLabel={(option: any) => option.title}
+                renderInput={params => (
+                  <TextField
+                    {...params}
+                    variant='outlined'
+                    fullWidth
+                    label='Chọn lưu vực sông'
+                    InputProps={{
+                      ...params.InputProps,
+                      endAdornment: (
+                        <Fragment>
+                          {loading && <CircularProgress color='primary' size={20} />}
+                          {params.InputProps.endAdornment}
+                        </Fragment>
+                      )
+                    }}
+                  />
+                )}
+              />
+            </Grid>
+          </Grid>
+          : ""
+        }
+
+        {showDataCons ? <Grid container spacing={4}>
           <Grid item xs={12} md={12} sm={12} sx={{ my: 2 }}>
             <TextField
               size='small'
@@ -396,8 +515,10 @@ const SurfaceWaterField: FC<ConsTypeFieldsetProps> = ({ data, onChange }) => {
             />
           </Grid>
         </Grid>
+          : ""
+        }
 
-        <Grid container spacing={4}>
+        {showDataCons ? <Grid container spacing={4}>
           <Grid item xs={12} md={12} sm={12} sx={{ my: 2 }}>
             <TextField
               size='small'
@@ -412,449 +533,443 @@ const SurfaceWaterField: FC<ConsTypeFieldsetProps> = ({ data, onChange }) => {
             />
           </Grid>
         </Grid>
-        <Grid container spacing={4}>
-          <Grid item xs={12} md={12} sm={12} sx={{ my: 2 }}>
-            <TextField
-              size='small'
-              type='text'
-              fullWidth
-              placeholder=''
-              value={consData.cheDoKT || ''}
-              onChange={event => handleChange('cheDoKT')(event.target.value)}
-              label='Chế độ khai thác'
-            />
+          : ""
+        }
+        {showDataCons ?
+          <Grid container spacing={4}>
+            <Grid item xs={12} md={12} sm={12} sx={{ my: 2 }}>
+              <TextField
+                size='small'
+                type='text'
+                fullWidth
+                placeholder=''
+                value={consData.cheDoKT || ''}
+                onChange={event => handleChange('cheDoKT')(event.target.value)}
+                label='Chế độ khai thác'
+              />
+            </Grid>
           </Grid>
-        </Grid>
+          : ""
+        }
       </fieldset>
 
-      {/*check thuydien va ho chua */}
-      {consData?.idLoaiCT === 4 || consData?.idLoaiCT === 5 ? (
-        <Grid item xs={12}>
-          <fieldset>
-            <legend>
-              <Typography variant={'subtitle1'} className='legend__title'>
-                THÔNG Số CÔNG TRÌNH
-              </Typography>
-            </legend>
-            <Grid container spacing={4}>
-              <Grid item xs={12} md={3} sm={12} sx={{ my: 2 }}>
-                <TextField
-                  size='small'
-                  type='text'
-                  label='Cấp công trình'
-                  fullWidth
-                  placeholder=''
-                  value={consData.capCT || ''}
-                  onChange={event => handleChange('capCT')(event.target.value)}
-                />
-              </Grid>
-              <Grid item xs={12} md={3} sm={12} sx={{ my: 2 }}>
-                <TextField
-                  size='small'
-                  type='text'
-                  label='Diện tích lưu vực'
-                  fullWidth
-                  placeholder=''
-                  value={consSpec.dienTichLuuVuc || ''}
-                  onChange={event => handleChange('dienTichLuuVuc')(event.target.value)}
-                />
-              </Grid>
-              <Grid item xs={12} md={3} sm={12} sx={{ my: 2 }}>
-                <TextField
-                  size='small'
-                  type='text'
-                  label='Lượng mưa trung bình nhiều năm'
-                  fullWidth
-                  placeholder=''
-                  value={consSpec.muaTrungBinhNam || ''}
-                  onChange={event => handleChange('muaTrungBinhNam')(event.target.value)}
-                />
-              </Grid>
-              <Grid item xs={12} md={3} sm={12} sx={{ my: 2 }}>
-                <TextField
-                  size='small'
-                  type='text'
-                  label='Lưu lượng trung bình nhiều năm'
-                  fullWidth
-                  placeholder=''
-                  value={consSpec.qTrungBinhNam || ''}
-                  onChange={event => handleChange('qTrungBinhNam')(event.target.value)}
-                />
-              </Grid>
-            </Grid>
-
-            <Grid container spacing={4}>
-              <Grid item xs={12} md={3} sm={12} sx={{ my: 2 }}>
-                <TextField
-                  size='small'
-                  type='text'
-                  label='Công suất'
-                  fullWidth
-                  placeholder=''
-                  value={consSpec.congSuatLM || ''}
-                  onChange={event => handleChange('congSuatLM')(event.target.value)}
-                />
-              </Grid>
-              <Grid item xs={12} md={3} sm={12} sx={{ my: 2 }}>
-                <TextField
-                  size='small'
-                  type='text'
-                  label='Công suất đảm bảo'
-                  fullWidth
-                  placeholder=''
-                  value={consSpec.congSuatDamBao || ''}
-                  onChange={event => handleChange('congSuatDamBao')(event.target.value)}
-                />
-              </Grid>
-              <Grid item xs={12} md={3} sm={12} sx={{ my: 2 }}>
-                <TextField
-                  size='small'
-                  type='text'
-                  label='Chiều cao đập'
-                  fullWidth
-                  placeholder=''
-                  value={consSpec.chieuCaoDap || ''}
-                  onChange={event => handleChange('chieuCaoDap')(event.target.value)}
-                />
-              </Grid>
-              <Grid item xs={12} md={3} sm={12} sx={{ my: 2 }}>
-                <TextField
-                  size='small'
-                  type='text'
-                  label='Lưu lượng tối đa'
-                  fullWidth
-                  placeholder=''
-                  value={consSpec.qmaxNM || ''}
-                  onChange={event => handleChange('qmaxNM')(event.target.value)}
-                />
-              </Grid>
-            </Grid>
-
-            <Grid container spacing={4}>
-              <Grid item xs={12} md={3} sm={12} sx={{ my: 2 }}>
-                <TextField
-                  size='small'
-                  type='text'
-                  label='Lưu lượng tối thiểu'
-                  fullWidth
-                  placeholder=''
-                  value={consSpec.qtt || ''}
-                  onChange={event => handleChange('qtt')(event.target.value)}
-                />
-              </Grid>
-              <Grid item xs={12} md={3} sm={12} sx={{ my: 2 }}>
-                <TextField
-                  size='small'
-                  type='text'
-                  label='Lưu lượng đảm bảo'
-                  fullWidth
-                  placeholder=''
-                  value={consSpec.qDamBao || ''}
-                  onChange={event => handleChange('qDamBao')(event.target.value)}
-                />
-              </Grid>
-              <Grid item xs={12} md={3} sm={12} sx={{ my: 2 }}>
-                <TextField
-                  size='small'
-                  type='text'
-                  label='hmax'
-                  fullWidth
-                  placeholder=''
-                  value={consSpec.hmax || ''}
-                  onChange={event => handleChange('hmax')(event.target.value)}
-                />
-              </Grid>
-              <Grid item xs={12} md={3} sm={12} sx={{ my: 2 }}>
-                <TextField
-                  size='small'
-                  type='text'
-                  label='Hmin'
-                  fullWidth
-                  placeholder=''
-                  value={consSpec.hmin || ''}
-                  onChange={event => handleChange('hmin')(event.target.value)}
-                />
-              </Grid>
-            </Grid>
-
-            <Grid container spacing={4}>
-              <Grid item xs={12} md={3} sm={12} sx={{ my: 2 }}>
-                <TextField
-                  size='small'
-                  type='text'
-                  label='Htt'
-                  fullWidth
-                  placeholder=''
-                  value={consSpec.htoiThieu || ''}
-                  onChange={event => handleChange('htoiThieu')(event.target.value)}
-                />
-              </Grid>
-
-              <Grid item xs={12} md={3} sm={12} sx={{ my: 2 }}>
-                <TextField
-                  size='small'
-                  type='text'
-                  label='Dung tích toàn bộ'
-                  fullWidth
-                  placeholder=''
-                  value={consSpec.dungTichToanBo || ''}
-                  onChange={event => handleChange('dungTichToanBo')(event.target.value)}
-                />
-              </Grid>
-              <Grid item xs={12} md={3} sm={12} sx={{ my: 2 }}>
-                <TextField
-                  size='small'
-                  type='text'
-                  label='Dung tích chết'
-                  fullWidth
-                  placeholder=''
-                  value={consSpec.dungTichChet || ''}
-                  onChange={event => handleChange('dungTichChet')(event.target.value)}
-                />
-              </Grid>
-              <Grid item xs={12} md={3} sm={12} sx={{ my: 2 }}>
-                <TextField
-                  size='small'
-                  type='text'
-                  label='Dung tích hữu ích'
-                  fullWidth
-                  placeholder=''
-                  value={consSpec.dungTichHuuIch || ''}
-                  onChange={event => handleChange('dungTichHuuIch')(event.target.value)}
-                />
-              </Grid>
-            </Grid>
-            {consData?.idLoaiCT === 4 ? (
-              <Grid item xs={12}>
+      {
+        showDataCons ?
+          consData?.idLoaiCT === 4 || consData?.idLoaiCT === 5 ? (
+            <Grid item xs={12}>
+              <fieldset>
+                <legend>
+                  <Typography variant={'subtitle1'} className='legend__title'>
+                    THÔNG Số CÔNG TRÌNH
+                  </Typography>
+                </legend>
                 <Grid container spacing={4}>
                   <Grid item xs={12} md={3} sm={12} sx={{ my: 2 }}>
                     <TextField
                       size='small'
                       type='text'
-                      label='Mực nước chết'
+                      label='Cấp công trình'
                       fullWidth
                       placeholder=''
-                      value={consSpec.mnc || ''}
-                      onChange={event => handleChange('mnc')(event.target.value)}
+                      value={consData.capCT || ''}
+                      onChange={event => handleChange('capCT')(event.target.value)}
                     />
                   </Grid>
                   <Grid item xs={12} md={3} sm={12} sx={{ my: 2 }}>
                     <TextField
                       size='small'
                       type='text'
-                      label='Mực nước dâng bình thường'
+                      label='Diện tích lưu vực'
                       fullWidth
                       placeholder=''
-                      value={consSpec.mndbt || ''}
-                      onChange={event => handleChange('mndbt')(event.target.value)}
+                      value={consSpec.dienTichLuuVuc || ''}
+                      onChange={event => handleChange('dienTichLuuVuc')(event.target.value)}
                     />
                   </Grid>
                   <Grid item xs={12} md={3} sm={12} sx={{ my: 2 }}>
                     <TextField
                       size='small'
                       type='text'
-                      label='Mực nước lũ thiết kế'
+                      label='Lượng mưa trung bình nhiều năm'
                       fullWidth
                       placeholder=''
-                      value={consSpec.mnltk || ''}
-                      onChange={event => handleChange('mnltk')(event.target.value)}
+                      value={consSpec.muaTrungBinhNam || ''}
+                      onChange={event => handleChange('muaTrungBinhNam')(event.target.value)}
                     />
                   </Grid>
                   <Grid item xs={12} md={3} sm={12} sx={{ my: 2 }}>
                     <TextField
                       size='small'
                       type='text'
-                      label='Mực nước lũ kiểm tra'
+                      label='Lưu lượng trung bình nhiều năm'
                       fullWidth
                       placeholder=''
-                      value={consSpec.mnlkt || ''}
-                      onChange={event => handleChange('mnlkt')(event.target.value)}
+                      value={consSpec.qTrungBinhNam || ''}
+                      onChange={event => handleChange('qTrungBinhNam')(event.target.value)}
                     />
                   </Grid>
                 </Grid>
+
+                <Grid container spacing={4}>
+                  <Grid item xs={12} md={3} sm={12} sx={{ my: 2 }}>
+                    <TextField
+                      size='small'
+                      type='text'
+                      label='Công suất'
+                      fullWidth
+                      placeholder=''
+                      value={consSpec.congSuatLM || ''}
+                      onChange={event => handleChange('congSuatLM')(event.target.value)}
+                    />
+                  </Grid>
+                  <Grid item xs={12} md={3} sm={12} sx={{ my: 2 }}>
+                    <TextField
+                      size='small'
+                      type='text'
+                      label='Công suất đảm bảo'
+                      fullWidth
+                      placeholder=''
+                      value={consSpec.congSuatDamBao || ''}
+                      onChange={event => handleChange('congSuatDamBao')(event.target.value)}
+                    />
+                  </Grid>
+                  <Grid item xs={12} md={3} sm={12} sx={{ my: 2 }}>
+                    <TextField
+                      size='small'
+                      type='text'
+                      label='Chiều cao đập'
+                      fullWidth
+                      placeholder=''
+                      value={consSpec.chieuCaoDap || ''}
+                      onChange={event => handleChange('chieuCaoDap')(event.target.value)}
+                    />
+                  </Grid>
+                  <Grid item xs={12} md={3} sm={12} sx={{ my: 2 }}>
+                    <TextField
+                      size='small'
+                      type='text'
+                      label='Lưu lượng tối đa'
+                      fullWidth
+                      placeholder=''
+                      value={consSpec.qmaxNM || ''}
+                      onChange={event => handleChange('qmaxNM')(event.target.value)}
+                    />
+                  </Grid>
+                </Grid>
+
+                <Grid container spacing={4}>
+                  <Grid item xs={12} md={3} sm={12} sx={{ my: 2 }}>
+                    <TextField
+                      size='small'
+                      type='text'
+                      label='Lưu lượng tối thiểu'
+                      fullWidth
+                      placeholder=''
+                      value={consSpec.qtt || ''}
+                      onChange={event => handleChange('qtt')(event.target.value)}
+                    />
+                  </Grid>
+                  <Grid item xs={12} md={3} sm={12} sx={{ my: 2 }}>
+                    <TextField
+                      size='small'
+                      type='text'
+                      label='Lưu lượng đảm bảo'
+                      fullWidth
+                      placeholder=''
+                      value={consSpec.qDamBao || ''}
+                      onChange={event => handleChange('qDamBao')(event.target.value)}
+                    />
+                  </Grid>
+                  <Grid item xs={12} md={3} sm={12} sx={{ my: 2 }}>
+                    <TextField
+                      size='small'
+                      type='text'
+                      label='hmax'
+                      fullWidth
+                      placeholder=''
+                      value={consSpec.hmax || ''}
+                      onChange={event => handleChange('hmax')(event.target.value)}
+                    />
+                  </Grid>
+                  <Grid item xs={12} md={3} sm={12} sx={{ my: 2 }}>
+                    <TextField
+                      size='small'
+                      type='text'
+                      label='Hmin'
+                      fullWidth
+                      placeholder=''
+                      value={consSpec.hmin || ''}
+                      onChange={event => handleChange('hmin')(event.target.value)}
+                    />
+                  </Grid>
+                </Grid>
+
+                <Grid container spacing={4}>
+                  <Grid item xs={12} md={3} sm={12} sx={{ my: 2 }}>
+                    <TextField
+                      size='small'
+                      type='text'
+                      label='Htt'
+                      fullWidth
+                      placeholder=''
+                      value={consSpec.htoiThieu || ''}
+                      onChange={event => handleChange('htoiThieu')(event.target.value)}
+                    />
+                  </Grid>
+
+                  <Grid item xs={12} md={3} sm={12} sx={{ my: 2 }}>
+                    <TextField
+                      size='small'
+                      type='text'
+                      label='Dung tích toàn bộ'
+                      fullWidth
+                      placeholder=''
+                      value={consSpec.dungTichToanBo || ''}
+                      onChange={event => handleChange('dungTichToanBo')(event.target.value)}
+                    />
+                  </Grid>
+                  <Grid item xs={12} md={3} sm={12} sx={{ my: 2 }}>
+                    <TextField
+                      size='small'
+                      type='text'
+                      label='Dung tích chết'
+                      fullWidth
+                      placeholder=''
+                      value={consSpec.dungTichChet || ''}
+                      onChange={event => handleChange('dungTichChet')(event.target.value)}
+                    />
+                  </Grid>
+                  <Grid item xs={12} md={3} sm={12} sx={{ my: 2 }}>
+                    <TextField
+                      size='small'
+                      type='text'
+                      label='Dung tích hữu ích'
+                      fullWidth
+                      placeholder=''
+                      value={consSpec.dungTichHuuIch || ''}
+                      onChange={event => handleChange('dungTichHuuIch')(event.target.value)}
+                    />
+                  </Grid>
+                </Grid>
+                {consData?.idLoaiCT === 4 ? (
+                  <Grid item xs={12}>
+                    <Grid container spacing={4}>
+                      <Grid item xs={12} md={3} sm={12} sx={{ my: 2 }}>
+                        <TextField
+                          size='small'
+                          type='text'
+                          label='Mực nước chết'
+                          fullWidth
+                          placeholder=''
+                          value={consSpec.mnc || ''}
+                          onChange={event => handleChange('mnc')(event.target.value)}
+                        />
+                      </Grid>
+                      <Grid item xs={12} md={3} sm={12} sx={{ my: 2 }}>
+                        <TextField
+                          size='small'
+                          type='text'
+                          label='Mực nước dâng bình thường'
+                          fullWidth
+                          placeholder=''
+                          value={consSpec.mndbt || ''}
+                          onChange={event => handleChange('mndbt')(event.target.value)}
+                        />
+                      </Grid>
+                      <Grid item xs={12} md={3} sm={12} sx={{ my: 2 }}>
+                        <TextField
+                          size='small'
+                          type='text'
+                          label='Mực nước lũ thiết kế'
+                          fullWidth
+                          placeholder=''
+                          value={consSpec.mnltk || ''}
+                          onChange={event => handleChange('mnltk')(event.target.value)}
+                        />
+                      </Grid>
+                      <Grid item xs={12} md={3} sm={12} sx={{ my: 2 }}>
+                        <TextField
+                          size='small'
+                          type='text'
+                          label='Mực nước lũ kiểm tra'
+                          fullWidth
+                          placeholder=''
+                          value={consSpec.mnlkt || ''}
+                          onChange={event => handleChange('mnlkt')(event.target.value)}
+                        />
+                      </Grid>
+                    </Grid>
+                  </Grid>
+                ) : (
+                  ''
+                )}
+              </fieldset>
+            </Grid>
+          ) : consData?.idLoaiCT === 6 ? (
+            <fieldset>
+              <legend>
+                <Typography variant={'subtitle1'} className='legend__title'>
+                  THÔNG Số CÔNG TRÌNH
+                </Typography>
+              </legend>
+              <Grid container spacing={4}>
+                <Grid item xs={12} md={3} sm={12} sx={{ my: 2 }}>
+                  <TextField
+                    size='small'
+                    type='text'
+                    label='Số máy bơm'
+                    fullWidth
+                    placeholder=''
+                    value={consSpec.soLuongMayBom || ''}
+                    onChange={event => handleChange('soLuongMayBom')(event.target.value)}
+                  />
+                </Grid>
+                <Grid item xs={12} md={3} sm={12} sx={{ my: 2 }}>
+                  <TextField
+                    size='small'
+                    type='text'
+                    label='Diện tích tưới thiết kế'
+                    fullWidth
+                    placeholder=''
+                    value={consSpec.dienTichTuoiThietKe || ''}
+                    onChange={event => handleChange('dienTichTuoiThietKe')(event.target.value)}
+                  />
+                </Grid>
+                <Grid item xs={12} md={3} sm={12} sx={{ my: 2 }}>
+                  <TextField
+                    size='small'
+                    type='text'
+                    label='Lượng mưa tưới thực tế'
+                    fullWidth
+                    placeholder=''
+                    value={consSpec.dienTichTuoiThucTe || ''}
+                    onChange={event => handleChange('dienTichTuoiThucTe')(event.target.value)}
+                  />
+                </Grid>
+                <Grid item xs={12} md={3} sm={12} sx={{ my: 2 }}>
+                  <TextField
+                    size='small'
+                    type='text'
+                    label='Lưu lượng thiết kế'
+                    fullWidth
+                    placeholder=''
+                    value={consSpec.qThietKe || ''}
+                    onChange={event => handleChange('qThietKe')(event.target.value)}
+                  />
+                </Grid>
               </Grid>
-            ) : (
-              ''
-            )}
-          </fieldset>
-        </Grid>
-      ) : (
-        ''
-      )}
 
-      {/* check form tram bom */}
-      {consData?.idLoaiCT === 6 ? (
-        <fieldset>
-          <legend>
-            <Typography variant={'subtitle1'} className='legend__title'>
-              THÔNG Số CÔNG TRÌNH
-            </Typography>
-          </legend>
-          <Grid container spacing={4}>
-            <Grid item xs={12} md={3} sm={12} sx={{ my: 2 }}>
-              <TextField
-                size='small'
-                type='text'
-                label='Số máy bơm'
-                fullWidth
-                placeholder=''
-                value={consSpec.soLuongMayBom || ''}
-                onChange={event => handleChange('soLuongMayBom')(event.target.value)}
-              />
-            </Grid>
-            <Grid item xs={12} md={3} sm={12} sx={{ my: 2 }}>
-              <TextField
-                size='small'
-                type='text'
-                label='Diện tích tưới thiết kế'
-                fullWidth
-                placeholder=''
-                value={consSpec.dienTichTuoiThietKe || ''}
-                onChange={event => handleChange('dienTichTuoiThietKe')(event.target.value)}
-              />
-            </Grid>
-            <Grid item xs={12} md={3} sm={12} sx={{ my: 2 }}>
-              <TextField
-                size='small'
-                type='text'
-                label='Lượng mưa tưới thực tế'
-                fullWidth
-                placeholder=''
-                value={consSpec.dienTichTuoiThucTe || ''}
-                onChange={event => handleChange('dienTichTuoiThucTe')(event.target.value)}
-              />
-            </Grid>
-            <Grid item xs={12} md={3} sm={12} sx={{ my: 2 }}>
-              <TextField
-                size='small'
-                type='text'
-                label='Lưu lượng thiết kế'
-                fullWidth
-                placeholder=''
-                value={consSpec.qThietKe || ''}
-                onChange={event => handleChange('qThietKe')(event.target.value)}
-              />
-            </Grid>
-          </Grid>
-
-          <Grid container spacing={4}>
-            <Grid item xs={12} md={3} sm={12} sx={{ my: 2 }}>
-              <TextField
-                size='small'
-                type='text'
-                label='Lưu lượng thực tế'
-                fullWidth
-                placeholder=''
-                value={consSpec.qThucTe || ''}
-                onChange={event => handleChange('qThucTe')(event.target.value)}
-              />
-            </Grid>
-            <Grid item xs={12} md={3} sm={12} sx={{ my: 2 }}>
-              <TextField
-                size='small'
-                type='text'
-                label={
-                  <>
-                    Q<sub>tk</sub>(m<sup>3</sup>/<sub>ngày đêm</sub>)
-                  </>
-                }
-                fullWidth
-                placeholder=''
-                value={consSpec.qBomThietKe || ''}
-                onChange={event => handleChange('qBomThietKe')(event.target.value)}
-              />
-            </Grid>
-            <Grid item xs={12} md={3} sm={12} sx={{ my: 2 }}>
-              <TextField
-                size='small'
-                type='text'
-                label={
-                  <>
-                    Q<sub>max</sub>(m<sup>3</sup>/<sub>ngày đêm</sub>)
-                  </>
-                }
-                fullWidth
-                placeholder=''
-                value={consSpec.qBomLonNhat || ''}
-                onChange={event => handleChange('qBomLonNhat')(event.target.value)}
-              />
-            </Grid>
-            <Grid item xs={12} md={3} sm={12} sx={{ my: 2 }}>
-              <TextField
-                size='small'
-                type='text'
-                label='Mực nước bể hút'
-                fullWidth
-                placeholder=''
-                value={consSpec.hBeHut || ''}
-                onChange={event => handleChange('hBeHut')(event.target.value)}
-              />
-            </Grid>
-          </Grid>
-        </fieldset>
-      ) : (
-        ''
-      )}
-
-      {/* check form cong */}
-
-      {consData?.idLoaiCT === 12 ? (
-        <fieldset>
-          <legend>
-            <Typography variant={'subtitle1'} className='legend__title'>
-              THÔNG Số CÔNG TRÌNH
-            </Typography>
-          </legend>
-          <Grid container spacing={4}>
-            <Grid item xs={12} md={3} sm={12} sx={{ my: 2 }}>
-              <TextField
-                size='small'
-                type='text'
-                label='Cao trình cống'
-                fullWidth
-                placeholder=''
-                value={consSpec.caoTrinhCong || ''}
-                onChange={event => handleChange('caoTrinhCong')(event.target.value)}
-              />
-            </Grid>
-            <Grid item xs={12} md={3} sm={12} sx={{ my: 2 }}>
-              <TextField
-                size='small'
-                type='text'
-                label='Chiều dài cống'
-                fullWidth
-                placeholder=''
-                value={consSpec.chieuDaiCong || ''}
-                onChange={event => handleChange('chieuDaiCong')(event.target.value)}
-              />
-            </Grid>
-            <Grid item xs={12} md={3} sm={12} sx={{ my: 2 }}>
-              <TextField
-                size='small'
-                type='text'
-                label='Đường kính (m)'
-                fullWidth
-                placeholder=''
-                value={consSpec.chieuRongCong || ''}
-                onChange={event => handleChange('chieuRongCong')(event.target.value)}
-              />
-            </Grid>
-            <Grid item xs={12} md={3} sm={12} sx={{ my: 2 }}>
-              <TextField
-                size='small'
-                type='text'
-                label='Kích thước(rộng*cao)'
-                fullWidth
-                placeholder=''
-                value={consSpec.kichThuocCong || ''}
-                onChange={event => handleChange('kichThuocCong')(event.target.value)}
-              />
-            </Grid>
-          </Grid>
-        </fieldset>
-      ) : (
-        ''
-      )}
+              <Grid container spacing={4}>
+                <Grid item xs={12} md={3} sm={12} sx={{ my: 2 }}>
+                  <TextField
+                    size='small'
+                    type='text'
+                    label='Lưu lượng thực tế'
+                    fullWidth
+                    placeholder=''
+                    value={consSpec.qThucTe || ''}
+                    onChange={event => handleChange('qThucTe')(event.target.value)}
+                  />
+                </Grid>
+                <Grid item xs={12} md={3} sm={12} sx={{ my: 2 }}>
+                  <TextField
+                    size='small'
+                    type='text'
+                    label={
+                      <>
+                        Q<sub>tk</sub>(m<sup>3</sup>/<sub>ngày đêm</sub>)
+                      </>
+                    }
+                    fullWidth
+                    placeholder=''
+                    value={consSpec.qBomThietKe || ''}
+                    onChange={event => handleChange('qBomThietKe')(event.target.value)}
+                  />
+                </Grid>
+                <Grid item xs={12} md={3} sm={12} sx={{ my: 2 }}>
+                  <TextField
+                    size='small'
+                    type='text'
+                    label={
+                      <>
+                        Q<sub>max</sub>(m<sup>3</sup>/<sub>ngày đêm</sub>)
+                      </>
+                    }
+                    fullWidth
+                    placeholder=''
+                    value={consSpec.qBomLonNhat || ''}
+                    onChange={event => handleChange('qBomLonNhat')(event.target.value)}
+                  />
+                </Grid>
+                <Grid item xs={12} md={3} sm={12} sx={{ my: 2 }}>
+                  <TextField
+                    size='small'
+                    type='text'
+                    label='Mực nước bể hút'
+                    fullWidth
+                    placeholder=''
+                    value={consSpec.hBeHut || ''}
+                    onChange={event => handleChange('hBeHut')(event.target.value)}
+                  />
+                </Grid>
+              </Grid>
+            </fieldset>
+          ) : consData?.idLoaiCT === 12 ? (
+            <fieldset>
+              <legend>
+                <Typography variant={'subtitle1'} className='legend__title'>
+                  THÔNG Số CÔNG TRÌNH
+                </Typography>
+              </legend>
+              <Grid container spacing={4}>
+                <Grid item xs={12} md={3} sm={12} sx={{ my: 2 }}>
+                  <TextField
+                    size='small'
+                    type='text'
+                    label='Cao trình cống'
+                    fullWidth
+                    placeholder=''
+                    value={consSpec.caoTrinhCong || ''}
+                    onChange={event => handleChange('caoTrinhCong')(event.target.value)}
+                  />
+                </Grid>
+                <Grid item xs={12} md={3} sm={12} sx={{ my: 2 }}>
+                  <TextField
+                    size='small'
+                    type='text'
+                    label='Chiều dài cống'
+                    fullWidth
+                    placeholder=''
+                    value={consSpec.chieuDaiCong || ''}
+                    onChange={event => handleChange('chieuDaiCong')(event.target.value)}
+                  />
+                </Grid>
+                <Grid item xs={12} md={3} sm={12} sx={{ my: 2 }}>
+                  <TextField
+                    size='small'
+                    type='text'
+                    label='Đường kính (m)'
+                    fullWidth
+                    placeholder=''
+                    value={consSpec.chieuRongCong || ''}
+                    onChange={event => handleChange('chieuRongCong')(event.target.value)}
+                  />
+                </Grid>
+                <Grid item xs={12} md={3} sm={12} sx={{ my: 2 }}>
+                  <TextField
+                    size='small'
+                    type='text'
+                    label='Kích thước(rộng*cao)'
+                    fullWidth
+                    placeholder=''
+                    value={consSpec.kichThuocCong || ''}
+                    onChange={event => handleChange('kichThuocCong')(event.target.value)}
+                  />
+                </Grid>
+              </Grid>
+            </fieldset>
+          ) : '' : ''
+      }
     </>
   )
 }

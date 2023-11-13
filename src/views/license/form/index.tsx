@@ -19,7 +19,7 @@ import { getData, saveData, uploadFile } from 'src/api/axios';
 import { enqueueSnackbar } from 'notistack';
 
 //Interface Imports
-import { ConstructionItemState, ConstructionState, emptyConstructionData } from 'src/views/construction/form/construction-interface';
+import { ConstructionItemState, ConstructionSpecState, ConstructionState, emptyConstructionData } from 'src/views/construction/form/construction-interface';
 import { LicenseFeeState } from 'src/views/license-fee/form/license-fee-interface';
 import { FormLicenseProps, LicenseState, emptyLicenseData } from './license-interface';
 import ConstructionItem from 'src/views/construction/form/cons-item';
@@ -52,15 +52,16 @@ const FormLicense: FC<FormLicenseProps> = ({ data, closeDialogs, setPostSuccess 
   };
 
   //Construction
-  const [congtrinh, setcongtrinh] = useState<ConstructionState>(data?.construction || {});
+  const [congtrinh, setCongTrinh] = useState<ConstructionState>(data?.congtrinh || {});
+  const [thongso_congtrinh, setThongSoCongTrinh] = useState<ConstructionSpecState>(data?.congtrinh || {});
   const handleConstructionChange = (data: any) => {
-    setcongtrinh(data);
+    setCongTrinh(data.consData);
+    setThongSoCongTrinh(data.consSpec)
   };
 
   //Construction
-  const [consItemData, setConsItemData] = useState<ConstructionItemState[]>(data?.construction?.constructionItems || []);
+  const [consItemData, setConsItemData] = useState<ConstructionItemState[]>(data?.congtrinh?.hangmuc || []);
   const [consItemDataDetele, setConsItemDataDelete] = useState<any>();
-  console.log(consItemDataDetele)
 
   const handleconsItemChange = (dataSave: any, dataDelete: any) => {
     setConsItemDataDelete(dataDelete)
@@ -68,7 +69,7 @@ const FormLicense: FC<FormLicenseProps> = ({ data, closeDialogs, setPostSuccess 
   };
 
   //licenseFee
-  const [tiencp, settiencp] = useState<LicenseFeeState[]>(data?.licenseFees || []);
+  const [tiencp, settiencp] = useState<LicenseFeeState[]>(data?.tiencq || []);
   const [tiencpRemove, settiencpRemove] = useState<LicenseFeeState[]>([]);
 
   //Hooks
@@ -130,6 +131,9 @@ const FormLicense: FC<FormLicenseProps> = ({ data, closeDialogs, setPostSuccess 
       const saveCons = await saveData('cong-trinh/luu', congtrinh);
 
       if (saveCons) {
+
+        await saveData('thong-so-ct/luu', { ...thongso_congtrinh, idCT: saveCons.id, idHangMucCT: null })
+
         consItemDataDetele.map(async (e: any) => {
           await saveData('hang-muc-ct/xoa', e);
         })
@@ -205,7 +209,7 @@ const FormLicense: FC<FormLicenseProps> = ({ data, closeDialogs, setPostSuccess 
         }
 
         // Reset form fields
-        setcongtrinh(emptyConstructionData);
+        setCongTrinh(emptyConstructionData);
         setgiayphep(emptyLicenseData);
         settiencp([]);
         settiencpRemove([])
@@ -323,8 +327,8 @@ const FormLicense: FC<FormLicenseProps> = ({ data, closeDialogs, setPostSuccess 
 
         </Grid>
         <Grid item xs={12}>
-            <ConstructionItem data={consItemData} onChange={handleconsItemChange} />
-          </Grid>
+          <ConstructionItem data={consItemData} onChange={handleconsItemChange} />
+        </Grid>
       </Grid>
       <DialogActions sx={{ p: 0, mt: 5 }}>
         <Button size='small' onClick={handleClose} className='btn cancleBtn'>
