@@ -8,7 +8,7 @@ import { LicenseFeeState } from './license-fee-interface';
 import { VisuallyHiddenInput } from 'src/@core/theme/VisuallyHiddenInput';
 
 interface LicenseFeeFieldsetProps {
-    data?: LicenseFeeState[];
+    data?: LicenseFeeState[] | null;
     onChange: (data: LicenseFeeState[], dataDeleted: LicenseFeeState[]) => void;
 }
 

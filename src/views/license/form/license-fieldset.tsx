@@ -16,6 +16,7 @@ import { VisuallyHiddenInput } from 'src/@core/theme/VisuallyHiddenInput';
 import { getData } from 'src/api/axios';
 import { useRouter } from 'next/router';
 import GetConstructionTypeId from 'src/@core/components/get-construction-type';
+import FormatDate from 'src/@core/components/format-date';
 
 const LicenseFieldset: FC<LicenseFieldsetProps> = ({ data, onChange }) => {
 
@@ -129,7 +130,7 @@ const LicenseFieldset: FC<LicenseFieldsetProps> = ({ data, onChange }) => {
                             label='Số giấy phép'
                             fullWidth
                             placeholder=''
-                            value={giayphep.soGP}
+                            value={giayphep.soGP || ''}
                             onChange={(event) => handleChange('soGP')(event.target.value)}
                         />
                     </Grid>
@@ -151,7 +152,7 @@ const LicenseFieldset: FC<LicenseFieldsetProps> = ({ data, onChange }) => {
                             label='Tên văn bản'
                             fullWidth
                             placeholder=''
-                            value={giayphep.tenGP}
+                            value={giayphep.tenGP || ''}
                             onChange={(event) => handleChange('tenGP')(event.target.value)} />
                     </Grid>
                     <Grid item xs={12} md={6} sm={12} sx={{ my: 2 }}>
@@ -189,7 +190,7 @@ const LicenseFieldset: FC<LicenseFieldsetProps> = ({ data, onChange }) => {
                             label='Thời hạn giấy phép'
                             fullWidth
                             placeholder=''
-                            value={giayphep.thoiHan}
+                            value={giayphep.thoiHan || ''}
                             onChange={(event) => handleChange('thoiHan')(event.target.value)} />
                     </Grid>
                     <Grid item xs={12} md={6} sm={12} sx={{ my: 2 }}>
@@ -233,7 +234,7 @@ const LicenseFieldset: FC<LicenseFieldsetProps> = ({ data, onChange }) => {
                                     <Autocomplete
                                         size="small"
                                         options={listLic}
-                                        getOptionLabel={(option: any) => option.soGP}
+                                        getOptionLabel={(option: any) => `${option.soGP} (Ký ngày: ${FormatDate(option.ngayKy)})`}
                                         isOptionEqualToValue={(option: any) => option.id}
                                         value={listLic.find((option: any) => option.id === giayphep.idCon) || null}
                                         onChange={(_, value) => { handleChange('idCon')(value?.id || 0); setOldLic(value || []) }}
@@ -272,13 +273,13 @@ const LicenseFieldset: FC<LicenseFieldsetProps> = ({ data, onChange }) => {
                     <Table>
                         <TableHead>
                             <TableRow>
-                                <TableCell align='center'>
+                                <TableCell align='center' sx={{ p: 0 }}>
                                     Giấy phép
                                 </TableCell>
-                                <TableCell align='center'>
+                                <TableCell align='center' sx={{ p: 0 }}>
                                     Đơn xin cấp phép
                                 </TableCell>
-                                <TableCell align='center'>
+                                <TableCell align='center' sx={{ p: 0 }}>
                                     Tài liệu liên quan
                                 </TableCell>
                             </TableRow>

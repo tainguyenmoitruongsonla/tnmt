@@ -80,7 +80,6 @@ export interface ConstructionSpecState {
   qktCapNuocSinhHoat: number | null
   hgieng: number | null
   hGiengKT: number | null
-  phuongThucKT: number | null
   mucNuocTinh: number | null
   mucNuocDong: number | null
   tangChuaNuocKT: number | null
@@ -188,7 +187,6 @@ export const emptyConstructionSpec: ConstructionSpecState = {
   qktCapNuocSinhHoat: null,
   hgieng: null,
   hGiengKT: null,
-  phuongThucKT: null,
   mucNuocTinh: null,
   mucNuocDong: null,
   tangChuaNuocKT: null,

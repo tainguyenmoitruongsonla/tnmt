@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import apiUrl from 'src/api/config';
 import { pdfjs, Document, Page } from 'react-pdf';
 import { CircularProgress, Typography } from '@mui/material';
-import DialogControlShowPDF from '../dialog-control-show-pdf';
+import DialogControlShowPDF from './dialog';
 
 interface ShowFilePDFProps {
     src: string | null
@@ -75,7 +75,7 @@ const ShowFilePDF = ({ src, name }: ShowFilePDFProps) => {
     };
 
     return (
-        <div>
+        <>
             <DialogControlShowPDF>
                 {(openDialogs: any) => (
                     <Typography
@@ -86,7 +86,7 @@ const ShowFilePDF = ({ src, name }: ShowFilePDFProps) => {
                     </Typography>
                 )}
             </DialogControlShowPDF>
-        </div>
+        </>
     );
 };
 

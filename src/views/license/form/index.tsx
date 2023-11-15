@@ -7,10 +7,8 @@ import DialogsControlFullScreen from 'src/@core/components/dialog-control-full-s
 
 //Form Imports
 import LicenseFieldset from 'src/views/license/form/license-fieldset';
-
 import LicenseFeeFeild from 'src/views/license-fee/form/licensefee-feild';
 import FormBusiness from 'src/views/business/form';
-
 
 // API Imports
 import { getData, saveData, uploadFile } from 'src/api/axios';
@@ -22,7 +20,6 @@ import { enqueueSnackbar } from 'notistack';
 import { ConstructionItemState, ConstructionSpecState, ConstructionState, emptyConstructionData } from 'src/views/construction/form/construction-interface';
 import { LicenseFeeState } from 'src/views/license-fee/form/license-fee-interface';
 import { FormLicenseProps, LicenseState, emptyLicenseData } from './license-interface';
-import ConstructionItem from 'src/views/construction/form/cons-item';
 import { useRouter } from 'next/router';
 import SurfaceWaterField from 'src/views/construction/form/cons-suface';
 import GroundWaterField from 'src/views/construction/form/cons-ground';
@@ -30,6 +27,9 @@ import DischargeWaterField from 'src/views/construction/form/cons-discharge';
 import dayjs from 'dayjs';
 
 const FormLicense: FC<FormLicenseProps> = ({ data, closeDialogs, setPostSuccess }) => {
+
+  //Hooks
+  const router = useRouter()
 
   const [fetching, setFetching] = useState(true)
   const [saving, setSaving] = useState(false);
@@ -45,41 +45,33 @@ const FormLicense: FC<FormLicenseProps> = ({ data, closeDialogs, setPostSuccess 
 
   //License
   const [giayphep, setgiayphep] = useState<LicenseState>(data);
-
   const handleLicenseChange = (data: any, fileupload: any) => {
     setFileUpload(fileupload)
     setgiayphep(data);
   };
 
   //Construction
-  const [congtrinh, setCongTrinh] = useState<ConstructionState>(data?.congtrinh || {});
-  const [thongso_congtrinh, setThongSoCongTrinh] = useState<ConstructionSpecState>(data?.congtrinh || {});
+  const [congtrinh, setCongTrinh] = useState<ConstructionState | null>(data?.congtrinh || null);
+  const [thongso_congtrinh, setThongSoCongTrinh] = useState<ConstructionSpecState | null>(data?.congtrinh?.thongso || null);
+  const [consItemData, setConsItemData] = useState<ConstructionItemState[]>(data?.hangmuc || null);
+  const [consItemDataDetele, setConsItemDataDelete] = useState<any>(null);
+
   const handleConstructionChange = (data: any) => {
-    setCongTrinh(data.consData);
-    setThongSoCongTrinh(data.consSpec)
+    data.consData ? setCongTrinh(data?.consData) : setCongTrinh(null);
+    data.consSpec ? setThongSoCongTrinh(data.consSpec) : setThongSoCongTrinh(null);
+    data.consItemData ? setConsItemData(data.consItemData) : setConsItemData([]);
+    data.consItemDataDetele ? setConsItemDataDelete(data.consItemDataDetele) : setConsItemDataDelete([]);
   };
 
-  //Construction
-  const [consItemData, setConsItemData] = useState<ConstructionItemState[]>(data?.congtrinh?.hangmuc || []);
-  const [consItemDataDetele, setConsItemDataDelete] = useState<any>();
-
-  const handleconsItemChange = (dataSave: any, dataDelete: any) => {
-    setConsItemDataDelete(dataDelete)
-    setConsItemData(dataSave);
-  };
 
   //licenseFee
-  const [tiencp, settiencp] = useState<LicenseFeeState[]>(data?.tiencq || []);
-  const [tiencpRemove, settiencpRemove] = useState<LicenseFeeState[]>([]);
-
-  //Hooks
-  const router = useRouter()
-
+  const [tiencp, settiencq] = useState<LicenseFeeState[] | null>(data?.tiencq || null);
+  const [tiencpRemove, settiencqRemove] = useState<LicenseFeeState[] | null>(null);
 
   const handleLicenseFeeChange = (dataSave: any, dataDelete: any) => {
     // Handle the updated license data here
-    settiencp(dataSave);
-    settiencpRemove(dataDelete)
+    settiencq(dataSave);
+    settiencqRemove(dataDelete)
   };
 
   const handleSubmit = (event: FormEvent) => {
@@ -132,15 +124,18 @@ const FormLicense: FC<FormLicenseProps> = ({ data, closeDialogs, setPostSuccess 
 
       if (saveCons) {
 
-        await saveData('thong-so-ct/luu', { ...thongso_congtrinh, idCT: saveCons.id, idHangMucCT: null })
+        if (thongso_congtrinh !== null) {
+          await saveData('thong-so-ct/luu', { ...thongso_congtrinh, idCT: saveCons.id, idHangMucCT: null })
+        }
 
-        consItemDataDetele.map(async (e: any) => {
+        consItemDataDetele !== null ? consItemDataDetele?.map(async (e: any) => {
           await saveData('hang-muc-ct/xoa', e);
-        })
+        }) : ""
 
-        consItemData.map(async (e: any) => {
+        consItemData !== null ? consItemData?.map(async (e: any) => {
+          e.idCT = saveCons.id;
           await saveData('hang-muc-ct/luu', e);
-        })
+        }) : ""
 
         const filePath = `pdf/giay-phep/${giayphep?.coQuanCapPhep?.toLowerCase()}/${router.pathname.split('/')[2]}/${dayjs(giayphep?.ngayKy).year()}/${giayphep?.soGP?.replace(/\//g, "_").toLowerCase()}`;
 
@@ -182,14 +177,14 @@ const FormLicense: FC<FormLicenseProps> = ({ data, closeDialogs, setPostSuccess 
             await uploadFile(newfileGiayToLienQuan)
           }
 
-          tiencpRemove?.map(async (e: any) => {
+          tiencpRemove !== null ? tiencpRemove?.map(async (e: any) => {
             const saveLicFee = await saveData('tien-cap-quyen/xoa', e)
             if (saveLicFee) {
               await saveData('GP_TCQ/xoa', { id: 0, idGP: saveLic.id, idTCQ: e.id });
             }
-          })
+          }) : ""
 
-          tiencp?.map(async (e: any) => {
+          tiencp !== null ? tiencp?.map(async (e: any) => {
             e.coQuanCapPhep = giayphep?.coQuanCapPhep;
             const saveLicFee = await saveData('tien-cap-quyen/luu', e);
             if (saveLicFee.id) {
@@ -202,17 +197,17 @@ const FormLicense: FC<FormLicenseProps> = ({ data, closeDialogs, setPostSuccess 
                 await uploadFile(fileTCQ)
               }
 
-              await saveData('GP_TCQ/luu', { id: 0, idGP: saveLic.id, idTCQ: saveLicFee.id });
+              const gp_tcq = { id: 0, idGP: saveLic.id, idTCQ: saveLicFee.id }
+              await saveData('GP_TCQ/luu', gp_tcq);
             }
-          })
-
+          }) : ""
         }
 
         // Reset form fields
         setCongTrinh(emptyConstructionData);
         setgiayphep(emptyLicenseData);
-        settiencp([]);
-        settiencpRemove([])
+        settiencq(null);
+        settiencqRemove(null)
 
         typeof (setPostSuccess) === 'function' ? setPostSuccess(true) : '';
       }
@@ -276,8 +271,8 @@ const FormLicense: FC<FormLicenseProps> = ({ data, closeDialogs, setPostSuccess 
                     size="small"
                     options={listBusiness}
                     getOptionLabel={(option: any) => option.tenTCCN}
-                    defaultValue={listBusiness?.find((option: any) => option.id === business?.id) || null}
-                    isOptionEqualToValue={(option: any, value: any) => option.id === value.id}
+                    value={listBusiness?.find((option: any) => option.id === business?.id) || null}
+                    isOptionEqualToValue={(option: any, value: any) => option.id === value?.id}
                     onChange={(event, value) => setBusiness(value)}
                     renderInput={(params: any) => (
                       <TextField
@@ -325,9 +320,6 @@ const FormLicense: FC<FormLicenseProps> = ({ data, closeDialogs, setPostSuccess 
                   : ''
           }
 
-        </Grid>
-        <Grid item xs={12}>
-          <ConstructionItem data={consItemData} onChange={handleconsItemChange} />
         </Grid>
       </Grid>
       <DialogActions sx={{ p: 0, mt: 5 }}>

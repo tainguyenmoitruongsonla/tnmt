@@ -89,6 +89,8 @@ const FormBusiness: React.FC<FormBusinessProps> = ({ isEdit, data, setPostSucces
                     ) : (
                         <Button
                             size="small"
+                            variant='outlined'
+                            sx={{ borderRadius: 0 }}
                             startIcon={<Add />}
                             onClick={() =>
                                 openDialogs(<Form data={data} closeDialogs={closeDialogs} setPostSuccess={setPostSuccess} />, formTitle)

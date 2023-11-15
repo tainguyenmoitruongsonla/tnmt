@@ -1,11 +1,12 @@
 import { Typography, Grid, Autocomplete, TextField, CircularProgress, Button } from '@mui/material'
 import { useEffect, FC, useState, Fragment } from 'react'
-import { ConstructionSpecState, ConstructionState, emptyConstructionData, emptyConstructionSpec } from './construction-interface'
+import { ConstructionItemState, ConstructionSpecState, ConstructionState, emptyConstructionData, emptyConstructionSpec } from './construction-interface'
 import { getData } from 'src/api/axios'
 import { useRouter } from 'next/router'
 import GetConstructionTypeId from 'src/@core/components/get-construction-type'
 import { Add } from '@mui/icons-material'
-import { createConsCode } from 'src/@core/components/createConsCode'
+import { createConsCode, createConsUser } from 'src/@core/components/cons'
+import ConstructionItem from './cons-item'
 
 interface ConsTypeFieldsetProps {
   data?: any // Thêm prop data để truyền dữ liệu từ ngoài vào
@@ -95,7 +96,6 @@ const SurfaceWaterField: FC<ConsTypeFieldsetProps> = ({ data, onChange }) => {
     qktCapNuocSinhHoat: data?.thongso?.qktCapNuocSinhHoat || null,
     hgieng: data?.thongso?.hgieng || null,
     hGiengKT: data?.thongso?.hGiengKT || null,
-    phuongThucKT: data?.thongso?.phuongThucKT || null,
     mucNuocTinh: data?.thongso?.mucNuocTinh || null,
     mucNuocDong: data?.thongso?.mucNuocDong || null,
     tangChuaNuocKT: data?.thongso?.tangChuaNuocKT || null,
@@ -119,8 +119,17 @@ const SurfaceWaterField: FC<ConsTypeFieldsetProps> = ({ data, onChange }) => {
     qXaThai: data?.thongso?.qXaThai || null,
     qMaxXaThai: data?.thongso?.qMaxXaThai || null,
     qKhaiThac: data?.thongso?.qKhaiThac || null,
-    qMaxKT: null
+    qMaxKT: data?.thongso?.qMaxKT || null
   })
+
+  const [consItemData, setConsItemData] = useState<ConstructionItemState[]>(data?.hangmuc || []);
+  const [consItemDataDetele, setConsItemDataDelete] = useState<any>();
+
+  const handleconsItemChange = (dataSave: any, dataDelete: any) => {
+    setConsItemDataDelete(dataDelete)
+    setConsItemData(dataSave);
+  };
+
   const [consType, setconsType] = useState<any>([])
   const [district, setDistrict] = useState<any>([])
   const [commune, setCommune] = useState<any>([])
@@ -132,6 +141,7 @@ const SurfaceWaterField: FC<ConsTypeFieldsetProps> = ({ data, onChange }) => {
   const isLicensepage = router.pathname.split('/')[1] == "giay-phep";
 
   useEffect(() => {
+    isLicensepage ? setShowDataCons(consData?.id !== null) : setShowDataCons(true);
     const getDataForSelect = async () => {
       try {
         setLoading(true)
@@ -180,10 +190,12 @@ const SurfaceWaterField: FC<ConsTypeFieldsetProps> = ({ data, onChange }) => {
     if (prop in consData) {
       setConsData((prevData) => {
         let mact = null;
+        let taiKhoan = null;
         if (prop === 'tenCT') {
           mact = createConsCode({ ...prevData, [prop]: value });
+          taiKhoan = createConsUser({ ...prevData, [prop]: value });
         }
-        const updatedData = { ...prevData, maCT: mact, [prop]: value };
+        const updatedData = { ...prevData, maCT: mact, taiKhoan: taiKhoan, [prop]: value };
         onChange(updatedData);
 
         return updatedData;
@@ -194,6 +206,8 @@ const SurfaceWaterField: FC<ConsTypeFieldsetProps> = ({ data, onChange }) => {
         onChange({
           consData: { ...consData, [prop]: value },
           consSpec: updatedSpec,
+          consItemData: consItemData,
+          consItemDataDetele: consItemDataDetele,
         });
 
         return updatedSpec;
@@ -252,44 +266,48 @@ const SurfaceWaterField: FC<ConsTypeFieldsetProps> = ({ data, onChange }) => {
               )}
             />
           </Grid>
-          <Grid item xs={12} md={3} sm={12} sx={{ my: 2 }}>
-            <Autocomplete
-              disabled={loading}
-              size='small'
-              options={ds_congtrinh}
-              getOptionLabel={(option: any) => option.tenCT}
-              value={ds_congtrinh.find((option: any) => option.tenCT.toLowerCase() === consData.tenCT?.toLowerCase()) || null}
-              isOptionEqualToValue={(option: any) => option.tenCT}
-              onChange={(_, value) => handleSetCons(value || emptyConstructionData)}
-              renderInput={params => (
-                <TextField
-                  required
-                  {...params}
-                  fullWidth
-                  label='Chọn công trình'
-                  InputProps={{
-                    ...params.InputProps,
-                    endAdornment: (
-                      <Fragment>
-                        {loading && <CircularProgress color='primary' size={20} />}
-                        {params.InputProps.endAdornment}
-                      </Fragment>
-                    )
-                  }}
+          {
+            isLicensepage ?
+              <Grid item xs={12} md={3} sm={12} sx={{ my: 2 }}>
+                <Autocomplete
+                  disabled={loading}
+                  size='small'
+                  options={ds_congtrinh}
+                  getOptionLabel={(option: any) => `${option.tenCT} ${option.donvi_hanhchinh !== null ? `(${option.donvi_hanhchinh?.tenHuyen})` : ''}`}
+                  value={ds_congtrinh.find((option: any) => option.tenCT.toLowerCase() === consData.tenCT?.toLowerCase()) || null}
+                  isOptionEqualToValue={(option: any) => option.tenCT}
+                  onChange={(_, value) => handleSetCons(value || emptyConstructionData)}
+                  renderInput={params => (
+                    <TextField
+                      required
+                      {...params}
+                      fullWidth
+                      label='Chọn công trình'
+                      InputProps={{
+                        ...params.InputProps,
+                        endAdornment: (
+                          <Fragment>
+                            {loading && <CircularProgress color='primary' size={20} />}
+                            {params.InputProps.endAdornment}
+                          </Fragment>
+                        )
+                      }}
+                    />
+                  )}
                 />
-              )}
-            />
-          </Grid>
+              </Grid> : ''
+          }
           {
             isLicensepage ?
               <Grid item xs={12} md={3} sm={12} sx={{ my: 2 }}>
                 <Button
                   variant='outlined'
+                  sx={{ borderRadius: 0 }}
                   size='small'
                   startIcon={<Add />}
                   onClick={handleAddNewCons}
                 >
-                  Thêm mới công trình
+                  Thêm công trình mới
                 </Button>
               </Grid>
               : ""
@@ -970,6 +988,10 @@ const SurfaceWaterField: FC<ConsTypeFieldsetProps> = ({ data, onChange }) => {
             </fieldset>
           ) : '' : ''
       }
+      {showDataCons ?
+        <Grid item xs={12}>
+          <ConstructionItem data={consItemData} onChange={handleconsItemChange} />
+        </Grid> : ""}
     </>
   )
 }
