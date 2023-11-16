@@ -1,13 +1,18 @@
 //React Imports
 import React from 'react'
+import { useState } from 'react'
 
 //MUI Imports
 //import { Box, Paper, FormGroup, FormControlLabel, Checkbox } from '@mui/material'
 import Grid from '@mui/material/Unstable_Grid2'
 
 //import dynamic from 'next/dynamic'
-import { Typography } from '@mui/material'
+
+
 import WasteReceiveTable from './wasteWaterReceiTable'
+import dynamic from 'next/dynamic';
+
+const Map = dynamic(() => import("src/@core/components/map"), { ssr: false });
 
 //const Map = dynamic(() => import('src/@core/components/map'), { ssr: false })
 
@@ -15,8 +20,9 @@ import WasteReceiveTable from './wasteWaterReceiTable'
 const WasteWaterReceDetails = () => {
   //Init columnTable
 
-  // const [mapCenter, setMapCenter] = useState([15.012172, 108.676488])
-  // const [mapZoom, setMapZoom] = useState(9)
+  const [mapCenter] = useState([ 15.012172, 108.676488 ]);
+  const [mapZoom] = useState(9);
+
   // const [showLabel, setShowLabel] = useState(false)
 
   // const zoomConstruction = (coords: any) => {
@@ -42,7 +48,7 @@ const WasteWaterReceDetails = () => {
           </Box>
           <Map center={mapCenter} zoom={mapZoom} showLabel={showLabel} loading={false} />
         </Paper> */}
-        <Typography>Map</Typography>
+        <Map center={mapCenter} zoom={mapZoom} mapData={null} />
       </Grid>
       <Grid xs={12} md={12}>
        <WasteReceiveTable/>

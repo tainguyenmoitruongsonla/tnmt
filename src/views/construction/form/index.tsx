@@ -2,14 +2,12 @@ import React, { useState } from 'react'
 import { Add, Edit, Save } from '@mui/icons-material'
 import { Button, CircularProgress, DialogActions, Grid, IconButton, Tooltip } from '@mui/material'
 import DialogsControlFullScreen from 'src/@core/components/dialog-control-full-screen'
-import ConstructionItem from './cons-item'
 import { useRouter } from 'next/router'
 import GroundWaterField from './cons-ground'
 import SurfaceWaterField from './cons-suface'
 import DischargeWaterField from './cons-discharge'
-import { deleteData, saveData } from 'src/api/axios'
-import { ConstructionItemState, ConstructionSpecState, ConstructionState, emptyConstructionData } from './construction-interface'
-import ConstructionExploit from './cons-exploit'
+import { saveData } from 'src/api/axios'
+import { ConstructionSpecState, ConstructionState, emptyConstructionData } from './construction-interface'
 
 interface FormConstructionProps {
   data: any
@@ -23,8 +21,8 @@ const FormConstruction: React.FC<FormConstructionProps> = ({ data, closeDialogs,
   const [consSpec, setConsSpec] = useState<ConstructionSpecState>(data)
 
   //ConstructionItem
-  const [consItemData, setConsItemData] = useState<ConstructionItemState[]>(data?.hangmuc)
-  const [consItemDataDetele, setConsItemDataDelete] = useState<any>()
+  // const [consItemData, setConsItemData] = useState<ConstructionItemState[]>(data?.hangmuc)
+  // const [consItemDataDetele, setConsItemDataDelete] = useState<any>()
   const [saving, setSaving] = useState(false)
   const handleConsChange = (data: any) => {
     setConsData(data.consData)
@@ -34,10 +32,10 @@ const FormConstruction: React.FC<FormConstructionProps> = ({ data, closeDialogs,
   //Hooks
   const route = useRouter()
 
-  const handleconsItemChange = (dataSave: any, dataDelete: any) => {
-    setConsItemDataDelete(dataDelete)
-    setConsItemData(dataSave)
-  }
+  // const handleconsItemChange = (dataSave: any, dataDelete: any) => {
+  //   setConsItemDataDelete(dataDelete)
+  //   setConsItemData(dataSave)
+  // }
 
   const handleSubmit = async (e: any) => {
     e.preventDefault()
@@ -50,14 +48,14 @@ const FormConstruction: React.FC<FormConstructionProps> = ({ data, closeDialogs,
         if (res) {
           await saveData('thong-so-ct/luu', { ...consSpec, idCT: res.id, idHangMucCT: null })
 
-          consItemDataDetele.map(async (e: any) => {
-            await deleteData('hang-muc-ct/xoa', e)
-          })
+          // consItemDataDetele.map(async (e: any) => {
+          //   await deleteData('hang-muc-ct/xoa', e)
+          // })
 
-          consItemData.map(async (e: any) => {
-            e.idCT = res.id
-            await saveData('hang-muc-ct/luu', e)
-          })
+          // consItemData.map(async (e: any) => {
+          //   e.idCT = res.id
+          //   await saveData('hang-muc-ct/luu', e)
+          // })
 
           typeof setPostSuccess === 'function' ? setPostSuccess(true) : ''
 
@@ -97,7 +95,8 @@ const FormConstruction: React.FC<FormConstructionProps> = ({ data, closeDialogs,
             ''
           )}
         </Grid>
-        {consData?.idLoaiCT === 7 ? (
+        
+        {/* {consData?.idLoaiCT === 7 ? (
           <Grid item xs={12}>
             <ConstructionExploit />
           </Grid>
@@ -105,7 +104,7 @@ const FormConstruction: React.FC<FormConstructionProps> = ({ data, closeDialogs,
           <Grid item xs={12}>
             <ConstructionItem data={consItemData} onChange={handleconsItemChange} />
           </Grid>
-        )}
+        )} */}
       </Grid>
 
       <DialogActions sx={{ p: 0, mt: 5 }}>

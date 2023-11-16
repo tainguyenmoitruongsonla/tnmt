@@ -1,15 +1,17 @@
 //React Imports
 import React from 'react'
+import { useState } from 'react'
 
 //MUI Imports
 //import { Box, Paper, FormGroup, FormControlLabel, Checkbox } from '@mui/material'
 import Grid from '@mui/material/Unstable_Grid2'
 
 //import dynamic from 'next/dynamic'
-import { Typography } from '@mui/material'
 import WasteTable from './wasteWaterTable'
+import dynamic from 'next/dynamic';
 
-//const Map = dynamic(() => import('src/@core/components/map'), { ssr: false })
+const Map = dynamic(() => import("src/@core/components/map"), { ssr: false });
+
 
 // eslint-disable-next-line react-hooks/rules-of-hooks
 const WasteWaterDetails = () => {
@@ -18,6 +20,8 @@ const WasteWaterDetails = () => {
   // const [mapCenter, setMapCenter] = useState([15.012172, 108.676488])
   // const [mapZoom, setMapZoom] = useState(9)
   // const [showLabel, setShowLabel] = useState(false)
+  const [mapCenter] = useState([ 15.012172, 108.676488 ]);
+  const [mapZoom] = useState(9);
 
   // const zoomConstruction = (coords: any) => {
   //   setMapCenter(coords)
@@ -42,7 +46,7 @@ const WasteWaterDetails = () => {
           </Box>
           <Map center={mapCenter} zoom={mapZoom} showLabel={showLabel} loading={false} />
         </Paper> */}
-        <Typography>Map</Typography>
+        <Map center={mapCenter} zoom={mapZoom}  loading={false} />
       </Grid>
       <Grid xs={12} md={12}>
        <WasteTable/>

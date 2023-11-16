@@ -332,7 +332,7 @@ const navigation = (): VerticalNavItemsType => {
             {
               title: 'Tính dự báo KNTNNT sông,suối',
               icon: CircleOutline,
-              path: '#'
+              path: '/kn-tiep-nhan-nuoc-thai/nguon-nuoc-song/du-bao-kntnnt'
             },
           ]
         },

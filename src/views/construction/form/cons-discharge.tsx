@@ -90,7 +90,6 @@ const DischargeWaterField: FC<ConsTypeFieldsetProps> = ({ data, onChange }) => {
     qktCapNuocSinhHoat: data?.thongso?.qktCapNuocSinhHoat || null,
     hgieng: data?.thongso?.hgieng || null,
     hGiengKT: data?.thongso?.hGiengKT || null,
-    phuongThucKT: data?.thongso?.phuongThucKT || null,
     mucNuocTinh: data?.thongso?.mucNuocTinh || null,
     mucNuocDong: data?.thongso?.mucNuocDong || null,
     tangChuaNuocKT: data?.thongso?.tangChuaNuocKT || null,
