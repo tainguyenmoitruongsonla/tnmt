@@ -51,7 +51,7 @@ const ListAccount = () => {
               <SetRole data={row} setPostSuccess={handlePostSuccess} />
             </IconButton>
             <IconButton aria-label="changePasword">
-              <ChangePassword />
+              <ChangePassword data={row} setPostSuccess={handlePostSuccess} />
             </IconButton>
             <IconButton aria-label="edit">
               <FormAccount data={row} setPostSuccess={handlePostSuccess} isEdit={true} />
