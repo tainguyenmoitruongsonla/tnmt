@@ -40,17 +40,15 @@ const SurfaceWaterMeasuresing = () => {
   const columnsTable = [
     { id: 'stt', label: 'STT', rowspan: 2, },
     {
-      id: 'tenCT', label: 'Tên công trình', rowspan: 2, elm: (row: any) => (
+      id: 'tenCT', label: 'Tên công trình', rowspan: 2, pinned: "left", elm: (row: any) => (
         <Typography className='btnShowFilePdf' onClick={() => zoomConstruction(ConverterCood(row.y, row.x))}>
           {row.tenCT}
         </Typography>)
     },
     { id: '#', label: 'Trạng thái vận hành', rowspan: 2, elm: (row: any) => (<DisplayOperatingStatus data={row} />) },
-    { id: 'DownstreamWLPre', label: (<span>Mực nước <br /> hạ lưu (m)</span>), rowspan: 2, },
-    { id: 'CapacityPre', label: (<span>Dung tích hồ  <br /> (triệu m<sup>3</sup>)</span>), rowspan: 2, },
-    {
-      id: '#', label: (<span>Mực nước <br /> thượng lưu hồ (m)</span>), rowspan: 2,
-    },
+    { id: 'hHaLuu', label: (<span>Mực nước <br /> hạ lưu (m)</span>), rowspan: 2, elm: (row: any) => (<span>{row.thongso?.hHaLuu}</span>)},
+    { id: 'hThuongLuu', label: (<span>Dung tích hồ  <br /> (triệu m<sup>3</sup>)</span>), rowspan: 2, elm: (row: any) => (<span>{row.thongso?.hThuongLuu}</span>)},
+    {id: 'hThuongLuu', label: (<span>Mực nước <br /> thượng lưu hồ (m)</span>), rowspan: 2, elm: (row: any) => (<span>{row.thongso?.hThuongLuu}</span>)},
     {
       id: '#', label: (<span>Lưu lượng <br /> xả qua tràn  (m3/s)</span>), rowspan: 2,
     },
@@ -58,7 +56,7 @@ const SurfaceWaterMeasuresing = () => {
       id: '#', label: (<span>Lưu lượng <br /> lớn nhất (m3/s)</span>), rowspan: 2,
     },
     {
-      id: '#', label: (<span>Lưu lượng <br /> xả duy trì DCTT (m3/s)</span>), rowspan: 2,
+      id: '#', label: (<span>Lưu lượng xả<br /> duy trì DCTT (m3/s)</span>), rowspan: 2,
     },
     {
       id: '#', label: (<span>Lưu lượng <br /> về hạ du (m3/s)</span>), rowspan: 2,
@@ -89,8 +87,8 @@ const SurfaceWaterMeasuresing = () => {
   useEffect(() => {
     const getDataConstructions = async () => {
       setLoading(true);
-      getData('cong-trinh/danh-sach', paramsFilter)
-        .then((data) => {
+      getData('GiamSatSoLieu/danhsach', paramsFilter)
+        .then((data) => { console.log(data);
           if (isMounted.current) {
             setResData(data);
           }
@@ -160,7 +158,7 @@ const SurfaceWaterMeasuresing = () => {
     <Grid container spacing={4}>
       <Grid item xs={12} sm={12} md={12} sx={{ height: '55vh', overflow: 'hidden' }}>
         <Paper elevation={3} sx={{ height: '100%', position: 'relative' }}>
-          <Box className='map-legend' sx={{ background: 'white', pl: 2 }}>
+          <Box className='map-legend' sx={{ background: 'white', pl: 2, height: 'auto'  }}>
             <FormGroup>
               <FormControlLabel
                 control={<Checkbox onClick={() => setShowLabel(!showLabel)} />}

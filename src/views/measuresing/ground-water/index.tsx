@@ -35,7 +35,7 @@ const GroundwaterMeasuresing = () => {
   const columnsTable = [
     { id: 'stt', label: 'STT', rowspan: 2, },
     {
-      id: 'ConstructionName', label: 'Tên công trình', rowspan: 2, elm: (row: any) => (
+      id: 'ConstructionName', label: 'Tên công trình', rowspan: 2, pinned: "left", elm: (row: any) => (
         <Typography className='btnShowFilePdf' onClick={() => zoomConstruction(ConverterCood(row.y, row.x))}>
           {row.tenCT}
         </Typography>)
