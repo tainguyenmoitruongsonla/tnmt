@@ -155,7 +155,7 @@ const ListLicenses = () => {
                         actions={(row: any) => (
                             <Box>
                                 <CreateLicense isEdit={true} data={row} setPostSuccess={handlePostSuccess} />
-                                <DeleteData url={'License'} data={row} setPostSuccess={handlePostSuccess} />
+                                <DeleteData url={'giay-phep'} data={row} setPostSuccess={handlePostSuccess} />
                             </Box>
                         )} />
                 </Paper>

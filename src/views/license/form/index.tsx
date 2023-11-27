@@ -11,13 +11,13 @@ import LicenseFeeFeild from 'src/views/license-fee/form/licensefee-feild';
 import FormBusiness from 'src/views/business/form';
 
 // API Imports
-import { getData, saveData, uploadFile } from 'src/api/axios';
+import { deleteData, getData, saveData, uploadFile } from 'src/api/axios';
 
 //Notistack Imports
 import { enqueueSnackbar } from 'notistack';
 
 //Interface Imports
-import { ConstructionItemState, ConstructionSpecState, ConstructionState, emptyConstructionData } from 'src/views/construction/form/construction-interface';
+import { ConstructionItemState, ConstructionSpecState, ConstructionState, MiningPurposeState, emptyConstructionData } from 'src/views/construction/form/construction-interface';
 import { LicenseFeeState } from 'src/views/license-fee/form/license-fee-interface';
 import { FormLicenseProps, LicenseState, emptyLicenseData } from './license-interface';
 import { useRouter } from 'next/router';
@@ -53,16 +53,19 @@ const FormLicense: FC<FormLicenseProps> = ({ data, closeDialogs, setPostSuccess 
   //Construction
   const [congtrinh, setCongTrinh] = useState<ConstructionState | null>(data?.congtrinh || null);
   const [thongso_congtrinh, setThongSoCongTrinh] = useState<ConstructionSpecState | null>(data?.congtrinh?.thongso || null);
-  const [consItemData, setConsItemData] = useState<ConstructionItemState[]>(data?.hangmuc || null);
-  const [consItemDataDetele, setConsItemDataDelete] = useState<any>(null);
+  const [hangmuc_ct, setHangMucCT] = useState<ConstructionItemState[]>(data?.hangmuc || null);
+  const [hangmucct_xoa, setHangMucCTXoa] = useState<any>(null);
+  const [luuluongtheo_mucdich, setLuuLuongTheoMucDich] = useState<MiningPurposeState[]>(data?.hangmuc || null);
+  const [luuluongtheo_mucdich_xoa, setLuuLuongTheoMucDichXoa] = useState<any>(null);
 
   const handleConstructionChange = (data: any) => {
-    data.consData ? setCongTrinh(data?.consData) : setCongTrinh(null);
-    data.consSpec ? setThongSoCongTrinh(data.consSpec) : setThongSoCongTrinh(null);
-    data.consItemData ? setConsItemData(data.consItemData) : setConsItemData([]);
-    data.consItemDataDetele ? setConsItemDataDelete(data.consItemDataDetele) : setConsItemDataDelete([]);
+    data.congtrinh ? setCongTrinh(data?.congtrinh) : setCongTrinh(null);
+    data.thongso_ct ? setThongSoCongTrinh(data.thongso_ct) : setThongSoCongTrinh(null);
+    data.hangmuc_ct ? setHangMucCT(data.hangmuc_ct) : setHangMucCT([]);
+    data.hangmuc_ct_xoa ? setHangMucCTXoa(data.hangmuc_ct_xoa) : setHangMucCTXoa([]);
+    data.luuluongtheo_mucdich ? setLuuLuongTheoMucDich(data.luuluongtheo_mucdich) : setLuuLuongTheoMucDich([]);
+    data.luuluongtheo_mucdich_xoa ? setLuuLuongTheoMucDichXoa(data.luuluongtheo_mucdich_xoa) : setLuuLuongTheoMucDichXoa([]);
   };
-
 
   //licenseFee
   const [tiencp, settiencq] = useState<LicenseFeeState[] | null>(data?.tiencq || null);
@@ -128,13 +131,31 @@ const FormLicense: FC<FormLicenseProps> = ({ data, closeDialogs, setPostSuccess 
           await saveData('thong-so-ct/luu', { ...thongso_congtrinh, idCT: saveCons.id, idHangMucCT: null })
         }
 
-        consItemDataDetele !== null ? consItemDataDetele?.map(async (e: any) => {
-          await saveData('hang-muc-ct/xoa', e);
+        hangmucct_xoa !== null ? hangmucct_xoa?.map(async (e: any) => {
+          console.log(e.id);
+          
+          await deleteData('hang-muc-ct/xoa', e.id);
         }) : ""
 
-        consItemData !== null ? consItemData?.map(async (e: any) => {
+        hangmuc_ct !== null ? hangmuc_ct?.map(async (e: any) => {
           e.idCT = saveCons.id;
           await saveData('hang-muc-ct/luu', e);
+
+          const saveConsItem = await saveData('hang-muc-ct/luu', e);
+          if (saveConsItem && e.thongso !== null) {
+            {
+              await saveData('thong-so-ct/luu', { ...e.thongso, idCT: null, idHangMucCT: saveConsItem.id })
+            }
+          }
+        }) : ""
+
+        luuluongtheo_mucdich_xoa !== null ? luuluongtheo_mucdich_xoa?.map(async (e: any) => {
+          await saveData('luu-luong-theo-muc-dich/xoa', e.id);
+        }) : ""
+
+        luuluongtheo_mucdich !== null ? luuluongtheo_mucdich?.map(async (e: any) => {
+          e.idCT = saveCons.id;
+          await saveData('luu-luong-theo-muc-dich/luu', e);
         }) : ""
 
         const filePath = `pdf/giay-phep/${giayphep?.coQuanCapPhep?.toLowerCase()}/${router.pathname.split('/')[2]}/${dayjs(giayphep?.ngayKy).year()}/${giayphep?.soGP?.replace(/\//g, "_").toLowerCase()}`;

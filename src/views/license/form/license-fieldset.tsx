@@ -41,32 +41,6 @@ const LicenseFieldset: FC<LicenseFieldsetProps> = ({ data, onChange }) => {
         fileGiayToLienQuan: data?.fileGiayToLienQuan || null,
         fileDonXinCP: data?.fileDonXinCP || null,
     });
-
-
-    const getDataForSelect = async () => {
-        const paramsFilter = {
-            so_gp: null,
-            cong_trinh: 0,
-            coquan_cp: null,
-            loaihinh_cp: 0,
-            hieuluc_gp: null,
-            loai_ct: GetConstructionTypeId(router),
-            tang_chuanuoc: 0,
-            huyen: 0,
-            xa: 0,
-            tieuvung_qh: 0,
-            tochuc_canhan: 0,
-            tu_nam: 0,
-            den_nam: 0,
-        };
-        setFetching(true)
-        await getData('giay-phep/danh-sach', paramsFilter).then((data) => {
-            setListLic(data);
-        }).finally(() => {
-            setFetching(false)
-        })
-    };
-
     const loaiGP = [
         { title: 'Cấp mới giấy phép', value: 1 },
         { title: 'Cấp lại giấy phép', value: 2 },
@@ -81,9 +55,31 @@ const LicenseFieldset: FC<LicenseFieldsetProps> = ({ data, onChange }) => {
     ];
 
     useEffect(() => {
+        const getDataForSelect = async () => {
+            const paramsFilter = {
+                so_gp: null,
+                cong_trinh: 0,
+                coquan_cp: null,
+                loaihinh_cp: 0,
+                hieuluc_gp: null,
+                loai_ct: GetConstructionTypeId(router),
+                tang_chuanuoc: 0,
+                huyen: 0,
+                xa: 0,
+                tieuvung_qh: 0,
+                tochuc_canhan: 0,
+                tu_nam: 0,
+                den_nam: 0,
+            };
+            setFetching(true)
+            await getData('giay-phep/danh-sach', paramsFilter).then((data) => {
+                setListLic(data);
+            }).finally(() => {
+                setFetching(false)
+            })
+        };
         getDataForSelect();
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    }, [router]);
 
     const handleChange = (prop: keyof LicenseState) => (value: any) => {
         setGiayphep({ ...giayphep, [prop]: value });

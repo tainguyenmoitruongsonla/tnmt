@@ -79,8 +79,6 @@ const FormConstruction: React.FC<FormConstructionProps> = ({ data, closeDialogs,
     closeDialogs()
   }
 
-  console.log(consData)
-  
   return (
     <form onSubmit={handleSubmit}>
       <Grid container gap={3}>
@@ -95,16 +93,6 @@ const FormConstruction: React.FC<FormConstructionProps> = ({ data, closeDialogs,
             ''
           )}
         </Grid>
-        
-        {/* {consData?.idLoaiCT === 7 ? (
-          <Grid item xs={12}>
-            <ConstructionExploit />
-          </Grid>
-        ) : (
-          <Grid item xs={12}>
-            <ConstructionItem data={consItemData} onChange={handleconsItemChange} />
-          </Grid>
-        )} */}
       </Grid>
 
       <DialogActions sx={{ p: 0, mt: 5 }}>
