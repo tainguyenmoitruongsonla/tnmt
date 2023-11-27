@@ -50,6 +50,22 @@ const GlobalStyles = (theme: Theme) => {
         position: 'fixed',
         backgroundColor: theme.palette.primary.main
       }
+    },
+
+    '&.sub__nav &.menu__item': {
+      borderLeft: `2px solid ${theme.palette.secondary.dark}`,
+    },
+    '&.sub__nav &.active::before': {
+      content: '""',
+      position: 'absolute',
+      top: 'calc(50% - 5px)',
+      left: '-6px',
+      transform: 'translate(-50 %, -50 %)',
+      width: '10px',
+      height: '10px',
+      backgroundColor: `${theme.palette.customColors.primaryGradient}`,
+      borderRadius: '50%',
+      zIndex: 1,
     }
   }
 }

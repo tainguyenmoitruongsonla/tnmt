@@ -600,7 +600,7 @@ const DischargeWaterField: FC<ConsTypeFieldsetProps> = ({ data, onChange }) => {
                 label='Lưu lượng xả trung bình m3/ngày đêm'
               />
             </Grid>
-            <Grid item xs={12} md={3} sm={12} sx={{ my: 2 }}>
+            <Grid item xs={12} md={3} sm={12} sx={{ my: 2 }}> 
               <TextField
                 size='small'
                 type='text'
