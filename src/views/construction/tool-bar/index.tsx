@@ -272,13 +272,13 @@ const ConstructionToolBar: FC<ConstructionToolBarProps> = ({ onChange }) => {
                     </Collapse >
                 </Grid>
                 <Grid item xs={6} md={1.5} py={0}>
-                    <Button variant='outlined' size='small' fullWidth sx={{ borderRadius: 0 }} startIcon={<Search />} onClick={applyFilterChange}>Tìm kiếm</Button>
+                    <Button variant='outlined' size='small' fullWidth startIcon={<Search />} onClick={applyFilterChange}>Tìm kiếm</Button>
                 </Grid>
                 <Grid item xs={6} md={1.5} py={0}>
-                    <Button variant='outlined' size='small' fullWidth sx={{ borderRadius: 0 }} startIcon={<Replay />} onClick={reloadData}>Tải lại</Button>
+                    <Button variant='outlined' size='small' fullWidth startIcon={<Replay />} onClick={reloadData}>Tải lại</Button>
                 </Grid>
                 <Grid item xs={6} md={1.5} py={0}>
-                    <Button variant='outlined' size='small' fullWidth sx={{ borderRadius: 0 }} startIcon={<FilterList />} onClick={handleOpenAdvanceSearch}>
+                    <Button variant='outlined' size='small' fullWidth startIcon={<FilterList />} onClick={handleOpenAdvanceSearch}>
                         Bộ lọc
                     </Button>
                 </Grid>

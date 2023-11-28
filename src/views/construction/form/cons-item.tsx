@@ -1,7 +1,7 @@
 import { FC, useEffect, useState } from 'react';
-import { Alert, Box, Button, ButtonGroup, IconButton, Paper, Popover, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography } from "@mui/material"
-import { ConstructionItemState, ConstructionSpecState, emptyConstructionSpec } from './construction-interface';
-import { Delete } from '@mui/icons-material';
+import { Alert, Backdrop, Box, Button, ButtonGroup, Fade, Grid, IconButton, Modal, Paper, Popover, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography } from "@mui/material"
+import { ConstructionItemState, ConstructionSpecState } from './construction-interface';
+import { Add, Cancel, Delete, Edit, Save } from '@mui/icons-material';
 
 interface ConstructionItemFieldProps {
   data?: ConstructionItemState[]
@@ -95,22 +95,93 @@ const ConstructionItem: FC<ConstructionItemFieldProps> = ({ data, type, onChange
 
   const [constructionItems, setConstructionItems] = useState<ConstructionItemState[]>(initialLicenseFees);
   const [itemDelete, setItemDelete] = useState<ConstructionItemState[]>([]);
-
-  const addConstructionItem = () => {
-    const newItem: ConstructionItemState = {
+  const [newConsItem, setNewConsItem] = useState<ConstructionItemState>({
+    id: undefined,
+    idCT: undefined,
+    tenHangMuc: undefined,
+    viTriHangMuc: undefined,
+    x: undefined,
+    y: undefined,
+    thongso: {
       id: undefined,
       idCT: undefined,
-      tenHangMuc: '',
-      x: undefined,
-      y: undefined,
-      thongso: emptyConstructionSpec
+      idHangMucCT: undefined,
+      caoTrinhCong: undefined,
+      cheDoKT: undefined,
+      caoTrinhDap: undefined,
+      cheDoXT: undefined,
+      chieuCaoDap: undefined,
+      chieuDaiCong: undefined,
+      chieuDaiDap: undefined,
+      chieuRongCong: undefined,
+      chieuSauDoanThuNuocDen: undefined,
+      chieuSauDoanThuNuocTu: undefined,
+      congSuatBom: undefined,
+      congSuatDamBao: undefined,
+      congSuatLM: undefined,
+      dienTichLuuVuc: undefined,
+      dienTichTuoiThietKe: undefined,
+      dienTichTuoiThucTe: undefined,
+      dungTichChet: undefined,
+      dungTichHuuIch: undefined,
+      dungTichToanBo: undefined,
+      hBeHut: undefined,
+      hDatOngLocDen: undefined,
+      hDatOngLocTu: undefined,
+      hDoanThuNuocDen: undefined,
+      hDoanThuNuocTu: undefined,
+      hDong: undefined,
+      hgieng: undefined,
+      hGiengKT: undefined,
+      hHaLuu: undefined,
+      hHaThap: undefined,
+      hlu: undefined,
+      hmax: undefined,
+      hmin: undefined,
+      hThuongLuu: undefined,
+      hTinh: undefined,
+      htoiThieu: undefined,
+      kichThuocCong: undefined,
+      kqKf: undefined,
+      luongNuocKT: undefined,
+      mnc: undefined,
+      mndbt: undefined,
+      mnlkt: undefined,
+      mnltk: undefined,
+      muaTrungBinhNam: undefined,
+      mucNuocDong: undefined,
+      mucNuocTinh: undefined,
+      phuongThucXT: undefined,
+      qBomLonNhat: undefined,
+      qBomThietKe: undefined,
+      qDamBao: undefined,
+      qKhaiThac: undefined,
+      qktCapNuocSinhHoat: undefined,
+      qktLonNhat: undefined,
+      qLonNhatTruocLu: undefined,
+      qMaxKT: undefined,
+      qmaxNM: undefined,
+      qMaxXaThai: undefined,
+      qThietKe: undefined,
+      qThucTe: undefined,
+      qTrungBinhNam: undefined,
+      qtt: undefined,
+      qXaThai: undefined,
+      qXaThaiLonNhat: undefined,
+      qXaThaiTB: undefined,
+      qXaTran: undefined,
+      soLuongMayBom: undefined,
+      thoiGianBomLonNhat: undefined,
+      thoiGianBomNhoNhat: undefined,
+      thoiGianBomTB: undefined,
     }
-    setConstructionItems(prevItems => [...prevItems, newItem])
-  }
+  })
 
   const [deleteConfirmAnchorEl, setDeleteConfirmAnchorEl] = useState<HTMLButtonElement | null>(null);
   const deleteConfirmOpen = Boolean(deleteConfirmAnchorEl);
   const [deleteTargetIndex, setDeleteTargetIndex] = useState<number | null>(null);
+
+  const [required, setRequire] = useState<string | null>(null)
 
   const DeleteRowData = (event: React.MouseEvent<HTMLButtonElement>, index: number) => {
     setDeleteConfirmAnchorEl(event.currentTarget);
@@ -143,27 +214,51 @@ const ConstructionItem: FC<ConstructionItemFieldProps> = ({ data, type, onChange
     })
 
     // Call onChange after the state update
-    onChange(constructionItems, itemDelete);
+    onChange([...constructionItems], itemDelete);
     setDeleteConfirmAnchorEl(null);
   };
 
-  const handleChange = (index: number, prop: keyof ConstructionItemState | keyof ConstructionSpecState) => (value: any) => {
-    const newConstructionItems = [...constructionItems];
+  const handleChange = (prop: keyof ConstructionItemState | keyof ConstructionSpecState) => (value: any) => {
+    setNewConsItem(prevItem => {
+      const newItem: ConstructionItemState = { ...prevItem };
 
-    if (
-      newConstructionItems[index]?.thongso &&
-      prop in newConstructionItems[index].thongso!
-    ) {
-      newConstructionItems[index].thongso![prop as keyof ConstructionSpecState] = value;
-      console.log(index, value)
+      if (prop in newItem) {
+        (newItem as any)[prop] = value;
+      }
+
+      if (newItem.thongso && prop in newItem.thongso) {
+        (newItem.thongso as any)[prop] = value;
+      }
+
+      return newItem;
+    });
+  }
+
+  const handleSave = () => {
+    if (newConsItem.tenHangMuc !== undefined) {
+      setConstructionItems(prevItems => [...prevItems, newConsItem]);
+      onChange([...constructionItems], [...itemDelete]);
+      handleCloseModal();
     } else {
-      newConstructionItems[index][prop as keyof ConstructionItemState] = value;
+      setRequire("Tên hạng mục không được để trống")
     }
+  }
 
-    setConstructionItems(newConstructionItems);
 
-    // Call onChange after the state update
-    onChange(newConstructionItems, itemDelete);
+  const [openModal, setOpenModal] = useState(false);
+  const handleCloseModal = () => setOpenModal(false);
+  const handleOpenModal = () => setOpenModal(true);
+  const style = {
+    position: 'absolute' as const,
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    width: 600,
+    bgcolor: 'background.paper',
+    boxShadow: 24,
+    pt: 2,
+    px: 4,
+    pb: 3,
   };
 
   useEffect(() => {
@@ -178,8 +273,8 @@ const ConstructionItem: FC<ConstructionItemFieldProps> = ({ data, type, onChange
         <Typography variant={'subtitle1'} className='legend__title'>
           {
             type == 1 ? "CÁC HẠNG MỤC CỦA CÔNG TRÌNH" :
-              type == 2 ? "DANH SÁCH GIẾNG" :
-                type == 3 ? "CÁC ĐIỂM XẢ THẢI" : ""
+              type == 2 || type == 7 || type == 8 || type == 9 ? "DANH SÁCH GIẾNG" :
+                type == 3 ? "CÁC Vị trí xả thải" : "CÁC HẠNG MỤC"
           }
 
         </Typography>
@@ -197,31 +292,31 @@ const ConstructionItem: FC<ConstructionItemFieldProps> = ({ data, type, onChange
               <TableCell size='small' align='center' colSpan={2}>
                 Toạ độ(VN2000)
               </TableCell>
-              {type == 2 ?
+              {type == 7 ?
                 <TableCell size='small' align='center' rowSpan={2} width={150}>
                   Q  KT<sub>(m3/ngày.đêm)</sub>
                 </TableCell>
                 : ""
               }
-              {type == 2 ?
+              {type == 7 ?
                 <TableCell size='small' align='center' rowSpan={2} width={150}>
                   Chế độ KT
                 </TableCell>
                 : ""
               }
-              {type == 2 ?
+              {type == 7 ?
                 <TableCell size='small' align='center' colSpan={2}>
                   h <sub>đoạn thu nước</sub>
                 </TableCell>
                 : ""
               }
-              {type == 2 ?
+              {type == 7 ?
                 <TableCell size='small' align='center' colSpan={2}>
                   h
                 </TableCell>
                 : ""
               }
-              {type == 2 ?
+              {type == 7 ?
                 <TableCell size='small' align='center' colSpan={2}>
                   h <sub>đặt ống lọc</sub>
                 </TableCell>
@@ -229,7 +324,7 @@ const ConstructionItem: FC<ConstructionItemFieldProps> = ({ data, type, onChange
               }
               {type == 3 ?
                 <TableCell size='small' align='center' rowSpan={2} width={250}>
-                  Địa điểm
+                  Vị trí xả thải
                 </TableCell>
                 : ""
               }
@@ -251,10 +346,236 @@ const ConstructionItem: FC<ConstructionItemFieldProps> = ({ data, type, onChange
                 </TableCell>
                 : ""
               }
-              <TableCell size='small' align='center' padding='checkbox'>
-                <Button className='btn-link' onClick={addConstructionItem}>
-                  Thêm
-                </Button>
+              <TableCell size='small' align='center' padding='checkbox' rowSpan={2}>
+                <div>
+                  <IconButton aria-label="add" className='tableActionBtn' onClick={handleOpenModal}>
+                    <Add />
+                  </IconButton>
+                  <Modal
+                    aria-labelledby="transition-modal-title"
+                    aria-describedby="transition-modal-description"
+                    open={openModal}
+                    onClose={handleCloseModal}
+                    closeAfterTransition
+                    slots={{ backdrop: Backdrop }}
+                    slotProps={{
+                      backdrop: {
+                        timeout: 500,
+                      },
+                    }}
+                  >
+                    <Fade in={openModal}>
+                      <Box sx={{ ...style, width: 600 }}>
+                        <Typography id="transition-modal-title" variant="h6" component="h2" align="center" py={3}>
+                          {
+                            type == 1 ? "HẠNG MỤC CÔNG TRÌNH" :
+                              type == 2 || type == 7 || type == 8 || type == 9 ? "HẠNG MỤC GIẾNG" :
+                                type == 3 ? "Vị trí xả thải" : "CÁC HẠNG MỤC"
+                          }
+                        </Typography>
+                        {required ? <Alert sx={{ my: 2 }} severity="warning">{required}</Alert> : null}
+                        <Grid container spacing={4}>
+                          <Grid item md={12}>
+                            <TextField
+                              name='tenhangmuc'
+                              fullWidth
+                              label='Tên hạng mục'
+                              placeholder='Tên hạng mục'
+                              size='small'
+                              value={undefined}
+                              onChange={event => handleChange('tenHangMuc')(event.target.value)}
+                            />
+                          </Grid>
+                          <Grid item md={6}>
+                            <TextField
+                              name='x'
+                              fullWidth
+                              label='Toạ độ X'
+                              placeholder='Toạ độ X'
+                              size='small'
+                              value={undefined}
+                              onChange={event => handleChange('x')(event.target.value)}
+                            />
+                          </Grid>
+                          <Grid item md={6}>
+                            <TextField
+                              name='y'
+                              fullWidth
+                              label='Toạ độ Y'
+                              placeholder='Toạ độ Y'
+                              size='small'
+                              value={undefined}
+                              onChange={event => handleChange('y')(event.target.value)}
+                            />
+                          </Grid>
+                          {type == 2 || type == 7 && (
+                            <>
+                              <Grid item md={12}>
+                                <TextField
+                                  name='qKhaiThac'
+                                  fullWidth
+                                  label='Lưu lượng khai thác'
+                                  placeholder='Lưu lượng khai thác'
+                                  size='small'
+                                  multiline
+                                  value={undefined}
+                                  onChange={event => handleChange('qKhaiThac')(event.target.value)}
+                                />
+                              </Grid>
+                              <Grid item md={12}>
+                                <TextField
+                                  name='cheDoKT'
+                                  fullWidth
+                                  label='Chế độ khai thác'
+                                  placeholder='Chế độ khai thác'
+                                  size='small'
+                                  multiline
+                                  value={undefined}
+                                  onChange={event => handleChange('cheDoKT')(event.target.value)}
+                                />
+                              </Grid>
+                              <Grid item md={6}>
+                                <TextField
+                                  name='hDoanThuNuocTu'
+                                  fullWidth
+                                  label='Mực nước đoạn thu nước từ'
+                                  placeholder='Mực nước đoạn thu nước từ'
+                                  size='small'
+                                  value={undefined}
+                                  onChange={event => handleChange('hDoanThuNuocTu')(event.target.value)}
+                                />
+                              </Grid>
+                              <Grid item md={6}>
+                                <TextField
+                                  name='hDoanThuNuocDen'
+                                  fullWidth
+                                  label='Mực nước đoạn thu nước đến'
+                                  placeholder='Mực nước đoạn thu nước đến'
+                                  size='small'
+                                  value={undefined}
+                                  onChange={event => handleChange('hDoanThuNuocDen')(event.target.value)}
+                                />
+                              </Grid>
+                              <Grid item md={6}>
+                                <TextField
+                                  name='hTinh'
+                                  fullWidth
+                                  label='H tĩnh'
+                                  placeholder='H tĩnh'
+                                  size='small'
+                                  value={undefined}
+                                  onChange={event => handleChange('hTinh')(event.target.value)}
+                                />
+                              </Grid>
+                              <Grid item md={6}>
+                                <TextField
+                                  name='hDong'
+                                  fullWidth
+                                  label='H động'
+                                  placeholder='H động'
+                                  size='small'
+                                  value={undefined}
+                                  onChange={event => handleChange('hDong')(event.target.value)}
+                                />
+                              </Grid>
+                              <Grid item md={6}>
+                                <TextField
+                                  name='hDatOngLocTu'
+                                  fullWidth
+                                  label='Mực nước đặt ống lọc từ'
+                                  placeholder='Mực nước đặt ống lọc từ'
+                                  size='small'
+                                  value={undefined}
+                                  onChange={event => handleChange('hDatOngLocTu')(event.target.value)}
+                                />
+                              </Grid>
+                              <Grid item md={6}>
+                                <TextField
+                                  name='hDatOngLocDen'
+                                  fullWidth
+                                  label='Mực nước đặt ống lọc đến'
+                                  placeholder='Mực nước đặt ống lọc đến'
+                                  size='small'
+                                  value={undefined}
+                                  onChange={event => handleChange('hDatOngLocDen')(event.target.value)}
+                                />
+                              </Grid>
+                            </>
+                          )}
+
+                          {type == 3 && (
+                            <>
+                              <Grid item md={12}>
+                                <TextField
+                                  name='viTriHangMuc'
+                                  fullWidth
+                                  label='Vị trí xả thải'
+                                  placeholder='Vị trí xả thải'
+                                  size='small'
+                                  multiline
+                                  value={undefined}
+                                  onChange={event => handleChange('viTriHangMuc')(event.target.value)}
+                                />
+                              </Grid>
+                              <Grid item md={12}>
+                                <TextField
+                                  name='phuongThucXT'
+                                  fullWidth
+                                  label='Phương thức xả thải'
+                                  placeholder='Phương thức xả thải'
+                                  size='small'
+                                  multiline
+                                  value={undefined}
+                                  onChange={event => handleChange('phuongThucXT')(event.target.value)}
+                                />
+                              </Grid>
+                              <Grid item md={12}>
+                                <TextField
+                                  name='cheDoXT'
+                                  fullWidth
+                                  label='Chế độ xả thải'
+                                  placeholder='Chế độ xả thải'
+                                  size='small'
+                                  multiline
+                                  value={undefined}
+                                  onChange={event => handleChange('cheDoXT')(event.target.value)}
+                                />
+                              </Grid>
+                              <Grid item md={12}>
+                                <TextField
+                                  name='qXaThai'
+                                  fullWidth
+                                  label='Lưu lượng nước thải(m3/ngày đêm)'
+                                  placeholder='Lưu lượng nước thải(m3/ngày đêm)'
+                                  size='small'
+                                  value={undefined}
+                                  onChange={event => handleChange('qXaThai')(event.target.value)}
+                                />
+                              </Grid>
+                            </>
+                          )}
+
+                        </Grid>
+                        <Grid item sx={{ display: "flex", justifyContent: "end", py: 2 }}>
+                          <Button startIcon={<Save />}
+                            sx={{ ml: 1 }}
+                            variant='outlined'
+                            color='primary'
+                            onClick={handleSave}>
+                            Lưu
+                          </Button>
+                          <Button startIcon={<Cancel />}
+                            sx={{ ml: 1 }}
+                            variant='outlined'
+                            color='error'
+                            onClick={handleCloseModal}>
+                            Huỷ
+                          </Button>
+                        </Grid>
+                      </Box>
+                    </Fade>
+                  </Modal>
+                </div>
               </TableCell>
             </TableRow>
             <TableRow>
@@ -264,37 +585,37 @@ const ConstructionItem: FC<ConstructionItemFieldProps> = ({ data, type, onChange
               <TableCell size='small' align='center' width={150}>
                 Y
               </TableCell>
-              {type == 2 ?
+              {type == 7 ?
                 <TableCell size='small' align='center' width={75}>
                   Từ(m)
                 </TableCell>
                 : ""
               }
-              {type == 2 ?
+              {type == 7 ?
                 <TableCell size='small' align='center' width={75}>
                   Đến(m)
                 </TableCell>
                 : ""
               }
-              {type == 2 ?
+              {type == 7 ?
                 <TableCell size='small' align='center' width={75}>
                   H<sub>tĩnh</sub>
                 </TableCell>
                 : ""
               }
-              {type == 2 ?
+              {type == 7 ?
                 <TableCell size='small' align='center' width={75}>
                   H<sub>động</sub>
                 </TableCell>
                 : ""
               }
-              {type == 2 ?
+              {type == 7 ?
                 <TableCell size='small' align='center' width={75}>
                   Từ(m)
                 </TableCell>
                 : ""
               }
-              {type == 2 ?
+              {type == 7 ?
                 <TableCell size='small' align='center' width={75}>
                   Đến(m)
                 </TableCell>
@@ -307,189 +628,86 @@ const ConstructionItem: FC<ConstructionItemFieldProps> = ({ data, type, onChange
               <TableRow key={index}>
                 <TableCell className="text-center  size='small' align-middle font-13">{index + 1}</TableCell>
                 <TableCell padding='checkbox'>
-                  <TextField
-                    name='tenhangmuc'
-                    fullWidth
-                    placeholder='Tên hạng mục'
-                    size='small'
-                    value={item.tenHangMuc}
-                    onChange={event => handleChange(index, 'tenHangMuc')(event.target.value)}
-                  />
+                  {item.tenHangMuc}
                 </TableCell>
                 <TableCell padding='checkbox'>
-                  <TextField
-                    name='x'
-                    fullWidth
-                    placeholder='Toạ độ X'
-                    size='small'
-                    value={item.x}
-                    onChange={event => handleChange(index, 'x')(event.target.value)}
-                  />
+                  {item.x}
                 </TableCell>
                 <TableCell padding='checkbox'>
-                  <TextField
-                    name='y'
-                    fullWidth
-                    placeholder='Toạ độ Y'
-                    size='small'
-                    value={item.y}
-                    onChange={event => handleChange(index, 'y')(event.target.value)}
-                  />
+                  {item.y}
                 </TableCell>
-                {type == 2 ?
+                {type == 2 || type == 7 ?
                   <TableCell padding='checkbox'>
-                    <TextField
-                      name='qKhaiThac'
-                      fullWidth
-                      placeholder='Lưu lượng khai thác'
-                      size='small'
-                      multiline
-                      value={item.thongso?.qKhaiThac}
-                      onChange={event => handleChange(index, 'qKhaiThac')(event.target.value)}
-                    />
+                    {item.thongso?.qKhaiThac}
                   </TableCell> : ""
                 }
-                {type == 2 ?
+                {type == 2 || type == 7 ?
                   <TableCell padding='checkbox'>
-                    <TextField
-                      name='cheDoKT'
-                      fullWidth
-                      placeholder='Chế độ khai thác'
-                      size='small'
-                      multiline
-                      value={item.thongso?.cheDoKT}
-                      onChange={event => handleChange(index, 'cheDoKT')(event.target.value)}
-                    />
+                    {item.thongso?.cheDoKT}
                   </TableCell> : ""
                 }
-                {type == 2 ?
+                {type == 2 || type == 7 ?
                   <TableCell padding='checkbox'>
-                    <TextField
-                      name='hDoanThuNuocTu'
-                      fullWidth
-                      placeholder='Từ'
-                      size='small'
-                      value={item.thongso?.hDoanThuNuocTu}
-                      onChange={event => handleChange(index, 'hDoanThuNuocTu')(event.target.value)}
-                    />
+                    {item.thongso?.hDoanThuNuocTu}
                   </TableCell> : ""
                 }
-                {type == 2 ?
+                {type == 2 || type == 7 ?
                   <TableCell padding='checkbox'>
-                    <TextField
-                      name='hDoanThuNuocDen'
-                      fullWidth
-                      placeholder='Đến'
-                      size='small'
-                      value={item.thongso?.hDoanThuNuocDen}
-                      onChange={event => handleChange(index, 'hDoanThuNuocDen')(event.target.value)}
-                    />
+                    {item.thongso?.hDoanThuNuocDen}
                   </TableCell> : ""
                 }
-                {type == 2 ?
+                {type == 2 || type == 7 ?
                   <TableCell padding='checkbox'>
-                    <TextField
-                      name='hTinh'
-                      fullWidth
-                      placeholder='H tĩnh'
-                      size='small'
-                      value={item.thongso?.hTinh}
-                      onChange={event => handleChange(index, 'hTinh')(event.target.value)}
-                    />
+                    {item.thongso?.hTinh}
                   </TableCell> : ""
                 }
-                {type == 2 ?
+                {type == 2 || type == 7 ?
                   <TableCell padding='checkbox'>
-                    <TextField
-                      name='hDong'
-                      fullWidth
-                      placeholder='H động'
-                      size='small'
-                      value={item.thongso?.hDong}
-                      onChange={event => handleChange(index, 'hDong')(event.target.value)}
-                    />
+                    {item.thongso?.hDong}
                   </TableCell> : ""
                 }
-                {type == 2 ?
+                {type == 2 || type == 7 ?
                   <TableCell padding='checkbox'>
-                    <TextField
-                      name='hDatOngLocTu'
-                      fullWidth
-                      placeholder='Từ'
-                      size='small'
-                      value={item.thongso?.hDatOngLocTu}
-                      onChange={event => handleChange(index, 'hDatOngLocTu')(event.target.value)}
-                    />
+                    {item.thongso?.hDatOngLocTu}
                   </TableCell> : ""
                 }
-                {type == 2 ?
+                {type == 2 || type == 7 ?
                   <TableCell padding='checkbox'>
-                    <TextField
-                      name='hDatOngLocDen'
-                      fullWidth
-                      placeholder='Đến'
-                      size='small'
-                      value={item.thongso?.hDatOngLocDen}
-                      onChange={event => handleChange(index, 'hDatOngLocDen')(event.target.value)}
-                    />
+                    {item.thongso?.hDatOngLocDen}
                   </TableCell> : ""
                 }
                 {type == 3 ?
                   <TableCell padding='checkbox'>
-                    <TextField
-                      name='viTriHangMuc'
-                      fullWidth
-                      placeholder='Địa điểm'
-                      size='small'
-                      multiline
-                      value={item?.viTriHangMuc}
-                      onChange={event => handleChange(index, 'viTriHangMuc')(event.target.value)}
-                    />
+                    {item.viTriHangMuc}
                   </TableCell> : ""
                 }
                 {type == 3 ?
                   <TableCell padding='checkbox'>
-                    <TextField
-                      name='phuongThucXT'
-                      fullWidth
-                      placeholder='Phương thức xả thải'
-                      size='small'
-                      multiline
-                      value={item.thongso?.phuongThucXT}
-                      onChange={event => handleChange(index, 'phuongThucXT')(event.target.value)}
-                    />
+                    {item.thongso?.phuongThucXT}
                   </TableCell> : ""
                 }
                 {type == 3 ?
                   <TableCell padding='checkbox'>
-                    <TextField
-                      name='cheDoXT'
-                      fullWidth
-                      placeholder='Chế độ xả thải'
-                      size='small'
-                      multiline
-                      value={item.thongso?.cheDoXT}
-                      onChange={event => handleChange(index, 'cheDoXT')(event.target.value)}
-                    />
+                    {item.thongso?.cheDoXT}
                   </TableCell> : ""
                 }
                 {type == 3 ?
                   <TableCell padding='checkbox'>
-                    <TextField
-                      name='qXaThai'
-                      fullWidth
-                      placeholder=' '
-                      size='small'
-                      value={item.thongso?.qXaThai}
-                      onChange={event => handleChange(index, 'qXaThai')(event.target.value)}
-                    />
+                    {item.thongso?.qXaThai}
                   </TableCell> : ""
                 }
                 <TableCell size='small' align='center' padding='checkbox'>
                   <>
                     <IconButton
                       aria-describedby={`${item.tenHangMuc}-${index}`}
-                      onClick={(event) => DeleteRowData(event, index)} // Pass the index here
+                      onClick={handleOpenModal}
+                      data-row-id={`${item.tenHangMuc}-${index}`}
+                    >
+                      <Edit className='tableActionBtn' />
+                    </IconButton>
+                    <IconButton
+                      aria-describedby={`${item.tenHangMuc}-${index}`}
+                      onClick={(event) => DeleteRowData(event, index)}
                       data-row-id={`${item.tenHangMuc}-${index}`}
                     >
                       <Delete className='tableActionBtn deleteBtn' />
@@ -525,6 +743,7 @@ const ConstructionItem: FC<ConstructionItemFieldProps> = ({ data, type, onChange
           </TableBody>
         </Table>
       </TableContainer>
+
     </fieldset>
   )
 }

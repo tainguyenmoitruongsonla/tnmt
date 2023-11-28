@@ -305,7 +305,6 @@ const DischargeConstruction = () => {
     )
     setDataFiltered(filteredData)
   }, [initConsType, resData])
-  console.log(resData)
 
   const handleFilterChange = (data: any, postSuccess: boolean | undefined) => {
     setParamsFilter(data)

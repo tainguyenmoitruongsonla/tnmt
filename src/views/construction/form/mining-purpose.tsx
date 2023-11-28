@@ -108,7 +108,7 @@ const MiningPurpose: FC<MiningPurposeFieldProps> = ({ data, type, onChange }) =>
               <TableCell size='small' align='center' rowSpan={2} width={50}>
                 #
               </TableCell>
-              <TableCell size='small' align='center' rowSpan={2}>
+              <TableCell size='small' align='center' rowSpan={2} width={500}>
                 Mục đích
               </TableCell>
               <TableCell size='small' align='center' rowSpan={2}>
@@ -137,7 +137,7 @@ const MiningPurpose: FC<MiningPurposeFieldProps> = ({ data, type, onChange }) =>
                     fullWidth
                     placeholder=' '
                     size='small'
-                    value={null}
+                    value={item.mucDich}
                     onChange={event => handleChange(index, 'mucDich')(event.target.value)}
                   />
                 </TableCell>
@@ -147,7 +147,7 @@ const MiningPurpose: FC<MiningPurposeFieldProps> = ({ data, type, onChange }) =>
                     fullWidth
                     placeholder=' '
                     size='small'
-                    value={null}
+                    value={item.luuLuong}
                     onChange={event => handleChange(index, 'luuLuong')(event.target.value)}
                   />
                 </TableCell>
@@ -157,7 +157,7 @@ const MiningPurpose: FC<MiningPurposeFieldProps> = ({ data, type, onChange }) =>
                     fullWidth
                     placeholder=' '
                     size='small'
-                    value={null}
+                    value={item.donViDo}
                     onChange={event => handleChange(index, 'donViDo')(event.target.value)}
                   />
                 </TableCell>
@@ -167,7 +167,7 @@ const MiningPurpose: FC<MiningPurposeFieldProps> = ({ data, type, onChange }) =>
                     fullWidth
                     placeholder=' '
                     size='small'
-                    value={null}
+                    value={item.ghiChu}
                     onChange={event => handleChange(index, 'ghiChu')(event.target.value)}
                   />
                 </TableCell>

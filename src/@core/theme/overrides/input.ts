@@ -8,6 +8,7 @@ const input = (theme: Theme) => {
         root: {
           color: theme.palette.text.primary,
           fontSize: '12px',
+          borderRadius: 3,
         }
       }
     },
@@ -70,7 +71,7 @@ const input = (theme: Theme) => {
           },
           '& .MuiOutlinedInput-notchedOutline': {
             borderColor: `${theme.palette.primary.light}66`,
-            borderRadius: 'unset',
+            borderRadius: 3,
           },
           '&.Mui-disabled .MuiOutlinedInput-notchedOutline': {
             borderColor: theme.palette.text.disabled

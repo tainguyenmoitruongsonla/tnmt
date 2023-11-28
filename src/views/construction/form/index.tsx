@@ -1,13 +1,13 @@
 import React, { useState } from 'react'
-import { Add, Edit, Save } from '@mui/icons-material'
+import { Add, Cancel, Edit, Save } from '@mui/icons-material'
 import { Button, CircularProgress, DialogActions, Grid, IconButton, Tooltip } from '@mui/material'
 import DialogsControlFullScreen from 'src/@core/components/dialog-control-full-screen'
 import { useRouter } from 'next/router'
 import GroundWaterField from './cons-ground'
 import SurfaceWaterField from './cons-suface'
 import DischargeWaterField from './cons-discharge'
-import { saveData } from 'src/api/axios'
-import { ConstructionSpecState, ConstructionState, emptyConstructionData } from './construction-interface'
+import { deleteData, saveData } from 'src/api/axios'
+import { ConstructionItemState, ConstructionSpecState, ConstructionState, propConsDataState } from './construction-interface'
 
 interface FormConstructionProps {
   data: any
@@ -16,26 +16,22 @@ interface FormConstructionProps {
 }
 
 const FormConstruction: React.FC<FormConstructionProps> = ({ data, closeDialogs, setPostSuccess }) => {
-  //Construction
-  const [consData, setConsData] = useState<ConstructionState>(data)
-  const [consSpec, setConsSpec] = useState<ConstructionSpecState>(data)
-
-  //ConstructionItem
-  // const [consItemData, setConsItemData] = useState<ConstructionItemState[]>(data?.hangmuc)
-  // const [consItemDataDetele, setConsItemDataDelete] = useState<any>()
-  const [saving, setSaving] = useState(false)
-  const handleConsChange = (data: any) => {
-    setConsData(data.consData)
-    setConsSpec(data.consSpec)
-  }
-
-  //Hooks
+  const propData: propConsDataState = { congtrinh: data, thongso_ct: data?.thongso, hangmuc_ct: data?.hangmuc }
   const route = useRouter()
 
-  // const handleconsItemChange = (dataSave: any, dataDelete: any) => {
-  //   setConsItemDataDelete(dataDelete)
-  //   setConsItemData(dataSave)
-  // }
+  //Construction
+  const [congtrinh, SetCongTrinh] = useState<ConstructionState>(data || {})
+  const [thongSoCT, SetThongSoCT] = useState<ConstructionSpecState>(data?.thongso || {})
+  const [hangMucCT, SetHangMucCT] = useState<ConstructionItemState[]>(data?.hangmuc || [])
+  const [hangMucCT_xoa, SetHangMucCT_xoa] = useState<ConstructionItemState[]>(data?.hangmuc || [])
+  const [saving, setSaving] = useState(false)
+
+  const handleConsChange = (data: propConsDataState) => {
+    SetCongTrinh(data.congtrinh ? { ...data.congtrinh } : {});
+    SetThongSoCT(data.thongso_ct ? { ...data.thongso_ct } : {})
+    SetHangMucCT(data.hangmuc_ct || [])
+    SetHangMucCT_xoa(data.hangmuc_ct_xoa || [])
+  };
 
   const handleSubmit = async (e: any) => {
     e.preventDefault()
@@ -43,23 +39,27 @@ const FormConstruction: React.FC<FormConstructionProps> = ({ data, closeDialogs,
     const handleApiCall = async () => {
       try {
         setSaving(true)
-        const res = await saveData('cong-trinh/luu', consData)
+        const res = await saveData('cong-trinh/luu', congtrinh)
 
         if (res) {
-          await saveData('thong-so-ct/luu', { ...consSpec, idCT: res.id, idHangMucCT: null })
+          await saveData('thong-so-ct/luu', { ...thongSoCT, idCT: res.id, idHangMucCT: null })
 
-          // consItemDataDetele.map(async (e: any) => {
-          //   await deleteData('hang-muc-ct/xoa', e)
-          // })
+          hangMucCT_xoa?.map(async (e: any) => {
+            await deleteData('hang-muc-ct/xoa', e)
+          })
 
-          // consItemData.map(async (e: any) => {
-          //   e.idCT = res.id
-          //   await saveData('hang-muc-ct/luu', e)
-          // })
+          hangMucCT?.map(async (e: any) => {
+            e.idCT = res.id
+            await saveData('hang-muc-ct/luu', e)
+          })
 
           typeof setPostSuccess === 'function' ? setPostSuccess(true) : ''
 
-          setConsData(emptyConstructionData)
+          SetCongTrinh({})
+          SetThongSoCT({})
+          SetHangMucCT([])
+          SetHangMucCT_xoa([])
+
           closeDialogs()
         }
       } catch (error) {
@@ -74,7 +74,10 @@ const FormConstruction: React.FC<FormConstructionProps> = ({ data, closeDialogs,
   }
 
   const handleClose = () => {
-    setConsData(emptyConstructionData)
+    SetCongTrinh({})
+    SetThongSoCT({})
+    SetHangMucCT([])
+    SetHangMucCT_xoa([])
 
     closeDialogs()
   }
@@ -84,11 +87,11 @@ const FormConstruction: React.FC<FormConstructionProps> = ({ data, closeDialogs,
       <Grid container gap={3}>
         <Grid item xs={12}>
           {route.pathname.split('/')[2] == 'nuoc-mat' ? (
-            <SurfaceWaterField data={consData} onChange={handleConsChange} />
+            <SurfaceWaterField data={propData} onChange={handleConsChange} />
           ) : route.pathname.split('/')[2] == 'nuoc-duoi-dat' ? (
-            <GroundWaterField data={consData} onChange={handleConsChange} />
+            <GroundWaterField data={propData} onChange={handleConsChange} />
           ) : route.pathname.split('/')[2] == 'xa-thai' ? (
-            <DischargeWaterField data={consData} onChange={handleConsChange} />
+            <DischargeWaterField data={propData} onChange={handleConsChange} />
           ) : (
             ''
           )}
@@ -96,12 +99,22 @@ const FormConstruction: React.FC<FormConstructionProps> = ({ data, closeDialogs,
       </Grid>
 
       <DialogActions sx={{ p: 0, mt: 5 }}>
-        <Button size='small' onClick={handleClose} className='btn cancleBtn'>
-          Hủy
+        <Button
+          startIcon={<Cancel />}
+          variant='outlined'
+          color='error'
+          size='small'
+          onClick={handleClose}>
+          Huỷ
         </Button>
-        <Button onClick={handleSubmit} disabled={saving} className='btn saveBtn'>
-          {' '}
-          {saving ? <CircularProgress color='inherit' size={20} /> : <Save />} &nbsp; Lưu{' '}
+        <Button
+          startIcon={saving ? <CircularProgress color='inherit' size={20} /> : <Save />}
+          variant='outlined'
+          color='primary'
+          size='small'
+          onClick={handleSubmit}
+          disabled={saving}>
+          Lưu
         </Button>
       </DialogActions>
     </form>
