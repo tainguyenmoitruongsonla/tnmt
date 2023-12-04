@@ -139,10 +139,6 @@ const DischargeWaterField: FC<ConsTypeFieldsetProps> = ({ data, onChange }) => {
   const isLicensepage = router.pathname.split('/')[1] == "giay-phep";
 
   useEffect(() => {
-    isLicensepage ? setShowDataCons(congtrinh?.id !== null) : setShowDataCons(true);
-  }, [congtrinh?.id, isLicensepage])
-
-  useEffect(() => {
     const getDataForSelect = async () => {
       try {
         setLoading(true)
@@ -184,6 +180,7 @@ const DischargeWaterField: FC<ConsTypeFieldsetProps> = ({ data, onChange }) => {
 
     getDataForSelect()
     setCommune([])
+    isLicensepage ? setShowDataCons(congtrinh?.id !== null) : setShowDataCons(true);
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [congtrinh?.idHuyen, congtrinh?.idLoaiCT, router])

@@ -95,7 +95,7 @@ const ConstructionItem: FC<ConstructionItemFieldProps> = ({ data, type, onChange
 
   const [constructionItems, setConstructionItems] = useState<ConstructionItemState[]>(initialLicenseFees);
   const [itemDelete, setItemDelete] = useState<ConstructionItemState[]>([]);
-  const [newConsItemIndex, setNewConsItemIndex] = useState(-1)
+  const [newConsItemIndex, setNewConsItemIndex] = useState(0)
   const [newConsItem, setNewConsItem] = useState<ConstructionItemState>({
     id: undefined,
     idCT: undefined,
@@ -195,14 +195,14 @@ const ConstructionItem: FC<ConstructionItemFieldProps> = ({ data, type, onChange
 
   const handleDeleteConfirm = () => {
     if (deleteTargetIndex !== null) {
-      deleteItem(deleteTargetIndex); // Pass the index here
+      deleteLicFeeItem(deleteTargetIndex); // Pass the index here
       setDeleteTargetIndex(null);
     }
 
     setDeleteConfirmAnchorEl(null);
   };
 
-  const deleteItem = (index: number) => {
+  const deleteLicFeeItem = (index: number) => {
     setConstructionItems((prevItems) => {
       const newItems = [...prevItems];
       const removedItem = newItems.splice(index, 1)[0];
@@ -268,7 +268,7 @@ const ConstructionItem: FC<ConstructionItemFieldProps> = ({ data, type, onChange
       }
 
       onChange([...constructionItems], [...itemDelete]);
-      setNewConsItemIndex(-1)
+      setNewConsItemIndex(0)
       handleCloseModal();
     } else {
       setRequire("Tên hạng mục không được để trống");
@@ -374,7 +374,7 @@ const ConstructionItem: FC<ConstructionItemFieldProps> = ({ data, type, onChange
                 : ""
               }
               <TableCell size='small' align='center' padding='checkbox' rowSpan={2}>
-                <Box>
+                <div>
                   <IconButton aria-label="add" className='tableActionBtn' onClick={() => handleOpenModal(0, null, 'add')}>
                     <Add />
                   </IconButton>
@@ -602,7 +602,7 @@ const ConstructionItem: FC<ConstructionItemFieldProps> = ({ data, type, onChange
                       </Box>
                     </Fade>
                   </Modal>
-                </Box>
+                </div>
               </TableCell>
             </TableRow>
             <TableRow>
