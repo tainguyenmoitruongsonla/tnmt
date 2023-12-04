@@ -95,6 +95,7 @@ const ConstructionItem: FC<ConstructionItemFieldProps> = ({ data, type, onChange
 
   const [constructionItems, setConstructionItems] = useState<ConstructionItemState[]>(initialLicenseFees);
   const [itemDelete, setItemDelete] = useState<ConstructionItemState[]>([]);
+  const [newConsItemIndex, setNewConsItemIndex] = useState(0)
   const [newConsItem, setNewConsItem] = useState<ConstructionItemState>({
     id: undefined,
     idCT: undefined,
@@ -103,77 +104,77 @@ const ConstructionItem: FC<ConstructionItemFieldProps> = ({ data, type, onChange
     x: undefined,
     y: undefined,
     thongso: {
-      id: undefined,
-      idCT: undefined,
-      idHangMucCT: undefined,
-      caoTrinhCong: undefined,
-      cheDoKT: undefined,
-      caoTrinhDap: undefined,
-      cheDoXT: undefined,
-      chieuCaoDap: undefined,
-      chieuDaiCong: undefined,
-      chieuDaiDap: undefined,
-      chieuRongCong: undefined,
-      chieuSauDoanThuNuocDen: undefined,
-      chieuSauDoanThuNuocTu: undefined,
-      congSuatBom: undefined,
-      congSuatDamBao: undefined,
-      congSuatLM: undefined,
-      dienTichLuuVuc: undefined,
-      dienTichTuoiThietKe: undefined,
-      dienTichTuoiThucTe: undefined,
-      dungTichChet: undefined,
-      dungTichHuuIch: undefined,
-      dungTichToanBo: undefined,
-      hBeHut: undefined,
-      hDatOngLocDen: undefined,
-      hDatOngLocTu: undefined,
-      hDoanThuNuocDen: undefined,
-      hDoanThuNuocTu: undefined,
-      hDong: undefined,
-      hgieng: undefined,
-      hGiengKT: undefined,
-      hHaLuu: undefined,
-      hHaThap: undefined,
-      hlu: undefined,
-      hmax: undefined,
-      hmin: undefined,
-      hThuongLuu: undefined,
-      hTinh: undefined,
-      htoiThieu: undefined,
-      kichThuocCong: undefined,
-      kqKf: undefined,
-      luongNuocKT: undefined,
-      mnc: undefined,
-      mndbt: undefined,
-      mnlkt: undefined,
-      mnltk: undefined,
-      muaTrungBinhNam: undefined,
-      mucNuocDong: undefined,
-      mucNuocTinh: undefined,
-      phuongThucXT: undefined,
-      qBomLonNhat: undefined,
-      qBomThietKe: undefined,
-      qDamBao: undefined,
-      qKhaiThac: undefined,
-      qktCapNuocSinhHoat: undefined,
-      qktLonNhat: undefined,
-      qLonNhatTruocLu: undefined,
-      qMaxKT: undefined,
-      qmaxNM: undefined,
-      qMaxXaThai: undefined,
-      qThietKe: undefined,
-      qThucTe: undefined,
-      qTrungBinhNam: undefined,
-      qtt: undefined,
-      qXaThai: undefined,
-      qXaThaiLonNhat: undefined,
-      qXaThaiTB: undefined,
-      qXaTran: undefined,
-      soLuongMayBom: undefined,
-      thoiGianBomLonNhat: undefined,
-      thoiGianBomNhoNhat: undefined,
-      thoiGianBomTB: undefined,
+      id: null,
+      idCT: null,
+      idHangMucCT: null,
+      caoTrinhCong: null,
+      cheDoKT: null,
+      caoTrinhDap: null,
+      cheDoXT: null,
+      chieuCaoDap: null,
+      chieuDaiCong: null,
+      chieuDaiDap: null,
+      chieuRongCong: null,
+      chieuSauDoanThuNuocDen: null,
+      chieuSauDoanThuNuocTu: null,
+      congSuatBom: null,
+      congSuatDamBao: null,
+      congSuatLM: null,
+      dienTichLuuVuc: null,
+      dienTichTuoiThietKe: null,
+      dienTichTuoiThucTe: null,
+      dungTichChet: null,
+      dungTichHuuIch: null,
+      dungTichToanBo: null,
+      hBeHut: null,
+      hDatOngLocDen: null,
+      hDatOngLocTu: null,
+      hDoanThuNuocDen: null,
+      hDoanThuNuocTu: null,
+      hDong: null,
+      hgieng: null,
+      hGiengKT: null,
+      hHaLuu: null,
+      hHaThap: null,
+      hlu: null,
+      hmax: null,
+      hmin: null,
+      hThuongLuu: null,
+      hTinh: null,
+      htoiThieu: null,
+      kichThuocCong: null,
+      kqKf: null,
+      luongNuocKT: null,
+      mnc: null,
+      mndbt: null,
+      mnlkt: null,
+      mnltk: null,
+      muaTrungBinhNam: null,
+      mucNuocDong: null,
+      mucNuocTinh: null,
+      phuongThucXT: null,
+      qBomLonNhat: null,
+      qBomThietKe: null,
+      qDamBao: null,
+      qKhaiThac: null,
+      qktCapNuocSinhHoat: null,
+      qktLonNhat: null,
+      qLonNhatTruocLu: null,
+      qMaxKT: null,
+      qmaxNM: null,
+      qMaxXaThai: null,
+      qThietKe: null,
+      qThucTe: null,
+      qTrungBinhNam: null,
+      qtt: null,
+      qXaThai: null,
+      qXaThaiLonNhat: null,
+      qXaThaiTB: null,
+      qXaTran: null,
+      soLuongMayBom: null,
+      thoiGianBomLonNhat: null,
+      thoiGianBomNhoNhat: null,
+      thoiGianBomTB: null,
     }
   })
 
@@ -234,20 +235,46 @@ const ConstructionItem: FC<ConstructionItemFieldProps> = ({ data, type, onChange
     });
   }
 
-  const handleSave = () => {
-    if (newConsItem.tenHangMuc !== undefined) {
-      setConstructionItems(prevItems => [...prevItems, newConsItem]);
-      onChange([...constructionItems], [...itemDelete]);
-      handleCloseModal();
-    } else {
-      setRequire("Tên hạng mục không được để trống")
+  const [openModal, setOpenModal] = useState(false);
+  const handleCloseModal = () => setOpenModal(false);
+  const handleOpenModal = (index: number, e: any, func: "add" | "update") => {
+    setOpenModal(true);
+    setNewConsItemIndex(index)
+    if (func === 'add') {
+      // Set all properties of newConsItem.thongso to null
+      const nullThongso = Object.fromEntries(
+        Object.keys(newConsItem.thongso || {}).map(key => [key, null])
+      );
+
+      setNewConsItem({ tenHangMuc: undefined, x: undefined, y: undefined, thongso: nullThongso });
+    }
+
+    if (func === 'update') {
+      setNewConsItem({ ...e });
     }
   }
 
+  const handleSave = () => {
+    if (newConsItem.tenHangMuc !== undefined) {
+      if (newConsItemIndex > 0) {
+        setConstructionItems(prevItems => {
+          const updatedItems = [...prevItems];
+          updatedItems[newConsItemIndex] = newConsItem;
 
-  const [openModal, setOpenModal] = useState(false);
-  const handleCloseModal = () => setOpenModal(false);
-  const handleOpenModal = () => setOpenModal(true);
+          return updatedItems;
+        });
+      } else {
+        setConstructionItems(prevItems => [...prevItems, newConsItem]);
+      }
+
+      onChange([...constructionItems], [...itemDelete]);
+      setNewConsItemIndex(0)
+      handleCloseModal();
+    } else {
+      setRequire("Tên hạng mục không được để trống");
+    }
+  }
+
   const style = {
     position: 'absolute' as const,
     top: '50%',
@@ -262,7 +289,7 @@ const ConstructionItem: FC<ConstructionItemFieldProps> = ({ data, type, onChange
   };
 
   useEffect(() => {
-    onChange(constructionItems, itemDelete)
+    onChange([...constructionItems], [...itemDelete])
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [constructionItems, itemDelete])
@@ -348,7 +375,7 @@ const ConstructionItem: FC<ConstructionItemFieldProps> = ({ data, type, onChange
               }
               <TableCell size='small' align='center' padding='checkbox' rowSpan={2}>
                 <div>
-                  <IconButton aria-label="add" className='tableActionBtn' onClick={handleOpenModal}>
+                  <IconButton aria-label="add" className='tableActionBtn' onClick={() => handleOpenModal(0, null, 'add')}>
                     <Add />
                   </IconButton>
                   <Modal
@@ -382,7 +409,7 @@ const ConstructionItem: FC<ConstructionItemFieldProps> = ({ data, type, onChange
                               label='Tên hạng mục'
                               placeholder='Tên hạng mục'
                               size='small'
-                              value={undefined}
+                              value={newConsItem.tenHangMuc == null ? '' : newConsItem.tenHangMuc}
                               onChange={event => handleChange('tenHangMuc')(event.target.value)}
                             />
                           </Grid>
@@ -393,7 +420,7 @@ const ConstructionItem: FC<ConstructionItemFieldProps> = ({ data, type, onChange
                               label='Toạ độ X'
                               placeholder='Toạ độ X'
                               size='small'
-                              value={undefined}
+                              value={newConsItem.x == null ? '' : newConsItem.x}
                               onChange={event => handleChange('x')(event.target.value)}
                             />
                           </Grid>
@@ -404,7 +431,7 @@ const ConstructionItem: FC<ConstructionItemFieldProps> = ({ data, type, onChange
                               label='Toạ độ Y'
                               placeholder='Toạ độ Y'
                               size='small'
-                              value={undefined}
+                              value={newConsItem.y == null ? '' : newConsItem.y}
                               onChange={event => handleChange('y')(event.target.value)}
                             />
                           </Grid>
@@ -417,9 +444,9 @@ const ConstructionItem: FC<ConstructionItemFieldProps> = ({ data, type, onChange
                                   label='Lưu lượng khai thác'
                                   placeholder='Lưu lượng khai thác'
                                   size='small'
-                                  multiline
-                                  value={undefined}
+                                  value={newConsItem.thongso?.qKhaiThac == null ? '' : newConsItem.thongso?.qKhaiThac}
                                   onChange={event => handleChange('qKhaiThac')(event.target.value)}
+                                  multiline
                                 />
                               </Grid>
                               <Grid item md={12}>
@@ -429,9 +456,9 @@ const ConstructionItem: FC<ConstructionItemFieldProps> = ({ data, type, onChange
                                   label='Chế độ khai thác'
                                   placeholder='Chế độ khai thác'
                                   size='small'
-                                  multiline
-                                  value={undefined}
+                                  value={newConsItem.thongso?.cheDoKT == null ? '' : newConsItem.thongso?.cheDoKT}
                                   onChange={event => handleChange('cheDoKT')(event.target.value)}
+                                  multiline
                                 />
                               </Grid>
                               <Grid item md={6}>
@@ -441,7 +468,7 @@ const ConstructionItem: FC<ConstructionItemFieldProps> = ({ data, type, onChange
                                   label='Mực nước đoạn thu nước từ'
                                   placeholder='Mực nước đoạn thu nước từ'
                                   size='small'
-                                  value={undefined}
+                                  value={newConsItem.thongso?.hDoanThuNuocTu == null ? '' : newConsItem.thongso?.hDoanThuNuocTu}
                                   onChange={event => handleChange('hDoanThuNuocTu')(event.target.value)}
                                 />
                               </Grid>
@@ -452,7 +479,7 @@ const ConstructionItem: FC<ConstructionItemFieldProps> = ({ data, type, onChange
                                   label='Mực nước đoạn thu nước đến'
                                   placeholder='Mực nước đoạn thu nước đến'
                                   size='small'
-                                  value={undefined}
+                                  value={newConsItem.thongso?.hDoanThuNuocDen == null ? '' : newConsItem.thongso?.hDoanThuNuocDen}
                                   onChange={event => handleChange('hDoanThuNuocDen')(event.target.value)}
                                 />
                               </Grid>
@@ -463,7 +490,7 @@ const ConstructionItem: FC<ConstructionItemFieldProps> = ({ data, type, onChange
                                   label='H tĩnh'
                                   placeholder='H tĩnh'
                                   size='small'
-                                  value={undefined}
+                                  value={newConsItem.thongso?.hTinh == null ? '' : newConsItem.thongso?.hTinh}
                                   onChange={event => handleChange('hTinh')(event.target.value)}
                                 />
                               </Grid>
@@ -474,7 +501,7 @@ const ConstructionItem: FC<ConstructionItemFieldProps> = ({ data, type, onChange
                                   label='H động'
                                   placeholder='H động'
                                   size='small'
-                                  value={undefined}
+                                  value={newConsItem.thongso?.hDong == null ? '' : newConsItem.thongso?.hDong}
                                   onChange={event => handleChange('hDong')(event.target.value)}
                                 />
                               </Grid>
@@ -485,7 +512,7 @@ const ConstructionItem: FC<ConstructionItemFieldProps> = ({ data, type, onChange
                                   label='Mực nước đặt ống lọc từ'
                                   placeholder='Mực nước đặt ống lọc từ'
                                   size='small'
-                                  value={undefined}
+                                  value={newConsItem.thongso?.hDatOngLocTu == null ? '' : newConsItem.thongso?.hDatOngLocTu}
                                   onChange={event => handleChange('hDatOngLocTu')(event.target.value)}
                                 />
                               </Grid>
@@ -496,7 +523,7 @@ const ConstructionItem: FC<ConstructionItemFieldProps> = ({ data, type, onChange
                                   label='Mực nước đặt ống lọc đến'
                                   placeholder='Mực nước đặt ống lọc đến'
                                   size='small'
-                                  value={undefined}
+                                  value={newConsItem.thongso?.hDatOngLocDen == null ? '' : newConsItem.thongso?.hDatOngLocDen}
                                   onChange={event => handleChange('hDatOngLocDen')(event.target.value)}
                                 />
                               </Grid>
@@ -512,9 +539,9 @@ const ConstructionItem: FC<ConstructionItemFieldProps> = ({ data, type, onChange
                                   label='Vị trí xả thải'
                                   placeholder='Vị trí xả thải'
                                   size='small'
-                                  multiline
-                                  value={undefined}
+                                  value={newConsItem.viTriHangMuc == null ? '' : newConsItem.viTriHangMuc}
                                   onChange={event => handleChange('viTriHangMuc')(event.target.value)}
+                                  multiline
                                 />
                               </Grid>
                               <Grid item md={12}>
@@ -524,9 +551,9 @@ const ConstructionItem: FC<ConstructionItemFieldProps> = ({ data, type, onChange
                                   label='Phương thức xả thải'
                                   placeholder='Phương thức xả thải'
                                   size='small'
-                                  multiline
-                                  value={undefined}
+                                  value={newConsItem.thongso?.phuongThucXT == null ? '' : newConsItem.thongso?.phuongThucXT}
                                   onChange={event => handleChange('phuongThucXT')(event.target.value)}
+                                  multiline
                                 />
                               </Grid>
                               <Grid item md={12}>
@@ -536,9 +563,9 @@ const ConstructionItem: FC<ConstructionItemFieldProps> = ({ data, type, onChange
                                   label='Chế độ xả thải'
                                   placeholder='Chế độ xả thải'
                                   size='small'
-                                  multiline
-                                  value={undefined}
+                                  value={newConsItem.thongso?.cheDoXT == null ? '' : newConsItem.thongso?.cheDoXT}
                                   onChange={event => handleChange('cheDoXT')(event.target.value)}
+                                  multiline
                                 />
                               </Grid>
                               <Grid item md={12}>
@@ -548,7 +575,7 @@ const ConstructionItem: FC<ConstructionItemFieldProps> = ({ data, type, onChange
                                   label='Lưu lượng nước thải(m3/ngày đêm)'
                                   placeholder='Lưu lượng nước thải(m3/ngày đêm)'
                                   size='small'
-                                  value={undefined}
+                                  value={newConsItem.thongso?.qXaThai == null ? '' : newConsItem.thongso?.qXaThai}
                                   onChange={event => handleChange('qXaThai')(event.target.value)}
                                 />
                               </Grid>
@@ -697,10 +724,10 @@ const ConstructionItem: FC<ConstructionItemFieldProps> = ({ data, type, onChange
                   </TableCell> : ""
                 }
                 <TableCell size='small' align='center' padding='checkbox'>
-                  <>
+                  <Box display={'flex'}>
                     <IconButton
                       aria-describedby={`${item.tenHangMuc}-${index}`}
-                      onClick={handleOpenModal}
+                      onClick={() => handleOpenModal(index, item, 'update')}
                       data-row-id={`${item.tenHangMuc}-${index}`}
                     >
                       <Edit className='tableActionBtn' />
@@ -736,7 +763,7 @@ const ConstructionItem: FC<ConstructionItemFieldProps> = ({ data, type, onChange
                         </Box>
                       </Alert>
                     </Popover>
-                  </>
+                  </Box>
                 </TableCell>
               </TableRow>
             ))}

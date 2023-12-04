@@ -77,7 +77,7 @@ const TableComponent: FC<TableProps> = (props: TableProps) => {
       <BoxLoading />
     ) : (
       <Paper>
-        <TableContainer>
+        <TableContainer style={{ borderRadius: 4 }}>
           <Table className='mainTable'>
             <TableHead className='tableHead'>
               <TableRow>

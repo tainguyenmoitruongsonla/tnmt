@@ -366,7 +366,7 @@ code[class*='language-'] {
 /* table */
 .mainTable .sticky-col {
   position: sticky !important;
-  background: #d8eaff;
+  background: #fff;
   z-index: 1 !important;
 }
 
@@ -402,8 +402,10 @@ code[class*='language-'] {
 
 .start-col {
   left: 0 !important;
+  box-shadow: inset rgba(0, 0, 0, 0.45) -10px 0px 20px -20px;
 }
 
 .end-col {
   right: 0 !important;
+  box-shadow: inset rgba(0, 0, 0, 0.45) 10px 0px 20px -20px;
 }

@@ -52,7 +52,7 @@ const Table = (theme: Theme) => {
     MuiTableCell: {
       styleOverrides: {
         root: {
-          borderBottom: `1px solid ${theme.palette.divider}`,
+          border: `1px solid ${theme.palette.divider}`,
           '& .MuiButton-root': {
             color: theme.palette.text.secondary
           }

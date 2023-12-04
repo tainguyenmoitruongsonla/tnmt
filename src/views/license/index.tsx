@@ -48,8 +48,8 @@ const ListLicenses = () => {
         { id: "ngayHetHieuLuc", label: "Ngày hểt hiệu lực", rowspan: 2, align: 'left', elm: (row: any) => (FormatDate(row.ngayHetHieuLuc)) },
         {
             id: "tochuc_canhan", label: "Cơ quan/cá nhân được CP", align: 'left', children: [
-                { id: "tenTCCN", label: "Tên", align: 'left', pinned: "left" },
-                { id: "diaChi", label: "Địa chỉ", align: 'left', pinned: "left" },
+                { id: "tenTCCN", label: "Tên", align: 'left' },
+                { id: "diaChi", label: "Địa chỉ", align: 'left' },
             ]
         },
         {
