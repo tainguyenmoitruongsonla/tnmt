@@ -1,7 +1,7 @@
 import { FC, useEffect, useState } from 'react';
-import { Alert, Box, Button, ButtonGroup, IconButton, Paper, Popover, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography } from "@mui/material"
+import { Alert, Backdrop, Box, Button, ButtonGroup, Fade, Grid, IconButton, Modal, Paper, Popover, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography } from "@mui/material"
 import { MiningPurposeState } from './construction-interface';
-import { Delete } from '@mui/icons-material';
+import { Add, Cancel, Delete, Edit, Save } from '@mui/icons-material';
 
 interface MiningPurposeFieldProps {
   data?: MiningPurposeState[]
@@ -12,33 +12,30 @@ interface MiningPurposeFieldProps {
 const MiningPurpose: FC<MiningPurposeFieldProps> = ({ data, type, onChange }) => {
   const initialLicenseFees: MiningPurposeState[] = data
     ? data.map((e: MiningPurposeState) => ({
-      id: e.id,
-      idCT: e.idCT,
-      mucDich: e.mucDich,
-      luuLuong: e.luuLuong,
-      donViDo: e.donViDo,
-      ghiChu: e.ghiChu
+      id: e.id || undefined,
+      idCT: e.idCT || undefined,
+      mucDich: e.mucDich || undefined,
+      luuLuong: e.luuLuong || undefined,
+      donViDo: e.donViDo || undefined,
+      ghiChu: e.ghiChu || undefined,
     }))
     : []
 
-  const [MiningPurposes, setMiningPurposes] = useState<MiningPurposeState[]>(initialLicenseFees);
+  const [miningPurposes, setMiningPurposes] = useState<MiningPurposeState[]>(initialLicenseFees);
+  const [newMiniPurposeIndex, setNewMiniPurposeIndex] = useState(-1)
+  const [newMiniPurpose, setNewMiniPurpose] = useState<MiningPurposeState>({
+    id: 0,
+    idCT: 0,
+    mucDich: '',
+    luuLuong: undefined,
+    donViDo: '',
+    ghiChu: ''
+  })
   const [itemDelete, setItemDelete] = useState<MiningPurposeState[]>([]);
-
-  const addMiningPurpose = () => {
-    const newItem: MiningPurposeState = {
-      id: 0,
-      idCT: 0,
-      mucDich: '',
-      luuLuong: 0,
-      donViDo: '',
-      ghiChu: '',
-    }
-    setMiningPurposes(prevItems => [...prevItems, newItem])
-  }
-
   const [deleteConfirmAnchorEl, setDeleteConfirmAnchorEl] = useState<HTMLButtonElement | null>(null);
   const deleteConfirmOpen = Boolean(deleteConfirmAnchorEl);
   const [deleteTargetIndex, setDeleteTargetIndex] = useState<number | null>(null);
+  const [required, setRequire] = useState<string | null>(null)
 
   const DeleteRowData = (event: React.MouseEvent<HTMLButtonElement>, index: number) => {
     setDeleteConfirmAnchorEl(event.currentTarget);
@@ -51,14 +48,14 @@ const MiningPurpose: FC<MiningPurposeFieldProps> = ({ data, type, onChange }) =>
 
   const handleDeleteConfirm = () => {
     if (deleteTargetIndex !== null) {
-      deleteLicFeeItem(deleteTargetIndex); // Pass the index here
+      deleteItem(deleteTargetIndex); // Pass the index here
       setDeleteTargetIndex(null);
     }
 
     setDeleteConfirmAnchorEl(null);
   };
 
-  const deleteLicFeeItem = (index: number) => {
+  const deleteItem = (index: number) => {
     setMiningPurposes((prevItems) => {
       const newItems = [...prevItems];
       const removedItem = newItems.splice(index, 1)[0];
@@ -71,32 +68,84 @@ const MiningPurpose: FC<MiningPurposeFieldProps> = ({ data, type, onChange }) =>
     })
 
     // Call onChange after the state update
-    onChange(MiningPurposes, itemDelete);
+    onChange([...miningPurposes], [...itemDelete]);
     setDeleteConfirmAnchorEl(null);
   };
 
-  const handleChange = (index: number, prop: keyof MiningPurposeState) => (value: any) => {
-    const newMiningPurposes = [...MiningPurposes]
-    newMiningPurposes[index][prop] = value
-    setMiningPurposes(newMiningPurposes)
+  const handleChange = (prop: keyof MiningPurposeState) => (value: any) => {
+    setNewMiniPurpose(prevItem => {
+      const newItem: MiningPurposeState = { ...prevItem };
+      (newItem as any)[prop] = value;
 
-    // Call onChange after the state update
-    onChange(newMiningPurposes, itemDelete)
+      return newItem;
+    });
   }
 
+  const [openModal, setOpenModal] = useState(false);
+  const handleCloseModal = () => setOpenModal(false);
+  const handleOpenModal = (index: number, e: any, func: "add" | "update") => {
+    setOpenModal(true);
+    setNewMiniPurposeIndex(index)
+    if (func === 'add') {
+      // Set all properties of newMiniPurpose to null
+      const nullValue = Object.fromEntries(
+        Object.keys(newMiniPurpose || {}).map(key => [key, null])
+      );
+
+      setNewMiniPurpose({ ...nullValue });
+    }
+
+    if (func === 'update') {
+      setNewMiniPurpose({ ...e });
+    }
+  }
+
+  const handleSave = () => {
+    if (newMiniPurpose.mucDich !== undefined) {
+      if (newMiniPurposeIndex > 0) {
+        setMiningPurposes(prevItems => {
+          const updatedItems = [...prevItems];
+          updatedItems[newMiniPurposeIndex] = newMiniPurpose;
+
+          return updatedItems;
+        });
+      } else {
+        setMiningPurposes(prevItems => [...prevItems, newMiniPurpose]);
+      }
+
+      onChange([...miningPurposes], [...itemDelete]);
+      setNewMiniPurposeIndex(-1)
+      handleCloseModal();
+    } else {
+      setRequire("Mục đích không được để trống");
+    }
+  }
+
+  const style = {
+    position: 'absolute' as const,
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    width: 600,
+    bgcolor: 'background.paper',
+    boxShadow: 24,
+    pt: 2,
+    px: 4,
+    pb: 3,
+  };
   useEffect(() => {
-    onChange(MiningPurposes, itemDelete)
+    onChange([...miningPurposes], [...itemDelete])
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [MiningPurposes, itemDelete])
+  }, [miningPurposes, itemDelete])
 
   return (
     <fieldset>
       <legend>
         <Typography variant={'subtitle1'} className='legend__title'>
           {
-            type == 1 ? "Lưu lượng theo mục đích khai thác sử dụng" :
-              type == 2 ? "Lưu lượng theo mục đích thăm dò" :
+            type == 1 || type == 7 ? "Lưu lượng theo mục đích khai thác sử dụng" :
+              type == 8 ? "Lưu lượng theo mục đích thăm dò" :
                 type == 3 ? "Lưu lượng theo mục đích xả thải" : ""
           }
         </Typography>
@@ -120,62 +169,132 @@ const MiningPurpose: FC<MiningPurposeFieldProps> = ({ data, type, onChange }) =>
               <TableCell size='small' align='center' rowSpan={2}>
                 Ghi chú
               </TableCell>
-              <TableCell size='small' align='center' padding='checkbox'>
-                <Button className='btn-link' onClick={addMiningPurpose}>
-                  Thêm
-                </Button>
+              <TableCell size='small' align='center' padding='checkbox' rowSpan={2}>
+                <Box>
+                  <IconButton aria-label="add" className='tableActionBtn' onClick={() => handleOpenModal(0, null, 'add')}>
+                    <Add />
+                  </IconButton>
+                  <Modal
+                    aria-labelledby="transition-modal-title"
+                    aria-describedby="transition-modal-description"
+                    open={openModal}
+                    onClose={handleCloseModal}
+                    closeAfterTransition
+                    slots={{ backdrop: Backdrop }}
+                    slotProps={{
+                      backdrop: {
+                        timeout: 500,
+                      },
+                    }}
+                  >
+                    <Fade in={openModal}>
+                      <Box sx={{ ...style, width: 600 }}>
+                        <Typography id="transition-modal-title" variant="h6" component="h2" align="center" py={3}>
+                          {
+                            type == 1 || type == 2 || type == 7 || type == 8 || type == 9 ? "LƯU LƯỢNG THEO MỤC ĐÍCH KHAI THÁC" :
+                              type == 3 ? "LƯU LƯỢNG THEO MỤC ĐÍCH XẢ THẢI" : "LƯU LƯỢNG THEO MỤC ĐÍCH"
+                          }
+                        </Typography>
+                        {required ? <Alert sx={{ my: 2 }} severity="warning">{required}</Alert> : null}
+                        <Grid container spacing={4}>
+                          <Grid item md={12}>
+                            <TextField
+                              name='mucDich'
+                              fullWidth
+                              label='Mục đích'
+                              placeholder='Mục đích'
+                              size='small'
+                              value={newMiniPurpose.mucDich}
+                              onChange={event => handleChange('mucDich')(event.target.value)}
+                            />
+                          </Grid>
+                          <Grid item md={6}>
+                            <TextField
+                              name='luuLuong'
+                              fullWidth
+                              label='Lưu lượng'
+                              placeholder='Lưu lượng'
+                              size='small'
+                              value={newMiniPurpose.luuLuong}
+                              onChange={event => handleChange('luuLuong')(event.target.value)}
+                            />
+                          </Grid>
+                          <Grid item md={6}>
+                            <TextField
+                              name='donViDo'
+                              fullWidth
+                              label='Đơn vị đo'
+                              placeholder='Đơn vị đo'
+                              size='small'
+                              value={newMiniPurpose.donViDo}
+                              onChange={event => handleChange('donViDo')(event.target.value)}
+                            />
+                          </Grid>
+                          <Grid item md={12}>
+                            <TextField
+                              name='ghiChu'
+                              fullWidth
+                              label='Ghi chú'
+                              placeholder='Ghi chú'
+                              size='small'
+                              value={newMiniPurpose.ghiChu}
+                              onChange={event => handleChange('ghiChu')(event.target.value)}
+                              multiline
+                              rows={4}
+                            />
+                          </Grid>
+                        </Grid>
+                        <Grid item sx={{ display: "flex", justifyContent: "end", py: 2 }}>
+                          <Button startIcon={<Save />}
+                            sx={{ ml: 1 }}
+                            variant='outlined'
+                            color='primary'
+                            onClick={handleSave}>
+                            Lưu
+                          </Button>
+                          <Button startIcon={<Cancel />}
+                            sx={{ ml: 1 }}
+                            variant='outlined'
+                            color='error'
+                            onClick={handleCloseModal}>
+                            Huỷ
+                          </Button>
+                        </Grid>
+                      </Box>
+                    </Fade>
+                  </Modal>
+                </Box>
               </TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            {MiningPurposes.map((item, index) => (
+            {miningPurposes.map((item, index) => (
               <TableRow key={index}>
                 <TableCell>{index + 1}</TableCell>
                 <TableCell>
-                  <TextField
-                    name='mucDich'
-                    fullWidth
-                    placeholder=' '
-                    size='small'
-                    value={item.mucDich}
-                    onChange={event => handleChange(index, 'mucDich')(event.target.value)}
-                  />
+                  {item.mucDich}
                 </TableCell>
                 <TableCell>
-                  <TextField
-                    name='luuLuong'
-                    fullWidth
-                    placeholder=' '
-                    size='small'
-                    value={item.luuLuong}
-                    onChange={event => handleChange(index, 'luuLuong')(event.target.value)}
-                  />
+                  {item.luuLuong}
                 </TableCell>
                 <TableCell>
-                  <TextField
-                    name='donViDo'
-                    fullWidth
-                    placeholder=' '
-                    size='small'
-                    value={item.donViDo}
-                    onChange={event => handleChange(index, 'donViDo')(event.target.value)}
-                  />
+                  {item.donViDo}
                 </TableCell>
                 <TableCell>
-                  <TextField
-                    name='ghiChu'
-                    fullWidth
-                    placeholder=' '
-                    size='small'
-                    value={item.ghiChu}
-                    onChange={event => handleChange(index, 'ghiChu')(event.target.value)}
-                  />
+                  {item.ghiChu}
                 </TableCell>
                 <TableCell size='small' align='center' padding='checkbox'>
-                  <>
+                  <Box display={'flex'}>
                     <IconButton
                       aria-describedby={`${item.mucDich}-${index}`}
-                      onClick={(event) => DeleteRowData(event, index)} // Pass the index here
+                      onClick={() => handleOpenModal(index, item, 'update')}
+                      data-row-id={`${item.mucDich}-${index}`}
+                    >
+                      <Edit className='tableActionBtn' />
+                    </IconButton>
+                    <IconButton
+                      aria-describedby={`${item.mucDich}-${index}`}
+                      onClick={(event) => DeleteRowData(event, index)}
                       data-row-id={`${item.mucDich}-${index}`}
                     >
                       <Delete className='tableActionBtn deleteBtn' />
@@ -204,7 +323,7 @@ const MiningPurpose: FC<MiningPurposeFieldProps> = ({ data, type, onChange }) =>
                         </Box>
                       </Alert>
                     </Popover>
-                  </>
+                  </Box>
                 </TableCell>
               </TableRow>
             ))}

@@ -137,7 +137,7 @@ const GroundWaterField: FC<ConsTypeFieldsetProps> = ({ data, onChange }) => {
 
   const router = useRouter();
   const isLicensepage = router.pathname.split('/')[1] == "giay-phep";
-  const loai_ct = router.pathname.split('/')[2] == "nuocduoidat" ? router.pathname.split('/')[3] : "";
+  const loai_ct = router.pathname.split('/')[2] == "nuoc-duoi-dat" ? router.pathname.split('/')[3] : "";
 
   useEffect(() => {
     const getDataForSelect = async () => {
@@ -595,7 +595,7 @@ const GroundWaterField: FC<ConsTypeFieldsetProps> = ({ data, onChange }) => {
       }
       {showDataCons ?
         <Grid item xs={12}>
-          {isLicensepage ? <MiningPurpose data={propData.luuluongtheo_mucdich || []} type={GetConstructionTypeId(router)} onChange={handleMiningPurposeChange} /> : ""}
+          {isLicensepage ? loai_ct !== "hanh-nghe-khoan" ? <MiningPurpose data={propData.luuluongtheo_mucdich || []} type={GetConstructionTypeId(router)} onChange={handleMiningPurposeChange} /> : "" : ""}
           <ConstructionItem data={propData.hangmuc_ct || []} type={isLicensepage ? GetConstructionTypeId(router) : congtrinh.idLoaiCT} onChange={handleConsItemChange} />
         </Grid> : ""}
     </>

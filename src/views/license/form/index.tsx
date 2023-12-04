@@ -17,7 +17,7 @@ import { deleteData, getData, saveData, uploadFile } from 'src/api/axios';
 import { enqueueSnackbar } from 'notistack';
 
 //Interface Imports
-import { ConstructionItemState, ConstructionSpecState, ConstructionState, MiningPurposeState, emptyConstructionData } from 'src/views/construction/form/construction-interface';
+import { ConstructionItemState, ConstructionSpecState, ConstructionState, MiningPurposeState, emptyConstructionData, propConsDataState } from 'src/views/construction/form/construction-interface';
 import { LicenseFeeState } from 'src/views/license-fee/form/license-fee-interface';
 import { FormLicenseProps, LicenseState, emptyLicenseData } from './license-interface';
 import { useRouter } from 'next/router';
@@ -57,6 +57,7 @@ const FormLicense: FC<FormLicenseProps> = ({ data, closeDialogs, setPostSuccess 
   const [hangmucct_xoa, setHangMucCTXoa] = useState<any>(null);
   const [luuluongtheo_mucdich, setLuuLuongTheoMucDich] = useState<MiningPurposeState[]>(data?.hangmuc || null);
   const [luuluongtheo_mucdich_xoa, setLuuLuongTheoMucDichXoa] = useState<any>(null);
+  const propConsData: propConsDataState = { congtrinh: data?.congtrinh, thongso_ct: data?.congtrinh?.thongso, hangmuc_ct: data?.congtrinh?.hangmuc }
 
   const handleConstructionChange = (data: any) => {
     data.congtrinh ? setCongTrinh(data?.congtrinh) : setCongTrinh(null);
@@ -133,7 +134,7 @@ const FormLicense: FC<FormLicenseProps> = ({ data, closeDialogs, setPostSuccess 
 
         hangmucct_xoa !== null ? hangmucct_xoa?.map(async (e: any) => {
           console.log(e.id);
-          
+
           await deleteData('hang-muc-ct/xoa', e.id);
         }) : ""
 
@@ -331,13 +332,13 @@ const FormLicense: FC<FormLicenseProps> = ({ data, closeDialogs, setPostSuccess 
         <Grid item xs={12}>
           {
             router.pathname.split('/')[2] == 'nuoc-mat' ?
-              <SurfaceWaterField data={congtrinh} onChange={handleConstructionChange} />
+              <SurfaceWaterField data={propConsData} onChange={handleConstructionChange} />
               :
               router.pathname.split('/')[2] == 'nuoc-duoi-dat' ?
-                <GroundWaterField data={congtrinh} onChange={handleConstructionChange} />
+                <GroundWaterField data={propConsData} onChange={handleConstructionChange} />
                 :
                 router.pathname.split('/')[2] == 'xa-thai' ?
-                  <DischargeWaterField data={congtrinh} onChange={handleConstructionChange} />
+                  <DischargeWaterField data={propConsData} onChange={handleConstructionChange} />
                   : ''
           }
 
