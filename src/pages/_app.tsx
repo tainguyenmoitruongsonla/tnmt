@@ -1,6 +1,6 @@
 // ** Next Imports
 import Head from 'next/head'
-import { Router, useRouter } from 'next/router'
+import { Router } from 'next/router'
 import type { NextPage } from 'next'
 import type { AppProps } from 'next/app'
 
@@ -31,7 +31,8 @@ import 'react-perfect-scrollbar/dist/css/styles.css'
 
 // ** Global css styles
 import '../../styles/globals.css'
-import { useEffect } from 'react'
+import BlankLayout from 'src/@core/layouts/BlankLayout'
+import LoginPage from './pages/login'
 
 // ** Extend App Props with Emotion
 type ExtendedAppProps = AppProps & {
@@ -58,22 +59,11 @@ if (themeConfig.routingLoader) {
 const App = (props: ExtendedAppProps) => {
   const { Component, emotionCache = clientSideEmotionCache, pageProps } = props
 
-  // ** Hooks
-  const router = useRouter()
-
-  useEffect(() => {
-    if (typeof window !== 'undefined') {
-      // Kiểm tra trạng thái đăng nhập ở đây
-      const loggedIn = sessionStorage.getItem('authToken');
-      if (!loggedIn && router.pathname !== '/pages/login') {
-        router.push('/pages/login')
-      }
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [router.pathname]);
+  // Kiểm tra trạng thái đăng nhập ở đây
+  const loggedIn = typeof window !== 'undefined' ? sessionStorage.getItem('authToken') : undefined;
 
   // Variables
-  const getLayout = Component.getLayout ?? (page => <UserLayout>{page}</UserLayout>)
+  const getLayout = loggedIn ? Component.getLayout ?? (page => <UserLayout>{page}</UserLayout>) : () => <BlankLayout>{<LoginPage />}</BlankLayout>
 
   return (
     <CacheProvider value={emotionCache}>
