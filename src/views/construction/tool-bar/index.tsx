@@ -150,7 +150,7 @@ const ConstructionToolBar: FC<ConstructionToolBarProps> = ({ onChange }) => {
                         fullWidth
                         variant="outlined"
                         placeholder="Tên công trình..."
-                        onChange={(e: any) => handleChange(e)('constructionName')}
+                        onChange={(e: any) => handleChange(e)('tenct')}
                     />
                 </Grid>
                 <Grid item xs={12} md={2} py={0}>
