@@ -9,7 +9,6 @@ import { useRouter } from 'next/router'
 import Chip from '@mui/material/Chip'
 import ListItem from '@mui/material/ListItem'
 import { styled } from '@mui/material/styles'
-import Typography from '@mui/material/Typography'
 import Box, { BoxProps } from '@mui/material/Box'
 import Collapse from '@mui/material/Collapse'
 import ListItemIcon from '@mui/material/ListItemIcon'
@@ -21,7 +20,7 @@ import { List } from '@mui/material'
 import themeConfig from 'src/configs/themeConfig'
 
 // ** Types
-import { NavLink } from 'src/@core/layouts/types'
+import { NavLink, NavSectionTitle } from 'src/@core/layouts/types'
 import { Settings } from 'src/@core/context/settingsContext'
 
 // ** Custom Components Imports
@@ -43,22 +42,55 @@ const MenuNavLink = styled(ListItemButton)<ListItemButtonProps & { component?: E
   width: '100%',
   borderTopRightRadius: 100,
   borderBottomRightRadius: 100,
-  color: theme.palette.text.primary,
   padding: theme.spacing(2.25, 3.5),
+  color: `#fff`,
+  fontSize: 14,
   transition: 'opacity .25s ease-in-out',
   '&.active, &.active:hover': {
     boxShadow: theme.shadows[3],
     backgroundImage: `linear-gradient(270deg, ${theme.palette.customColors.primaryGradient}, ${theme.palette.primary.dark} 94%)`,
     borderRadius: '0 100px 100px 0',
-    borderLeft: `2px solid ${theme.palette.customColors.primaryGradient}`
   },
   '&.menu__item: hover': {
     boxShadow: theme.shadows[3],
     backgroundImage: `linear-gradient(270deg, ${theme.palette.customColors.primaryGradient}, ${theme.palette.primary.dark} 94%)`,
-    borderLeft: `2px solid ${theme.palette.customColors.primaryGradient}`
   },
   '&.active .MuiTypography-root, &.active .MuiSvgIcon-root': {
     color: `${theme.palette.common.white} !important`
+  },
+  '&.collapse-nav-btn:hover': {
+    backgroundColor: '#0b629959'
+  },
+  '&.collapse-nav-opened': {
+    backgroundColor: '#0b629959'
+  }
+}))
+
+const MenuNavSection = styled(ListItemButton)<ListItemButtonProps & { component?: ElementType; target?: '_blank' | undefined }>(({ theme }) => ({
+  width: '100%',
+  color: `rgba(231, 227, 252, 0.87) !important`,
+  fontSize: 13,
+  textTransform: 'uppercase',
+  padding: theme.spacing(2.25, 3.5),
+  '&.nav-section::after': {
+    content: '""',
+    position: 'absolute',
+    top: 'calc(50% - 5px)',
+    left: -4,
+    transform: 'translate(-50 %, -50 %)',
+    width: '10px',
+    height: '10px',
+    borderRadius: '50%',
+    backgroundColor: `#005589`,
+  },
+  '&.nav-section::before': {
+    content: '""',
+    position: 'absolute',
+    top: 'calc(50%)',
+    left: 0,
+    width: 2,
+    height: '50%',
+    backgroundColor: `#005589`,
   },
 }))
 
@@ -81,12 +113,24 @@ const VerticalNavLink = ({ item, settings, navVisible, toggleNavVisibility }: Pr
   const [open, setOpen] = useState(false)
   const [havePermit, setHavePermit] = useState<boolean>(false)
 
+  // Define a type guard for NavLink
+  const isNavLink = (item: NavLink | NavSectionTitle): item is NavLink => {
+    return 'children' in item && Array.isArray((item as NavLink).children);
+  };
+
   const handleClick = () => {
     if (item.children && item.children.length > 0) {
       setOpen(!open);
     } else {
+      const isNavLinkItem = isNavLink(item) ? item : null;
+
       // If it's a leaf node (no children), close the collapse if the item is already active
-      setOpen(!(isNavLinkActive(item.path) || item.children?.some(child => isNavLinkActive(child.path))));
+      setOpen(
+        !(
+          isNavLinkActive(item.path) ||
+          (isNavLinkItem && isNavLinkActive(isNavLinkItem.path))
+        )
+      );
     }
   };
 
@@ -103,14 +147,31 @@ const VerticalNavLink = ({ item, settings, navVisible, toggleNavVisibility }: Pr
     setHavePermit(checkAccessPermission(item.primaryPath, 'view'));
 
     // Check if any child is active
-    const isAnyChildActive = item.children && item.children.some(child => isNavLinkActive(child.path));
+    const isAnyChildActive = item.children && Array.isArray(item.children) && item.children.some((child): child is NavLink => {
+      return 'path' in child && isNavLinkActive(child.path);
+    });
 
     // Set the initial state of 'open' based on whether any child is active
     setOpen((prevOpen) => (isAnyChildActive !== undefined ? isAnyChildActive : prevOpen));
+
+    // If there are more levels, recursively check for active children
+    const checkActiveInChildren = (children: (NavLink | NavSectionTitle)[] | undefined): boolean => {
+      if (!children) {
+        return false;
+      }
+
+      return children.some(child => {
+        if (isNavLink(child) && child.children && child.children.length > 0) {
+          return checkActiveInChildren(child.children as NavLink[]);
+        } else {
+          return isNavLink(child) && 'path' in child && isNavLinkActive(child.path);
+        }
+      });
+    };
+    setOpen(prevOpen => checkActiveInChildren(item.children) || prevOpen);
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [item.primaryPath, item.children]);
-
-
 
   if (item.children && item.children.length > 0) {
 
@@ -120,6 +181,7 @@ const VerticalNavLink = ({ item, settings, navVisible, toggleNavVisibility }: Pr
         <Link passHref href={item.path === undefined ? '#' : havePermit ? `${item.path}` : '#'}>
           <MenuNavLink
             component={'a'}
+            className={`${open ? 'collapse-nav-opened' : ''} collapse-nav-btn`}
             {...(item.openInNewTab ? { target: '_blank' } : null)}
             onClick={(e) => {
               if (item.path === undefined) {
@@ -128,16 +190,9 @@ const VerticalNavLink = ({ item, settings, navVisible, toggleNavVisibility }: Pr
               }
             }}
             sx={{
-              pl: 5.5,
               ...(item.disabled ? { pointerEvents: 'none' } : { cursor: 'pointer' })
             }}
           >
-
-            {open || item.children.some(child => isNavLinkActive(child.path)) ? (
-              <ExpandIcon className='is-opened-children' sx={{ color: `#fff` }} />
-            ) : (
-              <ExpandIcon className='is-not-opened-children' sx={{ color: `#fff` }} />
-            )}
             {item.icon ? <ListItemIcon
               sx={{
                 mr: 2.5,
@@ -148,9 +203,7 @@ const VerticalNavLink = ({ item, settings, navVisible, toggleNavVisibility }: Pr
               <UserIcon icon={IconTag} />
             </ListItemIcon> : ''}
             <MenuItemTextMetaWrapper>
-              <Typography sx={{ color: `#fff` }} {...(themeConfig.menuTextTruncate && { noWrap: true })}>
-                {item.title}
-              </Typography>
+              {item.title}
               {item.badgeContent ? (
                 <Chip
                   label={item.badgeContent}
@@ -164,23 +217,42 @@ const VerticalNavLink = ({ item, settings, navVisible, toggleNavVisibility }: Pr
                 />
               ) : null}
             </MenuItemTextMetaWrapper>
+            {open || (isNavLink(item) && item.children && item.children.some(
+              (child): child is NavLink => isNavLink(child) && isNavLinkActive(child.path)
+            )) ? (
+              <ExpandIcon className='is-opened-children' sx={{ color: `#fff` }} />
+            ) : (
+              <ExpandIcon className='is-not-opened-children' sx={{ color: `#fff` }} />
+            )}
           </MenuNavLink>
         </Link>
         <Collapse in={open} timeout='auto' unmountOnExit>
-          <List sx={{ paddingLeft: '20px' }} className='sub__nav'>
-            {item.children.map((child: NavLink, index: number) => (
-
-              // Level 2 Menu Items
-              <VerticalNavLink
-                key={index}
-                item={child}
-                settings={settings}
-                navVisible={navVisible}
-                toggleNavVisibility={toggleNavVisibility}
-              />
-            ))}
+          <List className='sub__nav' sx={{ pl: 5, py: 2 }}>
+            {item.children.map((child: NavLink | NavSectionTitle, index: number) => {
+              // Check if the current child is a NavLink
+              if ('title' in child) {
+                // Level 2 Menu Items
+                return (
+                  <VerticalNavLink
+                    key={index}
+                    item={child as NavLink} // Cast child to NavLink
+                    settings={settings}
+                    navVisible={navVisible}
+                    toggleNavVisibility={toggleNavVisibility}
+                  />
+                );
+              } else {
+                // Handle NavSectionTitle separately if needed
+                return (
+                  <MenuNavSection key={index} className='nav-section'>
+                    {child.sectionTitle}
+                  </MenuNavSection>
+                );
+              }
+            })}
           </List>
         </Collapse>
+
       </ListItem>
     )
   } else {
@@ -203,7 +275,6 @@ const VerticalNavLink = ({ item, settings, navVisible, toggleNavVisibility }: Pr
               }
             }}
             sx={{
-              pl: 5.5,
               ...(item.disabled ? { pointerEvents: 'none' } : { cursor: 'pointer' })
             }}
           >
@@ -218,9 +289,7 @@ const VerticalNavLink = ({ item, settings, navVisible, toggleNavVisibility }: Pr
             </ListItemIcon> : ''}
 
             <MenuItemTextMetaWrapper>
-              <Typography sx={{ color: `#fff` }} {...(themeConfig.menuTextTruncate && { noWrap: true })}>
-                {item.title}
-              </Typography>
+              {item.title}
               {item.badgeContent ? (
                 <Chip
                   label={item.badgeContent}

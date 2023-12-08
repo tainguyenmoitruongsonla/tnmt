@@ -52,19 +52,24 @@ const GlobalStyles = (theme: Theme) => {
       }
     },
 
-    '&.sub__nav &.menu__item': {
-      borderLeft: `2px solid ${theme.palette.secondary.dark}`,
+    '&.sub__nav &.menu__item::before': {
+      content: '""',
+      position: 'absolute',
+      top: 0,
+      left: 0,
+      width: 2,
+      height: '100%',
+      backgroundColor: `#005589`,
     },
     '&.sub__nav &.active::before': {
       content: '""',
       position: 'absolute',
-      top: 'calc(50% - 5px)',
-      left: '-6px',
-      transform: 'translate(-50 %, -50 %)',
-      width: '10px',
-      height: '10px',
+      left: -1,
+      top: 0,
+      width: 4,
+      borderRadius: 4,
+      height: '100%',
       backgroundColor: `${theme.palette.customColors.primaryGradient}`,
-      borderRadius: '50%',
       zIndex: 1,
     }
   }

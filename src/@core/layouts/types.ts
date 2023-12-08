@@ -14,7 +14,7 @@ export type NavLink = {
   disabled?: boolean
   badgeContent?: string
   externalLink?: boolean
-  children?: (NavLink)[]
+  children?: (NavLink | NavSectionTitle)[]
   openInNewTab?: boolean
   icon?: string | string[] | ReactNode
   badgeColor?: 'default' | 'primary' | 'secondary' | 'success' | 'error' | 'warning' | 'info'
