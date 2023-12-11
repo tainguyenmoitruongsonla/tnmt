@@ -82,7 +82,7 @@ const TableComponent: FC<TableProps> = (props: TableProps) => {
             <TableHead className='tableHead'>
               <TableRow>
                 {tableColumns.map((column, index) => (
-                  <TableCell className={` ${column.pinned ? "sticky-col" : ""} ${column.pinned === "left" ? "start-col" : ""} ${column.pinned === "right" ? "end-col" : ""} `} size='small' align='center' key={index} rowSpan={column.rowspan} colSpan={column.colspan} sx={{ minWidth: column.minWidth }}>
+                  <TableCell className={` ${column.pinned ? "sticky-col" : ""} ${column.pinned === "left" ? "start-col" : ""} ${column.pinned === "right" ? "end-col" : ""} `} size='small' align='center' key={index} rowSpan={column.rowspan} colSpan={column.colspan} sx={{ minWidth: column.minWidth, maxWidth: column.minWidth, width: column.minWidth }}>
                     {column.id === 'actions' ? (typeof column.elm === 'function' ? column.elm() : column.label) : column.label}
                   </TableCell>
                 ))}

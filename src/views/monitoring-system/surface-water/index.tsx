@@ -24,9 +24,7 @@ const SurfaceWaterMonitoring = () => {
   const [mapCenter, setMapCenter] = useState([15.012172, 108.676488]);
   const [mapZoom, setMapZoom] = useState(9);
   const [showLabel, setShowLabel] = useState(false)
-
   const [TypeOfConsId] = useState([GetConstructionTypeId(router)]);
-
   const [resData, setResData] = useState<any[]>([]);
   const [loading, setLoading] = useState(false)
   const [total, setTotal] = useState(0)

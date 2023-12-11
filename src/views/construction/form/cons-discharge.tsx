@@ -273,7 +273,7 @@ const DischargeWaterField: FC<ConsTypeFieldsetProps> = ({ data, onChange }) => {
                   size='small'
                   options={ds_congtrinh}
                   getOptionLabel={(option: any) => `${option.tenCT} ${option.donvi_hanhchinh !== null ? `(${option.donvi_hanhchinh?.tenHuyen})` : ''}`}
-                  value={ds_congtrinh.find((option: any) => option.tenCT.toLowerCase() === congtrinh?.tenCT?.toLowerCase()) || null}
+                  value={ds_congtrinh.find((option: any) => option.tenCT?.toLowerCase() === congtrinh?.tenCT?.toLowerCase()) || null}
                   isOptionEqualToValue={(option: any) => option.tenCT}
                   onChange={(_, value) => handleSetCons(value || emptyConstructionData)}
                   renderInput={params => (

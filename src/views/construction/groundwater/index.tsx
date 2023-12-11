@@ -2,321 +2,213 @@
 import React, { useState, useEffect, useRef } from 'react'
 
 //MUI Imports
-import { Box, Typography, Paper } from '@mui/material'
+import { Box, Typography, Paper, FormGroup, FormControlLabel, Checkbox } from '@mui/material'
 import Grid from '@mui/material/Unstable_Grid2'
-import { GridColDef, GridColumnGroupingModel } from '@mui/x-data-grid'
 
 //Other Imports
 import ShowFilePDF from 'src/@core/components/show-file-pdf'
-import DataGridComponent from 'src/@core/components/data-grid'
-import FormGroup from '@mui/material/FormGroup'
-import FormControlLabel from '@mui/material/FormControlLabel'
-import Checkbox from '@mui/material/Checkbox'
-
 import dynamic from 'next/dynamic'
-import { getData } from 'src/api/axios'
+import { ConverterCood } from 'src/@core/components/map/convert-coord'
 import CreateConstruction from '../form'
-import ConstructionToolBar from '../tool-bar'
 import { useRouter } from 'next/router'
+import ConstructionToolBar from '../tool-bar'
+import { getData } from 'src/api/axios'
 import DeleteData from 'src/@core/components/delete-data'
 import MapLegend from '../MapLegend'
 import GetConstructionTypeId from 'src/@core/components/get-construction-type'
+import TableComponent, { TableColumn } from 'src/@core/components/table'
+import FormatDate from 'src/@core/components/format-date'
 
 const Map = dynamic(() => import('src/@core/components/map'), { ssr: false })
 
 // eslint-disable-next-line react-hooks/rules-of-hooks
 const GroundConstruction = () => {
-  //Init columnTable
-  const columnsTable: GridColDef[] = [
-    { field: 'id', headerAlign: 'center', headerName: 'ID', minWidth: 90 },
-    {
-      field: 'tenCT',
-      headerAlign: 'center',
-      headerName: 'Tên công trình',
-      minWidth: 350,
-      renderCell: data => (
-        <Typography className='btnShowFilePdf' onClick={() => zoomConstruction([data.row.lat, data.row.lng])}>
-          {data.row.tenCT}
-        </Typography>
-      )
-    },
-    { field: 'viTriCT', headerAlign: 'center', headerName: 'Ví trí công trình', minWidth: 350 },
-    { field: 'mucDichhKT', headerAlign: 'center', headerName: 'Mục đích khai thác,sử dụng nước', minWidth: 250 },
-    { field: 'soLuongGiengKT', headerAlign: 'center', headerName: 'Số giếng khai thác', minWidth: 150 },
-    { field: 'namBatDauVanHanh', headerAlign: 'center', headerName: 'Năm vận hành', minWidth: 100 },
-    {
-      field: 'sohieu',
-      headerAlign: 'center',
-      headerName: 'Số hiệu',
-      minWidth: 150,
-      renderCell: data => <span>{data.row.hangmuc?.tenHangMuc}</span>
-    },
-    {
-      field: 'thoiGianHNK',
-      headerAlign: 'center',
-      headerName: 'Thời gian hành nghề khoan',
-      minWidth: 150
-    },
-
-    //coordinates
-    { field: 'x', headerAlign: 'center', headerName: 'X', minWidth: 150 },
-    { field: 'y', headerAlign: 'center', headerName: 'Y', minWidth: 150 },
-
-    //
-    {
-      field: 'Chieusauthunuoctu',
-      headerAlign: 'center',
-      headerName: 'Từ ',
-      minWidth: 150,
-      renderCell: data => <span>{data.row.hangmuc.thongso?.chieuSauDoanThuNuocTu}</span>
-    },
-    {
-      field: 'Chieusauthunuocden',
-      headerAlign: 'center',
-      headerName: 'Đến',
-      minWidth: 150,
-      renderCell: data => <span>{data.row.hangmuc.thongso?.chieuSauDoanThuNuocDen}</span>
-    },
-
-    //constructionDetails
-    {
-      field: 'waterSupplyFlow',
-      headerAlign: 'center',
-      renderHeader: () => (
-        <span>
-          Q<sub>khai thác</sub> (m<sup>3</sup>/ng.đêm)
-        </span>
-      ),
-      minWidth: 150,
-      renderCell: data => <span>{data.row.thongso?.qKhaiThac}</span>
-    },
-    {
-      field: 'wellWL',
-      headerAlign: 'center',
-      renderHeader: () => (
-        <span>
-          {' '}
-          H<sub>giếng khai thác</sub>
-        </span>
-      ),
-      minWidth: 150,
-      renderCell: data => <span>{data.row.thongso?.hGiengKT}</span>
-    },
-    {
-      field: 'monitoringWellWL',
-      headerAlign: 'center',
-      renderHeader: () => (
-        <span>
-          {' '}
-          H<sub>giếng quan trắc</sub>
-        </span>
-      ),
-      minWidth: 150,
-      renderCell: data => <span>{data.row.thongso?.hgieng}</span>
-    },
-    {
-      field: 'exploitMethod',
-      headerAlign: 'center',
-      headerName: 'Chế độ KT (giờ/ng.đêm)',
-      minWidth: 150,
-      renderCell: data => <span>{data.row?.cheDoKT}</span>
-    },
-    {
-      field: 'staticWL',
-      headerAlign: 'center',
-      headerName: 'Chiều sâu MN tĩnh(m)',
-      minWidth: 150,
-      renderCell: data => <span>{data.row.thongso?.mucNuocTinh}</span>
-    },
-    {
-      field: 'dynamicWL',
-      headerAlign: 'center',
-      headerName: 'Chiều sâu MN động max(m)',
-      minWidth: 150,
-      renderCell: data => <span>{data.row.thongso?.mucNuocDong}</span>
-    },
-    {
-      field: 'exploitAquifer',
-      headerAlign: 'center',
-      headerName: 'Tầng chứa nước KT',
-      minWidth: 150,
-      renderCell: data => <span>{data.row.thongso?.tangChuaNuocKT}</span>
-    },
-    {
-      field: 'lowWL',
-      headerAlign: 'center',
-      headerName: 'Mực nước hạ thấp',
-      minWidth: 150,
-      renderCell: data => <span>{data.row.thongso?.hHaThap}</span>
-    },
-
-    //license
-    {
-      field: 'so_gp',
-      headerAlign: 'center',
-      headerName: 'Số GP',
-      minWidth: 150,
-      renderCell: params => (
-        <div style={{ width: '100%' }}>
-          {params.row.giayphep?.map((e: any) => (
-            <div key={e.id}>
-              <ShowFilePDF
-                name={e?.soGP}
-                src={e?.fileGiayPhep}
-              />
-            </div>
-          ))}
-        </div>
-      )
-    },
-    {
-      field: 'ngaycap_gp',
-      headerAlign: 'center',
-      headerName: 'Thời hạn',
-      minWidth: 150,
-      renderCell: params => (
-        <div style={{ width: '100%' }}>
-          {params.row.giayphep?.map((e: any) => (
-            <div key={e.id}>{e.thoiHan}</div>
-          ))}
-        </div>
-      )
-    },
-
-    //licenseFee
-    {
-      field: 'qd_tcq',
-      headerAlign: 'center',
-      headerName: 'Số QĐ',
-      minWidth: 150,
-      renderCell: params => (
-        <div style={{ width: '100%' }}>
-          {params.row.giayphep?.map((e: any) =>
-            e?.tiencq.map((e: any) => (
-              <div key={e.id}>
-                <ShowFilePDF
-                  name={e?.soQDTCQ}
-                  src={e?.filePDF}
-                />
-              </div>
-            ))
-          )}
-        </div>
-      )
-    },
-    {
-      field: 'tong_tcq',
-      headerAlign: 'center',
-      headerName: 'Tổng tiền cấp quyền (VNĐ)',
-      minWidth: 150,
-      type: 'number',
-      renderCell: params => (
-        <div style={{ width: '100%' }}>
-          {params.row.giayphep?.map((e: any) =>
-            e?.tiencq.map((e: any) => (
-              <div key={e.id}>
-                {e.tongTienCQ.toLocaleString('vi-VN', {
-                  style: 'currency',
-                  currency: 'VND'
-                })}
-              </div>
-            ))
-          )}
-        </div>
-      )
-    },
-
-    //Action
-    {
-      field: 'actions',
-      headerAlign: 'center',
-      headerName: '#',
-      minWidth: 120,
-      sortable: false,
-      renderCell: data => (
-        <Box>
-          <CreateConstruction isEdit={true} data={data.row} setPostSuccess={handlePostSuccess} />
-          <DeleteData url={'Construction'} data={data} setPostSuccess={handlePostSuccess} />
-        </Box>
-      )
-    }
-  ]
-
-  //Grouping Column
-  const columnGroup: GridColumnGroupingModel = [
-    {
-      groupId: 'Thông tin công trình',
-
-      headerAlign: 'center',
-      children: [
-        { field: 'tenCT' },
-        { field: 'viTriCT' },
-        { field: 'mucDichhKT' },
-        { field: 'soLuongGiengKT' },
-        { field: 'thoiGianHNK' },
-        { field: 'namBatDauVanHanh' },
-        { field: 'sohieu' }
-      ]
-    },
-    {
-      groupId: 'Tọa độ',
-
-      headerAlign: 'center',
-      children: [{ field: 'x' }, { field: 'y' }]
-    },
-    {
-      groupId: 'Chiều sâu đoạn thu nước(m)',
-
-      headerAlign: 'center',
-      children: [{ field: 'Chieusauthunuoctu' }, { field: 'Chieusauthunuocden' }]
-    },
-    {
-      groupId: 'Thông số của công trình',
-
-      headerAlign: 'center',
-      children: [
-        { field: 'waterSupplyFlow' },
-        { field: 'wellWL' },
-        { field: 'monitoringWellWL' },
-        { field: 'exploitMethod' },
-        { field: 'staticWL' },
-        { field: 'dynamicWL' },
-        { field: 'exploitAquifer' },
-        { field: 'lowWL' }
-      ]
-    },
-    {
-      groupId: 'Thông tin giấy phép',
-      headerAlign: 'center',
-      children: [{ field: 'so_gp' }, { field: 'ngaycap_gp' }, { field: 'hieuluc_gp' }]
-    },
-
-    {
-      groupId: 'Tiền cấp quyền',
-      headerAlign: 'center',
-      children: [{ field: 'qd_tcq' }, { field: 'tong_tcq' }]
-    },
-
-    {
-      groupId: ' ',
-      headerAlign: 'center',
-      children: [{ field: 'actions' }]
-    }
-  ]
-
   const [mapCenter, setMapCenter] = useState([15.012172, 108.676488])
   const [mapZoom, setMapZoom] = useState(9)
   const [showLabel, setShowLabel] = useState(false)
-  const [resData, setResData] = useState([])
-  const [dataFiltered, setDataFiltered] = useState([])
-  const [loading, setLoading] = useState(false)
-  const router = useRouter()
-
   const [postSuccess, setPostSuccess] = useState(false)
+ 
+  //const [columnVisibility, setColumnVisibility] = useState<string[]>()
 
   const handlePostSuccess = () => {
     setPostSuccess(prevState => !prevState)
   }
+  const [resData, setResData] = useState([])
+  const [dataFiltered, setDataFiltered] = useState([])
+  const [loading, setLoading] = useState(false)
+
+  const router = useRouter()
+
+  const columnsTable: TableColumn[] = [
+    { id: 'stt', label: 'STT', rowspan: 2 },
+    {
+      id: 'tenCT',
+      label: 'Tên công trình',
+      rowspan: 2,
+      pinned: 'left',
+      elm: (row: any) => (
+        <Typography className='btnShowFilePdf' onClick={() => zoomConstruction(ConverterCood(row.y, row.x))}>
+          {row.tenCT}
+        </Typography>
+      )
+    },
+    {
+      id: 'viTriCT',
+      label: 'Địa điểm',
+      rowspan: 2,
+      align: 'left',
+      elm: (row: any) =>
+        row.donvi_hanhchinh?.tenXa && row.donvi_hanhchinh?.tenXa != null
+          ? `${row.donvi_hanhchinh?.tenXa}, ${row.donvi_hanhchinh?.tenHuyen}, Tỉnh Quảng Ngãi`
+          : ''
+    },
+    {
+      id: '#',
+      label: 'Toạ độ đập chính (X,Y)',
+      rowspan: 2,
+      elm: (row: any) => (
+        <span>
+          X: {row.x}, Y: {row.y}
+        </span>
+      )
+    },
+    { id: 'mucDichhKT', label: 'Mục đích khai thác,sử dụng nước', rowspan: 2, align: 'left',  },
+    { id: 'soLuongGiengKT', label: 'Số giếng khai thác', rowspan: 2, align: 'left' },
+    { id: 'cheDoKT', label: 'Chế độ khai thác', rowspan: 2, align: 'left' },
+    { id: 'namBatDauVanHanh', label: 'Năm vận hành', rowspan: 2, align: 'left' },
+    { id: 'sohieu', label: 'Số hiệu', rowspan: 2, align: 'left' },
+    { id: 'thoiGianHNK', label: 'Thời gian hành nghề khoan', rowspan: 2, align: 'left' },
+    {
+      id:'#',
+      label:'Chiều sâu đoạn thu nước từ',
+      children:[
+        { id: 'chieuSauDoanThuNuocTu', label: 'Từ', rowspan: 2,  align: 'left' },
+        { id: 'chieuSauDoanThuNuocDen', label: 'Đến', rowspan: 2,  align: 'left' },
+
+      ]
+    },
+    {
+      id: 'thongso',
+      label: 'Thông số công trình',
+      align: 'left',
+      children: [
+       
+        {
+          id: 'qKhaiThac',
+          label: (
+            <span>
+            Q<sub>khai thác</sub> (m<sup>3</sup>/ng.đêm)
+          </span>
+          ),
+          
+          rowspan: 2,
+          align: 'left'
+        },
+        {
+          id: 'hGiengKT',
+          label: (
+            <span>
+            H<sub>giếng khai thác</sub>
+          </span>
+          ),
+          rowspan: 2,
+          
+          align: 'left'
+        },
+      
+        {
+          id: 'hgieng',
+          label: (
+            <span>
+            H<sub>giếng quan trắc</sub>
+          </span>
+          ),
+          rowspan: 2,
+          
+          align: 'left'
+        },
+        {
+          id: 'qtt',
+          label: (
+            <span>
+              Q<sub>TT</sub>(m<sup>3</sup>/s)
+            </span>
+          ),
+          rowspan: 2,
+          
+          align: 'left'
+        },
+        {
+          id: 'cheDoKT',
+          label: 'Chế độ KT (giờ/ng.đêm)',
+          rowspan: 2,
+          align: 'left'
+        },
+        {
+          id: 'mucNuocTinh',
+          label: 'Chiều sâu MN tĩnh(m)',
+          rowspan: 2,
+          align: 'left'
+        },
+        {
+          id: 'mucNuocDong',
+          label: 'Chiều sâu MN động (m)',
+          rowspan: 2,
+          
+          align: 'left'
+        },
+        {
+          id: 'tangChuaNuocKT',
+          label:'Tầng chứa nước KT',
+          rowspan: 2,
+          
+          align: 'left'
+        },
+        {
+          id: 'hHaThap',
+          label:'Mực nước hạ thấp',
+          rowspan: 2,
+          align: 'left'
+        },
+      ]
+    },
+
+    //license
+    {
+      id: 'giayphep',
+      label: 'Giấy phép',
+      align: 'left',
+      children: [
+        {
+          id: 'soGP',
+          label: 'Số GP',
+          rowspan: 2,
+          align: 'left',
+          pinned: 'left',
+          elm: (row: any) => <ShowFilePDF name={row.soGP} src={row.fileGiayPhep} />
+        },
+        { id: 'thoihan', label: 'Thời hạn', rowspan: 2, align: 'left' }
+      ]
+    },
+    {
+      id: 'tiencq',
+      label: 'Tiền cấp quyền',
+      align: 'left',
+      children: [
+        {
+          id: 'soQDTCQ',
+          label: 'Số QĐ',
+          rowspan: 2,
+          align: 'left',
+          elm: (row: any) => <ShowFilePDF name={row?.soQDTCQ} src={row?.filePDF} />
+        },
+        { id: 'ngayKy', label: 'Ngày ký', rowspan: 2, align: 'left', elm: (row: any) => FormatDate(row.ngayKy) },
+        { id: 'tongTienCQ', label: 'Tổng tiền', rowspan: 2, align: 'left' }
+      ]
+    },
+
+    { id: 'actions', label: '#', rowspan: 2, align: 'center', pinned: 'right' }
+  ]
 
   const [paramsFilter, setParamsFilter] = useState({
     tenct: null,
@@ -332,10 +224,13 @@ const GroundConstruction = () => {
   })
 
   const [initConsType, setInitConstype] = useState<any>([
-    'nuocduoidat',
-    'khaithac',
-    'thamdo',
-    'congtrinh_nuocduoidatkhac'
+    'nuocmat',
+    'thuydien',
+    'hochua',
+    'trambom',
+    'tramcapnuoc',
+    'conglaynuoc',
+    'nhamaynuoc'
   ])
 
   const isMounted = useRef(true)
@@ -349,7 +244,129 @@ const GroundConstruction = () => {
   }, [])
 
   useEffect(() => {
-    const getDataConstruction = async () => {
+    // switch (paramsFilter.loai_ct) {
+    //   case 1:
+    //     setColumnVisibility([])
+    //     break
+    //   case 4:
+    //     setColumnVisibility([
+    //       'soLuongMayBom',
+    //       'qThietKe',
+    //       'qThucTe',
+    //       'dienTichTuoiThietKe',
+    //       'dienTichTuoiThucTe',
+    //       'thoiGianBomTB',
+    //       'thoiGianBomNhoNhat',
+    //       'thoiGianBomLonNhat'
+    //     ])
+    //     break
+    //   case 5:
+    //     setColumnVisibility([
+    //       'soLuongMayBom',
+    //       'qThietKe',
+    //       'qThucTe',
+    //       'dienTichTuoiThietKe',
+    //       'dienTichTuoiThucTe',
+    //       'thoiGianBomTB',
+    //       'thoiGianBomNhoNhat',
+    //       'thoiGianBomLonNhat'
+    //     ])
+    //     break
+    //   case 6:
+    //     setColumnVisibility([
+    //       'capCT',
+    //       'dienTichLuuVuc',
+    //       'muaTrungBinhNam',
+    //       'qTrungBinhNam',
+    //       'congSuatDamBao',
+    //       'chieuCaoDap',
+    //       'chieuDaiDap',
+    //       'caoTrinhDap',
+    //       'qmaxNM',
+    //       'qtt',
+    //       'qDamBao',
+    //       'hmax',
+    //       'hmin',
+    //       'htoiThieu',
+    //       'mnc',
+    //       'mndbt',
+    //       'mnltk',
+    //       'mnlkt',
+    //       'dungTichToanBo',
+    //       'dungTichChet',
+    //       'dungTichHuuIch',
+    //       'qThietKe',
+    //       'qThucTe'
+    //     ])
+    //     break
+    //   case 10:
+    //     setColumnVisibility([
+    //       'capCT',
+    //       'dienTichLuuVuc',
+    //       'muaTrungBinhNam',
+    //       'qTrungBinhNam',
+    //       'congSuatDamBao',
+    //       'chieuCaoDap',
+    //       'chieuDaiDap',
+    //       'caoTrinhDap',
+    //       'qmaxNM',
+    //       'qtt',
+    //       'qDamBao',
+    //       'hmax',
+    //       'hmin',
+    //       'htoiThieu',
+    //       'mnc',
+    //       'mndbt',
+    //       'mnltk',
+    //       'mnlkt',
+    //       'dungTichToanBo',
+    //       'dungTichChet',
+    //       'dungTichHuuIch',
+    //       'soLuongMayBom',
+    //       'dienTichTuoiThietKe',
+    //       'dienTichTuoiThucTe',
+    //       'thoiGianBomTB',
+    //       'thoiGianBomNhoNhat',
+    //       'thoiGianBomLonNhat'
+    //     ])
+    //     break
+    //   default:
+    //     setColumnVisibility([
+    //       'capCT',
+    //       'dienTichLuuVuc',
+    //       'muaTrungBinhNam',
+    //       'qTrungBinhNam',
+    //       'congSuatLM',
+    //       'congSuatDamBao',
+    //       'chieuCaoDap',
+    //       'chieuDaiDap',
+    //       'caoTrinhDap',
+    //       'qmaxNM',
+    //       'qtt',
+    //       'qDamBao',
+    //       'hmax',
+    //       'hmin',
+    //       'htoiThieu',
+    //       'mnc',
+    //       'mndbt',
+    //       'mnltk',
+    //       'mnlkt',
+    //       'dungTichToanBo',
+    //       'dungTichChet',
+    //       'dungTichHuuIch',
+    //       'soLuongMayBom',
+    //       'qThietKe',
+    //       'qThucTe',
+    //       'dienTichTuoiThietKe',
+    //       'dienTichTuoiThucTe',
+    //       'thoiGianBomTB',
+    //       'thoiGianBomNhoNhat',
+    //       'thoiGianBomLonNhat'
+    //     ])
+    //     break
+    // }
+
+    const getDataConstructions = async () => {
       setLoading(true)
       getData('cong-trinh/danh-sach', paramsFilter)
         .then(data => {
@@ -357,7 +374,6 @@ const GroundConstruction = () => {
             setResData(data)
           }
         })
-
         .catch(error => {
           console.error(error)
         })
@@ -365,8 +381,7 @@ const GroundConstruction = () => {
           setLoading(false)
         })
     }
-    getDataConstruction()
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    getDataConstructions()
   }, [postSuccess, paramsFilter])
 
   useEffect(() => {
@@ -407,18 +422,23 @@ const GroundConstruction = () => {
             </FormGroup>
             <MapLegend onChange={handleConsTypeChange} />
           </Box>
-          <Map center={mapCenter} zoom={mapZoom} showLabel={showLabel} mapMarkerData={dataFiltered} />
+          <Map center={mapCenter} zoom={mapZoom} showLabel={showLabel} mapData={dataFiltered} loading={false} />
         </Paper>
       </Grid>
       <Grid xs={12} md={12}>
         <Paper elevation={3} sx={{ p: 0, height: '100%' }}>
           <ConstructionToolBar onChange={handleFilterChange} />
-          <DataGridComponent
-            rows={dataFiltered}
-            loading={loading}
+          <TableComponent
             columns={columnsTable}
-            columnGroupingModel={columnGroup}
-            actions={<CreateConstruction isEdit={false} setPostSuccess={handlePostSuccess} />}
+            rows={resData}
+            loading={loading}
+            pagination
+            actions={(row: any) => (
+              <Box>
+                <CreateConstruction isEdit={true} data={row} setPostSuccess={handlePostSuccess} />
+                <DeleteData url={'giay-phep'} data={row} setPostSuccess={handlePostSuccess} />
+              </Box>
+            )}
           />
         </Paper>
       </Grid>
