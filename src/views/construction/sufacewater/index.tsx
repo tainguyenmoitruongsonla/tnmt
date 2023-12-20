@@ -27,7 +27,7 @@ const SurfaceConstruction = () => {
   const [mapZoom, setMapZoom] = useState(9)
   const [showLabel, setShowLabel] = useState(false)
   const [postSuccess, setPostSuccess] = useState(false)
- 
+
   //const [columnVisibility, setColumnVisibility] = useState<string[]>()
 
   const handlePostSuccess = () => {
@@ -84,7 +84,7 @@ const SurfaceConstruction = () => {
       align: 'left',
       children: [
         { id: 'capCT', label: 'Cấp công trình', rowspan: 2, align: 'left', },
-        { id: 'dienTichLuuVuc', label: 'Diện tích lưu vực', rowspan: 2,  align: 'left' },
+        { id: 'dienTichLuuVuc', label: 'Diện tích lưu vực', rowspan: 2, align: 'left' },
         {
           id: 'muaTrungBinhNam',
           label: (
@@ -92,7 +92,7 @@ const SurfaceConstruction = () => {
               X <sub>TB năm</sub> (m)
             </span>
           ),
-          
+
           rowspan: 2,
           align: 'left'
         },
@@ -104,14 +104,14 @@ const SurfaceConstruction = () => {
             </span>
           ),
           rowspan: 2,
-          
+
           align: 'left'
         },
-        { id: 'congSuatLM', label: 'Công suất lắp máy', rowspan: 2,  align: 'left' },
-        { id: 'congSuatDamBao', label: 'Công suất đảm bảo', rowspan: 2,  align: 'left' },
-        { id: 'chieuCaoDap', label: 'Chiều cao đập', rowspan: 2,  align: 'left' },
-        { id: 'chieuDaiDap', label: 'Chiều dài đập', rowspan: 2,  align: 'left' },
-        { id: 'caoTrinhDap', label: 'Cao trình đập', rowspan: 2,  align: 'left' },
+        { id: 'congSuatLM', label: 'Công suất lắp máy', rowspan: 2, align: 'left' },
+        { id: 'congSuatDamBao', label: 'Công suất đảm bảo', rowspan: 2, align: 'left' },
+        { id: 'chieuCaoDap', label: 'Chiều cao đập', rowspan: 2, align: 'left' },
+        { id: 'chieuDaiDap', label: 'Chiều dài đập', rowspan: 2, align: 'left' },
+        { id: 'caoTrinhDap', label: 'Cao trình đập', rowspan: 2, align: 'left' },
         {
           id: 'qmaxNM',
           label: (
@@ -120,7 +120,7 @@ const SurfaceConstruction = () => {
             </span>
           ),
           rowspan: 2,
-          
+
           align: 'left'
         },
         {
@@ -131,7 +131,7 @@ const SurfaceConstruction = () => {
             </span>
           ),
           rowspan: 2,
-          
+
           align: 'left'
         },
         {
@@ -142,7 +142,7 @@ const SurfaceConstruction = () => {
             </span>
           ),
           rowspan: 2,
-          
+
           align: 'left'
         },
         {
@@ -153,7 +153,7 @@ const SurfaceConstruction = () => {
             </span>
           ),
           rowspan: 2,
-          
+
           align: 'left'
         },
         {
@@ -164,7 +164,7 @@ const SurfaceConstruction = () => {
             </span>
           ),
           rowspan: 2,
-          
+
           align: 'left'
         },
         {
@@ -175,13 +175,13 @@ const SurfaceConstruction = () => {
             </span>
           ),
           rowspan: 2,
-          
+
           align: 'left'
         },
-        { id: 'mnc', label: 'MNC', rowspan: 2,  align: 'left' },
-        { id: 'mndbt', label: 'MNDBT(m)', rowspan: 2,  align: 'left' },
-        { id: 'mnltk', label: 'MNLTK(m)', rowspan: 2,  align: 'left' },
-        { id: 'mnlkt', label: 'MNLKT(m)', rowspan: 2,  align: 'left' },
+        { id: 'mnc', label: 'MNC', rowspan: 2, align: 'left' },
+        { id: 'mndbt', label: 'MNDBT(m)', rowspan: 2, align: 'left' },
+        { id: 'mnltk', label: 'MNLTK(m)', rowspan: 2, align: 'left' },
+        { id: 'mnlkt', label: 'MNLKT(m)', rowspan: 2, align: 'left' },
         {
           id: 'dungTichToanBo',
           label: (
@@ -190,7 +190,7 @@ const SurfaceConstruction = () => {
             </span>
           ),
           rowspan: 2,
-          
+
           align: 'left'
         },
         {
@@ -201,7 +201,7 @@ const SurfaceConstruction = () => {
             </span>
           ),
           rowspan: 2,
-          
+
           align: 'left'
         },
         {
@@ -212,14 +212,14 @@ const SurfaceConstruction = () => {
             </span>
           ),
           rowspan: 2,
-          
+
           align: 'left'
         },
         {
           id: 'soLuongMayBom',
           label: 'Số máy bơm',
           rowspan: 2,
-          
+
           align: 'left'
         },
         {
@@ -230,7 +230,7 @@ const SurfaceConstruction = () => {
             </span>
           ),
           rowspan: 2,
-          
+
           align: 'left'
         },
         {
@@ -241,7 +241,7 @@ const SurfaceConstruction = () => {
             </span>
           ),
           rowspan: 2,
-          
+
           align: 'left'
         },
         {
@@ -252,7 +252,7 @@ const SurfaceConstruction = () => {
             </span>
           ),
           rowspan: 2,
-          
+
           align: 'left'
         },
         {
@@ -263,7 +263,7 @@ const SurfaceConstruction = () => {
             </span>
           ),
           rowspan: 2,
-          
+
           align: 'left'
         },
         {
@@ -274,7 +274,7 @@ const SurfaceConstruction = () => {
             </span>
           ),
           rowspan: 2,
-          
+
           align: 'left'
         },
         {
@@ -285,7 +285,7 @@ const SurfaceConstruction = () => {
             </span>
           ),
           rowspan: 2,
-          
+
           align: 'left'
         },
         {
@@ -296,7 +296,7 @@ const SurfaceConstruction = () => {
             </span>
           ),
           rowspan: 2,
-          
+
           align: 'left'
         }
       ]
@@ -316,7 +316,7 @@ const SurfaceConstruction = () => {
           pinned: 'left',
           elm: (row: any) => <ShowFilePDF name={row.soGP} src={row.fileGiayPhep} />
         },
-        { id: 'thoihan', label: 'Thời hạn', rowspan: 2, align: 'left' }
+        { id: 'thoihan', label: 'Thời hạn', rowspan: 2, align: 'left', elm: (row: any) => row.thoiHan }
       ]
     },
     {
@@ -332,7 +332,7 @@ const SurfaceConstruction = () => {
           elm: (row: any) => <ShowFilePDF name={row?.soQDTCQ} src={row?.filePDF} />
         },
         { id: 'ngayKy', label: 'Ngày ký', rowspan: 2, align: 'left', elm: (row: any) => FormatDate(row.ngayKy) },
-        { id: 'tongTienCQ', label: 'Tổng tiền', rowspan: 2, align: 'left' }
+        { id: 'tongTienCQ', label: 'Tổng tiền', rowspan: 2, align: 'left', elm: (row: any) => row.tongTienCQ }
       ]
     },
 
@@ -565,7 +565,7 @@ const SurfaceConstruction = () => {
             actions={(row: any) => (
               <Box>
                 <CreateConstruction isEdit={true} data={row} setPostSuccess={handlePostSuccess} />
-                <DeleteData url={'giay-phep'} data={row} setPostSuccess={handlePostSuccess} />
+                <DeleteData url={'cong-trinh'} data={row} setPostSuccess={handlePostSuccess} />
               </Box>
             )}
           />

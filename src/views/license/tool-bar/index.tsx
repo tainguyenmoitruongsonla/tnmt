@@ -21,7 +21,7 @@ const LicenseToolBar: FC<LicenseToolBarProps> = ({ onChange }) => {
     const [districts, setDistricts] = useState([]);
     const [communes, setCommunes] = useState([]);
     const [subBasins, setSubBasins] = useState([]);
-    
+
     const [paramsFilter, setParamsFilter] = useState({
         so_gp: null,
         cong_trinh: 0,
@@ -60,7 +60,6 @@ const LicenseToolBar: FC<LicenseToolBarProps> = ({ onChange }) => {
     };
 
     const handleChange = (event: SelectChangeEvent | ChangeEvent<HTMLInputElement> | null) => (column: string) => {
-        console.log(event)
         if (event) {
             if (event?.target) {
                 setParamsFilter({ ...paramsFilter, [column]: event.target.value });
@@ -73,31 +72,36 @@ const LicenseToolBar: FC<LicenseToolBarProps> = ({ onChange }) => {
 
     const handlePostSuccess = () => {
         setPostSucceed(prevState => !prevState);
-        onChange(paramsFilter, postSucceed);
+        onChange({ ...paramsFilter }, postSucceed);
     };
 
     const applyFilterChange = () => {
-        onChange(paramsFilter);
+        onChange({ ...paramsFilter });
     }
 
     const reloadData = () => {
-        setParamsFilter({
-            so_gp: null,
-            cong_trinh: 0,
-            coquan_cp: null,
-            loaihinh_cp: 0,
-            hieuluc_gp: null,
-            loai_ct: GetConstructionTypeId(router),
-            tang_chuanuoc: 0,
-            huyen: 0,
-            xa: 0,
-            tieuvung_qh: 0,
-            tochuc_canhan: 0,
-            tu_nam: new Date().getFullYear() - 5,
-            den_nam: new Date().getFullYear(),
+        setParamsFilter(() => {
+            const newParamsFilter = {
+                so_gp: null,
+                cong_trinh: 0,
+                coquan_cp: null,
+                loaihinh_cp: 0,
+                hieuluc_gp: null,
+                loai_ct: GetConstructionTypeId(router),
+                tang_chuanuoc: 0,
+                huyen: 0,
+                xa: 0,
+                tieuvung_qh: 0,
+                tochuc_canhan: 0,
+                tu_nam: new Date().getFullYear() - 5,
+                den_nam: new Date().getFullYear(),
+            };
+            onChange({ ...newParamsFilter });
+
+            return newParamsFilter;
         });
-        onChange(paramsFilter);
     }
+
 
     useEffect(() => {
         let isMounted = true;
@@ -164,7 +168,7 @@ const LicenseToolBar: FC<LicenseToolBarProps> = ({ onChange }) => {
         return () => {
             isMounted = false;
         };
-    }, [paramsFilter.huyen, router.pathname]);
+    }, [paramsFilter, paramsFilter.huyen, router.pathname]);
 
     return (
         <Toolbar variant="dense">
@@ -179,7 +183,7 @@ const LicenseToolBar: FC<LicenseToolBarProps> = ({ onChange }) => {
                                 fullWidth
                                 variant="outlined"
                                 placeholder="Số giấy phép..."
-                                onChange={(e: any) => handleChange(e)('licenseNumber')}
+                                onChange={(e: any) => handleChange(e)('so_gp')}
                             />
                         </Grid>
                         : ''

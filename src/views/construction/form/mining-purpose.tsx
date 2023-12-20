@@ -169,7 +169,7 @@ const MiningPurpose: FC<MiningPurposeFieldProps> = ({ data, type, onChange }) =>
               <TableCell size='small' align='center' rowSpan={2}>
                 Ghi chú
               </TableCell>
-              <TableCell size='small' align='center' padding='checkbox' rowSpan={2}>
+              <TableCell size='small' align='center' padding='checkbox' rowSpan={2} width={50}>
                 <Box>
                   <IconButton aria-label="add" className='tableActionBtn' onClick={() => handleOpenModal(0, null, 'add')}>
                     <Add />
@@ -204,7 +204,7 @@ const MiningPurpose: FC<MiningPurposeFieldProps> = ({ data, type, onChange }) =>
                               label='Mục đích'
                               placeholder='Mục đích'
                               size='small'
-                              value={newMiniPurpose.mucDich}
+                              value={newMiniPurpose.mucDich || ''}
                               onChange={event => handleChange('mucDich')(event.target.value)}
                             />
                           </Grid>
@@ -215,7 +215,7 @@ const MiningPurpose: FC<MiningPurposeFieldProps> = ({ data, type, onChange }) =>
                               label='Lưu lượng'
                               placeholder='Lưu lượng'
                               size='small'
-                              value={newMiniPurpose.luuLuong}
+                              value={newMiniPurpose.luuLuong || ''}
                               onChange={event => handleChange('luuLuong')(event.target.value)}
                             />
                           </Grid>
@@ -226,7 +226,7 @@ const MiningPurpose: FC<MiningPurposeFieldProps> = ({ data, type, onChange }) =>
                               label='Đơn vị đo'
                               placeholder='Đơn vị đo'
                               size='small'
-                              value={newMiniPurpose.donViDo}
+                              value={newMiniPurpose.donViDo || ''}
                               onChange={event => handleChange('donViDo')(event.target.value)}
                             />
                           </Grid>
@@ -237,7 +237,7 @@ const MiningPurpose: FC<MiningPurposeFieldProps> = ({ data, type, onChange }) =>
                               label='Ghi chú'
                               placeholder='Ghi chú'
                               size='small'
-                              value={newMiniPurpose.ghiChu}
+                              value={newMiniPurpose.ghiChu || ''}
                               onChange={event => handleChange('ghiChu')(event.target.value)}
                               multiline
                               rows={4}

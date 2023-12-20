@@ -29,7 +29,7 @@ const ShowFilePDF = ({ src, name }: ShowFilePDFProps) => {
 
         try {
             setLoading(true)
-            const response = await fetch(`${apiUrl}/readfile?FilePath=${filePath}&FileName=${fileName}`);
+            const response = await fetch(`${apiUrl}/file/readfile?FilePath=${filePath}&FileName=${fileName}`);
 
             if (!response.ok) {
                 throw new Error('File not found');

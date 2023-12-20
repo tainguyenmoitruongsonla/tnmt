@@ -15,7 +15,7 @@ interface ConsTypeFieldsetProps {
 }
 
 const SurfaceWaterField: FC<ConsTypeFieldsetProps> = ({ data, onChange }) => {
-  const propData: propConsDataState = { congtrinh: data?.congtrinh, thongso_ct: data?.thongso_ct, hangmuc_ct: data?.hangmuc_ct }
+  const propData: propConsDataState = { congtrinh: data?.congtrinh, thongso_ct: data?.thongso_ct, hangmuc_ct: data?.hangmuc_ct, luuluongtheo_mucdich: data?.luuluongtheo_mucdich }
   const [congtrinh, setCongTrinh] = useState<ConstructionState>({
     id: propData.congtrinh?.id || null,
     idLoaiCT: propData.congtrinh?.idLoaiCT || null,

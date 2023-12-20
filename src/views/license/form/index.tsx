@@ -55,9 +55,9 @@ const FormLicense: FC<FormLicenseProps> = ({ data, closeDialogs, setPostSuccess 
   const [thongso_congtrinh, setThongSoCongTrinh] = useState<ConstructionSpecState | null>(data?.congtrinh?.thongso || null);
   const [hangmuc_ct, setHangMucCT] = useState<ConstructionItemState[]>(data?.hangmuc || null);
   const [hangmucct_xoa, setHangMucCTXoa] = useState<any>(null);
-  const [luuluongtheo_mucdich, setLuuLuongTheoMucDich] = useState<MiningPurposeState[]>(data?.hangmuc || null);
+  const [luuluongtheo_mucdich, setLuuLuongTheoMucDich] = useState<MiningPurposeState[]>(data?.congtrinh?.luuluongtheo_mucdich || null);
   const [luuluongtheo_mucdich_xoa, setLuuLuongTheoMucDichXoa] = useState<any>(null);
-  const propConsData: propConsDataState = { congtrinh: data?.congtrinh, thongso_ct: data?.congtrinh?.thongso, hangmuc_ct: data?.congtrinh?.hangmuc }
+  const propConsData: propConsDataState = { congtrinh: data?.congtrinh, thongso_ct: data?.congtrinh?.thongso, hangmuc_ct: data?.congtrinh?.hangmuc, luuluongtheo_mucdich: data?.congtrinh?.luuluongtheo_mucdich }
 
   const handleConstructionChange = (data: any) => {
     data.congtrinh ? setCongTrinh(data?.congtrinh) : setCongTrinh(null);
@@ -145,7 +145,9 @@ const FormLicense: FC<FormLicenseProps> = ({ data, closeDialogs, setPostSuccess 
           const saveConsItem = await saveData('hang-muc-ct/luu', e);
           if (saveConsItem && e.thongso !== null) {
             {
-              await saveData('thong-so-ct/luu', { ...e.thongso, idCT: null, idHangMucCT: saveConsItem.id })
+              console.log({ ...e.thongso, idCT: null, idHangMucCT: saveConsItem.id })
+              
+              // await saveData('thong-so-ct/luu', { ...e.thongso, idCT: null, idHangMucCT: saveConsItem.id })
             }
           }
         }) : ""
@@ -163,7 +165,7 @@ const FormLicense: FC<FormLicenseProps> = ({ data, closeDialogs, setPostSuccess 
 
         const newfileGiayPhep = {
           filePath: filePath,
-          fileName: giayphep?.fileGiayPhep,
+          fileName: `${giayphep?.soGP?.replace(/\//g, "_").toLowerCase()}.pdf`,
           file: fileUpload.fileGiayPhep
         }
 
@@ -190,6 +192,8 @@ const FormLicense: FC<FormLicenseProps> = ({ data, closeDialogs, setPostSuccess 
 
         if (saveLic) {
           if (newfileGiayPhep?.fileName && newfileGiayPhep?.fileName !== null && newfileGiayPhep?.file && newfileGiayPhep?.file !== null) {
+            // console.log(newfileGiayPhep)
+
             await uploadFile(newfileGiayPhep)
           }
           if (newfileDonXinCP.fileName && newfileDonXinCP.fileName !== null && newfileDonXinCP.file && newfileDonXinCP.file !== null) {

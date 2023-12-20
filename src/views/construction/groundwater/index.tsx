@@ -436,7 +436,7 @@ const GroundConstruction = () => {
             actions={(row: any) => (
               <Box>
                 <CreateConstruction isEdit={true} data={row} setPostSuccess={handlePostSuccess} />
-                <DeleteData url={'giay-phep'} data={row} setPostSuccess={handlePostSuccess} />
+                <DeleteData url={'cong-trinh'} data={row} setPostSuccess={handlePostSuccess} />
               </Box>
             )}
           />
