@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from 'react'
 
 // ** MUI Imports
-import { Grid, Box, Paper,Typography, FormGroup, FormControlLabel, Checkbox } from '@mui/material';
+import { Grid, Box, Paper, Typography, FormGroup, FormControlLabel, Checkbox } from '@mui/material';
 
 // ** Components Imports
 import TableComponent from 'src/@core/components/table';
@@ -24,9 +24,6 @@ const GroundwaterMonitoring = () => {
   const [mapCenter, setMapCenter] = useState([15.012172, 108.676488]);
   const [mapZoom, setMapZoom] = useState(9);
   const [showLabel, setShowLabel] = useState(false)
-
-  const [TypeOfConsId] = useState([GetConstructionTypeId(router)]);
-
   const [resData, setResData] = useState<any[]>([]);
   const [columns, setColumns] = useState<any[]>([]);
   const [loading, setLoading] = useState(false)
@@ -177,7 +174,7 @@ const GroundwaterMonitoring = () => {
       </Grid>
       <Grid item xs={12} sm={12} md={12}>
         <MonitoringSystemToolBar onChange={handleFilterChange} />
-        <TableComponent loading={loading} columns={columns} rows={dataFiltered} show={TypeOfConsId} pagination={true}
+        <TableComponent loading={loading} columns={columns} rows={dataFiltered} pagination={true}
           actions={() => (
             <Box>
               <ViewMonitoringSystemData />

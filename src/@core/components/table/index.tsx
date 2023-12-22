@@ -8,7 +8,6 @@ import BoxLoading from '../box-loading';
 export interface TableColumn {
   id: string;
   label?: string | React.ReactNode;
-  showId?: number[];
   colspan?: number;
   rowspan?: number;
   minWidth?: number;
@@ -26,7 +25,7 @@ interface Data {
 interface TableProps {
   columns: TableColumn[];
   rows: Data[];
-  show?: number[];
+  columnVisibility?: string[];
   pagination?: boolean;
   loading?: boolean;
   actions?: ((row: Data) => React.ReactNode) | null;
@@ -34,25 +33,29 @@ interface TableProps {
 
 const TableComponent: FC<TableProps> = (props: TableProps) => {
 
-  const { columns, rows, show, pagination, loading, actions } = props;
+  const { columns, rows, columnVisibility, pagination, loading, actions } = props;
 
   const tableColumns: TableColumn[] = [];
   for (let i = 0; i < columns.length; i++) {
     const column = columns[i];
-    if (column.showId === undefined || (column.showId && column.showId.includes(Number(show)))) {
+
+    // Check if the column is in the columnVisibility array, and hide it if needed
+    if (!columnVisibility || (columnVisibility && !columnVisibility.includes(column.id))) {
       const updatedColumn: TableColumn = { ...column };
       if (column.children) {
         const updatedChildrenColumns: TableColumn[] = [];
         for (let j = 0; j < column.children.length; j++) {
           const childColumn = column.children[j];
-          if (childColumn.showId === undefined || (childColumn.showId && childColumn.showId.includes(Number(show)))) {
+
+          // Check visibility for child columns
+          if (!columnVisibility || (columnVisibility && !columnVisibility.includes(childColumn.id))) {
             updatedChildrenColumns.push({ ...childColumn });
           }
         }
         updatedColumn.children = updatedChildrenColumns;
-        updatedColumn.colspan = updatedChildrenColumns.length; // Set colspan based on the number of children
+        updatedColumn.colspan = updatedChildrenColumns.length;
       } else {
-        updatedColumn.colspan = 1; // If no children, set colspan to 1
+        updatedColumn.colspan = 1;
       }
       tableColumns.push(updatedColumn);
     }

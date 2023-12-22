@@ -27,9 +27,6 @@ const SurfaceWaterMeasuresing = () => {
   const [mapCenter, setMapCenter] = useState([15.012172, 108.676488]);
   const [mapZoom, setMapZoom] = useState(9);
   const [showLabel, setShowLabel] = useState(false)
-
-  const [TypeOfConsId] = useState([GetConstructionTypeId(router)]);
-
   const [resData, setResData] = useState<any[]>([]);
   const [columns, setColumns] = useState<any[]>([]);
   const [loading, setLoading] = useState(false)
@@ -46,9 +43,9 @@ const SurfaceWaterMeasuresing = () => {
         </Typography>)
     },
     { id: '#', label: 'Trạng thái vận hành', rowspan: 2, elm: (row: any) => (<DisplayOperatingStatus data={row} />) },
-    { id: 'hHaLuu', label: (<span>Mực nước <br /> hạ lưu (m)</span>), rowspan: 2, elm: (row: any) => (<span>{row.thongso?.hHaLuu}</span>)},
-    { id: 'hThuongLuu', label: (<span>Dung tích hồ  <br /> (triệu m<sup>3</sup>)</span>), rowspan: 2, elm: (row: any) => (<span>{row.thongso?.hThuongLuu}</span>)},
-    {id: 'hThuongLuu', label: (<span>Mực nước <br /> thượng lưu hồ (m)</span>), rowspan: 2, elm: (row: any) => (<span>{row.thongso?.hThuongLuu}</span>)},
+    { id: 'hHaLuu', label: (<span>Mực nước <br /> hạ lưu (m)</span>), rowspan: 2, elm: (row: any) => (<span>{row.thongso?.hHaLuu}</span>) },
+    { id: 'hThuongLuu', label: (<span>Dung tích hồ  <br /> (triệu m<sup>3</sup>)</span>), rowspan: 2, elm: (row: any) => (<span>{row.thongso?.hThuongLuu}</span>) },
+    { id: 'hThuongLuu', label: (<span>Mực nước <br /> thượng lưu hồ (m)</span>), rowspan: 2, elm: (row: any) => (<span>{row.thongso?.hThuongLuu}</span>) },
     {
       id: '#', label: (<span>Lưu lượng <br /> xả qua tràn  (m3/s)</span>), rowspan: 2,
     },
@@ -88,7 +85,8 @@ const SurfaceWaterMeasuresing = () => {
     const getDataConstructions = async () => {
       setLoading(true);
       getData('GiamSatSoLieu/danhsach', paramsFilter)
-        .then((data) => { console.log(data);
+        .then((data) => {
+          console.log(data);
           if (isMounted.current) {
             setResData(data);
           }
@@ -158,7 +156,7 @@ const SurfaceWaterMeasuresing = () => {
     <Grid container spacing={4}>
       <Grid item xs={12} sm={12} md={12} sx={{ height: '55vh', overflow: 'hidden' }}>
         <Paper elevation={3} sx={{ height: '100%', position: 'relative' }}>
-          <Box className='map-legend' sx={{ background: 'white', pl: 2, height: 'auto'  }}>
+          <Box className='map-legend' sx={{ background: 'white', pl: 2, height: 'auto' }}>
             <FormGroup>
               <FormControlLabel
                 control={<Checkbox onClick={() => setShowLabel(!showLabel)} />}
@@ -175,7 +173,7 @@ const SurfaceWaterMeasuresing = () => {
       </Grid>
       <Grid item xs={12} sm={12} md={12}>
         <MonitoringSystemToolBar onChange={handleFilterChange} />
-        <TableComponent loading={loading} columns={columns} rows={dataFiltered} show={TypeOfConsId} pagination={true}
+        <TableComponent loading={loading} columns={columns} rows={dataFiltered} pagination={true}
           actions={() => (
             <Box>
               <ViewMonitoringSystemData />

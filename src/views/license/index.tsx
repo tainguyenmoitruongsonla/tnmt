@@ -41,39 +41,39 @@ const ListLicenses = () => {
 
     //Init columnTable
     const columnsTable: TableColumn[] = [
-        { id: "soGP", label: "Số GP", rowspan: 2, align: 'left', pinned: "left", elm: (row: any) => (<ShowFilePDF name={row.soGP} src={row.fileGiayPhep} />) },
-        { id: "hieuluc_gp", label: "Hiệu lực GP", rowspan: 2, align: 'left', elm: (row: any) => (<CheckEffect data={row} />) },
-        { id: "ngayKy", label: "Ngày ký", rowspan: 2, align: 'left', elm: (row: any) => (FormatDate(row.ngayKy)) },
-        { id: "ngayCoHieuLuc", label: "Ngày có hiệu lực", rowspan: 2, align: 'left', elm: (row: any) => (FormatDate(row.ngayCoHieuLuc)) },
-        { id: "ngayHetHieuLuc", label: "Ngày hểt hiệu lực", rowspan: 2, align: 'left', elm: (row: any) => (FormatDate(row.ngayHetHieuLuc)) },
+        { id: "soGP", label: "Số GP", rowspan: 2, align: 'left', pinned: "left", minWidth: 200, elm: (row: any) => (<ShowFilePDF name={row.soGP} src={row.fileGiayPhep} />) },
+        { id: "hieuluc_gp", label: "Hiệu lực GP", rowspan: 2, align: 'left', minWidth: 200, elm: (row: any) => (<CheckEffect data={row} />) },
+        { id: "ngayKy", label: "Ngày ký", rowspan: 2, align: 'left', minWidth: 200, elm: (row: any) => (FormatDate(row.ngayKy)) },
+        { id: "ngayCoHieuLuc", label: "Ngày có hiệu lực", rowspan: 2, align: 'left', minWidth: 200, elm: (row: any) => (FormatDate(row.ngayCoHieuLuc)) },
+        { id: "ngayHetHieuLuc", label: "Ngày hểt hiệu lực", rowspan: 2, align: 'left', minWidth: 200, elm: (row: any) => (FormatDate(row.ngayHetHieuLuc)) },
         {
             id: "tochuc_canhan", label: "Cơ quan/cá nhân được CP", align: 'left', children: [
-                { id: "tenTCCN", label: "Tên", align: 'left' },
-                { id: "diaChi", label: "Địa chỉ", align: 'left' },
+                { id: "tenTCCN", label: "Tên", align: 'left', minWidth: 400, },
+                { id: "diaChi", label: "Địa chỉ", align: 'left', minWidth: 400, },
             ]
         },
         {
             id: "giayphep_cu", label: "GP cũ", align: 'left', children: [
-                { id: "soGP", label: "Số GP", rowspan: 2, align: 'left', elm: (row: any) => (<ShowFilePDF name={row.soGP} src={row.fileGiayPhep} />) },
-                { id: "ngayKy", label: "Ngày ký", rowspan: 2, align: 'left', elm: (row: any) => (FormatDate(row.ngayKy)) },
+                { id: "soGP", label: "Số GP", rowspan: 2, align: 'left', minWidth: 200, elm: (row: any) => (<ShowFilePDF name={row.soGP} src={row.fileGiayPhep} />) },
+                { id: "ngayKy", label: "Ngày ký", rowspan: 2, align: 'left', minWidth: 200, elm: (row: any) => (FormatDate(row.ngayKy)) },
             ]
         },
         {
             id: "congtrinh", label: "Công trình", align: 'left', children: [
-                { id: "tenCT", label: "Tên", rowspan: 2, align: 'left', elm: (row: any) => (<ShowFilePDF name={row.soGP} src={row.fileGiayPhep} />) },
-                { id: "viTriCT", label: "Địa điểm", rowspan: 2, align: 'left', elm: (row: any) => (row.donvi_hanhchinh?.tenXa && row.donvi_hanhchinh?.tenXa != null ? `${row.donvi_hanhchinh?.tenXa}, ${row.donvi_hanhchinh?.tenHuyen}, Tỉnh Quảng Ngãi` : "") },
-                { id: "loaiCT", label: "Loại công trình", rowspan: 2, align: 'left', elm: (row: any) => (row.loaiCT?.tenLoaiCT) },
-                { id: "nguonNuocKT", label: "Nguồn nước khai thác", rowspan: 2, align: 'left' },
-                { id: "luuvuc", label: "Lưu vực", rowspan: 2, align: 'left' },
-                { id: "tieuvung_quyhoach", label: "Tiểu vùng quy hoạch", rowspan: 2, align: 'left' },
+                { id: "tenCT", label: "Tên", rowspan: 2, align: 'left', minWidth: 300, elm: (row: any) => (row.tenCT) },
+                { id: "viTriCT", label: "Địa điểm", rowspan: 2, align: 'left', minWidth: 300, elm: (row: any) => (row.donvi_hanhchinh?.tenXa && row.donvi_hanhchinh?.tenXa != null ? `${row.donvi_hanhchinh?.tenXa}, ${row.donvi_hanhchinh?.tenHuyen}, Tỉnh Quảng Ngãi` : "") },
+                { id: "loaiCT", label: "Loại công trình", rowspan: 2, align: 'left', minWidth: 200, elm: (row: any) => (row.loaiCT?.tenLoaiCT) },
+                { id: "nguonNuocKT", label: "Nguồn nước khai thác", rowspan: 2, align: 'left', minWidth: 300, },
+                { id: "luuvuc", label: "Lưu vực", rowspan: 2, align: 'left', minWidth: 300, },
+                { id: "tieuvung_quyhoach", label: "Tiểu vùng quy hoạch", rowspan: 2, align: 'left', minWidth: 300, },
 
             ]
         },
         {
             id: "tiencq", label: "Tiền cấp quyền", align: 'left', children: [
-                { id: "soQDTCQ", label: "Số QĐ", rowspan: 2, align: 'left', elm: (row: any) => (<ShowFilePDF name={row?.soQDTCQ} src={row?.filePDF} />) },
-                { id: "ngayKy", label: "Ngày ký", rowspan: 2, align: 'left', elm: (row: any) => (FormatDate(row.ngayKy)) },
-                { id: "tongTienCQ", label: "Tổng tiền", rowspan: 2, align: 'left', },
+                { id: "soQDTCQ", label: "Số QĐ", rowspan: 2, align: 'left', minWidth: 200, elm: (row: any) => (<ShowFilePDF name={row?.soQDTCQ} src={row?.filePDF} />) },
+                { id: "ngayKy", label: "Ngày ký", rowspan: 2, align: 'left', minWidth: 200, elm: (row: any) => (FormatDate(row.ngayKy)) },
+                { id: "tongTienCQ", label: "Tổng tiền", rowspan: 2, align: 'left', minWidth: 200, },
             ]
         },
         { id: "actions", label: "#", rowspan: 2, align: 'center', pinned: "right" },
@@ -153,7 +153,7 @@ const ListLicenses = () => {
                     <LicenseToolBar onChange={handleFilterChange} />
                     <TableComponent columns={columnsTable} rows={resData} loading={loading} pagination
                         actions={(row: any) => (
-                            <Box>
+                            <Box display={'flex'}>
                                 <CreateLicense isEdit={true} data={row} setPostSuccess={handlePostSuccess} />
                                 <DeleteData url={'giay-phep'} data={row} setPostSuccess={handlePostSuccess} />
                             </Box>

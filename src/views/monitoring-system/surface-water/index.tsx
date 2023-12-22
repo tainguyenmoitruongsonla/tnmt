@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from 'react'
 
 // ** MUI Imports
-import { Grid, Box, Paper,Typography, FormGroup, FormControlLabel, Checkbox } from '@mui/material';
+import { Grid, Box, Paper, Typography, FormGroup, FormControlLabel, Checkbox } from '@mui/material';
 
 // ** Components Imports
 import TableComponent, { TableColumn } from 'src/@core/components/table';
@@ -24,7 +24,6 @@ const SurfaceWaterMonitoring = () => {
   const [mapCenter, setMapCenter] = useState([15.012172, 108.676488]);
   const [mapZoom, setMapZoom] = useState(9);
   const [showLabel, setShowLabel] = useState(false)
-  const [TypeOfConsId] = useState([GetConstructionTypeId(router)]);
   const [resData, setResData] = useState<any[]>([]);
   const [loading, setLoading] = useState(false)
   const [total, setTotal] = useState(0)
@@ -32,7 +31,7 @@ const SurfaceWaterMonitoring = () => {
   const [dataFiltered, setDataFiltered] = useState([]);
 
   // id of columnsTable is parameter to bind ex: get LicseFk.BasinId: id: 'License_Fk.BasinId'
-  const columnsTable : TableColumn[] = [
+  const columnsTable: TableColumn[] = [
     { id: 'stt', label: 'STT', rowspan: 2, },
     {
       id: 'tenCT', label: 'Tên công trình', rowspan: 2, pinned: "left", elm: (row: any) => (
@@ -41,48 +40,48 @@ const SurfaceWaterMonitoring = () => {
         </Typography>)
     },
     { id: 'loi', label: 'Trạng thái vận hành', rowspan: 2, elm: (row: any) => (<DisplayOperatingStatus data={row} />) },
-    { id: 'hHaLuuTT', label: (<span>Mực nước <br /> hạ lưu (m)</span>), showId: [1, 4, 5], rowspan: 2, align: 'center' },
-    { id: 'dungTichTT', label: (<span>Dung tích hồ  <br /> (triệu m<sup>3</sup>)</span>), showId: [1, 4, 5], rowspan: 2, align: 'center' },
+    { id: 'hHaLuuTT', label: (<span>Mực nước <br /> hạ lưu (m)</span>), rowspan: 2, align: 'center' },
+    { id: 'dungTichTT', label: (<span>Dung tích hồ  <br /> (triệu m<sup>3</sup>)</span>), rowspan: 2, align: 'center' },
     {
-      id: '#', label: 'Mực nước thượng lưu hồ (m)', showId: [1, 4, 5], children: [
+      id: '#', label: 'Mực nước thượng lưu hồ (m)', children: [
         { id: 'hThuongLuu', label: 'Ngưỡng tràn', elm: (row: any) => (<span>{row.thongso?.hThuongLuu}</span>), align: 'center' },
         { id: 'hThuongLuuTT', label: 'Thực tế ', align: 'center' },
         { id: '', label: 'Chênh lệch (+/-)', elm: (row: any) => (calculateMonitoringData(row.thongso?.hThuongLuu, row.hThuongLuuTT)), align: 'center' },
       ]
     },
     {
-      id: '#', label: 'Lưu lượng xả nhà máy (m3/s)', showId: [1, 4, 5], children: [
+      id: '#', label: 'Lưu lượng xả nhà máy (m3/s)', children: [
         { id: 'qmaxNM', label: 'Ngưỡng tràn', elm: (row: any) => (<span>{row.thongso?.qmaxNM}</span>), align: 'center' },
         { id: 'qXaMax', label: 'Thực tế', align: 'center' },
         { id: '', label: 'Chênh lệch (+/-)', elm: (row: any) => (calculateMonitoringData(row.thongso?.qmaxNM, row.qMaxTT)), align: 'center' },
       ]
     },
     {
-      id: '#', label: (<span>Lưu lượng <br />xả qua tràn  (m3/s)</span>), showId: [1, 4, 5], children: [
+      id: '#', label: (<span>Lưu lượng <br />xả qua tràn  (m3/s)</span>), children: [
         { id: 'qXaTran', label: 'Ngưỡng tràn', elm: (row: any) => (<span>{row.thongso?.qXaTran}</span>), align: 'center' },
         { id: 'qXaTranTT', label: 'Thực tế', align: 'center' },
         { id: '', label: 'Chênh lệch (+/-)', elm: (row: any) => (calculateMonitoringData(row.thongso?.qXaTran, row.qXaTranTT)), align: 'center' },
       ]
     },
     {
-      id: '#', label: 'Lưu lượng xả duy trì DCTT (m3/s) ', showId: [1, 4, 5], colspan: 8, children: [
+      id: '#', label: 'Lưu lượng xả duy trì DCTT (m3/s) ', colspan: 8, children: [
         { id: 'qtt', label: 'Ngưỡng tràn', elm: (row: any) => (<span>{row.thongso?.qtt}</span>), align: 'center' },
         { id: 'qMinTT', label: 'Thực tế ', },
         { id: '', label: 'Chênh lệch (+/-)', elm: (row: any) => (calculateMonitoringData(row.thongso?.qtt, row.qMinTT)), align: 'center' },
       ]
     },
     {
-      id: '#', label: 'Lưu lượng về hạ du (m3/s) ', showId: [1, 4], rowspan: 2, elm: (row: any) => (calculateSumFlow(row.qMaxTT, row.qXaTranTT, row.qMinTT)), align: 'center' 
+      id: '#', label: 'Lưu lượng về hạ du (m3/s) ', rowspan: 2, elm: (row: any) => (calculateSumFlow(row.qMaxTT, row.qXaTranTT, row.qMinTT)), align: 'center'
     },
     {
-      id: '#', label: 'Lưu lượng khai thác (m3/s) ', showId: [1, 4], colspan: 8, children: [
+      id: '#', label: 'Lưu lượng khai thác (m3/s) ', colspan: 8, children: [
         { id: '', label: 'Ngưỡng tràn', },
         { id: '', label: 'Thực tế ', },
         { id: '', label: 'Chênh lệch (+/-)', },
       ]
     },
     {
-      id: '#', label: 'Chất lượng nước trong quá trình khai thác', showId: [1, 5, 6, 11, 13], colspan: 8, children: [
+      id: '#', label: 'Chất lượng nước trong quá trình khai thác', colspan: 8, children: [
         { id: 'Nhietdo', label: 'Nhiệt độ (°C)', },
         { id: 'pH', label: 'pH ', },
         { id: 'BOD5', label: 'BOD5', },
@@ -95,9 +94,9 @@ const SurfaceWaterMonitoring = () => {
     { id: 'actions', label: 'Thao tác', rowspan: 2 },
   ];
 
-  const calculateSumFlow = (value1:any, value2:any, value3:any) => {
+  const calculateSumFlow = (value1: any, value2: any, value3: any) => {
     let result = 0;
-    if(value1 == null || value2 == null || value3 == null){
+    if (value1 == null || value2 == null || value3 == null) {
       return <span>-</span>
     } else {
       result += parseFloat(value1) + parseFloat(value2) + parseFloat(value3);
@@ -124,7 +123,8 @@ const SurfaceWaterMonitoring = () => {
     const getDataConstructions = async () => {
       setLoading(true);
       getData('GiamSatSoLieu/danhsach', paramsFilter)
-        .then((data) => {console.log(data);
+        .then((data) => {
+          console.log(data);
           if (isMounted.current) {
             setResData(data);
           }
@@ -197,7 +197,7 @@ const SurfaceWaterMonitoring = () => {
       </Grid>
       <Grid item xs={12} sm={12} md={12}>
         <MonitoringSystemToolBar onChange={handleFilterChange} />
-        <TableComponent loading={loading} columns={columnsTable} rows={dataFiltered} show={TypeOfConsId} pagination={true}
+        <TableComponent loading={loading} columns={columnsTable} rows={dataFiltered} pagination={true}
           actions={() => (
             <Box>
               <ViewMonitoringSystemData />

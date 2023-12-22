@@ -65,7 +65,9 @@ const SurfaceWaterField: FC<ConsTypeFieldsetProps> = ({ data, onChange }) => {
     chieuCaoDap: propData.thongso_ct?.chieuCaoDap || null,
     chieuDaiCong: propData.thongso_ct?.chieuDaiCong || null,
     chieuDaiDap: propData.thongso_ct?.chieuDaiDap || null,
-    chieuRongCong: propData.thongso_ct?.chieuRongCong || null,
+    duongKinhCong: propData.thongso_ct?.duongKinhCong || null,
+    chieuRongDap: propData.thongso_ct?.chieuRongDap || null,
+    nguongTran: propData.thongso_ct?.nguongTran || null,
     chieuSauDoanThuNuocDen: propData.thongso_ct?.chieuSauDoanThuNuocDen || null,
     chieuSauDoanThuNuocTu: propData.thongso_ct?.chieuSauDoanThuNuocTu || null,
     congSuatBom: propData.thongso_ct?.congSuatBom || null,
@@ -968,8 +970,8 @@ const SurfaceWaterField: FC<ConsTypeFieldsetProps> = ({ data, onChange }) => {
                     label='Đường kính (m)'
                     fullWidth
                     placeholder=''
-                    value={thongso_ct?.chieuRongCong || ''}
-                    onChange={event => handleChange('chieuRongCong')(event.target.value)}
+                    value={thongso_ct?.duongKinhCong || ''}
+                    onChange={event => handleChange('duongKinhCong')(event.target.value)}
                   />
                 </Grid>
                 <Grid item xs={12} md={3} sm={12} sx={{ my: 2 }}>

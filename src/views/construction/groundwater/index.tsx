@@ -27,8 +27,8 @@ const GroundConstruction = () => {
   const [mapZoom, setMapZoom] = useState(9)
   const [showLabel, setShowLabel] = useState(false)
   const [postSuccess, setPostSuccess] = useState(false)
- 
-  //const [columnVisibility, setColumnVisibility] = useState<string[]>()
+
+  const [columnVisibility, setColumnVisibility] = useState<string[]>()
 
   const handlePostSuccess = () => {
     setPostSuccess(prevState => !prevState)
@@ -46,6 +46,7 @@ const GroundConstruction = () => {
       label: 'Tên công trình',
       rowspan: 2,
       pinned: 'left',
+      minWidth: 300,
       elm: (row: any) => (
         <Typography className='btnShowFilePdf' onClick={() => zoomConstruction(ConverterCood(row.y, row.x))}>
           {row.tenCT}
@@ -57,6 +58,7 @@ const GroundConstruction = () => {
       label: 'Địa điểm',
       rowspan: 2,
       align: 'left',
+      minWidth: 300,
       elm: (row: any) =>
         row.donvi_hanhchinh?.tenXa && row.donvi_hanhchinh?.tenXa != null
           ? `${row.donvi_hanhchinh?.tenXa}, ${row.donvi_hanhchinh?.tenHuyen}, Tỉnh Quảng Ngãi`
@@ -64,26 +66,26 @@ const GroundConstruction = () => {
     },
     {
       id: '#',
-      label: 'Toạ độ đập chính (X,Y)',
+      label: 'Toạ độ đập chính (VN2000)',
       rowspan: 2,
       elm: (row: any) => (
         <span>
-          X: {row.x}, Y: {row.y}
+          X: {row.x}<br /> Y: {row.y}
         </span>
       )
     },
-    { id: 'mucDichhKT', label: 'Mục đích khai thác,sử dụng nước', rowspan: 2, align: 'left',  },
+    { id: 'mucDichhKT', label: 'Mục đích khai thác', rowspan: 2, align: 'left', minWidth: 300 },
     { id: 'soLuongGiengKT', label: 'Số giếng khai thác', rowspan: 2, align: 'left' },
-    { id: 'cheDoKT', label: 'Chế độ khai thác', rowspan: 2, align: 'left' },
+    { id: 'cheDoKT', label: 'Chế độ khai thác', rowspan: 2, align: 'left', minWidth: 300 },
     { id: 'namBatDauVanHanh', label: 'Năm vận hành', rowspan: 2, align: 'left' },
     { id: 'sohieu', label: 'Số hiệu', rowspan: 2, align: 'left' },
     { id: 'thoiGianHNK', label: 'Thời gian hành nghề khoan', rowspan: 2, align: 'left' },
     {
-      id:'#',
-      label:'Chiều sâu đoạn thu nước từ',
-      children:[
-        { id: 'chieuSauDoanThuNuocTu', label: 'Từ', rowspan: 2,  align: 'left' },
-        { id: 'chieuSauDoanThuNuocDen', label: 'Đến', rowspan: 2,  align: 'left' },
+      id: '#',
+      label: 'Chiều sâu đoạn thu nước từ',
+      children: [
+        { id: 'chieuSauDoanThuNuocTu', label: 'Từ', rowspan: 2, align: 'left' },
+        { id: 'chieuSauDoanThuNuocDen', label: 'Đến', rowspan: 2, align: 'left' },
 
       ]
     },
@@ -92,15 +94,15 @@ const GroundConstruction = () => {
       label: 'Thông số công trình',
       align: 'left',
       children: [
-       
+
         {
           id: 'qKhaiThac',
           label: (
             <span>
-            Q<sub>khai thác</sub> (m<sup>3</sup>/ng.đêm)
-          </span>
+              Q<sub>khai thác</sub> (m<sup>3</sup>/ng.đêm)
+            </span>
           ),
-          
+
           rowspan: 2,
           align: 'left'
         },
@@ -108,23 +110,23 @@ const GroundConstruction = () => {
           id: 'hGiengKT',
           label: (
             <span>
-            H<sub>giếng khai thác</sub>
-          </span>
+              H<sub>giếng khai thác</sub>
+            </span>
           ),
           rowspan: 2,
-          
+
           align: 'left'
         },
-      
+
         {
           id: 'hgieng',
           label: (
             <span>
-            H<sub>giếng quan trắc</sub>
-          </span>
+              H<sub>giếng quan trắc</sub>
+            </span>
           ),
           rowspan: 2,
-          
+
           align: 'left'
         },
         {
@@ -135,7 +137,7 @@ const GroundConstruction = () => {
             </span>
           ),
           rowspan: 2,
-          
+
           align: 'left'
         },
         {
@@ -154,19 +156,19 @@ const GroundConstruction = () => {
           id: 'mucNuocDong',
           label: 'Chiều sâu MN động (m)',
           rowspan: 2,
-          
+
           align: 'left'
         },
         {
           id: 'tangChuaNuocKT',
-          label:'Tầng chứa nước KT',
+          label: 'Tầng chứa nước KT',
           rowspan: 2,
-          
+
           align: 'left'
         },
         {
           id: 'hHaThap',
-          label:'Mực nước hạ thấp',
+          label: 'Mực nước hạ thấp',
           rowspan: 2,
           align: 'left'
         },
@@ -185,9 +187,10 @@ const GroundConstruction = () => {
           rowspan: 2,
           align: 'left',
           pinned: 'left',
+          minWidth: 150,
           elm: (row: any) => <ShowFilePDF name={row.soGP} src={row.fileGiayPhep} />
         },
-        { id: 'thoihan', label: 'Thời hạn', rowspan: 2, align: 'left' }
+        { id: 'thoihan', label: 'Thời hạn', rowspan: 2, align: 'left', minWidth: 150, elm: (row: any) => row.thoiHan }
       ]
     },
     {
@@ -200,10 +203,11 @@ const GroundConstruction = () => {
           label: 'Số QĐ',
           rowspan: 2,
           align: 'left',
+          minWidth: 150,
           elm: (row: any) => <ShowFilePDF name={row?.soQDTCQ} src={row?.filePDF} />
         },
-        { id: 'ngayKy', label: 'Ngày ký', rowspan: 2, align: 'left', elm: (row: any) => FormatDate(row.ngayKy) },
-        { id: 'tongTienCQ', label: 'Tổng tiền', rowspan: 2, align: 'left' }
+        { id: 'ngayKy', label: 'Ngày ký', rowspan: 2, align: 'left', minWidth: 150, elm: (row: any) => FormatDate(row.ngayKy) },
+        { id: 'tongTienCQ', label: 'Tổng tiền', rowspan: 2, align: 'left', minWidth: 150, elm: (row: any) => row.tongTienCQ }
       ]
     },
 
@@ -244,127 +248,127 @@ const GroundConstruction = () => {
   }, [])
 
   useEffect(() => {
-    // switch (paramsFilter.loai_ct) {
-    //   case 1:
-    //     setColumnVisibility([])
-    //     break
-    //   case 4:
-    //     setColumnVisibility([
-    //       'soLuongMayBom',
-    //       'qThietKe',
-    //       'qThucTe',
-    //       'dienTichTuoiThietKe',
-    //       'dienTichTuoiThucTe',
-    //       'thoiGianBomTB',
-    //       'thoiGianBomNhoNhat',
-    //       'thoiGianBomLonNhat'
-    //     ])
-    //     break
-    //   case 5:
-    //     setColumnVisibility([
-    //       'soLuongMayBom',
-    //       'qThietKe',
-    //       'qThucTe',
-    //       'dienTichTuoiThietKe',
-    //       'dienTichTuoiThucTe',
-    //       'thoiGianBomTB',
-    //       'thoiGianBomNhoNhat',
-    //       'thoiGianBomLonNhat'
-    //     ])
-    //     break
-    //   case 6:
-    //     setColumnVisibility([
-    //       'capCT',
-    //       'dienTichLuuVuc',
-    //       'muaTrungBinhNam',
-    //       'qTrungBinhNam',
-    //       'congSuatDamBao',
-    //       'chieuCaoDap',
-    //       'chieuDaiDap',
-    //       'caoTrinhDap',
-    //       'qmaxNM',
-    //       'qtt',
-    //       'qDamBao',
-    //       'hmax',
-    //       'hmin',
-    //       'htoiThieu',
-    //       'mnc',
-    //       'mndbt',
-    //       'mnltk',
-    //       'mnlkt',
-    //       'dungTichToanBo',
-    //       'dungTichChet',
-    //       'dungTichHuuIch',
-    //       'qThietKe',
-    //       'qThucTe'
-    //     ])
-    //     break
-    //   case 10:
-    //     setColumnVisibility([
-    //       'capCT',
-    //       'dienTichLuuVuc',
-    //       'muaTrungBinhNam',
-    //       'qTrungBinhNam',
-    //       'congSuatDamBao',
-    //       'chieuCaoDap',
-    //       'chieuDaiDap',
-    //       'caoTrinhDap',
-    //       'qmaxNM',
-    //       'qtt',
-    //       'qDamBao',
-    //       'hmax',
-    //       'hmin',
-    //       'htoiThieu',
-    //       'mnc',
-    //       'mndbt',
-    //       'mnltk',
-    //       'mnlkt',
-    //       'dungTichToanBo',
-    //       'dungTichChet',
-    //       'dungTichHuuIch',
-    //       'soLuongMayBom',
-    //       'dienTichTuoiThietKe',
-    //       'dienTichTuoiThucTe',
-    //       'thoiGianBomTB',
-    //       'thoiGianBomNhoNhat',
-    //       'thoiGianBomLonNhat'
-    //     ])
-    //     break
-    //   default:
-    //     setColumnVisibility([
-    //       'capCT',
-    //       'dienTichLuuVuc',
-    //       'muaTrungBinhNam',
-    //       'qTrungBinhNam',
-    //       'congSuatLM',
-    //       'congSuatDamBao',
-    //       'chieuCaoDap',
-    //       'chieuDaiDap',
-    //       'caoTrinhDap',
-    //       'qmaxNM',
-    //       'qtt',
-    //       'qDamBao',
-    //       'hmax',
-    //       'hmin',
-    //       'htoiThieu',
-    //       'mnc',
-    //       'mndbt',
-    //       'mnltk',
-    //       'mnlkt',
-    //       'dungTichToanBo',
-    //       'dungTichChet',
-    //       'dungTichHuuIch',
-    //       'soLuongMayBom',
-    //       'qThietKe',
-    //       'qThucTe',
-    //       'dienTichTuoiThietKe',
-    //       'dienTichTuoiThucTe',
-    //       'thoiGianBomTB',
-    //       'thoiGianBomNhoNhat',
-    //       'thoiGianBomLonNhat'
-    //     ])
-    //     break
-    // }
+    switch (paramsFilter.loai_ct) {
+      case 1:
+        setColumnVisibility([])
+        break
+      case 4:
+        setColumnVisibility([
+          'soLuongMayBom',
+          'qThietKe',
+          'qThucTe',
+          'dienTichTuoiThietKe',
+          'dienTichTuoiThucTe',
+          'thoiGianBomTB',
+          'thoiGianBomNhoNhat',
+          'thoiGianBomLonNhat'
+        ])
+        break
+      case 5:
+        setColumnVisibility([
+          'soLuongMayBom',
+          'qThietKe',
+          'qThucTe',
+          'dienTichTuoiThietKe',
+          'dienTichTuoiThucTe',
+          'thoiGianBomTB',
+          'thoiGianBomNhoNhat',
+          'thoiGianBomLonNhat'
+        ])
+        break
+      case 6:
+        setColumnVisibility([
+          'capCT',
+          'dienTichLuuVuc',
+          'muaTrungBinhNam',
+          'qTrungBinhNam',
+          'congSuatDamBao',
+          'chieuCaoDap',
+          'chieuDaiDap',
+          'caoTrinhDap',
+          'qmaxNM',
+          'qtt',
+          'qDamBao',
+          'hmax',
+          'hmin',
+          'htoiThieu',
+          'mnc',
+          'mndbt',
+          'mnltk',
+          'mnlkt',
+          'dungTichToanBo',
+          'dungTichChet',
+          'dungTichHuuIch',
+          'qThietKe',
+          'qThucTe'
+        ])
+        break
+      case 10:
+        setColumnVisibility([
+          'capCT',
+          'dienTichLuuVuc',
+          'muaTrungBinhNam',
+          'qTrungBinhNam',
+          'congSuatDamBao',
+          'chieuCaoDap',
+          'chieuDaiDap',
+          'caoTrinhDap',
+          'qmaxNM',
+          'qtt',
+          'qDamBao',
+          'hmax',
+          'hmin',
+          'htoiThieu',
+          'mnc',
+          'mndbt',
+          'mnltk',
+          'mnlkt',
+          'dungTichToanBo',
+          'dungTichChet',
+          'dungTichHuuIch',
+          'soLuongMayBom',
+          'dienTichTuoiThietKe',
+          'dienTichTuoiThucTe',
+          'thoiGianBomTB',
+          'thoiGianBomNhoNhat',
+          'thoiGianBomLonNhat'
+        ])
+        break
+      default:
+        setColumnVisibility([
+          'capCT',
+          'dienTichLuuVuc',
+          'muaTrungBinhNam',
+          'qTrungBinhNam',
+          'congSuatLM',
+          'congSuatDamBao',
+          'chieuCaoDap',
+          'chieuDaiDap',
+          'caoTrinhDap',
+          'qmaxNM',
+          'qtt',
+          'qDamBao',
+          'hmax',
+          'hmin',
+          'htoiThieu',
+          'mnc',
+          'mndbt',
+          'mnltk',
+          'mnlkt',
+          'dungTichToanBo',
+          'dungTichChet',
+          'dungTichHuuIch',
+          'soLuongMayBom',
+          'qThietKe',
+          'qThucTe',
+          'dienTichTuoiThietKe',
+          'dienTichTuoiThucTe',
+          'thoiGianBomTB',
+          'thoiGianBomNhoNhat',
+          'thoiGianBomLonNhat'
+        ])
+        break
+    }
 
     const getDataConstructions = async () => {
       setLoading(true)
@@ -432,6 +436,7 @@ const GroundConstruction = () => {
             columns={columnsTable}
             rows={resData}
             loading={loading}
+            columnVisibility={columnVisibility}
             pagination
             actions={(row: any) => (
               <Box>

@@ -46,77 +46,79 @@ export interface ConstructionState {
 }
 
 export interface ConstructionSpecState {
-  id?: number | null | undefined;
-  idCT?: number | null | undefined;
-  idHangMucCT?: number | null | undefined;
-  caoTrinhCong?: number | null | undefined;
-  cheDoKT?: string | null | undefined;
-  caoTrinhDap?: number | null | undefined;
-  cheDoXT?: string | null | undefined;
-  chieuCaoDap?: number | null | undefined;
-  chieuDaiCong?: number | null | undefined;
-  chieuDaiDap?: number | null | undefined;
-  chieuRongCong?: number | null | undefined;
-  chieuSauDoanThuNuocDen?: number | null | undefined;
-  chieuSauDoanThuNuocTu?: number | null | undefined;
-  congSuatBom?: number | null | undefined;
-  congSuatDamBao?: number | null | undefined;
-  congSuatLM?: number | null | undefined;
-  dienTichLuuVuc?: number | null | undefined;
-  dienTichTuoiThietKe?: number | null | undefined;
-  dienTichTuoiThucTe?: number | null | undefined;
-  dungTichChet?: number | null | undefined;
-  dungTichHuuIch?: number | null | undefined;
-  dungTichToanBo?: number | null | undefined;
-  hBeHut?: number | null | undefined;
-  hDatOngLocDen?: number | null | undefined;
-  hDatOngLocTu?: number | null | undefined;
-  hDoanThuNuocDen?: number | null | undefined;
-  hDoanThuNuocTu?: number | null | undefined;
-  hDong?: number | null | undefined;
-  hgieng?: number | null | undefined;
-  hGiengKT?: number | null | undefined;
-  hHaLuu?: number | null | undefined;
-  hHaThap?: number | null | undefined;
-  hlu?: number | null | undefined;
-  hmax?: number | null | undefined;
-  hmin?: number | null | undefined;
-  hThuongLuu?: number | null | undefined;
-  hTinh?: number | null | undefined;
-  htoiThieu?: number | null | undefined;
-  kichThuocCong?: number | null | undefined;
-  kqKf?: number | null | undefined;
-  luongNuocKT?: number | null | undefined;
-  mnc?: number | null | undefined;
-  mndbt?: number | null | undefined;
-  mnlkt?: number | null | undefined;
-  mnltk?: number | null | undefined;
-  muaTrungBinhNam?: number | null | undefined;
-  mucNuocDong?: number | null | undefined;
-  mucNuocTinh?: number | null | undefined;
-  phuongThucXT?: string | null | undefined;
-  qBomLonNhat?: number | null | undefined;
-  qBomThietKe?: number | null | undefined;
-  qDamBao?: number | null | undefined;
-  qKhaiThac?: number | null | undefined;
-  qktCapNuocSinhHoat?: number | null | undefined;
-  qktLonNhat?: number | null | undefined;
-  qLonNhatTruocLu?: number | null | undefined;
-  qMaxKT?: number | null | undefined;
-  qmaxNM?: number | null | undefined;
-  qMaxXaThai?: number | null | undefined;
-  qThietKe?: number | null | undefined;
-  qThucTe?: number | null | undefined;
-  qTrungBinhNam?: number | null | undefined;
-  qtt?: number | null | undefined;
-  qXaThai?: number | null | undefined;
-  qXaThaiLonNhat?: number | null | undefined;
-  qXaThaiTB?: number | null | undefined;
-  qXaTran?: number | null | undefined;
-  soLuongMayBom?: number | null | undefined;
-  thoiGianBomLonNhat?: number | null | undefined;
-  thoiGianBomNhoNhat?: number | null | undefined;
-  thoiGianBomTB?: number | null | undefined;
+  id?: number | null;
+  idCT?: number | null;
+  idHangMucCT?: number | null;
+  caoTrinhCong?: string | null;
+  cheDoKT?: string | null;
+  caoTrinhDap?: string | null;
+  cheDoXT?: string | null;
+  chieuCaoDap?: number | null;
+  chieuDaiCong?: number | null;
+  chieuDaiDap?: number | null;
+  duongKinhCong?: string | null;
+  chieuRongDap?: number | null;
+  nguongTran?: number | null;
+  chieuSauDoanThuNuocDen?: number | null;
+  chieuSauDoanThuNuocTu?: number | null;
+  congSuatBom?: number | null;
+  congSuatDamBao?: number | null;
+  congSuatLM?: number | null;
+  dienTichLuuVuc?: number | null;
+  dienTichTuoiThietKe?: number | null;
+  dienTichTuoiThucTe?: number | null;
+  dungTichChet?: number | null;
+  dungTichHuuIch?: number | null;
+  dungTichToanBo?: number | null;
+  hBeHut?: number | null;
+  hDatOngLocDen?: number | null;
+  hDatOngLocTu?: number | null;
+  hDoanThuNuocDen?: number | null;
+  hDoanThuNuocTu?: number | null;
+  hDong?: number | null;
+  hgieng?: number | null;
+  hGiengKT?: number | null;
+  hHaLuu?: number | null;
+  hHaThap?: number | null;
+  hlu?: number | null;
+  hmax?: number | null;
+  hmin?: number | null;
+  hThuongLuu?: number | null;
+  hTinh?: number | null;
+  htoiThieu?: number | null;
+  kichThuocCong?: string | null;
+  kqKf?: number | null;
+  luongNuocKT?: number | null;
+  mnc?: number | null;
+  mndbt?: number | null;
+  mnlkt?: number | null;
+  mnltk?: number | null;
+  muaTrungBinhNam?: number | null;
+  mucNuocDong?: number | null;
+  mucNuocTinh?: number | null;
+  phuongThucXT?: string | null;
+  qBomLonNhat?: number | null;
+  qBomThietKe?: number | null;
+  qDamBao?: number | null;
+  qKhaiThac?: number | null;
+  qktCapNuocSinhHoat?: number | null;
+  qktLonNhat?: number | null;
+  qLonNhatTruocLu?: number | null;
+  qMaxKT?: number | null;
+  qmaxNM?: number | null;
+  qMaxXaThai?: number | null;
+  qThietKe?: number | null;
+  qThucTe?: number | null;
+  qTrungBinhNam?: number | null;
+  qtt?: number | null;
+  qXaThai?: number | null;
+  qXaThaiLonNhat?: number | null;
+  qXaThaiTB?: number | null;
+  qXaTran?: number | null;
+  soLuongMayBom?: number | null;
+  thoiGianBomLonNhat?: string | null;
+  thoiGianBomNhoNhat?: string | null;
+  thoiGianBomTB?: string | null;
 }
 
 export const emptyConstructionData: ConstructionState = {
@@ -168,7 +170,9 @@ export const emptyConstructionSpec: ConstructionSpecState = {
   chieuCaoDap: null,
   chieuDaiCong: null,
   chieuDaiDap: null,
-  chieuRongCong: null,
+  duongKinhCong: null,
+  chieuRongDap: null,
+  nguongTran: null,
   chieuSauDoanThuNuocDen: null,
   chieuSauDoanThuNuocTu: null,
   congSuatBom: null,

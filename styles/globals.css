@@ -368,6 +368,7 @@ code[class*='language-'] {
   position: sticky !important;
   background: #fff;
   z-index: 1 !important;
+  white-space: unset;
 }
 
 .tableHead th,
@@ -385,7 +386,7 @@ code[class*='language-'] {
 .tableBody tr td {
   font-size: 13px;
   border: 1px solid #dee2e6;
-  white-space: nowrap;
+  /* white-space: nowrap; */
 }
 
 .tableHeadItem th,

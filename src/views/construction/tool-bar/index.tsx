@@ -57,19 +57,23 @@ const ConstructionToolBar: FC<ConstructionToolBarProps> = ({ onChange }) => {
     }
 
     const reloadData = () => {
-        setParamsFilter({
-            tenct: '',
-            loai_ct: GetConstructionTypeId(router),
-            huyen: 0,
-            xa: 0,
-            song: 0,
-            luuvuc: 0,
-            tieu_luuvuc: 0,
-            tang_chuanuoc: 0,
-            tochuc_canhan: 0,
-            nguonnuoc_kt: ''
+        setParamsFilter(() => {
+            const newParamsFilter = {
+                tenct: '',
+                loai_ct: GetConstructionTypeId(router),
+                huyen: 0,
+                xa: 0,
+                song: 0,
+                luuvuc: 0,
+                tieu_luuvuc: 0,
+                tang_chuanuoc: 0,
+                tochuc_canhan: 0,
+                nguonnuoc_kt: ''
+            };
+            onChange({ ...newParamsFilter });
+
+            return newParamsFilter;
         });
-        onChange(paramsFilter);
     }
 
     useEffect(() => {

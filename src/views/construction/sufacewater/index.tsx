@@ -28,7 +28,7 @@ const SurfaceConstruction = () => {
   const [showLabel, setShowLabel] = useState(false)
   const [postSuccess, setPostSuccess] = useState(false)
 
-  //const [columnVisibility, setColumnVisibility] = useState<string[]>()
+  const [columnVisibility, setColumnVisibility] = useState<string[]>()
 
   const handlePostSuccess = () => {
     setPostSuccess(prevState => !prevState)
@@ -46,6 +46,7 @@ const SurfaceConstruction = () => {
       label: 'Tên công trình',
       rowspan: 2,
       pinned: 'left',
+      minWidth: 300,
       elm: (row: any) => (
         <Typography className='btnShowFilePdf' onClick={() => zoomConstruction(ConverterCood(row.y, row.x))}>
           {row.tenCT}
@@ -57,6 +58,7 @@ const SurfaceConstruction = () => {
       label: 'Địa điểm',
       rowspan: 2,
       align: 'left',
+      minWidth: 300,
       elm: (row: any) =>
         row.donvi_hanhchinh?.tenXa && row.donvi_hanhchinh?.tenXa != null
           ? `${row.donvi_hanhchinh?.tenXa}, ${row.donvi_hanhchinh?.tenHuyen}, Tỉnh Quảng Ngãi`
@@ -64,20 +66,20 @@ const SurfaceConstruction = () => {
     },
     {
       id: '#',
-      label: 'Toạ độ đập chính (X,Y)',
+      label: 'Toạ độ đập chính (VN2000)',
       rowspan: 2,
       elm: (row: any) => (
         <span>
-          X: {row.x}, Y: {row.y}
+          X: {row.x}<br /> Y: {row.y}
         </span>
       )
     },
-    { id: 'nguonNuocKT', label: 'Nguồn nước khai thác', rowspan: 2, align: 'left', minWidth: 10 },
-    { id: 'phuongThucKT', label: 'Phương thức khai thác', rowspan: 2, align: 'left' },
-    { id: 'cheDoKT', label: 'Chế độ khai thác', rowspan: 2, align: 'left' },
-    { id: 'mucDichhKT', label: 'Mục đích khai thác', rowspan: 2, align: 'left', minWidth: 200 },
+    { id: 'nguonNuocKT', label: 'Nguồn nước khai thác', rowspan: 2, align: 'left', minWidth: 300 },
+    { id: 'phuongThucKT', label: 'Phương thức khai thác', rowspan: 2, align: 'left', minWidth: 500 },
+    { id: 'cheDoKT', label: 'Chế độ khai thác', rowspan: 2, align: 'left', minWidth: 300 },
+    { id: 'mucDichhKT', label: 'Mục đích khai thác', rowspan: 2, align: 'left', minWidth: 300 },
     { id: 'namBatDauVanHanh', label: 'Năm vận hành', rowspan: 2, align: 'left' },
-    { id: 'tieuvung_quyhoach', label: 'Tiểu vùng quy hoạch', rowspan: 2, align: 'left' },
+    { id: 'tieuvung_quyhoach', label: 'Tiểu vùng quy hoạch', rowspan: 2, align: 'left', minWidth: 200 },
     {
       id: 'thongso',
       label: 'Thông số công trình',
@@ -314,9 +316,10 @@ const SurfaceConstruction = () => {
           rowspan: 2,
           align: 'left',
           pinned: 'left',
+          minWidth: 150,
           elm: (row: any) => <ShowFilePDF name={row.soGP} src={row.fileGiayPhep} />
         },
-        { id: 'thoihan', label: 'Thời hạn', rowspan: 2, align: 'left', elm: (row: any) => row.thoiHan }
+        { id: 'thoihan', label: 'Thời hạn', rowspan: 2, align: 'left', minWidth: 150, elm: (row: any) => row.thoiHan }
       ]
     },
     {
@@ -329,10 +332,11 @@ const SurfaceConstruction = () => {
           label: 'Số QĐ',
           rowspan: 2,
           align: 'left',
+          minWidth: 150,
           elm: (row: any) => <ShowFilePDF name={row?.soQDTCQ} src={row?.filePDF} />
         },
-        { id: 'ngayKy', label: 'Ngày ký', rowspan: 2, align: 'left', elm: (row: any) => FormatDate(row.ngayKy) },
-        { id: 'tongTienCQ', label: 'Tổng tiền', rowspan: 2, align: 'left', elm: (row: any) => row.tongTienCQ }
+        { id: 'ngayKy', label: 'Ngày ký', rowspan: 2, align: 'left', minWidth: 150, elm: (row: any) => FormatDate(row.ngayKy) },
+        { id: 'tongTienCQ', label: 'Tổng tiền', rowspan: 2, align: 'left', minWidth: 150, elm: (row: any) => row.tongTienCQ }
       ]
     },
 
@@ -373,127 +377,127 @@ const SurfaceConstruction = () => {
   }, [])
 
   useEffect(() => {
-    // switch (paramsFilter.loai_ct) {
-    //   case 1:
-    //     setColumnVisibility([])
-    //     break
-    //   case 4:
-    //     setColumnVisibility([
-    //       'soLuongMayBom',
-    //       'qThietKe',
-    //       'qThucTe',
-    //       'dienTichTuoiThietKe',
-    //       'dienTichTuoiThucTe',
-    //       'thoiGianBomTB',
-    //       'thoiGianBomNhoNhat',
-    //       'thoiGianBomLonNhat'
-    //     ])
-    //     break
-    //   case 5:
-    //     setColumnVisibility([
-    //       'soLuongMayBom',
-    //       'qThietKe',
-    //       'qThucTe',
-    //       'dienTichTuoiThietKe',
-    //       'dienTichTuoiThucTe',
-    //       'thoiGianBomTB',
-    //       'thoiGianBomNhoNhat',
-    //       'thoiGianBomLonNhat'
-    //     ])
-    //     break
-    //   case 6:
-    //     setColumnVisibility([
-    //       'capCT',
-    //       'dienTichLuuVuc',
-    //       'muaTrungBinhNam',
-    //       'qTrungBinhNam',
-    //       'congSuatDamBao',
-    //       'chieuCaoDap',
-    //       'chieuDaiDap',
-    //       'caoTrinhDap',
-    //       'qmaxNM',
-    //       'qtt',
-    //       'qDamBao',
-    //       'hmax',
-    //       'hmin',
-    //       'htoiThieu',
-    //       'mnc',
-    //       'mndbt',
-    //       'mnltk',
-    //       'mnlkt',
-    //       'dungTichToanBo',
-    //       'dungTichChet',
-    //       'dungTichHuuIch',
-    //       'qThietKe',
-    //       'qThucTe'
-    //     ])
-    //     break
-    //   case 10:
-    //     setColumnVisibility([
-    //       'capCT',
-    //       'dienTichLuuVuc',
-    //       'muaTrungBinhNam',
-    //       'qTrungBinhNam',
-    //       'congSuatDamBao',
-    //       'chieuCaoDap',
-    //       'chieuDaiDap',
-    //       'caoTrinhDap',
-    //       'qmaxNM',
-    //       'qtt',
-    //       'qDamBao',
-    //       'hmax',
-    //       'hmin',
-    //       'htoiThieu',
-    //       'mnc',
-    //       'mndbt',
-    //       'mnltk',
-    //       'mnlkt',
-    //       'dungTichToanBo',
-    //       'dungTichChet',
-    //       'dungTichHuuIch',
-    //       'soLuongMayBom',
-    //       'dienTichTuoiThietKe',
-    //       'dienTichTuoiThucTe',
-    //       'thoiGianBomTB',
-    //       'thoiGianBomNhoNhat',
-    //       'thoiGianBomLonNhat'
-    //     ])
-    //     break
-    //   default:
-    //     setColumnVisibility([
-    //       'capCT',
-    //       'dienTichLuuVuc',
-    //       'muaTrungBinhNam',
-    //       'qTrungBinhNam',
-    //       'congSuatLM',
-    //       'congSuatDamBao',
-    //       'chieuCaoDap',
-    //       'chieuDaiDap',
-    //       'caoTrinhDap',
-    //       'qmaxNM',
-    //       'qtt',
-    //       'qDamBao',
-    //       'hmax',
-    //       'hmin',
-    //       'htoiThieu',
-    //       'mnc',
-    //       'mndbt',
-    //       'mnltk',
-    //       'mnlkt',
-    //       'dungTichToanBo',
-    //       'dungTichChet',
-    //       'dungTichHuuIch',
-    //       'soLuongMayBom',
-    //       'qThietKe',
-    //       'qThucTe',
-    //       'dienTichTuoiThietKe',
-    //       'dienTichTuoiThucTe',
-    //       'thoiGianBomTB',
-    //       'thoiGianBomNhoNhat',
-    //       'thoiGianBomLonNhat'
-    //     ])
-    //     break
-    // }
+    switch (paramsFilter.loai_ct) {
+      case 1:
+        setColumnVisibility([])
+        break
+      case 4:
+        setColumnVisibility([
+          'soLuongMayBom',
+          'qThietKe',
+          'qThucTe',
+          'dienTichTuoiThietKe',
+          'dienTichTuoiThucTe',
+          'thoiGianBomTB',
+          'thoiGianBomNhoNhat',
+          'thoiGianBomLonNhat'
+        ])
+        break
+      case 5:
+        setColumnVisibility([
+          'soLuongMayBom',
+          'qThietKe',
+          'qThucTe',
+          'dienTichTuoiThietKe',
+          'dienTichTuoiThucTe',
+          'thoiGianBomTB',
+          'thoiGianBomNhoNhat',
+          'thoiGianBomLonNhat'
+        ])
+        break
+      case 6:
+        setColumnVisibility([
+          'capCT',
+          'dienTichLuuVuc',
+          'muaTrungBinhNam',
+          'qTrungBinhNam',
+          'congSuatDamBao',
+          'chieuCaoDap',
+          'chieuDaiDap',
+          'caoTrinhDap',
+          'qmaxNM',
+          'qtt',
+          'qDamBao',
+          'hmax',
+          'hmin',
+          'htoiThieu',
+          'mnc',
+          'mndbt',
+          'mnltk',
+          'mnlkt',
+          'dungTichToanBo',
+          'dungTichChet',
+          'dungTichHuuIch',
+          'qThietKe',
+          'qThucTe'
+        ])
+        break
+      case 10:
+        setColumnVisibility([
+          'capCT',
+          'dienTichLuuVuc',
+          'muaTrungBinhNam',
+          'qTrungBinhNam',
+          'congSuatDamBao',
+          'chieuCaoDap',
+          'chieuDaiDap',
+          'caoTrinhDap',
+          'qmaxNM',
+          'qtt',
+          'qDamBao',
+          'hmax',
+          'hmin',
+          'htoiThieu',
+          'mnc',
+          'mndbt',
+          'mnltk',
+          'mnlkt',
+          'dungTichToanBo',
+          'dungTichChet',
+          'dungTichHuuIch',
+          'soLuongMayBom',
+          'dienTichTuoiThietKe',
+          'dienTichTuoiThucTe',
+          'thoiGianBomTB',
+          'thoiGianBomNhoNhat',
+          'thoiGianBomLonNhat'
+        ])
+        break
+      default:
+        setColumnVisibility([
+          'capCT',
+          'dienTichLuuVuc',
+          'muaTrungBinhNam',
+          'qTrungBinhNam',
+          'congSuatLM',
+          'congSuatDamBao',
+          'chieuCaoDap',
+          'chieuDaiDap',
+          'caoTrinhDap',
+          'qmaxNM',
+          'qtt',
+          'qDamBao',
+          'hmax',
+          'hmin',
+          'htoiThieu',
+          'mnc',
+          'mndbt',
+          'mnltk',
+          'mnlkt',
+          'dungTichToanBo',
+          'dungTichChet',
+          'dungTichHuuIch',
+          'soLuongMayBom',
+          'qThietKe',
+          'qThucTe',
+          'dienTichTuoiThietKe',
+          'dienTichTuoiThucTe',
+          'thoiGianBomTB',
+          'thoiGianBomNhoNhat',
+          'thoiGianBomLonNhat'
+        ])
+        break
+    }
 
     const getDataConstructions = async () => {
       setLoading(true)
@@ -561,9 +565,10 @@ const SurfaceConstruction = () => {
             columns={columnsTable}
             rows={resData}
             loading={loading}
+            columnVisibility={columnVisibility}
             pagination
             actions={(row: any) => (
-              <Box>
+              <Box display={"flex"}>
                 <CreateConstruction isEdit={true} data={row} setPostSuccess={handlePostSuccess} />
                 <DeleteData url={'cong-trinh'} data={row} setPostSuccess={handlePostSuccess} />
               </Box>

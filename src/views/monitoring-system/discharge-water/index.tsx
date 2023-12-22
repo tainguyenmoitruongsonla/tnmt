@@ -23,9 +23,6 @@ const DischargewaterMonitoring = () => {
   const [mapCenter, setMapCenter] = useState([15.012172, 108.676488]);
   const [mapZoom, setMapZoom] = useState(9);
   const [showLabel, setShowLabel] = useState(false)
-
-  const [TypeOfConsId] = useState([GetConstructionTypeId(router)]);
-
   const [resData, setResData] = useState<any[]>([]);
   const [columns, setColumns] = useState<any[]>([]);
   const [loading, setLoading] = useState(false)
@@ -88,7 +85,8 @@ const DischargewaterMonitoring = () => {
     const getDataConstructions = async () => {
       setLoading(true);
       getData('cong-trinh/danh-sach', paramsFilter)
-        .then((data) => {console.log(data)
+        .then((data) => {
+          console.log(data)
           if (isMounted.current) {
             setResData(data);
           }
@@ -142,7 +140,7 @@ const DischargewaterMonitoring = () => {
         item['loaiCT']?.['maLoaiCT']?.toString().toLowerCase().includes(keyword.toLowerCase())
       )
     );
-    setDataFiltered(filteredData);console.log(filteredData);
+    setDataFiltered(filteredData); console.log(filteredData);
     setTotal(filteredData.length);
   }, [initConsType, resData]);
 
@@ -171,7 +169,7 @@ const DischargewaterMonitoring = () => {
       </Grid>
       <Grid item xs={12} sm={12} md={12}>
         <MonitoringSystemToolBar onChange={handleFilterChange} />
-        <TableComponent loading={loading} columns={columns} rows={dataFiltered} show={TypeOfConsId} pagination={true}
+        <TableComponent loading={loading} columns={columns} rows={dataFiltered} pagination={true}
           actions={() => (
             <Box>
               <ViewMonitoringSystemData />
