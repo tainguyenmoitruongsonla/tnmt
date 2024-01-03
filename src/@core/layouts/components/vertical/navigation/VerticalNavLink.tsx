@@ -119,6 +119,7 @@ const VerticalNavLink = ({ item, settings, navVisible, toggleNavVisibility }: Pr
   };
 
   const handleClick = () => {
+    
     if (item.children && item.children.length > 0) {
       setOpen(!open);
     } else {
@@ -177,10 +178,11 @@ const VerticalNavLink = ({ item, settings, navVisible, toggleNavVisibility }: Pr
 
     // Level 1 Menu Item with children
     return (
-      <ListItem disablePadding className='nav-link' disabled={item.disabled || false} sx={{ px: '0 !important', display: `${havePermit ? 'block' : 'none'}` }} onMouseDown={handleClick}>
+      <ListItem disablePadding className='nav-link' disabled={item.disabled || false} sx={{ px: '0 !important', display: `${havePermit ? 'block' : 'none'}` }}>
         <Link passHref href={item.path === undefined ? '#' : havePermit ? `${item.path}` : '#'}>
           <MenuNavLink
             component={'a'}
+            onMouseDown={handleClick}
             className={`${open ? 'collapse-nav-opened' : ''} collapse-nav-btn`}
             {...(item.openInNewTab ? { target: '_blank' } : null)}
             onClick={(e) => {
