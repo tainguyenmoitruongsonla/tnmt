@@ -10,11 +10,12 @@ interface ConstructionItemFieldProps {
 }
 
 const ConstructionItem: FC<ConstructionItemFieldProps> = ({ data, type, onChange }) => {
-  const initialLicenseFees: ConstructionItemState[] = data
+  const initialConsItems: ConstructionItemState[] = data
     ? data.map((e: ConstructionItemState) => ({
       id: e.id,
       idCT: e.idCT,
       tenHangMuc: e.tenHangMuc,
+      viTriHangMuc: e.viTriHangMuc,
       x: e.x,
       y: e.y,
       thongso: {
@@ -95,7 +96,7 @@ const ConstructionItem: FC<ConstructionItemFieldProps> = ({ data, type, onChange
     }))
     : []
 
-  const [constructionItems, setConstructionItems] = useState<ConstructionItemState[]>(initialLicenseFees);
+  const [constructionItems, setConstructionItems] = useState<ConstructionItemState[]>(initialConsItems);
   const [itemDelete, setItemDelete] = useState<ConstructionItemState[]>([]);
   const [newConsItemIndex, setNewConsItemIndex] = useState(-1)
   const [newConsItem, setNewConsItem] = useState<ConstructionItemState>({
@@ -245,12 +246,14 @@ const ConstructionItem: FC<ConstructionItemFieldProps> = ({ data, type, onChange
     setOpenModal(true);
     setNewConsItemIndex(index)
     if (func === 'add') {
+      setNewConsItemIndex(-1)
+
       // Set all properties of newConsItem.thongso to null
       const nullThongso = Object.fromEntries(
         Object.keys(newConsItem.thongso || {}).map(key => [key, null])
       );
 
-      setNewConsItem({ tenHangMuc: undefined, x: undefined, y: undefined, thongso: nullThongso });
+      setNewConsItem({ tenHangMuc: undefined, viTriHangMuc: undefined, x: undefined, y: undefined, thongso: nullThongso });
     }
 
     if (func === 'update') {
@@ -260,7 +263,8 @@ const ConstructionItem: FC<ConstructionItemFieldProps> = ({ data, type, onChange
 
   const handleSave = () => {
     if (newConsItem.tenHangMuc !== undefined) {
-      if (newConsItemIndex > 0) {
+      console.log(newConsItemIndex);
+      if (newConsItemIndex >= 0) {
         setConstructionItems(prevItems => {
           const updatedItems = [...prevItems];
           updatedItems[newConsItemIndex] = newConsItem;
