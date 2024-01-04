@@ -187,7 +187,7 @@ const GroundConstruction = () => {
           rowspan: 2,
           align: 'left',
           pinned: 'left',
-          minWidth: 150,
+          minWidth: 200,
           elm: (row: any) => <ShowFilePDF name={row.soGP} src={row.fileGiayPhep} />
         },
         { id: 'thoihan', label: 'Thời hạn', rowspan: 2, align: 'left', minWidth: 150, elm: (row: any) => row.thoiHan }
@@ -203,7 +203,7 @@ const GroundConstruction = () => {
           label: 'Số QĐ',
           rowspan: 2,
           align: 'left',
-          minWidth: 150,
+          minWidth: 200,
           elm: (row: any) => <ShowFilePDF name={row?.soQDTCQ} src={row?.filePDF} />
         },
         { id: 'ngayKy', label: 'Ngày ký', rowspan: 2, align: 'left', minWidth: 150, elm: (row: any) => FormatDate(row.ngayKy) },

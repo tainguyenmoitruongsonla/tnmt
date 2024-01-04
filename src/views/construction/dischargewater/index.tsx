@@ -75,7 +75,7 @@ const DischargeConstruction = () => {
       )
     },
     { id: 'nguonNuocXT', label: 'Nguồn tiếp nhận nước thải', rowspan: 2, align: 'left', minWidth: 300 },
-    { id: 'phuongThucXT', label: 'Phương thức xả nước thải', rowspan: 2, align: 'left', minWidth: 500 },
+    { id: 'phuongThucXT', label: 'Phương thức xả nước thải', rowspan: 2, align: 'left', minWidth: 900 },
     { id: 'cHeDoXT', label: 'Chế độ xả nước thải', rowspan: 2, align: 'left', minWidth: 300 },
 
     {
@@ -129,7 +129,7 @@ const DischargeConstruction = () => {
           rowspan: 2,
           align: 'left',
           pinned: 'left',
-          minWidth: 150,
+          minWidth: 200,
           elm: (row: any) => <ShowFilePDF name={row.soGP} src={row.fileGiayPhep} />
         },
         { id: 'thoihan', label: 'Thời hạn', rowspan: 2, align: 'left', minWidth: 150, elm: (row: any) => row.thoiHan }
@@ -145,7 +145,7 @@ const DischargeConstruction = () => {
           label: 'Số QĐ',
           rowspan: 2,
           align: 'left',
-          minWidth: 150,
+          minWidth: 200,
           elm: (row: any) => <ShowFilePDF name={row?.soQDTCQ} src={row?.filePDF} />
         },
         { id: 'ngayKy', label: 'Ngày ký', rowspan: 2, align: 'left', minWidth: 150, elm: (row: any) => FormatDate(row.ngayKy) },

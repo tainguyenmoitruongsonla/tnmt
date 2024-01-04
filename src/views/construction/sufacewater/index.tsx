@@ -75,7 +75,7 @@ const SurfaceConstruction = () => {
       )
     },
     { id: 'nguonNuocKT', label: 'Nguồn nước khai thác', rowspan: 2, align: 'left', minWidth: 300 },
-    { id: 'phuongThucKT', label: 'Phương thức khai thác', rowspan: 2, align: 'left', minWidth: 500 },
+    { id: 'phuongThucKT', label: 'Phương thức khai thác', rowspan: 2, align: 'left', minWidth: 900 },
     { id: 'cheDoKT', label: 'Chế độ khai thác', rowspan: 2, align: 'left', minWidth: 300 },
     { id: 'mucDichhKT', label: 'Mục đích khai thác', rowspan: 2, align: 'left', minWidth: 300 },
     { id: 'namBatDauVanHanh', label: 'Năm vận hành', rowspan: 2, align: 'left' },
@@ -316,7 +316,7 @@ const SurfaceConstruction = () => {
           rowspan: 2,
           align: 'left',
           pinned: 'left',
-          minWidth: 150,
+          minWidth: 200,
           elm: (row: any) => <ShowFilePDF name={row.soGP} src={row.fileGiayPhep} />
         },
         { id: 'thoihan', label: 'Thời hạn', rowspan: 2, align: 'left', minWidth: 150, elm: (row: any) => row.thoiHan }
@@ -332,7 +332,7 @@ const SurfaceConstruction = () => {
           label: 'Số QĐ',
           rowspan: 2,
           align: 'left',
-          minWidth: 150,
+          minWidth: 200,
           elm: (row: any) => <ShowFilePDF name={row?.soQDTCQ} src={row?.filePDF} />
         },
         { id: 'ngayKy', label: 'Ngày ký', rowspan: 2, align: 'left', minWidth: 150, elm: (row: any) => FormatDate(row.ngayKy) },
