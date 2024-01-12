@@ -26,7 +26,7 @@ const Form: React.FC<FormProps> = ({ data, closeDialogs, setPostSuccess }) => {
         const handleApiCall = async () => {
             try {
                 setSaving(true)
-                const res = await saveData('SubBasin/save', SubBasinData);
+                const res = await saveData('TieuVungLuuVuc/luu', SubBasinData);
                 if (res) {
                     // Reset form fields
                     setSubBasinData({});

@@ -25,8 +25,13 @@ export async function getData(url: string, params?: any) {
 
 export async function saveData(url: string, data: any) {
     const token = sessionStorage.getItem('authToken');
+    const filteredData = Object.fromEntries(
+        Object.entries(data).map(([key, value]) => [key, value === "" ? null : value])
+    );
+    console.log(url, filteredData);
+    
     try {
-        const response = await axios.post(`${apiUrl}/${url}`, data, {
+        const response = await axios.post(`${apiUrl}/${url}`, filteredData, {
             headers: {
                 Authorization: `Bearer ${token}`,
             },

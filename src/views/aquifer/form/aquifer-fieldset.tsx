@@ -8,15 +8,15 @@ interface AquiferProps {
 
 interface AquiferState {
     id: number;
-    name: string;
-    aquiferSymbol: string;
+    tenTCN: string;
+    kyHieuTCN: string;
 }
 
 const AquiferFieldset: React.FC<AquiferProps> = ({ data, onChange }) => {
     const [AquiferData, setAquiferData] = useState<AquiferState>({
         id: data?.id || 0,
-        name: data?.name || '',
-        aquiferSymbol: data?.aquiferSymbol || '',
+        tenTCN: data?.tenTCN || '',
+        kyHieuTCN: data?.kyHieuTCN || '',
     });
 
     // Sử dụng useEffect để cập nhật dữ liệu khi prop data thay đổi
@@ -35,10 +35,10 @@ const AquiferFieldset: React.FC<AquiferProps> = ({ data, onChange }) => {
     return (
         <Grid container spacing={4} rowSpacing={1}>
             <Grid item xs={12} md={12} sm={12} sx={{ my: 2 }}>
-                <TextField size='small' type='text' label='Tên tầng chứa nước' fullWidth required placeholder='' defaultValue={AquiferData?.name} onChange={handleChange('name')} />
+                <TextField size='small' type='text' label='Tên tầng chứa nước' fullWidth required placeholder='' defaultValue={AquiferData?.tenTCN} onChange={handleChange('tenTCN')} />
             </Grid>
             <Grid item xs={12} md={12} sm={12} sx={{ my: 2 }}>
-                <TextField size='small' type='text' label='Ký hiệu' fullWidth placeholder='' defaultValue={AquiferData?.aquiferSymbol} onChange={handleChange('aquiferSymbol')} />
+                <TextField size='small' type='text' label='Ký hiệu' fullWidth placeholder='' defaultValue={AquiferData?.kyHieuTCN} onChange={handleChange('kyHieuTCN')} />
             </Grid>
         </Grid>
 

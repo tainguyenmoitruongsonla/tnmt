@@ -8,17 +8,17 @@ interface SubBasinProps {
 
 interface SubBasinState {
     id: number;
-    basinId: number;
-    name: string;
-    description: string;
+    idLuuVuc: number;
+    tieuVungQuyHoach: string;
+    chuGiai: string;
 }
 
 const SubBasinFieldset: React.FC<SubBasinProps> = ({ data, onChange }) => {
     const [SubBasinData, setSubBasinData] = useState<SubBasinState>({
         id: data?.id || 0,
-        basinId: data?.basinId || 0,
-        name: data?.name || '',
-        description: data?.description || '',
+        idLuuVuc: data?.idLuuVuc || 0,
+        tieuVungQuyHoach: data?.tieuVungQuyHoach || '',
+        chuGiai: data?.chuGiai || '',
     });
 
     // Sử dụng useEffect để cập nhật dữ liệu khi prop data thay đổi
@@ -37,10 +37,10 @@ const SubBasinFieldset: React.FC<SubBasinProps> = ({ data, onChange }) => {
     return (
         <Grid container spacing={4} rowSpacing={1}>
             <Grid item xs={12} md={12} sm={12} sx={{ my: 2 }}>
-                <TextField size='small' type='text' label='Tên tiểu vùng quy hoạch' fullWidth required placeholder='' defaultValue={SubBasinData?.name} onChange={handleChange('name')} />
+                <TextField size='small' type='text' label='Tên tiểu vùng quy hoạch' fullWidth required placeholder='' defaultValue={SubBasinData?.tieuVungQuyHoach} onChange={handleChange('tieuVungQuyHoach')} />
             </Grid>
             <Grid item xs={12} md={12} sm={12} sx={{ my: 2 }}>
-                <TextField size='small' type='text' label='Ghi chú' fullWidth placeholder='' defaultValue={SubBasinData?.description} onChange={handleChange('description')} />
+                <TextField size='small' type='text' label='Ghi chú' fullWidth placeholder='' defaultValue={SubBasinData?.chuGiai} onChange={handleChange('chuGiai')} />
             </Grid>
         </Grid>
 

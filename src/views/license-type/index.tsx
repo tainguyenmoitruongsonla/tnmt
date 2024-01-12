@@ -18,9 +18,8 @@ const LicenseTypes = () => {
     //Init columnTable
     const columnsTable: GridColDef[] = [
         { field: 'id', flex: 1, headerAlign: 'center', headerName: 'ID', minWidth: 90 },
-        { field: 'typeName', flex: 1, headerAlign: 'center', headerName: 'Tên loại công trình', minWidth: 150 },
-        { field: 'typeSlug', flex: 1, headerAlign: 'center', headerName: 'Mã loại công trình', minWidth: 150 },
-        { field: 'description', flex: 1, headerAlign: 'center', headerName: 'Ghi chú', minWidth: 150 },
+        { field: 'tenLoaiGP', flex: 1, headerAlign: 'center', headerName: 'Tên loại giấy phép', minWidth: 150 },
+        { field: 'ghiChu', flex: 1, headerAlign: 'center', headerName: 'Ghi chú', minWidth: 150 },
 
         //Action
         {
@@ -28,7 +27,7 @@ const LicenseTypes = () => {
             renderCell: (data) => (
                 <Box>
                     <FormLicenseTypes isEdit={true} data={data.row} setPostSuccess={handlePostSuccess} />
-                    <DeleteData url={'LicenseTypes'} data={data} setPostSuccess={handlePostSuccess} />
+                    <DeleteData url={'loai-gp'} data={data} setPostSuccess={handlePostSuccess} />
                 </Box>
             )
         },

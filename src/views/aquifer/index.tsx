@@ -18,8 +18,8 @@ const Aquifer = () => {
     //Init columnTable
     const columnsTable: GridColDef[] = [
         { field: 'id', flex: 1, headerAlign: 'center', headerName: 'ID', minWidth: 90 },
-        { field: 'name', flex: 1, headerAlign: 'center', headerName: 'Tên tầng chứa nước', minWidth: 150 },
-        { field: 'aquiferSymbol', flex: 1, headerAlign: 'center', headerName: 'Ký hiệu', minWidth: 150 },
+        { field: 'tenTCN', flex: 1, headerAlign: 'center', headerName: 'Tên tầng chứa nước', minWidth: 150 },
+        { field: 'kyHieuTCN', flex: 1, headerAlign: 'center', headerName: 'Ký hiệu', minWidth: 150 },
 
         //Action
         {
@@ -37,7 +37,7 @@ const Aquifer = () => {
         const getDataAquifer = async () => {
             try {
                 setLoading(true);
-                const data = await getData('Aquifer/list');
+                const data = await getData('TangChuaNuoc/danh-sach');
                 setResData(data);
             } catch (error) {
                 setResData([]);

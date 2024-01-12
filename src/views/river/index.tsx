@@ -18,10 +18,12 @@ const Rivers = () => {
     //Init columnTable
     const columnsTable: GridColDef[] = [
         { field: 'id', flex: 1, headerAlign: 'center', headerName: 'ID', minWidth: 90 },
-        { field: 'name', flex: 1, headerAlign: 'center', headerName: 'Tên sông', minWidth: 150 },
-        { field: 'x', flex: 1, headerAlign: 'center', headerName: 'X(VN2000)', minWidth: 150 },
-        { field: 'y', flex: 1, headerAlign: 'center', headerName: 'Y(VN2000)', minWidth: 150 },
-        { field: 'description', flex: 1, headerAlign: 'center', headerName: 'Ghi chú', minWidth: 150 },
+        { field: 'tenSong', flex: 1, headerAlign: 'center', headerName: 'Tên sông', minWidth: 150 },
+        { field: 'xDauSong', flex: 1, headerAlign: 'center', headerName: 'X đầu sông(VN2000)', minWidth: 150 },
+        { field: 'yDauSong', flex: 1, headerAlign: 'center', headerName: 'Y đầu sông(VN2000)', minWidth: 150 },
+        { field: 'xCuoiSong', flex: 1, headerAlign: 'center', headerName: 'X cuối sông(VN2000)', minWidth: 150 },
+        { field: 'yCuoiSong', flex: 1, headerAlign: 'center', headerName: 'Y cuối sông(VN2000)', minWidth: 150 },
+        { field: 'chuGiai', flex: 1, headerAlign: 'center', headerName: 'Ghi chú', minWidth: 150 },
 
         //Action
         {
@@ -29,7 +31,7 @@ const Rivers = () => {
             renderCell: (data) => (
                 <Box>
                     <FormRivers isEdit={true} data={data.row} setPostSuccess={handlePostSuccess} />
-                    <DeleteData url={'River'} data={data} setPostSuccess={handlePostSuccess} />
+                    <DeleteData url={'Song'} data={data} setPostSuccess={handlePostSuccess} />
                 </Box>
             )
         },
@@ -39,7 +41,7 @@ const Rivers = () => {
         const getDataRiver = async () => {
             try {
                 setLoading(true);
-                const data = await getData('River/list');
+                const data = await getData('Song/danh-sach');
                 setResData(data);
             } catch (error) {
                 setResData([]);

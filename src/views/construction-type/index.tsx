@@ -18,9 +18,9 @@ const ConstructionTypes = () => {
     //Init columnTable
     const columnsTable: GridColDef[] = [
         { field: 'id', flex: 1, headerAlign: 'center', headerName: 'ID', minWidth: 90 },
-        { field: 'typeName', flex: 1, headerAlign: 'center', headerName: 'Tên loại công trình', minWidth: 150 },
-        { field: 'typeSlug', flex: 1, headerAlign: 'center', headerName: 'Mã loại công trình', minWidth: 150 },
-        { field: 'description', flex: 1, headerAlign: 'center', headerName: 'Ghi chú', minWidth: 150 },
+        { field: 'tenLoaiCT', flex: 1, headerAlign: 'center', headerName: 'Tên loại công trình', minWidth: 150 },
+        { field: 'maLoaiCT', flex: 1, headerAlign: 'center', headerName: 'Mã loại công trình', minWidth: 150 },
+        { field: 'chuThich', flex: 1, headerAlign: 'center', headerName: 'Ghi chú', minWidth: 150 },
 
         //Action
         {
@@ -28,7 +28,7 @@ const ConstructionTypes = () => {
             renderCell: (data) => (
                 <Box>
                     <FormConstructionTypes isEdit={true} data={data.row} setPostSuccess={handlePostSuccess} />
-                    <DeleteData url={'ConstructionTypes'} data={data} setPostSuccess={handlePostSuccess} />
+                    <DeleteData url={'loai-ct'} data={data} setPostSuccess={handlePostSuccess} />
                 </Box>
             )
         },

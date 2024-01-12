@@ -18,8 +18,8 @@ const Basin = () => {
     //Init columnTable
     const columnsTable: GridColDef[] = [
         { field: 'id', flex: 1, headerAlign: 'center', headerName: 'ID', minWidth: 90 },
-        { field: 'name', flex: 1, headerAlign: 'center', headerName: 'Tên lưu vực', minWidth: 150 },
-        { field: 'description', flex: 1, headerAlign: 'center', headerName: 'Ghi chú', minWidth: 150 },
+        { field: 'tenLVS', flex: 1, headerAlign: 'center', headerName: 'Tên lưu vực', minWidth: 150 },
+        { field: 'chuGiai', flex: 1, headerAlign: 'center', headerName: 'Ghi chú', minWidth: 150 },
 
         //Action
         {
@@ -27,7 +27,7 @@ const Basin = () => {
             renderCell: (data) => (
                 <Box>
                     <FormBasins isEdit={true} data={data.row} setPostSuccess={handlePostSuccess} />
-                    <DeleteData url={'Basin'} data={data} setPostSuccess={handlePostSuccess} />
+                    <DeleteData url={'LuuVucSong'} data={data} setPostSuccess={handlePostSuccess} />
                 </Box>
             )
         },
@@ -37,7 +37,7 @@ const Basin = () => {
         const getDataBasin = async () => {
             try {
                 setLoading(true);
-                const data = await getData('Basin/list');
+                const data = await getData('LuuVucSong/danh-sach');
                 setResData(data);
             } catch (error) {
                 setResData([]);

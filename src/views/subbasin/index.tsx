@@ -18,8 +18,8 @@ const SubBasin = () => {
     //Init columnTable
     const columnsTable: GridColDef[] = [
         { field: 'id', flex: 1, headerAlign: 'center', headerName: 'ID', minWidth: 90 },
-        { field: 'name', flex: 1, headerAlign: 'center', headerName: 'Tên tiểu vùng quy hoạch', minWidth: 150 },
-        { field: 'description', flex: 1, headerAlign: 'center', headerName: 'Ghi chú', minWidth: 150 },
+        { field: 'tieuVungQuyHoach', flex: 1, headerAlign: 'center', headerName: 'Tên tiểu vùng quy hoạch', minWidth: 150 },
+        { field: 'chuGiai', flex: 1, headerAlign: 'center', headerName: 'Ghi chú', minWidth: 150 },
 
         //Action
         {
@@ -27,7 +27,7 @@ const SubBasin = () => {
             renderCell: (data) => (
                 <Box>
                     <FormSubBasins isEdit={true} data={data.row} setPostSuccess={handlePostSuccess} />
-                    <DeleteData url={'SubBasin'} data={data} setPostSuccess={handlePostSuccess} />
+                    <DeleteData url={'TieuVungLuuVuc'} data={data} setPostSuccess={handlePostSuccess} />
                 </Box>
             )
         },
@@ -37,7 +37,7 @@ const SubBasin = () => {
         const getDataSubBasin = async () => {
             try {
                 setLoading(true);
-                const data = await getData('SubBasin/list');
+                const data = await getData('TieuVungLuuVuc/danh-sach');
                 setResData(data);
             } catch (error) {
                 setResData([]);

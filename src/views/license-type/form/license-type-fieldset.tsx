@@ -8,17 +8,17 @@ interface ConstructionTypeProps {
 
 interface ConstructionTypeState {
     id: number;
-    typeName: string;
-    typeSlug: string;
-    description: string;
+    tenLoaiGP: string;
+    maLoaiGP: string;
+    ghiChu: string;
 }
 
 const ConstructionTypeFieldset: React.FC<ConstructionTypeProps> = ({ data, onChange }) => {
     const [constructionTypeData, setConstructionTypeData] = useState<ConstructionTypeState>({
         id: data?.id || 0,
-        typeName: data?.typeName || '',
-        typeSlug: data?.typeSlug || '',
-        description: data?.description || '',
+        tenLoaiGP: data?.tenLoaiGP || '',
+        maLoaiGP: data?.maLoaiGP || '',
+        ghiChu: data?.ghiChu || '',
     });
 
     // Sử dụng useEffect để cập nhật dữ liệu khi prop data thay đổi
@@ -37,13 +37,13 @@ const ConstructionTypeFieldset: React.FC<ConstructionTypeProps> = ({ data, onCha
     return (
         <Grid container spacing={4} rowSpacing={1}>
             <Grid item xs={12} md={12} sm={12} sx={{ my: 2 }}>
-                <TextField size='small' type='text' label='Tên loại giấy phép' fullWidth required placeholder='' defaultValue={constructionTypeData?.typeName} onChange={handleChange('typeName')} />
+                <TextField size='small' type='text' label='Tên loại giấy phép' fullWidth required placeholder='' defaultValue={constructionTypeData?.tenLoaiGP} onChange={handleChange('tenLoaiGP')} />
             </Grid>
             <Grid item xs={12} md={12} sm={12} sx={{ my: 2 }}>
-                <TextField size='small' type='text' label='Mã loại giấy phép' fullWidth required defaultValue={constructionTypeData?.typeSlug} onChange={handleChange('typeSlug')} />
+                <TextField size='small' type='text' label='Mã loại giấy phép' fullWidth required defaultValue={constructionTypeData?.maLoaiGP} onChange={handleChange('maLoaiGP')} />
             </Grid>
             <Grid item xs={12} md={12} sm={12} sx={{ my: 2 }}>
-                <TextField size='small' type='text' label='Ghi chú' fullWidth placeholder='' defaultValue={constructionTypeData?.description} onChange={handleChange('description')} />
+                <TextField size='small' type='text' label='Ghi chú' fullWidth placeholder='' defaultValue={constructionTypeData?.ghiChu} onChange={handleChange('ghiChu')} />
             </Grid>
         </Grid>
 

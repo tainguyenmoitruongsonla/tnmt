@@ -8,19 +8,25 @@ interface RiverProps {
 
 interface RiverState {
     id: number;
-    name: string;
-    x: number
-    y: number
-    description: string;
+    tenSong: string;
+    maSong: string;
+    xDauSong: number | undefined;
+    yDauSong: number | undefined;
+    xCuoiSong: number | undefined;
+    yCuoiSong: number | undefined;
+    chuGiai: string;
 }
 
 const RiverFieldset: React.FC<RiverProps> = ({ data, onChange }) => {
     const [riverData, setRiverData] = useState<RiverState>({
         id: data?.id || 0,
-        name: data?.name || '',
-        x: data?.x || 0,
-        y: data?.x || 0,
-        description: data?.description || '',
+        tenSong: data?.tenSong || '',
+        maSong: data?.maSong || '',
+        xDauSong: data?.xDauSong || undefined,
+        yDauSong: data?.yDauSong || undefined,
+        xCuoiSong: data?.xCuoiSong || undefined,
+        yCuoiSong: data?.yCuoiSong || undefined,
+        chuGiai: data?.chuGiai || '',
     });
 
     // Sử dụng useEffect để cập nhật dữ liệu khi prop data thay đổi
@@ -39,16 +45,25 @@ const RiverFieldset: React.FC<RiverProps> = ({ data, onChange }) => {
     return (
         <Grid container spacing={4} rowSpacing={1}>
             <Grid item xs={12} md={12} sm={12} sx={{ my: 2 }}>
-                <TextField size='small' type='text' label='Tên sông' fullWidth required placeholder='' defaultValue={riverData?.name} onChange={handleChange('name')} />
+                <TextField size='small' type='text' label='Tên sông' fullWidth required placeholder='' defaultValue={riverData?.tenSong} onChange={handleChange('tenSong')} />
             </Grid>
             <Grid item xs={12} md={12} sm={12} sx={{ my: 2 }}>
-                <TextField size='small' type='text' label='X(VN2000)' fullWidth required defaultValue={riverData?.x} onChange={handleChange('x')} />
+                <TextField size='small' type='text' label='Mã sông' fullWidth placeholder='' defaultValue={riverData?.maSong} onChange={handleChange('maSong')} />
+            </Grid>
+            <Grid item xs={6} md={6} sm={6} sx={{ my: 2 }}>
+                <TextField size='small' type='text' label='X đầu sông(VN2000)' fullWidth defaultValue={riverData?.xDauSong} onChange={handleChange('xDauSong')} />
+            </Grid>
+            <Grid item xs={6} md={6} sm={6} sx={{ my: 2 }}>
+                <TextField size='small' type='text' label='Y đầu sông(VN2000)' fullWidth defaultValue={riverData?.yDauSong} onChange={handleChange('yDauSong')} />
+            </Grid>
+            <Grid item xs={6} md={6} sm={6} sx={{ my: 2 }}>
+                <TextField size='small' type='text' label='X cuối sông(VN2000)' fullWidth defaultValue={riverData?.xCuoiSong} onChange={handleChange('xCuoiSong')} />
+            </Grid>
+            <Grid item xs={6} md={6} sm={6} sx={{ my: 2 }}>
+                <TextField size='small' type='text' label='Y cuối sông(VN2000)' fullWidth defaultValue={riverData?.yCuoiSong} onChange={handleChange('yCuoiSong')} />
             </Grid>
             <Grid item xs={12} md={12} sm={12} sx={{ my: 2 }}>
-                <TextField size='small' type='text' label='y(VN2000)' fullWidth required defaultValue={riverData?.y} onChange={handleChange('y')} />
-            </Grid>
-            <Grid item xs={12} md={12} sm={12} sx={{ my: 2 }}>
-                <TextField size='small' type='text' label='Ghi chú' fullWidth placeholder='' defaultValue={riverData?.description} onChange={handleChange('description')} />
+                <TextField size='small' type='text' label='Ghi chú' fullWidth placeholder='' defaultValue={riverData?.chuGiai} onChange={handleChange('chuGiai')} />
             </Grid>
         </Grid>
 

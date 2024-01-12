@@ -8,15 +8,15 @@ interface BasinProps {
 
 interface BasinState {
     id: number;
-    name: string;
-    description: string;
+    tenLVS: string;
+    chuGiai: string;
 }
 
 const BasinFieldset: React.FC<BasinProps> = ({ data, onChange }) => {
     const [BasinData, setBasinData] = useState<BasinState>({
         id: data?.id || 0,
-        name: data?.name || '',
-        description: data?.description || '',
+        tenLVS: data?.tenLVS || '',
+        chuGiai: data?.chuGiai || '',
     });
 
     // Sử dụng useEffect để cập nhật dữ liệu khi prop data thay đổi
@@ -35,10 +35,10 @@ const BasinFieldset: React.FC<BasinProps> = ({ data, onChange }) => {
     return (
         <Grid container spacing={4} rowSpacing={1}>
             <Grid item xs={12} md={12} sm={12} sx={{ my: 2 }}>
-                <TextField size='small' type='text' label='Tên lưu vực' fullWidth required placeholder='' defaultValue={BasinData?.name} onChange={handleChange('name')} />
+                <TextField size='small' type='text' label='Tên lưu vực' fullWidth required placeholder='' defaultValue={BasinData?.tenLVS} onChange={handleChange('tenLVS')} />
             </Grid>
             <Grid item xs={12} md={12} sm={12} sx={{ my: 2 }}>
-                <TextField size='small' type='text' label='Ghi chú' fullWidth placeholder='' defaultValue={BasinData?.description} onChange={handleChange('description')} />
+                <TextField size='small' type='text' label='Ghi chú' fullWidth placeholder='' defaultValue={BasinData?.chuGiai} onChange={handleChange('chuGiai')} />
             </Grid>
         </Grid>
 
