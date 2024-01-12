@@ -111,7 +111,7 @@ const VerticalNavLink = ({ item, settings, navVisible, toggleNavVisibility }: Pr
   const IconTag: ReactNode = item.icon
 
   const [open, setOpen] = useState(false)
-  const [havePermit, setHavePermit] = useState<boolean>(false)
+  const [havePermit, setHavePermit] = useState<boolean | undefined>(false)
 
   // Define a type guard for NavLink
   const isNavLink = (item: NavLink | NavSectionTitle): item is NavLink => {
@@ -119,7 +119,7 @@ const VerticalNavLink = ({ item, settings, navVisible, toggleNavVisibility }: Pr
   };
 
   const handleClick = () => {
-    
+
     if (item.children && item.children.length > 0) {
       setOpen(!open);
     } else {

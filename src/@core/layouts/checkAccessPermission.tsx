@@ -5,8 +5,11 @@ interface DecodedToken {
 }
 
 export const checkAccessPermission = (linkControl: string | undefined, action: string | undefined) => {
+
     if (typeof sessionStorage !== 'undefined') {
+
         const token = sessionStorage.getItem('authToken') || '';
+
         if (token) {
             const decodedToken: DecodedToken = jwt_decode(token) as DecodedToken;
 
@@ -22,14 +25,31 @@ export const checkAccessPermission = (linkControl: string | undefined, action: s
 
             const role = decodedToken['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'];
 
-            if (role === 'Admin' || role === 'Administrator') {
+            if (role == "Administrator") {
                 return true;
             } else {
+
                 // Use Array.prototype.some to check if any permit matches the condition
                 return permits?.some((permit: any) => {
                     return linkControl === undefined || (linkControl === permit.dashSrc && permit.funcCode.toLowerCase() === action?.toLocaleLowerCase());
                 });
             }
+        }
+    }
+};
+
+export const getRole = () => {
+
+    if (typeof sessionStorage !== 'undefined') {
+
+        const token = sessionStorage.getItem('authToken') || '';
+
+        if (token) {
+            const decodedToken: DecodedToken = jwt_decode(token) as DecodedToken;
+
+            const role = decodedToken['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'];
+
+            return role
         }
     }
 };
