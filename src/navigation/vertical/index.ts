@@ -67,11 +67,11 @@ const navigation = (): VerticalNavItemsType => {
           path: '/giam-sat/quan-ly-yeu-cau-ket-noi'
         },
         {
-          title: 'KT,SD nước mặt',
+          title: 'Nước mặt',
           path: '/giam-sat/nuoc-mat'
         },
         {
-          title: 'KT,SD nước dưới đất',
+          title: 'Nước dưới đất',
           path: '/giam-sat/nuoc-duoi-dat'
         },
         {
